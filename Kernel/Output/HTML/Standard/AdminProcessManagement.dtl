@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.7 2012-08-15 14:33:14 mab Exp $
+# $Id: AdminProcessManagement.dtl,v 1.8 2012-08-17 13:20:00 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,14 +31,39 @@
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessNew" class="CallForAction Plus"><span>$Text{"Create New Process"}</span></a>
                     </li>
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Import Process from Configuration"}</span></a>
-                    </li>
-                    <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessSync" class="CallForAction"><span>$Text{"Synchronize All Processes"}</span></a>
                     </li>
                 </ul>
             </div>
         </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Configuration import"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module."}
+                </p>
+                <ul class="ActionList">
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="ProcessImport"/>
+                            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                            <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required $QData{"FileUploadInvalid"}"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <br /><br />
+                            <button class="CallForAction Plus" type="submit" value="$Text{"Upload process configuration"}">
+                                <span>$Text{"Import process configuration"}</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Description"}</h2>

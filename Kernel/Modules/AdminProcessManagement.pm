@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.27 2012-08-17 07:09:51 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.28 2012-08-17 13:20:01 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,7 @@ use warnings;
 use YAML;
 
 use Kernel::System::JSON;
+use Kernel::System::DynamicField;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -28,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,10 +49,11 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}     = Kernel::System::JSON->new( %{$Self} );
-    $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{ProcessObject}      = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ActivityObject}     = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
 
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
@@ -92,13 +94,142 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # ProcessImport
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'ProcessImport' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'FileUpload',
+            Source => 'string',
+        );
+
+        my $ProcessData = YAML::Load( $UploadStuff{Content} );
+        if ( ref $ProcessData ne 'HASH' ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message =>
+                    "Couldn't read process configuration file. Please make sure you file is valid.",
+            );
+        }
+
+        # collect all used fields and make sure they're present
+        my @UsedDynamicFields;
+        for my $ActivityDialog ( keys %{ $ProcessData->{ActivityDialogs} } ) {
+            for my $FieldName (
+                keys %{ $ProcessData->{ActivityDialogs}->{$ActivityDialog}->{Config}->{Fields} }
+                )
+            {
+                if ( $FieldName =~ s{DynamicField_(\w+)}{$1}xms ) {
+                    push @UsedDynamicFields, $FieldName;
+                }
+            }
+        }
+
+        # get all present dynamic fields and check if the fields used in the config are beyond them
+        my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
+            ResultType => 'HASH',
+        );
+        my @PresentDynamicFieldNames = values %{$DynamicFieldList};
+
+        my @MissingDynamicFieldNames;
+        for my $UsedDynamicFieldName (@UsedDynamicFields) {
+            if ( grep { $_ ne $UsedDynamicFieldName } @PresentDynamicFieldNames ) {
+                push @MissingDynamicFieldNames, $UsedDynamicFieldName;
+            }
+        }
+
+        if ( $#MissingDynamicFieldNames > -1 ) {
+            my $MissingDynamicFields = join( ', ', @MissingDynamicFieldNames );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message =>
+                    "The following dynamic fields are missing: $MissingDynamicFields. Import has been stopped.",
+            );
+        }
+
+        # make sure all activities and dialogs are present
+        my @UsedActivityDialogs;
+        for my $ActivityEntityID ( @{ $ProcessData->{Process}->{Activities} } ) {
+            if ( ref $ProcessData->{Activities}->{$ActivityEntityID} ne 'HASH' ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Missing data for Activity $ActivityEntityID.",
+                );
+            }
+            else {
+                for my $UsedActivityDialog (
+                    @{ $ProcessData->{Activities}->{$ActivityEntityID}->{ActivityDialogs} }
+                    )
+                {
+                    push @UsedActivityDialogs, $UsedActivityDialog;
+                }
+            }
+        }
+
+        for my $ActivityDialogEntityID (@UsedActivityDialogs) {
+            if ( ref $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID} ne 'HASH' ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Missing data for ActivityDialog $ActivityDialogEntityID.",
+                );
+            }
+        }
+
+        # make sure all transitions are present
+        for my $TransitionEntityID ( @{ $ProcessData->{Process}->{Transitions} } ) {
+            if ( ref $ProcessData->{Transitions}->{$TransitionEntityID} ne 'HASH' ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Missing data for Transition $TransitionEntityID.",
+                );
+            }
+        }
+
+        # make sure all transition actions are present
+        for my $TransitionActionEntityID ( @{ $ProcessData->{Process}->{TransitionActions} } ) {
+            if ( ref $ProcessData->{TransitionActions}->{$TransitionActionEntityID} ne 'HASH' ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Missing data for TransitionAction $TransitionActionEntityID.",
+                );
+            }
+        }
+
+        # add activity dialogs first because they don't contain any dependencies to other objects
+        my %ActivityDialogMapping;
+        for my $ActivityDialogEntityID ( keys %{ $ProcessData->{ActivityDialogs} } ) {
+
+            # get next EntityID
+            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+                EntityType => 'ActivityDialog',
+                UserID     => $Self->{UserID},
+            );
+
+            my $ID = $Self->{ActivityDialogObject}->ActivityDialogAdd(
+                EntityID => $EntityID,
+                Name     => $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Name},
+                Config   => $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config},
+                UserID   => $Self->{UserID},
+            );
+
+            if ( !$ID ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "ActivityDialog '"
+                        . $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Name}
+                        . "' could not be added. Stopping import.",
+                );
+            }
+
+       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
+            $ActivityDialogMapping{$ActivityDialogEntityID} = $EntityID;
+        }
+    }
+
+    # ------------------------------------------------------------ #
     # ProcessExport
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'ProcessExport' ) {
-
-        my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+    elsif ( $Self->{Subaction} eq 'ProcessExport' ) {
 
         # check for ProcessID
+        my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         if ( !$ProcessID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Need ProcessID!",
