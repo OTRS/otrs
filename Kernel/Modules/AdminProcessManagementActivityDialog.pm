@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.19 2012-08-16 10:43:23 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.20 2012-08-17 06:28:41 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -622,11 +622,7 @@ sub _ShowEdit {
     my $ActivityDialogData = $Param{ActivityDialogData} || {};
 
     # check if last screen action is main screen
-    if (
-        scalar @{ $Self->{ScreensPath} } == 0
-        || $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement'
-        )
-    {
+    if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
 
         # show close popup link
         $Self->{LayoutObject}->Block(
@@ -873,8 +869,7 @@ sub _PopSessionScreen {
     if ( defined $Param{OnlyCurrent} && $Param{OnlyCurrent} == 1 ) {
 
         # check if last screen action is current screen action
-        if ( @{ $Self->{ScreensPath} } && $Self->{ScreensPath}->[-1]->{Action} eq $Self->{Action} )
-        {
+        if ( $Self->{ScreensPath}->[-1]->{Action} eq $Self->{Action} ) {
 
             # remove last screen
             $LastScreen = pop @{ $Self->{ScreensPath} };
