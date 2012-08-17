@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -20,6 +20,44 @@ a.Export {
     background: url("../img/database_export.png") no-repeat left center;
     padding-left: 24px;
 }
+
+.Icon {
+    display: block;
+    height: 16px;
+    width: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    float: right;
+    margin-left: 5px;
+}
+
+.Icon_Delete {
+    background-image: url(../img/icons/trash-can.png);
+}
+
+.Icon_Edit {
+    background-image: url(../img/icons/folder-small.png);
+}
+
+.AvailableIn {
+    background-color: #ccc;
+    color: #555;
+    display: block;
+    float: right;
+    font-size: 10px !important;
+    height: 14px;
+    line-height: 100%;
+    margin-right: 2px;
+    min-width: 8px;
+    padding: 4px 4px 0px 4px;
+}
+
+.AllocationList .AvailableIn {
+    float: left;
+    margin-right: 5px;
+    margin-top: 1px;
+}
+
 
 /**
  * @subsubsection     Process Element Accordion
@@ -87,7 +125,7 @@ ul#ProcessElements li.AccordionElement div.Content ul li {
     cursor: move;
 }
 
-ul#ProcessElements li.AccordionElement div.Content ul li span {
+ul#ProcessElements li.AccordionElement div.Content ul li > span {
     position: absolute;
     right: 5px;
     top: 2px;    
@@ -106,24 +144,6 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     border: 1px solid #CCC;    
 }    
 
-.Icon {
-    display: block;
-    height: 16px;
-    width: 16px;
-    background-repeat: no-repeat;
-    background-position: center;
-    float: right;
-    margin-left: 5px;
-}
-
-.Icon_Delete {
-    background-image: url(../img/icons/trash-can.png);
-}
-
-.Icon_Edit {
-    background-image: url(../img/icons/folder-small.png);
-}
-    
 /**
  * @subsubsection     Diagram Canvas
  */
