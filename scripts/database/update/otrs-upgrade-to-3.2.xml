@@ -176,7 +176,7 @@ DefaultValue: ''
     <Data Key="change_time">current_timestamp</Data>
 </Insert>
 <Insert Table="dynamic_field">
-    <Data Key="id" Type="AutoIncrement">1</Data>
+    <Data Key="id" Type="AutoIncrement">2</Data>
     <Data Key="internal_field">1</Data>
     <Data Key="name" Type="Quote">ProcessManagementActivityID</Data>
     <Data Key="label" Type="Quote">ProcessManagementActivityID</Data>
