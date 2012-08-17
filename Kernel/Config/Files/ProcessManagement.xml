@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.13 2012-08-17 21:13:06 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.14 2012-08-17 21:22:43 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -26,7 +26,7 @@
 
     <ConfigItem Name="Frontend::Module###AdminProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -57,7 +57,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminProcessManagementActivity" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -75,7 +75,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminProcessManagementActivityDialog" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -93,7 +93,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminProcessManagementTransition" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -109,7 +109,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminProcessManagementTransitionAction" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -125,7 +125,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminProcessManagementPath" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -145,34 +145,23 @@
     <!-- OTRSTicketProcesses Merged Settings Start -->
     <ConfigItem Name="Frontend::Module###AgentTicketProcess" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Process Ticket</Description>
-                <Title>Process</Title>
-                <NavBarName>Processes</NavBarName>
+                <Description>Create new process ticket</Description>
+                <Title>New process ticket</Title>
+                <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description Translatable="1">Create New Process Ticket</Description>
+                    <Description Translatable="1">Create New process ticket</Description>
                     <Name Translatable="1">New process ticket</Name>
                     <Link>Action=AgentTicketProcess</Link>
                     <LinkOption></LinkOption>
-                    <NavBar>Processes</NavBar>
+                    <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
                     <AccessKey>o</AccessKey>
-                    <Prio>1300</Prio>
-                </NavBar>
-                <NavBar>
-                    <Description Translatable="1"></Description>
-                    <Type>Menu</Type>
-                    <Block>ItemArea</Block>
-                    <Name Translatable="1">Processes</Name>
-                    <Link>Action=AgentTicketProcess</Link>
-                    <LinkOption></LinkOption>
-                    <NavBar>Processes</NavBar>
-                    <AccessKey>o</AccessKey>
-                    <Prio>250</Prio>
+                    <Prio>220</Prio>
                 </NavBar>
                 <Loader>
                     <CSS>Core.Agent.TicketProcess.css</CSS>
