@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.2 2012-08-16 23:34:08 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.3 2012-08-17 17:37:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -3189,7 +3189,7 @@ sub _StoreActivityDialog {
                 %{ $ActivityDialog->{Fields}{$CurrentField} },
             );
 
-            if ( !$Result && $ActivityDialog->{Fields}{$CurrentField} == 2 ) {
+            if ( !$Result && $ActivityDialog->{Fields}{$CurrentField}->{Display} == 2 ) {
                 $Error{ $Self->{NameToID}->{$CurrentField} } = ' ServerError';
             }
             elsif ($Result) {
@@ -3524,11 +3524,24 @@ sub _StoreActivityDialog {
 
             my $Success;
             if ( $Self->{NameToID}{$CurrentField} eq 'Title' ) {
-                $Success = $Self->{TicketObject}->TicketTitleUpdate(
-                    Title    => $TicketParam{'Title'},
-                    TicketID => $TicketID,
-                    UserID   => $Self->{UserID},
-                );
+
+                # if there is no title, nothig is needed to be done
+                if (
+                    !defined $TicketParam{'Title'}
+                    || ( defined $TicketParam{'Title'} && $TicketParam{'Title'} ne '' )
+                    )
+                {
+                    $Success = 1;
+                }
+
+                # otherwise set the ticket title
+                else {
+                    $Success = $Self->{TicketObject}->TicketTitleUpdate(
+                        Title    => $TicketParam{'Title'},
+                        TicketID => $TicketID,
+                        UserID   => $Self->{UserID},
+                    );
+                }
             }
             elsif (
                 (
