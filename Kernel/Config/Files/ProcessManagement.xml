@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.10 2012-08-16 23:32:37 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.11 2012-08-17 18:00:57 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -294,25 +294,4 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <!-- TODO: This setting needs to be merged with the one in Ticket.xml -->
-    <ConfigItem Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <Description>Ticket Zoom</Description>
-                <Title>Zoom</Title>
-                <NavBarName>Ticket</NavBarName>
-                <Loader>
-                    <CSS>Core.Agent.TicketProcess.css</CSS>
-                    <JavaScript>thirdparty/jquery-tablesorter-2.0.5/jquery.tablesorter.js</JavaScript>
-                    <JavaScript>Core.UI.Table.Sort.js</JavaScript>
-                    <JavaScript>Core.Agent.TicketZoom.js</JavaScript>
-                </Loader>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
-    <!-- OTRSTicketProcesses Merged Settings End -->
-
 </otrs_config>
