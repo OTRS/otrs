@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.182 2012-08-17 21:25:46 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.183 2012-08-17 22:34:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,14 +19,17 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::EmailParser;
 use Kernel::System::LinkObject;
-use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::ProcessManagement::Activity;
+use Kernel::System::ProcessManagement::ActivityDialog;
+use Kernel::System::ProcessManagement::Process;
+use Kernel::System::ProcessManagement::Transition;
+use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::SystemAddress;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.182 $) [1];
+$VERSION = qw($Revision: 1.183 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,9 +96,20 @@ sub new {
         = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField};
 
     # create additional objects for process management
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(%Param);
     $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
+        = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
+
+    $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(%Param);
+    $Self->{TransitionActionObject}
+        = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
+
+    $Self->{ProcessObject} = Kernel::System::ProcessManagement::Process->new(
+        %Param,
+        ActivityObject         => $Self->{ActivityObject},
+        TransitionObject       => $Self->{TransitionObject},
+        TransitionActionObject => $Self->{TransitionActionObject},
+    );
 
     # get zoom settings depending on ticket type
     $Self->{DisplaySettings} = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom");
@@ -898,6 +912,32 @@ sub MaskAgentZoom {
 
     # show process widget  and activity dialogs on process tickets
     if ($IsProcessTicket) {
+
+        # get the DF where the ProcessEntityID is stored
+        my $ProcessEntityIDField = 'DynamicField_'
+            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+
+        # get the DF where the AtivityEntityID is stored
+        my $ActivityEntityIDField = 'DynamicField_'
+            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+
+        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+            ProcessEntityID => $Ticket{$ProcessEntityIDField},
+        );
+        my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+            ActivityEntityID => $Ticket{$ActivityEntityIDField},
+        );
+
+        # output process information in the sidebar
+        $Self->{LayoutObject}->Block(
+            Name => 'ProcessData',
+            Data => {
+                Process  => $ProcessData->{Name}  || '',
+                Activity => $ActivityData->{Name} || '',
+            },
+        );
+
+        # output the process widget the the main screen
         $Self->{LayoutObject}->Block(
             Name => 'ProcessWidget',
             Data => {
@@ -905,17 +945,10 @@ sub MaskAgentZoom {
             },
         );
 
-        # get the DF where the AtivityEntityID is stored
-        my $ActivityEntityIDField = 'DynamicField_'
-            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
-
         # get next activity dialogs
         my $NextActivityDialogs;
         if ( $Ticket{$ActivityEntityIDField} ) {
-            $NextActivityDialogs
-                = $Self->{ActivityObject}->ActivityGet(
-                ActivityEntityID => $Ticket{$ActivityEntityIDField}
-                );
+            $NextActivityDialogs = $ActivityData;
         }
 
         if ( IsHashRefWithData($NextActivityDialogs) ) {
@@ -990,10 +1023,6 @@ sub MaskAgentZoom {
                 Name => 'NextActivityDialogs',
             );
 
-            # get the DF where the AtivityEntityID is stored
-            my $ProcessEntityIDField = 'DynamicField_'
-                . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
-
             for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1055,8 +1084,8 @@ sub MaskAgentZoom {
             my $TrimmedValue = $ValueStrg->{Value};
 
             # trim the value so it can fit better in the sidebar
-            if ( length $ValueStrg->{Value} > 25 ) {
-                $TrimmedValue = substr( $ValueStrg->{Value}, 0, 25 ) . '...';
+            if ( length $ValueStrg->{Value} > 18 ) {
+                $TrimmedValue = substr( $ValueStrg->{Value}, 0, 18 ) . '...';
             }
 
             push @FieldsSidebar, {
