@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.12 2012-08-17 20:00:31 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.13 2012-08-17 21:13:06 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -143,10 +143,9 @@
     </ConfigItem>
 
     <!-- OTRSTicketProcesses Merged Settings Start -->
-    <!-- TODO: The groups of this settings must be updated after the file in the FAO is QA'ed -->
     <ConfigItem Name="Frontend::Module###AgentTicketProcess" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -185,7 +184,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###TicketProcessTransitions" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Hash>
@@ -197,7 +196,7 @@
     </ConfigItem>
     <ConfigItem Name="Process::DynamicFieldProcessManagementProcessID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management process entity id is stored.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">ProcessManagementProcessID</String>
@@ -205,7 +204,7 @@
     </ConfigItem>
     <ConfigItem Name="Process::DynamicFieldProcessManagementActivityID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management activity entity id is stored.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">ProcessManagementActivityID</String>
@@ -213,7 +212,7 @@
     </ConfigItem>
     <ConfigItem Name="Process::DefaultQueue" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default queue.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">Raw</String>
@@ -221,7 +220,7 @@
     </ConfigItem>
     <ConfigItem Name="Process::DefaultState" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default state.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">new</String>
@@ -229,7 +228,7 @@
     </ConfigItem>
     <ConfigItem Name="Process::DefaultLock" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default lock.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">unlock</String>
@@ -237,7 +236,7 @@
     </ConfigItem>
     <ConfigItem Name="Process::DefaultPriority" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default priority.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
@@ -246,7 +245,7 @@
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###SidebarDynamicField" Required="1" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
@@ -255,7 +254,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###ProcessDisplay" Required="1" Valid="1">
         <Description Translatable="1">Display settings to override defaults for Process Tickets.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
@@ -267,7 +266,7 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicFieldGroups" Required="1" Valid="1">
         <Description Translatable="1">Dynamic fields groups for process widget. Example: 'Key => My Group', 'Content: Name_X, NameY'.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
@@ -276,11 +275,12 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicField" Required="1" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
-        <Group>OTRSTicketProcesses</Group>
+        <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
             </Hash>
         </Setting>
     </ConfigItem>
+    <!-- OTRSTicketProcesses Merged Settings Start -->
 </otrs_config>
