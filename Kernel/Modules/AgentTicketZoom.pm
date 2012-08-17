@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.181 2012-08-16 23:34:48 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.182 2012-08-17 21:25:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.181 $) [1];
+$VERSION = qw($Revision: 1.182 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -375,20 +375,9 @@ sub Run {
         );
     }
 
-    # set the highlighted navbar element
-    # TODO: Delete block when Process Navbar section integrates with Ticket
-    $Param{NavBarName} = '';
-    if ( $Self->{TicketObject}->TicketCheckForProcessType( TicketID => $Self->{TicketID} ) ) {
-        $Param{NavBarName} = $Self->{DisplaySettings}->{ProcessDisplay}->{NavBarName} || '';
-    }
-
     # generate output
     my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-
-    # TODO: Reenable 1st line and delete 2nd line when Process Navbar integrates with Ticket
-    #$Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->NavigationBar( 'Type' => $Param{NavBarName} );
-
+    $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->MaskAgentZoom( Ticket => \%Ticket, AclAction => \%AclAction );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
