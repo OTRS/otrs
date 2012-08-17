@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-08-17 05:47:11
+--  driver: ingres, generated: 2012-08-17 12:53:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -25,9 +25,9 @@ ALTER TABLE ticket DROP COLUMN ticket_answered RESTRICT;\g
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN group_id RESTRICT;\g
-CREATE SEQUENCE pm_process_560;\g
+CREATE SEQUENCE pm_process_354;\g
 CREATE TABLE pm_process (
-    id INTEGER NOT NULL DEFAULT pm_process_560.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_process_354.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     state_entity_id VARCHAR(50) NOT NULL,
@@ -41,9 +41,9 @@ CREATE TABLE pm_process (
 );\g
 MODIFY pm_process TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_process ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_21;\g
+CREATE SEQUENCE pm_activity_592;\g
 CREATE TABLE pm_activity (
-    id INTEGER NOT NULL DEFAULT pm_activity_21.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_592.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE pm_activity (
 );\g
 MODIFY pm_activity TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_activity ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_dialog_49;\g
+CREATE SEQUENCE pm_activity_dialog_958;\g
 CREATE TABLE pm_activity_dialog (
-    id INTEGER NOT NULL DEFAULT pm_activity_dialog_49.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_dialog_958.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE pm_activity_dialog (
 );\g
 MODIFY pm_activity_dialog TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_activity_dialog ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_transition_323;\g
+CREATE SEQUENCE pm_transition_106;\g
 CREATE TABLE pm_transition (
-    id INTEGER NOT NULL DEFAULT pm_transition_323.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_transition_106.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -83,9 +83,9 @@ CREATE TABLE pm_transition (
 );\g
 MODIFY pm_transition TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_transition ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_transition_action_908;\g
+CREATE SEQUENCE pm_transition_action_954;\g
 CREATE TABLE pm_transition_action (
-    id INTEGER NOT NULL DEFAULT pm_transition_action_908.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_transition_action_954.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -118,15 +118,15 @@ ALTER TABLE dynamic_field ADD COLUMN internal_field SMALLINT NOT NULL WITH DEFAU
 -- ----------------------------------------------------------
 --  insert into table dynamic_field
 -- ----------------------------------------------------------
-INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'ProcessManagementProcessID', 'ProcessManagementProcessID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
+    (1, 'ProcessManagementProcessID', 'ProcessManagementProcessID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
 -- ----------------------------------------------------------
 --  insert into table dynamic_field
 -- ----------------------------------------------------------
-INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
+    (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
 ALTER TABLE pm_process ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE pm_process ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE pm_activity ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
