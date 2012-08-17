@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.106.2.7 2012-05-30 16:20:30 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.106.2.8 2012-08-17 09:01:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,11 +148,13 @@
                             </div>
 <!-- dtl:block:BodyPlain -->
 <!-- dtl:block:BodyHTMLLoad -->
-                            <iframe title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+# Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
+# Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
+                            <iframe sandbox="allow-same-origin" security="restricted" title="about:blank" frameborder="0" id="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
 <!-- dtl:block:BodyHTMLLoad -->
 <!-- dtl:block:BodyHTMLPlaceholder -->
 #                           <!-- Here we need to append the session info if cookies are disabled, because the layout object cannot automatically do that here, like in the other iframe (only for src attribute). -->
-                            <iframe src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QData{"SessionInformation"}"></iframe>
+                            <iframe sandbox="allow-same-origin" security="restricted" src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QData{"SessionInformation"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
 <!-- dtl:block:BodyHTMLPlaceholder -->
                         </div>
                     </div>
