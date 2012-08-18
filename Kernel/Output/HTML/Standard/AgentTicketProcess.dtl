@@ -2,7 +2,7 @@
 # AgentTicketProcess.dtl - provides HTML for AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# $Id: AgentTicketProcess.dtl,v 1.2 2012-08-18 00:24:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 <div class="MainBox ARIARoleMain">
     <h1>$Text{"Create New Process Ticket"}</h1>
     <div class="ContentColumn">
+<!-- dtl:block:Main -->
         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewProcessTicket" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>
             <input type="hidden" name="Subaction" value="DisplayActivityDialog"/>
@@ -31,6 +32,60 @@
             <span class="AJAXLoader" title="$Text{"Loading"}"></span>
         </div>
         <div id="ActivityDialogContent"></div>
+<!-- dtl:block:Main -->
+<!-- dtl:block:NoProcesses -->
+        <form action="$Env{"CGIHandle"}" method="post">
+            <input type="hidden" name="Action" value="AdminProcessManagement"/>
+<!-- Remove or replace after decision
+            <div class="W33pc Spacing CenterBox">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2 class="Center">$Text{"There are no configured or active processes in the system."}</h2>
+                    </div>
+                    <div class="Content">
+                        <p class="SpacingTop Center">
+                            $Text{"To use this feature you need to create at least one complete process and activate it."}
+                        </p>
+                        <fieldset class="TableLike">
+                            <div class="Field SpacingTop">
+                                <button type="submit" value="$Text{"Enable it here!"}">
+                                    <span>$Text{"Go to Process Management"}</span>
+                                </button>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            -->
+            <fieldset class="TableLike">
+<!-- dtl:block:NoProcessesAdmin -->
+
+                <div class="Field SpacingTop">
+                    <h3>$Text{"There are no configured or active processes in the system."}</h3>
+                    <p class="FieldExplanation">
+                        $Text{"To use this feature you need to create at least one complete process and activate it."}
+                    </p>
+                </div>
+
+                <div class="Field SpacingTop">
+                    <button class="CallForAction" type="submit" value="$Text{"Enable it here!"}">
+                        <span>$Text{"Go to Process Management"}</span>
+                    </button>
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:NoProcessesAdmin -->
+<!-- dtl:block:NoProcessesUser -->
+                <div class="Field SpacingTop">
+                    <h3>$Text{"There are no configured or active processes in the system."}</h3>
+                    <p class="FieldExplanation">
+                        $Text{"Please contact system administrator!."}
+                    </p>
+                </div>
+<!-- dtl:block:NoProcessesUser -->
+            </fieldset>
+        </form>
+<!-- dtl:block:NoProcesses -->
     </div>
 </div>
 <!-- dtl:js_on_document_complete -->
