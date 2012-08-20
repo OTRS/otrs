@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.4 2012-08-18 00:24:02 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.5 2012-08-20 20:00:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -382,6 +382,8 @@ sub _RenderAjax {
     my %FieldsProcessed;
     my @JSONCollector;
 
+    my $Services;
+
     # All submitted DynamicFields
     # used for ACL checking
     my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
@@ -554,6 +556,7 @@ sub _RenderAjax {
             my $Data = $Self->_GetServices(
                 %{ $Param{GetParam} },
             );
+            $Services = $Data;
 
             # add Service to the JSONCollector
             push(
@@ -575,6 +578,7 @@ sub _RenderAjax {
 
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
+                Services => $Services,
             );
 
             # add SLA to the JSONCollector
@@ -809,6 +813,13 @@ sub _GetParam {
                 = $Self->{ParamObject}->GetArray( Param => 'InformUserID' );
 
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
+        }
+
+        if ( $CurrentField eq 'CustomerID' ) {
+            $GetParam{Customer}
+                = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
+            $GetParam{CustomerUserID}
+                = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
         }
 
         if ( $CurrentField eq 'PendingTime' ) {
@@ -1173,6 +1184,12 @@ sub _OutputActivityDialog {
 
     my %RenderedFields = ();
 
+    # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
+    # by ActivityDialog fields
+    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
+        ActivityDialogFields => $ActivityDialog->{Fields},
+    );
+
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -1209,6 +1226,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1248,6 +1266,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1283,6 +1302,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1318,6 +1338,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1353,6 +1374,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1388,6 +1410,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1423,6 +1446,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1458,6 +1482,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1493,6 +1518,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1528,6 +1554,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1872,7 +1899,7 @@ sub _RenderDynamicField {
         ParamObject          => $Self->{ParamObject},
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
-        UpdatableFields      => [],
+        UpdatableFields      => $Param{AJAXUpdatableFields},
     );
 
     my %Data = (
@@ -2180,6 +2207,13 @@ sub _RenderCustomer {
         }
     }
 
+    # set fields that will get an AJAX loader icon when this field changes
+    my $JSON = $Self->{LayoutObject}->JSONEncode(
+        Data     => $Param{AJAXUpdatableFields},
+        NoQuotes => 0,
+    );
+    $Data{FieldsToUpdate} = $JSON;
+
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer',
         Data => \%Data,
@@ -2271,6 +2305,12 @@ sub _RenderResponsible {
         Name          => 'ResponsibleID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+    );
+
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'ResponsibleID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
     );
 
     $Self->{LayoutObject}->Block(
@@ -2371,6 +2411,12 @@ sub _RenderOwner {
         Name          => 'OwnerID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+    );
+
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'OwnerID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
     );
 
     $Self->{LayoutObject}->Block(
@@ -2477,6 +2523,12 @@ sub _RenderSLA {
         SelectedValue => $SelectedValue,
     );
 
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'SLAID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
+    );
+
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA',
         Data => \%Data,
@@ -2575,6 +2627,12 @@ sub _RenderService {
         Name          => 'ServiceID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+    );
+
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'ServiceID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
     );
 
     $Self->{LayoutObject}->Block(
@@ -2680,6 +2738,12 @@ sub _RenderLock {
         SelectedValue => $SelectedValue,
     );
 
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'LockID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
+    );
+
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Lock',
         Data => \%Data,
@@ -2778,6 +2842,12 @@ sub _RenderPriority {
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+    );
+
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'PriorityID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
     );
 
     $Self->{LayoutObject}->Block(
@@ -2880,6 +2950,11 @@ sub _RenderQueue {
         SelectedValue => $SelectedValue,
     );
 
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'QueueID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
+    );
+
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue',
         Data => \%Data,
@@ -2979,6 +3054,12 @@ sub _RenderState {
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+    );
+
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'StateID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
     );
 
     $Self->{LayoutObject}->Block(
@@ -3664,6 +3745,12 @@ sub _DisplayProcessList {
             %Param,
             }
     );
+
+    # workaround when activity dialog is loaded by AJAX as first activity dialog, if there is
+    # a date field like Pending Time or Dynamic Fields Date/Time or Date, there is no way to set
+    # this options in the footer again
+    $Self->{LayoutObject}->{HasDatepicker} = 1;
+
     $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;
@@ -4345,6 +4432,90 @@ sub _GetStates {
         );
     }
     return \%States;
+}
+
+sub _GetAJAXUpdatableFields {
+    my ( $Self, %Param ) = @_;
+
+    my %DefaultUpdatableFields = (
+        PriorityID    => 1,
+        QueueID       => 1,
+        ResponsibleID => 1,
+        ServiceID     => 1,
+        SLAID         => 1,
+        StateID       => 1,
+        OwnerID       => 1,
+        LockID        => 1,
+    );
+
+    # create a DynamicFieldLookupTable
+    my %DynamicFieldLookup = map { 'DynamicField_' . $_->{Name} => $_ } @{ $Self->{DynamicField} };
+
+    my @UpdatableFields;
+    FIELD:
+    for my $Field ( keys %{ $Param{ActivityDialogFields} } ) {
+
+        my $FieldData = $Param{ActivityDialogFields}->{$Field};
+
+        # skip hidden fields
+        next FIELD if !$FieldData->{Display};
+
+        # for Dynamic Fields check if is AJAXUpdatable
+        if ( $Field =~ m{^DynamicField_(.*)}xms ) {
+            my $DynamicFieldConfig = $DynamicFieldLookup{$Field};
+
+            # skip any field with wrong config
+            next FIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # get field update status
+            my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            # skip field if is not updatable
+            next FIELD if !$Updateable;
+
+            push @UpdatableFields, $Field;
+        }
+
+        # for all others use %DefaultUpdatableFields table
+        else {
+
+            # standarize the field name (e.g. use StateID for State field)
+            my $FieldName = $Self->{NameToID}->{$Field};
+
+            # skip if field name could not be converted (this means that field is unknown)
+            next FIELD if !$FieldName;
+
+            # skip if the field is not updatable via ajax
+            next FIELD if !$DefaultUpdatableFields{$FieldName};
+
+            push @UpdatableFields, $FieldName;
+        }
+    }
+
+    return \@UpdatableFields;
+}
+
+sub _GetFieldsToUpdateStrg {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldsToUpdate = '';
+    if ( IsArrayRefWithData( $Param{AJAXUpdatableFields} ) ) {
+        my $FirstItem = 1;
+        FIELD:
+        for my $Field ( @{ $Param{AJAXUpdatableFields} } ) {
+            next FIELD if $Field eq $Param{TriggerField};
+            if ($FirstItem) {
+                $FirstItem = 0;
+            }
+            else {
+                $FieldsToUpdate .= ', ';
+            }
+            $FieldsToUpdate .= "'" . $Field . "'";
+        }
+    }
+    return $FieldsToUpdate;
 }
 
 1;
