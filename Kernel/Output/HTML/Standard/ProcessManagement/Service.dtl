@@ -2,7 +2,7 @@
 # Service.dtl - provides Service HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# $Id: Service.dtl,v 1.2 2012-08-20 19:48:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"FieldID"}').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', '$Data{"FieldID"}' );
+        Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', '$Data{"FieldID"}' , [ $Data{"FieldsToUpdate"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
