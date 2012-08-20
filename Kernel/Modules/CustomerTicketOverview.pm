@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.5 2012-05-22 11:51:43 jp Exp $
+# $Id: CustomerTicketOverview.pm,v 1.6 2012-08-20 15:09:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +41,9 @@ sub new {
         || $Self->{LayoutObject}->FatalError(
         Message => 'No Config entry "Ticket::ViewableSenderTypes"!'
         );
+
+    $Self->{SmallViewColumnHeader}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
     # get params
     $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )  || 'Open';
@@ -423,10 +426,26 @@ sub ShowTicketStatus {
         return;
     }
 
+    my $Subject;
+
+    # check if last customer subject or ticket title should be shown
+    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+        $Subject = $Article{Subject} || '';
+    }
+    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+
+        # get ticket info
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $TicketID,
+            DynamicFields => 0,
+        );
+        $Subject = $Ticket{Title};
+    }
+
     # condense down the subject
-    my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+    $Subject = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Subject,
     );
 
     # return ticket

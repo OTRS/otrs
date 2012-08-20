@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.514 2012-08-16 23:33:08 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.515 2012-08-20 15:07:28 cg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -827,6 +827,17 @@ Description>
                 <Item Key="Text">Please click the button below to create your first ticket.</Item>
                 <Item Key="Button">Create your first ticket</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketOverview###ColumnHeader" Required="0" Valid="1">
+        <Description Translatable="1">Shows either the last customer article's subject or the ticket title in the small format overview.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Option SelectedID="TicketTitle">
+                <Item Key="LastCustomerSubject">LastCustomerSubject</Item>
+                <Item Key="TicketTitle">TicketTitle</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###StripEmptyLines" Required="1" Valid="1">
