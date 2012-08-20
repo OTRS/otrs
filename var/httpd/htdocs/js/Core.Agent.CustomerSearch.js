@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.40 2012-08-20 19:53:37 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.41 2012-08-20 20:13:12 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -58,7 +58,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 // reset service
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
-                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UdatableFields') );
+                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UpdatableFields') );
             }
         });
     }
@@ -282,7 +282,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                         if (Core.Config.Get('Action') === 'AgentTicketProcess'){
                             // update services (trigger ServiceID change event)
-                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UdatableFields') );
+                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UpdatableFields') );
                         }
                     }
                 });
