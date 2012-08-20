@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.5 2012-08-20 20:00:05 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.6 2012-08-20 20:07:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -257,8 +257,9 @@ sub Run {
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
 
     if ( !IsHashRefWithData($ProcessList) ) {
-        return $Self->_DisplayNoProcesses(
-            %Param,
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'No Process configured!',
+            Comment => 'Please contact the admin.',
         );
     }
 
@@ -3724,13 +3725,6 @@ sub _DisplayProcessList {
     );
 
     $Self->{LayoutObject}->Block(
-        Name => 'Main',
-        Data => {
-            %Param,
-        },
-    );
-
-    $Self->{LayoutObject}->Block(
         Name => 'ProcessList',
         Data => {
             %Param,
@@ -3751,53 +3745,6 @@ sub _DisplayProcessList {
     # this options in the footer again
     $Self->{LayoutObject}->{HasDatepicker} = 1;
 
-    $Output .= $Self->{LayoutObject}->Footer();
-
-    return $Output;
-}
-
-sub _DisplayNoProcesses {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{LayoutObject}->Block(
-        Name => 'NoProcesses',
-        Data => {
-            %Param,
-        },
-    );
-
-    # check if user is from admin group
-    my %UserGroups = $Self->{GroupObject}->GroupGroupMemberList(
-        UserID => $Self->{UserID},
-        Type   => 'ro',
-        Result => 'HASH',
-    );
-
-    # create a lookup table
-    %UserGroups = reverse %UserGroups;
-
-    # check if user is administrator
-    if ( $UserGroups{'admin'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'NoProcessesAdmin',
-            Data => {},
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'NoProcessesUser',
-            Data => {},
-        );
-    }
-
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketProcess',
-        Data         => {
-            %Param,
-            }
-    );
     $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;
