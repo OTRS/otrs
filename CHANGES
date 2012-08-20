@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2407 2012-08-17 10:05:43 mg Exp $
+# $Id: CHANGES,v 1.2408 2012-08-20 11:13:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,13 +13,10 @@
  - 2012-08-17 HTML mails will now be displayed in the restricted zone in IE.
     This means that more restrictive security settings will apply, such as blocking of
     JavaScript content by default.
- - 2012-08-16 Fixed bug#8584 Email address not added to recipients after collision/duplicate occured.
  - 2012-08-16 Added possibility to expand DynamicFields by default in ticket search
     via config option Ticket::Frontend::AgentTicketSearch###DynamicField.
- - 2012-08-14 Fixed bug#8360 Cannot search for tickets by dynamic fields via SOAP.
- - 2012-08-14 Fixed bug#8697 Time related restrictions in TicketSearch operator (GenericInterface) not working.
  - 2012-08-14 Fixed bug#8679 - OTRS changes "UTF-8" to "utf-8" in displayed emails.
- - 2012-08-10 Don't update read only fields in the CustomerUser DB.
+ - 2012-08-10 Fixed bug#5240 - Don't update read only fields in the CustomerUser DB.
  - 2012-08-03 Improved HTML mail display filtering. SVG content is now filtered out because
     it is potentially dangerous.
  - 2012-08-03 Generated HTML mails now always have the HTML5 doctype.
@@ -84,6 +81,9 @@
     NotificationEvent definitions.
 
 3.1.9 2012-09-04
+ - 2012-08-16 Fixed bug#8584 Email address not added to recipients after collision/duplicate occured.
+ - 2012-08-14 Fixed bug#8360 Cannot search for tickets by dynamic fields via SOAP.
+ - 2012-08-14 Fixed bug#8697 Time related restrictions in TicketSearch operator (GenericInterface) not working.
  - 2012-08-14 Fixed bug#8685 - Cannot use address book / customer / spell check in phone /
     email if cookies are disabled. (partly fixed)
  - 2012-08-06 Fixed bug#8682 - linking search conditions with && in
