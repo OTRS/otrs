@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.8 2012-08-17 13:20:00 mab Exp $
+# $Id: AdminProcessManagement.dtl,v 1.9 2012-08-20 07:06:06 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,8 +70,12 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    $Text{"Here is the description of what this screen is all about."}
+                    $Text{"To create a new Process you can either import a Process that was exported from another system or create a complete new one."}
                 </p>
+                <p class="FieldExplanation">
+                    $Text{"Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration."}
+                </p>
+
             </div>
         </div>
     </div>
@@ -82,7 +86,7 @@
                 <h2>$Text{"Processes"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="Processes">
                     <thead>
                         <tr>
                             <th>$Text{"Process name"}</th>
@@ -115,3 +119,8 @@
     </div>
     <div class="Clear"></div>
 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+Core.UI.Table.InitTableFilter($('#Filter'), $('#Processes'), 0);
+//]]></script>
+<!--dtl:js_on_document_complete-->
