@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.39 2012-08-20 04:02:14 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.40 2012-08-20 19:53:37 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,12 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
                 Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'CryptKeyID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+            }
+            if (Core.Config.Get('Action') === 'AgentTicketProcess'){
+                // reset service
+                $('#ServiceID').attr('selectedIndex', 0);
+                // update services (trigger ServiceID change event)
+                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UdatableFields') );
             }
         });
     }
@@ -273,6 +279,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                         // reset customer info table
                         $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
+
+                        if (Core.Config.Get('Action') === 'AgentTicketProcess'){
+                            // update services (trigger ServiceID change event)
+                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('ProcessManagement.UdatableFields') );
+                        }
                     }
                 });
             }

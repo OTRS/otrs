@@ -2,7 +2,7 @@
 # Customer.dtl - provides Customer HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Customer.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# $Id: Customer.dtl,v 1.2 2012-08-20 19:53:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,4 +31,11 @@ $Include{"AgentCustomerSearch"}
     <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 </div>
 <div class="Clear"></div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('ProcessManagement.UdatableFields', $Data{"FieldsToUpdate"});
+    console.log($Data{"FieldsToUpdate"});
+   //]]></script>
+<!-- dtl:js_on_document_complete -->
+
 <!-- dtl:block:rw:Customer -->
