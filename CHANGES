@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.106 2012-08-17 10:05:28 mg Exp $
+# $Id: CHANGES,v 1.2260.2.107 2012-08-20 03:59:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.9 2012-09-04
+ - 2012-08-19 Fixed bug#8584 Email address not added to recipients after collision/duplicate occurred.
  - 2012-08-17 HTML mails will now be displayed in an HTML5 sandbox iframe.
     This means that modern browsers will not execute plugins or JavaScript on the content
     any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
