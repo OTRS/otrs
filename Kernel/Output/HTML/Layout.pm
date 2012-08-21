@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.400 2012-08-14 12:42:52 mg Exp $
+# $Id: Layout.pm,v 1.401 2012-08-21 09:03:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.400 $) [1];
+$VERSION = qw($Revision: 1.401 $) [1];
 
 =head1 NAME
 
@@ -134,19 +134,22 @@ sub new {
         $Self->{UserTimeZone}   = '';
     }
 
-    # get use language (from browser) if no language is there!
+    # Determine the language to use based on the browser setting, if there
+    #   is none yet.
     if ( !$Self->{UserLanguage} ) {
-        my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
+        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
         my %Data = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
         LANGUAGE:
-        for my $Language ( reverse sort keys %Data ) {
+        foreach my $BrowserLang (@BrowserLanguages) {
+            for my $Language ( reverse sort keys %Data ) {
 
-            # check xx_XX and xx-XX type
-            my $LanguageOtherType = $Language;
-            $LanguageOtherType =~ s/_/-/;
-            if ( $BrowserLang =~ /^($Language|$LanguageOtherType)/i ) {
-                $Self->{UserLanguage} = $Language;
-                last LANGUAGE;
+                # check xx_XX and xx-XX type
+                my $LanguageOtherType = $Language;
+                $LanguageOtherType =~ s/_/-/;
+                if ( $BrowserLang =~ /^($Language|$LanguageOtherType)/i ) {
+                    $Self->{UserLanguage} = $Language;
+                    last LANGUAGE;
+                }
             }
         }
         $Self->{UserLanguage} ||= $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
@@ -5142,6 +5145,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.400 $ $Date: 2012-08-14 12:42:52 $
+$Revision: 1.401 $ $Date: 2012-08-21 09:03:40 $
 
 =cut
