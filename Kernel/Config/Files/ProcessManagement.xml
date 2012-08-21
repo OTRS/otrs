@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.15 2012-08-21 21:28:47 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.16 2012-08-21 21:30:59 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -143,7 +143,7 @@
     </ConfigItem>
 
     <ConfigItem Name="Frontend::NavBarOutputModule###1-TicketProcesses" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration (disable ticket processes if no process available).</Description>
+        <Description Translatable="1">Frontend module registration (disable ticket processes screen if no process available).</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
@@ -153,7 +153,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Process::NavBarOutput::CacheTTL" Required="1" Valid="1">
-        <Description Translatable="1">Cache time in seconds for the process navigation bar output module.</Description>
+        <Description Translatable="1">Cache time in seconds for the ticket process navigation bar output module.</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Core::Cache</SubGroup>
         <Setting>
