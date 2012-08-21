@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.570 2012-08-16 14:28:22 cr Exp $
+# $Id: Ticket.pm,v 1.571 2012-08-21 04:58:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.570 $) [1];
+$VERSION = qw($Revision: 1.571 $) [1];
 
 =head1 NAME
 
@@ -2429,6 +2429,7 @@ sub TicketEscalationDateCalculation {
 
             # escalation time in readable way
             $Data{EscalationDestinationIn} = '';
+            $WorkingTime = abs($WorkingTime);
             if ( $WorkingTime >= 3600 ) {
                 $Data{EscalationDestinationIn} .= int( $WorkingTime / 3600 ) . 'h ';
                 $WorkingTime = $WorkingTime
@@ -7953,6 +7954,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.570 $ $Date: 2012-08-16 14:28:22 $
+$Revision: 1.571 $ $Date: 2012-08-21 04:58:44 $
 
 =cut

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2409 2012-08-20 15:10:52 cg Exp $
+# $Id: CHANGES,v 1.2410 2012-08-21 05:00:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-08-20 Fixed bug#3463 - <OTRS_TICKET_EscalationDestinationIn> incorrect.
  - 2012-08-20 Fixed bug#5954 - Ticket::Frontend::OverviewSmall###ColumnHeader has
     no effect on customer frontend.
  - 2012-08-17 HTML mails will now be displayed in the restricted zone in IE.
@@ -83,6 +84,7 @@
     NotificationEvent definitions.
 
 3.1.9 2012-09-04
+ - 2012-08-20 Fixed bug#3463 - <OTRS_TICKET_EscalationDestinationIn> incorrect.
  - 2012-08-20 Fixed bug#5954 - Ticket::Frontend::OverviewSmall###ColumnHeader has
     no effect on customer frontend.
  - 2012-08-16 Fixed bug#8584 Email address not added to recipients after collision/duplicate occured.
