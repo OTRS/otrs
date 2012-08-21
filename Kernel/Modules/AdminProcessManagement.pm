@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.29 2012-08-20 15:02:58 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.30 2012-08-21 11:20:31 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -907,14 +907,39 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ProcessSync' ) {
 
-        # TODO Implement
-        # currently it only deletes the sync flags for the entities
+        my $Location
+            = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ProcessManagement.pm';
 
-        my $Success = $Self->{EntityObject}->EntitySyncStatePurge(
-            UserID => $Self->{UserID},
+        my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+            ResultType => 'FILE',
+            Location   => $Location,
+            UserID     => $Self->{UserID},
         );
 
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        if ($ProcessDump) {
+
+            my $Success = $Self->{EntityObject}->EntitySyncStatePurge(
+                UserID => $Self->{UserID},
+            );
+
+            if ($Success) {
+                return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+            }
+            else {
+
+                # show error if can't set state
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "There was an error setting the entity sync status.",
+                );
+            }
+        }
+        else {
+
+            # show error if can't synch
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error synchronizing the processes.",
+            );
+        }
     }
 
     # ------------------------------------------------------------ #
