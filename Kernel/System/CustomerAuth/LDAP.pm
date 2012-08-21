@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentication
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.38 2011-08-12 09:06:16 mg Exp $
+# $Id: LDAP.pm,v 1.39 2012-08-21 08:41:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -282,7 +282,7 @@ sub Auth {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Search failed! base='$Self->{GroupDN}', filter='$Filter2', "
-                    . $Result->error,
+                    . $Result2->error,
             );
             $LDAP->unbind;
             $LDAP->disconnect;

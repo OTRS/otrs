@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2410 2012-08-21 05:00:26 cg Exp $
+# $Id: CHANGES,v 1.2411 2012-08-21 08:41:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,6 +82,9 @@
  - 2012-05-07 Fixed bug#8196 - Wrong article sender type for web service tickets.
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
+
+3.1.10 2012-??-??
+ - 2012-08-21 Fixed bug#8731 - LDAP group check returns wrong error.
 
 3.1.9 2012-09-04
  - 2012-08-20 Fixed bug#3463 - <OTRS_TICKET_EscalationDestinationIn> incorrect.
