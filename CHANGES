@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.109 2012-08-21 04:54:01 cg Exp $
+# $Id: CHANGES,v 1.2260.2.110 2012-08-21 08:41:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.10 2012-??-??
+ - 2012-08-21 Fixed bug#8731 - LDAP group check returns wrong error.
 
 3.1.9 2012-09-04
  - 2012-08-20 Fixed bug#3463 - <OTRS_TICKET_EscalationDestinationIn> incorrect.
