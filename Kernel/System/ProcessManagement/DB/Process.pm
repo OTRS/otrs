@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.23 2012-08-17 07:06:26 mn Exp $
+# $Id: Process.pm,v 1.24 2012-08-21 21:32:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -1353,6 +1353,12 @@ sub ProcessDump {
             return $FileLocation
         }
     }
+
+    # delete cache (this will also delete the cache for display or hide AgentTicketProcess menu
+    # item)
+    $Self->{CacheObject}->CleanUp(
+        Type => 'ProcessManagement_Process',
+    );
 }
 
 # TODO Add POD
@@ -1384,6 +1390,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2012-08-17 07:06:26 $
+$Revision: 1.24 $ $Date: 2012-08-21 21:32:12 $
 
 =cut
