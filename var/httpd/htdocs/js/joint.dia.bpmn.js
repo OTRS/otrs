@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.23 2012-08-20 12:50:54 mab Exp $
+// $Id: joint.dia.bpmn.js,v 1.24 2012-08-21 11:19:44 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -390,7 +390,7 @@ bpmn.Activity = Element.extend({
                 
                 $.each(Interfaces, function (Key, Value) {
                     if (SelectedInterface.length) {
-                        SelectedInterface += ', ';
+                        SelectedInterface += '/';
                     }
                     SelectedInterface += Value.substr(0,1);
                 });
