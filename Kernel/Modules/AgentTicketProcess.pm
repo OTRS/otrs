@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.6 2012-08-20 20:07:47 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.7 2012-08-22 21:33:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -263,6 +263,9 @@ sub Run {
         );
     }
 
+    # set AJAXDialog for proper error responses and screen display
+    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
+
     # If we have no Subaction or Subaction is 'Create' and submitted ProcessEntityID is invalid
     # Display the ProcessList
     if (
@@ -277,9 +280,6 @@ sub Run {
         );
     }
 
-    # set AJAX for proper error responses
-    my $AJAX = $Self->{Subaction} eq 'DisplayActivityDialogAJAX' ? 1 : 0;
-
     # Get the necessary parameters
     # collects a mixture of present values bottom to top:
     # SysConfig DefaultValues, ActivityDialog DefaultValues, TicketValues, SubmittedValues
@@ -288,7 +288,6 @@ sub Run {
     # - Parameter checking before storing
     # - will be used for ACL checking lateron
     my $GetParam = $Self->_GetParam(
-        AJAX            => $AJAX,
         ProcessEntityID => $ProcessEntityID,
     );
 
@@ -322,7 +321,6 @@ sub Run {
 
         my $ActivityDialogHTML = $Self->_OutputActivityDialog(
             %Param,
-            AJAX            => 1,
             ProcessEntityID => $ProcessEntityID,
             GetParam        => $GetParam,
         );
@@ -648,7 +646,7 @@ This contains the following data for the different callers:
 sub _GetParam {
     my ( $Self, %Param ) = @_;
 
-    my $IsAJAXUpdate = $Param{AJAX} || '';
+    #my $IsAJAXUpdate = $Param{AJAX} || '';
 
     for my $Needed (qw(ProcessEntityID)) {
         if ( !$Param{$Needed} ) {
@@ -679,7 +677,7 @@ sub _GetParam {
                 . " Process: $ProcessEntityID in _GetParam!";
 
             # does not show header and footer again
-            if ($IsAJAXUpdate) {
+            if ( $Self->{AJAXDialog} ) {
                 return $Self->{LayoutObject}->Error(
                     Message => $Message,
                 );
@@ -751,7 +749,7 @@ sub _GetParam {
                 my $Message = "DynamicFieldConfig missing for field: $DynamicFieldName!";
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Message,
                     );
@@ -924,7 +922,7 @@ sub _GetParam {
                 my $Message = "Process::Default$CurrentField Config Value missing!";
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Message,
                     );
@@ -951,7 +949,6 @@ sub _OutputActivityDialog {
     my ( $Self, %Param ) = @_;
     my $TicketID               = $Param{GetParam}{TicketID};
     my $ActivityDialogEntityID = $Param{GetParam}{ActivityDialogEntityID};
-    my $IsAJAXUpdate           = $Param{AJAX} || '';
 
     # Check needed parameters:
     # ProcessEntityID only
@@ -960,7 +957,7 @@ sub _OutputActivityDialog {
         my $Message = 'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!';
 
         # does not show header and footer again
-        if ($IsAJAXUpdate) {
+        if ( $Self->{AJAXDialog} ) {
             return $Self->{LayoutObject}->Error(
                 Message => $Message,
             );
@@ -990,7 +987,7 @@ sub _OutputActivityDialog {
                 . " ProcessEntityID '$Param{ProcessEntityID}'!";
 
             # does not show header and footer again
-            if ($IsAJAXUpdate) {
+            if ( $Self->{AJAXDialog} ) {
                 return $Self->{LayoutObject}->Error(
                     Message => $Message,
                 );
@@ -1045,7 +1042,7 @@ sub _OutputActivityDialog {
             . " $ActivityActivityDialog->{Activity}!";
 
         # does not show header and footer again
-        if ($IsAJAXUpdate) {
+        if ( $Self->{AJAXDialog} ) {
             return $Self->{LayoutObject}->Error(
                 Message => $Message,
             );
@@ -1065,7 +1062,7 @@ sub _OutputActivityDialog {
             . " '$ActivityActivityDialog->{ActivityDialog}'!";
 
         # does not show header and footer again
-        if ($IsAJAXUpdate) {
+        if ( $Self->{AJAXDialog} ) {
             return $Self->{LayoutObject}->Error(
                 Message => $Message,
             );
@@ -1097,7 +1094,7 @@ sub _OutputActivityDialog {
     # Add PageHeader, Navbar, Formheader (Process/ActivityDialogHeader)
     my $Output;
 
-    if ( !$IsAJAXUpdate ) {
+    if ( !$Self->{AJAXDialog} ) {
         $Output = $Self->{LayoutObject}->Header(
             Type  => 'Small',
             Value => $Ticket{Number},
@@ -1119,6 +1116,18 @@ sub _OutputActivityDialog {
                 Name => $Self->{LayoutObject}->{LanguageObject}->Get( $ActivityDialog->{Name} )
                     || '',
                 }
+        );
+    }
+    elsif ( $Self->{AJAXDialog} && IsHashRefWithData( \%Error ) ) {
+
+        # display complete header and nav bar in ajax dialogs when there is a server error
+        $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        # display original header texts (the process list maybe is not necessary)
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketProcess',
+            Data         => {},
         );
     }
 
@@ -1147,7 +1156,7 @@ sub _OutputActivityDialog {
     }
 
     # show close & cancel link if neccessary
-    if ( !$IsAJAXUpdate ) {
+    if ( !$Self->{AJAXDialog} ) {
         if ( $Param{RenderLocked} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'PropertiesLock',
@@ -1199,7 +1208,7 @@ sub _OutputActivityDialog {
                 . " '$ActivityActivityDialog->{ActivityDialog}'!";
 
             # does not show header and footer again
-            if ($IsAJAXUpdate) {
+            if ( $Self->{AJAXDialog} ) {
                 return $Self->{LayoutObject}->Error(
                     Message => $Message,
                 );
@@ -1233,7 +1242,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1273,7 +1282,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1309,7 +1318,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1345,7 +1354,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1381,7 +1390,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1417,7 +1426,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1453,7 +1462,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1489,7 +1498,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1525,7 +1534,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1561,7 +1570,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1588,7 +1597,7 @@ sub _OutputActivityDialog {
                     . " $ActivityActivityDialog->{ActivityDialog}!";
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Message,
                     );
@@ -1615,7 +1624,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1649,7 +1658,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1687,7 +1696,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ($IsAJAXUpdate) {
+                if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
                         Message => $Response->{Message},
                     );
@@ -1707,7 +1716,7 @@ sub _OutputActivityDialog {
 
     my $FooterCSSClass = 'Footer';
 
-    if ($IsAJAXUpdate) {
+    if ( $Self->{AJAXDialog} ) {
 
         # Due to the initial loading of
         # the first ActivityDialog after Process selection
@@ -1766,10 +1775,15 @@ sub _OutputActivityDialog {
         Data         => {},
     );
 
-    if ( !$IsAJAXUpdate ) {
+    if ( !$Self->{AJAXDialog} ) {
 
         # Add the OTRS Footer
         $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+    }
+    elsif ( $Self->{AJAXDialog} && IsHashRefWithData( \%Error ) ) {
+
+        # display complete footer in ajax dialogs when there is a server error
+        $Output .= $Self->{LayoutObject}->Footer();
     }
 
     return $Output;
@@ -1892,6 +1906,17 @@ sub _RenderDynamicField {
         }
     }
 
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) ) {
+        if (
+            defined $Param{Error}->{ $Param{FieldName} }
+            && $Param{Error}->{ $Param{FieldName} } ne ''
+            )
+        {
+            $ServerError = 1;
+        }
+    }
+
     my $DynamicFieldHTML = $Self->{BackendObject}->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,
         PossibleValuesFilter => $PossibleValuesFilter,
@@ -1901,6 +1926,7 @@ sub _RenderDynamicField {
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
         UpdatableFields      => $Param{AJAXUpdatableFields},
+        ServerError          => $ServerError,
     );
 
     my %Data = (
