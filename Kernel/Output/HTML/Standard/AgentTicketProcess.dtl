@@ -2,7 +2,7 @@
 # AgentTicketProcess.dtl - provides HTML for AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.dtl,v 1.4 2012-08-20 20:07:48 cr Exp $
+# $Id: AgentTicketProcess.dtl,v 1.5 2012-08-22 21:33:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@
     $('#ProcessEntityID').bind('change', function() {
         if ($('#ProcessEntityID').val()) {
             $('#AJAXLoader').removeClass('Hidden');
-            Core.AJAX.FunctionCall('$Env{"Baselink"}', 'Action=$Env{"Action"};Subaction=DisplayActivityDialogAJAX;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
+            Core.AJAX.FunctionCall('$Env{"Baselink"}', 'Action=$Env{"Action"};Subaction=DisplayActivityDialogAJAX;AJAXDialog=1;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
                 var $ElementToUpdate = $('#ActivityDialogContent'),
                     JavaScriptString = '';
                 if (!Response) {
@@ -59,6 +59,7 @@
                     catch (Exception) {}
                     Core.Form.Validate.Init();
                     $('#AJAXLoader').addClass('Hidden');
+                $('#AJAXDialog').val('1');
                 }
                 else {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
