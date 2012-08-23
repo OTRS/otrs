@@ -2,7 +2,7 @@
 # ActivityDialogHeader.dtl - provides ActivityDialogHeader HTML for the AgentTicketProcess.pm
 # Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
 # --
-# $Id: ActivityDialogHeader.dtl,v 1.2 2012-08-22 21:33:57 cr Exp $
+# $Id: ActivityDialogHeader.dtl,v 1.3 2012-08-23 23:23:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,25 +11,25 @@
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="$Data{"FormName"}" id="$Data{"FormID"}" class="Validate PreventMultipleSubmits">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
-    <input type="hidden" name="Subaction" value="$Data{"Subaction"}"/>
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
-    <input type="hidden" name="ProcessEntityID" value="$Data{"ProcessEntityID"}"/>
-    <input type="hidden" name="ActivityDialogEntityID" value="$Data{"ActivityDialogEntityID"}"/>
+    <input type="hidden" name="Subaction" value="$QData{"Subaction"}"/>
+    <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+    <input type="hidden" name="ProcessEntityID" value="$QData{"ProcessEntityID"}"/>
+    <input type="hidden" name="ActivityDialogEntityID" value="$QData{"ActivityDialogEntityID"}"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
-    <input type="hidden" name="AJAXDialog" id="AJAXDialog" value=""/>
+    <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="$QData{"AJAXDialog"}"/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
     <div class="LayoutPopup ARIARoleMain">
 <!-- dtl:block:Header -->
         <div class="Header">
             <h1>
-                $Data{"Name"}
+                $QData{"Name"}
 <!-- dtl:block:DescriptionShort -->
-                 - $Data{"DescriptionShort"}
+                 - $QData{"DescriptionShort"}
 <!-- dtl:block:DescriptionShort -->
             </h1>
             <p>
 <!-- dtl:block:DescriptionLong -->
-                $Data{"DescriptionLong"} - 
+                $QData{"DescriptionLong"} - 
 <!-- dtl:block:DescriptionLong -->
 <!-- dtl:block:CancelLink -->
                 <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
