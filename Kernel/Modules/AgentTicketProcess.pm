@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.7 2012-08-22 21:33:33 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.8 2012-08-23 23:32:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -784,7 +784,11 @@ sub _GetParam {
 
             # If we had neighter submitted nor ticket param get the ActivityDialog's default Value
             # next out if it was successful
-            $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
+            # skip CustomerID field otherwise the value will be in GetParam but never shown in the
+            # activity dialog field
+            if ( $CurrentField ne 'CustomerID' ) {
+                $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
+            }
             if ($Value) {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
@@ -905,7 +909,9 @@ sub _GetParam {
         }
 
         # if no Submitted nore Ticket Param get ActivityDialog Config's Param
-        $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
+        if ( $CurrentField ne 'CustomerID' ) {
+            $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
+        }
         if ($Value) {
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
             $GetParam{$CurrentField} = $Value;
@@ -1189,6 +1195,7 @@ sub _OutputActivityDialog {
                     'Process::DynamicFieldProcessManagementProcessID'
                     )
                 },
+            AJAXDialog => $Self->{AJAXDialog},
         },
     );
 
@@ -1976,18 +1983,12 @@ sub _RenderTitle {
         };
     }
 
-    my $TitleInvalid
-        = ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'Title'} )
-        ? $Param{Error}->{'Title'}
-        : '';
-
     my %Data = (
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Title"),
         FieldID          => 'Title',
         FormID           => $Param{FormID},
         Value            => $Param{GetParam}{Title},
         Name             => 'Title',
-        TitleInvalid     => $TitleInvalid,
         ClassMandatory   => '',
         ValidateRequired => '',
         Marker           => '',
@@ -2002,16 +2003,15 @@ sub _RenderTitle {
         $Data{Marker}           = '<span class="Marker">*</span> ';
     }
 
+    # output server errors
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'Title'} ) {
+        $Data{ServerError} = 'ServerError';
+    }
+
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title',
         Data => \%Data,
     );
-    if ( length $TitleInvalid ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $TitleInvalid },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title:DescriptionShort',
@@ -2046,14 +2046,8 @@ sub _RenderArticle {
         };
     }
 
-    my $ArticleInvalid
-        = ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'Article'} )
-        ? $Param{Error}->{'Article'}
-        : '';
-
     my %Data = (
         Name             => 'Article',
-        ArticleInvalid   => $ArticleInvalid,
         ClassMandatory   => '',
         ValidateRequired => '',
         Marker           => '',
@@ -2074,6 +2068,14 @@ sub _RenderArticle {
         $Data{Marker}           = '<span class="Marker">*</span> ';
     }
 
+    # output server errors
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ArticleSubject'} ) {
+        $Data{SubjectServerError} = 'ServerError';
+    }
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ArticleBody'} ) {
+        $Data{BodyServerError} = 'ServerError';
+    }
+
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Article',
         Data => \%Data,
@@ -2088,12 +2090,6 @@ sub _RenderArticle {
         );
     }
 
-    if ( length $ArticleInvalid ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $ArticleInvalid },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => 'rw:Article:DescriptionShort',
@@ -2199,10 +2195,13 @@ sub _RenderCustomer {
         $Data{Marker}           = '<span class="Marker">*</span> ';
     }
 
-    $Data{CustomerUserIDInvalid} = $Param{Error}->{CustomerUserID}
-        if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerUserID} );
-    $Data{CustomerIDInvalid} = $Param{Error}->{CustomerID}
-        if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerID} );
+    # output server errors
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerUserID} ) {
+        $Data{CustomerUserIDServerError} = 'ServerError';
+    }
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerID} ) {
+        $Data{CustomerIDServerError} = 'ServerError';
+    }
 
     # set some customer search autocomplete properties
     $Self->{LayoutObject}->Block(
@@ -2326,12 +2325,19 @@ sub _RenderResponsible {
     $SelectedValue = $Param{Ticket}->{Responsible}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ResponsibleID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build Responsible string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Responsibles,
         Name          => 'ResponsibleID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2344,12 +2350,6 @@ sub _RenderResponsible {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Responsible',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ResponsibleID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'ResponsibleID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Responsible:DescriptionShort',
@@ -2432,12 +2432,19 @@ sub _RenderOwner {
     $SelectedValue = $Param{Ticket}->{Owner}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'OwnerID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build Owner string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Owners,
         Name          => 'OwnerID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2450,12 +2457,6 @@ sub _RenderOwner {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Owner',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'OwnerID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'OwnerID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Owner:DescriptionShort',
@@ -2542,12 +2543,19 @@ sub _RenderSLA {
     $SelectedValue = $Param{Ticket}->{SLA}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'SLAID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build SLA string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $SLAs,
         Name          => 'SLAID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2560,12 +2568,6 @@ sub _RenderSLA {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'SLAID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'SLAID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA:DescriptionShort',
@@ -2648,12 +2650,19 @@ sub _RenderService {
     $SelectedValue = $Param{Ticket}->{Service}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ServiceID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build Service string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2666,12 +2675,6 @@ sub _RenderService {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Service',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'ServiceID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'ServiceID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Service:DescriptionShort',
@@ -2757,12 +2760,19 @@ sub _RenderLock {
     $SelectedValue = $Param{Ticket}->{Lock}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'LockID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build lock string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Locks,
         Name          => 'LockID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2775,12 +2785,6 @@ sub _RenderLock {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Lock',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'LockID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'LockID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Lock:DescriptionShort',
@@ -2863,12 +2867,19 @@ sub _RenderPriority {
     $SelectedValue = $Param{Ticket}->{Priority}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'PriorityID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build next Priorities string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Priorities,
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2881,12 +2892,6 @@ sub _RenderPriority {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'PriorityID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'PriorityID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority:DescriptionShort',
@@ -2969,12 +2974,19 @@ sub _RenderQueue {
     $SelectedValue = $Param{Ticket}->{Queue}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'QueueID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build next queues string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Queues,
         Name          => 'QueueID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
@@ -2986,12 +2998,6 @@ sub _RenderQueue {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'QueueID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'QueueID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue:DescriptionShort',
@@ -3075,12 +3081,19 @@ sub _RenderState {
     $SelectedValue = $Param{Ticket}->{State}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
 
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'StateID'} ) {
+        $ServerError = 'ServerError';
+    }
+
     # build next states string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $States,
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
+        Class         => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -3093,12 +3106,6 @@ sub _RenderState {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State',
         Data => \%Data,
     );
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'StateID'} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ServerErrorMsg',
-            Data => { Error => $Param{Error}->{'StateID'} },
-        );
-    }
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State:DescriptionShort',
@@ -3211,7 +3218,7 @@ sub _StoreActivityDialog {
             }
 
             if ( $ValidationResult->{ServerError} ) {
-                $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+                $Error{ $DynamicFieldConfig->{Name} } = 1;
             }
 
             # if we had an invisible field, use config's default value
@@ -3244,7 +3251,7 @@ sub _StoreActivityDialog {
 
             my $CustomerID = $Param{GetParam}{CustomerID};
             if ( !$CustomerID ) {
-                $Error{'CustomerUserID'} = 'ServerError';
+                $Error{'CustomerID'} = 1;
             }
             $TicketParam{CustomerID} = $CustomerID;
 
@@ -3254,7 +3261,7 @@ sub _StoreActivityDialog {
                 $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
             }
             if ( !$CustomerUserID ) {
-                $Error{'CustomerID'} = 'ServerError';
+                $Error{'CustomerUserID'} = 1;
             }
             else {
                 $TicketParam{CustomerUser} = $CustomerUserID;
@@ -3297,7 +3304,22 @@ sub _StoreActivityDialog {
             );
 
             if ( !$Result && $ActivityDialog->{Fields}{$CurrentField}->{Display} == 2 ) {
-                $Error{ $Self->{NameToID}->{$CurrentField} } = ' ServerError';
+
+                # special case for Article (Subject & Body)
+                if ( $CurrentField eq 'Article' ) {
+                    for my $ArticlePart (qw(Subject Body)) {
+                        if ( !$Param{GetParam}->{$ArticlePart} ) {
+
+                            # set error for each part (if any)
+                            $Error{ 'Article' . $ArticlePart } = 1;
+                        }
+                    }
+                }
+
+                # all other fields
+                else {
+                    $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
+                }
             }
             elsif ($Result) {
                 $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
