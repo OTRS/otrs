@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.62 2011-01-27 21:52:28 cg Exp $
+# $Id: LDAP.pm,v 1.63 2012-08-23 10:55:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -460,16 +460,23 @@ sub CustomerUserList {
             Message  => $Result->error(),
         );
     }
+
     my %Users;
-    for my $entry ( $Result->all_entries ) {
+    for my $entry ( $Result->all_entries() ) {
+
         my $CustomerString = '';
         for my $Field (@attrs) {
-            $CustomerString
-                .= $Self->_ConvertFrom( $entry->get_value($Field) )
-                . ' ';
+
+            my $FieldValue = $entry->get_value($Field);
+            $FieldValue = defined $FieldValue ? $FieldValue : '';
+
+            $CustomerString .= $Self->_ConvertFrom($FieldValue) . ' ';
         }
-        $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
-            = $CustomerString;
+
+        my $KeyValue = $entry->get_value( $Self->{CustomerKey} );
+        $KeyValue = defined $KeyValue ? $KeyValue : '';
+
+        $Users{ $Self->_ConvertFrom($KeyValue) } = $CustomerString;
     }
 
     # check if user need to be in a group!
@@ -497,6 +504,7 @@ sub CustomerUserList {
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
+
     return %Users;
 }
 
