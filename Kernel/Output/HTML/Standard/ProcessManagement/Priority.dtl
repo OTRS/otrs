@@ -2,22 +2,18 @@
 # Priority.dtl - provides Priority HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.dtl,v 1.2 2012-08-20 19:48:57 cr Exp $
+# $Id: Priority.dtl,v 1.3 2012-08-23 23:22:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!--dtl:block:rw:Priority-->
-<label for="$Data{"FieldID"}"$Data{"ClassMandatory"}>$Data{"Marker"}$Data{"Label"}:</label>
+<label for="$QData{"FieldID"}"$Data{"ClassMandatory"}>$Data{"Marker"}$Data{"Label"}:</label>
 <div class="Field">
     $Data{"Content"}
-    <div id="PriorityServerError" class="TooltipErrorMessage">
-<!-- dtl:block:ServerErrorMsg -->
-        <p>$Data{"Error"}</p>
-<!-- dtl:block:ServerErrorMsg -->
-    </div>
-
+    <div id="$QData{"FieldID"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+    <div id="$QData{"FieldID"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#$Data{"FieldID"}').bind('change', function (Event) {
@@ -26,7 +22,7 @@
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:rw:Priority:DescriptionShort -->
-    <div class="FieldExplanation">$Data{"DescriptionShort"}</div>
+    <div class="FieldExplanation">$QData{"DescriptionShort"}</div>
 <!-- dtl:block:rw:Priority:DescriptionShort -->
 </div>
 <div class="Clear"></div>

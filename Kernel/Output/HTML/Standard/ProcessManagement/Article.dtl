@@ -2,7 +2,7 @@
 # Article.dtl - provides Article fields HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# $Id: Article.dtl,v 1.2 2012-08-23 23:22:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,10 +11,6 @@
 <!-- dtl:block:rw:Article -->
 
 <div class="FieldSeparator"></div>
-
-<!-- dtl:block:rw:Article:DescriptionShort -->
-<div class="Field FieldExplanation">$Data{"DescriptionShort"}</div>
-<!-- dtl:block:rw:Article:DescriptionShort -->
 
 <!-- dtl:block:rw:Article:InformAgent -->
 <label for="InformUserID">$Text{"Inform Agent"}:</label>
@@ -26,7 +22,7 @@
 
 <label $Data{"ClassMandatory"} for="Subject">$Data{"Marker"}$Data{"LabelSubject"}:</label>
 <div class="Field">
-    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc $Data{"ValidateRequired"} $Data{"SubjectInvalid"}"/>
+    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc $QData{"ValidateRequired"} $QData{"SubjectServerError"}"/>
     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
     <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 </div>
@@ -37,7 +33,7 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-    <textarea id="RichText" class="RichText $Data{"ValidateRequired"} $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+    <textarea id="RichText" class="RichText $QData{"ValidateRequired"} $QData{"BodyServerError"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 </div>
@@ -73,6 +69,9 @@ $Include{"RichTextEditor"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 </div>
+<!-- dtl:block:rw:Article:DescriptionShort -->
+<div class="Field FieldExplanation">$Data{"DescriptionShort"}</div>
+<!-- dtl:block:rw:Article:DescriptionShort -->
 <div class="Clear"></div>
 <div class="FieldSeparator"></div>
 <!-- dtl:block:rw:Article -->

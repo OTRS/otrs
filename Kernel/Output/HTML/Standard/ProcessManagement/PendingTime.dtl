@@ -2,20 +2,20 @@
 # PendingTime.dtl - provides PendingTime HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingTime.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# $Id: PendingTime.dtl,v 1.2 2012-08-23 23:22:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!--dtl:block:rw:PendingTime-->
-<label>$Data{"Label"}:</label>
+<label>$QData{"Label"}:</label>
 <div class="Field">
     $Data{"Content"}
-    <div id="PendingTimeDayError" class="TooltipErrorMessage"><p>$Data{"PendingtTimeDayError"}</p></div>
-    <div id="PendingTimeHourError" class="TooltipErrorMessage"><p>$Data{"PendingtTimeHourError"}</p></div>
+    <div id="PendingTimeDayError" class="TooltipErrorMessage"><p>$QData{"PendingtTimeDayError"}</p></div>
+    <div id="PendingTimeHourError" class="TooltipErrorMessage"><p>$QData{"PendingtTimeHourError"}</p></div>
 <!-- dtl:block:rw:Owner:DescriptionShort -->
-    <div class="FieldExplanation">$Data{"DescriptionShort"}</div>
+    <div class="FieldExplanation">$QData{"DescriptionShort"}</div>
 <!-- dtl:block:rw:Owner:DescriptionShort -->
 </div>
 <div class="Clear"></div>
