@@ -2,7 +2,7 @@
 # Customer.dtl - provides Customer HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Customer.dtl,v 1.4 2012-08-23 23:22:41 cr Exp $
+# $Id: Customer.dtl,v 1.5 2012-08-24 18:50:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,12 @@ $Include{"AgentCustomerSearch"}
 
 <!-- dtl:block:rw:Customer -->
 <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"SelectedCustomerUser"}"/>
-<label for="CustomerAutoComplete" $Data{"ClassMandatory"}>$Data{"Marker"}$Data{"LabelCustomerUser"}:</label>
+<label for="CustomerAutoComplete" class="$QData{"MandatoryClass"}">
+<!-- dtl:block:LabelSpanCustomerUser -->
+    <span class="Marker">*</span>
+<!-- dtl:block:LabelSpanCustomerUser -->
+    $QData{"LabelCustomerUser"}:
+</label>
 <div class="Field">
     <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDServerError"}"/>
     <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -21,7 +26,12 @@ $Include{"AgentCustomerSearch"}
 </div>
 <div class="Clear"></div>
 
-<label for="CustomerID"$Data{"ClassMandatory"}>$Data{"Marker"}$Data{"LabelCustomerID"}:</label>
+<label for="CustomerID" class="$Data{"MandatoryClass"}">
+<!-- dtl:block:LabelSpanCustomerID -->
+    <span class="Marker">*</span>
+<!-- dtl:block:LabelSpanCustomerID -->
+    $QData{"LabelCustomerID"}:
+</label>
 <div class="Field">
     <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc Validate_Required $QData{"CustomerIDServerError"}"/>
     <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>

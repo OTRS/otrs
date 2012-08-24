@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.8 2012-08-23 23:32:24 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.9 2012-08-24 18:50:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1989,18 +1989,15 @@ sub _RenderTitle {
         FormID           => $Param{FormID},
         Value            => $Param{GetParam}{Title},
         Name             => 'Title',
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     # output server errors
@@ -2012,6 +2009,15 @@ sub _RenderTitle {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title:DescriptionShort',
@@ -2048,9 +2054,8 @@ sub _RenderArticle {
 
     my %Data = (
         Name             => 'Article',
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
         Subject          => $Param{GetParam}{Subject},
         Body             => $Param{GetParam}{Body},
         LabelSubject     => $Param{ActivityDialogField}->{Config}->{LabelSubject}
@@ -2061,11 +2066,9 @@ sub _RenderArticle {
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     # output server errors
@@ -2080,6 +2083,18 @@ sub _RenderArticle {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Article',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpanSubject',
+            Data => {},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpanBody',
+            Data => {},
+        );
+    }
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
@@ -2181,18 +2196,15 @@ sub _RenderCustomer {
         LabelCustomerUser => $Self->{LayoutObject}->{LanguageObject}->Get("Customer user"),
         LabelCustomerID   => $Self->{LayoutObject}->{LanguageObject}->Get("CustomerID"),
         FormID            => $Param{FormID},
-        ClassMandatory    => '',
+        MandatoryClass    => '',
         ValidateRequired  => '',
-        Marker            => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     # output server errors
@@ -2244,6 +2256,19 @@ sub _RenderCustomer {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpanCustomerUser',
+            Data => {},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpanCustomerID',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer:DescriptionShort',
@@ -2284,18 +2309,15 @@ sub _RenderResponsible {
         FieldID          => 'ResponsibleID',
         FormID           => $Param{FormID},
         ResponsibleAll   => $Param{GetParam}{ResponsibleAll},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     my $SelectedValue;
@@ -2350,6 +2372,15 @@ sub _RenderResponsible {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Responsible',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Responsible:DescriptionShort',
@@ -2391,18 +2422,15 @@ sub _RenderOwner {
         FieldID          => 'OwnerID',
         FormID           => $Param{FormID},
         OwnerAll         => $Param{GetParam}{OwnerAll},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     my $SelectedValue;
@@ -2457,6 +2485,15 @@ sub _RenderOwner {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Owner',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Owner:DescriptionShort',
@@ -2502,18 +2539,15 @@ sub _RenderSLA {
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("SLA"),
         FieldID          => 'SLAID',
         FormID           => $Param{FormID},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     my $SelectedValue;
@@ -2568,6 +2602,15 @@ sub _RenderSLA {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA:DescriptionShort',
@@ -2609,18 +2652,15 @@ sub _RenderService {
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Service"),
         FieldID          => 'ServiceID',
         FormID           => $Param{FormID},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     my $SelectedValue;
@@ -2675,6 +2715,15 @@ sub _RenderService {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Service',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Service:DescriptionShort',
@@ -2719,18 +2768,15 @@ sub _RenderLock {
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Lock state"),
         FieldID          => 'LockID',
         FormID           => $Param{FormID},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     my $SelectedValue;
@@ -2785,6 +2831,15 @@ sub _RenderLock {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Lock',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Lock:DescriptionShort',
@@ -2826,18 +2881,15 @@ sub _RenderPriority {
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Priority"),
         FieldID          => 'PriorityID',
         FormID           => $Param{FormID},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
 
     my $SelectedValue;
@@ -2892,6 +2944,15 @@ sub _RenderPriority {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority:DescriptionShort',
@@ -2933,18 +2994,15 @@ sub _RenderQueue {
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("To queue"),
         FieldID          => 'QueueID',
         FormID           => $Param{FormID},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
     my $SelectedValue;
 
@@ -2998,6 +3056,15 @@ sub _RenderQueue {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue:DescriptionShort',
@@ -3040,18 +3107,15 @@ sub _RenderState {
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Next ticket state"),
         FieldID          => 'StateID',
         FormID           => $Param{FormID},
-        ClassMandatory   => '',
+        MandatoryClass   => '',
         ValidateRequired => '',
-        Marker           => '',
     );
 
     # If field is required put in the necessary variables for
     # ValidateRequired class input field, Mandatory class for the label
-    # Marker for the label
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
-        $Data{ClassMandatory}   = ' class="Mandatory"';
-        $Data{Marker}           = '<span class="Marker">*</span> ';
+        $Data{MandatoryClass}   = 'Mandatory';
     }
     my $SelectedValue;
 
@@ -3106,6 +3170,15 @@ sub _RenderState {
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State',
         Data => \%Data,
     );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
     if ( $Param{DescriptionShort} ) {
         $Self->{LayoutObject}->Block(
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State:DescriptionShort',

@@ -2,14 +2,19 @@
 # Queue.dtl - provides Queue HTML for the AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.dtl,v 1.3 2012-08-23 23:22:41 cr Exp $
+# $Id: Queue.dtl,v 1.4 2012-08-24 18:50:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <!--dtl:block:rw:Queue-->
-<label for="$QData{"FieldID"}"$Data{"ClassMandatory"}>$Data{"Marker"}$Data{"Label"}:</label>
+<label for="$QData{"FieldID"}" class="$QData{"MandatoryClass"}">
+<!-- dtl:block:LabelSpan -->
+    <span class="Marker">*</span>
+<!-- dtl:block:LabelSpan -->
+    $QData{"Label"}:
+</label>
 <div class="Field">
     $Data{"Content"}
     <div id="$QData{"FieldID"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
