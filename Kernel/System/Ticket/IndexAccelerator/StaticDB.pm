@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.76.2.1 2011-07-28 11:50:48 mg Exp $
+# $Id: StaticDB.pm,v 1.76.2.2 2012-08-24 12:24:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76.2.1 $) [1];
+$VERSION = qw($Revision: 1.76.2.2 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -73,6 +73,10 @@ sub TicketAcceleratorUpdate {
     }
     if ( $ViewableStatsHit && $ViewableLocksHit ) {
         $IndexSelcected = 1;
+    }
+
+    if ( $TicketData{ArchiveFlag} eq 'y' ) {
+        $IndexSelcected = 0;
     }
 
     # write index back
@@ -173,6 +177,11 @@ sub TicketAcceleratorAdd {
 
     # do nothing if stats or lock is not viewable
     if ( !$ViewableStatsHit || !$ViewableLocksHit ) {
+        return 1;
+    }
+
+    # do nothing if ticket is archived
+    if ( $TicketData{ArchiveFlag} eq 'y' ) {
         return 1;
     }
 
@@ -369,6 +378,7 @@ sub TicketAcceleratorRebuild {
         . " ticket_lock_type slt WHERE "
         . " st.ticket_state_id = tsd.id AND "
         . " st.queue_id = sq.id AND "
+        . " st.archive_flag = 0 AND "
         . " st.ticket_lock_id = slt.id AND "
         . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
         . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )";
