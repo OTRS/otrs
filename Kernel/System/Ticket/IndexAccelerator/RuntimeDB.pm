@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.76 2011-08-01 09:30:33 mg Exp $
+# $Id: RuntimeDB.pm,v 1.77 2012-08-24 09:46:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -84,9 +84,12 @@ sub TicketAcceleratorIndex {
     );
 
     if (@QueueIDs) {
-        my $SQL = "SELECT count(*) FROM ticket st WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
-            . " st.queue_id IN (";
+        my $SQL = "
+            SELECT count(*)
+            FROM ticket st
+            WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
+                AND st.archive_flag = 0
+                AND st.queue_id IN (";
         for ( 0 .. $#QueueIDs ) {
             if ( $_ > 0 ) {
                 $SQL .= ",";
@@ -114,13 +117,16 @@ sub TicketAcceleratorIndex {
 
     # CustomQueue add on
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT count(*) FROM ticket st, queue sq, personal_queues suq WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
-            . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
-            . " st.queue_id = sq.id AND "
-            . " suq.queue_id = st.queue_id AND "
-            . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-            . " suq.user_id = $Param{UserID}",
+        SQL => "
+            SELECT count(*)
+            FROM ticket st, queue sq, personal_queues suq
+            WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
+                AND st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )
+                AND st.queue_id = sq.id
+                AND st.archive_flag = 0
+                AND suq.queue_id = st.queue_id
+                AND sq.group_id IN ( ${\(join ', ', @GroupIDs)} )
+                AND suq.user_id = $Param{UserID}",
     );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -140,14 +146,16 @@ sub TicketAcceleratorIndex {
 
     # prepare the tickets in Queue bar (all data only with my/your Permission)
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) FROM "
-            . " ticket st, queue sq WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
-            . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
-            . " st.queue_id = sq.id AND "
-            . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) "
-            . " GROUP BY st.queue_id,sq.name "
-            . " ORDER BY sq.name",
+        SQL => "
+            SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*)
+            FROM ticket st, queue sq
+            WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
+                AND st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )
+                AND st.queue_id = sq.id
+                AND st.archive_flag = 0
+                AND sq.group_id IN ( ${\(join ', ', @GroupIDs)} )
+            GROUP BY st.queue_id,sq.name
+            ORDER BY sq.name",
     );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
