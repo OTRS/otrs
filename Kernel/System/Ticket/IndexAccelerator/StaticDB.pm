@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.79 2011-11-25 10:06:30 mg Exp $
+# $Id: StaticDB.pm,v 1.80 2012-08-24 12:12:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -30,7 +30,7 @@ sub TicketAcceleratorUpdate {
 
     # check if ticket is shown or not
     my $IndexUpdateNeeded = 0;
-    my $IndexSelcected    = 0;
+    my $IndexSelected     = 0;
     my %TicketData        = $Self->TicketGet(
         %Param,
         DynamicFields => 0,
@@ -58,10 +58,10 @@ sub TicketAcceleratorUpdate {
         Type   => 'Viewable',
         Result => 'Name',
     );
-    my $ViewableStatsHit = 0;
+    my $ViewableStatesHit = 0;
     for (@ViewableStates) {
         if ( $_ =~ /^$TicketData{State}$/i ) {
-            $ViewableStatsHit = 1;
+            $ViewableStatesHit = 1;
         }
     }
 
@@ -74,18 +74,23 @@ sub TicketAcceleratorUpdate {
             $ViewableLocksHit = 1;
         }
     }
-    if ( $ViewableStatsHit && $ViewableLocksHit ) {
-        $IndexSelcected = 1;
+    if ( $ViewableStatesHit && $ViewableLocksHit ) {
+        $IndexSelected = 1;
+    }
+
+    if ( $TicketData{ArchiveFlag} eq 'y' ) {
+        $IndexSelected = 0;
     }
 
     # write index back
     if ($IndexUpdateNeeded) {
-        if ($IndexSelcected) {
+        if ($IndexSelected) {
             if ( $IndexTicketData{TicketID} ) {
                 $Self->{DBObject}->Do(
-                    SQL => 'UPDATE ticket_index SET'
-                        . ' queue_id = ?, queue = ?, group_id = ?, s_lock = ?, s_state = ?'
-                        . ' WHERE ticket_id = ?',
+                    SQL => '
+                        UPDATE ticket_index
+                        SET queue_id = ?, queue = ?, group_id = ?, s_lock = ?, s_state = ?
+                        WHERE ticket_id = ?',
                     Bind => [
                         \$TicketData{QueueID}, \$TicketData{Queue}, \$TicketData{GroupID},
                         \$TicketData{Lock},    \$TicketData{State}, \$Param{TicketID},
@@ -160,10 +165,10 @@ sub TicketAcceleratorAdd {
         Type   => 'Viewable',
         Result => 'Name',
     );
-    my $ViewableStatsHit = 0;
+    my $ViewableStatesHit = 0;
     for (@ViewableStates) {
         if ( $_ =~ /^$TicketData{State}$/i ) {
-            $ViewableStatsHit = 1;
+            $ViewableStatesHit = 1;
         }
     }
 
@@ -178,14 +183,20 @@ sub TicketAcceleratorAdd {
     }
 
     # do nothing if stats or lock is not viewable
-    if ( !$ViewableStatsHit || !$ViewableLocksHit ) {
+    if ( !$ViewableStatesHit || !$ViewableLocksHit ) {
+        return 1;
+    }
+
+    # do nothing if ticket is archived
+    if ( $TicketData{ArchiveFlag} eq 'y' ) {
         return 1;
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO ticket_index'
-            . ' (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+        SQL => '
+            INSERT INTO ticket_index
+                (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)
+                VALUES (?, ?, ?, ?, ?, ?, ?)',
         Bind => [
             \$Param{TicketID},     \$TicketData{QueueID}, \$TicketData{Queue},
             \$TicketData{GroupID}, \$TicketData{Lock},    \$TicketData{State},
@@ -259,9 +270,11 @@ sub TicketAcceleratorIndex {
         Result => 'ID',
     );
     if (@QueueIDs) {
-        my $SQL = "SELECT count(*) FROM ticket st WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
-            . " st.queue_id IN (";
+        my $SQL = "
+            SELECT count(*)
+            FROM ticket st
+            WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
+                AND st.queue_id IN (";
         for ( 0 .. $#QueueIDs ) {
             if ( $_ > 0 ) {
                 $SQL .= ",";
@@ -309,10 +322,12 @@ sub TicketAcceleratorIndex {
 
     # CustomQueue add on
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT count(*) FROM ticket_index ti, personal_queues suq WHERE "
-            . " suq.queue_id = ti.queue_id AND "
-            . " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-            . " suq.user_id = $Param{UserID}",
+        SQL => "
+            SELECT count(*)
+            FROM ticket_index ti, personal_queues suq
+            WHERE suq.queue_id = ti.queue_id
+                AND ti.group_id IN ( ${\(join ', ', @GroupIDs)} )
+                AND suq.user_id = $Param{UserID}",
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Hashes;
@@ -331,9 +346,12 @@ sub TicketAcceleratorIndex {
 
     # prepare the tickets in Queue bar (all data only with my/your Permission)
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT queue_id, queue, min(create_time_unix), count(*) "
-            . " FROM ticket_index WHERE group_id IN ( ${\(join ', ', @GroupIDs)} ) "
-            . " GROUP BY queue_id, queue ORDER BY queue",
+        SQL => "
+            SELECT queue_id, queue, min(create_time_unix), count(*)
+            FROM ticket_index
+            WHERE group_id IN ( ${\(join ', ', @GroupIDs)} )
+            GROUP BY queue_id, queue
+            ORDER BY queue",
     );
 
     while ( my @RowTmp = $Self->{DBObject}->FetchrowArray() ) {
@@ -372,15 +390,15 @@ sub TicketAcceleratorRebuild {
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
 
     # get all viewable tickets
-    my $SQL = "SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, "
-        . " tsd.name, st.create_time_unix FROM "
-        . " ticket st, queue sq, ticket_state tsd, "
-        . " ticket_lock_type slt WHERE "
-        . " st.ticket_state_id = tsd.id AND "
-        . " st.queue_id = sq.id AND "
-        . " st.ticket_lock_id = slt.id AND "
-        . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )";
+    my $SQL = "
+        SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, tsd.name, st.create_time_unix
+        FROM ticket st, queue sq, ticket_state tsd, ticket_lock_type slt
+        WHERE st.ticket_state_id = tsd.id
+            AND st.queue_id = sq.id
+            AND st.ticket_lock_id = slt.id
+            AND st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
+            AND st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )
+            AND st.archive_flag = 0";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     my @RowBuffer;
@@ -401,9 +419,10 @@ sub TicketAcceleratorRebuild {
     for (@RowBuffer) {
         my %Data = %{$_};
         $Self->{DBObject}->Do(
-            SQL => 'INSERT INTO ticket_index'
-                . ' (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)'
-                . ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+            SQL => '
+                INSERT INTO ticket_index
+                    (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)',
             Bind => [
                 \$Data{TicketID}, \$Data{QueueID}, \$Data{Queue}, \$Data{GroupID},
                 \$Data{Lock}, \$Data{State}, \$Data{CreateTimeUnix},
@@ -413,8 +432,10 @@ sub TicketAcceleratorRebuild {
 
     # write lock index
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT ti.id, ti.user_id FROM ticket ti WHERE "
-            . " ti.ticket_lock_id not IN ( ${\(join ', ', @ViewableLockIDs)} ) ",
+        SQL => "
+            SELECT ti.id, ti.user_id
+            FROM ticket ti
+            WHERE ti.ticket_lock_id not IN ( ${\(join ', ', @ViewableLockIDs)} ) ",
     );
     my @LockRowBuffer;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -442,8 +463,10 @@ sub GetIndexTicket {
 
     # sql query
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix'
-            . ' FROM ticket_index WHERE ticket_id = ?',
+        SQL => '
+            SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix
+            FROM ticket_index
+            WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ]
     );
     my %Data;
