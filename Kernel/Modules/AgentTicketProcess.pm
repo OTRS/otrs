@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.9 2012-08-24 18:50:44 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.10 2012-08-24 20:38:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1099,6 +1099,7 @@ sub _OutputActivityDialog {
 
     # Add PageHeader, Navbar, Formheader (Process/ActivityDialogHeader)
     my $Output;
+    my $MainBoxClass;
 
     if ( !$Self->{AJAXDialog} ) {
         $Output = $Self->{LayoutObject}->Header(
@@ -1135,6 +1136,42 @@ sub _OutputActivityDialog {
             TemplateFile => 'AgentTicketProcess',
             Data         => {},
         );
+
+        # set the MainBox class to add correct borders to the screen
+        $MainBoxClass = 'MainBox';
+    }
+
+    # display process iformation
+    if ( $Self->{AJAXDialog} ) {
+
+        # get process data
+        my $Process = $Self->{ProcessObject}->ProcessGet(
+            ProcessEntityID => $Param{ProcessEntityID},
+        );
+
+        # output main process information
+        $Self->{LayoutObject}->Block(
+            Name => 'ProcessInfoSidebar',
+            Data => {
+                Process        => $Process->{Name}        || '',
+                Activity       => $Activity->{Name}       || '',
+                ActivityDialog => $ActivityDialog->{Name} || '',
+            },
+        );
+
+        # output activity dilalog short description (if any)
+        if (
+            defined $ActivityDialog->{DescriptionShort}
+            && $ActivityDialog->{DescriptionShort} ne ''
+            )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessInfoSidebarActivityDialogDesc',
+                Data => {
+                    ActivityDialogDescription => $ActivityDialog->{DescriptionShort} || '',
+                },
+            );
+        }
     }
 
     # show descriptions
@@ -1196,6 +1233,7 @@ sub _OutputActivityDialog {
                     )
                 },
             AJAXDialog => $Self->{AJAXDialog},
+            MainBoxClass => $MainBoxClass || '',
         },
     );
 
