@@ -2,12 +2,16 @@
 # AgentTicketProcess.dtl - provides HTML for AgentTicketProcess.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.dtl,v 1.6 2012-08-23 23:24:24 cr Exp $
+# $Id: AgentTicketProcess.dtl,v 1.7 2012-08-27 16:29:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+<!-- dtl:block:RichText -->
+<script src="$Config{"Frontend::RichTextPath"}ckeditor.js" type="text/javascript"></script>
+<!-- dtl:block:RichText -->
+
 <div class="MainBox ARIARoleMain">
     <h1>$Text{"Create New Process Ticket"}</h1>
     <div class="ContentColumn">
@@ -37,11 +41,24 @@
 <script type="text/javascript">//<![CDATA[
     $('#ProcessEntityID').bind('change', function() {
         if ($('#ProcessEntityID').val()) {
+
+            // remove the content of the activity dialog
+            $('#ActivityDialogContent').empty();
+
+            // fade out the empty container so it will fade in again on processes change
+            // is not recommended to empty after fade out at this point since the transition offect
+            // will not look so nice
+            $('#ActivityDialogContent').fadeOut('fast');
+
+            // show loader icon
             $('#AJAXLoader').removeClass('Hidden');
+
+            // get new ActivityDialog content
             Core.AJAX.FunctionCall('$Env{"Baselink"}', 'Action=$Env{"Action"};Subaction=DisplayActivityDialogAJAX;AJAXDialog=1;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
                 var $ElementToUpdate = $('#ActivityDialogContent'),
                     JavaScriptString = '';
                 if (!Response) {
+
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
                     $('#AJAXLoader').addClass('Hidden');
@@ -59,9 +76,10 @@
                     catch (Exception) {}
                     Core.Form.Validate.Init();
                     $('#AJAXLoader').addClass('Hidden');
-                $('#AJAXDialog').val('1');
+                    $('#AJAXDialog').val('1');
                 }
                 else {
+
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError'));
                     $('#AJAXLoader').addClass('Hidden');
@@ -69,7 +87,9 @@
             }, 'html');
         }
         else {
-            $('#ActivityDialogContent').fadeOut();
+            $('#ActivityDialogContent').fadeOut(400, function() {
+                $('#ActivityDialogContent').empty();
+            });
         }
         return false;
     });
