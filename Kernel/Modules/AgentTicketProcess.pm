@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.10 2012-08-24 20:38:28 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.11 2012-08-27 16:31:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -270,13 +270,30 @@ sub Run {
     # Display the ProcessList
     if (
         !$Self->{Subaction}
-        || ( $Self->{Subaction} eq 'DisplayActivityDialog' && !$ProcessList->{$ProcessEntityID} )
+        || (
+            $Self->{Subaction} eq 'DisplayActivityDialog'
+            && !$ProcessList->{$ProcessEntityID}
+            && $Self->{AJAXDialog}
+        )
         )
     {
         return $Self->_DisplayProcessList(
             %Param,
             ProcessList     => $ProcessList,
             ProcessEntityID => $ProcessEntityID
+        );
+    }
+
+    # if invalid process is detected on a ActivityDilog popup screen show an error message
+    elsif (
+        $Self->{Subaction} eq 'DisplayActivityDialog'
+        && !$ProcessList->{$ProcessEntityID}
+        && !$Self->{AJAXDialog}
+        )
+    {
+        $Self->{LayoutObject}->FatalError(
+            Message => "Process $ProcessEntityID is invalid!",
+            Comment => 'Please contact the admin.',
         );
     }
 
@@ -1126,6 +1143,15 @@ sub _OutputActivityDialog {
         );
     }
     elsif ( $Self->{AJAXDialog} && IsHashRefWithData( \%Error ) ) {
+
+        # add rich text editor
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
 
         # display complete header and nav bar in ajax dialogs when there is a server error
         $Output = $Self->{LayoutObject}->Header();
@@ -3882,6 +3908,15 @@ sub _DisplayProcessList {
         Sort         => 'AlphanumericValue',
         Translation  => 0,
     );
+
+    # add rich text editor
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'ProcessList',
