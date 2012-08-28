@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.41.2.2 2012-07-31 13:44:57 mg Exp $
+# $Id: HTMLUtils.t,v 1.41.2.3 2012-08-28 08:19:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1187,6 +1187,20 @@ object:
 EOF
             Replace => 1,
         },
+    },
+    {
+        Input => <<EOF,
+<s<script>...</script><script>...<cript type="text/javascript">
+document.write("Hello World!");
+</s<script>//<cript>
+EOF
+        Result => {
+            Output => <<EOF,
+
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - Nested script tags'
     },
 );
 

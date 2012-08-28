@@ -2,14 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.113 2012-08-24 09:45:53 mg Exp $
+# $Id: CHANGES,v 1.2260.2.114 2012-08-28 08:19:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.10 2012-??-??
+3.1.10 2012-08-30
+ - 2012-08-28 Improved HTML security filter to detect tag nesting.
  - 2012-08-24 Fixed bug#8611 - Ticket count is wrong in QueueView.
  - 2012-08-21 Fixed bug#8698 - Layout.pm only looks at first entry from
     HTTP_ACCEPT_LANGUAGE to determine language.
