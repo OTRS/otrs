@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.48 2012-08-14 08:47:17 mg Exp $
+# $Id: HTMLUtils.t,v 1.49 2012-08-28 08:18:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1273,6 +1273,20 @@ EOF
             Replace => 1,
         },
         Name => 'Safety - Style tags with CSS expressions are filtered out'
+    },
+    {
+        Input => <<EOF,
+<s<script>...</script><script>...<cript type="text/javascript">
+document.write("Hello World!");
+</s<script>//<cript>
+EOF
+        Result => {
+            Output => <<EOF,
+
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - Nested script tags'
     },
 );
 
