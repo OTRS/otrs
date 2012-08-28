@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.20 2012-08-17 06:28:41 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.21 2012-08-28 08:23:19 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -420,6 +420,14 @@ sub Run {
 
                 $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
                     = $GetParam->{FieldDetails}->{$FieldDetail};
+            }
+        }
+
+        # set default values for fields in case they don't have details
+        for my $FieldName ( keys %{ $ActivityDialogData->{Config}->{Fields} } ) {
+            if ( !IsHashRefWithData( $ActivityDialogData->{Config}->{Fields}->{$FieldName} ) ) {
+                $ActivityDialogData->{Config}->{Fields}->{$FieldName}->{DescriptionShort}
+                    = $FieldName;
             }
         }
 
