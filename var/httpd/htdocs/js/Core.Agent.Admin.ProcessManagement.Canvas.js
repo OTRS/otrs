@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.30 2012-08-14 12:57:09 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.31 2012-08-28 13:42:33 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -455,7 +455,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     StartActivityID = LocalJointObject.startObject().wholeShape.properties.id;
                     
                     // otherwise change end activity in Path info from config
-                    Path[StartActivityID][EntityID].ActivityID = EndActivityID;
+                    Path[StartActivityID][EntityID].ActivityEntityID = EndActivityID;
                     
                     // re-initialize DblClick
                     Elements[EndActivityID].initTransitionDblClick(undefined, TransitionDblClick);
@@ -567,7 +567,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     TransitionID = Key;
                     // if EndActivity available, draw transition directly
                     if (typeof Value !== 'undefined') {
-                        EndActivityID = Value.ActivityID;
+                        EndActivityID = Value.ActivityEntityID;
                         TargetNS.CreateTransition(StartActivityID, EndActivityID, TransitionID);
                     }
                     // if EndActivity is undefined draw transition with dummy

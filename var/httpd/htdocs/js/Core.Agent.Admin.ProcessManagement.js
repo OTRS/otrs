@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.49 2012-08-28 07:25:48 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.50 2012-08-28 13:42:33 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -398,7 +398,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                         Path[Activity] = {};
                     }
                     Path[Activity][EntityID] = {
-                            ActivityID: undefined
+                        ActivityEntityID: undefined
                     }; 
                 }
             }
@@ -421,8 +421,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 // you cannot bind it a second time
                 if (Path[Transition.StartActivity] && 
                     typeof Path[Transition.StartActivity][Transition.TransitionID] !== 'undefined' &&
-                    typeof Path[Transition.StartActivity][Transition.TransitionID].Action !== 'undefined' &&
-                    ($.inArray(EntityID, Path[Transition.StartActivity][Transition.TransitionID].Action) >= 0)
+                    typeof Path[Transition.StartActivity][Transition.TransitionID].TransitionAction !== 'undefined' &&
+                    ($.inArray(EntityID, Path[Transition.StartActivity][Transition.TransitionID].TransitionAction) >= 0)
                 ) {
                     alert(Core.Agent.Admin.ProcessManagement.Localization.TransitionActionAlreadyPlaced);
                     return;
@@ -430,10 +430,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 
                 if (Transition) {
                     // Add Action to Path
-                    if (typeof Path[Transition.StartActivity][Transition.TransitionID].Action === 'undefined') {
-                        Path[Transition.StartActivity][Transition.TransitionID].Action = [];
+                    if (typeof Path[Transition.StartActivity][Transition.TransitionID].TransitionAction === 'undefined') {
+                        Path[Transition.StartActivity][Transition.TransitionID].TransitionAction = [];
                     }
-                    Path[Transition.StartActivity][Transition.TransitionID].Action.push(EntityID);
+                    Path[Transition.StartActivity][Transition.TransitionID].TransitionAction.push(EntityID);
                 }
             }
             else {
@@ -936,8 +936,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#EndActivity').text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityID].Name);
 
                 StartActivityEntityID     = Activity;
-                EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityID;
-                AssignedTransitionActions = Transition[CurrentTransitionEntityID].Action;
+                EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityEntityID;
+                AssignedTransitionActions = Transition[CurrentTransitionEntityID].TransitionAction;
 
                 return false;
            }
