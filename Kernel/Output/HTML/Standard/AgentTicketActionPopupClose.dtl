@@ -1,8 +1,8 @@
 # --
 # AgentTicketActionPopupClose.dtl - provides HTML for closing a popup after a finished request
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionPopupClose.dtl,v 1.4 2010-12-06 13:14:33 martin Exp $
+# $Id: AgentTicketActionPopupClose.dtl,v 1.4.4.1 2012-08-29 10:05:39 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,12 @@
 <!-- dtl:block:LoadParentURLAndClose -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-if (window.opener) {
+if (window.name.match(/OTRSPopup_.+/) &&
+    window.opener &&
+    window.opener.Core &&
+    window.opener.Core.UI &&
+    window.opener.Core.UI.Popup
+) {
     window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '$Env{"Baselink"}$Data{"URL"}' });
     window.close();
 }
