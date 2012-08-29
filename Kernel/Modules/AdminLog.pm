@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminLog.pm - provides a log view for admins
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminLog.pm,v 1.23 2010-04-12 21:33:24 mg Exp $
+# $Id: AdminLog.pm,v 1.24 2012-08-29 21:18:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,24 +41,32 @@ sub Run {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    # create table
-    my @Lines = split( /\n/, $Self->{LogObject}->GetLog( Limit => 400 ) );
-    for (@Lines) {
-        my @Row = split( /;;/, $_ );
-        if ( $Row[3] ) {
-            my $ErrorClass = ( $Row[1] =~ /error/ ) ? 'Error' : '';
+    # get log data
+    my $Log = $Self->{LogObject}->GetLog( Limit => 400 ) || '';
 
-            $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    ErrorClass => $ErrorClass,
-                    Time       => $Row[0],
-                    Priority   => $Row[1],
-                    Facility   => $Row[2],
-                    Message    => $Row[3],
-                },
-            );
-        }
+    # split data to lines
+    my @Message = split /\n/, $Log;
+
+    # create table
+    ROW:
+    for my $Row (@Message) {
+
+        my @Parts = split /;;/, $Row;
+
+        next ROW if !$Parts[3];
+
+        my $ErrorClass = ( $Parts[1] =~ /error/ ) ? 'Error' : '';
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Row',
+            Data => {
+                ErrorClass => $ErrorClass,
+                Time       => $Parts[0],
+                Priority   => $Parts[1],
+                Facility   => $Parts[2],
+                Message    => $Parts[3],
+            },
+        );
     }
 
     # create & return output
@@ -67,6 +75,7 @@ sub Run {
         Data         => \%Param,
     );
     $Output .= $Self->{LayoutObject}->Footer();
+
     return $Output;
 }
 
