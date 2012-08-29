@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.67 2012-03-29 19:59:23 mh Exp $
+# $Id: Log.pm,v 1.68 2012-08-29 21:17:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -141,11 +141,19 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
 
-        my $Error
-            = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
-            $^V;
+        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
+            . localtime() . "\n\n", $^V;
 
         $Error .= " Message: $Message\n\n";
+
+        if ( %ENV && ( $ENV{REMOTE_ADDR} || $ENV{REQUEST_URI} ) ) {
+
+            my $RemoteAddress = $ENV{REMOTE_ADDR} || '';
+            my $RequestURI    = $ENV{REQUEST_URI} || '';
+
+            $Error .= " URL: $RemoteAddress$RequestURI\n\n";
+        }
+
         $Error .= " Traceback ($$): \n";
 
         COUNT:
@@ -317,6 +325,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-03-29 19:59:23 $
+$Revision: 1.68 $ $Date: 2012-08-29 21:17:32 $
 
 =cut
