@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.31 2012-06-15 09:53:53 mg Exp $
+# $Id: Webservice.pm,v 1.32 2012-08-29 19:08:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -138,6 +138,15 @@ sub WebserviceAdd {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
+    }
+
+    # check config
+    if ( ref $Param{Config} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice config should be a hash reference!"
+        );
+        return;
     }
 
     # dump config as string
@@ -299,6 +308,15 @@ sub WebserviceUpdate {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
+    }
+
+    # check config
+    if ( ref $Param{Config} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice config should be a hash reference!"
+        );
+        return;
     }
 
     # dump config as string
@@ -485,6 +503,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2012-06-15 09:53:53 $
+$Revision: 1.32 $ $Date: 2012-08-29 19:08:21 $
 
 =cut
