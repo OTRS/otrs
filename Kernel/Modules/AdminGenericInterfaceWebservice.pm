@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.34 2012-01-09 09:50:53 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.35 2012-08-29 09:09:47 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,14 +15,12 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::Valid;
 use YAML;
-
-use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -677,6 +675,23 @@ sub _ShowOverview {
             my $ValidStrg = $Self->{ValidObject}->ValidLookup(
                 ValidID => $Webservice->{ValidID},
             );
+
+            if ( !$Webservice->{Config} || !IsHashRefWithData( $Webservice->{Config} ) ) {
+
+                # write an error message to the OTRS log
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Configuration of WebserviceID $WebserviceID is invalid!",
+                );
+
+                # notify the user of problems loading this webservice
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                );
+
+                # continue loading the list of webservices
+                next WEBSERVICEID;
+            }
 
             # prepare data to output
             my $Data = {
