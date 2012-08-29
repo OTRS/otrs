@@ -1,8 +1,8 @@
 # --
 # Webservice.t - Webservice tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.t,v 1.15 2011-03-18 12:57:24 mg Exp $
+# $Id: Webservice.t,v 1.16 2012-08-29 10:35:59 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -297,6 +297,17 @@ my @Tests = (
         HistoryCount  => 0,
         Add           => {
             Config  => undef,
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 6',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 0,
+        Add           => {
+            Config  => 'Something',
             ValidID => 1,
             UserID  => 1,
         },
