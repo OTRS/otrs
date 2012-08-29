@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.30 2012-08-21 11:20:31 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.31 2012-08-29 10:20:56 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1138,6 +1138,33 @@ sub Run {
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
             Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # UpdateSyncMessage AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'UpdateSyncMessage' ) {
+
+        # get the list of updated or deleted entities
+        my $EntitySyncStateList = $Self->{EntityObject}->EntitySyncStateList(
+            UserID => $Self->{UserID}
+        );
+
+        my $Output;
+        if ( IsArrayRefWithData($EntitySyncStateList) ) {
+            $Output = $Self->{LayoutObject}->Notify(
+                Info =>
+                    'Process Management information from database is not in sync with the system configuration, please synchronize all the Processes.',
+            );
+        }
+
+        # send HTML response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => $Output,
             Type        => 'inline',
             NoCache     => 1,
         );

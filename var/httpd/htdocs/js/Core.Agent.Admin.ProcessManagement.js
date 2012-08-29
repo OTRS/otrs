@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.51 2012-08-29 09:37:57 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.52 2012-08-29 10:20:56 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -538,6 +538,29 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             
             // Initialize the different Delete Links
             InitDeleteEntity();
+        }, 'html');
+    };
+    
+    TargetNS.UpdateSyncMessage = function () {
+        // check if there is a 'dirty' sync state and show a message below the header
+        var Data = {
+                Action: 'AdminProcessManagement',
+                Subaction: 'UpdateSyncMessage'
+            };
+       
+        // Call the ajax function
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+            
+            if (!Response.length) {
+                return true;
+            }
+            
+            if ($('.MessageBox.Notice').length) {
+                return true;
+            }
+            
+            $(Response).insertBefore('div.MainBox');
+            
         }, 'html');
     };
     

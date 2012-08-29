@@ -2,7 +2,7 @@
 # AdminProcessManagementPopupResponse.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPopupResponse.dtl,v 1.7 2012-08-17 07:24:39 mn Exp $
+# $Id: AdminProcessManagementPopupResponse.dtl,v 1.8 2012-08-29 10:20:56 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,6 +42,9 @@ window.opener.Core.Agent.Admin.ProcessManagement.UpdateScreensPath(window, funct
 
     // update accordion
     WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateAccordion();
+
+    // update sync message
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateSyncMessage();
 
     // redraw canvas
     WindowObject.opener.Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
