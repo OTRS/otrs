@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.22 2012-08-29 10:31:36 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.23 2012-08-30 07:59:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,18 +58,17 @@ sub new {
 
     # create available Fields list
     $Self->{AvailableFields} = {
-        State          => 'StateID',
-        Priority       => 'PriorityID',
-        Lock           => 'LockID',
-        Queue          => 'QueueID',
-        CustomerID     => 'CustomerID',
-        CustomerUserID => 'CustomerUserID',
-        Owner          => 'OwnerID',
-        SLA            => 'SLAID',
-        Service        => 'ServiceID',
-        Responsible    => 'ResponsibleID',
-        PendingTime    => 'PendingTime',
-        Title          => 'Title',
+        State       => 'StateID',
+        Priority    => 'PriorityID',
+        Lock        => 'LockID',
+        Queue       => 'QueueID',
+        CustomerID  => 'CustomerID',
+        Owner       => 'OwnerID',
+        SLA         => 'SLAID',
+        Service     => 'ServiceID',
+        Responsible => 'ResponsibleID',
+        PendingTime => 'PendingTime',
+        Title       => 'Title',
     };
 
     my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
