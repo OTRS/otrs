@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.29 2012-06-09 02:50:05 cr Exp $
+# $Id: AdminSMIME.dtl,v 1.30 2012-08-30 04:10:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,7 +183,7 @@
                 <fieldset class="TableLike">
                     <label class="Mandatory" for="File"><span class="Marker">*</span> $Text{"File"}:</label>
                     <div class="Field">
-                        <input type="file" size="10" name="FileUpload" id="FileUpload" class="Validate_Required $QData{"FileUploadInvalid"}"/>
+                        <input type="file" size="30" name="FileUpload" id="FileUpload" class="Validate_Required $QData{"FileUploadInvalid"}"/>
                         <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
