@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.52 2012-08-29 10:20:56 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.53 2012-08-31 07:49:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -768,14 +768,17 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('.FieldDetailsOverlay').unbind('click').bind('click', function () {
             var FieldID = $(this).data('entity'),
                 FieldConfig = $(this).closest('li').data('config'),
-                $Element = $(this);
+                $Element = $(this),
+                MandatoryFields = ['Queue', 'State', 'Lock', 'Priority'],
+                FieldsWithoutDefaultValue = ['CustomerID'],
+                Fieldname = $(this).closest('li').clone().find('span').remove().end().text().trim();
             
             if (typeof FieldConfig === 'string') {
                 FieldConfig = Core.JSON.Parse(FieldConfig);
             }
             
             // Set field values
-            $('#DialogFieldName').text($(this).closest('li').clone().find('span').remove().end().text());
+            $('#DialogFieldName').text(Fieldname);
             
             // Open dialog
             Core.UI.Dialog.ShowContentDialog(
@@ -815,6 +818,18 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#DescLong').val(FieldConfig.DescriptionLong);
                 $('#DefaultValue').val(FieldConfig.DefaultValue);
                 $('#Display').val(FieldConfig.Display);
+            }
+            
+            // some fields must be mandatory, if they are present.
+            // remove option from dropdown for these fields
+            if ($.inArray(Fieldname, MandatoryFields) > -1) {
+                $('#Display').find('option[value=1]').remove();
+            }
+            
+            // some fields do not have a default value.
+            // disable the input field
+            if ($.inArray(Fieldname, FieldsWithoutDefaultValue) > -1) {
+                $('#DefaultValue').prop('readonly', true).prop('disabled', true);
             }
 
             return false;
