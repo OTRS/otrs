@@ -2,7 +2,7 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.37 2012-08-31 08:17:50 mab Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.38 2012-08-31 08:41:57 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ $Data{"Notification"}
 <!-- dtl:block:ItemAreaSub -->
             <ul>
 <!-- dtl:block:ItemAreaSubItem -->
-                <li><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a></li>
+                <li><a class="$QData{"Class"}" href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:ItemAreaSubItem -->
                 <li class="Footer"></li>
             </ul>

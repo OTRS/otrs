@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -109,7 +109,7 @@
     background-color: #aaa;
 }
 
-#Navigation > ul > li > ul a:hover {
+#Navigation > ul > li > ul a:hover, #Navigation > ul > li > ul a.SubSelected {
     background-color: #ddd;
 }
 
