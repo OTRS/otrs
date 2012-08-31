@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.403 2012-08-21 21:25:31 cr Exp $
+# $Id: Layout.pm,v 1.404 2012-08-31 08:17:50 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.403 $) [1];
+$VERSION = qw($Revision: 1.404 $) [1];
 
 =head1 NAME
 
@@ -3608,7 +3608,18 @@ sub CustomerNavigationBar {
 
                 $Item->{Prio}++;
             }
-            $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
+
+            # show as main menu
+            if ( $Item->{Type} eq 'Menu' ) {
+                $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
+            }
+
+            # show as sub of main menu
+            else {
+                $NavBarModule{Sub}->{ $Item->{NavBar} }->{ sprintf( "%07d", $Item->{Prio} ) }
+                    = $Item;
+            }
+
         }
     }
 
@@ -3639,14 +3650,22 @@ sub CustomerNavigationBar {
     my $Total   = keys %NavBarModule;
     my $Counter = 0;
 
+    if ( $NavBarModule{Sub} ) {
+        $Total = int($Total) - 1;
+    }
+
     # Only highlight the first matched navigation entry. If there are several entries
     #   with the same Action and Subaction, it cannot be determined which one was used.
     #   Therefore we just highlight the first one.
     my $SelectedFlag;
-
     for my $Item ( sort keys %NavBarModule ) {
         next if !%{ $NavBarModule{$Item} };
+        next if $Item eq 'Sub';
         $Counter++;
+        my $Sub;
+        if ( $NavBarModule{$Item}->{NavBar} ) {
+            $Sub = $NavBarModule{Sub}->{ $NavBarModule{$Item}->{NavBar} };
+        }
 
         # highlight active link
         $NavBarModule{$Item}->{Class} = '';
@@ -3668,6 +3687,40 @@ sub CustomerNavigationBar {
             Name => $NavBarModule{$Item}->{Block} || 'Item',
             Data => $NavBarModule{$Item},
         );
+
+        # show sub menu
+        next if !$Sub;
+        $Self->Block(
+            Name => 'ItemAreaSub',
+            Data => $Item,
+        );
+        for my $Key ( sort keys %{$Sub} ) {
+            my $ItemSub = $Sub->{$Key};
+            $ItemSub->{NameForID} = $ItemSub->{Name};
+            $ItemSub->{NameForID} =~ s/[ &;]//ig;
+            $ItemSub->{NameTop} = $NavBarModule{$Item}->{NameForID};
+
+            # check if we must mark the parent element as selected
+            if ( $ItemSub->{Link} ) {
+                if (
+                    !$SelectedFlag
+                    && $ItemSub->{Link} =~ /Action=$Self->{Action}/
+                    && $ItemSub->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
+                    )
+                {
+                    $NavBarModule{$Item}->{Class} .= ' Selected';
+                    $SelectedFlag = 1;
+                }
+            }
+
+            $Self->Block(
+                Name => 'ItemAreaSubItem',
+                Data => {
+                    %$ItemSub,
+                    AccessKeyReference => $ItemSub->{AccessKey} ? " ($ItemSub->{AccessKey})" : '',
+                },
+            );
+        }
     }
 
     # run notification modules
@@ -5164,6 +5217,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.403 $ $Date: 2012-08-21 21:25:31 $
+$Revision: 1.404 $ $Date: 2012-08-31 08:17:50 $
 
 =cut

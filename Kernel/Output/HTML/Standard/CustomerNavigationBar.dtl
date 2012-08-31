@@ -1,8 +1,8 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.36 2011-12-21 08:16:13 mg Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.37 2012-08-31 08:17:50 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,17 @@ $Data{"Notification"}
 <div id="Navigation">
     <ul>
 <!-- dtl:block:Item -->
-        <li class="$QData{"Class"}" title="$Text{"$Data{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a></li>
+        <li class="$QData{"Class"}" title="$Text{"$Data{"Description"}"}">
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a>
+<!-- dtl:block:ItemAreaSub -->
+            <ul>
+<!-- dtl:block:ItemAreaSubItem -->
+                <li><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a></li>
+<!-- dtl:block:ItemAreaSubItem -->
+                <li class="Footer"></li>
+            </ul>
+<!-- dtl:block:ItemAreaSub -->
+        </li>
 <!-- dtl:block:Item -->
     </ul>
     <ul class="Individual">
