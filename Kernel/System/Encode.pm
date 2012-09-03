@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.47 2011-08-12 09:06:15 mg Exp $
+# $Id: Encode.pm,v 1.48 2012-09-03 14:15:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,7 @@ use warnings;
 use Encode;
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -38,14 +37,9 @@ This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
 
 create a language object
 
-    use Kernel::Config;
     use Kernel::System::Encode;
 
-    my $ConfigObject = Kernel::Config->new();
-
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
+    my $EncodeObject = Kernel::System::Encode->new();
 
 =cut
 
@@ -55,9 +49,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed object
-    $Self->{ConfigObject} = $Param{ConfigObject} || die 'Got no ConfigObject!';
 
     # 0=off; 1=on;
     $Self->{Debug} = 0;
@@ -358,6 +349,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.48 $ $Date: 2012-09-03 14:15:08 $
 
 =cut
