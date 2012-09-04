@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.485 2012-07-23 07:56:17 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.486 2012-09-04 08:23:07 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3926,10 +3926,50 @@ via the Preferences button after logging in.
                     <LinkOption></LinkOption>
                     <NavBar>Dashboard</NavBar>
                     <Type>Menu</Type>
-                    <Description Translatable="1"></Description>
                     <Block>ItemArea</Block>
                     <AccessKey>d</AccessKey>
                     <Prio>50</Prio>
+                </NavBar>
+                <Loader>
+                    <JavaScript>thirdparty/flot-0.7/excanvas.js</JavaScript>
+                    <JavaScript>thirdparty/flot-0.7/jquery.flot.js</JavaScript>
+                    <JavaScript>Core.UI.Chart.js</JavaScript>
+                    <JavaScript>Core.UI.DnD.js</JavaScript>
+                    <JavaScript>Core.Agent.Dashboard.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentCustomerInformationCenter" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Customer Information Center</Description>
+                <Title></Title>
+                <NavBarName>Customer Information Center</NavBarName>
+                <NavBar>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Customer Information Center</Name>
+                    <Link>Action=AgentCustomerInformationCenter</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Customers</NavBar>
+                    <Type></Type>
+                    <Block>ItemArea</Block>
+                    <AccessKey>c</AccessKey>
+                    <Prio>50</Prio>
+                </NavBar>
+                <NavBar>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Customers</Name>
+                    <Link>Action=AgentCustomerInformationCenter</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Customers</NavBar>
+                    <Type>Menu</Type>
+                    <Block>ItemArea</Block>
+                    <AccessKey>c</AccessKey>
+                    <Prio>60</Prio>
                 </NavBar>
                 <Loader>
                     <JavaScript>thirdparty/flot-0.7/excanvas.js</JavaScript>
@@ -4169,12 +4209,12 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Customers</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
-                    <Name Translatable="1">Customers</Name>
+                    <Name Translatable="1">Customer User Administration</Name>
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
                     <Description Translatable="1"></Description>
-                    <Type>Menu</Type>
+                    <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey>c</AccessKey>
                     <Prio>9000</Prio>
@@ -4205,12 +4245,12 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Customer Companies</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBar>
-                    <Name Translatable="1">Companies</Name>
+                    <Name Translatable="1">Customer Company Administration</Name>
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <LinkOption></LinkOption>
-                    <NavBar>Companies</NavBar>
+                    <NavBar>Customers</NavBar>
                     <Description Translatable="1"></Description>
-                    <Type>Menu</Type>
+                    <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey>c</AccessKey>
                     <Prio>9100</Prio>

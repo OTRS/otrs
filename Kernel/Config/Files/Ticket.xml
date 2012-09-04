@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.516 2012-08-31 08:17:50 mab Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.517 2012-09-04 08:23:07 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -4931,6 +4931,108 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTL">2</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0100-CustomerInformationCenter-TicketPendingReminder" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">Reminder Tickets</Item>
+                <Item Key="Description">All tickets with a reminder set where the reminder date has been reached</Item>
+                <Item Key="Attributes">TicketPendingTimeOlderMinutes=1;StateType=pending reminder;SortBy=PendingTime;OrderBy=Down;</Item>
+                <Item Key="Filter">Locked</Item>
+                <Item Key="Time">UntilTime</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0110-CustomerInformationCenter-TicketEscalation" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">Escalated Tickets</Item>
+                <Item Key="Description">All escalated tickets</Item>
+                <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
+                <Item Key="Filter">All</Item>
+                <Item Key="Time">EscalationTime</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0120-CustomerInformationCenter-TicketNew" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">New Tickets</Item>
+                <Item Key="Description">All new tickets, these tickets have not been worked on yet</Item>
+                <Item Key="Attributes">StateType=new;</Item>
+                <Item Key="Filter">All</Item>
+                <Item Key="Time">Age</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0130-CustomerInformationCenter-TicketOpen" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">Open Tickets / Need to be answered</Item>
+                <Item Key="Description">All open tickets, these tickets have already been worked on, but need a response</Item>
+                <Item Key="Attributes">StateType=open;</Item>
+                <Item Key="Filter">All</Item>
+                <Item Key="Time">Age</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0250-CustomerInformationCenter-TicketStats" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketStatsGeneric</Item>
+                <Item Key="Title">7 Day Stats</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="Closed">1</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">30</Item>
             </Hash>
         </Setting>
     </ConfigItem>
