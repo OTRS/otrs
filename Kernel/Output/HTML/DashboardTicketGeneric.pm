@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.47 2012-04-18 19:42:29 cr Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.48 2012-09-04 11:04:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,12 +69,6 @@ sub new {
 
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
-    $Self->{CacheKey}
-        = $Self->{Name} . '-'
-        . $Self->{PageShown} . '-'
-        . $Self->{StartHit} . '-'
-        . $Self->{UserID};
-
     return $Self;
 }
 
@@ -127,6 +121,11 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $CacheKey = $Self->{Name} . '-'
+        . $Self->{PageShown} . '-'
+        . $Self->{StartHit} . '-'
+        . $Self->{UserID};
+
     # get all search base attributes
     my %TicketSearch;
     my %DynamicFieldsParameters;
@@ -176,6 +175,12 @@ sub Run {
         UserID => $Self->{UserID},
     );
 
+    # CustomerInformationCenter shows data per CustomerID
+    if ( $Param{CustomerID} ) {
+        $TicketSearch{CustomerID} = $Param{CustomerID};
+        $CacheKey .= '-' . $Param{CustomerID};
+    }
+
     # define filter attributes
     my @MyQueues = $Self->{QueueObject}->GetAllCustomQueues(
         UserID => $Self->{UserID},
@@ -213,7 +218,7 @@ sub Run {
     # check cache
     my $TicketIDs = $Self->{CacheObject}->Get(
         Type => 'Dashboard',
-        Key  => $Self->{CacheKey} . '-' . $Self->{Filter} . '-List',
+        Key  => $CacheKey . '-' . $Self->{Filter} . '-List',
     );
 
     # find and show ticket list
@@ -232,7 +237,7 @@ sub Run {
     # check cache
     my $Summary = $Self->{CacheObject}->Get(
         Type => 'Dashboard',
-        Key  => $Self->{CacheKey} . '-Summary',
+        Key  => $CacheKey . '-Summary',
     );
 
     # if no cache or new list result, do count lookup
@@ -251,13 +256,13 @@ sub Run {
     if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
         $Self->{CacheObject}->Set(
             Type  => 'Dashboard',
-            Key   => $Self->{CacheKey} . '-Summary',
+            Key   => $CacheKey . '-Summary',
             Value => $Summary,
             TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
         $Self->{CacheObject}->Set(
             Type  => 'Dashboard',
-            Key   => $Self->{CacheKey} . '-' . $Self->{Filter} . '-List',
+            Key   => $CacheKey . '-' . $Self->{Filter} . '-List',
             Value => $TicketIDs,
             TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
