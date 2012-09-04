@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerInformationCenter.pm - customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenter.pm,v 1.1 2012-09-04 08:23:07 mg Exp $
+# $Id: AgentCustomerInformationCenter.pm,v 1.2 2012-09-04 13:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Cache;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -441,6 +442,24 @@ sub Run {
     }
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    # build main menu
+    my $MainMenuConfig = $Self->{ConfigObject}->Get('AgentCustomerInformationCenter::MainMenu');
+    if ( IsHashRefWithData($MainMenuConfig) ) {
+        $Self->{LayoutObject}->Block( Name => 'MainMenu' );
+
+        for my $MainMenuItem ( sort keys %{$MainMenuConfig} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'MainMenuItem',
+                Data => {
+                    %{ $MainMenuConfig->{$MainMenuItem} },
+                    CustomerID => $Self->{CustomerID},
+                },
+            );
+        }
+    }
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentCustomerInformationCenter',
         Data         => \%Param,
