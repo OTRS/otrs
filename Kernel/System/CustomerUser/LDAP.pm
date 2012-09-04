@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.63 2012-08-23 10:55:44 mh Exp $
+# $Id: LDAP.pm,v 1.64 2012-09-04 08:27:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use Net::LDAP;
 
 use Kernel::System::Cache;
+use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +36,8 @@ sub new {
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
 
     # max shown user a search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 200;
@@ -649,6 +652,13 @@ sub CustomerUserDataGet {
 
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserLogin} );
+
+    # add last login timestamp
+    if ( $Preferences{UserLastLogin} ) {
+        $Preferences{UserLastLoginTimestamp} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Preferences{UserLastLogin},
+        );
+    }
 
     # cache request
     if ( $Self->{CacheObject} ) {

@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.121 2012-03-26 21:59:24 mh Exp $
+# $Id: User.pm,v 1.122 2012-09-04 08:27:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 =head1 NAME
 
@@ -264,6 +264,13 @@ sub GetUserData {
 
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
+
+    # add last login timestamp
+    if ( $Preferences{UserLastLogin} ) {
+        $Preferences{UserLastLoginTimestamp} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Preferences{UserLastLogin},
+        );
+    }
 
     # check compat stuff
     if ( !$Preferences{UserEmail} ) {
@@ -1157,6 +1164,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.121 $ $Date: 2012-03-26 21:59:24 $
+$Revision: 1.122 $ $Date: 2012-09-04 08:27:46 $
 
 =cut

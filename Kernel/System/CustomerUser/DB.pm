@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.93 2012-08-10 07:26:28 mg Exp $
+# $Id: DB.pm,v 1.94 2012-09-04 08:27:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -514,6 +514,13 @@ sub CustomerUserDataGet {
 
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
+
+    # add last login timestamp
+    if ( $Preferences{UserLastLogin} ) {
+        $Preferences{UserLastLoginTimestamp} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Preferences{UserLastLogin},
+        );
+    }
 
     # cache request
     if ( $Self->{CacheObject} ) {

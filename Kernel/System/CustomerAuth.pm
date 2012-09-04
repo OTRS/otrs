@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentication
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.36 2012-01-19 08:30:35 mg Exp $
+# $Id: CustomerAuth.pm,v 1.37 2012-09-04 08:27:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,11 @@ package Kernel::System::CustomerAuth;
 
 use strict;
 use warnings;
+
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -186,32 +187,22 @@ sub Auth {
         return;
     }
 
-    # remember login attributes
-    if (%CustomerData) {
+    return $User if !%CustomerData;
 
-        # reset failed logins
-        $Self->{CustomerUserObject}->SetPreferences(
-            Key    => 'UserLoginFailed',
-            Value  => 0,
-            UserID => $CustomerData{UserLogin},
-        );
+    # reset failed logins
+    $Self->{CustomerUserObject}->SetPreferences(
+        Key    => 'UserLoginFailed',
+        Value  => 0,
+        UserID => $CustomerData{UserLogin},
+    );
 
-        # last login preferences update
-        $Self->{CustomerUserObject}->SetPreferences(
-            Key    => 'UserLastLogin',
-            Value  => $Self->{TimeObject}->SystemTime(),
-            UserID => $CustomerData{UserLogin},
-        );
+    # last login preferences update
+    $Self->{CustomerUserObject}->SetPreferences(
+        Key    => 'UserLastLogin',
+        Value  => $Self->{TimeObject}->SystemTime(),
+        UserID => $CustomerData{UserLogin},
+    );
 
-        # last login preferences update
-        $Self->{CustomerUserObject}->SetPreferences(
-            Key    => 'UserLastLoginTimestamp',
-            Value  => $Self->{TimeObject}->CurrentTimestamp(),
-            UserID => $CustomerData{UserLogin},
-        );
-    }
-
-    # return user
     return $User;
 }
 
@@ -231,6 +222,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2012-01-19 08:30:35 $
+$Revision: 1.37 $ $Date: 2012-09-04 08:27:46 $
 
 =cut
