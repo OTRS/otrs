@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.99 2012-01-17 10:02:51 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.100 2012-09-06 08:31:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -684,6 +684,9 @@ sub _Edit {
             $Param{RequiredLabelCharacter} = '';
         }
 
+        # set empty string
+        $Param{Errors}->{ $Entry->[0] . 'Invalid' } ||= '';
+
         # add class to validate emails
         if ( $Entry->[0] eq 'UserEmail' ) {
             $Param{RequiredClass} .= ' Validate_Email';
@@ -708,15 +711,14 @@ sub _Edit {
                     = $Self->{EncodeObject}->EncodeInput( $SelectionsData->{$Key} );
             }
 
+            # build option string
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                 Data        => $SelectionsData,
                 Name        => $Entry->[0],
                 Translation => 0,
                 SelectedID  => $Param{ $Entry->[0] },
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' }
-                    || '',
+                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
-
         }
         elsif ( $Entry->[0] =~ /^ValidID/i ) {
 
@@ -731,8 +733,7 @@ sub _Edit {
                 Data       => { $Self->{ValidObject}->ValidList(), },
                 Name       => $Entry->[0],
                 SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
-                Class => $Param{RequiredClass} || ''
-                    . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '',
+                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         elsif (
@@ -758,13 +759,13 @@ sub _Edit {
             if ( $Param{RequiredClass} ) {
                 $Param{RequiredClass} = 'Validate_Required';
             }
+
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%CompanyList,
                 Name       => $Entry->[0],
                 Max        => 80,
                 SelectedID => $Param{ $Entry->[0] },
-                Class      => $Param{RequiredClass} . ' '
-                    . ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
+                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
         else {
@@ -823,41 +824,59 @@ sub _Edit {
     }
     my $PreferencesUsed = $Self->{ConfigObject}->Get( $Param{Source} )->{AdminSetPreferences};
     if ( ( defined $PreferencesUsed && $PreferencesUsed != 0 ) || !defined $PreferencesUsed ) {
+
+        # extract groups
         my @Groups = @{ $Self->{ConfigObject}->Get('CustomerPreferencesView') };
+
         for my $Column (@Groups) {
+
             my %Data;
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
+
+            GROUP:
             for my $Group ( keys %Preferences ) {
-                if ( $Preferences{$Group}->{Column} eq $Column ) {
-                    if ( $Data{ $Preferences{$Group}->{Prio} } ) {
-                        for ( 1 .. 151 ) {
-                            $Preferences{$Group}->{Prio}++;
-                            if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
-                                $Data{ $Preferences{$Group}->{Prio} } = $Group;
-                                last;
-                            }
-                        }
+
+                next GROUP if !$Group;
+                next GROUP if !$Preferences{$Group}->{Column};
+                next GROUP if $Preferences{$Group}->{Column} ne $Column;
+
+                if ( $Data{ $Preferences{$Group}->{Prio} } ) {
+
+                    COUNT:
+                    for my $Count ( 1 .. 151 ) {
+
+                        $Preferences{$Group}->{Prio}++;
+
+                        next COUNT if $Data{ $Preferences{$Group}->{Prio} };
+
+                        $Data{ $Preferences{$Group}->{Prio} } = $Group;
+
+                        last COUNT;
                     }
-                    $Data{ $Preferences{$Group}->{Prio} } = $Group;
                 }
+
+                $Data{ $Preferences{$Group}->{Prio} } = $Group;
             }
 
             # sort
             for my $Key ( keys %Data ) {
-                $Data{ sprintf( "%07d", $Key ) } = $Data{$Key};
+                $Data{ sprintf "%07d", $Key } = $Data{$Key};
                 delete $Data{$Key};
             }
 
             # show each preferences setting
             for my $Prio ( sort keys %Data ) {
+
                 my $Group = $Data{$Prio};
                 if ( !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} ) {
                     next;
                 }
+
                 my %Preference = %{ $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} };
                 if ( $Group eq 'Password' ) {
                     next;
                 }
+
                 my $Module = $Preference{Module}
                     || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
 
@@ -903,7 +922,6 @@ sub _Edit {
                 }
             }
         }
-
     }
 
     if ( $Param{Nav} eq 'None' ) {
@@ -912,7 +930,7 @@ sub _Edit {
 
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminCustomerUser',
-        Data         => \%Param
+        Data         => \%Param,
     );
 }
 
