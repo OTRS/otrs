@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.64 2012-06-28 21:52:01 mb Exp $
+# $Id: CustomerUser.pm,v 1.65 2012-09-06 14:17:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -153,18 +153,27 @@ sub CustomerSourceList {
 
 to search users
 
+    # text search
     my %List = $CustomerUserObject->CustomerSearch(
         Search => '*some*', # also 'hans+huber' possible
         Valid  => 1, # not required, default 1
     );
 
+    # username search
     my %List = $CustomerUserObject->CustomerSearch(
         UserLogin => '*some*',
         Valid     => 1, # not required, default 1
     );
 
+    # email search
     my %List = $CustomerUserObject->CustomerSearch(
         PostMasterSearch => 'email@example.com',
+        Valid            => 1, # not required, default 1
+    );
+
+    # search by CustomerID
+    my %List = $CustomerUserObject->CustomerSearch(
+        CustomerID       => 'CustomerID123',
         Valid            => 1, # not required, default 1
     );
 
@@ -694,6 +703,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2012-06-28 21:52:01 $
+$Revision: 1.65 $ $Date: 2012-09-06 14:17:03 $
 
 =cut

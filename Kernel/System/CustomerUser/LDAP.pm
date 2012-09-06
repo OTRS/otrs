@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.64 2012-09-04 08:27:46 mh Exp $
+# $Id: LDAP.pm,v 1.65 2012-09-06 14:17:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -281,10 +281,11 @@ sub CustomerSearch {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
+    if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} && !$Param{CustomerID} )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Need Search, UserLogin or PostMasterSearch!'
+            Message  => 'Need Search, UserLogin, PostMasterSearch or CustomerID!'
         );
         return;
     }
@@ -326,6 +327,9 @@ sub CustomerSearch {
     }
     elsif ( $Param{UserLogin} ) {
         $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
+    }
+    elsif ( $Param{CustomerID} ) {
+        $Filter = "($Self->{CustomerID}=$Param{CustomerID})";
     }
 
     # prepare filter
