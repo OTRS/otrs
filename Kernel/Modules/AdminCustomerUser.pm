@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.99 2012-01-17 10:02:51 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.99.2.1 2012-09-06 08:30:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.99.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -684,6 +684,9 @@ sub _Edit {
             $Param{RequiredLabelCharacter} = '';
         }
 
+        # set empty string
+        $Param{Errors}->{ $Entry->[0] . 'Invalid' } ||= '';
+
         # add class to validate emails
         if ( $Entry->[0] eq 'UserEmail' ) {
             $Param{RequiredClass} .= ' Validate_Email';
@@ -708,15 +711,16 @@ sub _Edit {
                     = $Self->{EncodeObject}->EncodeInput( $SelectionsData->{$Key} );
             }
 
+            $Param{RequiredClass} ||= '';
+
+            # build option string
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                 Data        => $SelectionsData,
                 Name        => $Entry->[0],
                 Translation => 0,
                 SelectedID  => $Param{ $Entry->[0] },
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' }
-                    || '',
+                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
-
         }
         elsif ( $Entry->[0] =~ /^ValidID/i ) {
 
@@ -828,6 +832,7 @@ sub _Edit {
             my %Data;
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
             for my $Group ( keys %Preferences ) {
+                $Preferences{$Group}->{Column} ||= '';
                 if ( $Preferences{$Group}->{Column} eq $Column ) {
                     if ( $Data{ $Preferences{$Group}->{Prio} } ) {
                         for ( 1 .. 151 ) {
