@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -18,6 +18,12 @@
 
 .TicketZoom .Content {
     padding: 8px 10px 0;
+}
+
+.TicketHeader {
+    width: 80%;
+    overflow: hidden;
+    position: relative;
 }
 
 .TicketHeader h2 {
@@ -85,10 +91,35 @@
     display: block;
 }
 
-#Metadata {
-    padding: 9px 8px 2px;
+#Metadata, #Activities {
     line-height: 20px;
     float: right;
+    margin-right: 5px;
+    width: 18%;
+    padding: 0px 0px 7px 0px;
+    border: 1px solid #E9E9E9;
+    border-bottom: 1px solid #DDD;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 3px #EEE;
+    -moz-box-shadow: 0 0 3px #EEE;
+    box-shadow: 0 0 2px #EEE;
+}
+
+#Activities {
+    margin-top: 20px;
+    padding: 0px;
+}
+
+#Activities li {
+    padding: 3px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#Activities li:last-child {
+    border-bottom: 0px;
 }
 
 .RTL #Metadata {
@@ -96,19 +127,40 @@
 }
 
 #Metadata li {
-    margin: 0 5px;
-    float: left;
+    padding: 2px 10px;
 }
 
-.RTL #Metadata li {
-    float: right;
+#Metadata li.Header {
+    padding: 0px;
+    margin-bottom: 7px;
+}
+
+#Activities li.Header {
+    padding: 0px;
+}
+
+#Metadata li.Header div.MessageHeader,
+#Activities li.Header div.MessageHeader {
+    padding: 2px 10px 1px 10px;
 }
 
 #Metadata li .Key {
     color: #666;
 }
 
-#Metadata .Print {
+#TicketOptions {
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    overflow: hidden;
+}
+
+#TicketOptions li {
+    float: left;
+    margin-left: 5px;
+}
+
+#TicketOptions .Print {
     width: 16px;
     height: 16px;
     margin: 0 0 0 2px;
@@ -118,11 +170,11 @@
     display: block;
 }
 
-.RTL #Metadata .Print {
+.RTL #TicketOptions .Print {
     margin: -2px 4px 0 0;
 }
 
-#Metadata .ZoomExpandOne {
+#TicketOptions .ZoomExpandOne {
     width: 16px;
     height: 16px;
     margin: 0 0 0 2px;
@@ -132,11 +184,11 @@
     display: block;
 }
 
-.RTL #Metadata .ZoomExpandOne {
+.RTL #TicketOptions .ZoomExpandOne {
     margin: -2px 4px 0 0;
 }
 
-#Metadata .ZoomExpandAll {
+#TicketOptions .ZoomExpandAll {
     width: 16px;
     height: 16px;
     margin: 0 0 0 2px;
@@ -146,7 +198,7 @@
     display: block;
 }
 
-.RTL #Metadata .ZoomExpandAll {
+.RTL #TicketOptions .ZoomExpandAll {
     margin: -2px 4px 0 0;
 }
 
@@ -171,6 +223,8 @@
     box-shadow: 0 0 2px #EEE;
     position: relative;
     z-index: 10;
+    width: 80%;
+    float: left;
 }
 
 #Messages li {

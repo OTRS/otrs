@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.122 2012-08-17 08:52:52 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.123 2012-09-06 09:30:56 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,54 +26,7 @@
                 $QData{"Title","65"}
                 <span class="TicketHook">$QData{"TicketNumber"}</span>
             </h2>
-            <ul id="Metadata">
-<!-- dtl:block:Type -->
-                <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
-<!-- dtl:block:Type -->
-<!-- dtl:block:Service -->
-                <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}","18"}</span></li>
-<!-- dtl:block:Service -->
-<!-- dtl:block:SLA -->
-                <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}","18"}</span></li>
-<!-- dtl:block:SLA -->
-<!-- dtl:block:State -->
-                <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","18"}</span></li>
-<!-- dtl:block:State -->
-<!-- dtl:block:Priority -->
-                <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}","18"}</span></li>
-<!-- dtl:block:Priority -->
-<!-- dtl:block:Queue -->
-                <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
-<!-- dtl:block:Queue -->
-<!-- dtl:block:Owner -->
-                <li><span class="Key">$Text{"Owner"}:</span> <span title="$QData{"Owner"}">$QData{"Owner"}</span></li>
-<!-- dtl:block:Owner -->
-<!-- dtl:block:Responsible -->
-                <li><span class="Key">$Text{"Responsible"}:</span> <span title="$QData{"Responsible"}">$QData{"Responsible"}</span></li>
-<!-- dtl:block:Responsible -->
-
-# show ticket dynamic fields
-<!-- dtl:block:TicketDynamicField -->
-                <li>
-                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-                    <span title="$QData{"Title"}">$Data{"Value"}</span>
-                </li>
-<!-- dtl:block:TicketDynamicField -->
-# example of how to use fixed dynamic field blocks for customizations
-# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
-# field names
-#<!-- dtl:block:TicketDynamicField_Field1 -->
-#                <li>
-#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-#                    <span title="$QData{"Title1"}">$Data{"Value"}</span>
-#                </li>
-#<!-- dtl:block:TicketDynamicField_Field1 -->
-#<!-- dtl:block:TicketDynamicField_Field2 -->
-#                <li>
-#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-#                    <span title="$QData{"Title2"}">$Data{"Value"}</span>
-#                </li>
-#<!-- dtl:block:TicketDynamicField_Field2 -->
+            <ul id="TicketOptions">
 
 <!-- dtl:block:Print -->
                 <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$LQData{"TicketID"}" class="Print AsPopup" title="$Text{"Print"}">$Text{"Print"}</a></li>
@@ -85,7 +38,6 @@
                     <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="$QData{"ZoomExpand"}" />
                 </li>
 <!-- dtl:block:Expand -->
-
             </ul>
             <div class="Clear"></div>
         </div>
@@ -191,6 +143,78 @@
                 </li>
 <!-- dtl:block:Article -->
             </ul> <!-- /Messages -->
+
+            <ul id="Metadata">
+                <li class="Header">
+                    <div class="MessageHeader">
+                        <h3>$Text{"Information"}</h3>
+                        <div class="Clear"></div>
+                    </div>
+                </li>
+
+<!-- dtl:block:Type -->
+                <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
+<!-- dtl:block:Type -->
+<!-- dtl:block:Service -->
+                <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}","18"}</span></li>
+<!-- dtl:block:Service -->
+<!-- dtl:block:SLA -->
+                <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}","18"}</span></li>
+<!-- dtl:block:SLA -->
+<!-- dtl:block:State -->
+                <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","18"}</span></li>
+<!-- dtl:block:State -->
+<!-- dtl:block:Priority -->
+                <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}","18"}</span></li>
+<!-- dtl:block:Priority -->
+<!-- dtl:block:Queue -->
+                <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
+<!-- dtl:block:Queue -->
+<!-- dtl:block:Owner -->
+                <li><span class="Key">$Text{"Owner"}:</span> <span title="$QData{"Owner"}">$QData{"Owner"}</span></li>
+<!-- dtl:block:Owner -->
+<!-- dtl:block:Responsible -->
+                <li><span class="Key">$Text{"Responsible"}:</span> <span title="$QData{"Responsible"}">$QData{"Responsible"}</span></li>
+<!-- dtl:block:Responsible -->
+
+# show ticket dynamic fields
+<!-- dtl:block:TicketDynamicField -->
+                <li>
+                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
+                    <span title="$QData{"Title"}">$Data{"Value"}</span>
+                </li>
+<!-- dtl:block:TicketDynamicField -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:TicketDynamicField_Field1 -->
+#                <li>
+#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                    <span title="$QData{"Title1"}">$Data{"Value"}</span>
+#                </li>
+#<!-- dtl:block:TicketDynamicField_Field1 -->
+#<!-- dtl:block:TicketDynamicField_Field2 -->
+#                <li>
+#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                    <span title="$QData{"Title2"}">$Data{"Value"}</span>
+#                </li>
+#<!-- dtl:block:TicketDynamicField_Field2 -->
+
+            </ul>
+<!-- dtl:block:NextActivities -->
+            <ul id="Activities">
+                <li class="Header">
+                    <div class="MessageHeader">
+                        <h3>$Text{"Next Activities"}</h3>
+                        <div class="Clear"></div>
+                    </div>
+                </li>
+                <li><a href="">Activity Name 1</a></li>
+                <li><a href="">Activity Name 2 mit langem Namen, der &uuml;ber mehrere Zeilen geht</a></li>
+                <li><a href="">Activity Name 3</a></li>
+            </ul>
+<!-- dtl:block:NextActivities -->
+
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
@@ -272,6 +296,7 @@
             </div>
 <!-- dtl:block:FollowUp -->
         </form>
+
     </div>
 </div>
 <!-- dtl:js_on_document_complete -->
