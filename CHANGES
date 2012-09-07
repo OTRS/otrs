@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2415 2012-08-28 08:18:04 mg Exp $
+# $Id: CHANGES,v 1.2416 2012-09-07 09:24:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,6 +82,9 @@
  - 2012-05-07 Fixed bug#8196 - Wrong article sender type for web service tickets.
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
+
+3.1.11 2012-??-??
+ - 2012-09-07 Improved caching of search results when the result set is empty.
 
 3.1.10 2012-08-30
  - 2012-08-28 Improved HTML security filter to detect tag nesting.
