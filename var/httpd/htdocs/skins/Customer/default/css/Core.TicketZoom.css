@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -91,11 +91,16 @@
     display: block;
 }
 
+#ZoomSidebar {
+    float: right;
+    width: 18%;
+}
+
 #Metadata, #Activities {
     line-height: 20px;
     float: right;
     margin-right: 5px;
-    width: 18%;
+    width: 100%;
     padding: 0px 0px 7px 0px;
     border: 1px solid #E9E9E9;
     border-bottom: 1px solid #DDD;
@@ -311,6 +316,29 @@
 
 #Messages li.Visible .MessageBody {
     height: auto;
+}
+
+#NoArticles {
+    border: 1px solid #E9E9E9;
+    border-bottom: 1px solid #DDD;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 3px #EEE;
+    -moz-box-shadow: 0 0 3px #EEE;
+    box-shadow: 0 0 2px #EEE;
+    position: relative;
+    z-index: 10;
+    width: 80%;
+    float: left;
+}
+
+#NoArticles li {
+    line-height: 30px;
+    padding: 2px 10px;
+    border-top: 1px solid #FFF;
+    position: relative;
 }
 
 .SeperatorRow {

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.90 2012-07-06 04:25:17 cg Exp $
+# $Id: CustomerTicketZoom.pm,v 1.91 2012-09-07 20:29:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,15 @@ use Kernel::System::State;
 use Kernel::System::User;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::ProcessManagement::Activity;
+use Kernel::System::ProcessManagement::ActivityDialog;
+use Kernel::System::ProcessManagement::Process;
+use Kernel::System::ProcessManagement::Transition;
+use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,6 +73,22 @@ sub new {
 
     # get dynamic field config for frontend module
     $Self->{DynamicFieldFilter} = $Self->{Config}->{DynamicField};
+
+    # create additional objects for process management
+    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(%Param);
+    $Self->{ActivityDialogObject}
+        = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
+
+    $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(%Param);
+    $Self->{TransitionActionObject}
+        = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
+
+    $Self->{ProcessObject} = Kernel::System::ProcessManagement::Process->new(
+        %Param,
+        ActivityObject         => $Self->{ActivityObject},
+        TransitionObject       => $Self->{TransitionObject},
+        TransitionActionObject => $Self->{TransitionActionObject},
+    );
 
     return $Self;
 }
@@ -115,7 +136,7 @@ sub Run {
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID      => $Self->{TicketID},
-        DynamicFields => 0,
+        DynamicFields => 1,
     );
 
     # strip html and ascii attachments of content
@@ -284,6 +305,8 @@ sub Run {
                 ArticleBox => \@ArticleBox,
                 Errors     => \%Error,
                 %Ticket,
+                TicketState   => $Ticket{State},
+                TicketStateID => $Ticket{StateID},
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -443,6 +466,8 @@ sub Run {
         TicketID   => $Self->{TicketID},
         ArticleBox => \@ArticleBox,
         %Ticket,
+        TicketState   => $Ticket{State},
+        TicketStateID => $Ticket{StateID},
         %GetParam,
     );
 
@@ -501,14 +526,9 @@ sub _Mask {
     }
 
     # build article stuff
-    my $SelectedArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
+    my $SelectedArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' ) || '';
     my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
-
-    # error screen, don't show ticket
-    if ( !@ArticleBox ) {
-        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
-    }
 
     # prepare errors!
     if ( $Param{Errors} ) {
@@ -518,36 +538,41 @@ sub _Mask {
         }
     }
 
-    # get last customer article
-    my $CounterArray = 0;
-    my $LastCustomerArticleID;
-    my $LastCustomerArticle = $#ArticleBox;
+    my $ArticleID           = '';
+    my $LastCustomerArticle = '';
+    if ( IsArrayRefWithData(@ArticleBox) ) {
 
-    my $ArticleID = '';
-    for my $ArticleTmp (@ArticleBox) {
-        my %Article = %{$ArticleTmp};
+        # get last customer article
+        my $CounterArray = 0;
+        my $LastCustomerArticleID;
+        $LastCustomerArticle = $#ArticleBox;
 
-        # if it is a customer article
-        if ( $Article{SenderType} eq 'customer' ) {
-            $LastCustomerArticleID = $Article{ArticleID};
-            $LastCustomerArticle   = $CounterArray;
+        #my $ArticleID = '';
+        for my $ArticleTmp (@ArticleBox) {
+            my %Article = %{$ArticleTmp};
+
+            # if it is a customer article
+            if ( $Article{SenderType} eq 'customer' ) {
+                $LastCustomerArticleID = $Article{ArticleID};
+                $LastCustomerArticle   = $CounterArray;
+            }
+            $CounterArray++;
+            if ( ($SelectedArticleID) && ( $SelectedArticleID eq $Article{ArticleID} ) ) {
+                $ArticleID = $Article{ArticleID};
+            }
         }
-        $CounterArray++;
-        if ( ($SelectedArticleID) && ( $SelectedArticleID eq $Article{ArticleID} ) ) {
-            $ArticleID = $Article{ArticleID};
+
+        # try to use the latest non internal agent article
+        if ( !$ArticleID ) {
+            $ArticleID         = $ArticleBox[-1]->{ArticleID};
+            $SelectedArticleID = $ArticleID;
         }
-    }
 
-    # try to use the latest non internal agent article
-    if ( !$ArticleID ) {
-        $ArticleID         = $ArticleBox[-1]->{ArticleID};
-        $SelectedArticleID = $ArticleID;
-    }
-
-    # try to use the latest customer article
-    if ( !$ArticleID && $LastCustomerArticleID ) {
-        $ArticleID         = $LastCustomerArticleID;
-        $SelectedArticleID = $ArticleID;
+        # try to use the latest customer article
+        if ( !$ArticleID && $LastCustomerArticleID ) {
+            $ArticleID         = $LastCustomerArticleID;
+            $SelectedArticleID = $ArticleID;
+        }
     }
 
     # ticket priority flag
@@ -636,6 +661,157 @@ sub _Mask {
         );
     }
 
+    # check if ticket is normal or process ticket
+    my $IsProcessTicket = $Self->{TicketObject}->TicketCheckForProcessType(
+        'TicketID' => $Self->{TicketID}
+    );
+
+    #    my $ProcessData;
+    #    my $ActivityData;
+    # show process widget  and activity dialogs on process tickets
+    if ($IsProcessTicket) {
+
+        # get the DF where the ProcessEntityID is stored
+        my $ProcessEntityIDField = 'DynamicField_'
+            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+
+        # get the DF where the AtivityEntityID is stored
+        my $ActivityEntityIDField = 'DynamicField_'
+            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+
+        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+            ProcessEntityID => $Param{$ProcessEntityIDField},
+        );
+
+        my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+            ActivityEntityID => $Param{$ActivityEntityIDField},
+        );
+
+        # output process information in the sidebar
+        $Self->{LayoutObject}->Block(
+            Name => 'ProcessData',
+            Data => {
+                Process  => $ProcessData->{Name}  || '',
+                Activity => $ActivityData->{Name} || '',
+            },
+        );
+
+        # output the process widget the the main screen
+        $Self->{LayoutObject}->Block(
+            Name => 'ProcessWidget',
+            Data => {
+                WidgetTitle => $Param{WidgetTitle},
+            },
+        );
+
+        # get next activity dialogs
+        my $NextActivityDialogs;
+        if ( $Param{$ActivityEntityIDField} ) {
+            $NextActivityDialogs = $ActivityData;
+        }
+
+        if ( IsHashRefWithData($NextActivityDialogs) ) {
+
+            # we don't need the whole Activity config,
+            # just the Activity Dialogs of the current Activity
+            %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
+
+            # ACL Check is done in the initial "Run" statement
+            # so here we can just pick the possibly reduced Activity Dialogs
+            # map and sort reformat the $NextActivityDialogs hash from it's initial form e.g.:
+            # 1 => 'AD1',
+            # 2 => 'AD3',
+            # 3 => 'AD2',
+            # to a regular array in correct order:
+            # ('AD1', 'AD3', 'AD2')
+
+            my @TmpActivityDialogList
+                = map { $NextActivityDialogs->{$_} } sort keys %{$NextActivityDialogs};
+
+            # we have to check if the current user has the needed permissions to view the
+            # different activity dialogs, so we loop over every activity dialog and check if there
+            # is a permission configured. If there is a permission configured we check this
+            # and display/hide the activity dialog link
+            my %PermissionRights;
+            my @PermissionActivityDialogList;
+            ACTIVITYDIALOGPERMISSION:
+            for my $CurrentActivityDialogEntityID (@TmpActivityDialogList) {
+
+                my $CurrentActivityDialog
+                    = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                    ActivityDialogEntityID => $CurrentActivityDialogEntityID
+                    );
+
+                # create an interface lookuplist
+                my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
+
+                next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{CustomerInterface};
+
+                if ( $CurrentActivityDialog->{Permission} ) {
+
+                    # performanceboost/cache
+                    if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                        $PermissionRights{ $CurrentActivityDialog->{Permission} }
+                            = $Self->{TicketObject}->TicketCustomerPermission(
+                            Type     => $CurrentActivityDialog->{Permission},
+                            TicketID => $Param{TicketID},
+                            UserID   => $Self->{UserID},
+                            );
+                    }
+
+                    next ACTIVITYDIALOGPERMISSION
+                        if !$PermissionRights{ $CurrentActivityDialog->{Permission} };
+                }
+
+                push @PermissionActivityDialogList, $CurrentActivityDialogEntityID;
+            }
+
+            my @PossibleActivityDialogs;
+            if (@PermissionActivityDialogList) {
+                @PossibleActivityDialogs
+                    = $Self->{TicketObject}->TicketAclActivityDialogData(
+                    ActivityDialogs => \@PermissionActivityDialogList
+                    );
+            }
+
+            # reformat the @PossibleActivityDialogs that is of the structure:
+            # @PossibleActivityDialogs = ('AD1', 'AD3', 'AD4', 'AD2');
+            # to get the same structure as in the %NextActivityDialogs
+            # e.g.:
+            # 1 => 'AD1',
+            # 2 => 'AD3',
+            %{$NextActivityDialogs}
+                = map { $_ => $PossibleActivityDialogs[ $_ - 1 ] }
+                1 .. scalar @PossibleActivityDialogs;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'NextActivities',
+            );
+
+            for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+                my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ActivityDialog',
+                    Data => {
+                        ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                        Name                   => $ActivityDialogData->{Name},
+                        ProcessEntityID        => $Param{$ProcessEntityIDField},
+                        TicketID               => $Param{TicketID},
+                    },
+                );
+            }
+
+            if ( !IsHashRefWithData($NextActivityDialogs) ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'NoActivityDialog',
+                    Data => {},
+                );
+            }
+        }
+    }
+
     # get the dynamic fields for ticket object
     my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
@@ -708,6 +884,7 @@ sub _Mask {
         },
     );
 
+    my $ShownArticles;
     my $LastSenderType = '';
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
@@ -715,6 +892,7 @@ sub _Mask {
         # check if article should be expanded (visible)
         if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
             $Article{Class} = 'Visible';
+            $ShownArticles++;
         }
 
         # do some html quoting
@@ -915,125 +1093,151 @@ sub _Mask {
         }
     }
 
-    my $ArticleOB = $ArticleBox[$LastCustomerArticle];
-    my %Article   = %$ArticleOB;
-
-    my $ArticleArray = 0;
-    for my $ArticleTmp (@ArticleBox) {
-        my %ArticleTmp1 = %$ArticleTmp;
-        if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
-            %Article = %ArticleTmp1;
-        }
-    }
-
-    # just body if html email
-    if ( $Param{ShowHTMLeMail} ) {
-
-        # generate output
-        return $Self->{LayoutObject}->Attachment(
-            Filename => $Self->{ConfigObject}->Get('Ticket::Hook')
-                . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
-            Type        => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{Charset}",
-            Content     => $Article{Body},
-        );
-    }
-
-    # check follow up permissions
-    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
-    my %State = $Self->{StateObject}->StateGet(
-        ID => $Article{StateID},
-    );
-    if (
-        $Self->{TicketObject}->TicketCustomerPermission(
-            Type     => 'update',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        && (
-            ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
-            || $State{TypeName} !~ /^close/i
-        )
-        )
-    {
-
-        # check subject
-        if ( !$Param{Subject} ) {
-            $Param{Subject} = "Re: $Param{Title}";
-        }
+    # if there are no viewvable articles show NoArticles message
+    if ( !$ShownArticles ) {
         $Self->{LayoutObject}->Block(
-            Name => 'FollowUp',
-            Data => \%Param,
+            Name => 'NoArticles',
+            Data => {},
         );
+    }
 
-        # add rich text editor
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'RichText',
-                Data => \%Param,
+    my %Article;
+    if ( IsArrayRefWithData( \@ArticleBox ) ) {
+
+        my $ArticleOB = {};
+        if ($LastCustomerArticle) {
+            $ArticleOB = $ArticleBox[$LastCustomerArticle];
+        }
+
+        %Article = %$ArticleOB;
+
+        # if no customer articles found use ticket values
+        if ( !IsHashRefWithData( \%Article ) ) {
+            %Article = %Param;
+            if ( !$Article{StateID} ) {
+                $Article{StateID} = $Param{TicketStateID}
+            }
+        }
+
+        my $ArticleArray = 0;
+        for my $ArticleTmp (@ArticleBox) {
+            my %ArticleTmp1 = %$ArticleTmp;
+            if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
+                %Article = %ArticleTmp1;
+            }
+        }
+
+        # just body if html email
+        if ( $Param{ShowHTMLeMail} ) {
+
+            # generate output
+            return $Self->{LayoutObject}->Attachment(
+                Filename => $Self->{ConfigObject}->Get('Ticket::Hook')
+                    . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
+                Type        => 'inline',
+                ContentType => "$Article{MimeType}; charset=$Article{Charset}",
+                Content     => $Article{Body},
             );
         }
 
-        # build next states string
-        if ( $Self->{Config}->{State} ) {
-            my %NextStates = $Self->{TicketObject}->TicketStateList(
-                TicketID       => $Self->{TicketID},
-                Action         => $Self->{Action},
-                CustomerUserID => $Self->{UserID},
-            );
-            my %StateSelected;
-            if ( $Param{StateID} ) {
-                $StateSelected{SelectedID} = $Param{StateID};
-            }
-            else {
-                $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
-            }
-            $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data => \%NextStates,
-                Name => 'StateID',
-                %StateSelected,
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'FollowUpState',
-                Data => \%Param,
-            );
-        }
-
-        # get priority
-        if ( $Self->{Config}->{Priority} ) {
-            my %Priorities = $Self->{TicketObject}->TicketPriorityList(
-                CustomerUserID => $Self->{UserID},
-                Action         => $Self->{Action},
-            );
-            my %PrioritySelected;
-            if ( $Param{PriorityID} ) {
-                $PrioritySelected{SelectedID} = $Param{PriorityID};
-            }
-            else {
-                $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault} || '3 normal';
-            }
-            $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data => \%Priorities,
-                Name => 'PriorityID',
-                %PrioritySelected,
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'FollowUpPriority',
-                Data => \%Param,
-            );
-        }
-
-        # show attachments
-        # get all attachments meta data
-        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
+        # check follow up permissions
+        my $FollowUpPossible
+            = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
+        my %State = $Self->{StateObject}->StateGet(
+            ID => $Article{StateID},
         );
-        for my $Attachment (@Attachments) {
-            next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        if (
+            $Self->{TicketObject}->TicketCustomerPermission(
+                Type     => 'update',
+                TicketID => $Self->{TicketID},
+                UserID   => $Self->{UserID}
+            )
+            && (
+                ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
+                || $State{TypeName} !~ /^close/i
+            )
+            )
+        {
+
+            # check subject
+            if ( !$Param{Subject} ) {
+                $Param{Subject} = "Re: $Param{Title}";
+            }
             $Self->{LayoutObject}->Block(
-                Name => 'FollowUpAttachment',
-                Data => $Attachment,
+                Name => 'FollowUp',
+                Data => \%Param,
             );
+
+            # add rich text editor
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RichText',
+                    Data => \%Param,
+                );
+            }
+
+            # build next states string
+            if ( $Self->{Config}->{State} ) {
+                my %NextStates = $Self->{TicketObject}->TicketStateList(
+                    TicketID       => $Self->{TicketID},
+                    Action         => $Self->{Action},
+                    CustomerUserID => $Self->{UserID},
+                );
+                my %StateSelected;
+                if ( $Param{StateID} ) {
+                    $StateSelected{SelectedID} = $Param{StateID};
+                }
+                else {
+                    $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
+                }
+                $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+                    Data => \%NextStates,
+                    Name => 'StateID',
+                    %StateSelected,
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'FollowUpState',
+                    Data => \%Param,
+                );
+            }
+
+            # get priority
+            if ( $Self->{Config}->{Priority} ) {
+                my %Priorities = $Self->{TicketObject}->TicketPriorityList(
+                    CustomerUserID => $Self->{UserID},
+                    Action         => $Self->{Action},
+                );
+                my %PrioritySelected;
+                if ( $Param{PriorityID} ) {
+                    $PrioritySelected{SelectedID} = $Param{PriorityID};
+                }
+                else {
+                    $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault}
+                        || '3 normal';
+                }
+                $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
+                    Data => \%Priorities,
+                    Name => 'PriorityID',
+                    %PrioritySelected,
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'FollowUpPriority',
+                    Data => \%Param,
+                );
+            }
+
+            # show attachments
+            # get all attachments meta data
+            my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+                FormID => $Self->{FormID},
+            );
+            for my $Attachment (@Attachments) {
+                next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+                $Self->{LayoutObject}->Block(
+                    Name => 'FollowUpAttachment',
+                    Data => $Attachment,
+                );
+            }
         }
     }
 

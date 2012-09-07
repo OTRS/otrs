@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.124 2012-09-07 13:16:29 mab Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.125 2012-09-07 20:25:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,45 +143,57 @@
                 </li>
 <!-- dtl:block:Article -->
             </ul> <!-- /Messages -->
-            <ul id="Metadata">
-                <li class="Header">
-                    <div class="MessageHeader">
-                        <h3>$Text{"Information"}</h3>
-                        <div class="Clear"></div>
-                    </div>
+<!-- dtl:block:NoArticles -->
+            <ul id="NoArticles">
+                <li>
+                    $Text{"This item has no articles yet."}
                 </li>
+            </ul>
+<!-- dtl:block:NoArticles -->
+            <div id="ZoomSidebar">
+                <ul id="Metadata">
+                    <li class="Header">
+                        <div class="MessageHeader">
+                            <h3>$Text{"Information"}</h3>
+                            <div class="Clear"></div>
+                        </div>
+                    </li>
 
 <!-- dtl:block:Type -->
-                <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
+                    <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
 <!-- dtl:block:Type -->
 <!-- dtl:block:Service -->
-                <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}","18"}</span></li>
+                    <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}","18"}</span></li>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}","18"}</span></li>
+                    <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}","18"}</span></li>
 <!-- dtl:block:SLA -->
 <!-- dtl:block:State -->
-                <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","18"}</span></li>
+                    <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","18"}</span></li>
 <!-- dtl:block:State -->
 <!-- dtl:block:Priority -->
-                <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}","18"}</span></li>
+                    <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}","18"}</span></li>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:Queue -->
-                <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
+                    <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
 <!-- dtl:block:Queue -->
 <!-- dtl:block:Owner -->
-                <li><span class="Key">$Text{"Owner"}:</span> <span title="$QData{"Owner"}">$QData{"Owner"}</span></li>
+                    <li><span class="Key">$Text{"Owner"}:</span> <span title="$QData{"Owner"}">$QData{"Owner"}</span></li>
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
-                <li><span class="Key">$Text{"Responsible"}:</span> <span title="$QData{"Responsible"}">$QData{"Responsible"}</span></li>
+                    <li><span class="Key">$Text{"Responsible"}:</span> <span title="$QData{"Responsible"}">$QData{"Responsible"}</span></li>
 <!-- dtl:block:Responsible -->
+<!-- dtl:block:ProcessData -->
+                    <li><span class="Key">$Text{"Process"}:</span> <span title="$QData{"Process"}">$QData{"Process"}</span></li>
+                    <li><span class="Key">$Text{"Activity"}:</span> <span title="$QData{"Activity"}">$QData{"Activity"}</span></li>
+<!-- dtl:block:ProcessData -->
 
 # show ticket dynamic fields
 <!-- dtl:block:TicketDynamicField -->
-                <li>
-                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-                    <span title="$QData{"Title"}">$Data{"Value"}</span>
-                </li>
+                    <li>
+                        <span class="Key">$Text{"$Data{"Label"}"}:</span>
+                        <span title="$QData{"Title"}">$Data{"Value"}</span>
+                    </li>
 <!-- dtl:block:TicketDynamicField -->
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
@@ -199,20 +211,24 @@
 #                </li>
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 
-            </ul>
+                </ul>
 <!-- dtl:block:NextActivities -->
-            <ul id="Activities">
-                <li class="Header">
-                    <div class="MessageHeader">
-                        <h3>$Text{"Next Activities"}</h3>
-                        <div class="Clear"></div>
-                    </div>
-                </li>
-                <li><a href="">Activity Name 1</a></li>
-                <li><a href="">Activity Name 2 mit langem Namen, der &uuml;ber mehrere Zeilen geht</a></li>
-                <li><a href="">Activity Name 3</a></li>
-            </ul>
+                <ul id="Activities">
+                    <li class="Header">
+                        <div class="MessageHeader">
+                            <h3>$Text{"Next Steps"}</h3>
+                            <div class="Clear"></div>
+                        </div>
+                    </li>
+<!-- dtl:block:ActivityDialog -->
+                    <li><a href="">$QData{"Name"}</a></li>
+<!-- dtl:block:ActivityDialog -->
+<!-- dtl:block:NoActivityDialog -->
+                    <li>$Text{"There are no further steps in this process"}</li>
+<!-- dtl:block:NoActivityDialog -->
+                </ul>
 <!-- dtl:block:NextActivities -->
+            </div>
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
