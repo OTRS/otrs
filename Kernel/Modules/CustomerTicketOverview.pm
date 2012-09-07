@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.6 2012-08-20 15:09:04 cg Exp $
+# $Id: CustomerTicketOverview.pm,v 1.7 2012-09-07 21:25:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -419,12 +419,16 @@ sub ShowTicketStatus {
         }
     }
 
+    my $NoArticle;
     if ( !%Article ) {
-        $Self->{LayoutObject}->FatalError(
-            Message => "No article found for TicketID $Param{TicketID}!"
-        );
-        return;
+        $NoArticle = 1;
     }
+
+    # get ticket info
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 0,
+    );
 
     my $Subject;
 
@@ -433,23 +437,24 @@ sub ShowTicketStatus {
         $Subject = $Article{Subject} || '';
     }
     elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-
-        # get ticket info
-        my %Ticket = $Self->{TicketObject}->TicketGet(
-            TicketID      => $TicketID,
-            DynamicFields => 0,
-        );
         $Subject = $Ticket{Title};
     }
 
-    # condense down the subject
-    $Subject = $Self->{TicketObject}->TicketSubjectClean(
-        TicketNumber => $Article{TicketNumber},
-        Subject      => $Subject,
-    );
+    # return ticket information if there is no article
+    if ($NoArticle) {
+        $Article{State}        = $Ticket{State};
+        $Article{TicketNumber} = $Ticket{TicketNumber};
+        $Article{Age}
+            = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' ) || 0;
+        $Article{Body}
+            = $Self->{LayoutObject}->{LanguageObject}->Get('This item has no articles yet.');
+    }
 
-    # return ticket
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
+    # otherwise return article information
+    else {
+        $Article{Age}
+            = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
+    }
 
     # customer info (customer name)
     if ( $Article{CustomerUserID} ) {
@@ -457,6 +462,17 @@ sub ShowTicketStatus {
             = $Self->{CustomerUserObject}->CustomerName( UserLogin => $Article{CustomerUserID}, );
         $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
     }
+
+    # if there is no subject try with Ticket title or set to Untitled
+    if ( !$Subject ) {
+        $Subject = $Ticket{Title} || 'Untitled!';
+    }
+
+    # condense down the subject
+    $Subject = $Self->{TicketObject}->TicketSubjectClean(
+        TicketNumber => $Article{TicketNumber},
+        Subject      => $Subject,
+    );
 
     # add block
     $Self->{LayoutObject}->Block(
