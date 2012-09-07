@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.48 2012-09-04 11:04:32 mg Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.49 2012-09-07 07:09:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,7 +101,7 @@ sub Config {
     my ( $Self, %Param ) = @_;
 
     # check if frontend module of link is used
-    if ( $Self->{Config}->{Link} && $Self->{Config}->{Link} =~ /Action=(.+?)(&.+?|)$/ ) {
+    if ( $Self->{Config}->{Link} && $Self->{Config}->{Link} =~ /Action=(.+?)([&;].+?|)$/ ) {
         my $Action = $1;
         if ( !$Self->{ConfigObject}->Get('Frontend::Module')->{$Action} ) {
             $Self->{Config}->{Link} = '';
