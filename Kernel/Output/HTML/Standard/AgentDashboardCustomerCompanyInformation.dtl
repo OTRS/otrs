@@ -1,0 +1,70 @@
+# --
+# AgentDashboardCustomerCompanyInformation.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardCustomerCompanyInformation.dtl,v 1.1 2012-09-07 13:16:58 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+
+<fieldset class="TableLike FixedLabelSmall">
+
+    <label>$Text{"Name"}:</label>
+    <div class="Field">
+        <a href="$Env{"Baselink"}Action=AdminCustomerCompany;Subaction=Change;CustomerID=$QData{"CustomerID"};Nav=Agent">
+            $QData{"CustomerCompanyName"}
+        </a>
+    </div>
+    <div class="Clear"></div>
+
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyStreet -->
+    <label>$Text{"Street"}:</label>
+    <div class="Field">$QData{"CustomerCompanyStreet"}</div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyStreet -->
+
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyZIP -->
+    <label>$Text{"ZIP"}:</label>
+    <div class="Field">$QData{"CustomerCompanyZIP"}</div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyZIP -->
+
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCity -->
+    <label>$Text{"City"}:</label>
+    <div class="Field">$QData{"CustomerCompanyCity"}</div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCity -->
+
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCountry -->
+    <label>$Text{"Country"}:</label>
+    <div class="Field">$QData{"CustomerCompanyCountry"}</div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCountry -->
+
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyURL -->
+    <label>$Text{"URL"}:</label>
+    <div class="Field">
+        <a href="$QData{"CustomerCompanyURL"}" target="_blank">
+            $QData{"CustomerCompanyURL"}
+        </a>
+    </div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyURL -->
+
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyComment -->
+    <label>$Text{"Comment"}:</label>
+    <div class="Field">
+        <p>$QData{"CustomerCompanyName"}</p>
+    </div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyComment -->
+
+    <label>$Text{"Validity"}:</label>
+    <div class="Field">
+        <p>$Text{"$Data{"Valid"}"}</p>
+    </div>
+    <div class="Clear"></div>
+</fieldset>

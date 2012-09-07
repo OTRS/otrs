@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.30 2012-07-10 12:06:16 mb Exp $
+# $Id: CustomerCompany.pm,v 1.31 2012-09-07 13:16:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -398,7 +398,7 @@ get list of customer companies.
         Valid => 0,
     );
 
-    my %List = $ProjectObject->ProjectList(
+    my %List = $CustomerCompanyObject->CustomerCompanyList(
         Search => '*sometext*',
         Limit  => 10,
     );
@@ -536,6 +536,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2012-07-10 12:06:16 $
+$Revision: 1.31 $ $Date: 2012-09-07 13:16:58 $
 
 =cut
