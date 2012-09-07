@@ -1,0 +1,62 @@
+# --
+# AgentDashboardCustomerUserList.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardCustomerUserList.dtl,v 1.1 2012-09-07 12:17:38 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:ContentLargeCustomerUserListNavBar -->
+<span class="Pagination">
+    $Data{"SiteNavBar"}
+</span>
+<!-- dtl:block:ContentLargeCustomerUserListNavBar -->
+
+<table class="DataTable">
+    <thead>
+        <tr>
+            <th>$Text{"Customer login"}</th>
+            <th>$Text{"Customer information"}</th>
+            <th>$Text{"Open tickets"}</th>
+            <th>$Text{"Closed tickets"}</th>
+        </tr>
+    </thead>
+    <tbody>
+<!-- dtl:block:ContentLargeCustomerUserListRow -->
+        <tr>
+            <td>
+                <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerID"};Nav=Agent" class="AsBlock MasterActionLink">
+                    $QData{"Key"}
+                </a>
+            </td>
+            <td>
+                $QData{"Value"}
+            </td>
+<!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsOpen -->
+            <td>
+                <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerUserLogin=$LQData{"CustomerKeySQL"}" title="$Text{"%s open ticket(s)", "$QData{"Count"}"}" class="AsBlock">
+                    $QData{"Count"}
+                </a>
+            </td>
+<!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsOpen -->
+<!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
+            <td>
+                <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerUserLogin=$LQData{"CustomerKeySQL"}" title="$Text{"%s closed ticket(s)", "$QData{"Count"}"}" class="AsBlock">
+                    $QData{"Count"}
+                </a>
+            </td>
+<!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
+        </tr>
+<!-- dtl:block:ContentLargeCustomerUserListRow -->
+<!-- dtl:block:ContentLargeCustomerUserListNone -->
+        <tr>
+            <td>
+                $Text{"none"}
+            </td>
+        </tr>
+<!-- dtl:block:ContentLargeCustomerUserListNone -->
+    </tbody>
+</table>

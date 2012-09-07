@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.487 2012-09-04 13:48:15 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.488 2012-09-07 12:17:38 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3987,8 +3987,27 @@ via the Preferences button after logging in.
         <SubGroup>CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Name" Translatable="1">Edit customer user</Item>
+                <Item Key="Name" Translatable="1">Edit customer company</Item>
                 <Item Key="Link">$Env{"Baselink"}Action=AdminCustomerCompany;Subaction=Change;CustomerID=$LQData{"CustomerID"};Nav=0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0050-CustomerInformationCenter-CustomerUserList" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardCustomerUserList</Item>
+                <Item Key="Title">Customer Users</Item>
+                <Item Key="Description">Customer user list of a CustomerID</Item>
+                <Item Key="Attributes"></Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
             </Hash>
         </Setting>
     </ConfigItem>
