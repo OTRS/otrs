@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.183 2012-08-17 22:34:58 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.184 2012-09-07 20:19:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.183 $) [1];
+$VERSION = qw($Revision: 1.184 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -981,6 +981,11 @@ sub MaskAgentZoom {
                     = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $CurrentActivityDialogEntityID
                     );
+
+                # create an interface lookuplist
+                my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
+
+                next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{AgentInterface};
 
                 if ( $CurrentActivityDialog->{Permission} ) {
 
