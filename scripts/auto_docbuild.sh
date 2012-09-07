@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_docbuild.sh - build automatically OTRS docu
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_docbuild.sh,v 1.8 2009-02-26 11:10:53 tr Exp $
+# $Id: auto_docbuild.sh,v 1.9 2012-09-07 13:49:16 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -17,12 +17,12 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.8 $>"
-echo "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/"
+echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.9 $>"
+echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
 PACKAGE=OTRSDOC
