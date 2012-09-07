@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.82 2012-05-08 07:46:32 mg Exp $
+# $Id: CustomerTicketSearch.pm,v 1.83 2012-09-07 22:27:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,9 +36,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{UserObject}          = Kernel::System::User->new(%Param);
@@ -230,8 +230,9 @@ sub Run {
         # store search URL in LastScreenOverview to make sure the
         # customer can use the "back" link as expected
         my $URL
-            = "Action=CustomerTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
-            . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
+            = "Action=CustomerTicketSearch;Subaction=Search;Profile=$Self->{Profile};"
+            . "SortBy=$Self->{SortBy};Order=$Self->{Order};TakeLastSearch=1;"
+            . "StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'LastScreenOverview',
@@ -276,15 +277,16 @@ sub Run {
             # do nothing with time stuff
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketCreateTimeStart$_"} <= 9 ) {
-                    $GetParam{"TicketCreateTimeStart$_"}
-                        = '0' . $GetParam{"TicketCreateTimeStart$_"};
+            for my $TimePart (qw(Month Day)) {
+                if ( $GetParam{"TicketCreateTimeStart$TimePart"} <= 9 ) {
+                    $GetParam{"TicketCreateTimeStart$TimePart"}
+                        = '0' . $GetParam{"TicketCreateTimeStart$TimePart"};
                 }
             }
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketCreateTimeStop$_"} <= 9 ) {
-                    $GetParam{"TicketCreateTimeStop$_"} = '0' . $GetParam{"TicketCreateTimeStop$_"};
+            for my $TimePart (qw(Month Day)) {
+                if ( $GetParam{"TicketCreateTimeStop$TimePart"} <= 9 ) {
+                    $GetParam{"TicketCreateTimeStop$TimePart"} = '0'
+                        . $GetParam{"TicketCreateTimeStop$TimePart"};
                 }
             }
             if (
@@ -418,14 +420,28 @@ sub Run {
             my @CSVHead;
             my @CSVData;
 
-            for (@ViewableTicketIDs) {
+            for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
                 my %Data = $Self->{TicketObject}->ArticleFirstArticle(
-                    TicketID      => $_,
+                    TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 1,
                 );
+
+                # if no article found, use ticket information
+                if ( !%Data ) {
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
+                        UserID        => $Self->{UserID},
+                    );
+                    %Data = %Ticket;
+                    $Data{Subject} = $Ticket{Title} || 'Untitled';
+                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                        'This item has no articles yet.'
+                    );
+                }
 
                 for my $Key (qw(State Lock)) {
                     $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{$Key} );
@@ -436,7 +452,7 @@ sub Run {
                 # get whole article (if configured!)
                 if ( $Self->{Config}->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
                     my @Article = $Self->{TicketObject}->ArticleGet(
-                        TicketID      => $_,
+                        TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
                     for my $Articles (@Article) {
@@ -467,7 +483,7 @@ sub Run {
                     %Data,
                     %UserInfo,
                     AccountedTime =>
-                        $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $_ ),
+                        $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID ),
                 );
 
                 # csv quote
@@ -485,11 +501,11 @@ sub Run {
                     }
                 }
                 my @Data;
-                for (@CSVHead) {
+                for my $Header (@CSVHead) {
 
                     # check if header is a dynamic field and get the value from dynamic field
                     # backend
-                    if ( $_ =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+                    if ( $Header =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
                         # loop over the dynamic fields configured for CSV output
                         DYNAMICFIELD:
@@ -504,7 +520,7 @@ sub Run {
                             # get the value for print
                             my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                                 DynamicFieldConfig => $DynamicFieldConfig,
-                                Value              => $Info{$_},
+                                Value              => $Info{$Header},
                                 HTMLOutput         => 0,
                                 LayoutObject       => $Self->{LayoutObject},
                             );
@@ -517,7 +533,7 @@ sub Run {
 
                     # otherwise retreive data from article
                     else {
-                        push @Data, $Info{$_};
+                        push @Data, $Info{$Header};
                     }
                 }
                 push @CSVData, \@Data;
@@ -570,6 +586,20 @@ sub Run {
                     Extended      => 1,
                     DynamicFields => 0,
                 );
+
+                # if no article found, use ticket information
+                if ( !%Article ) {
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
+                        UserID        => $Self->{UserID},
+                    );
+                    %Article = %Ticket;
+                    $Article{Subject} = $Ticket{Title} || 'Untitled';
+                    $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                        'This item has no articles yet.'
+                    );
+                }
 
                 # customer info
                 my %CustomerData;
@@ -729,6 +759,20 @@ sub Run {
                         Extended      => 1,
                         DynamicFields => 0,
                     );
+
+                    # if no article found, use ticket information
+                    if ( !%Article ) {
+                        my %Ticket = $Self->{TicketObject}->TicketGet(
+                            TicketID      => $TicketID,
+                            DynamicFields => 0,
+                            UserID        => $Self->{UserID},
+                        );
+                        %Article = %Ticket;
+                        $Article{Subject} = $Ticket{Title} || 'Untitled';
+                        $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                            'This item has no articles yet.'
+                        );
+                    }
 
                     # customer info
                     my %CustomerData;
