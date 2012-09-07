@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.11 2012-08-27 16:31:51 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.12 2012-09-07 20:18:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -3436,7 +3436,7 @@ sub _StoreActivityDialog {
             next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Result = $Self->_CheckField(
-                Field => $CurrentField,
+                Field => $Self->{NameToID}->{$CurrentField},
                 %{ $ActivityDialog->{Fields}{$CurrentField} },
             );
 
