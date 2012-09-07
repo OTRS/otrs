@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.123 2012-09-06 09:30:56 mab Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.124 2012-09-07 13:16:29 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,7 +143,6 @@
                 </li>
 <!-- dtl:block:Article -->
             </ul> <!-- /Messages -->
-
             <ul id="Metadata">
                 <li class="Header">
                     <div class="MessageHeader">
@@ -214,7 +213,6 @@
                 <li><a href="">Activity Name 3</a></li>
             </ul>
 <!-- dtl:block:NextActivities -->
-
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
@@ -295,6 +293,7 @@
                 <a id="ReplyButton" class="DontPrint" href="">$Text{"Reply"}</a>
             </div>
 <!-- dtl:block:FollowUp -->
+            <div class="Clear"></div>
         </form>
 
     </div>

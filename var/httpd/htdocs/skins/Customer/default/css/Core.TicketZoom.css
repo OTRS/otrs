@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -395,8 +395,9 @@
     -moz-border-radius-bottomleft: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    display: inline-block;
     position: relative;
+    width: 621px;
+    float: left;
 }
 
 #FollowUp.Visible {
@@ -404,7 +405,7 @@
 }
 
 .JavaScriptAvailable #FollowUp {
-    margin-bottom: 21px;
+    margin-bottom: 30px;
 }
 
 .JavaScriptAvailable #FollowUp #Messenger {
