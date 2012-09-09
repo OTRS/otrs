@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.92 2012-09-09 11:35:34 sb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.93 2012-09-09 11:48:35 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -540,14 +540,13 @@ sub _Mask {
 
     my $ArticleID           = '';
     my $LastCustomerArticle = '';
-    if ( IsArrayRefWithData(@ArticleBox) ) {
+    if (@ArticleBox) {
 
         # get last customer article
         my $CounterArray = 0;
         my $LastCustomerArticleID;
         $LastCustomerArticle = $#ArticleBox;
 
-        #my $ArticleID = '';
         for my $ArticleTmp (@ArticleBox) {
             my %Article = %{$ArticleTmp};
 
@@ -1103,7 +1102,7 @@ sub _Mask {
     }
 
     my %Article;
-    if ( IsArrayRefWithData( \@ArticleBox ) ) {
+    if (@ArticleBox) {
 
         my $ArticleOB = {};
         if ($LastCustomerArticle) {
