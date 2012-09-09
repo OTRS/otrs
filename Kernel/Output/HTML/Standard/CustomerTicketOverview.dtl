@@ -1,8 +1,8 @@
 # --
 # CustomerTicketOverview.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.dtl,v 1.5 2011-12-02 12:04:42 mb Exp $
+# $Id: CustomerTicketOverview.dtl,v 1.6 2012-09-09 23:25:18 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,49 @@
                             $Text{"State"}
                         </a>
                     </th>
+                    <th class="Owner $LQData{"OwnerSort"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Owner;OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">
+                            $Text{"Owner"}
+                        </a>
+                    </th>
+                    <th class="Queue $LQData{"QueueSort"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Queue;OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">
+                            $Text{"Queue"}
+                        </a>
+                    </th>
+<!-- dtl:block:OverviewNavBarPageDynamicField -->
+                    <th class="DynamicField Last $QData{"CSS"}">
+<!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">$Text{"$Data{"Label"}"}</a>
+<!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
+<!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
+                        <span>$Text{"$Data{"Label"}"}</span>
+<!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
+                    </th>
+<!-- dtl:block:OverviewNavBarPageDynamicField -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1 -->
+#                    <th class="DynamicField Last $QData{"CSS"}">
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_Sortable -->
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">$Text{"$Data{"Label"}"}</a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_Sortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
+#                        <span>$Text{"$Data{"Label"}"}</span>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
+#                    </th>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1 -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
+#                    <th class="DynamicField Last $QData{"CSS"}">
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_Sortable -->
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_Sortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
+#                        <span>$Text{"$Data{"Label"}"}</span>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
+#                    </th>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
                     <th class="Age $LQData{"AgeSort"}">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Age;OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">
                             $Text{"Age"}
@@ -65,6 +108,47 @@
                         </div>
                     </td>
                     <td class="Status" title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</td>
+                    <td class="Owner" title="$Text{"$Data{"Owner"}"}">$QData{"Owner","20"}</td>
+                    <td class="Queue" title="$Text{"$Data{"Queue"}"}">$QData{"Queue","20"}</td>
+<!-- dtl:block:RecordDynamicField -->
+                    <td>
+                        <div title="$QData{"Title"}">
+<!-- dtl:block:RecordDynamicFieldLink -->
+                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+<!-- dtl:block:RecordDynamicFieldLink -->
+<!-- dtl:block:RecordDynamicFieldPlain -->
+                            $Data{"Value"}
+<!-- dtl:block:RecordDynamicFieldPlain -->
+                        </div>
+                    </td>
+<!-- dtl:block:RecordDynamicField -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:RecordDynamicField_Field1 -->
+#                    <td>
+#                        <div title="$QData{"Title"}">
+#<!-- dtl:block:RecordDynamicField1Link -->
+#                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                            $Data{"Value"}
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                        </div>
+#                    </td>
+#<!-- dtl:block:RecordDynamicField_Field1 -->
+#<!-- dtl:block:RecordDynamicField_Field2 -->
+#                    <td>
+#                        <div title="$QData{"Title"}">
+#<!-- dtl:block:RecordDynamicField1Link -->
+#                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                            $Data{"Value"}
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                        </div>
+#                    </td>
+#<!-- dtl:block:RecordDynamicField_Field2 -->
                     <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"Age","20"}</td>
                 </tr>
 <!-- dtl:block:Record -->
