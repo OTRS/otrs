@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.91 2012-09-07 20:29:42 cr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.92 2012-09-09 11:35:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -737,10 +737,10 @@ sub _Mask {
             ACTIVITYDIALOGPERMISSION:
             for my $CurrentActivityDialogEntityID (@TmpActivityDialogList) {
 
-                my $CurrentActivityDialog
-                    = $Self->{ActivityDialogObject}->ActivityDialogGet(
-                    ActivityDialogEntityID => $CurrentActivityDialogEntityID
-                    );
+                my $CurrentActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                    ActivityDialogEntityID => $CurrentActivityDialogEntityID,
+                    Interface              => 'CustomerInterface',
+                );
 
                 # create an interface lookuplist
                 my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
@@ -791,6 +791,7 @@ sub _Mask {
             for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                    Interface              => 'CustomerInterface',
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'ActivityDialog',
@@ -1093,8 +1094,8 @@ sub _Mask {
         }
     }
 
-    # if there are no viewvable articles show NoArticles message
-    if ( !$ShownArticles ) {
+    # if there are no viewable articles show NoArticles message
+    if ( !@ArticleBox ) {
         $Self->{LayoutObject}->Block(
             Name => 'NoArticles',
             Data => {},
