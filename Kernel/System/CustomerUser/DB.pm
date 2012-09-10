@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.98 2012-09-10 12:06:42 mg Exp $
+# $Id: DB.pm,v 1.99 2012-09-10 13:43:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -312,7 +312,7 @@ sub CustomerSearch {
             Type => $Self->{CacheType},
             Key  => "CustomerSearch::$SQL",
         );
-        return %{$Users} if $Users;
+        return %{$Users} if ref $Users eq 'HASH';
     }
 
     # get data
@@ -354,7 +354,7 @@ sub CustomerUserList {
             Type => $Self->{CacheType},
             Key  => "CustomerUserList::$Valid",
         );
-        return %{$Users} if $Users;
+        return %{$Users} if ref $Users eq 'HASH';
     }
 
     # do not use valid option if no valid option is used
@@ -460,7 +460,7 @@ sub CustomerIDs {
             Type => $Self->{CacheType},
             Key  => "CustomerIDs::$Param{User}",
         );
-        return @{$CustomerIDs} if $CustomerIDs;
+        return @{$CustomerIDs} if ref $CustomerIDs eq 'ARRAY';
     }
 
     # get customer data
@@ -535,7 +535,7 @@ sub CustomerUserDataGet {
             Type => $Self->{CacheType},
             Key  => "CustomerUserDataGet::$Param{User}",
         );
-        return %{$Data} if $Data;
+        return %{$Data} if ref $Data eq 'HASH';
     }
 
     # check CustomerKey type

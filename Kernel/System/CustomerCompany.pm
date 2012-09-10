@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.32 2012-09-10 13:39:46 mg Exp $
+# $Id: CustomerCompany.pm,v 1.33 2012-09-10 13:43:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -282,7 +282,7 @@ sub CustomerCompanyGet {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
-        return %{$Data} if defined $Data;
+        return %{$Data} if ref $Data eq 'HASH';
     }
 
     # build select
@@ -464,7 +464,7 @@ sub CustomerCompanyList {
             Type => $CacheType,
             Key  => $CacheKey,
         );
-        return %{$Data} if defined $Data;
+        return %{$Data} if ref $Data eq 'HASH';
     }
 
     # what is the result
@@ -623,6 +623,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2012-09-10 13:39:46 $
+$Revision: 1.33 $ $Date: 2012-09-10 13:43:18 $
 
 =cut
