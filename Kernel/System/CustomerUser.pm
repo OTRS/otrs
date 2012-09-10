@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.65 2012-09-06 14:17:03 mg Exp $
+# $Id: CustomerUser.pm,v 1.66 2012-09-10 08:48:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -225,6 +225,37 @@ sub CustomerUserList {
         %Data = ( %Data, %SubData );
     }
     return %Data;
+}
+
+=item CustomerIDList()
+
+return a list of with all known unique CustomerIDs of the registered customers users
+
+    my @CustomerIDs = $CustomerUserObject->CustomerIDList(
+        Valid => 1, # not required
+    );
+
+=cut
+
+sub CustomerIDList {
+    my ( $Self, %Param ) = @_;
+
+    my @Data;
+    for my $Count ( '', 1 .. 10 ) {
+
+        # next if customer backend is not used
+        next if !$Self->{"CustomerUser$Count"};
+
+        # get customer list result of backend and merge it
+        push @Data, $Self->{"CustomerUser$Count"}->CustomerIDList(%Param);
+    }
+
+    # make entries unique
+    my %Tmp;
+    @Tmp{@Data} = undef;
+    @Data = sort { lc $a cmp lc $b } keys %Tmp;
+
+    return @Data;
 }
 
 =item CustomerName()
@@ -703,6 +734,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2012-09-06 14:17:03 $
+$Revision: 1.66 $ $Date: 2012-09-10 08:48:45 $
 
 =cut

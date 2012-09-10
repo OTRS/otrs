@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.23 2012-09-06 14:17:03 mg Exp $
+# $Id: CustomerUser.t,v 1.24 2012-09-10 08:48:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,6 +165,18 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     $Self->True(
         $List{$UserID},
         "CustomerSearch() - CustomerID - $UserID",
+    );
+
+    my @List = $CustomerUserObject->CustomerIDList(
+        ValidID => 1,
+    );
+
+    @List = grep { $_ eq $UserRand . '-Customer-Update-Id' } @List;
+
+    $Self->IsDeeply(
+        \@List,
+        [ $UserRand . '-Customer-Update-Id' ],
+        "CustomerIDList() - $UserID",
     );
 
     %List = $CustomerUserObject->CustomerSearch(

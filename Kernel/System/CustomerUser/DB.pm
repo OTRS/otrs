@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.95 2012-09-06 14:17:03 mg Exp $
+# $Id: DB.pm,v 1.96 2012-09-10 08:48:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -380,6 +380,51 @@ sub CustomerUserList {
         );
     }
     return %Users;
+}
+
+sub CustomerIDList {
+    my ( $Self, %Param ) = @_;
+
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Result = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType},
+            Key  => "CustomerIDList::$Valid",
+        );
+        return @{$Result} if ref $Result eq 'ARRAY';
+    }
+
+    my $SQL .= "
+        SELECT DISTINCT($Self->{CustomerID})
+        FROM $Self->{CustomerTable}";
+
+    # add valid option
+    if ( $Self->{CustomerUserMap}->{CustomerValid} && $Valid ) {
+        my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+        $SQL .= "
+            WHERE $Self->{CustomerUserMap}->{CustomerValid} IN ($ValidIDs) ";
+    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    my @Result;
+
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @Result, $Self->_ConvertFrom( $Row[0] );
+    }
+
+    # cache request
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Set(
+            Type  => $Self->{CacheType},
+            Key   => "CustomerIDList::$Valid",
+            Value => \@Result,
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
+        );
+    }
+    return @Result;
 }
 
 sub CustomerIDs {
@@ -793,6 +838,9 @@ sub CustomerUserUpdate {
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
+    if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
+        $Self->_CustomerUserCacheClear( UserLogin => $UserData{UserLogin} );
+    }
 
     return 1;
 }
@@ -1046,6 +1094,16 @@ sub _CustomerUserCacheClear {
         Type => $Self->{CacheType},
         Key  => "CustomerName::$Param{UserLogin}",
     );
+
+    for my $Function (qw(CustomerUserList CustomerIDList)) {
+        for my $Valid ( 0 .. 1 ) {
+            $Self->{CacheObject}->Delete(
+                Type => $Self->{CacheType},
+                Key  => "${Function}::${Valid}",
+            );
+
+        }
+    }
 }
 
 sub DESTROY {
