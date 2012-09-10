@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.115 2012-09-07 09:24:45 mg Exp $
+# $Id: CHANGES,v 1.2260.2.116 2012-09-10 13:44:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.11 2012-??-??
+ - 2012-09-10 Fixed bug#4475 - Extra double quote added to HTML links when using http-link field.
  - 2012-09-07 Improved caching of search results when the result set is empty.
 
 3.1.10 2012-08-30
@@ -35,7 +36,8 @@
  - 2012-08-14 Fixed bug#8685 - Cannot use address book / customer / spell check in phone /
     email if cookies are disabled. (partly fixed)
  - 2012-08-06 Fixed bug#8682 - linking search conditions with && in
-    Customersearch is not working since Update from 3.1.1 to 3.1.7. - 2012-08-06 Fixed bug#8683 - Cannot create dynamic field if cookies are disabled.
+    Customersearch is not working since Update from 3.1.1 to 3.1.7.
+ - 2012-08-06 Fixed bug#8683 - Cannot create dynamic field if cookies are disabled.
  - 2012-08-06 Fixed bug#8672 - Search Profile can't have an ampersand in the name via
     Toolbar module.
  - 2012-08-06 Fixed bug#8619 - The UPGRADING file has incorrect patchlevel upgrade description.
