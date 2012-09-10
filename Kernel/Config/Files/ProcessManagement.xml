@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.17 2012-09-10 03:02:19 sb Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.18 2012-09-10 03:04:03 sb Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -191,7 +191,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###TicketProcessTransitions" Required="0" Valid="1">
-        <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).</Description>
+        <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -273,7 +273,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicFieldGroups" Required="1" Valid="1">
-        <Description Translatable="1">Dynamic fields groups for process widget. Example: 'Key => My Group', 'Content: Name_X, NameY'.</Description>
+        <Description Translatable="1">Dynamic fields groups for process widget. Example: 'Key =&gt; My Group', 'Content: Name_X, NameY'.</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
