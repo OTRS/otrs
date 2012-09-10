@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.31 2012-09-07 13:16:58 mg Exp $
+# $Id: CustomerCompany.pm,v 1.32 2012-09-10 13:39:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -143,6 +144,12 @@ sub new {
     # see if database is case sensitive
     $Self->{CaseInsensitive} = $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') || 0;
 
+    if ( $Self->{ConfigObject}->Get('CustomerCompany')->{CacheTTL} ) {
+        $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+        $Self->{CacheType}   = 'CustomerCompany';
+        $Self->{CacheTTL}    = $Self->{ConfigObject}->Get('CustomerCompany')->{CacheTTL} || 0;
+    }
+
     return $Self;
 }
 
@@ -224,6 +231,8 @@ sub CustomerCompanyAdd {
             "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
     );
 
+    $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
+
     return $Param{CustomerID};
 }
 
@@ -263,6 +272,17 @@ sub CustomerCompanyGet {
     if ( !$Param{CustomerID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need CustomerID!" );
         return;
+    }
+
+    my $CacheKey = "CustomerCompanyGet::$Param{CustomerID}";
+
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Data = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+        return %{$Data} if defined $Data;
     }
 
     # build select
@@ -307,6 +327,16 @@ sub CustomerCompanyGet {
         $Data{ChangeTime} = $Row[$MapCounter];
         $MapCounter++;
         $Data{CreateTime} = $Row[$MapCounter];
+    }
+
+    # cache request
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Set(
+            Type  => $Self->{CacheType},
+            Key   => $CacheKey,
+            Value => \%Data,
+            TTL   => $Self->{CacheTTL},
+        );
     }
 
     return %Data;
@@ -385,6 +415,11 @@ sub CustomerCompanyUpdate {
     # should existing customer users and tickets be updated as well?
     # problem could be solved with a post-company-update-event
 
+    $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
+    if ( $Param{CustomerCompanyID} ne $Param{CustomerID} ) {
+        $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerCompanyID} );
+    }
+
     return 1;
 }
 
@@ -399,8 +434,7 @@ get list of customer companies.
     );
 
     my %List = $CustomerCompanyObject->CustomerCompanyList(
-        Search => '*sometext*',
-        Limit  => 10,
+        Search => 'somecompany',
     );
 
 Returns:
@@ -419,6 +453,18 @@ sub CustomerCompanyList {
     my $Valid = 1;
     if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
+    }
+
+    my $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
+    my $CacheKey = "CustomerCompanyList::${Valid}::" . ( $Param{Search} || '' );
+
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Data = $Self->{CacheObject}->Get(
+            Type => $CacheType,
+            Key  => $CacheKey,
+        );
+        return %{$Data} if defined $Data;
     }
 
     # what is the result
@@ -505,7 +551,48 @@ sub CustomerCompanyList {
         $List{ $Row[0] } = $Value;
     }
 
+    # cache request
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => \%List,
+            TTL   => $Self->{CacheTTL},
+        );
+    }
+
     return %List;
+}
+
+sub _CustomerCompanyCacheClear {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{CacheObject};
+
+    if ( !$Param{CustomerID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        return;
+    }
+
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{CacheType},
+        Key  => "CustomerCompanyGet::$Param{CustomerID}",
+    );
+
+    # delete all searches
+    $Self->{CacheObject}->CleanUp(
+        Type => $Self->{CacheType} . '_CustomerCompanyList',
+    );
+
+    for my $Function (qw(CustomerCompanyList)) {
+        for my $Valid ( 0 .. 1 ) {
+            $Self->{CacheObject}->Delete(
+                Type => $Self->{CacheType},
+                Key  => "${Function}::${Valid}",
+            );
+
+        }
+    }
 }
 
 sub DESTROY {
@@ -536,6 +623,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2012-09-07 13:16:58 $
+$Revision: 1.32 $ $Date: 2012-09-10 13:39:46 $
 
 =cut

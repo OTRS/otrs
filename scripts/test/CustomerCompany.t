@@ -2,7 +2,7 @@
 # CustomerCompany.t - CustomerCompany tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.t,v 1.5 2012-07-10 12:06:31 mb Exp $
+# $Id: CustomerCompany.t,v 1.6 2012-09-10 13:39:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -132,6 +132,35 @@ for my $Key ( 1 .. 3 ) {
         $CustomerCompany{ChangeTime},
         undef,
         "CustomerCompanyGet() - ChangeTime Not Define",
+    );
+
+    # check cache
+    %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+        CustomerID => $CustomerID,
+    );
+
+    $Self->Is(
+        $CustomerCompany{CustomerCompanyName},
+        "$CompanyRand Inc",
+        "CustomerCompanyGet() cached - 'Company Name'",
+    );
+
+    $Self->Is(
+        $CustomerCompany{CustomerID},
+        "$CompanyRand",
+        "CustomerCompanyGet() cached - CustomerID",
+    );
+
+    $Self->Is(
+        $CustomerCompany{CreateTime},
+        undef,
+        "CustomerCompanyGet() cached - CreateTime Not define",
+    );
+
+    $Self->Is(
+        $CustomerCompany{ChangeTime},
+        undef,
+        "CustomerCompanyGet() cached - ChangeTime Not Define",
     );
 
     my $Update = $CustomerCompanyObject->CustomerCompanyUpdate(
