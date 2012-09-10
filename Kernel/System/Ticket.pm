@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.572 2012-09-10 03:10:30 sb Exp $
+# $Id: Ticket.pm,v 1.573 2012-09-10 04:58:14 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.572 $) [1];
+$VERSION = qw($Revision: 1.573 $) [1];
 
 =head1 NAME
 
@@ -6072,11 +6072,11 @@ sub TicketAcl {
 
     # get used interface for process management checks
     my $Interface;
-    if ( $Param{CustomerUserID} ) {
-        $Interface = 'CustomerInterface';
-    }
-    elsif ( $Param{UserID} ) {
+    if ( $Param{UserID} ) {
         $Interface = 'AgentInterface';
+    }
+    else {
+        $Interface = 'CustomerInterface';
     }
 
     # to store the restricted actvity dialogs (ProcessManagement)
@@ -7966,6 +7966,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.572 $ $Date: 2012-09-10 03:10:30 $
+$Revision: 1.573 $ $Date: 2012-09-10 04:58:14 $
 
 =cut
