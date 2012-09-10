@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2418 2012-09-10 13:39:46 mg Exp $
+# $Id: CHANGES,v 1.2419 2012-09-10 13:44:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,6 +86,7 @@
     NotificationEvent definitions.
 
 3.1.11 2012-??-??
+ - 2012-09-10 Fixed bug#4475 - Extra double quote added to HTML links when using http-link field.
  - 2012-09-07 Improved caching of search results when the result set is empty.
 
 3.1.10 2012-08-30
