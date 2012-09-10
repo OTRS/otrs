@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.66 2012-09-10 08:48:45 mg Exp $
+# $Id: CustomerUser.pm,v 1.67 2012-09-10 11:58:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -229,10 +229,12 @@ sub CustomerUserList {
 
 =item CustomerIDList()
 
-return a list of with all known unique CustomerIDs of the registered customers users
+return a list of with all known unique CustomerIDs of the registered customers users (no SearchTerm),
+or a filtered list where the CustomerIDs must contain a search term.
 
     my @CustomerIDs = $CustomerUserObject->CustomerIDList(
-        Valid => 1, # not required
+        SearchTerm  => 'somecustomer',    # optional
+        Valid       => 1,                 # optional
     );
 
 =cut
@@ -734,6 +736,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-09-10 08:48:45 $
+$Revision: 1.67 $ $Date: 2012-09-10 11:58:45 $
 
 =cut

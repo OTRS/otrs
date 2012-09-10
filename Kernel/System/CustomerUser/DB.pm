@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.96 2012-09-10 08:48:45 mg Exp $
+# $Id: DB.pm,v 1.97 2012-09-10 11:58:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -387,27 +387,48 @@ sub CustomerIDList {
 
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
+    my $CacheType = $Self->{CacheType} . '_CustomerIDList';
+    my $CacheKey  = "CustomerIDList::${Valid}::$Param{SearchTerm}";
+
     # check cache
     if ( $Self->{CacheObject} ) {
         my $Result = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
-            Key  => "CustomerIDList::$Valid",
+            Type => $CacheType,
+            Key  => $CacheKey,
         );
         return @{$Result} if ref $Result eq 'ARRAY';
     }
 
     my $SQL .= "
         SELECT DISTINCT($Self->{CustomerID})
-        FROM $Self->{CustomerTable}";
+        FROM $Self->{CustomerTable}
+        WHERE 1 = 1 ";
 
     # add valid option
     if ( $Self->{CustomerUserMap}->{CustomerValid} && $Valid ) {
         my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
         $SQL .= "
-            WHERE $Self->{CustomerUserMap}->{CustomerValid} IN ($ValidIDs) ";
+            AND $Self->{CustomerUserMap}->{CustomerValid} IN ($ValidIDs) ";
+    }
+
+    # add search term
+    if ( $Param{SearchTerm} ) {
+        my $SearchTerm = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{SearchTerm} );
+
+        $SQL .= ' AND ';
+        $SQL .= $Self->{DBObject}->QueryCondition(
+            Key          => $Self->{CustomerID},
+            Value        => $SearchTerm,
+            SearchPrefix => $Self->{SearchPrefix},
+            SearchSuffix => $Self->{SearchSuffix},
+        );
+        $SQL .= ' ';
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    use Data::Dumper;
+    print STDERR "Dump: " . Dumper($SQL) . "\n";
 
     my @Result;
 
@@ -418,8 +439,8 @@ sub CustomerIDList {
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
-            Key   => "CustomerIDList::$Valid",
+            Type  => $CacheType,
+            Key   => $CacheKey,
             Value => \@Result,
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
@@ -1095,7 +1116,12 @@ sub _CustomerUserCacheClear {
         Key  => "CustomerName::$Param{UserLogin}",
     );
 
-    for my $Function (qw(CustomerUserList CustomerIDList)) {
+    # delete all search chache entries
+    $Self->{CacheObject}->CleanUp(
+        Type => $Self->{CacheType} . '_CustomerIDList',
+    );
+
+    for my $Function (qw(CustomerUserList)) {
         for my $Valid ( 0 .. 1 ) {
             $Self->{CacheObject}->Delete(
                 Type => $Self->{CacheType},
