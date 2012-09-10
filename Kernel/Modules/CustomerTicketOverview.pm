@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.8 2012-09-09 23:25:18 te Exp $
+# $Id: CustomerTicketOverview.pm,v 1.9 2012-09-10 04:57:33 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,10 +53,6 @@ sub new {
     # get dynamic field config for frontend module
     $Self->{DynamicFieldFilter}
         = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
-
-    $Self->{DynamicFieldFilter} = {
-        TicketFreeText10 => 1,
-    };
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -287,6 +283,8 @@ sub Run {
         my $TicketSort = '';
         my $TitleSort  = '';
         my $AgeSort    = '';
+        my $OwnerSort  = '';
+        my $QueueSort  = '';
 
         # this sets the opposit to the $OrderBy
         if ( $OrderBy eq 'Down' ) {
@@ -300,14 +298,20 @@ sub Run {
         if ( $Self->{SortBy} eq 'State' ) {
             $StateSort = $Sort;
         }
-        if ( $Self->{SortBy} eq 'Ticket' ) {
+        elsif ( $Self->{SortBy} eq 'Ticket' ) {
             $TicketSort = $Sort;
         }
-        if ( $Self->{SortBy} eq 'Title' ) {
+        elsif ( $Self->{SortBy} eq 'Title' ) {
             $TitleSort = $Sort;
         }
-        if ( $Self->{SortBy} eq 'Age' ) {
+        elsif ( $Self->{SortBy} eq 'Age' ) {
             $AgeSort = $Sort;
+        }
+        elsif ( $Self->{SortBy} eq 'Owner' ) {
+            $OwnerSort = $Sort;
+        }
+        elsif ( $Self->{SortBy} eq 'Queue' ) {
+            $QueueSort = $Sort;
         }
         $Self->{LayoutObject}->Block(
             Name => 'Filled',
@@ -319,6 +323,8 @@ sub Run {
                 TicketSort => $TicketSort,
                 TitleSort  => $TitleSort,
                 AgeSort    => $AgeSort,
+                OwnerSort  => $OwnerSort,
+                QueueSort  => $QueueSort,
                 Filter     => $Self->{Filter},
             },
         );
