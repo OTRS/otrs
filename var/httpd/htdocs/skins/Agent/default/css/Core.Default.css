@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.48 $
+ * @version     $Revision: 1.49 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -593,6 +593,10 @@ td.Highlight a.ui-state-default {
 
 .ui-autocomplete {
     z-index: 20 !important;
+}
+
+.ui-overlay-autocomplete {
+    z-index: 4000 !important;
 }
 
 /**

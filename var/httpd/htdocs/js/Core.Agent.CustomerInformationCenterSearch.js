@@ -2,7 +2,7 @@
 // Core.Agent.CustomerInformationCenterSearch.js - provides the special module functions for the CIC search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.1 2012-09-10 10:07:17 mg Exp $
+// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.2 2012-09-10 10:59:34 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -63,6 +63,10 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                 $("#AgentCustomerInformationCenterSearchCustomerID").autocomplete({
                     minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
                     delay: Core.Config.Get('Autocomplete.QueryDelay'),
+                    open: function() {
+                        $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
+                        return false;
+                    },
                     source: function (Request, Response) {
                         var URL = Core.Config.Get('Baselink'), Data = {
                             Action: 'AgentCustomerInformationCenterSearch',
