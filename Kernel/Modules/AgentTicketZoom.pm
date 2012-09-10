@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.184 2012-09-07 20:19:36 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.185 2012-09-10 04:57:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.184 $) [1];
+$VERSION = qw($Revision: 1.185 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -925,6 +925,7 @@ sub MaskAgentZoom {
             ProcessEntityID => $Ticket{$ProcessEntityIDField},
         );
         my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+            Interface        => 'AgentInterface',
             ActivityEntityID => $Ticket{$ActivityEntityIDField},
         );
 
@@ -979,6 +980,7 @@ sub MaskAgentZoom {
             for my $CurrentActivityDialogEntityID (@TmpActivityDialogList) {
                 my $CurrentActivityDialog
                     = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                    Interface              => 'AgentInterface',
                     ActivityDialogEntityID => $CurrentActivityDialogEntityID
                     );
 
@@ -1030,6 +1032,7 @@ sub MaskAgentZoom {
 
             for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                    Interface              => 'AgentInterface',
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                 );
                 $Self->{LayoutObject}->Block(
