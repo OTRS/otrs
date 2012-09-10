@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/ActivityDialog.pm - all activity dialog functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.1 2012-08-15 16:38:16 cr Exp $
+# $Id: ActivityDialog.pm,v 1.2 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -80,12 +80,14 @@ sub new {
 
     my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
         ActivityDialogEntityID => 'AD1',
+        Interface              => ['AgentInterface'],   # ['AgentInterface'] or ['CustomerInterface'] or ['AgentInterface', 'CustomerInterface'] or 'all'
     );
 
     Returns:
 
     $ActivityDialog = {
         Name             => 'UnitTestActivity',
+        Interface        => 'CustomerInterface',   # 'AgentInterface', 'CustomerInterface', ['AgentInterface'] or ['CustomerInterface'] or ['AgentInterface', 'CustomerInterface']
         DescriptionShort => 'AD1 Process Short',
         DescriptionLong  => 'AD1 Process Long description',
         CreateTime       => '07-02-2012 13:37:00',
@@ -129,11 +131,18 @@ sub new {
 sub ActivityDialogGet {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(ActivityDialogEntityID)) {
+    for my $Needed (qw(ActivityDialogEntityID Interface)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
+    }
+
+    if ( $Param{Interface} ne 'all' && ref $Param{Interface} ne 'ARRAY' ) {
+        $Param{Interface} = [ $Param{Interface} ];
     }
 
     my $ActivityDialog = $Self->{ConfigObject}->Get('Process::ActivityDialog');
@@ -150,6 +159,46 @@ sub ActivityDialogGet {
         );
         return;
     }
+
+    if (
+        $Param{Interface} ne 'all'
+        && !IsArrayRefWithData(
+            $ActivityDialog->{ $Param{ActivityDialogEntityID} }->{Interface}
+        )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No Interface for ActivityDialog '$Param{ActivityDialogEntityID}' found!"
+        );
+    }
+
+    if ( $Param{Interface} ne 'all' ) {
+        my $Success;
+        INTERFACE:
+        for my $CurrentInterface ( @{ $Param{Interface} } ) {
+            if (
+                grep { $CurrentInterface eq $_ }
+                @{ $ActivityDialog->{ $Param{ActivityDialogEntityID} }->{Interface} }
+                )
+            {
+                $Success = 1;
+                last INTERFACE;
+            }
+        }
+
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Not permitted Interface(s) '"
+                    . join( '\', \'', @{ $Param{Interface} } )
+                    . "' for ActivityDialog '$Param{ActivityDialogEntityID}'!"
+            );
+            return;
+        }
+    }
+
     return $ActivityDialog->{ $Param{ActivityDialogEntityID} };
 }
 
@@ -192,7 +241,10 @@ sub ActivityDialogCompletedCheck {
     }
 
     my $ActivityDialog
-        = $Self->ActivityDialogGet( ActivityDialogEntityID => $Param{ActivityDialogEntityID} );
+        = $Self->ActivityDialogGet(
+        ActivityDialogEntityID => $Param{ActivityDialogEntityID},
+        Interface              => 'all',
+        );
     if ( !$ActivityDialog ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -239,6 +291,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-08-15 16:38:16 $
+$Revision: 1.2 $ $Date: 2012-09-10 03:10:30 $
 
 =cut

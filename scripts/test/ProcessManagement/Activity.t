@@ -2,7 +2,7 @@
 # Activity.t - Activity module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.t,v 1.1 2012-08-15 16:39:37 cr Exp $
+# $Id: Activity.t,v 1.2 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,10 +36,200 @@ my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 
-# ---
 # ActivityGet() tests
-# ---
 my @Tests = (
+    {
+        Name       => 'No Interface',
+        Activities => {
+            'A1' . $RandomID => {
+                Name           => 'Activity 1',
+                CreateTime     => '08-02-2012 13:37:00',
+                CreateBy       => '2',
+                ChangeTime     => '09-02-2012 13:37:00',
+                ChangeBy       => '3',
+                ActivityDialog => {
+                    1 => 'AD-Test-' . $RandomID,
+                    2 => {
+                        ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                        Overwrite              => {
+                            FieldOrder => [ 1, 2, 4, 3 ],
+                        },
+                    },
+                },
+            },
+        },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
+        Config => {
+            ActivityEntityID => 'A1' . $RandomID,
+        },
+        Success => 0,
+    },
+    {
+        Name       => 'Agent Interface wrong activity dialog',
+        Activities => {
+            'A1' . $RandomID => {
+                Name           => 'Activity 1',
+                CreateTime     => '08-02-2012 13:37:00',
+                CreateBy       => '2',
+                ChangeTime     => '09-02-2012 13:37:00',
+                ChangeBy       => '3',
+                ActivityDialog => {
+                    1 => 'AD-Test-' . $RandomID,
+                    2 => {
+                        ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                        Overwrite              => {
+                            FieldOrder => [ 1, 2, 4, 3 ],
+                        },
+                    },
+                },
+            },
+        },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => ['AgentInterface'],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => ['CustomerInterface'],
+            },
+        },
+        Config => {
+            Interface        => 'AgentInterface',
+            ActivityEntityID => 'A1' . $RandomID,
+        },
+        ExpectedActivityDialogs => {
+            1 => 'incorrect',
+        },
+        Success => 0,
+    },
+    {
+        Name       => 'Agent Interface',
+        Activities => {
+            'A1' . $RandomID => {
+                Name           => 'Activity 1',
+                CreateTime     => '08-02-2012 13:37:00',
+                CreateBy       => '2',
+                ChangeTime     => '09-02-2012 13:37:00',
+                ChangeBy       => '3',
+                ActivityDialog => {
+                    1 => 'AD-Test-' . $RandomID,
+                    2 => {
+                        ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                        Overwrite              => {
+                            FieldOrder => [ 1, 2, 4, 3 ],
+                        },
+                    },
+                },
+            },
+        },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => ['AgentInterface'],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => ['CustomerInterface'],
+            },
+        },
+        Config => {
+            Interface        => 'AgentInterface',
+            ActivityEntityID => 'A1' . $RandomID,
+        },
+        ExpectedActivityDialogs => {
+            1 => 'AD-Test-' . $RandomID,
+        },
+        Success => 1,
+    },
+    {
+        Name       => 'Customer Interface',
+        Activities => {
+            'A1' . $RandomID => {
+                Name           => 'Activity 1',
+                CreateTime     => '08-02-2012 13:37:00',
+                CreateBy       => '2',
+                ChangeTime     => '09-02-2012 13:37:00',
+                ChangeBy       => '3',
+                ActivityDialog => {
+                    1 => 'AD-Test-' . $RandomID,
+                    2 => {
+                        ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                        Overwrite              => {
+                            FieldOrder => [ 1, 2, 4, 3 ],
+                        },
+                    },
+                },
+            },
+        },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => ['AgentInterface'],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => ['CustomerInterface'],
+            },
+        },
+        Config => {
+            Interface        => 'CustomerInterface',
+            ActivityEntityID => 'A1' . $RandomID,
+        },
+        ExpectedActivityDialogs => {
+            2 => {
+                ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                Overwrite              => {
+                    FieldOrder => [ 1, 2, 4, 3 ],
+                },
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name       => 'Agent and Customer Interface',
+        Activities => {
+            'A1' . $RandomID => {
+                Name           => 'Activity 1',
+                CreateTime     => '08-02-2012 13:37:00',
+                CreateBy       => '2',
+                ChangeTime     => '09-02-2012 13:37:00',
+                ChangeBy       => '3',
+                ActivityDialog => {
+                    1 => 'AD-Test-' . $RandomID,
+                    2 => {
+                        ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                        Overwrite              => {
+                            FieldOrder => [ 1, 2, 4, 3 ],
+                        },
+                    },
+                },
+            },
+        },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => ['AgentInterface'],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => ['CustomerInterface'],
+            },
+        },
+        Config => {
+            Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            ActivityEntityID => 'A1' . $RandomID,
+        },
+        ExpectedActivityDialogs => {
+            1 => 'AD-Test-' . $RandomID,
+            2 => {
+                ActivityDialogEntityID => 'AD-Test2-' . $RandomID,
+                Overwrite              => {
+                    FieldOrder => [ 1, 2, 4, 3 ],
+                },
+            },
+        },
+        Success => 1,
+    },
     {
         Name       => 'No Parameters',
         Activities => {
@@ -60,7 +250,17 @@ my @Tests = (
                 },
             },
         },
-        Config  => {},
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
+        Config => {
+            Interface => 'all',
+        },
         Success => 0,
     },
     {
@@ -83,8 +283,17 @@ my @Tests = (
                 },
             },
         },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
         Config => {
-            Other => 1,
+            Interface => 'all',
+            Other     => 1,
         },
         Success => 0,
     },
@@ -108,15 +317,26 @@ my @Tests = (
                 },
             },
         },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
         Config => {
+            Interface        => 'all',
             ActivityEntityID => 'Notexisiting' . $RandomID,
         },
         Success => 0,
     },
     {
-        Name       => 'No Activities Configuration',
-        Activities => {},
-        Config     => {
+        Name            => 'No Activities Configuration',
+        Activities      => {},
+        ActivityDialogs => {},
+        Config          => {
+            Interface        => 'all',
             ActivityEntityID => 'Notexisiting' . $RandomID,
         },
         Success => 0,
@@ -141,7 +361,16 @@ my @Tests = (
                 },
             },
         },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
         Config => {
+            Interface        => 'all',
             ActivityEntityID => 'A1' . $RandomID,
         },
         Success => 1,
@@ -167,7 +396,16 @@ my @Tests = (
                 },
             },
         },
+        ActivityDialogs => {
+            'AD-Test-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+            'AD-Test2-' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
         Config => {
+            Interface        => 'all',
             ActivityEntityID => 'A1' . $RandomID,
         },
         Success => 1,
@@ -182,10 +420,16 @@ for my $Test (@Tests) {
         Value => $Test->{Activities},
     );
 
-    # get activity descrived in test
+    # set activity dialog config
+    $ConfigObject->Set(
+        Key   => 'Process::ActivityDialog',
+        Value => $Test->{ActivityDialogs},
+    );
+
+    # get activity described in test
     my $Activity = $ActivityObject->ActivityGet( %{ $Test->{Config} } );
 
-    if ( $Test->{Success} ) {
+    if ( $Test->{Success} || $Test->{ExpectedActivityDialogs} ) {
         $Self->IsNot(
             $Activity,
             undef,
@@ -201,6 +445,24 @@ for my $Test (@Tests) {
             $Test->{Activities}->{ $Test->{Config}->{ActivityEntityID} },
             "ActivityGet() Test:'$Test->{Name}' | comparison"
         );
+
+        # test matching activity dialogs
+        if ( $Test->{ExpectedActivityDialogs} ) {
+            if ( $Test->{Success} ) {
+                $Self->IsDeeply(
+                    $Activity->{ActivityDialog},
+                    $Test->{ExpectedActivityDialogs},
+                    "ActivityGet() Test:'$Test->{Name}' | activity dialog comparison"
+                );
+            }
+            else {
+                $Self->IsNotDeeply(
+                    $Activity->{ActivityDialog},
+                    $Test->{ExpectedActivityDialogs},
+                    "ActivityGet() Test:'$Test->{Name}' | activity dialog comparison"
+                );
+            }
+        }
     }
     else {
         $Self->Is(
@@ -211,9 +473,7 @@ for my $Test (@Tests) {
     }
 }
 
-# ---
 # ActivityList() tests
-# ---
 @Tests = (
     {
         Name     => 'No Activies',

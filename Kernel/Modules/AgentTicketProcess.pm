@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.12 2012-09-07 20:18:54 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.13 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,8 +130,17 @@ sub Run {
         if ($ActivityDialogEntityID) {
             $ActivityDialogHashRef
                 = $Self->{ActivityDialogObject}->ActivityDialogGet(
-                ActivityDialogEntityID => $ActivityDialogEntityID
+                ActivityDialogEntityID => $ActivityDialogEntityID,
+                Interface              => 'AgentInterface',
                 );
+
+            if ( !IsHashRefWithData($ActivityDialogHashRef) ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Couldn't get ActivityDialogEntityID '$ActivityDialogEntityID'!",
+                    Comment => 'Please contact the admin.',
+                );
+            }
+
             if ( $ActivityDialogHashRef->{Permission} ) {
                 $ActivityDialogPermission = $ActivityDialogHashRef->{Permission};
             }
@@ -147,7 +156,7 @@ sub Run {
         # error screen, don't show ticket
         if ( !$Access ) {
             return $Self->{LayoutObject}->NoPermission(
-                Message    => "You need $Self->{Config}->{Permission} permissions!",
+                Message    => "You need $ActivityDialogPermission permissions!",
                 WithHeader => 'yes',
             );
         }
@@ -381,7 +390,8 @@ sub _RenderAjax {
     }
     my $ActivityDialog
         = $Self->{ActivityDialogObject}->ActivityDialogGet(
-        ActivityDialogEntityID => $ActivityDialogEntityID
+        ActivityDialogEntityID => $ActivityDialogEntityID,
+        Interface              => 'AgentInterface',
         );
     if ( !IsHashRefWithData($ActivityDialog) ) {
         $Self->{LayoutObject}->FatalError(
@@ -711,8 +721,16 @@ sub _GetParam {
 
     my $ActivityDialog
         = $Self->{ActivityDialogObject}->ActivityDialogGet(
-        ActivityDialogEntityID => $ActivityDialogEntityID
+        ActivityDialogEntityID => $ActivityDialogEntityID,
+        Interface              => 'AgentInterface',
         );
+
+    if ( !IsHashRefWithData($ActivityDialog) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Couldn't get ActivityDialogEntityID '$ActivityDialogEntityID'!",
+            Comment => 'Please contact the admin.',
+        );
+    }
 
     # if there is a ticket then is not an AJAX request
     if ($TicketID) {
@@ -1058,6 +1076,7 @@ sub _OutputActivityDialog {
     }
 
     my $Activity = $Self->{ActivityObject}->ActivityGet(
+        Interface        => 'AgentInterface',
         ActivityEntityID => $ActivityActivityDialog->{Activity}
     );
     if ( !$Activity ) {
@@ -1078,9 +1097,10 @@ sub _OutputActivityDialog {
     }
 
     my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
-        ActivityDialogEntityID => $ActivityActivityDialog->{ActivityDialog}
+        ActivityDialogEntityID => $ActivityActivityDialog->{ActivityDialog},
+        Interface              => 'AgentInterface',
     );
-    if ( !$ActivityDialog ) {
+    if ( !IsHashRefWithData($ActivityDialog) ) {
         my $Message = "Can't get ActivityDialog configuration for ActivityDialogEntityID"
             . " '$ActivityActivityDialog->{ActivityDialog}'!";
 
@@ -3279,11 +3299,12 @@ sub _StoreActivityDialog {
 
     my $ActivityDialog
         = $Self->{ActivityDialogObject}->ActivityDialogGet(
-        ActivityDialogEntityID => $ActivityDialogEntityID
+        ActivityDialogEntityID => $ActivityDialogEntityID,
+        Interface              => 'AgentInterface',
         );
     if ( !IsHashRefWithData($ActivityDialog) ) {
         $Self->{LayoutObject}->FatalError(
-            Message => "Couldn't get Config for ActivityDialogEntityID $ActivityDialogEntityID!",
+            Message => "Couldn't get Config for ActivityDialogEntityID '$ActivityDialogEntityID'!",
         );
     }
 

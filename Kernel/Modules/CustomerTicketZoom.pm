@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.93 2012-09-09 11:48:35 sb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.94 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -683,6 +683,7 @@ sub _Mask {
         );
 
         my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+            Interface        => 'CustomerInterface',
             ActivityEntityID => $Param{$ActivityEntityIDField},
         );
 

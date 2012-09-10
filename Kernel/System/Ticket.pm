@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.571 2012-08-21 04:58:44 cg Exp $
+# $Id: Ticket.pm,v 1.572 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.571 $) [1];
+$VERSION = qw($Revision: 1.572 $) [1];
 
 =head1 NAME
 
@@ -6070,6 +6070,15 @@ sub TicketAcl {
         return;
     }
 
+    # get used interface for process management checks
+    my $Interface;
+    if ( $Param{CustomerUserID} ) {
+        $Interface = 'CustomerInterface';
+    }
+    elsif ( $Param{UserID} ) {
+        $Interface = 'AgentInterface';
+    }
+
     # to store the restricted actvity dialogs (ProcessManagement)
     my %AllActivityDialogs;
 
@@ -6108,6 +6117,7 @@ sub TicketAcl {
 
             if ( $ChecksDatabase{Process}{ActivityEntityID} ) {
                 my $Activity = $Self->{ActivityObject}->ActivityGet(
+                    Interface        => $Interface,
                     ActivityEntityID => $ChecksDatabase{Process}{ActivityEntityID},
                 );
 
@@ -6138,7 +6148,8 @@ sub TicketAcl {
     # check for ActivityDialogEntityID if set as parameter (ProcessManagement)
     if ( $Param{ActivityDialogEntityID} ) {
         my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
-            ActivityDialogEntityID => $Param{ActivityDialogEntityID}
+            ActivityDialogEntityID => $Param{ActivityDialogEntityID},
+            Interface              => $Interface,
         );
         if ( IsHashRefWithData($ActivityDialog) ) {
             $Checks{Process}{ActivityDialogEntityID} = $Param{ActivityDialogEntityID};
@@ -6148,6 +6159,7 @@ sub TicketAcl {
     # check for ActivityEntityID if set as parameter (ProcessManagement)
     if ( $Param{ActivityEntityID} ) {
         my $Activity = $Self->{ActivityObject}->ActivityGet(
+            Interface        => $Interface,
             ActivityEntityID => $Param{ActivityEntityID},
         );
         if ( IsHashRefWithData( $Activity->{ActivityDialog} ) ) {
@@ -7954,6 +7966,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.571 $ $Date: 2012-08-21 04:58:44 $
+$Revision: 1.572 $ $Date: 2012-09-10 03:10:30 $
 
 =cut

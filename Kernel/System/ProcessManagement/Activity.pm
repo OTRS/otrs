@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - all Activity functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.3 2012-08-15 16:38:16 cr Exp $
+# $Id: Activity.pm,v 1.4 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -77,9 +77,11 @@ sub new {
 =item ActivityGet()
 
     Get Activity info
+    Returned activity dialogs are limited to given interface
 
     my $Activity = $ActivityObject->ActivityGet(
         ActivityEntityID => 'A1',
+        Interface        => ['AgentInterface'],   # ['AgentInterface'] or ['CustomerInterface'] or ['AgentInterface', 'CustomerInterface'] or 'all'
     );
 
     Returns:
@@ -102,7 +104,7 @@ sub new {
 sub ActivityGet {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(ActivityEntityID)) {
+    for my $Needed (qw(ActivityEntityID Interface)) {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -122,14 +124,45 @@ sub ActivityGet {
         return;
     }
 
-    if ( !IsHashRefWithData( $Activity->{ $Param{ActivityEntityID} } ) ) {
+    my $ActivityEntity = $Activity->{ $Param{ActivityEntityID} };
+
+    if ( !IsHashRefWithData($ActivityEntity) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No data for Activity '$Param{ActivityEntityID}' found!"
         );
         return;
     }
-    return $Activity->{ $Param{ActivityEntityID} };
+
+    # limit activity dialogs by interface
+    return $ActivityEntity if ref $Param{Interface} ne 'ARRAY' && $Param{Interface} eq 'all';
+    if ( ref $Param{Interface} ne 'ARRAY' && $Param{Interface} ne 'all' ) {
+        $Param{Interface} = [ $Param{Interface} ];
+    }
+
+    # get activity dialogs
+    my $ActivityDialogs = $Self->{ConfigObject}->Get('Process::ActivityDialog');
+
+    # filter activity dialogs
+    ACTIVITYDIALOG:
+    for my $ActivityDialogID ( keys %{ $ActivityEntity->{ActivityDialog} } ) {
+        my $ActivityDialog = $ActivityEntity->{ActivityDialog}->{$ActivityDialogID};
+        if ( IsHashRefWithData($ActivityDialog) ) {
+            $ActivityDialog = $ActivityDialog->{ActivityDialogEntityID};
+        }
+        for my $Interface ( @{ $Param{Interface} } ) {
+
+            # keep activity dialog if interface is included in activity dialog configuration
+            if ( grep { $_ eq $Interface } @{ $ActivityDialogs->{$ActivityDialog}->{Interface} } ) {
+                next ACTIVITYDIALOG;
+            }
+        }
+
+        # remove activity dialog if no match could be found
+        delete $ActivityEntity->{ActivityDialog}->{$ActivityDialogID};
+    }
+
+    return $ActivityEntity;
 }
 
 =item ActivityList()
@@ -181,6 +214,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-08-15 16:38:16 $
+$Revision: 1.4 $ $Date: 2012-09-10 03:10:30 $
 
 =cut

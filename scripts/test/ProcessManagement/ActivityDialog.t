@@ -2,7 +2,7 @@
 # ActivityDialog.t - activity dialog module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.t,v 1.1 2012-08-15 16:39:37 cr Exp $
+# $Id: ActivityDialog.t,v 1.2 2012-09-10 03:10:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,60 +35,101 @@ my $ActivityDialogObject = Kernel::System::ProcessManagement::ActivityDialog->ne
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 
-# ---
 # ActivityDialogGet() tests
-# ---
 my @Tests = (
     {
-        Name            => 'No Parameters',
+        Name            => 'No Interface',
         ActivityDialogs => {
             'AD1' . $RandomID => {
-                Name             => 'Activity Dialog 1',
-                DescriptionShort => 'AD1 Process Short',
-                DescriptionLong  => 'AD1 Process Long description',
-                CreateTime       => '07-02-2012 13:37:00',
-                CreateBy         => '2',
-                ChangeTime       => '08-02-2012 13:37:00',
-                ChangeBy         => '3',
-                Fields           => {
-                    DynamicField_Make => {
-                        Display          => 2,
-                        DescriptionLong  => 'Make Long',
-                        DescriptionShort => 'Make Short',
-                    },
-                    DynamicField_VWModel => {
-                        Display          => 2,
-                        DescriptionLong  => 'VWModel Long',
-                        DescriptionShort => 'VWModel Short',
-                    },
-                    DynamicField_PeugeotModel => {
-                        Display          => 0,
-                        DescriptionLong  => 'PeugeotModel Long',
-                        DescriptionShort => 'PeugeotModel Short',
-                    },
-                    StateID => {
-                        Display          => 1,
-                        DescriptionLong  => 'StateID Long',
-                        DescriptionShort => 'StateID Short',
-                    },
-                },
-                FieldOrder => [
-                    'StateID',
-                    'DynamicField_Make',
-                    'DynamicField_VWModelModel',
-                    'DynamicField_PeugeotModel',
-                ],
-                SubmitAdviceText => 'NOTE: If you submit the form ...',
-                SubmitButtonText => 'Make an inquiry',
+                Interface => ['AgentInterface'],
             },
         },
         Config  => {},
         Success => 0,
     },
     {
-        Name            => 'No ActivityDialogEntityID',
+        Name            => 'Interface allowed: Agent / Interface used: Agent',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface => ['AgentInterface'],
+            },
+        },
+        Config => {
+            Interface              => 'AgentInterface',
+            ActivityDialogEntityID => 'AD1' . $RandomID,
+        },
+        Success => 1,
+    },
+    {
+        Name            => 'Interface allowed: Customer / Interface used: Customer',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface => ['CustomerInterface'],
+            },
+        },
+        Config => {
+            Interface              => 'CustomerInterface',
+            ActivityDialogEntityID => 'AD1' . $RandomID,
+        },
+        Success => 1,
+    },
+    {
+        Name            => 'Interface allowed: Agent / Interface used: Customer',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface => ['AgentInterface'],
+            },
+        },
+        Config => {
+            Interface              => 'CustomerInterface',
+            ActivityDialogEntityID => 'AD1' . $RandomID,
+        },
+        Success => 0,
+    },
+    {
+        Name            => 'Interface allowed: Customer / Interface used: Agent',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface => ['CustomerInterface'],
+            },
+        },
+        Config => {
+            Interface              => 'AgentInterface',
+            ActivityDialogEntityID => 'AD1' . $RandomID,
+        },
+        Success => 0,
+    },
+    {
+        Name            => 'Interface allowed: Agent+Customer / Interface used: Agent',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
+        Config => {
+            Interface              => 'AgentInterface',
+            ActivityDialogEntityID => 'AD1' . $RandomID,
+        },
+        Success => 1,
+    },
+    {
+        Name            => 'Interface allowed: Agent+Customer / Interface used: Customer',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            },
+        },
+        Config => {
+            Interface              => 'CustomerInterface',
+            ActivityDialogEntityID => 'AD1' . $RandomID,
+        },
+        Success => 1,
+    },
+    {
+        Name            => 'No Parameters',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -129,7 +170,57 @@ my @Tests = (
             },
         },
         Config => {
-            Other => 1,
+            Interface => 'AgentInterface',
+        },
+        Success => 0,
+    },
+    {
+        Name            => 'No ActivityDialogEntityID',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
+                Name             => 'Activity Dialog 1',
+                DescriptionShort => 'AD1 Process Short',
+                DescriptionLong  => 'AD1 Process Long description',
+                CreateTime       => '07-02-2012 13:37:00',
+                CreateBy         => '2',
+                ChangeTime       => '08-02-2012 13:37:00',
+                ChangeBy         => '3',
+                Fields           => {
+                    DynamicField_Make => {
+                        Display          => 2,
+                        DescriptionLong  => 'Make Long',
+                        DescriptionShort => 'Make Short',
+                    },
+                    DynamicField_VWModel => {
+                        Display          => 2,
+                        DescriptionLong  => 'VWModel Long',
+                        DescriptionShort => 'VWModel Short',
+                    },
+                    DynamicField_PeugeotModel => {
+                        Display          => 0,
+                        DescriptionLong  => 'PeugeotModel Long',
+                        DescriptionShort => 'PeugeotModel Short',
+                    },
+                    StateID => {
+                        Display          => 1,
+                        DescriptionLong  => 'StateID Long',
+                        DescriptionShort => 'StateID Short',
+                    },
+                },
+                FieldOrder => [
+                    'StateID',
+                    'DynamicField_Make',
+                    'DynamicField_VWModelModel',
+                    'DynamicField_PeugeotModel',
+                ],
+                SubmitAdviceText => 'NOTE: If you submit the form ...',
+                SubmitButtonText => 'Make an inquiry',
+            },
+        },
+        Config => {
+            Interface => 'AgentInterface',
+            Other     => 1,
         },
         Success => 0,
     },
@@ -137,6 +228,7 @@ my @Tests = (
         Name            => 'Wrong ActivityDialogEntityID',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -177,6 +269,7 @@ my @Tests = (
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'Notexisiting' . $RandomID,
         },
         Success => 0,
@@ -185,6 +278,7 @@ my @Tests = (
         Name            => 'No ActivityDialogs Configuration',
         ActivityDialogs => {},
         Config          => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'Notexisiting' . $RandomID,
         },
         Success => 0,
@@ -193,6 +287,7 @@ my @Tests = (
         Name            => 'Correct ASCII',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -233,6 +328,7 @@ my @Tests = (
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
         },
         Success => 1,
@@ -241,6 +337,7 @@ my @Tests = (
         Name            => 'Correct UTF8',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface => ['AgentInterface'],
                 Name =>
                     'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
                 DescriptionShort =>
@@ -289,6 +386,7 @@ my @Tests = (
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
         },
         Success => 1,
@@ -332,54 +430,13 @@ for my $Test (@Tests) {
     }
 }
 
-# ---
 # ActivityDialogCompletedCheck() tests
-# ---
 @Tests = (
     {
         Name            => 'No Parameters',
         ActivityDialogs => {
             'AD1' . $RandomID => {
-                Name             => 'Activity Dialog 1',
-                DescriptionShort => 'AD1 Process Short',
-                DescriptionLong  => 'AD1 Process Long description',
-                CreateTime       => '07-02-2012 13:37:00',
-                CreateBy         => '2',
-                ChangeTime       => '08-02-2012 13:37:00',
-                ChangeBy         => '3',
-                Fields           => {
-                    DynamicField_Make => {
-                        Display          => 0,
-                        DescriptionLong  => 'Make Long',
-                        DescriptionShort => 'Make Short',
-                    },
-                    DynamicField_VWModel => {
-                        Display          => 1,
-                        DescriptionLong  => 'VWModel Long',
-                        DescriptionShort => 'VWModel Short',
-                    },
-                    StateID => {
-                        Display          => 2,
-                        DescriptionLong  => 'StateID Long',
-                        DescriptionShort => 'StateID Short',
-                    },
-                },
-                FieldOrder => [
-                    'StateID',
-                    'DynamicField_Make',
-                    'DynamicField_VWModelModel',
-                ],
-                SubmitAdviceText => 'NOTE: If you submit the form ...',
-                SubmitButtonText => 'Make an inquiry',
-            },
-        },
-        Config  => {},
-        Success => 0,
-    },
-    {
-        Name            => 'No ActivityDialogEntityID',
-        ActivityDialogs => {
-            'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -414,6 +471,50 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface => 'AgentInterface',
+        },
+        Success => 0,
+    },
+    {
+        Name            => 'No ActivityDialogEntityID',
+        ActivityDialogs => {
+            'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
+                Name             => 'Activity Dialog 1',
+                DescriptionShort => 'AD1 Process Short',
+                DescriptionLong  => 'AD1 Process Long description',
+                CreateTime       => '07-02-2012 13:37:00',
+                CreateBy         => '2',
+                ChangeTime       => '08-02-2012 13:37:00',
+                ChangeBy         => '3',
+                Fields           => {
+                    DynamicField_Make => {
+                        Display          => 0,
+                        DescriptionLong  => 'Make Long',
+                        DescriptionShort => 'Make Short',
+                    },
+                    DynamicField_VWModel => {
+                        Display          => 1,
+                        DescriptionLong  => 'VWModel Long',
+                        DescriptionShort => 'VWModel Short',
+                    },
+                    StateID => {
+                        Display          => 2,
+                        DescriptionLong  => 'StateID Long',
+                        DescriptionShort => 'StateID Short',
+                    },
+                },
+                FieldOrder => [
+                    'StateID',
+                    'DynamicField_Make',
+                    'DynamicField_VWModelModel',
+                ],
+                SubmitAdviceText => 'NOTE: If you submit the form ...',
+                SubmitButtonText => 'Make an inquiry',
+            },
+        },
+        Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => undef,
             Data                   => {
                 DynamicField_Make    => 'VW',
@@ -427,6 +528,7 @@ for my $Test (@Tests) {
         Name            => 'No Data',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -461,6 +563,7 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
             Data                   => undef,
         },
@@ -470,6 +573,7 @@ for my $Test (@Tests) {
         Name            => 'Wong Data Format',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -504,6 +608,7 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
             Data                   => 1,
         },
@@ -513,6 +618,7 @@ for my $Test (@Tests) {
         Name            => 'No Fields in ActivityDialog Config',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -531,6 +637,7 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
             Data                   => {
                 DynamicField_Make    => 'VW',
@@ -544,6 +651,7 @@ for my $Test (@Tests) {
         Name            => 'No Data for Required Field',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -578,6 +686,7 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
             Data                   => {
                 DynamicField_Make    => 'VW',
@@ -591,6 +700,7 @@ for my $Test (@Tests) {
         Name            => 'Correct,  Data for Required Field',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -625,6 +735,7 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
             Data                   => {
                 DynamicField_Make    => 'VW',
@@ -638,6 +749,7 @@ for my $Test (@Tests) {
         Name            => 'Correct,  No Required Field',
         ActivityDialogs => {
             'AD1' . $RandomID => {
+                Interface        => ['AgentInterface'],
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => 'AD1 Process Short',
                 DescriptionLong  => 'AD1 Process Long description',
@@ -672,6 +784,7 @@ for my $Test (@Tests) {
             },
         },
         Config => {
+            Interface              => 'AgentInterface',
             ActivityDialogEntityID => 'AD1' . $RandomID,
             Data                   => {
                 DynamicField_Make    => '',
