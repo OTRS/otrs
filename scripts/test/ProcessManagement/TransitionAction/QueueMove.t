@@ -2,7 +2,7 @@
 # QueueMove.t - QueueMove testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: QueueMove.t,v 1.1 2012-08-15 16:39:37 cr Exp $
+# $Id: QueueMove.t,v 1.2 2012-09-10 03:15:37 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -82,9 +82,7 @@ $Self->True(
 
 # ----------------------------------------
 
-# ---
 # Run() tests
-# ---
 my @Tests = (
     {
         Name    => 'No Params',

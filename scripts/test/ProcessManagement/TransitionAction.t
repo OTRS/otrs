@@ -2,7 +2,7 @@
 # TransitionAction.t - Transition Action module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TransitionAction.t,v 1.1 2012-08-15 16:39:37 cr Exp $
+# $Id: TransitionAction.t,v 1.2 2012-09-10 03:15:37 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,9 +35,7 @@ my $TransitionActionObject = Kernel::System::ProcessManagement::TransitionAction
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 
-# ---
 # TransitionActionGet() tests
-# ---
 my @Tests = (
     {
         Name              => 'No Parameters',
@@ -181,9 +179,7 @@ for my $Test (@Tests) {
     }
 }
 
-# ---
 # TransitionActionList() tests
-# ---
 @Tests = (
     {
         Name              => 'No Params',
