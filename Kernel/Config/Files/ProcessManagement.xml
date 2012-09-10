@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.16 2012-08-21 21:30:59 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.17 2012-09-10 03:02:19 sb Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -288,6 +288,20 @@
         <Setting>
             <Hash>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###CustomerTicketProcess" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Process Ticket</Description>
+                <NavBarName>Ticket</NavBarName>
+                <Title>Process</Title>
+                <Loader>
+                </Loader>
+            </FrontendModuleReg>
         </Setting>
     </ConfigItem>
     <!-- OTRSTicketProcesses Merged Settings Start -->
