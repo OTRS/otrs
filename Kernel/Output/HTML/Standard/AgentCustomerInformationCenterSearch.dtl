@@ -2,12 +2,20 @@
 # AgentCustomerInformationCenterSearch.dtl - provides HTML form for AgentCustomerInformationCenterSearch
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenterSearch.dtl,v 1.1 2012-09-10 10:07:17 mg Exp $
+# $Id: AgentCustomerInformationCenterSearch.dtl,v 1.2 2012-09-10 12:56:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+<!-- dtl:block:CustomerSearchAutoComplete -->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Autocomplete.QueryDelay', "$QData{"queryDelay"}");
+    Core.Config.Set('Autocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+    Core.Config.Set('Autocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+//]]></script>
+<!-- dtl:block:CustomerSearchAutoComplete -->
 
 <div class="InnerContent">
     <form action="$Env{"CGIHandle"}" method="post" id="AgentCustomerInformationCenterSearchForm">
@@ -26,8 +34,4 @@
             <div class="Clear"></div>
         </fieldset>
     </form>
-</div>
-
-<div class="ContentFooter Center">
-    <button id="SearchFormSubmit" class="Primary" value="$Text{"Open Customer Information Center"}">$Text{"Open Customer Information Center"}</button>
 </div>
