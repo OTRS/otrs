@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.97 2012-09-10 11:58:45 mg Exp $
+# $Id: DB.pm,v 1.98 2012-09-10 12:06:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -426,9 +426,6 @@ sub CustomerIDList {
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-
-    use Data::Dumper;
-    print STDERR "Dump: " . Dumper($SQL) . "\n";
 
     my @Result;
 
