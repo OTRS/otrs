@@ -2,7 +2,7 @@
 # AgentDashboardCustomerUserList.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerUserList.dtl,v 1.1 2012-09-07 12:17:38 mg Exp $
+# $Id: AgentDashboardCustomerUserList.dtl,v 1.2 2012-09-11 08:58:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,8 +20,8 @@
         <tr>
             <th>$Text{"Customer login"}</th>
             <th>$Text{"Customer information"}</th>
-            <th>$Text{"Open tickets"}</th>
-            <th>$Text{"Closed tickets"}</th>
+            <th>$Text{"Open"}</th>
+            <th>$Text{"Closed"}</th>
         </tr>
     </thead>
     <tbody>
