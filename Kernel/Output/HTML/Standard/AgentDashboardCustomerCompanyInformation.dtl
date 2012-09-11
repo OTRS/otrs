@@ -2,7 +2,7 @@
 # AgentDashboardCustomerCompanyInformation.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerCompanyInformation.dtl,v 1.1 2012-09-07 13:16:58 mg Exp $
+# $Id: AgentDashboardCustomerCompanyInformation.dtl,v 1.2 2012-09-11 09:08:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,31 +20,31 @@
     </div>
     <div class="Clear"></div>
 
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyStreet -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyStreet -->
     <label>$Text{"Street"}:</label>
     <div class="Field">$QData{"CustomerCompanyStreet"}</div>
     <div class="Clear"></div>
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyStreet -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyStreet -->
 
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyZIP -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyZIP -->
     <label>$Text{"ZIP"}:</label>
     <div class="Field">$QData{"CustomerCompanyZIP"}</div>
     <div class="Clear"></div>
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyZIP -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyZIP -->
 
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCity -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyCity -->
     <label>$Text{"City"}:</label>
     <div class="Field">$QData{"CustomerCompanyCity"}</div>
     <div class="Clear"></div>
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCity -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyCity -->
 
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCountry -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyCountry -->
     <label>$Text{"Country"}:</label>
     <div class="Field">$QData{"CustomerCompanyCountry"}</div>
     <div class="Clear"></div>
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyCountry -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyCountry -->
 
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyURL -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyURL -->
     <label>$Text{"URL"}:</label>
     <div class="Field">
         <a href="$QData{"CustomerCompanyURL"}" target="_blank">
@@ -52,15 +52,15 @@
         </a>
     </div>
     <div class="Clear"></div>
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyURL -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyURL -->
 
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyComment -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyComment -->
     <label>$Text{"Comment"}:</label>
     <div class="Field">
         <p>$QData{"CustomerCompanyName"}</p>
     </div>
     <div class="Clear"></div>
-<!-- dtl:block:ContentSmallUserOnlineRowCustomerCompanyComment -->
+<!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyComment -->
 
     <label>$Text{"Validity"}:</label>
     <div class="Field">
