@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.29 2012-03-17 01:58:30 mh Exp $
+# $Id: AgentDashboard.pm,v 1.30 2012-09-11 08:23:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Cache;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -426,6 +427,23 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
+
+    # build main menu
+    my $MainMenuConfig = $Self->{ConfigObject}->Get('AgentDashboard::MainMenu');
+    if ( IsHashRefWithData($MainMenuConfig) ) {
+        $Self->{LayoutObject}->Block( Name => 'MainMenu' );
+
+        for my $MainMenuItem ( sort keys %{$MainMenuConfig} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'MainMenuItem',
+                Data => {
+                    %{ $MainMenuConfig->{$MainMenuItem} },
+                },
+            );
+        }
+    }
+
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(

@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.58 2012-01-06 12:34:19 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.59 2012-09-11 08:23:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,6 +119,22 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
     </div>
 
     <div class="ContentColumn">
+
+<!-- dtl:block:MainMenu -->
+        <div class="ActionRow SpacingBottom">
+            <ul class="Actions">
+<!-- dtl:block:MainMenuItem -->
+                <li>
+                    <a href="$Data{"Link"}">
+                        $Text{"$Data{"Name"}"}
+                    </a>
+                </li>
+<!-- dtl:block:MainMenuItem -->
+            </ul>
+            <div class="Clear"></div>
+        </div>
+<!-- dtl:block:MainMenu -->
+
 <!-- dtl:block:ContentLarge -->
         <div class="WidgetSimple CanDrag" id="Dashboard$QData{"Name"}-box">
             <div class="Header">
