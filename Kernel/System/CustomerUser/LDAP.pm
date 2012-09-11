@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.65 2012-09-06 14:17:03 mg Exp $
+# $Id: LDAP.pm,v 1.66 2012-09-11 12:12:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -348,7 +348,7 @@ sub CustomerSearch {
             Type => $Self->{CacheType},
             Key  => 'CustomerSearch::' . $Filter,
         );
-        return %{$Users} if $Users;
+        return %{$Users} if ref $Users eq 'HASH';
     }
 
     # create ldap connect
@@ -442,7 +442,7 @@ sub CustomerUserList {
             Type => $Self->{CacheType},
             Key  => "CustomerUserList::$Filter",
         );
-        return %{$Users} if $Users;
+        return %{$Users} if ref $Users eq 'HASH';
     }
 
     # create ldap connect
@@ -530,7 +530,7 @@ sub CustomerIDs {
             Type => $Self->{CacheType},
             Key  => "CustomerIDs::$Param{User}",
         );
-        return @{$CustomerIDs} if $CustomerIDs;
+        return @{$CustomerIDs} if ref $CustomerIDs eq 'ARRAY';
     }
 
     # get customer data
@@ -610,7 +610,7 @@ sub CustomerUserDataGet {
             Type => $Self->{CacheType},
             Key  => 'CustomerUserDataGet::' . $Param{User},
         );
-        return %{$Data} if $Data;
+        return %{$Data} if ref $Data eq 'HASH';
     }
 
     # create ldap connect
