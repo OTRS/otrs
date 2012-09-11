@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.521 2012-09-11 07:55:05 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.522 2012-09-11 08:14:56 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -4954,7 +4954,7 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0100-CustomerInformationCenter-TicketPendingReminder" Required="0" Valid="1">
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0100-CIC-TicketPendingReminder" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
@@ -4975,7 +4975,7 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0110-CustomerInformationCenter-TicketEscalation" Required="0" Valid="1">
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0110-CIC-TicketEscalation" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
@@ -4996,7 +4996,7 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0120-CustomerInformationCenter-TicketNew" Required="0" Valid="1">
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0120-CIC-TicketNew" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
@@ -5017,7 +5017,7 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0130-CustomerInformationCenter-TicketOpen" Required="0" Valid="1">
+    <ConfigItem Name="AgentCustomerInformationCenter::Backend###0130-CIC-TicketOpen" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
