@@ -1,0 +1,60 @@
+# --
+# AgentDashboardCustomerIDStatus.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardCustomerIDStatus.dtl,v 1.1 2012-09-11 09:53:19 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+
+<fieldset class="TableLike FixedLabelSmall">
+
+<!-- dtl:block:ContentSmallCustomerIDStatusEscalatedTickets -->
+    <label>$Text{"Eskalierte Tickets"}:</label>
+    <div class="Field">
+#        <!-- Currently it is not possible to search for escalated tickets via the GUI -->
+#        <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;TicketEscalationTimeNewerMinutes=0;CustomerID=$LQData{"CustomerID"}">
+        $QData{"Count"}
+#        </a>
+    </div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallCustomerIDStatusEscalatedTickets -->
+
+<!-- dtl:block:ContentSmallCustomerIDStatusOpenTickets -->
+    <label>$Text{"Offene tickets"}:</label>
+    <div class="Field">
+        <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerID=$LQData{"CustomerID"}">
+            $QData{"Count"}
+        </a>
+    </div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallCustomerIDStatusOpenTickets -->
+
+<!-- dtl:block:ContentSmallCustomerIDStatusClosedTickets -->
+    <label>$Text{"Closed tickets"}:</label>
+    <div class="Field">
+        <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerID=$LQData{"CustomerID"}">
+            $QData{"Count"}
+        </a>
+    </div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallCustomerIDStatusClosedTickets -->
+
+<!-- dtl:block:ContentSmallCustomerIDStatusAllTickets -->
+    <label>$Text{"Alle tickets"}:</label>
+    <div class="Field">
+        <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;CustomerID=$LQData{"CustomerID"}">
+            $QData{"Count"}
+        </a>
+    </div>
+    <div class="Clear"></div>
+<!-- dtl:block:ContentSmallCustomerIDStatusAllTickets -->
+
+
+
+
+
+</fieldset>
