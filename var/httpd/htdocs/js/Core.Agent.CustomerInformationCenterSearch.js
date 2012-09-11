@@ -2,7 +2,7 @@
 // Core.Agent.CustomerInformationCenterSearch.js - provides the special module functions for the CIC search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.3 2012-09-10 12:56:33 mg Exp $
+// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.4 2012-09-11 09:30:47 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -138,4 +138,4 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
     };
 
     return TargetNS;
-}(Core.Agent.Search || {}));
+}(Core.Agent.CustomerInformationCenterSearch || {}));
