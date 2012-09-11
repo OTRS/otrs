@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.66 2012-09-11 12:12:06 mg Exp $
+# $Id: LDAP.pm,v 1.67 2012-09-11 13:32:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -513,6 +513,109 @@ sub CustomerUserList {
     }
 
     return %Users;
+}
+
+sub CustomerIDList {
+    my ( $Self, %Param ) = @_;
+
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+
+    my $CacheKey = "CustomerIDList::${Valid}::$Param{SearchTerm}";
+
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Result = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+        return @{$Result} if ref $Result eq 'ARRAY';
+    }
+
+    # prepare filter
+    my $Filter = "($Self->{CustomerID}=*)";
+    if ( $Param{SearchTerm} ) {
+
+        my $SearchFilter = $Self->{SearchPrefix} . $Param{SearchTerm} . $Self->{SearchSuffix};
+        $SearchFilter =~ s/(\%+)/\%/g;
+        $SearchFilter =~ s/(\*+)\*/*/g;
+        $Filter = "($Self->{CustomerID}=$SearchFilter)";
+
+    }
+
+    if ( $Self->{AlwaysFilter} ) {
+        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
+
+    # add valid filter
+    if ( $Self->{ValidFilter} && $Valid ) {
+        $Filter = "(&$Filter$Self->{ValidFilter})";
+    }
+
+    # create ldap connect
+    return if !$Self->_Connect();
+
+    # combine needed attrs
+    my @attrs = ( $Self->{CustomerKey}, $Self->{CustomerID} );
+
+    # perform user search
+    my $Result = $Self->{LDAP}->search(
+        base      => $Self->{BaseDN},
+        scope     => $Self->{SScope},
+        filter    => $Filter,
+        sizelimit => $Self->{UserSearchListLimit},
+        attrs     => \@attrs,
+    );
+
+    # log ldap errors
+    if ( $Result->code() ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => $Result->error(),
+        );
+    }
+
+    my %Users;
+    for my $entry ( $Result->all_entries() ) {
+
+        my $FieldValue = $entry->get_value( $Self->{CustomerID} );
+        $FieldValue = defined $FieldValue ? $FieldValue : '';
+
+        my $KeyValue = $entry->get_value( $Self->{CustomerKey} );
+        $KeyValue = defined $KeyValue ? $KeyValue : '';
+        $Users{ $Self->_ConvertFrom($KeyValue) } = $Self->_ConvertFrom($FieldValue);
+    }
+
+    # check if user need to be in a group!
+    if ( $Self->{GroupDN} ) {
+        for my $Filter2 ( keys %Users ) {
+            my $Result2 = $Self->{LDAP}->search(
+                base      => $Self->{GroupDN},
+                scope     => $Self->{SScope},
+                filter    => 'memberUid=' . $Filter2,
+                sizelimit => $Self->{UserSearchListLimit},
+                attrs     => ['1.1'],
+            );
+            if ( !$Result2->all_entries ) {
+                delete $Users{$Filter2};
+            }
+        }
+    }
+
+    # make CustomerIDs unique
+    my %Tmp;
+    @Tmp{ values %Users } = undef;
+    my @Result = keys %Tmp;
+
+    # cache request
+    if ( $Self->{CacheObject} ) {
+        $Self->{CacheObject}->Set(
+            Type  => $Self->{CacheType},
+            Key   => $CacheKey,
+            Value => \@Result,
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
+        );
+    }
+    return @Result;
 }
 
 sub CustomerIDs {
