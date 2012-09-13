@@ -1,21 +1,21 @@
 # --
-# Kernel/Output/HTML/ToolBarTicketSearchFulltext.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Kernel/Output/HTML/ToolBarGeneric.pm
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketSearchFulltext.pm,v 1.2 2011-01-21 18:01:40 dz Exp $
+# $Id: ToolBarGeneric.pm,v 1.1 2012-09-13 12:36:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ToolBarTicketSearchFulltext;
+package Kernel::Output::HTML::ToolBarGeneric;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

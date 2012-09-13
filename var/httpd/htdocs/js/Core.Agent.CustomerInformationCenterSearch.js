@@ -2,7 +2,7 @@
 // Core.Agent.CustomerInformationCenterSearch.js - provides the special module functions for the CIC search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.4 2012-09-11 09:30:47 mg Exp $
+// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.5 2012-09-13 12:36:47 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -44,6 +44,47 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
 
     /**
      * @function
+     * @param {jQueryObject} $Input Input element to add auto complete to
+     * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
+     * @return nothing
+     */
+    TargetNS.InitAutocomplete = function ( $Input, Subaction ) {
+        $Input.autocomplete({
+            minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
+            delay: Core.Config.Get('Autocomplete.QueryDelay'),
+            open: function() {
+                // force a higher z-index than the overlay/dialog
+                $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
+                return false;
+            },
+            source: function (Request, Response) {
+                var URL = Core.Config.Get('Baselink'), Data = {
+                    Action: 'AgentCustomerInformationCenterSearch',
+                    Subaction: Subaction,
+                    Term: Request.term,
+                    MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
+                };
+                Core.AJAX.FunctionCall(URL, Data, function (Result) {
+
+                    var Data = [];
+                    $.each(Result, function () {
+                        Data.push({
+                            label: this.Label,
+                            value: this.Value,
+                        });
+                    });
+                    Response(Data);
+                });
+            },
+            select: function (Event, UI) {
+                Redirect(UI.item.value, Event);
+            }
+        });
+
+    }
+
+    /**
+     * @function
      * @param {String} Action which is used in framework right now.
      * @param {String} Used profile name.
      * @return nothing
@@ -69,70 +110,9 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                 }
 
                 Core.UI.Dialog.ShowContentDialog(HTML, Core.Config.Get('SearchMsg'), '10px', 'Center', true, undefined, true);
+                TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID' );
+                TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser' );
 
-                $("#AgentCustomerInformationCenterSearchCustomerID").autocomplete({
-                    minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
-                    delay: Core.Config.Get('Autocomplete.QueryDelay'),
-                    open: function() {
-                        // force a higher z-index than the overlay/dialog
-                        $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
-                        return false;
-                    },
-                    source: function (Request, Response) {
-                        var URL = Core.Config.Get('Baselink'), Data = {
-                            Action: 'AgentCustomerInformationCenterSearch',
-                            Subaction: 'SearchCustomerID',
-                            Term: Request.term,
-                            MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
-                        };
-                        Core.AJAX.FunctionCall(URL, Data, function (Result) {
-
-                            var Data = [];
-                            $.each(Result, function () {
-                                Data.push({
-                                    label: this.Label,
-                                    value: this.Value,
-                                });
-                            });
-                            Response(Data);
-                        });
-                    },
-                    select: function (Event, UI) {
-                        Redirect(UI.item.value, Event);
-                    }
-                });
-
-                $("#AgentCustomerInformationCenterSearchCustomerUser").autocomplete({
-                    minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
-                    delay: Core.Config.Get('Autocomplete.QueryDelay'),
-                    open: function() {
-                        // force a higher z-index than the overlay/dialog
-                        $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
-                        return false;
-                    },
-                    source: function (Request, Response) {
-                        var URL = Core.Config.Get('Baselink'), Data = {
-                            Action: 'AgentCustomerInformationCenterSearch',
-                            Subaction: 'SearchCustomerUser',
-                            Term: Request.term,
-                            MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
-                        };
-                        Core.AJAX.FunctionCall(URL, Data, function (Result) {
-
-                            var Data = [];
-                            $.each(Result, function () {
-                                Data.push({
-                                    label: this.Label,
-                                    value: this.Value,
-                                });
-                            });
-                            Response(Data);
-                        });
-                    },
-                    select: function (Event, UI) {
-                        Redirect(UI.item.value, Event);
-                    }
-                });
             }, 'html'
         );
     };

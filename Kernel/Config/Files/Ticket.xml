@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.524 2012-09-13 11:23:54 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.525 2012-09-13 12:36:47 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -4133,13 +4133,45 @@ $QData{"Body"}
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketSearchFulltext</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
                 <Item Key="Description">Fulltext-Search</Item>
                 <Item Key="Name">Fulltext-Search</Item>
                 <Item Key="Block">ToolBarSearchFulltext</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.FulltextSearch.css</Item>
                 <Item Key="Priority">1990020</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###11-CICSearchCustomerID" Required="0" Valid="0">
+        <Description Translatable="1">Agent interface module to access CIC search via nav bar.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
+                <Item Key="Description">CIC search for CustomerID</Item>
+                <Item Key="Name">CostomerID search</Item>
+                <Item Key="Block">ToolBarCICSearchCustomerID</Item>
+                <Item Key="Size">10</Item>
+                <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
+                <Item Key="Priority">1990030</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###11-CICSearchCustomerUser" Required="0" Valid="0">
+        <Description Translatable="1">Agent interface module to access CIC search via nav bar.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
+                <Item Key="Description">CIC search for CustomerUser</Item>
+                <Item Key="Name">Costomer user search</Item>
+                <Item Key="Block">ToolBarCICSearchCustomerUser</Item>
+                <Item Key="Size">10</Item>
+                <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
+                <Item Key="Priority">1990040</Item>
             </Hash>
         </Setting>
     </ConfigItem>
