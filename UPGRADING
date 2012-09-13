@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.73 2012-08-31 10:33:23 mg Exp $
+# $Id: UPGRADING,v 1.74 2012-09-13 12:40:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -186,6 +186,18 @@ XXXXXXXXXXXXXXXXYZ.
 
     Ticket::ArchiveSystem::RemoveSeenFlags
     Ticket::ArchiveSystem::RemoveTicketWatchers
+
+
+13) Toolbar search config update
+    ----------------------------
+    Note: This step only applies if you have activated the fulltext search in the
+    header toolbar.
+
+    If you have activated the SysConfig setting
+    "Frontend::ToolBarModule###10-Ticket::TicketSearchFulltext", you need to modify its
+    key "Module" from "Kernel::Output::HTML::ToolBarTicketSearchProfile" to
+    "Kernel::Output::HTML::ToolBarGeneric", otherwise the toolbar entry will not appear
+    and error messages will be written to the log file.
 
 
 13) Well done!
