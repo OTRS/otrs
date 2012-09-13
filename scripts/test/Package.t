@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.37.2.1 2012-08-16 14:08:15 mh Exp $
+# $Id: Package.t,v 1.37.2.2 2012-09-13 14:33:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -316,6 +316,80 @@ $PackageInstall = $PackageObject->PackageInstall( String => $String );
 $Self->True(
     !$PackageInstall || 0,
     '#2 PackageInstall() - PackageRequired not installed',
+);
+
+$String = '<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>TestOSDetection1</Name>
+  <Version>0.0.1</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <Description Lang="en">A test package.</Description>
+  <Description Lang="de">Ein Test Paket.</Description>
+  <OS>NonExistingOS</OS>
+  <Framework>3.1.x</Framework>
+  <Framework>3.0.x</Framework>
+  <Framework>2.5.x</Framework>
+  <Framework>2.4.x</Framework>
+  <Framework>2.3.x</Framework>
+  <Framework>2.2.x</Framework>
+  <Framework>2.1.x</Framework>
+  <Framework>2.0.x</Framework>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otrs_package>
+';
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
+
+$Self->True(
+    !$PackageInstall || 0,
+    'PackageInstall() - OSCheck not installed',
+);
+
+$String = '<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>TestOSDetection2</Name>
+  <Version>0.0.1</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <Description Lang="en">A test package.</Description>
+  <Description Lang="de">Ein Test Paket.</Description>
+  <OS>darwin</OS>
+  <OS>linux</OS>
+  <OS>freebsd</OS>
+  <OS>win32</OS>
+  <Framework>3.1.x</Framework>
+  <Framework>3.0.x</Framework>
+  <Framework>2.5.x</Framework>
+  <Framework>2.4.x</Framework>
+  <Framework>2.3.x</Framework>
+  <Framework>2.2.x</Framework>
+  <Framework>2.1.x</Framework>
+  <Framework>2.0.x</Framework>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otrs_package>
+';
+$PackageInstall = $PackageObject->PackageInstall( String => $String );
+
+$Self->True(
+    $PackageInstall,
+    'PackageInstall() - OSCheck installed',
+);
+
+$PackageUninstall = $PackageObject->PackageUninstall( String => $String );
+
+$Self->True(
+    $PackageUninstall,
+    'PackageUninstall() - OSCheck uninstalled',
 );
 
 $String = '<?xml version="1.0" encoding="utf-8" ?>

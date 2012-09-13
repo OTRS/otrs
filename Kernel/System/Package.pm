@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.130.2.4 2012-08-16 14:01:43 mh Exp $
+# $Id: Package.pm,v 1.130.2.5 2012-09-13 14:33:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.130.2.4 $) [1];
+$VERSION = qw($Revision: 1.130.2.5 $) [1];
 
 =head1 NAME
 
@@ -2151,29 +2151,24 @@ sub _OSCheck {
     }
 
     # check OS
-    my $OSCheck    = 0;
-    my $CurrentOS  = $^O;
-    my $PossibleOS = '';
+    my $OSCheck   = 0;
+    my $CurrentOS = $^O;
+    my @TestedOS;
 
-    if ( ref $Param{OS} eq 'ARRAY' ) {
+    OS:
+    for my $OS ( @{ $Param{OS} } ) {
+        next OS if !$OS->{Content};
+        push @TestedOS, $OS->{Content};
+        next OS if $CurrentOS !~ /^$OS->{Content}$/i;
 
-        OS:
-        for my $OS ( @{ $Param{OS} } ) {
-
-            next OS if !$OS;
-
-            $PossibleOS .= $OS->{Content} . ';';
-
-            next OS if $CurrentOS !~ /^$OS$/i;
-
-            $OSCheck = 1;
-
-            last OS;
-        }
+        $OSCheck = 1;
+        last OS;
     }
 
     return 1 if $OSCheck;
     return   if $Param{NoLog};
+
+    my $PossibleOS = join ', ', @TestedOS;
 
     $Self->{LogObject}->Log(
         Priority => 'error',
@@ -2850,6 +2845,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.130.2.4 $ $Date: 2012-08-16 14:01:43 $
+$Revision: 1.130.2.5 $ $Date: 2012-09-13 14:33:35 $
 
 =cut
