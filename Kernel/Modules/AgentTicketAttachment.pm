@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.22.2.7 2012-08-28 08:22:28 mg Exp $
+# $Id: AgentTicketAttachment.pm,v 1.22.2.8 2012-09-13 08:08:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22.2.7 $) [1];
+$VERSION = qw($Revision: 1.22.2.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -461,10 +461,14 @@ sub Safety {
 
                 # remove javascript in a href links or src links
                 $Replaced += $Tag =~ s{
-                    ((\s|;)(background|url|src|href)=)('|"|)(javascript.+?)('|"|)(\s|$TagEnd)
+                    ((?:\s|;)(?:background|url|src|href)=)
+                    ('|"|)                                  # delimiter, can be empty
+                    (?:\s*javascript.*?)                 # javascript, followed by anything but the delimiter
+                    \2                                      # delimiter again
+                    (\s|$TagEnd)
                 }
                 {
-                    "$1\"\"$7";
+                    "$1\"\"$3";
                 }sgxime;
 
                 # remove link javascript tags
@@ -475,7 +479,7 @@ sub Safety {
 
                 # remove MS CSS expressions (JavaScript embedded in CSS)
                 $Replaced += $Tag =~ s{
-                    \sstyle=("|')[^\1]*?expression[(][^\1]*?\1($TagEnd|\s)
+                    \sstyle=("|')[^\1]*?expression[(].*?\1($TagEnd|\s)
                 }
                 {
                     $2;
