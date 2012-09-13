@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.16 $
+ * @version     $Revision: 1.17 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -103,6 +103,7 @@ form label[for] {
 }
 
 input[type=text],
+input[type=email],
 input[type=password] {
     margin: 0;
     width: 250px;
@@ -110,6 +111,7 @@ input[type=password] {
 }
 
 input[type=text],
+input[type=email],
 input[type=password],
 textarea,
 select[multiple=multiple] {
@@ -123,6 +125,7 @@ select[multiple=multiple] {
 }
 
 input[type=text],
+input[type=email],
 input[type=password],
 textarea {
     padding: 3px;
@@ -131,6 +134,7 @@ textarea {
 }
 
 input[type=text]:focus,
+input[type=email]:focus,
 input[type=password]:focus,
 textarea:focus {
     -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
