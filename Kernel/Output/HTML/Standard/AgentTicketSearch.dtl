@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.73 2012-05-11 12:33:04 mg Exp $
+# $Id: AgentTicketSearch.dtl,v 1.74 2012-09-13 11:23:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -253,6 +253,22 @@
             $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
+
+        <div class="Clear"></div>
+        <label for="TicketEscalationTimePoint" id="LabelTicketEscalationTimePoint">$Text{"Ticket Escalation Time (before/after)"}:</label>
+        <div class="Field">
+            <input type="hidden" name="EscalationTimeSearchType" value="TimePoint" $Data{"EscalationTimeSearchType::TimePoint"}/>
+            $Data{"TicketEscalationTimePointStart"} $Data{"TicketEscalationTimePoint"} $Data{"TicketEscalationTimePointFormat"}
+            <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
+        </div>
+        <div class="Clear"></div>
+        <label for="TicketEscalationTimeSlot" id="LabelTicketEscalationTimeSlot">$Text{"Ticket Escalation Time (between)"}:</label>
+        <div class="Field">
+            <input type="hidden" name="EscalationTimeSearchType" value="TimeSlot" $Data{"EscalationTimeSearchType::TimeSlot"}/>
+            $Data{"TicketEscalationTimeStart"} $Text{"and"} $Data{"TicketEscalationTimeStop"}
+            <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
+        </div>
+
         <div class="Clear"></div>
         <label for="SearchInArchive" id="LabelSearchInArchive">$Text{"Archive Search"}:</label>
         <div class="Field">

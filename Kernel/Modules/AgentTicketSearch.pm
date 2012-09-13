@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.149 2012-08-16 19:13:15 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.150 2012-09-13 11:23:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -183,7 +183,8 @@ sub Run {
     else {
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
-            Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
+            Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType EscalationTimeSearchType
+            UseSubQueues
             ArticleTimeSearchType SearchInArchive
             Fulltext ShownAttributes
             ArticleCreateTimePointFormat ArticleCreateTimePoint
@@ -210,6 +211,12 @@ sub Run {
             TicketCloseTimeStartYear
             TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
             TicketCloseTimeStopYear
+            TicketEscalationTimePointFormat TicketEscalationTimePoint
+            TicketEscalationTimePointStart
+            TicketEscalationTimeStart TicketEscalationTimeStartDay TicketEscalationTimeStartMonth
+            TicketEscalationTimeStartYear
+            TicketEscalationTimeStop TicketEscalationTimeStopDay TicketEscalationTimeStopMonth
+            TicketEscalationTimeStopYear
             )
             )
         {
@@ -302,6 +309,17 @@ sub Run {
     }
     elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
         $GetParam{'CloseTimeSearchType::TimeSlot'} = 1;
+    }
+
+    # get escalation time option
+    if ( !$GetParam{EscalationTimeSearchType} ) {
+        $GetParam{'EscalationTimeSearchType::None'} = 1;
+    }
+    elsif ( $GetParam{EscalationTimeSearchType} eq 'TimePoint' ) {
+        $GetParam{'EscalationTimeSearchType::TimePoint'} = 1;
+    }
+    elsif ( $GetParam{EscalationTimeSearchType} eq 'TimeSlot' ) {
+        $GetParam{'EscalationTimeSearchType::TimeSlot'} = 1;
     }
 
     # set result form env
@@ -655,6 +673,80 @@ sub Run {
                 }
                 else {
                     $GetParam{TicketCloseTimeNewerMinutes} = $Time;
+                }
+            }
+        }
+
+        # get escalation time settings
+        if ( !$GetParam{EscalationTimeSearchType} ) {
+
+            # do nothing on time stuff
+        }
+        elsif ( $GetParam{EscalationTimeSearchType} eq 'TimeSlot' ) {
+            for (qw(Month Day)) {
+                $GetParam{"TicketEscalationTimeStart$_"}
+                    = sprintf( "%02d", $GetParam{"TicketEscalationTimeStart$_"} );
+            }
+            for (qw(Month Day)) {
+                $GetParam{"TicketEscalationTimeStop$_"}
+                    = sprintf( "%02d", $GetParam{"TicketEscalationTimeStop$_"} );
+            }
+            if (
+                $GetParam{TicketEscalationTimeStartDay}
+                && $GetParam{TicketEscalationTimeStartMonth}
+                && $GetParam{TicketEscalationTimeStartYear}
+                )
+            {
+                $GetParam{TicketEscalationTimeNewerDate}
+                    = $GetParam{TicketEscalationTimeStartYear} . '-'
+                    . $GetParam{TicketEscalationTimeStartMonth} . '-'
+                    . $GetParam{TicketEscalationTimeStartDay}
+                    . ' 00:00:00';
+            }
+            if (
+                $GetParam{TicketEscalationTimeStopDay}
+                && $GetParam{TicketEscalationTimeStopMonth}
+                && $GetParam{TicketEscalationTimeStopYear}
+                )
+            {
+                $GetParam{TicketEscalationTimeOlderDate}
+                    = $GetParam{TicketEscalationTimeStopYear} . '-'
+                    . $GetParam{TicketEscalationTimeStopMonth} . '-'
+                    . $GetParam{TicketEscalationTimeStopDay}
+                    . ' 23:59:59';
+            }
+        }
+        elsif ( $GetParam{EscalationTimeSearchType} eq 'TimePoint' ) {
+            if (
+                $GetParam{TicketEscalationTimePoint}
+                && $GetParam{TicketEscalationTimePointStart}
+                && $GetParam{TicketEscalationTimePointFormat}
+                )
+            {
+                my $Time = 0;
+                if ( $GetParam{TicketEscalationTimePointFormat} eq 'minute' ) {
+                    $Time = $GetParam{TicketEscalationTimePoint};
+                }
+                elsif ( $GetParam{TicketEscalationTimePointFormat} eq 'hour' ) {
+                    $Time = $GetParam{TicketEscalationTimePoint} * 60;
+                }
+                elsif ( $GetParam{TicketEscalationTimePointFormat} eq 'day' ) {
+                    $Time = $GetParam{TicketEscalationTimePoint} * 60 * 24;
+                }
+                elsif ( $GetParam{TicketEscalationTimePointFormat} eq 'week' ) {
+                    $Time = $GetParam{TicketEscalationTimePoint} * 60 * 24 * 7;
+                }
+                elsif ( $GetParam{TicketEscalationTimePointFormat} eq 'month' ) {
+                    $Time = $GetParam{TicketEscalationTimePoint} * 60 * 24 * 30;
+                }
+                elsif ( $GetParam{TicketEscalationTimePointFormat} eq 'year' ) {
+                    $Time = $GetParam{TicketEscalationTimePoint} * 60 * 24 * 365;
+                }
+                if ( $GetParam{TicketEscalationTimePointStart} eq 'Before' ) {
+                    $GetParam{TicketEscalationTimeOlderMinutes} = $Time;
+                }
+                else {
+                    $GetParam{TicketEscalationTimeNewerMinutes} = $Time;
                 }
             }
         }
@@ -1251,7 +1343,7 @@ sub Run {
                     next if !$Self->{Config}->{Defaults}->{$Key};
                     next if $Key eq 'DynamicField';
 
-                    if ( $Key =~ /^(Ticket|Article)(Create|Change|Close)/ ) {
+                    if ( $Key =~ /^(Ticket|Article)(Create|Change|Close|Escalation)/ ) {
                         my @Items = split /;/, $Self->{Config}->{Defaults}->{$Key};
                         for my $Item (@Items) {
                             my ( $Key, $Value ) = split /=/, $Item;
@@ -1504,6 +1596,14 @@ sub Run {
             {
                 Key   => 'TicketCloseTimeSlot',
                 Value => 'Ticket Close Time (between)',
+            },
+            {
+                Key   => 'TicketEscalationTimePoint',
+                Value => 'Ticket Escalation Time (before/after)',
+            },
+            {
+                Key   => 'TicketEscalationTimeSlot',
+                Value => 'Ticket Escalation Time (between)',
             },
             {
                 Key   => 'ArticleCreateTimePoint',
@@ -1860,8 +1960,46 @@ sub Run {
             Prefix => 'TicketCloseTimeStop',
             Format => 'DateInputFormat',
         );
+
+        $Param{TicketEscalationTimePoint} = $Self->{LayoutObject}->BuildSelection(
+            Data       => [ 1 .. 59 ],
+            Name       => 'TicketEscalationTimePoint',
+            SelectedID => $GetParam{TicketEscalationTimePoint},
+        );
+        $Param{TicketEscalationTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                'Last'   => 'last',
+                'Before' => 'before',
+            },
+            Name => 'TicketEscalationTimePointStart',
+            SelectedID => $GetParam{TicketEscalationTimePointStart} || 'Last',
+        );
+        $Param{TicketEscalationTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'TicketEscalationTimePointFormat',
+            SelectedID => $GetParam{TicketEscalationTimePointFormat},
+        );
+        $Param{TicketEscalationTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %GetParam,
+            Prefix   => 'TicketEscalationTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{TicketEscalationTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %GetParam,
+            Prefix => 'TicketEscalationTimeStop',
+            Format => 'DateInputFormat',
+        );
+
         my %GetParamBackup = %GetParam;
-        for my $Key (qw(TicketClose TicketChange TicketCreate ArticleCreate)) {
+        for my $Key (qw(TicketEscalation TicketClose TicketChange TicketCreate ArticleCreate)) {
             for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
                 delete $GetParam{ $Key . $SubKey };
                 delete $GetParamBackup{ $Key . $SubKey };
@@ -1914,10 +2052,11 @@ sub Run {
 
         # compat. map for attributes
         my %Map = (
-            TimeSearchType        => 'TicketCreate',
-            ChangeTimeSearchType  => 'TicketChange',
-            CloseTimeSearchType   => 'TicketClose',
-            ArticleTimeSearchType => 'ArticleCreate',
+            TimeSearchType           => 'TicketCreate',
+            ChangeTimeSearchType     => 'TicketChange',
+            CloseTimeSearchType      => 'TicketClose',
+            EscalationTimeSearchType => 'TicketEscalation',
+            ArticleTimeSearchType    => 'ArticleCreate',
         );
         for my $Key ( keys %Map ) {
             next if !$GetParamBackup{$Key};
