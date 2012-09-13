@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.36.2.5 2012-08-28 08:20:14 mg Exp $
+# $Id: HTMLUtils.t,v 1.36.2.6 2012-09-13 08:08:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1191,6 +1191,54 @@ EOF
             Replace => 1,
         },
         Name => 'Safety - Nested script tags'
+    },
+    {
+        Input => <<EOF,
+<img src="/img1.png"></img>
+<iframe src=" javascript:alert('XSS Exploit');"></iframe>
+<img src="/img2.png"></img>
+EOF
+        Result => {
+            Output => <<EOF,
+<img src="/img1.png"></img>
+<iframe src=""></iframe>
+<img src="/img2.png"></img>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - javascript source with space'
+    },
+    {
+        Input => <<EOF,
+<img src="/img1.png"></img>
+<iframe src=' javascript:alert("XSS Exploit");'></iframe>
+<img src="/img2.png"></img>
+EOF
+        Result => {
+            Output => <<EOF,
+<img src="/img1.png"></img>
+<iframe src=""></iframe>
+<img src="/img2.png"></img>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - javascript source with space'
+    },
+    {
+        Input => <<EOF,
+<img src="/img1.png"></img>
+<iframe src=javascript:alert('XSS_Exploit');></iframe>
+<img src="/img2.png"></img>
+EOF
+        Result => {
+            Output => <<EOF,
+<img src="/img1.png"></img>
+<iframe src=""></iframe>
+<img src="/img2.png"></img>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - javascript source without delimiters'
     },
 );
 

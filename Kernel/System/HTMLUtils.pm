@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.27.2.5 2012-08-28 08:20:14 mg Exp $
+# $Id: HTMLUtils.pm,v 1.27.2.6 2012-09-13 08:08:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27.2.5 $) [1];
+$VERSION = qw($Revision: 1.27.2.6 $) [1];
 
 =head1 NAME
 
@@ -1022,10 +1022,14 @@ sub Safety {
 
                 # remove javascript in a href links or src links
                 $Replaced += $Tag =~ s{
-                    ((\s|;)(background|url|src|href)=)('|"|)(javascript.+?)('|"|)(\s|$TagEnd)
+                    ((?:\s|;)(?:background|url|src|href)=)
+                    ('|"|)                                  # delimiter, can be empty
+                    (?:\s*javascript.*?)                 # javascript, followed by anything but the delimiter
+                    \2                                      # delimiter again
+                    (\s|$TagEnd)
                 }
                 {
-                    "$1\"\"$7";
+                    "$1\"\"$3";
                 }sgxime;
 
                 # remove link javascript tags
@@ -1036,7 +1040,7 @@ sub Safety {
 
                 # remove MS CSS expressions (JavaScript embedded in CSS)
                 $Replaced += $Tag =~ s{
-                    \sstyle=("|')[^\1]*?expression[(][^\1]*?\1($TagEnd|\s)
+                    \sstyle=("|')[^\1]*?expression[(].*?\1($TagEnd|\s)
                 }
                 {
                     $2;
@@ -1092,6 +1096,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27.2.5 $ $Date: 2012-08-28 08:20:14 $
+$Revision: 1.27.2.6 $ $Date: 2012-09-13 08:08:02 $
 
 =cut
