@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.321 2012-07-06 10:29:48 mb Exp $
+# $Id: Article.pm,v 1.322 2012-09-13 07:28:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.321 $) [1];
+$VERSION = qw($Revision: 1.322 $) [1];
 
 =head1 NAME
 
@@ -60,6 +60,18 @@ create an article
         HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment   => 'Some free text!',
         UserID           => 123,
+        Attachment => [
+            {
+                Content     => $Content,
+                ContentType => $ContentType,
+                Filename    => 'lala.txt',
+            },
+            {
+                Content     => $Content,
+                ContentType => $ContentType,
+                Filename    => 'lala1.txt',
+            },
+        ],
         NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
         AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto reply/new ticket|auto remove
 
@@ -3470,6 +3482,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.321 $ $Date: 2012-07-06 10:29:48 $
+$Revision: 1.322 $ $Date: 2012-09-13 07:28:17 $
 
 =cut
