@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.41 2012-09-13 14:35:07 mb Exp $
+# $Id: Package.t,v 1.42 2012-09-14 13:57:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -362,7 +362,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>darwin</OS>
   <OS>linux</OS>
   <OS>freebsd</OS>
-  <OS>win32</OS>
+  <OS>MSWin32</OS>
   <Framework>3.2.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
