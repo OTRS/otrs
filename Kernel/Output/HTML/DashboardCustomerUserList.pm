@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.1 2012-09-07 12:17:38 mg Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.2 2012-09-14 08:52:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -162,8 +162,8 @@ sub Run {
             Name => 'ContentLargeCustomerUserListRow',
             Data => {
                 %Param,
-                Key   => $CustomerKey,
-                Value => $CustomerIDs->{$CustomerKey},
+                CustomerKey       => $CustomerKey,
+                CustomerListEntry => $CustomerIDs->{$CustomerKey},
             },
         );
 
@@ -182,6 +182,7 @@ sub Run {
             Data => {
                 %Param,
                 Count          => $TicketCountOpen,
+                CustomerKey    => $CustomerKey,
                 CustomerKeySQL => $CustomerKeySQL,
             },
         );
@@ -199,6 +200,7 @@ sub Run {
             Data => {
                 %Param,
                 Count          => $TicketCountClosed,
+                CustomerKey    => $CustomerKey,
                 CustomerKeySQL => $CustomerKeySQL,
             },
         );

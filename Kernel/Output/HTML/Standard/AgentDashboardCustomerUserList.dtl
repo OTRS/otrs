@@ -2,7 +2,7 @@
 # AgentDashboardCustomerUserList.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerUserList.dtl,v 1.2 2012-09-11 08:58:46 mg Exp $
+# $Id: AgentDashboardCustomerUserList.dtl,v 1.3 2012-09-14 08:52:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,8 @@
             <th>$Text{"Customer information"}</th>
             <th>$Text{"Open"}</th>
             <th>$Text{"Closed"}</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -29,26 +31,36 @@
         <tr>
             <td>
                 <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerID"};Nav=Agent" class="AsBlock MasterActionLink">
-                    $QData{"Key"}
+                    $QData{"CustomerKey"}
                 </a>
             </td>
             <td>
-                $QData{"Value"}
+                $QData{"CustomerListEntry"}
             </td>
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsOpen -->
             <td>
-                <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerUserLogin=$LQData{"CustomerKeySQL"}" title="$Text{"%s open ticket(s)", "$QData{"Count"}"}" class="AsBlock">
+                <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerUserLogin=$LQData{"CustomerKeySQL"}" title="$Text{"%s open ticket(s) of %s", "$QData{"Count"}", "$QData{"CustomerKey"}"}" class="AsBlock">
                     $QData{"Count"}
                 </a>
             </td>
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsOpen -->
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
             <td>
-                <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerUserLogin=$LQData{"CustomerKeySQL"}" title="$Text{"%s closed ticket(s)", "$QData{"Count"}"}" class="AsBlock">
+                <a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerUserLogin=$LQData{"CustomerKeySQL"}" title="$Text{"%s closed ticket(s) of %s", "$QData{"Count"}", "$QData{"CustomerKey"}"}" class="AsBlock">
                     $QData{"Count"}
                 </a>
             </td>
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
+            <td>
+                <a href="$Env{"Baselink"}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New phone ticket for %s", "$QData{"CustomerKey"}"}" class="AsBlock">
+                    $Text{"New phone ticket"}
+                </a>
+            </td>
+            <td>
+                <a href="$Env{"Baselink"}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New email ticket for %s", "$QData{"CustomerKey"}"}" class="AsBlock">
+                    $Text{"New email ticket"}
+                </a>
+            </td>
         </tr>
 <!-- dtl:block:ContentLargeCustomerUserListRow -->
 <!-- dtl:block:ContentLargeCustomerUserListNone -->
