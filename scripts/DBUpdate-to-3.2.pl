@@ -3,7 +3,7 @@
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.2.pl,v 1.3 2012-09-07 13:49:16 mb Exp $
+# $Id: DBUpdate-to-3.2.pl,v 1.4 2012-09-14 12:09:54 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -42,6 +42,7 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::SysConfig;
 use Kernel::System::Cache;
+use Kernel::System::VariableCheck qw(:all);
 
 {
 
@@ -65,7 +66,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 5;
+    my $Steps = 6;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -79,17 +80,21 @@ EOF
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
-    print "Step 2 of $Steps: Cleanup UserPreferences... ";
+    print "Step 3 of $Steps: Cleanup UserPreferences... ";
     _CleanupUserPreferences($CommonObject);
     print "done.\n\n";
 
+    print "Step 4 of $Steps: Updating toolbar configuration... ";
+    _MigrateToolbarConfig($CommonObject);
+    print "done.\n\n";
+
     # Clean up the cache completely at the end.
-    print "Step 4 of $Steps: Clean up the cache... ";
+    print "Step 5 of $Steps: Clean up the cache... ";
     my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
     $CacheObject->CleanUp();
     print "done.\n\n";
 
-    print "Step 5 of $Steps: Refresh configuration cache another time... ";
+    print "Step 6 of $Steps: Refresh configuration cache another time... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -209,6 +214,36 @@ sub _CleanupUserPreferences {
     );
 
     return 1;
+}
+
+=item _MigrateToolbarConfig()
+
+changes the module name of an existing toolbar module (TicketSearchFulltext).
+
+=cut
+
+sub _MigrateToolbarConfig {
+    my $CommonObject = shift;
+
+    my $ToolbarConfig = $CommonObject->{ConfigObject}->Get('Frontend::ToolBarModule');
+
+    # Check if the the TicketSearchFulltext toolbar module is activated
+    return 1 if !IsHashRefWithData($ToolbarConfig);
+    return 1 if !IsHashRefWithData( $ToolbarConfig->{'10-Ticket::TicketSearchFulltext'} );
+
+    # update to use the new generic module name
+    $ToolbarConfig->{'10-Ticket::TicketSearchFulltext'}->{Module}
+        = 'Kernel::Output::HTML::ToolBarGeneric';
+
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    my $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Frontend::ToolBarModule###10-Ticket::TicketSearchFulltext',
+        Value => $ToolbarConfig->{'10-Ticket::TicketSearchFulltext'},
+    );
+
+    return $Success;
 }
 
 1;
