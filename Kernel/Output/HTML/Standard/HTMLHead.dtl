@@ -1,8 +1,8 @@
 # --
 # HTMLHead.dtl - provides global HTML head snippet
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLHead.dtl,v 1.13 2011-01-19 09:24:30 mn Exp $
+# $Id: HTMLHead.dtl,v 1.13.4.1 2012-09-17 09:56:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,27 @@
 #    is present.
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
-    <meta http-equiv="refresh" content="$QData{"Refresh"}" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">
+// We don't use an http refresh header any more because it causes problems with
+//  open dialogs / popups (see bug#7135 and others).
+var RefreshSeconds = parseInt("$QData{"Refresh"}", 10) || 0;
+if (RefreshSeconds) {
+    window.setInterval(function() {
+        // If there are any open overlay dialogs, don't refresh
+        if ($('.Dialog:visible').length) {
+            return;
+        }
+        // If there are open child popup windows, don't refresh
+        if (Core && Core.UI && Core.UI.Popup && Core.UI.Popup.HasOpenPopups()) {
+            return;
+        }
+        // Now we can reload
+        window.location.reload();
+    }, RefreshSeconds *  1000);
+}
+</script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MetaHttpEquivRefresh -->
 <!-- dtl:block:MetaLink -->
     <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}" />
