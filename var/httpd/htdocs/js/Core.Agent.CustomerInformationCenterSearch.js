@@ -2,7 +2,7 @@
 // Core.Agent.CustomerInformationCenterSearch.js - provides the special module functions for the CIC search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.5 2012-09-13 12:36:47 mg Exp $
+// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.6 2012-09-17 08:31:48 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,9 +37,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
         Event.preventDefault();
         Event.stopPropagation();
         ShowWaitingDialog();
-        window.location.href = Core.Config.Get('Baselink')
-            + 'Action=AgentCustomerInformationCenter;CustomerID='
-            + encodeURIComponent(CustomerID);
+        window.location.href = Core.Config.Get('Baselink') + 'Action=AgentCustomerInformationCenter;CustomerID=' + encodeURIComponent(CustomerID);
     }
 
     /**
@@ -70,7 +68,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                     $.each(Result, function () {
                         Data.push({
                             label: this.Label,
-                            value: this.Value,
+                            value: this.Value
                         });
                     });
                     Response(Data);
@@ -80,8 +78,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                 Redirect(UI.item.value, Event);
             }
         });
-
-    }
+    };
 
     /**
      * @function
@@ -94,7 +91,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
     TargetNS.OpenSearchDialog = function () {
 
         var Data = {
-            Action: 'AgentCustomerInformationCenterSearch',
+            Action: 'AgentCustomerInformationCenterSearch'
         };
 
         ShowWaitingDialog();
