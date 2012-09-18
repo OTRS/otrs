@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.8.2.1 2012-07-17 12:43:44 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.8.2.2 2012-09-18 07:09:42 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8.2.1 $) [1];
+$VERSION = qw($Revision: 1.8.2.2 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -141,7 +141,7 @@ $CommonObject{LanguageObject} = Kernel::Language->new(
 );
 
 # format
-my $Format = ( $Opts{f} eq 'Print' ) ? 'Print' : 'CSV';
+my $Format = ( defined $Opts{f} && $Opts{f} eq 'Print' ) ? 'Print' : 'CSV';
 
 # separator (for CSV files)
 # for backwards compatibility no comma as default
