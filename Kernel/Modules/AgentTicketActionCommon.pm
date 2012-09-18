@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.90 2012-08-02 10:25:53 te Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.91 2012-09-18 12:58:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -912,7 +912,7 @@ sub Run {
                     Data         => $Owners,
                     SelectedID   => $GetParam{NewOwnerID},
                     Translation  => 0,
-                    PossibleNone => 0,
+                    PossibleNone => 1,
                     Max          => 100,
                 },
                 {
@@ -920,7 +920,7 @@ sub Run {
                     Data         => $OldOwners,
                     SelectedID   => $GetParam{OldOwnerID},
                     Translation  => 0,
-                    PossibleNone => 0,
+                    PossibleNone => 1,
                     Max          => 100,
                 },
                 {
@@ -1673,9 +1673,6 @@ sub _GetOldOwners {
         continue {
             $Counter++;
         }
-    }
-    if ( !%UserHash ) {
-        $UserHash{''} = '-';
     }
 
     # workflow
