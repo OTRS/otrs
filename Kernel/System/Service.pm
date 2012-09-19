@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.52 2012-06-04 22:00:07 cr Exp $
+# $Id: Service.pm,v 1.53 2012-09-19 17:33:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -245,7 +245,7 @@ sub ServiceListGet {
         $Param{Valid} = 1;
     }
 
-    # check cached resutls
+    # check cached results
     my $CacheKey = 'Cache::ServiceListGet::Valid::' . $Param{Valid};
     my $Cache    = $Self->{CacheObject}->Get(
         Type => 'Service',
@@ -393,6 +393,15 @@ sub ServiceGet {
         );
     }
 
+    # check cached results
+    my $CacheKey = 'Cache::ServiceGet::' . $Param{ServiceID};
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'Service',
+        Key  => $CacheKey,
+    );
+
+    return %{$Cache} if $Cache;
+
     # get service from db
     $Self->{DBObject}->Prepare(
         SQL =>
@@ -446,6 +455,14 @@ sub ServiceGet {
         %ServiceData = ( %ServiceData, %Preferences );
     }
 
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'Service',
+        Key   => $CacheKey,
+        Value => \%ServiceData,
+        TTL   => $Self->{CacheTTL},
+    );
+
     return %ServiceData;
 }
 
@@ -485,6 +502,16 @@ sub ServiceLookup {
             return $Self->{$CacheKey};
         }
 
+        # check cacheobject
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'Service',
+            Key  => $CacheKey,
+        );
+        if ($Cache) {
+            $Self->{$CacheKey} = $Cache;
+            return $Cache;
+        }
+
         # lookup
         $Self->{DBObject}->Prepare(
             SQL   => 'SELECT name FROM service WHERE id = ?',
@@ -494,6 +521,13 @@ sub ServiceLookup {
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Self->{$CacheKey} = $Row[0];
         }
+
+        $Self->{CacheObject}->Set(
+            Type  => 'Service',
+            Key   => $CacheKey,
+            Value => $Self->{$CacheKey},
+            TTL   => $Self->{CacheTTL},
+        );
 
         return $Self->{$CacheKey};
     }
@@ -505,6 +539,16 @@ sub ServiceLookup {
             return $Self->{$CacheKey};
         }
 
+        # check cacheobject
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'Service',
+            Key  => $CacheKey,
+        );
+        if ($Cache) {
+            $Self->{$CacheKey} = $Cache;
+            return $Cache;
+        }
+
         # lookup
         $Self->{DBObject}->Prepare(
             SQL   => 'SELECT id FROM service WHERE name = ?',
@@ -514,6 +558,13 @@ sub ServiceLookup {
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Self->{$CacheKey} = $Row[0];
         }
+
+        $Self->{CacheObject}->Set(
+            Type  => 'Service',
+            Key   => $CacheKey,
+            Value => $Self->{$CacheKey},
+            TTL   => $Self->{CacheTTL},
+        );
 
         return $Self->{$CacheKey};
     }
@@ -1198,6 +1249,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2012-06-04 22:00:07 $
+$Revision: 1.53 $ $Date: 2012-09-19 17:33:04 $
 
 =cut
