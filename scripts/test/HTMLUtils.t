@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.50 2012-09-13 08:10:23 mg Exp $
+# $Id: HTMLUtils.t,v 1.51 2012-09-20 07:31:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1290,15 +1290,15 @@ EOF
     },
     {
         Input => <<EOF,
-<img src="/img1.png"></img>
-<iframe src=" javascript:alert('XSS Exploit');"></iframe>
-<img src="/img2.png"></img>
+<img src="/img1.png"/>
+<iframe src="  javascript:alert('XSS Exploit');"></iframe>
+<img src="/img2.png"/>
 EOF
         Result => {
             Output => <<EOF,
-<img src="/img1.png"></img>
+<img src="/img1.png"/>
 <iframe src=""></iframe>
-<img src="/img2.png"></img>
+<img src="/img2.png"/>
 EOF
             Replace => 1,
         },
@@ -1306,15 +1306,15 @@ EOF
     },
     {
         Input => <<EOF,
-<img src="/img1.png"></img>
-<iframe src=' javascript:alert("XSS Exploit");'></iframe>
-<img src="/img2.png"></img>
+<img src="/img1.png"/>
+<iframe src='  javascript:alert("XSS Exploit");'></iframe>
+<img src="/img2.png"/>
 EOF
         Result => {
             Output => <<EOF,
-<img src="/img1.png"></img>
+<img src="/img1.png"/>
 <iframe src=""></iframe>
-<img src="/img2.png"></img>
+<img src="/img2.png"/>
 EOF
             Replace => 1,
         },
@@ -1322,19 +1322,35 @@ EOF
     },
     {
         Input => <<EOF,
-<img src="/img1.png"></img>
+<img src="/img1.png"/>
 <iframe src=javascript:alert('XSS_Exploit');></iframe>
-<img src="/img2.png"></img>
+<img src="/img2.png"/>
 EOF
         Result => {
             Output => <<EOF,
-<img src="/img1.png"></img>
+<img src="/img1.png"/>
 <iframe src=""></iframe>
-<img src="/img2.png"></img>
+<img src="/img2.png"/>
 EOF
             Replace => 1,
         },
         Name => 'Safety - javascript source without delimiters'
+    },
+    {
+        Input => <<EOF,
+<img src="/img1.png"/>
+<iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
+<img src="/img2.png"/>
+EOF
+        Result => {
+            Output => <<EOF,
+<img src="/img1.png"/>
+<iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
+<img src="/img2.png"/>
+EOF
+            Replace => 0,
+        },
+        Name => 'Safety - javascript source in data tag, keep'
     },
 );
 
