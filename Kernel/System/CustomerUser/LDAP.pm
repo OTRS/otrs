@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.68 2012-09-20 12:43:46 mb Exp $
+# $Id: LDAP.pm,v 1.69 2012-09-20 13:02:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -534,9 +534,9 @@ sub CustomerIDList {
 
     # prepare filter
     my $Filter = "($Self->{CustomerID}=*)";
-    if ( $Param{SearchTerm} ) {
+    if ($SearchTerm) {
 
-        my $SearchFilter = $Self->{SearchPrefix} . $Param{SearchTerm} . $Self->{SearchSuffix};
+        my $SearchFilter = $Self->{SearchPrefix} . $SearchTerm . $Self->{SearchSuffix};
         $SearchFilter =~ s/(\%+)/\%/g;
         $SearchFilter =~ s/(\*+)\*/*/g;
         $Filter = "($Self->{CustomerID}=$SearchFilter)";

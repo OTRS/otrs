@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.100 2012-09-20 12:41:18 mb Exp $
+# $Id: DB.pm,v 1.101 2012-09-20 13:02:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -413,13 +413,13 @@ sub CustomerIDList {
     }
 
     # add search term
-    if ( $Param{SearchTerm} ) {
-        my $SearchTerm = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{SearchTerm} );
+    if ($SearchTerm) {
+        my $SearchTermEscaped = $Self->{DBObject}->QueryStringEscape( QueryString => $SearchTerm );
 
         $SQL .= ' AND ';
         $SQL .= $Self->{DBObject}->QueryCondition(
             Key          => $Self->{CustomerID},
-            Value        => $SearchTerm,
+            Value        => $SearchTermEscaped,
             SearchPrefix => $Self->{SearchPrefix},
             SearchSuffix => $Self->{SearchSuffix},
         );
