@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.67 2012-09-11 13:32:46 mg Exp $
+# $Id: LDAP.pm,v 1.68 2012-09-20 12:43:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -147,12 +147,12 @@ sub new {
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
     $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
 
-    # cache object
+    # set cache type
+    $Self->{CacheType} = 'CustomerUser' . $Param{Count};
+
+    # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
-
-        # set cache type
-        $Self->{CacheType} = 'CustomerUser' . $Param{Count};
     }
 
     # get valid filter if used
@@ -519,8 +519,9 @@ sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $SearchTerm = $Param{SearchTerm} || '';
 
-    my $CacheKey = "CustomerIDList::${Valid}::$Param{SearchTerm}";
+    my $CacheKey = "CustomerIDList::${Valid}::$SearchTerm";
 
     # check cache
     if ( $Self->{CacheObject} ) {

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.99 2012-09-10 13:43:18 mg Exp $
+# $Id: DB.pm,v 1.100 2012-09-20 12:41:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,12 +87,12 @@ sub new {
         }
     }
 
-    # create cache object
+    # set cache type
+    $Self->{CacheType} = 'CustomerUser' . $Param{Count};
+
+    # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
-
-        # set cache type
-        $Self->{CacheType} = 'CustomerUser' . $Param{Count};
     }
 
     # create new db connect if DSN is given
@@ -386,9 +386,10 @@ sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $SearchTerm = $Param{SearchTerm} || '';
 
     my $CacheType = $Self->{CacheType} . '_CustomerIDList';
-    my $CacheKey  = "CustomerIDList::${Valid}::$Param{SearchTerm}";
+    my $CacheKey  = "CustomerIDList::${Valid}::$SearchTerm";
 
     # check cache
     if ( $Self->{CacheObject} ) {
