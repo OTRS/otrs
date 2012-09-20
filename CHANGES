@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2426 2012-09-18 12:58:14 mg Exp $
+# $Id: CHANGES,v 1.2427 2012-09-20 07:48:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,7 +87,7 @@
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
 
-3.1.11 2012-??-??
+3.1.11 2012-10-16
  - 2012-09-18 Fixed bug#8770 - AJAX Removes Default Options.
  - 2012-09-17 Fixed bug#7135 - Queueview, Ticketwindow closing on Refresh.
  - 2012-09-17 Fixed bug#7294 - Ticket search window closes on background refresh of ticket queue.
