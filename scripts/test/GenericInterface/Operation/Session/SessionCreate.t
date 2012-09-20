@@ -2,7 +2,7 @@
 # SessionCreate.t - GenericInterface SessionCreate tests for SessionConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionCreate.t,v 1.1 2012-01-25 18:01:44 cr Exp $
+# $Id: SessionCreate.t,v 1.2 2012-09-20 05:28:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -407,7 +407,7 @@ for my $Test (@Tests) {
     # tests supposed to succeed
     if ( $Test->{SuccessGet} ) {
 
-        # local resutls
+        # local results
         $Self->IsNot(
             $LocalResult->{Data}->{SessionID},
             undef,

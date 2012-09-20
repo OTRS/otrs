@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.11 2012-08-16 14:17:28 cr Exp $
+# $Id: TicketCreate.t,v 1.12 2012-09-20 05:28:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3224,7 +3224,7 @@ for my $Test (@Tests) {
     # tests supposed to succeed
     if ( $Test->{SuccessCreate} ) {
 
-        # local resutls
+        # local results
         $Self->True(
             $LocalResult->{Data}->{TicketID},
             "$Test->{Name} - Local result TicketID with True.",
