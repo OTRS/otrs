@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.257 2012-09-13 08:08:01 mg Exp $
+# $Id: CHANGES,v 1.1758.2.258 2012-09-20 07:49:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.17 2012-??-??
+3.0.17 2012-10-16
  - 2012-09-13 Improved HTML security filter to better find javascript source URLs.
 
 3.0.16 2012-08-30
