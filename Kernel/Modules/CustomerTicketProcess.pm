@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketProcess.pm,v 1.1 2012-09-10 03:02:19 sb Exp $
+# $Id: CustomerTicketProcess.pm,v 1.2 2012-09-20 17:44:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -806,6 +806,12 @@ sub _OutputActivityDialog {
 
     my %RenderedFields = ();
 
+    # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
+    # by ActivityDialog fields
+    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
+        ActivityDialogFields => $ActivityDialog->{Fields},
+    );
+
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -842,6 +848,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -1022,7 +1029,7 @@ sub _RenderDynamicField {
         ParamObject          => $Self->{ParamObject},
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
-        UpdatableFields      => [],
+        UpdatableFields      => $Param{AJAXUpdatableFields},
     );
 
     my %Data = (
@@ -1467,6 +1474,43 @@ sub _StoreActivityDialog {
     return $Self->{LayoutObject}->PopupClose(
         URL => "Action=CustomerTicketZoom;TicketID=$TicketID",
     );
+}
+
+sub _GetAJAXUpdatableFields {
+    my ( $Self, %Param ) = @_;
+
+    # create a DynamicFieldLookupTable
+    my %DynamicFieldLookup = map { 'DynamicField_' . $_->{Name} => $_ } @{ $Self->{DynamicField} };
+
+    my @UpdatableFields;
+    FIELD:
+    for my $Field ( keys %{ $Param{ActivityDialogFields} } ) {
+
+        my $FieldData = $Param{ActivityDialogFields}->{$Field};
+
+        # skip hidden fields
+        next FIELD if !$FieldData->{Display};
+
+        # for Dynamic Fields check if is AJAXUpdatable
+        if ( $Field =~ m{^DynamicField_(.*)}xms ) {
+            my $DynamicFieldConfig = $DynamicFieldLookup{$Field};
+
+            # skip any field with wrong config
+            next FIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # get field update status
+            my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            # skip field if is not updatable
+            next FIELD if !$Updateable;
+
+            push @UpdatableFields, $Field;
+        }
+    }
+
+    return \@UpdatableFields;
 }
 
 1;
