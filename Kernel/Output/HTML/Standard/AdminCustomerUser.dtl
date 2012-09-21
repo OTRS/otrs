@@ -2,7 +2,7 @@
 # AdminCustomerUser.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.dtl,v 1.37 2012-09-21 09:49:57 ub Exp $
+# $Id: AdminCustomerUser.dtl,v 1.38 2012-09-21 11:52:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,7 +121,7 @@
                             <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
 <!-- dtl:block:OverviewResultRowSwitchToCustomer -->
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;ID=$LQData{"UserLogin"};$QEnv{"ChallengeTokenParam"}">$Text{"Switch to customer"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;ID=$LQData{"UserLogin"};$QEnv{"ChallengeTokenParam"}" target="_blank">$Text{"Switch to customer"}</a>
                             </td>
 <!-- dtl:block:OverviewResultRowSwitchToCustomer -->
                             <td>$Text{"$Data{"Valid"}"}</td>
