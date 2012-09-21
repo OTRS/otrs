@@ -1,8 +1,8 @@
 // --
 // Core.Customer.js - provides functions for the customer login
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Customer.js,v 1.16 2011-05-10 11:36:24 mg Exp $
+// $Id: Core.Customer.js,v 1.17 2012-09-21 02:21:58 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,6 +47,7 @@ Core.Customer = (function (TargetNS) {
         Core.Exception.Init();
 
         Core.Form.Validate.Init();
+        Core.UI.Popup.Init();
         // Add table functions here (because of performance reasons only do this if table has not more than 200 rows)
         if ($TableElements.length < 200) {
             $TableElements.filter(':nth-child(even)').addClass('Even');
