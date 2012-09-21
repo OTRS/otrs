@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.18 2012-09-10 03:04:03 sb Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.19 2012-09-21 02:16:21 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -300,6 +300,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Title>Process</Title>
                 <Loader>
+                    <CSS>Core.Customer.TicketProcess.css</CSS>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
