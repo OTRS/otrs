@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.2 2012-09-14 08:52:19 mg Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.3 2012-09-21 09:49:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -28,7 +28,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject TicketObject ParamObject UserID)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject TicketObject ParamObject UserID GroupObject)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
@@ -75,14 +75,6 @@ sub Preferences {
 
 sub Config {
     my ( $Self, %Param ) = @_;
-
-    #    # check if frontend module of link is used
-    #    if ( $Self->{Config}->{Link} && $Self->{Config}->{Link} =~ /Action=(.+?)([&;].+?|)$/ ) {
-    #        my $Action = $1;
-    #        if ( !$Self->{ConfigObject}->Get('Frontend::Module')->{$Action} ) {
-    #            $Self->{Config}->{Link} = '';
-    #        }
-    #    }
 
     return (
         %{ $Self->{Config} },
@@ -153,6 +145,32 @@ sub Run {
         },
     );
 
+    # check the permission for the SwitchToCustomer feature
+    if ( $Self->{ConfigObject}->Get('SwitchToCustomer') ) {
+
+        # get the group id which is allowed to use the switch to customer feature
+        my $SwitchToCustomerGroupID = $Self->{GroupObject}->GroupLookup(
+            Group => $Self->{ConfigObject}->Get('SwitchToCustomer::PermissionGroup'),
+        );
+
+        # get user groups, where the user has the rw privilege
+        my %Groups = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+            Result => 'HASH',
+        );
+
+        # if the user is a member in this group he can access the feature
+        if ( $Groups{$SwitchToCustomerGroupID} ) {
+
+            $Self->{SwitchToCustomerPermission} = 1;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultSwitchToCustomer',
+            );
+        }
+    }
+
     my @CustomerKeys
         = sort { lc( $CustomerIDs->{$a} ) cmp lc( $CustomerIDs->{$b} ) } keys %{$CustomerIDs};
     @CustomerKeys = splice @CustomerKeys, $Self->{StartHit} - 1, $Self->{PageShown};
@@ -204,6 +222,19 @@ sub Run {
                 CustomerKeySQL => $CustomerKeySQL,
             },
         );
+
+        if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRowSwitchToCustomer',
+                Data => {
+                    %Param,
+                    Count          => $TicketCountClosed,
+                    CustomerKey    => $CustomerKey,
+                    CustomerKeySQL => $CustomerKeySQL,
+                },
+            );
+        }
     }
 
     # show "none" if no ticket is available

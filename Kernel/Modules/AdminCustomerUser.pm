@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.100 2012-09-06 08:31:37 mh Exp $
+# $Id: AdminCustomerUser.pm,v 1.101 2012-09-21 09:49:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,13 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
+use Kernel::System::CustomerGroup;
 use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +42,7 @@ sub new {
 
     # create additonal objects
     $Self->{CustomerUserObject}    = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CustomerGroupObject}   = Kernel::System::CustomerGroup->new(%Param);
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
     $Self->{ValidObject}           = Kernel::System::Valid->new(%Param);
 
@@ -56,7 +58,7 @@ sub Run {
     $Search
         ||= $Self->{ConfigObject}->Get('AdminCustomerUser::RunInitialWildcardSearch') ? '*' : '';
 
-    #create local object
+    # create local object
     my $CheckItemObject = Kernel::System::CheckItem->new( %{$Self} );
 
     my $NavBar = '';
@@ -68,6 +70,116 @@ sub Run {
         $NavBar .= $Self->{LayoutObject}->NavigationBar(
             Type => $Nav eq 'Agent' ? 'Customers' : 'Admin',
         );
+    }
+
+    # check the permission for the SwitchToCustomer feature
+    if ( $Self->{ConfigObject}->Get('SwitchToCustomer') ) {
+
+        # get the group id which is allowed to use the switch to customer feature
+        my $SwitchToCustomerGroupID = $Self->{GroupObject}->GroupLookup(
+            Group => $Self->{ConfigObject}->Get('SwitchToCustomer::PermissionGroup'),
+        );
+
+        # get user groups, where the user has the rw privilege
+        my %Groups = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+            Result => 'HASH',
+        );
+
+        # if the user is a member in this group he can access the feature
+        if ( $Groups{$SwitchToCustomerGroupID} ) {
+            $Self->{SwitchToCustomerPermission} = 1;
+        }
+    }
+
+    # ------------------------------------------------------------ #
+    #  switch to customer
+    # ------------------------------------------------------------ #
+    if (
+        $Self->{Subaction} eq 'Switch'
+        && $Self->{ConfigObject}->Get('SwitchToCustomer')
+        && $Self->{SwitchToCustomerPermission}
+        )
+    {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        # get user data
+        my $UserID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User  => $UserID,
+            Valid => 1,
+        );
+
+        # get groups rw/ro
+        for my $Type (qw(rw ro)) {
+            my %GroupData = $Self->{CustomerGroupObject}->GroupMemberList(
+                Result => 'HASH',
+                Type   => $Type,
+                UserID => $UserData{UserID},
+            );
+            for my $GroupKey ( keys %GroupData ) {
+                if ( $Type eq 'rw' ) {
+                    $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
+                }
+                else {
+                    $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';
+                }
+            }
+        }
+
+        # create new session id
+        my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+            %UserData,
+            UserLastRequest => $Self->{TimeObject}->SystemTime(),
+            UserType        => 'Customer',
+        );
+
+        # get customer interface session name
+        my $SessionName = $Self->{ConfigObject}->Get('CustomerPanelSessionName') || 'CSID';
+
+        # create a new LayoutObject with SessionIDCookie
+        my $Expires = '+' . $Self->{ConfigObject}->Get('SessionMaxTime') . 's';
+        if ( !$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose') ) {
+            $Expires = '';
+        }
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            SetCookies => {
+                SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                    Key     => $SessionName,
+                    Value   => $NewSessionID,
+                    Expires => $Expires,
+                ),
+            },
+            SessionID   => $NewSessionID,
+            SessionName => $Self->{ConfigObject}->Get('SessionName'),
+        );
+
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message =>
+                "Switched from Agent to Customer ($Self->{UserLogin} -=> $UserData{UserLogin})",
+        );
+
+        # build URL to customer interface
+        my $URL = $Self->{ConfigObject}->Get('HttpType')
+            . '://'
+            . $ENV{HTTP_HOST}
+            . '/'
+            . $Self->{ConfigObject}->Get('ScriptAlias')
+            . 'customer.pl';
+
+        # if no sessions are used we attach the session as URL parameter
+        if ( !$Self->{ConfigObject}->Get('SessionUseCookie') ) {
+            $URL .= "?$SessionName=$NewSessionID";
+        }
+
+        # redirect to customer interface with new session id
+        return $LayoutObject->Redirect( ExtURL => $URL );
     }
 
     # search user list
@@ -545,6 +657,9 @@ sub _Overview {
         Data => {},
     );
 
+    # when there is no data to show, a message is displayed on the table with this colspan
+    my $ColSpan = 6;
+
     if ( $Param{Search} ) {
         my %List = $Self->{CustomerUserObject}->CustomerSearch(
             Search => $Param{Search},
@@ -554,6 +669,14 @@ sub _Overview {
             Name => 'OverviewResult',
             Data => \%Param,
         );
+
+        if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
+        {
+            $ColSpan = 7;
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultSwitchToCustomer',
+            );
+        }
 
         # if there are results to show
         if (%List) {
@@ -590,6 +713,20 @@ sub _Overview {
                         },
                     );
                 }
+
+                if (
+                    $Self->{ConfigObject}->Get('SwitchToCustomer')
+                    && $Self->{SwitchToCustomerPermission}
+                    )
+                {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'OverviewResultRowSwitchToCustomer',
+                        Data => {
+                            Search => $Param{Search},
+                            %UserData,
+                        },
+                    );
+                }
             }
         }
 
@@ -597,7 +734,9 @@ sub _Overview {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'NoDataFoundMsg',
-                Data => {},
+                Data => {
+                    ColSpan => $ColSpan,
+                },
             );
         }
     }
