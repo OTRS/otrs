@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.55 2012-09-21 05:05:49 mb Exp $
+# $Id: Service.pm,v 1.56 2012-09-21 06:51:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -497,7 +497,7 @@ sub ServiceLookup {
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::ID::' . $Param{ServiceID};
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-        return $Cache if $Cache;
+        return $Cache if defined $Cache;
 
         # lookup
         $Self->{DBObject}->Prepare(
@@ -523,7 +523,7 @@ sub ServiceLookup {
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::Name::' . $Param{Name};
         my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-        return $Cache if $Cache;
+        return $Cache if defined $Cache;
 
         # lookup
         $Self->{DBObject}->Prepare(
@@ -1204,6 +1204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2012-09-21 05:05:49 $
+$Revision: 1.56 $ $Date: 2012-09-21 06:51:14 $
 
 =cut
