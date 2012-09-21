@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketProcess.pm,v 1.2 2012-09-20 17:44:09 cr Exp $
+# $Id: CustomerTicketProcess.pm,v 1.3 2012-09-21 02:17:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -719,7 +719,7 @@ sub _OutputActivityDialog {
     my $Output;
 
     if ( !$IsAJAXUpdate ) {
-        $Output = $Self->{LayoutObject}->Header(
+        $Output = $Self->{LayoutObject}->CustomerHeader(
             Type  => 'Small',
             Value => $Ticket{Number},
         );
@@ -787,7 +787,7 @@ sub _OutputActivityDialog {
     }
 
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'ProcessManagement/ActivityDialogHeader',
+        TemplateFile => 'ProcessManagement/CustomerActivityDialogHeader',
         Data         => {
             FormName  => 'ActivityDialogDialog' . $ActivityActivityDialog->{ActivityDialog},
             FormID    => $Self->{FormID},
@@ -968,14 +968,14 @@ sub _OutputActivityDialog {
 
     # Add the FormFooter
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'ProcessManagement/ActivityDialogFooter',
+        TemplateFile => 'ProcessManagement/CustomerActivityDialogFooter',
         Data         => {},
     );
 
     if ( !$IsAJAXUpdate ) {
 
         # Add the OTRS Footer
-        $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+        $Output .= $Self->{LayoutObject}->CustomerFooter( Type => 'Small' );
     }
 
     return $Output;
@@ -1110,6 +1110,11 @@ sub _RenderArticle {
     $Self->{LayoutObject}->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Article',
         Data => \%Data,
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'BodySeparator',
+        Data => \%Param,
     );
 
     # add rich text editor
