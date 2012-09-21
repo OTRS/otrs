@@ -1,0 +1,73 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Process ticket
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Extensions for popup dialog
+ */
+
+.FieldSetSeparator {
+    float: none;
+    clear: both;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 7px;
+    font-size: 12px;
+}
+
+.FieldContainer + .FieldSetSeparator {
+    padding-top: 10px;
+}
+
+.FieldSeparator {
+    border-top: 1px dotted #ccc;
+    margin: 5px 0px;
+}
+
+.PopupHeader {
+    background: -moz-linear-gradient(center top , #F9F9F9, #ECEEEE) repeat scroll 0 0 transparent;
+    border: 1px solid #B8BBBB;
+    padding: 9px 9px 0px;
+}
+
+.PopupHeader > p > a {
+    color: #777777;
+    font-size: 11px;
+    outline: medium none;
+    padding: 5px 11px;
+    text-shadow: 0 1px 0 #EAEEEE;
+}
+.PopupHeader > p > a:hover {
+    color: #444444;
+}
+
+fieldset.TableLike > .Field, fieldset.TableLike > .Row > .Field {
+    line-height: 1.2em;
+    min-height: 16px;
+    padding: 0 0 3px 10px;
+}
+
+.FieldExplanation {
+    color: #888888;
+    margin-left: 8pc;
+}
+
+.PopupFooter {
+    background: -moz-linear-gradient(center top , #F9F9F9, #ECEEEE) repeat scroll 0 0 transparent;
+    border: 1px solid #B8BBBB;
+    padding: 5px 9px;
+}
+
+.AdviceText {
+    padding-left: 13px;
+}
+} /* end @media */
