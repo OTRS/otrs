@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.50.2.2 2012-06-04 22:00:55 cr Exp $
+# $Id: Service.pm,v 1.50.2.3 2012-09-21 08:14:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,11 +16,11 @@ use warnings;
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
-use Kernel::System::Cache;
+use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.2 $) [1];
+$VERSION = qw($Revision: 1.50.2.3 $) [1];
 
 =head1 NAME
 
@@ -89,7 +89,12 @@ sub new {
     }
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
     $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
-    $Self->{CacheObject}     = Kernel::System::Cache->new( %{$Self} );
+
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'Service',
+        TTL  => 60 * 60 * 24 * 20,
+    );
 
     # load generator preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('Service::PreferencesModule')
@@ -97,9 +102,6 @@ sub new {
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
         $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
     }
-
-    # set the cache TTL (in seconds)
-    $Self->{CacheTTL} = 3600;
 
     return $Self;
 }
@@ -132,6 +134,11 @@ sub ServiceList {
         $Param{Valid} = 1;
     }
 
+    # read cache
+    my $CacheKey = 'ServiceList::' . $Param{Valid};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # ask database
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name, valid_id FROM service',
@@ -145,7 +152,10 @@ sub ServiceList {
         $ServiceValidList{ $Row[0] } = $Row[2];
     }
 
-    return %ServiceList if !$Param{Valid};
+    if ( !$Param{Valid} ) {
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%ServiceList );
+        return %ServiceList if !$Param{Valid};
+    }
 
     # get valid ids
     my @ValidIDs = $Self->{ValidObject}->ValidIDsGet();
@@ -183,6 +193,9 @@ sub ServiceList {
             }
         }
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%ServiceList );
 
     return %ServiceList;
 }
@@ -245,17 +258,10 @@ sub ServiceListGet {
         $Param{Valid} = 1;
     }
 
-    # check cached resutls
+    # check cached results
     my $CacheKey = 'Cache::ServiceListGet::Valid::' . $Param{Valid};
-    my $Cache    = $Self->{CacheObject}->Get(
-        Type => 'Service',
-        Key  => $CacheKey,
-    );
-
-    # return cache if any
-    if ( defined $Cache ) {
-        return $Cache;
-    }
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if defined $Cache;
 
     # create SQL query
     my $SQL = 'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
@@ -317,11 +323,9 @@ sub ServiceListGet {
     if (@ServiceList) {
 
         # set cache
-        $Self->{CacheObject}->Set(
-            Type  => 'Service',
+        $Self->{CacheInternalObject}->Set(
             Key   => $CacheKey,
             Value => \@ServiceList,
-            TTL   => $Self->{CacheTTL},
         );
     }
 
@@ -393,6 +397,11 @@ sub ServiceGet {
         );
     }
 
+    # check cached results
+    my $CacheKey = 'Cache::ServiceGet::' . $Param{ServiceID};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # get service from db
     $Self->{DBObject}->Prepare(
         SQL =>
@@ -446,6 +455,12 @@ sub ServiceGet {
         %ServiceData = ( %ServiceData, %Preferences );
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%ServiceData,
+    );
+
     return %ServiceData;
 }
 
@@ -481,9 +496,8 @@ sub ServiceLookup {
 
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::ID::' . $Param{ServiceID};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
-        }
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if defined $Cache;
 
         # lookup
         $Self->{DBObject}->Prepare(
@@ -491,19 +505,25 @@ sub ServiceLookup {
             Bind  => [ \$Param{ServiceID} ],
             Limit => 1,
         );
+
+        my $Result = '';
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Self->{$CacheKey} = $Row[0];
+            $Result = $Row[0];
         }
 
-        return $Self->{$CacheKey};
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Result,
+        );
+
+        return $Result;
     }
     else {
 
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::Name::' . $Param{Name};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
-        }
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return $Cache if defined $Cache;
 
         # lookup
         $Self->{DBObject}->Prepare(
@@ -511,11 +531,18 @@ sub ServiceLookup {
             Bind  => [ \$Param{Name} ],
             Limit => 1,
         );
+
+        my $Result = '';
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Self->{$CacheKey} = $Row[0];
+            $Result = $Row[0];
         }
 
-        return $Self->{$CacheKey};
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Result,
+        );
+
+        return $Result;
     }
 }
 
@@ -621,10 +648,7 @@ sub ServiceAdd {
     }
 
     # reset cache
-    delete $Self->{ 'Cache::ServiceLookup::ID::' . $ServiceID };
-    delete $Self->{ 'Cache::ServiceLookup::Name::' . $Param{FullName} };
-
-    $Self->{CacheObject}->CleanUp(
+    $Self->{CacheInternalObject}->CleanUp(
         Type => 'Service',
     );
 
@@ -633,7 +657,7 @@ sub ServiceAdd {
 
 =item ServiceUpdate()
 
-update a existing service
+update an existing service
 
     my $True = $ServiceObject->ServiceUpdate(
         ServiceID => 123,
@@ -691,14 +715,6 @@ sub ServiceUpdate {
         );
         return;
     }
-
-    # reset cache
-    delete $Self->{ 'Cache::ServiceLookup::ID::' . $Param{ServiceID} };
-    delete $Self->{ 'Cache::ServiceLookup::Name::' . $OldServiceName };
-
-    $Self->{CacheObject}->CleanUp(
-        Type => 'Service',
-    );
 
     # create full name
     $Param{FullName} = $Param{Name};
@@ -780,6 +796,12 @@ sub ServiceUpdate {
             Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
         );
     }
+
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp(
+        Type => 'Service',
+    );
+
     return 1;
 }
 
@@ -907,16 +929,9 @@ sub CustomerUserServiceMemberList {
         return;
     }
 
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ServiceID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # create cache key
-    my $CacheKey = 'CustomerUserServiceMemberList::' . $Param{Result} . '::';
+    my $CacheKey = 'CustomerUserServiceMemberList::' . $Param{Result} . '::'
+        . 'DefaultServices::' . $Param{DefaultServices} . '..';
     if ( $Param{ServiceID} ) {
         $CacheKey .= 'ServiceID::' . $Param{ServiceID};
     }
@@ -925,24 +940,25 @@ sub CustomerUserServiceMemberList {
     }
 
     # check cache
-    if ( $Param{ServiceID} || $Param{CustomerUserLogin} ) {
-        if ( $Self->{ForceCache} ) {
-            $Param{Cached} = $Self->{ForceCache};
-        }
-        if ( $Param{Cached} && $Self->{$CacheKey} ) {
-            if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
-                return @{ $Self->{$CacheKey} };
-            }
-            elsif ( ref( $Self->{$CacheKey} ) eq 'HASH' ) {
-                return %{ $Self->{$CacheKey} };
-            }
-        }
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    if ( $Param{Result} eq 'HASH' ) {
+        return %{$Cache} if $Cache;
+    }
+    else {
+        return @{$Cache} if $Cache;
+    }
+
+    # db quote
+    for ( keys %Param ) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
+    }
+    for (qw(ServiceID)) {
+        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # sql
     my %Data;
-    my @Name;
-    my @ID;
+    my @Data;
     my $SQL = 'SELECT scu.service_id, scu.customer_user_login, s.name '
         . ' FROM '
         . ' service_customer_user scu, service s'
@@ -964,19 +980,11 @@ sub CustomerUserServiceMemberList {
         my $Key   = '';
         my $Value = '';
         if ( $Param{ServiceID} ) {
-            $Key   = $Row[1];
+            $Data{ $Row[1] } = $Row[0];
             $Value = $Row[0];
         }
         else {
-            $Key   = $Row[0];
-            $Value = $Row[2];
-        }
-
-        # remember permissions
-        if ( !defined $Data{$Key} ) {
-            $Data{$Key} = $Value;
-            push @Name, $Value;
-            push @ID,   $Key;
+            $Data{ $Row[0] } = $Row[2];
         }
     }
     if (
@@ -991,37 +999,21 @@ sub CustomerUserServiceMemberList {
             Result            => 'HASH',
             DefaultServices   => 0,
         );
-        for my $Key ( keys %Data ) {
-            push @Name, $Data{$Key};
-            push @ID,   $Key;
-        }
     }
 
     # return result
-    if ( $Param{Result} && $Param{Result} eq 'ID' ) {
-        if ( $Param{ServiceID} || $Param{CustomerUserLogin} ) {
-
-            # cache result
-            $Self->{$CacheKey} = \@ID;
-        }
-        return @ID;
-    }
-    if ( $Param{Result} && $Param{Result} eq 'Name' ) {
-        if ( $Param{ServiceID} || $Param{CustomerUserLogin} ) {
-
-            # cache result
-            $Self->{$CacheKey} = \@Name;
-        }
-        return @Name;
-    }
-    else {
-        if ( $Param{ServiceID} || $Param{CustomerUserLogin} ) {
-
-            # cache result
-            $Self->{$CacheKey} = \%Data;
-        }
+    if ( $Param{Result} eq 'HASH' ) {
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
         return %Data;
     }
+    if ( $Param{Result} eq 'Name' ) {
+        @Data = values %Data;
+    }
+    else {
+        @Data = keys %Data;
+    }
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Data );
+    return @Data;
 }
 
 =item CustomerUserServiceMemberAdd()
@@ -1058,15 +1050,20 @@ sub CustomerUserServiceMemberAdd {
     );
 
     # return if relation is not active
-    return if !$Param{Active};
+    if ( !$Param{Active} ) {
+        $Self->{CacheInternalObject}->CleanUp( Type => 'Service' );
+        return;
+    }
 
     # insert new relation
-    return $Self->{DBObject}->Do(
+    my $Success = $Self->{DBObject}->Do(
         SQL => 'INSERT INTO service_customer_user '
             . '(customer_user_login, service_id, create_time, create_by) '
             . 'VALUES (?, ?, current_timestamp, ?)',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID}, \$Param{UserID} ]
     );
+    $Self->{CacheInternalObject}->CleanUp( Type => 'Service' );
+    return $Success;
 }
 
 =item ServicePreferencesSet()
@@ -1085,11 +1082,12 @@ set service preferences
 sub ServicePreferencesSet {
     my $Self = shift;
 
-    $Self->{CacheObject}->CleanUp(
+    $Self->{PreferencesObject}->ServicePreferencesSet(@_);
+
+    $Self->{CacheInternalObject}->CleanUp(
         Type => 'Service',
     );
-
-    return $Self->{PreferencesObject}->ServicePreferencesSet(@_);
+    return 1;
 }
 
 =item ServicePreferencesGet()
@@ -1139,6 +1137,11 @@ sub ServiceParentsGet {
         }
     }
 
+    # read cache
+    my $CacheKey = 'ServiceParentsGet::' . $Param{ServiceID};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # get the list of services
     my $ServiceList = $Self->ServiceListGet(
         Valid  => 0,
@@ -1146,24 +1149,24 @@ sub ServiceParentsGet {
     );
 
     # get a service lookup table
-    my %ServiceLoockup;
+    my %ServiceLookup;
     SERVICE:
     for my $ServiceData ( @{$ServiceList} ) {
         next SERVICE if !$ServiceData;
         next SERVICE if !IsHashRefWithData($ServiceData);
         next SERVICE if !$ServiceData->{ServiceID};
 
-        $ServiceLoockup{ $ServiceData->{ServiceID} } = $ServiceData;
+        $ServiceLookup{ $ServiceData->{ServiceID} } = $ServiceData;
     }
 
     # exit if ServiceID is invalid
-    return if !$ServiceLoockup{ $Param{ServiceID} };
+    return if !$ServiceLookup{ $Param{ServiceID} };
 
     # to store the return structure
     my @ServiceParents;
 
     # get the ServiceParentID from the requested service
-    my $ServiceParentID = $ServiceLoockup{ $Param{ServiceID} }->{ParentID};
+    my $ServiceParentID = $ServiceLookup{ $Param{ServiceID} }->{ParentID};
 
     # get all partents for the requested service
     while ($ServiceParentID) {
@@ -1172,14 +1175,17 @@ sub ServiceParentsGet {
         push @ServiceParents, $ServiceParentID;
 
         # set next ServiceParentID (the parent of the current parent)
-        $ServiceParentID = $ServiceLoockup{$ServiceParentID}->{ParentID} || 0;
+        $ServiceParentID = $ServiceLookup{$ServiceParentID}->{ParentID} || 0;
 
     }
 
-    # reverse the return array to get the list ordered from old to joung (in parent context)
-    my @ReversedServiceParents = reverse @ServiceParents;
+    # reverse the return array to get the list ordered from old to young (in parent context)
+    my @Data = reverse @ServiceParents;
 
-    return \@ReversedServiceParents;
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Data );
+
+    return \@Data;
 }
 
 1;
@@ -1198,6 +1204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50.2.2 $ $Date: 2012-06-04 22:00:55 $
+$Revision: 1.50.2.3 $ $Date: 2012-09-21 08:14:10 $
 
 =cut
