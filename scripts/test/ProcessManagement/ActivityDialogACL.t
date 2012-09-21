@@ -2,7 +2,7 @@
 # ActivityDialogACL.t - ActivityDialog ACL testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialogACL.t,v 1.3 2012-09-10 03:14:21 sb Exp $
+# $Id: ActivityDialogACL.t,v 1.4 2012-09-21 15:02:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -539,6 +539,7 @@ my $ProcessConfigSub = sub {
                 Name             => 'Activity Dialog 1',
                 DescriptionShort => '',
                 DescriptionLong  => '',
+                Interface        => [ 'AgentInterface', 'CustomerInterface' ],
                 Fields           => {
 
                     # OrderStatus Provider OrderNumberProvider System
@@ -638,6 +639,7 @@ my $ProcessConfigSub = sub {
                 Name             => 'Activity Dialog 2',
                 DescriptionShort => '',
                 DescriptionLong  => '',
+                Interface        => [ 'AgentInterface', 'CustomerInterface' ],
                 Fields           => {
                     DynamicField_OrderStatus => {
                         DescriptionShort => '',
@@ -653,6 +655,7 @@ my $ProcessConfigSub = sub {
                 Name             => 'Activity Dialog 3',
                 DescriptionShort => '',
                 DescriptionLong  => '',
+                Interface        => [ 'AgentInterface', 'CustomerInterface' ],
                 Fields           => {
                     DynamicField_OrderStatus => {
                         DescriptionShort => '',
@@ -668,6 +671,7 @@ my $ProcessConfigSub = sub {
                 Name             => 'Activity Dialog 4',
                 DescriptionShort => '',
                 DescriptionLong  => '',
+                Interface        => [ 'AgentInterface', 'CustomerInterface' ],
                 Fields           => {
                     DynamicField_OrderStatus => {
                         DescriptionShort => '',
@@ -682,6 +686,7 @@ my $ProcessConfigSub = sub {
                 Name             => 'Activity Dialog 5',
                 DescriptionShort => '',
                 DescriptionLong  => '',
+                Interface        => [ 'AgentInterface', 'CustomerInterface' ],
                 Fields           => {
                     DynamicField_OrderStatus => {
                         DescriptionShort => '',
@@ -696,6 +701,7 @@ my $ProcessConfigSub = sub {
                 Name             => 'Activity Dialog 6',
                 DescriptionShort => '',
                 DescriptionLong  => '',
+                Interface        => [ 'AgentInterface', 'CustomerInterface' ],
                 Fields           => {
                     DynamicField_OrderStatus => {
                         DescriptionShort => '',
