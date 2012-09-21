@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.54 2012-09-20 20:41:03 mb Exp $
+# $Id: Service.pm,v 1.55 2012-09-21 05:05:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -930,7 +930,8 @@ sub CustomerUserServiceMemberList {
     }
 
     # create cache key
-    my $CacheKey = 'CustomerUserServiceMemberList::' . $Param{Result} . '::';
+    my $CacheKey = 'CustomerUserServiceMemberList::' . $Param{Result} . '::'
+        . 'DefaultServices::' . $Param{DefaultServices} . '..';
     if ( $Param{ServiceID} ) {
         $CacheKey .= 'ServiceID::' . $Param{ServiceID};
     }
@@ -1049,15 +1050,20 @@ sub CustomerUserServiceMemberAdd {
     );
 
     # return if relation is not active
-    return if !$Param{Active};
+    if ( !$Param{Active} ) {
+        $Self->{CacheInternalObject}->CleanUp( Type => 'Service' );
+        return;
+    }
 
     # insert new relation
-    return $Self->{DBObject}->Do(
+    my $Success = $Self->{DBObject}->Do(
         SQL => 'INSERT INTO service_customer_user '
             . '(customer_user_login, service_id, create_time, create_by) '
             . 'VALUES (?, ?, current_timestamp, ?)',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID}, \$Param{UserID} ]
     );
+    $Self->{CacheInternalObject}->CleanUp( Type => 'Service' );
+    return $Success;
 }
 
 =item ServicePreferencesSet()
@@ -1198,6 +1204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2012-09-20 20:41:03 $
+$Revision: 1.55 $ $Date: 2012-09-21 05:05:49 $
 
 =cut
