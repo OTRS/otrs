@@ -1,0 +1,69 @@
+# --
+# CustomerFooterSmall.dtl - provides HTML footer for Popups
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: CustomerFooterSmall.dtl,v 1.7 2012-09-21 02:18:00 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="Footer" class="ARIARoleContentinfo">
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:block:CommonJS -->
+    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
+<!-- dtl:block:CommonJS -->
+
+<!-- dtl:block:ModuleJS -->
+    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
+<!-- dtl:block:ModuleJS -->
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+
+Core.Customer.Enhance();
+
+Core.App.Ready(function() {
+
+    Core.Config.AddConfig({
+        // config
+        Baselink: '$Env{"Baselink"}',
+        CGIHandle: '$Env{"CGIHandle"}',
+        Action: '$QEnv{"Action"}',
+        SessionIDCookie: '$QEnv{"SessionIDCookie"}',
+        SessionName: '$Config{"SessionName"}',
+        SessionID: '$QEnv{"SessionID"}',
+        ChallengeToken: '$QEnv{"UserChallengeToken"}',
+        CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
+        Images: '$Config{"Frontend::ImagePath"}',
+        UserLanguage: '$QEnv{"UserLanguage"}',
+        CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
+        AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+        // translation
+        ValidateServerErrorTitle: '$JSText{"Error"}',
+        ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
+        DialogCloseMsg: '$JSText{"Close this dialog"}',
+        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}'
+    });
+
+    Core.Customer.Init();
+
+$Include{"Datepicker"}
+
+});
+//]]></script>
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function() {
+
+    <!-- dtl:js_on_document_complete_placeholder -->
+
+});
+//]]></script>
+
+</body>
+</html>
