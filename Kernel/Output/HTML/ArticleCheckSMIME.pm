@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.29 2012-05-04 09:05:26 mg Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.30 2012-09-24 17:40:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -228,6 +228,55 @@ sub Check {
                     = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
                 my $Body = $ParserObject->GetMessageBody();
 
+                # from RFC 3850
+                # 3.  Using Distinguished Names for Internet Mail
+                #
+                #   End-entity certificates MAY contain ...
+                #
+                #    ...
+                #
+                #   Sending agents SHOULD make the address in the From or Sender header
+                #   in a mail message match an Internet mail address in the signer's
+                #   certificate.  Receiving agents MUST check that the address in the
+                #   From or Sender header of a mail message matches an Internet mail
+                #   address, if present, in the signer's certificate, if mail addresses
+                #   are present in the certificate.  A receiving agent SHOULD provide
+                #   some explicit alternate processing of the message if this comparison
+                #   fails, which may be to display a message that shows the recipient the
+                #   addresses in the certificate or other certificate details.
+
+                # as described in bug#5098 and RFC 3850 an alternate mail handling should be
+                # made if sender and signer addresses does not match
+
+                # get original sender from email
+                my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
+                my $ParserObjectOrig = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Email => \@OrigEmail,
+                );
+
+                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+
+                # compare sender email to signer email
+                my $SignerSenderMatch = 0;
+                for my $Signer ( @{ $SignCheck{Signers} } ) {
+                    if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
+                        $SignerSenderMatch = 1;
+                        last;
+                    }
+                }
+
+                # sender email does not match signing certificate!
+                if ( !$SignerSenderMatch ) {
+                    $SignCheck{Successful} = 0;
+                    $SignCheck{Message} =~ s/successful/failed!/;
+                    $SignCheck{Message} .= " (signed by "
+                        . join( ' | ', @{ $SignCheck{Signers} } )
+                        . ")"
+                        . ", but sender address $OrigSender: does not match certificate address!";
+                }
+
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(
                     TicketID  => $Param{Article}->{TicketID},
@@ -301,6 +350,55 @@ sub Check {
                 }
                 my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => \@Email, );
                 my $Body = $ParserObject->GetMessageBody();
+
+                # from RFC 3850
+                # 3.  Using Distinguished Names for Internet Mail
+                #
+                #   End-entity certificates MAY contain ...
+                #
+                #    ...
+                #
+                #   Sending agents SHOULD make the address in the From or Sender header
+                #   in a mail message match an Internet mail address in the signer's
+                #   certificate.  Receiving agents MUST check that the address in the
+                #   From or Sender header of a mail message matches an Internet mail
+                #   address, if present, in the signer's certificate, if mail addresses
+                #   are present in the certificate.  A receiving agent SHOULD provide
+                #   some explicit alternate processing of the message if this comparison
+                #   fails, which may be to display a message that shows the recipient the
+                #   addresses in the certificate or other certificate details.
+
+                # as described in bug#5098 and RFC 3850 an alternate mail handling should be
+                # made if sender and signer addresses does not match
+
+                # get original sender from email
+                my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
+                my $ParserObjectOrig = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Email => \@OrigEmail,
+                );
+
+                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+
+                # compare sender email to signer email
+                my $SignerSenderMatch = 0;
+                foreach my $Signer ( @{ $SignCheck{Signers} } ) {
+                    if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
+                        $SignerSenderMatch = 1;
+                        last;
+                    }
+                }
+
+                # sender email does not match signing certificate!
+                if ( !$SignerSenderMatch ) {
+                    $SignCheck{Successful} = 0;
+                    $SignCheck{Message} =~ s/successful/failed!/;
+                    $SignCheck{Message} .= " (signed by "
+                        . join( ' | ', @{ $SignCheck{Signers} } )
+                        . ")"
+                        . ", but sender address $OrigSender: does not match certificate address!";
+                }
 
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(
