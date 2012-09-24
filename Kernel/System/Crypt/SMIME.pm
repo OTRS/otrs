@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.67 2012-06-09 02:43:23 cr Exp $
+# $Id: SMIME.pm,v 1.68 2012-09-24 17:35:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -360,13 +360,27 @@ sub Sign {
 
 =item Verify()
 
-verify a message with signature and returns a hash (Successful, Message, SignerCertificate)
+verify a message with signature and returns a hash (Successful, Message, Signers, SignerCertificate)
 
     my %Data = $CryptObject->Verify(
         Message => $Message,
-        CACert  => $PathtoCACert, # send path to the cert, when using self signed certificates
+        CACert  => $PathtoCACert,                   # the certificates autority that endorse a self
+                                                    # signed certificate
     );
 
+returns:
+
+    %Data = (
+        SignatureFound    => 1,                     # or 0 if no signature was found
+        Successful        => 1,                     # or 0 if the verification process failed
+        Message           => $Message,              # short version of the verification output
+        MessageLong       => $MessageLong,          # full verification output
+        Signers           => [                      # optional, array reference to all signers
+            'someone@company.com',                  #    addresses
+        ],
+        SignerCertificate => $SignerCertificate,    # the certificate that signs the message
+        Content           => $Content,              # the message content
+    );
 =cut
 
 sub Verify {
@@ -421,11 +435,19 @@ sub Verify {
 
     # return message
     if ( $Message =~ /Verification successful/i ) {
+
+        # get email address(es) from certificate
+        $Options = "x509 -in $SignerFile -email -noout";
+        my @SignersArray = qx{$Self->{Cmd} $Options 2>&1};
+
+        chomp(@SignersArray);
+
         %Return = (
             SignatureFound    => 1,
             Successful        => 1,
             Message           => 'OpenSSL: ' . $Message,
             MessageLong       => 'OpenSSL: ' . $MessageLong,
+            Signers           => [@SignersArray],
             SignerCertificate => $$SignerCertRef,
             Content           => $$SignedContentRef,
         );
@@ -2465,6 +2487,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-06-09 02:43:23 $
+$Revision: 1.68 $ $Date: 2012-09-24 17:35:56 $
 
 =cut
