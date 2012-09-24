@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.122 2012-09-20 07:48:46 mg Exp $
+# $Id: CHANGES,v 1.2260.2.123 2012-09-24 09:26:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.12 20??-??-??
+ - 2012-09-21 Improved caching for Services and Service Lists.
 
 3.1.11 2012-10-16
  - 2012-09-18 Fixed bug#8770 - AJAX Removes Default Options.
