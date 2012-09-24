@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.91 2012-09-18 12:58:15 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.92 2012-09-24 09:26:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -932,11 +932,12 @@ sub Run {
                     Max          => 100,
                 },
                 {
-                    Name        => 'NewStateID',
-                    Data        => $NextStates,
-                    SelectedID  => $GetParam{NewStateID},
-                    Translation => 1,
-                    Max         => 100,
+                    Name         => 'NewStateID',
+                    Data         => $NextStates,
+                    SelectedID   => $GetParam{NewStateID},
+                    Translation  => 1,
+                    PossibleNone => $Self->{Config}->{StateDefault} ? 0 : 1,
+                    Max          => 100,
                 },
                 {
                     Name         => 'NewPriorityID',
@@ -1296,9 +1297,6 @@ sub _Mask {
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
         );
-        if ( !$Self->{Config}->{StateDefault} ) {
-            $StateList{''} = '-';
-        }
         if ( !$Param{NewStateID} ) {
             if ( $Self->{Config}->{StateDefault} ) {
                 $State{SelectedValue} = $Self->{Config}->{StateDefault};
@@ -1310,8 +1308,9 @@ sub _Mask {
 
         # build next states string
         $Param{StateStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => \%StateList,
-            Name => 'NewStateID',
+            Data         => \%StateList,
+            Name         => 'NewStateID',
+            PossibleNone => $Self->{Config}->{StateDefault} ? 0 : 1,
             %State,
         );
         $Self->{LayoutObject}->Block(
