@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.5 2012-01-09 09:31:15 mg Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.5.2.1 2012-09-24 23:30:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.5.2.1 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -173,6 +173,11 @@ sub _AddAction {
         }
     }
 
+    # name already exists, bail out
+    if ( exists $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} } ) {
+        $Errors{InvokerServerError} = 'ServerError';
+    }
+
     # uncorrectable errors
     if ( !$GetParam{InvokerType} ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -188,6 +193,11 @@ sub _AddAction {
     # validation errors
     if (%Errors) {
 
+        # get the description from the web request to send it back again to the screen
+        my $InvokerConfig;
+        $InvokerConfig->{Description} = $Self->{ParamObject}->GetParam( Param => 'Description' )
+            || '';
+
         return $Self->_ShowScreen(
             %Param,
             %GetParam,
@@ -197,6 +207,7 @@ sub _AddAction {
             WebserviceData => $WebserviceData,
             WebserviceName => $WebserviceData->{Name},
             InvokerType    => $GetParam{InvokerType},
+            InvokerConfig  => $InvokerConfig,
         );
     }
 

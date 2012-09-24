@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.8 2012-01-09 09:36:12 mg Exp $
+# $Id: AdminGenericInterfaceOperationDefault.pm,v 1.8.2.1 2012-09-24 23:30:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.8.2.1 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -151,6 +151,11 @@ sub _AddAction {
         }
     }
 
+    # name already exists, bail out
+    if ( exists $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
+        $Errors{OperationServerError} = 'ServerError';
+    }
+
     # uncorrectable errors
     if ( !$GetParam{OperationType} ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -166,15 +171,21 @@ sub _AddAction {
     # validation errors
     if (%Errors) {
 
+        # get the description from the web request to send it back again to the screen
+        my $OperationConfig;
+        $OperationConfig->{Description} = $Self->{ParamObject}->GetParam( Param => 'Description' )
+            || '';
+
         return $Self->_ShowScreen(
             %Param,
             %GetParam,
             %Errors,
-            Mode           => 'Add',
-            WebserviceID   => $WebserviceID,
-            WebserviceData => $WebserviceData,
-            WebserviceName => $WebserviceData->{Name},
-            OperationType  => $GetParam{OperationType},
+            Mode            => 'Add',
+            WebserviceID    => $WebserviceID,
+            WebserviceData  => $WebserviceData,
+            WebserviceName  => $WebserviceData->{Name},
+            OperationType   => $GetParam{OperationType},
+            OperationConfig => $OperationConfig,
         );
     }
 
