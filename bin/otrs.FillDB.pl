@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.FillDB.pl - fill db with demo data
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.7 2011-12-13 08:38:39 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.7.2.1 2012-09-25 11:43:18 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -17,23 +17,24 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
-# use ../ as lib location
+use strict;
+use warnings;
+
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
-
-use strict;
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.7.2.1 $) [1];
 
 use Getopt::Std;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -41,6 +42,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::User;
+use Kernel::System::CustomerUser;
 use Kernel::System::Group;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
@@ -50,312 +52,386 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
-# ---
-# common objects
-# ---
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.FillDB.pl',
-    %CommonObject,
-);
-$CommonObject{TimeObject}         = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}         = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}           = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}         = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject}        = Kernel::System::Group->new(%CommonObject);
-$CommonObject{QueueObject}        = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{TicketObject}       = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{LinkObject}         = Kernel::System::LinkObject->new(%CommonObject);
-$CommonObject{DynamicFieldObject} = Kernel::System::DynamicField->new(%CommonObject);
-$CommonObject{DynamicFieldBackendObject}
-    = Kernel::System::DynamicField::Backend->new(%CommonObject);
+sub _CommonObjects {
+    my %Objects;
+    $Objects{ConfigObject} = Kernel::Config->new();
 
-# set dummy sendmail module
-$CommonObject{ConfigObject}->Set(
-    Key   => 'SendmailModule',
-    Value => 'Kernel::System::Email::DoNotSendEmail',
-);
-
-# get dynamic fields
-my $TicketDynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet(
-    Valid      => 1,
-    ObjectType => ['Ticket'],
-);
-
-my $ArticleDynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet(
-    Valid      => 1,
-    ObjectType => ['Article'],
-);
-
-# get options
-my %Opts = ();
-getopt( 'hqugtr', \%Opts );
-if ( $Opts{h} ) {
-    print "otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: otrsFillDB.pl -q <COUNTOFQUEUES> -t <COUNTOFTICKET> -u <COUNTOFUSERS> -g <COUNTOFGROUPS> -r <REALLYDOTHIS>\n";
-    exit 1;
-}
-if ( !$Opts{g} ) {
-    print STDERR "NOTICE: No -g <COUNTOFGROUPS> given, take existing groups!\n";
-}
-if ( !$Opts{u} ) {
-    print STDERR "NOTICE: No -u <COUNTOFUSERS> given, take existing users!\n";
-}
-if ( !$Opts{q} ) {
-    print STDERR "NOTICE: No -q <COUNTOFQUEUES> given, take existing queues!\n";
-}
-if ( !$Opts{t} ) {
-    print STDERR "ERROR: Need -t <COUNTOFTICKET>\n";
-    exit(1);
-}
-
-# check if DB is empty
-$CommonObject{DBObject}->Prepare( SQL => 'SELECT count(*) FROM ticket' );
-my $Check = 0;
-while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
-    $Check = $Row[0];
-}
-if ( $Check && $Check > 1 && ( !$Opts{r} || $Opts{r} !~ /^yes$/i ) ) {
-    print STDERR "ERROR: Sorry, can't do this. It looks like an productive database!\n";
-    print STDERR "ERROR: You have $Check tickets in there. Only do this on non productive system\n";
-    print STDERR "ERROR: Your really want to do this? Use '-r yes'\n";
-    exit(1);
-}
-
-# set env config
-$CommonObject{ConfigObject}->Set(
-    Key   => 'CheckEmailInvalidAddress',
-    Value => 0,
-);
-
-# groups
-my @GroupIDs;
-if ( !$Opts{g} ) {
-    @GroupIDs = GroupGet();
-    $Opts{g} = $#GroupIDs;
-}
-else {
-    @GroupIDs = GroupCreate( $Opts{g} );
-}
-
-# users
-my @UserIDs;
-if ( !$Opts{u} ) {
-    @UserIDs = UserGet();
-    $Opts{u} = $#UserIDs;
-}
-else {
-    @UserIDs = UserCreate( $Opts{u} );
-}
-
-# queues
-my @QueueIDs;
-if ( !$Opts{q} ) {
-    @QueueIDs = QueueGet();
-    $Opts{q} = $#QueueIDs;
-}
-else {
-    @QueueIDs = QueueCreate( $Opts{q} );
-}
-
-# create tickets
-my @TicketIDs = ();
-foreach ( 1 .. $Opts{'t'} ) {
-    my $TicketID = $CommonObject{TicketObject}->TicketCreate(
-        Title        => RandomSubject(),
-        QueueID      => $QueueIDs[ int( rand( $Opts{q} ) ) ],
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'new',
-        CustomerNo   => int( rand(1000) ),
-        CustomerUser => RandomAddress(),
-        OwnerID      => $UserIDs[ int( rand( $Opts{u} ) ) ],
-        UserID       => $UserIDs[ int( rand( $Opts{u} ) ) ],
-
-        # OTRS 2.0 comapt.
-        CreateUserID => $UserIDs[ int( rand( $Opts{u} ) ) ],
+    # set dummy sendmail module
+    $Objects{ConfigObject}->Set(
+        Key   => 'SendmailModule',
+        Value => 'Kernel::System::Email::DoNotSendEmail',
     );
 
-    if ($TicketID) {
+    # set env config
+    $Objects{ConfigObject}->Set(
+        Key   => 'CheckEmailInvalidAddress',
+        Value => 0,
+    );
 
-        print "NOTICE: Ticket with ID '$TicketID' created.\n";
+    $Objects{EncodeObject} = Kernel::System::Encode->new(%Objects);
+    $Objects{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-otrs.FillDB.pl',
+        %Objects,
+    );
+    $Objects{TimeObject}         = Kernel::System::Time->new(%Objects);
+    $Objects{MainObject}         = Kernel::System::Main->new(%Objects);
+    $Objects{DBObject}           = Kernel::System::DB->new(%Objects);
+    $Objects{UserObject}         = Kernel::System::User->new(%Objects);
+    $Objects{CustomerUserObject} = Kernel::System::CustomerUser->new(%Objects);
+    $Objects{GroupObject}        = Kernel::System::Group->new(%Objects);
+    $Objects{QueueObject}        = Kernel::System::Queue->new(%Objects);
+    $Objects{TicketObject}       = Kernel::System::Ticket->new(%Objects);
+    $Objects{LinkObject}         = Kernel::System::LinkObject->new(%Objects);
+    $Objects{DynamicFieldObject} = Kernel::System::DynamicField->new(%Objects);
+    $Objects{DynamicFieldBackendObject}
+        = Kernel::System::DynamicField::Backend->new(%Objects);
 
-        foreach ( 1 .. 10 ) {
-            my $ArticleID = $CommonObject{TicketObject}->ArticleCreate(
+    return \%Objects;
+}
+
+sub Run {
+
+    my $CommonObjects = _CommonObjects();
+
+    # Refresh common objects after a certain number of loop iterations.
+    #   This will call event handlers and clean up caches to avoid excessive mem usage.
+    my $CommonObjectRefresh = 50;
+
+    # get dynamic fields
+    my $TicketDynamicField = $CommonObjects->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
+
+    my $ArticleDynamicField = $CommonObjects->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Article'],
+    );
+
+    # get options
+    my %Opts = ();
+    getopt( 'hqugtramc', \%Opts );
+    if ( $Opts{h} ) {
+        print <<EOF;
+otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data
+Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+
+usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -<CUSTOMERUSERS> -r <REALLYDOTHIS>
+EOF
+        exit 1;
+    }
+    if ( !$Opts{g} ) {
+        print STDERR "NOTICE: No -g <COUNTOFGROUPS> given, take existing groups!\n";
+    }
+    if ( !$Opts{u} ) {
+        print STDERR "NOTICE: No -u <COUNTOFUSERS> given, take existing users!\n";
+    }
+    if ( !$Opts{q} ) {
+        print STDERR "NOTICE: No -q <COUNTOFQUEUES> given, take existing queues!\n";
+    }
+    if ( !$Opts{a} ) {
+        print STDERR
+            "NOTICE: No -a <COUNTOFARTICLES> given, take default number of articles (10)!\n";
+    }
+    if ( !$Opts{c} ) {
+        print STDERR
+            "NOTICE: No -c <COUNTOFCUSRTOMERS> given, will not create any new customers!\n";
+    }
+    if ( !$Opts{t} ) {
+        print STDERR "ERROR: Need -t <COUNTOFTICKET>\n";
+        exit(1);
+    }
+
+    # check if DB is empty
+    $CommonObjects->{DBObject}->Prepare( SQL => 'SELECT count(*) FROM ticket' );
+    my $Check = 0;
+    while ( my @Row = $CommonObjects->{DBObject}->FetchrowArray() ) {
+        $Check = $Row[0];
+    }
+    if ( $Check && $Check > 1 && ( !$Opts{r} || $Opts{r} !~ /^yes$/i ) ) {
+        print STDERR "ERROR: Sorry, can't do this. It looks like an productive database!\n";
+        print STDERR
+            "ERROR: You have $Check tickets in there. Only do this on non productive system\n";
+        print STDERR "ERROR: Your really want to do this? Use '-r yes'\n";
+        exit(1);
+    }
+
+    # groups
+    my @GroupIDs;
+    if ( !$Opts{g} ) {
+        @GroupIDs = GroupGet($CommonObjects);
+    }
+    else {
+        @GroupIDs = GroupCreate( $CommonObjects, $Opts{g} );
+    }
+
+    # users
+    my @UserIDs;
+    if ( !$Opts{u} ) {
+        @UserIDs = UserGet($CommonObjects);
+    }
+    else {
+        @UserIDs = UserCreate( $CommonObjects, $Opts{u}, \@GroupIDs );
+    }
+
+    # queues
+    my @QueueIDs;
+    if ( !$Opts{q} ) {
+        @QueueIDs = QueueGet($CommonObjects);
+    }
+    else {
+        @QueueIDs = QueueCreate( $CommonObjects, $Opts{q}, \@GroupIDs );
+    }
+
+    if ( $Opts{c} ) {
+        CustomerCreate( $CommonObjects, $Opts{c} );
+    }
+
+    # articles - use default if not set
+    if ( !$Opts{a} ) {
+        $Opts{a} = 10;
+    }
+
+    my $Counter = 1;
+
+    # create tickets
+    my @TicketIDs = ();
+    foreach ( 1 .. $Opts{'t'} ) {
+        my $TicketUserID =
+
+            my $TicketID = $CommonObjects->{TicketObject}->TicketCreate(
+            Title        => RandomSubject(),
+            QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerNo   => int( rand(1000) ),
+            CustomerUser => RandomAddress(),
+            OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
+            UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
+            );
+
+        if ( $Opts{f} ) {
+
+            # bulk-insert the flags directly for improved performance
+            my $SQL
+                = 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by) VALUES ';
+            my @Values;
+            for my $UserID (@UserIDs) {
+                push @Values, "($TicketID, 'Seen', 1, current_timestamp, $UserID)";
+            }
+            while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
+                $CommonObjects->{DBObject}->Do( SQL => $SQL . join( ',', @ValuesPart ) );
+            }
+        }
+
+        if ($TicketID) {
+
+            print "NOTICE: Ticket with ID '$TicketID' created.\n";
+
+            foreach ( 1 .. $Opts{'a'} ) {
+                my $ArticleID = $CommonObjects->{TicketObject}->ArticleCreate(
+                    TicketID       => $TicketID,
+                    ArticleType    => 'note-external',
+                    SenderType     => 'customer',
+                    From           => RandomAddress(),
+                    To             => RandomAddress(),
+                    Cc             => RandomAddress(),
+                    Subject        => RandomSubject(),
+                    Body           => RandomBody(),
+                    ContentType    => 'text/plain; charset=ISO-8859-15',
+                    HistoryType    => 'NewTicket',
+                    HistoryComment => 'Some free text!',
+                    UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
+                    NoAgentNotify => 1,    # if you don't want to send agent notifications
+                );
+
+                if ( $Opts{f} ) {
+
+                    # bulk-insert the flags directly for improved performance
+                    my $SQL
+                        = 'INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by) VALUES ';
+                    my @Values;
+                    for my $UserID (@UserIDs) {
+                        push @Values, "($ArticleID, 'Seen', 1, current_timestamp, $UserID)";
+                    }
+                    while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
+                        $CommonObjects->{DBObject}->Do( SQL => $SQL . join( ',', @ValuesPart ) );
+                    }
+                }
+
+                DYNAMICFIELD:
+                for my $DynamicFieldConfig ( @{$ArticleDynamicField} ) {
+                    next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                    next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
+
+                    # set a random value
+                    my $Result = $CommonObjects->{DynamicFieldBackendObject}->RandomValueSet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ObjectID           => $ArticleID,
+                        UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
+                    );
+
+                    if ( $Result->{Success} ) {
+                        print "NOTICE: Article with ID '$ArticleID' set dynamic field "
+                            . "$DynamicFieldConfig->{Name}: $Result->{Value}.\n";
+                    }
+                }
+
+                print "NOTICE: New Article '$ArticleID' created for Ticket '$TicketID'.\n";
+            }
+
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{$TicketDynamicField} ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+
+                # set a random value
+                my $Result = $CommonObjects->{DynamicFieldBackendObject}->RandomValueSet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $TicketID,
+                    UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
+                );
+
+                if ( $Result->{Success} ) {
+                    print "NOTICE: Ticket with ID '$TicketID' set dynamic field "
+                        . "$DynamicFieldConfig->{Name}: $Result->{Value}.\n";
+                }
+            }
+
+            push( @TicketIDs, $TicketID );
+
+            if ( $Counter++ % $CommonObjectRefresh == 0 ) {
+                $CommonObjects = _CommonObjects();
+            }
+        }
+    }
+
+    if ( $Opts{m} ) {
+
+        # update tickets
+        my %States = $CommonObjects->{TicketObject}->StateList(
+            QueueID => 1,
+            UserID  => 1,
+        );
+        my @StateList = ();
+        foreach ( keys %States ) {
+            push( @StateList, $_ );
+        }
+        my %Priorities = $CommonObjects->{TicketObject}->PriorityList(
+            QueueID => 1,
+            UserID  => 1,
+        );
+        my @PriorityList = ();
+        foreach ( keys %Priorities ) {
+            push( @PriorityList, $_ );
+        }
+
+        foreach my $TicketID (@TicketIDs) {
+            my %Ticket = $CommonObjects->{TicketObject}->TicketGet(
+                TicketID      => $TicketID,
+                DynamicFields => 0,
+            );
+
+            # add email
+            my @Files = glob $CommonObjects->{ConfigObject}->Get('Home')
+                . '/scripts/test/sample/PostMaster/PostMaster-Test*.box';
+            my $File    = $Files[ int( rand( $#Files + 1 ) ) ];
+            my @Content = ();
+            open( IN, '<', $File ) || die $!;
+
+            #    binmode(IN);
+            while ( my $Line = <IN> ) {
+                if ( $Line =~ /^Subject:/ ) {
+                    $Line = 'Subject: ' . $CommonObjects->{TicketObject}->TicketSubjectBuild(
+                        TicketNumber => $Ticket{TicketNumber},
+                        Subject      => $Line,
+                    );
+                }
+                push( @Content, $Line );
+            }
+            close(IN);
+
+            my $PostMasterObject = Kernel::System::PostMaster->new(
+                %{$CommonObjects},
+                Email => \@Content,
+            );
+            my @Return = $PostMasterObject->Run();
+
+            # add article
+            my $ArticleID = $CommonObjects->{TicketObject}->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-external',
-                SenderType     => 'customer',
+                SenderType     => 'agent',
                 From           => RandomAddress(),
                 To             => RandomAddress(),
                 Cc             => RandomAddress(),
                 Subject        => RandomSubject(),
                 Body           => RandomBody(),
                 ContentType    => 'text/plain; charset=ISO-8859-15',
-                HistoryType    => 'NewTicket',
+                HistoryType    => 'AddNote',
                 HistoryComment => 'Some free text!',
-                UserID         => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
                 NoAgentNotify => 1,    # if you don't want to send agent notifications
             );
+            print "NOTICE: Article added to Ticket '$TicketID/$ArticleID'.\n";
 
-            DYNAMICFIELD:
-            for my $DynamicFieldConfig ( @{$ArticleDynamicField} ) {
-                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-                next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
-
-                # set a random value
-                my $Result = $CommonObject{DynamicFieldBackendObject}->RandomValueSet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $ArticleID,
-                    UserID             => $UserIDs[ int( rand( $Opts{u} ) ) ],
-                );
-
-                if ( $Result->{Success} ) {
-                    print "NOTICE: Article with ID '$ArticleID' set dynamic field "
-                        . "$DynamicFieldConfig->{Name}: $Result->{Value}.\n";
+            # set state
+            # try more times to get an closed state to be more real
+            my $StateID = '';
+            foreach ( 1 .. 12 ) {
+                $StateID = $StateList[ int( rand( $#StateList + 1 ) ) ];
+                if ( $States{$StateID} =~ /^close/ ) {
+                    last;
                 }
             }
-
-            print "NOTICE: New Article '$ArticleID' created for Ticket '$TicketID'.\n";
-        }
-
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$TicketDynamicField} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
-
-            # set a random value
-            my $Result = $CommonObject{DynamicFieldBackendObject}->RandomValueSet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $TicketID,
-                UserID             => $UserIDs[ int( rand( $Opts{u} ) ) ],
+            $CommonObjects->{TicketObject}->StateSet(
+                StateID  => $StateID,
+                TicketID => $TicketID,
+                SendNoNotification => 1,    # optional 1|0 (send no agent and customer notification)
+                UserID => $UserIDs[ int( rand($#UserIDs) ) ],
             );
+            print "NOTICE: State updated of Ticket '$TicketID/$States{$StateID}'.\n";
 
-            if ( $Result->{Success} ) {
-                print "NOTICE: Ticket with ID '$TicketID' set dynamic field "
-                    . "$DynamicFieldConfig->{Name}: $Result->{Value}.\n";
+            # priority update
+            if ( $TicketID / 2 ne ( int( $TicketID / 2 ) ) ) {
+                my $PriorityID = $PriorityList[ int( rand( $#PriorityList + 1 ) ) ];
+                $CommonObjects->{TicketObject}->PrioritySet(
+                    TicketID   => $TicketID,
+                    PriorityID => $PriorityID,
+                    UserID     => $UserIDs[ int( rand($#UserIDs) ) ],
+                );
+                print "NOTICE: Priority updated of Ticket '$TicketID/$Priorities{$PriorityID}'.\n";
+            }
+
+=cut
+            # link tickets
+            if ( $TicketID / 2 ne ( int( $TicketID / 2 ) ) ) {
+                my $TicketIDChild = $TicketIDs[ int( rand( $#TicketIDs + 1 ) ) ];
+
+                $CommonObjects->{LinkObject}->LinkAdd(
+                    SourceObject => 'Ticket',
+                    SourceKey    => $TicketID,
+                    TargetObject => 'Ticket',
+                    TargetKey    => $TicketIDChild,
+                    Type         => 'ParentChild',
+                    State        => 'Valid',
+                    UserID       => $UserIDs[int(rand($#UserIDs))],
+                );
+                print "NOTICE: Link Ticket $TicketID ParentChild to Ticket $TicketIDChild.\n";
+            }
+=cut
+
+            if ( $Counter++ % $CommonObjectRefresh == 0 ) {
+                $CommonObjects = _CommonObjects();
             }
         }
-
-        push( @TicketIDs, $TicketID );
     }
 }
 
-# update tickets
-my %States = $CommonObject{TicketObject}->StateList(
-    QueueID => 1,
-    UserID  => 1,
-);
-my @StateList = ();
-foreach ( keys %States ) {
-    push( @StateList, $_ );
-}
-my %Priorities = $CommonObject{TicketObject}->PriorityList(
-    QueueID => 1,
-    UserID  => 1,
-);
-my @PriorityList = ();
-foreach ( keys %Priorities ) {
-    push( @PriorityList, $_ );
-}
-
-foreach my $TicketID (@TicketIDs) {
-    my %Ticket = $CommonObject{TicketObject}->TicketGet(
-        TicketID      => $TicketID,
-        DynamicFields => 0,
-    );
-
-    # add email
-    my @Files = glob $CommonObject{ConfigObject}->Get('Home')
-        . '/scripts/test/sample/PostMaster/PostMaster-Test*.box';
-    my $File    = $Files[ int( rand( $#Files + 1 ) ) ];
-    my @Content = ();
-    open( IN, '<', $File ) || die $!;
-
-    #    binmode(IN);
-    while ( my $Line = <IN> ) {
-        if ( $Line =~ /^Subject:/ ) {
-            $Line = 'Subject: ' . $CommonObject{TicketObject}->TicketSubjectBuild(
-                TicketNumber => $Ticket{TicketNumber},
-                Subject      => $Line,
-            );
-        }
-        push( @Content, $Line );
-    }
-    close(IN);
-
-    my $PostMasterObject = Kernel::System::PostMaster->new(
-        %CommonObject,
-        Email => \@Content,
-    );
-    my @Return = $PostMasterObject->Run();
-
-    # add article
-    my $ArticleID = $CommonObject{TicketObject}->ArticleCreate(
-        TicketID       => $TicketID,
-        ArticleType    => 'note-external',
-        SenderType     => 'agent',
-        From           => RandomAddress(),
-        To             => RandomAddress(),
-        Cc             => RandomAddress(),
-        Subject        => RandomSubject(),
-        Body           => RandomBody(),
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'AddNote',
-        HistoryComment => 'Some free text!',
-        UserID         => $UserIDs[ int( rand( $Opts{'u'} ) ) ],
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
-    );
-    print "NOTICE: Article added to Ticket '$TicketID/$ArticleID'.\n";
-
-    # set state
-    # try more times to get an closed state to be more real
-    my $StateID = '';
-    foreach ( 1 .. 12 ) {
-        $StateID = $StateList[ int( rand( $#StateList + 1 ) ) ];
-        if ( $States{$StateID} =~ /^close/ ) {
-            last;
-        }
-    }
-    $CommonObject{TicketObject}->StateSet(
-        StateID            => $StateID,
-        TicketID           => $TicketID,
-        SendNoNotification => 1,           # optional 1|0 (send no agent and customer notification)
-        UserID => $UserIDs[ int( rand( $Opts{'u'} ) ) ],
-    );
-    print "NOTICE: State updated of Ticket '$TicketID/$States{$StateID}'.\n";
-
-    # priority update
-    if ( $TicketID / 2 ne ( int( $TicketID / 2 ) ) ) {
-        my $PriorityID = $PriorityList[ int( rand( $#PriorityList + 1 ) ) ];
-        $CommonObject{TicketObject}->PrioritySet(
-            TicketID   => $TicketID,
-            PriorityID => $PriorityID,
-            UserID     => $UserIDs[ int( rand( $Opts{'u'} ) ) ],
-        );
-        print "NOTICE: Priority updated of Ticket '$TicketID/$Priorities{$PriorityID}'.\n";
-    }
-
-    # link tickets
-    if ( $TicketID / 2 ne ( int( $TicketID / 2 ) ) ) {
-        my $TicketIDChild = $TicketIDs[ int( rand( $#TicketIDs + 1 ) ) ];
-
-        #        $CommonObject{LinkObject}->LinkAdd(
-        #            SourceObject => 'Ticket',
-        #            SourceKey    => $TicketID,
-        #            TargetObject => 'Ticket',
-        #            TargetKey    => $TicketIDChild,
-        #            Type         => 'ParentChild',
-        #            State        => 'Valid',
-        #            UserID       => $UserIDs[int(rand($Opts{'u'}))],
-        #        );
-        print "NOTICE: Link Ticket $TicketID ParentChild to Ticket $TicketIDChild.\n";
-    }
-}
-
+#
+# Helper functions below
+#
 sub RandomAddress {
     my $Name   = int( rand(1_000) );
     my @Domain = (
@@ -454,8 +530,10 @@ sub RandomBody {
 }
 
 sub QueueGet {
+    my $CommonObjects = shift;
+
     my @QueueIDs = ();
-    my %Queues   = $CommonObject{QueueObject}->GetAllQueues();
+    my %Queues   = $CommonObjects->{QueueObject}->GetAllQueues();
     foreach ( keys %Queues ) {
         push @QueueIDs, $_;
     }
@@ -463,14 +541,17 @@ sub QueueGet {
 }
 
 sub QueueCreate {
-    my $Count = shift || return;
+    my $CommonObjects = shift;
+    my $Count         = shift || return;
+    my @GroupIDs      = @{ shift() };
+
     my @QueueIDs = ();
     foreach ( 1 .. $Count ) {
         my $Name = 'fill-up-queue' . int( rand(100_000_000) );
-        my $ID   = $CommonObject{QueueObject}->QueueAdd(
+        my $ID   = $CommonObjects->{QueueObject}->QueueAdd(
             Name              => $Name,
             ValidID           => 1,
-            GroupID           => $GroupIDs[ int( rand( $Opts{'g'} ) ) ],
+            GroupID           => $GroupIDs[ int( rand( scalar @GroupIDs ) ) ],
             FirstResponseTime => 0,
             UpdateTime        => 0,
             SolutionTime      => 0,
@@ -493,8 +574,10 @@ sub QueueCreate {
 }
 
 sub GroupGet {
+    my $CommonObjects = shift;
+
     my @GroupIDs = ();
-    my %Groups = $CommonObject{GroupObject}->GroupList( Valid => 1 );
+    my %Groups = $CommonObjects->{GroupObject}->GroupList( Valid => 1 );
     foreach ( keys %Groups ) {
         push @GroupIDs, $_;
     }
@@ -502,11 +585,13 @@ sub GroupGet {
 }
 
 sub GroupCreate {
+    my $CommonObjects = shift;
     my $Count = shift || return;
+
     my @GroupIDs = ();
     foreach ( 1 .. $Count ) {
         my $Name = 'fill-up-group' . int( rand(100_000_000) );
-        my $ID   = $CommonObject{GroupObject}->GroupAdd(
+        my $ID   = $CommonObjects->{GroupObject}->GroupAdd(
             Name    => $Name,
             ValidID => 1,
             UserID  => 1,
@@ -516,7 +601,7 @@ sub GroupCreate {
             push( @GroupIDs, $ID );
 
             # add root to every group
-            $CommonObject{GroupObject}->GroupMemberAdd(
+            $CommonObjects->{GroupObject}->GroupMemberAdd(
                 GID        => $ID,
                 UID        => 1,
                 Permission => {
@@ -535,8 +620,10 @@ sub GroupCreate {
 }
 
 sub UserGet {
+    my $CommonObjects = shift;
+
     my @UserIDs = ();
-    my %Users   = $CommonObject{UserObject}->UserList(
+    my %Users   = $CommonObjects->{UserObject}->UserList(
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );
@@ -547,24 +634,20 @@ sub UserGet {
 }
 
 sub UserCreate {
-    my $Count = shift || return;
+    my $CommonObjects = shift;
+    my $Count         = shift || return;
+    my @GroupIDs      = @{ shift() };
+
     my @UserIDs = ();
     foreach ( 1 .. $Count ) {
         my $Name = 'fill-up-user' . int( rand(100_000_000) );
-        my $ID   = $CommonObject{UserObject}->UserAdd(
+        my $ID   = $CommonObjects->{UserObject}->UserAdd(
             UserFirstname => "$Name-Firstname",
             UserLastname  => "$Name-Lastname",
             UserLogin     => $Name,
             UserEmail     => $Name . '@example.com',
             ValidID       => 1,
             ChangeUserID  => 1,
-
-            # compat to OTRS 2.0
-            Firstname => "$Name-Firstname",
-            Lastname  => "$Name-Lastname",
-            Login     => $Name,
-            Email     => $Name . '@example.com',
-            UserID    => 1,
         );
         if ($ID) {
             print "NOTICE: User '$Name' with ID '$ID' created.\n";
@@ -572,7 +655,7 @@ sub UserCreate {
             foreach my $GroupID (@GroupIDs) {
                 my $GroupAdd = int( rand(3) );
                 if ( $GroupAdd == 2 ) {
-                    $CommonObject{GroupObject}->GroupMemberAdd(
+                    $CommonObjects->{GroupObject}->GroupMemberAdd(
                         GID        => $GroupID,
                         UID        => $ID,
                         Permission => {
@@ -587,7 +670,7 @@ sub UserCreate {
                     );
                 }
                 elsif ( $GroupAdd == 1 ) {
-                    $CommonObject{GroupObject}->GroupMemberAdd(
+                    $CommonObjects->{GroupObject}->GroupMemberAdd(
                         GID        => $GroupID,
                         UID        => $ID,
                         Permission => {
@@ -606,3 +689,29 @@ sub UserCreate {
     }
     return @UserIDs;
 }
+
+sub CustomerCreate {
+    my $CommonObjects = shift;
+    my $Count = shift || return;
+
+    print STDERR "COUNT $Count\n";
+
+    foreach ( 1 .. $Count ) {
+        my $Name      = 'fill-up-user' . int( rand(100_000_000) );
+        my $UserLogin = $CommonObjects->{CustomerUserObject}->CustomerUserAdd(
+            Source         => 'CustomerUser',        # CustomerUser source config
+            UserFirstname  => $Name,
+            UserLastname   => $Name,
+            UserCustomerID => $Name,
+            UserLogin      => $Name,
+            UserEmail      => 'email@example.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
+        print "NOTICE: CustomerUser '$Name' created.\n";
+    }
+}
+
+Run();
+
+exit 0;
