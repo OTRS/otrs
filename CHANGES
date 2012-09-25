@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.125 2012-09-24 23:30:29 cr Exp $
+# $Id: CHANGES,v 1.2260.2.126 2012-09-25 12:44:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.1.12 2012-??-??
- - 2012-09=24 Fixed bug#8622 - Storing a new GI Invoker or Operation with an existing name doesn't
+ - 2012-09-25 Fixed bug#8740 - backup.pl: insufficient handling of system() return values.
+ - 2012-09-24 Fixed bug#8622 - Storing a new GI Invoker or Operation with an existing name doesn't
     complain anything.
  - 2012-09-24 Fixed bug#8770 - AJAX Removes Default Options (follow-up fix).
  - 2012-09-21 Improved caching for Services and Service Lists.
