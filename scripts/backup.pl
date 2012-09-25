@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.26 2012-09-07 13:49:16 mb Exp $
+# $Id: backup.pl,v 1.27 2012-09-25 12:43:53 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -152,6 +152,7 @@ if ( $Opts{r} ) {
         Directory => $Opts{d},
         Filter    => '*',
     );
+
     for my $Directory (@Directories) {
         my $Leave = 0;
         for my $Data ( keys %LeaveBackups ) {
@@ -178,7 +179,7 @@ if ( $Opts{r} ) {
                 print "done\n";
             }
             else {
-                print "failed\n";
+                die "failed\n";
             }
         }
     }
@@ -192,8 +193,7 @@ my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
 );
 my $Directory = "$Opts{d}/$Y-$M-$D" . "_" . "$h-$m";
 if ( !mkdir($Directory) ) {
-    print STDERR "ERROR: Can't create directory: $Directory: $!\n";
-    exit 1;
+    die "ERROR: Can't create directory: $Directory: $!\n";
 }
 
 # backup Kernel/Config.pm
@@ -207,7 +207,7 @@ if (
     print "done\n";
 }
 else {
-    print "failed\n";
+    die "failed\n";
 }
 
 # backup application
@@ -217,7 +217,7 @@ if ($FullBackup) {
         print "done\n";
     }
     else {
-        print "failed\n";
+        die "failed\n";
     }
 }
 
@@ -228,7 +228,7 @@ else {
         print "done\n";
     }
     else {
-        print "failed\n";
+        die "failed\n";
     }
 }
 
@@ -239,7 +239,7 @@ if ( $ArticleDir !~ m/\Q$Home\E/ ) {
         print "done\n";
     }
     else {
-        print "failed\n";
+        die "failed\n";
     }
 }
 
@@ -258,7 +258,7 @@ if ( $DB =~ m/mysql/i ) {
         print "done\n";
     }
     else {
-        print "failed\n";
+        die "failed\n";
     }
 }
 else {
@@ -269,10 +269,10 @@ else {
         )
         )
     {
-        print "done\n";
+        die "done\n";
     }
     else {
-        print "failed\n";
+        die "failed\n";
     }
 }
 
@@ -282,5 +282,5 @@ if ( !system("$CompressCMD $Directory/DatabaseBackup.sql") ) {
     print "done\n";
 }
 else {
-    print "failed\n";
+    die "failed\n";
 }
