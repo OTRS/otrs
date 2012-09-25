@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.13 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.FillDB.pl,v 1.14 2012-09-25 11:43:26 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Getopt::Std;
 
@@ -42,6 +42,7 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::User;
+use Kernel::System::CustomerUser;
 use Kernel::System::Group;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
@@ -76,6 +77,7 @@ sub _CommonObjects {
     $Objects{MainObject}         = Kernel::System::Main->new(%Objects);
     $Objects{DBObject}           = Kernel::System::DB->new(%Objects);
     $Objects{UserObject}         = Kernel::System::User->new(%Objects);
+    $Objects{CustomerUserObject} = Kernel::System::CustomerUser->new(%Objects);
     $Objects{GroupObject}        = Kernel::System::Group->new(%Objects);
     $Objects{QueueObject}        = Kernel::System::Queue->new(%Objects);
     $Objects{TicketObject}       = Kernel::System::Ticket->new(%Objects);
@@ -108,13 +110,13 @@ sub Run {
 
     # get options
     my %Opts = ();
-    getopt( 'hqugtram', \%Opts );
+    getopt( 'hqugtramc', \%Opts );
     if ( $Opts{h} ) {
         print <<EOF;
 otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
-usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -r <REALLYDOTHIS>
+usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -<CUSTOMERUSERS> -r <REALLYDOTHIS>
 EOF
         exit 1;
     }
@@ -130,6 +132,10 @@ EOF
     if ( !$Opts{a} ) {
         print STDERR
             "NOTICE: No -a <COUNTOFARTICLES> given, take default number of articles (10)!\n";
+    }
+    if ( !$Opts{c} ) {
+        print STDERR
+            "NOTICE: No -c <COUNTOFCUSRTOMERS> given, will not create any new customers!\n";
     }
     if ( !$Opts{t} ) {
         print STDERR "ERROR: Need -t <COUNTOFTICKET>\n";
@@ -175,6 +181,10 @@ EOF
     }
     else {
         @QueueIDs = QueueCreate( $CommonObjects, $Opts{q}, \@GroupIDs );
+    }
+
+    if ( $Opts{c} ) {
+        CustomerCreate( $CommonObjects, $Opts{c} );
     }
 
     # articles - use default if not set
@@ -638,13 +648,6 @@ sub UserCreate {
             UserEmail     => $Name . '@example.com',
             ValidID       => 1,
             ChangeUserID  => 1,
-
-            # compat to OTRS 2.0
-            Firstname => "$Name-Firstname",
-            Lastname  => "$Name-Lastname",
-            Login     => $Name,
-            Email     => $Name . '@example.com',
-            UserID    => 1,
         );
         if ($ID) {
             print "NOTICE: User '$Name' with ID '$ID' created.\n";
@@ -685,6 +688,28 @@ sub UserCreate {
         }
     }
     return @UserIDs;
+}
+
+sub CustomerCreate {
+    my $CommonObjects = shift;
+    my $Count = shift || return;
+
+    print STDERR "COUNT $Count\n";
+
+    foreach ( 1 .. $Count ) {
+        my $Name      = 'fill-up-user' . int( rand(100_000_000) );
+        my $UserLogin = $CommonObjects->{CustomerUserObject}->CustomerUserAdd(
+            Source         => 'CustomerUser',        # CustomerUser source config
+            UserFirstname  => $Name,
+            UserLastname   => $Name,
+            UserCustomerID => $Name,
+            UserLogin      => $Name,
+            UserEmail      => 'email@example.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
+        print "NOTICE: CustomerUser '$Name' created.\n";
+    }
 }
 
 Run();
