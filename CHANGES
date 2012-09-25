@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.126 2012-09-25 12:44:08 mg Exp $
+# $Id: CHANGES,v 1.2260.2.127 2012-09-25 13:35:11 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-09-25 Fixed bug#8606 - Escalation notifications should not be sent to agents who are set out-of-office.
  - 2012-09-25 Fixed bug#8740 - backup.pl: insufficient handling of system() return values.
  - 2012-09-24 Fixed bug#8622 - Storing a new GI Invoker or Operation with an existing name doesn't
     complain anything.
