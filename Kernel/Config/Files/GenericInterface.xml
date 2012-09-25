@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.44 2012-06-15 10:00:16 mg Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.45 2012-09-25 08:32:20 mg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -16,7 +16,7 @@
     <ConfigItem Name="GenericInterface::WebserviceConfig::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the web service config backend.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Core::Cache</SubGroup>
+        <SubGroup>GenericInterface::Webservice</SubGroup>
         <Setting>
             <String Regex="">86400</String><!-- default 1 day -->
         </Setting>
@@ -24,7 +24,7 @@
     <ConfigItem Name="GenericInterface::Operation::Common::CachedAuth::AgentCacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for agent authentication in the GenericInterface.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Core::Cache</SubGroup>
+        <SubGroup>GenericInterface::Webservice</SubGroup>
         <Setting>
             <String Regex="">300</String><!-- default 5 min -->
         </Setting>
@@ -32,7 +32,7 @@
     <ConfigItem Name="GenericInterface::Operation::Common::CachedAuth::CustomerCacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for customer authentication in the GenericInterface.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Core::Cache</SubGroup>
+        <SubGroup>GenericInterface::Webservice</SubGroup>
         <Setting>
             <String Regex="">300</String><!-- default 5 min -->
         </Setting>
@@ -40,7 +40,7 @@
     <ConfigItem Name="GenericInterface::Webservice::Path::Separator" Required="1" Valid="1">
         <Description Translatable="1">Webservice path separator.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Core::Webservice</SubGroup>
+        <SubGroup>GenericInterface::Webservice</SubGroup>
         <Setting>
             <String>»</String>
         </Setting>
@@ -49,7 +49,7 @@
     <ConfigItem Name="GenericInterface::Invoker::Event###Ticket" Required="0" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI to trigger generic interface invokers.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Core::Invoker</SubGroup>
+        <SubGroup>GenericInterface::Invoker</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="TicketCreate">1</Item>
@@ -86,7 +86,7 @@
     <ConfigItem Name="GenericInterface::Invoker::Event###Article" Required="0" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI to trigger generic interface invokers.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Core::Invoker</SubGroup>
+        <SubGroup>GenericInterface::Invoker</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="ArticleCreate">1</Item>
@@ -105,7 +105,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceDebugger" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -122,7 +122,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceWebservice" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -146,7 +146,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceTransportHTTPSOAP" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -161,7 +161,7 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceWebserviceHistory" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -178,7 +178,7 @@
 
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceOperationDefault" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -195,7 +195,7 @@
 
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceInvokerDefault" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -284,7 +284,7 @@
 
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceMappingSimple" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Framework</Group>
+        <Group>GenericInterface</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -376,7 +376,7 @@
    <ConfigItem Name="GenericInterface::Operation::TicketCreate###ArticleType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketCreate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketCreate</SubGroup>
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
@@ -384,7 +384,7 @@
     <ConfigItem Name="GenericInterface::Operation::TicketCreate###HistoryType" Required="1" Valid="1">
         <Description Translatable="1">Defines the history type for this operation, which gets used for ticket history in the agent interface.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketCreate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketCreate</SubGroup>
         <Setting>
             <String Regex="">NewTicket</String>
         </Setting>
@@ -392,7 +392,7 @@
     <ConfigItem Name="GenericInterface::Operation::TicketCreate###HistoryComment" Required="1" Valid="1">
         <Description Translatable="1">Defines the history comment for this operation, which gets used for ticket history in the agent interface.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketCreate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketCreate</SubGroup>
         <Setting>
             <String Regex="">%%GenericInterface Create</String>
         </Setting>
@@ -400,7 +400,7 @@
    <ConfigItem Name="GenericInterface::Operation::TicketCreate###AutoResponseType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default auto response type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketCreate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketCreate</SubGroup>
         <Setting>
             <String Regex="">auto reply</String>
         </Setting>
@@ -409,7 +409,7 @@
    <ConfigItem Name="GenericInterface::Operation::TicketUpdate###ArticleType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketUpdate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketUpdate</SubGroup>
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
@@ -417,7 +417,7 @@
     <ConfigItem Name="GenericInterface::Operation::TicketUpdate###HistoryType" Required="1" Valid="1">
         <Description Translatable="1">Defines the history type for this operation, which gets used for ticket history in the agent interface.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketUpdate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketUpdate</SubGroup>
         <Setting>
             <String Regex="">AddNote</String>
         </Setting>
@@ -425,7 +425,7 @@
     <ConfigItem Name="GenericInterface::Operation::TicketUpdate###HistoryComment" Required="1" Valid="1">
         <Description Translatable="1">Defines the history comment for this operation, which gets used for ticket history in the agent interface.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketUpdate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketUpdate</SubGroup>
         <Setting>
             <String Regex="">%%GenericInterface Note</String>
         </Setting>
@@ -433,7 +433,7 @@
    <ConfigItem Name="GenericInterface::Operation::TicketUpdate###AutoResponseType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default auto response type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketUpdate</SubGroup>
+        <SubGroup>GenericInterface::Operation::TicketUpdate</SubGroup>
         <Setting>
             <String Regex="">auto follow up</String>
         </Setting>
