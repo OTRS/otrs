@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.324 2012-04-17 07:11:52 mg Exp $
+# $Id: de.pm,v 1.325 2012-09-25 09:10:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.324 $) [1];
+$VERSION = qw($Revision: 1.325 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1855,6 +1855,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
+        'out of office' => 'abwesend',
+
+        # Template: AgentDashboardUserOutOfOffice
+        'until' => 'bis',
 
         # Template: AgentHTMLReferenceForms
 

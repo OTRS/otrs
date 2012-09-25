@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOutOfOffice.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOutOfOffice.pm,v 1.1 2012-05-21 07:07:52 mb Exp $
+# $Id: DashboardUserOutOfOffice.pm,v 1.2 2012-09-25 09:10:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -26,22 +26,24 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserObject UserID)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
-    $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
-
     # get current starthit and preferences
     my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOutOfOffice' . $Self->{Name};
 
-    $Self->{PrefKey}   = 'UserDashboardPref' . $Self->{Name} . '-Shown';
+    $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
+
     $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
-    $Self->{StartHit}  = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
-    $Self->{CacheKey}  = $Self->{Name};
+
+    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+
+    $Self->{CacheKey} = $Self->{Name};
+
     return $Self;
 }
 
@@ -96,6 +98,7 @@ sub Run {
     # get session info
     my $CacheUsed = 1;
     if ( !$OutOfOffice ) {
+
         $CacheUsed   = 0;
         $OutOfOffice = {
             User      => {},
@@ -107,11 +110,19 @@ sub Run {
             Key   => 'OutOfOffice',
             Value => 1,
         );
+
+        USERID:
         for my $UserID ( keys %UserList ) {
+
+            next USERID if !$UserID;
+
+            # get user data
             my %Data = $Self->{UserObject}->GetUserData(
                 UserID        => $UserID,
                 NoOutOfOffice => 1,
             );
+
+            next USERID if !%Data;
 
             my $Time  = $Self->{TimeObject}->SystemTime();
             my $Start = sprintf(
@@ -138,10 +149,10 @@ sub Run {
             $OutOfOffice->{UserCount}++;
             $OutOfOffice->{UserData}->{ $Data{UserID} } = \%Data;
         }
-
-        # do not show widget if there are no users out-of-office
-        return if !$OutOfOffice->{UserCount};
     }
+
+    # do not show widget if there are no users out-of-office
+    return if !$OutOfOffice->{UserCount};
 
     # set cache
     if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
@@ -156,6 +167,7 @@ sub Run {
     # add page nav bar if needed
     my $Total = $OutOfOffice->{UserCount} || 0;
     if ( $OutOfOffice->{UserCount} > $Self->{PageShown} ) {
+
         my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';';
         my %PageNav  = $Self->{LayoutObject}->PageNavBar(
             StartHit       => $Self->{StartHit},
@@ -185,11 +197,16 @@ sub Run {
     my $Count           = 0;
     my $Limit           = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
+    USERID:
     for my $UserID ( sort { $OutOfOfficeUser{$a} cmp $OutOfOfficeUser{$b} } keys %OutOfOfficeUser )
     {
+
         $Count++;
-        next if $Count < $Self->{StartHit};
-        last if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
+
+        next USERID if !$UserID;
+        next USERID if $Count < $Self->{StartHit};
+        last USERID if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
+
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOutOfOfficeRow',
             Data => $OutOfOfficeData{$UserID},

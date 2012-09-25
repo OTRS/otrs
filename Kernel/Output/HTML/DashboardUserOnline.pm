@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardUserOnline.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.20 2011-04-05 12:04:34 mb Exp $
+# $Id: DashboardUserOnline.pm,v 1.21 2012-09-25 09:10:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,7 +28,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserObject UserID)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
@@ -86,9 +86,7 @@ sub Preferences {
             Desc  => 'Shown',
             Name  => $Self->{PrefKey},
             Block => 'Option',
-
-            #            Block => 'Input',
-            Data => {
+            Data  => {
                 5  => ' 5',
                 10 => '10',
                 15 => '15',
@@ -132,6 +130,7 @@ sub Run {
     # get session info
     my $CacheUsed = 1;
     if ( !$Online ) {
+
         $CacheUsed = 0;
         $Online    = {
             User => {
@@ -147,28 +146,46 @@ sub Run {
                 Customer => {},
             },
         };
+
+        # get session ids
         my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
-        for (@Sessions) {
-            my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_ );
+
+        SESSIONID:
+        for my $SessionID (@Sessions) {
+
+            next SESSIONID if !$SessionID;
+
+            # get session data
+            my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+
+            next SESSIONID if !%Data;
+            next SESSIONID if !$Data{UserID};
 
             # use agent instead of user
+            my %AgentData;
             if ( $Data{UserType} eq 'User' ) {
                 $Data{UserType} = 'Agent';
+
+                # get user data
+                %AgentData = $Self->{UserObject}->GetUserData(
+                    UserID        => $Data{UserID},
+                    NoOutOfOffice => 1,
+                );
             }
 
             # only show if not already shown
-            next if $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} };
+            next SESSIONID if $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} };
 
             # check last request time / idle time out
-            next if !$Data{UserLastRequest};
-            next
+            next SESSIONID if !$Data{UserLastRequest};
+            next SESSIONID
                 if $Data{UserLastRequest} + ( $IdleMinutes * 60 )
                     < $Self->{TimeObject}->SystemTime();
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
             $Online->{UserCount}->{ $Data{UserType} }++;
-            $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = \%Data;
+            $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = { %Data, %AgentData };
         }
     }
 
@@ -211,6 +228,7 @@ sub Run {
         IDPrefix       => 'Dashboard' . $Self->{Name},
         KeepScriptTags => $Param{AJAX},
     );
+
     $Self->{LayoutObject}->Block(
         Name => 'ContentSmallTicketGenericFilterNavBar',
         Data => {
@@ -226,18 +244,31 @@ sub Run {
     my $Count      = 0;
     my $Limit      = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
+    USERID:
     for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {
+
         $Count++;
-        next if $Count < $Self->{StartHit};
-        last if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
+
+        next USERID if !$UserID;
+        next USERID if $Count < $Self->{StartHit};
+        last USERID if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
+
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOnlineRow',
             Data => $OnlineData{$UserID},
         );
+
         if ( $Self->{Config}->{ShowEmail} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentSmallUserOnlineRowEmail',
                 Data => $OnlineData{$UserID},
+            );
+        }
+
+        if ( $OnlineData{$UserID}->{OutOfOffice} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentSmallUserOnlineRowOutOfOffice',
             );
         }
     }
@@ -245,7 +276,6 @@ sub Run {
     if ( !%OnlineUser ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOnlineNone',
-            Data => {},
         );
     }
 

@@ -1,8 +1,8 @@
 # --
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.26 2010-11-05 08:51:40 mb Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.27 2012-09-25 09:10:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,10 +42,15 @@
 <!-- dtl:block:ContentSmallUserOnlineRow -->
         <tr>
             <td>
-                $QData{"UserFirstname"} $QData{"UserLastname"}
+                <p title="$QData{"UserEmail"}">
+                    $QData{"UserLastname"} $QData{"UserFirstname"}
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->
-                ($QData{"UserEmail","50"})
+                    ($QData{"UserEmail","50"})
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->
+<!-- dtl:block:ContentSmallUserOnlineRowOutOfOffice -->
+                    - $Text{"out of office"}
+<!-- dtl:block:ContentSmallUserOnlineRowOutOfOffice -->
+                </p>
             </td>
         </tr>
 <!-- dtl:block:ContentSmallUserOnlineRow -->
