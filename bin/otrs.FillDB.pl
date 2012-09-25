@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.14 2012-09-25 11:43:26 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.15 2012-09-25 11:46:52 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 
@@ -694,17 +694,15 @@ sub CustomerCreate {
     my $CommonObjects = shift;
     my $Count = shift || return;
 
-    print STDERR "COUNT $Count\n";
-
     foreach ( 1 .. $Count ) {
         my $Name      = 'fill-up-user' . int( rand(100_000_000) );
         my $UserLogin = $CommonObjects->{CustomerUserObject}->CustomerUserAdd(
-            Source         => 'CustomerUser',        # CustomerUser source config
+            Source         => 'CustomerUser',            # CustomerUser source config
             UserFirstname  => $Name,
             UserLastname   => $Name,
             UserCustomerID => $Name,
             UserLogin      => $Name,
-            UserEmail      => 'email@example.com',
+            UserEmail      => $Name . '@example2.com',
             ValidID        => 1,
             UserID         => 1,
         );
