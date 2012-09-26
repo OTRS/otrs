@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.164.2.1 2012-06-06 21:06:05 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.164.2.2 2012-09-26 21:32:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164.2.1 $) [1];
+$VERSION = qw($Revision: 1.164.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,6 +190,7 @@ sub Run {
     my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
 
     if ($CustomersNumber) {
+
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
             my $CustomerElement
@@ -201,7 +202,12 @@ sub Run {
                 || '';
             if ($CustomerElement) {
 
-                $GetParam{To} .= $CustomerElement . ',';
+                if ( $GetParam{To} ) {
+                    $GetParam{To} .= ', ' . $CustomerElement;
+                }
+                else {
+                    $GetParam{To} = $CustomerElement;
+                }
 
                 # check email address
                 my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
@@ -263,7 +269,12 @@ sub Run {
 
             if ($CustomerElementCc) {
 
-                $GetParam{Cc} .= $CustomerElementCc . ',';
+                if ( $GetParam{Cc} ) {
+                    $GetParam{Cc} .= ', ' . $CustomerElementCc;
+                }
+                else {
+                    $GetParam{Cc} = $CustomerElementCc;
+                }
 
                 # check email address
                 my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
@@ -325,7 +336,12 @@ sub Run {
 
             if ($CustomerElementBcc) {
 
-                $GetParam{Bcc} .= $CustomerElementBcc . ',';
+                if ( $GetParam{Bcc} ) {
+                    $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
+                }
+                else {
+                    $GetParam{Bcc} = $CustomerElementBcc;
+                }
 
                 # check email address
                 my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
@@ -693,13 +709,15 @@ sub Run {
 
         # get recipients
         my $Recipients = '';
+        LINE:
         for my $Line (qw(To Cc Bcc)) {
-            if ( $GetParam{$Line} ) {
-                if ($Recipients) {
-                    $Recipients .= ',';
-                }
-                $Recipients .= $GetParam{$Line};
+
+            next LINE if !$GetParam{$Line};
+
+            if ($Recipients) {
+                $Recipients .= ', ';
             }
+            $Recipients .= $GetParam{$Line};
         }
 
         my $MimeType = 'text/plain';
