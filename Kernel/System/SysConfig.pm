@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.35 2012-07-02 09:50:47 mg Exp $
+# $Id: SysConfig.pm,v 1.36 2012-09-26 20:40:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -900,6 +900,32 @@ sub ConfigItemGet {
             }
         }
     }
+    if ( $ConfigItem->{Setting}->[1]->{DateTime} ) {
+
+        # get data into a perl Hash
+        my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        if ( !$Param{Default} && defined($HashRef) ) {
+
+            # set perl hash into the correct XML structure for a DateTime setting
+            # Setting => [
+            #    undef,
+            #    {
+            #        Year => [
+            #            undef,
+            #            {
+            #                Content => '2012',
+            #            },
+            #        ],
+            #        ...
+            #    },
+            # ],
+            for my $Part (qw(Year Month Day Hour Minute)) {
+                $ConfigItem->{Setting}->[1]->{DateTime}->[1]->{$Part}->[1]->{Content}
+                    = $HashRef->{$Part};
+            }
+        }
+    }
+
     if ( !$Param{Default} ) {
         my %ConfigItemDefault = $Self->ConfigItemGet(
             Name    => $Param{Name},
@@ -1411,6 +1437,11 @@ sub ConfigItemValidate {
         # TimeVacationDaysOneTime
         elsif ( $ConfigItem{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item} ) {
             $Value = $ConfigItem{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item};
+        }
+
+        # DateTime
+        elsif ( $ConfigItem{Setting}->[1]->{DateTime}->[1] ) {
+            $Value = $ConfigItem{Setting}->[1]->{DateTime}->[1];
         }
 
         # unknown config item can not be validated, so return true
@@ -2197,6 +2228,19 @@ sub _XML2Perl {
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
+    if ( $ConfigItem->{DateTime} ) {
+        my %Hash;
+
+        # gather data from the XML structure and set it to a Perl hash
+        for my $Part (qw(Year Month Day Hour Minute)) {
+            $Hash{$Part} = $ConfigItem->{DateTime}->[1]->{$Part}->[1]->{Content};
+        }
+
+        # store in config
+        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
 
     return $Data;
 }
@@ -2281,6 +2325,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-07-02 09:50:47 $
+$Revision: 1.36 $ $Date: 2012-09-26 20:40:41 $
 
 =cut

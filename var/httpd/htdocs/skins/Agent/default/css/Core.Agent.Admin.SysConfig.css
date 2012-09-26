@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -92,6 +92,7 @@
  * @subsubsection     Simple Settings
  */
 
+#AdminSysConfig .Setting .DateTime,
 #AdminSysConfig .Setting .String,
 #AdminSysConfig .Setting .Array,
 #AdminSysConfig .Setting .Hash {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.121 2012-07-02 09:50:47 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.122 2012-09-26 20:40:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -685,6 +685,27 @@ sub Run {
                 if ( !$Update ) {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
+            }
+
+            # ConfigElement DateTime
+            elsif ( defined $ItemHash{Setting}->[1]->{DateTime} ) {
+
+                # set a safe prefix, substitue the '::' for a '_'
+                my $Prefix = $ItemHash{Name};
+                $Prefix =~ s{::}{_}g;
+
+                my %Content;
+                for my $Part (qw(Year Month Day Hour Minute)) {
+                    $Content{$Part} = $Self->{ParamObject}->GetParam( Param => $Prefix . $Part )
+                        || '00';
+                }
+
+                # write ConfigItem
+                my $Update = $Self->{SysConfigObject}->ConfigItemUpdate(
+                    Key   => $_,
+                    Value => \%Content,
+                    Valid => $Active,
+                );
             }
         }
 
@@ -1654,6 +1675,54 @@ sub ListConfigItem {
                 );
             }
         }
+        return 1;
+    }
+
+    # ConfigElement DateTime
+    if ( defined $Item->{DateTime} ) {
+
+        # set a safe prefix, substitue the '::' for a '_'
+        my $Prefix = $ItemHash{Name};
+        $Prefix =~ s{::}{_}g;
+
+        # set format: Long = DateTime, otherwise just Date
+        # <DateTime Type="Long"> ... </DateTime>
+        my $Format = 'DateInputFormat';
+        if ( defined $Item->{DateTime}->[1]->{Type} && $Item->{DateTime}->[1]->{Type} eq 'Long' ) {
+            $Format = 'DateInputFormatLong';
+        }
+
+        my %DateHash = (
+            $Prefix . Year   => $ItemHash{Setting}[1]{DateTime}->[1]->{Year}->[1]->{Content},
+            $Prefix . Month  => $ItemHash{Setting}[1]{DateTime}->[1]->{Month}->[1]->{Content},
+            $Prefix . Day    => $ItemHash{Setting}[1]{DateTime}->[1]->{Day}->[1]->{Content},
+            $Prefix . Hour   => $ItemHash{Setting}[1]{DateTime}->[1]->{Hour}->[1]->{Content},
+            $Prefix . Minute => $ItemHash{Setting}[1]{DateTime}->[1]->{Minute}->[1]->{Content},
+        );
+
+        # transform time stamp based on user time zone
+        %DateHash = $Self->{LayoutObject}->TransfromDateSelection(
+            %DateHash,
+            Prefix => $Prefix,
+        );
+
+        # create DateTime content
+        my $Content = $Self->{LayoutObject}->BuildDateSelection(
+            %DateHash,
+            Prefix           => $Prefix,
+            Format           => $Format,
+            Validate         => 1,
+            YearPeriodPast   => 10,
+            YearPeriodFuture => 5,
+        );
+
+        # output DateTime config element
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigElementDateTime',
+            Data => {
+                Content => $Content,
+            },
+        );
         return 1;
     }
 
