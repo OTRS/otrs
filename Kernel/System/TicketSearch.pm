@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.15 2012-09-07 09:24:57 mg Exp $
+# $Id: TicketSearch.pm,v 1.16 2012-09-27 18:22:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -218,6 +218,9 @@ To find tickets in your system.
         TicketEscalationTimeOlderDate => '2006-01-09 23:59:59',
 
         # search in archive (optional)
+        # if archiving is on, if not specified the search processes unarchived only
+        # 'y' searches archived tickets, 'n' searches unarchived tickets
+        # if specified together all tickets are searched
         ArchiveFlags => ['y', 'n'],
 
         # OrderBy and SortBy (optional)
@@ -226,7 +229,6 @@ To find tickets in your system.
                             # Changed|Title|Service|SLA|PendingTime|EscalationTime
                             # EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
                             # DynamicField_FieldNameX
-                            # TicketFreeTime1-6|TicketFreeKey1-16|TicketFreeText1-16
 
         # OrderBy and SortBy as ARRAY for sub sorting (optional)
         OrderBy => ['Down', 'Up'],
@@ -1517,7 +1519,7 @@ sub TicketSearch {
             $SQLExt .= ' AND archive_flag = 1';
         }
 
-        # search for not rchived
+        # search for not archived
         elsif ( !$Options{y} && $Options{n} ) {
             $SQLExt .= ' AND archive_flag = 0';
         }
@@ -1734,6 +1736,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2012-09-07 09:24:57 $
+$Revision: 1.16 $ $Date: 2012-09-27 18:22:29 $
 
 =cut
