@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.258 2012-09-20 07:49:09 mg Exp $
+# $Id: CHANGES,v 1.1758.2.259 2012-09-27 16:21:30 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.17 2012-10-16
+ - 2012-09-25 Fixed bug#8606 - Escalation notifications should not be sent to agents who are set out-of-office.
  - 2012-09-13 Improved HTML security filter to better find javascript source URLs.
 
 3.0.16 2012-08-30
