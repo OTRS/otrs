@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/TriggerEscalationStopEvents.pm - trigger escalation stop events
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TriggerEscalationStopEvents.pm,v 1.2 2011-11-25 10:14:18 mg Exp $
+# $Id: TriggerEscalationStopEvents.pm,v 1.2.2.1 2012-09-27 14:14:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.2.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,11 +51,6 @@ sub Run {
             return;
         }
     }
-
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => "TriggerEscalationStopEvents called for $Param{Event}",
-    );
 
     # get the current escalation status
     my %Ticket = $Self->{TicketObject}->TicketGet(
