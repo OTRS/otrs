@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.62 2012-08-03 07:42:09 mg Exp $
+# $Id: TemplateGenerator.pm,v 1.63 2012-09-28 03:05:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -1164,12 +1164,38 @@ sub _Replace {
         }
     }
 
+    # Dropdown, Checkbox and MultipleSelect DynamicFields, can store values (keys) that are
+    # different from the the values to display
+    # <OTRS_TICKET_DynamicField_NameX> returns the stored key
+    # <OTRS_TICKET_DynamicField_NameX_Value> returns the display value
+
+    # to store all the DynamicField display values
+    my %DynamicFieldDisplayValues;
+
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # get the readable value for each dynamic field
+        # get the display value for each dynamic field
+        my $DisplayValue = $Self->{BackendObject}->ValueLookup(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Key                => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+        );
+
+        # get the readable value (value) for each dynamic field
+        my $DisplayValueStrg = $Self->{BackendObject}->ReadableValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $DisplayValue,
+        );
+
+        # fill the DynamicFielsDisplayValues
+        if ($DisplayValueStrg) {
+            $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' }
+                = $DisplayValueStrg->{Value};
+        }
+
+        # get the readable value (key) for each dynamic field
         my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
@@ -1185,6 +1211,10 @@ sub _Replace {
     for ( keys %Ticket ) {
         next if !defined $Ticket{$_};
         $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
+    }
+    for ( keys %DynamicFieldDisplayValues ) {
+        next if !defined $DynamicFieldDisplayValues{$_};
+        $Param{Text} =~ s/$Tag$_$End/$DynamicFieldDisplayValues{$_}/gi;
     }
 
     # COMPAT
@@ -1427,6 +1457,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2012-08-03 07:42:09 $
+$Revision: 1.63 $ $Date: 2012-09-28 03:05:10 $
 
 =cut
