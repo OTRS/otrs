@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2440 2012-09-28 08:57:23 mb Exp $
+# $Id: CHANGES,v 1.2441 2012-09-28 17:23:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,8 @@
 3.2.0 beta1 2012-??-??
  - 2012-09-28 Fixed bug#8794 - Depreciation warnings in web server error log for
     AdminEmail.pm when using perl >= 5.16.
- - 2012-09-27 Fixed bug#8551 - Missing DynamicFields values in TemplateGenerator (only show keys).
+ - 2012-09-27 Fixed bug#8551 - Missing DynamicFields values in TemplateGenerator and
+    NotificationEvent (only show keys).
  - 2012-09-26 Added support for new SysConfig settings type "DateTime" (Date and DateTime).
  - 2012-09-24 Fixed bug#5098 - OTRS does not verify that SMIME signatures match email senders.
  - 2012-09-21 Added new feature "SwitchToCustomer". The feature can be enabled
