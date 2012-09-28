@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.53 2012-08-31 07:49:13 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.54 2012-09-28 22:39:29 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -399,7 +399,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     }
                     Path[Activity][EntityID] = {
                         ActivityEntityID: undefined
-                    }; 
+                    };
                 }
             }
             else {
@@ -419,7 +419,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 
                 // If this action is already bind to this transition
                 // you cannot bind it a second time
-                if (Path[Transition.StartActivity] && 
+                if (Path[Transition.StartActivity] &&
                     typeof Path[Transition.StartActivity][Transition.TransitionID] !== 'undefined' &&
                     typeof Path[Transition.StartActivity][Transition.TransitionID].TransitionAction !== 'undefined' &&
                     ($.inArray(EntityID, Path[Transition.StartActivity][Transition.TransitionID].TransitionAction) >= 0)
@@ -587,7 +587,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
             else {
                 if ($.isFunction(Callback)) {
-                    Callback(WindowObject);                    
+                    Callback(WindowObject);
                 }
             }
         }, 'json');
@@ -599,7 +599,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // redraw canvas
         Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
         // remove overlay
-        Core.Agent.Admin.ProcessManagement.HideOverlay();        
+        Core.Agent.Admin.ProcessManagement.HideOverlay();
     };
     
     TargetNS.InitProcessEdit = function () {
@@ -690,7 +690,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
          // only do something, if the element was removed from the right list
             if (UI.sender.attr('id') === 'AssignedActivityDialogs') {
                 Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
-            }            
+            }
         }
         
         // Initialize Allocation List
@@ -770,7 +770,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 FieldConfig = $(this).closest('li').data('config'),
                 $Element = $(this),
                 MandatoryFields = ['Queue', 'State', 'Lock', 'Priority'],
-                FieldsWithoutDefaultValue = ['CustomerID'],
+                FieldsWithoutDefaultValue = ['CustomerID', 'Article'],
                 Fieldname = $(this).closest('li').clone().find('span').remove().end().text().trim();
             
             if (typeof FieldConfig === 'string') {
@@ -784,7 +784,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             Core.UI.Dialog.ShowContentDialog(
                 $('#Dialogs #FieldDetails'),
                 TargetNS.Localization.DialogTitle,
-                '100px',
+                '200px',
                 'Center',
                 true,
                 [
@@ -798,6 +798,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                              FieldConfig.DescriptionLong = $('#DescLong').val();
                              FieldConfig.DefaultValue = $('#DefaultValue').val();
                              FieldConfig.Display = $('#Display').val();
+                             
+                             if (Fieldname == 'Article') {
+                                 if (typeof FieldConfig.Config === 'undefined'){
+                                     FieldConfig.Config = {};
+                                 }
+                                 FieldConfig.Config.ArticleType = $('#ArticleType').val();
+                             }
                              
                              $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfig));
                              
@@ -818,6 +825,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#DescLong').val(FieldConfig.DescriptionLong);
                 $('#DefaultValue').val(FieldConfig.DefaultValue);
                 $('#Display').val(FieldConfig.Display);
+                
+                if (Fieldname == 'Article') {
+                    if (typeof FieldConfig.Config === 'undefined'){
+                        FieldConfig.Config = {};
+                    }
+                    $('#ArticleType').val(FieldConfig.Config.ArticleType);
+                }
+                
             }
             
             // some fields must be mandatory, if they are present.
@@ -832,6 +847,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#DefaultValue').prop('readonly', true).prop('disabled', true);
             }
 
+            // only article should show ArticleType select.
+            if (Fieldname == 'Article') {
+                $('#ArticleTypeContainer').removeClass('Hidden');
+            }
+            else {
+                $('#ArticleTypeContainer').addClass('Hidden');
+            }
+
             return false;
         });
         
@@ -840,7 +863,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init handling of closing popup with the OS functionality ("X")
         $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
-        });        
+        });
     };
     
     TargetNS.InitTransitionEdit = function () {
@@ -864,7 +887,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 
                 $(this).parent().prev('label').remove();
                 $(this).parent().remove();
-            }            
+            }
             else {
                 alert("Sorry, the only existing condition can't be removed.");
             }
@@ -877,8 +900,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get current parent index
             var CurrentParentIndex = $(this).closest('.ConditionField').attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''),
                 // get the index for the newly to be added element
-                // therefore, we search the preceding fieldset and the first 
-                // label in it to get its "for"-attribute which contains the index 
+                // therefore, we search the preceding fieldset and the first
+                // label in it to get its "for"-attribute which contains the index
                 LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''), 10),
                 // add new field
                 ConditionFieldHTML = $('#ConditionFieldContainer').html().replace(/_INDEX_/g, CurrentParentIndex).replace(/_FIELDINDEX_/g, LastKnownFieldIndex + 1);
@@ -892,7 +915,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             if ($(this).closest('.Field').find('.Fields').length > 1) {
                 $(this).parent().prev('label').remove();
                 $(this).parent().remove();
-            }            
+            }
             else {
                 alert("Sorry, the only existing field can't be removed.");
             }
@@ -922,8 +945,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init addition of new config parameters
         $('#ConfigAdd').bind('click', function() {
             // get the index for the newly to be added element
-            // therefore, we search the preceding fieldset and the first 
-            // label in it to get its "for"-attribute which contains the index 
+            // therefore, we search the preceding fieldset and the first
+            // label in it to get its "for"-attribute which contains the index
             var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''), 10),
                 // get current index
                 ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
@@ -1007,7 +1030,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 TransitionInfo;
             
             $('#AssignedTransitionActions li').each(function() {
-                NewTransitionActions.push($(this).attr('id'));    
+                NewTransitionActions.push($(this).attr('id'));
             });
             
             // collection transition info for later merging
@@ -1098,7 +1121,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Update config from e.g. popup windows
 
-        // Update Process 
+        // Update Process
         if (typeof Config.Process !== 'undefined') {
             TargetNS.ProcessData.Process = Config.Process;
         }
