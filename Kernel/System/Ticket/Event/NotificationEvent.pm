@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.39 2012-08-01 22:39:54 mh Exp $
+# $Id: NotificationEvent.pm,v 1.40 2012-09-28 16:37:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,7 +32,10 @@ sub new {
 
     # get needed objects
     for my $Needed (
-        qw(DBObject ConfigObject TicketObject LogObject TimeObject UserObject CustomerUserObject SendmailObject QueueObject GroupObject MainObject EncodeObject)
+        qw(
+        DBObject ConfigObject TicketObject LogObject TimeObject UserObject CustomerUserObject
+        SendmailObject QueueObject GroupObject MainObject EncodeObject
+        )
         )
     {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
@@ -560,7 +563,8 @@ sub _SendNotification {
     for my $Key ( keys %Ticket ) {
         next if !defined $Ticket{$Key};
 
-        my $DisplayValue = $Ticket{$Key};
+        my $DisplayKeyValue = $Ticket{$Key};
+        my $DisplayValue    = $Ticket{$Key};
 
         if ( $Key =~ /^DynamicField_/i ) {
 
@@ -572,16 +576,34 @@ sub _SendNotification {
                 Name => $FieldName,
             );
 
-            # get display value
-            my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+            # get the display value for each dynamic field
+            $DisplayValue = $Self->{BackendObject}->ValueLookup(
+                DynamicFieldConfig => $DynamicField,
+                Key                => $Ticket{$Key},
+            );
+
+            # get the readable value (value) for each dynamic field
+            my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
                 DynamicFieldConfig => $DynamicField,
                 Value              => $DisplayValue,
             );
             $DisplayValue = $ValueStrg->{Value};
+
+            # get display key value
+            my $KeyValueStrg
+                = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+                DynamicFieldConfig => $DynamicField,
+                Value              => $DisplayKeyValue,
+                );
+            $DisplayKeyValue = $KeyValueStrg->{Value};
         }
 
-        $Notification{Body}    =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
-        $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
+        $Notification{Body}    =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
+        $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
+
+        my $Tag = '<OTRS_TICKET_' . $Key . '_Value>';
+        $Notification{Body}    =~ s/$Tag/$DisplayValue/gi;
+        $Notification{Subject} =~ s/$Tag/$DisplayValue/gi;
     }
 
     # cleanup
