@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.24 2012-09-28 17:52:03 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.25 2012-09-28 22:38:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -803,6 +803,27 @@ sub _ShowEdit {
         Name        => 'Display',
         ID          => 'Display',
         Sort        => 'AlphanumericKey',
+        Translation => 1,
+    );
+
+    # create ArticleType selection
+    $Param{ArticleTypeSelection} = $Self->{LayoutObject}->BuildSelection(
+        Data => [
+            'email-external',
+            'email-internal',
+            'email-notification-ext',
+            'email-notification-int',
+            'phone',
+            'fax',
+            'sms',
+            'webrequest',
+            'note-internal',
+            'note-external',
+            'note-report',
+        ],
+        Name        => 'ArticleType',
+        ID          => 'ArticleType',
+        Sort        => 'Alphanumeric',
         Translation => 1,
     );
 
