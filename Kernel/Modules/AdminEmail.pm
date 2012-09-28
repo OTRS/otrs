@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.50 2011-12-21 14:25:56 mg Exp $
+# $Id: AdminEmail.pm,v 1.51 2012-09-28 08:57:24 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,7 +208,6 @@ sub Run {
     # ------------------------------------------------------------ #
     # show mask
     # ------------------------------------------------------------ #
-    my $Reference;
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
@@ -217,38 +216,30 @@ sub Run {
             Data => \%Param,
         );
     }
-
-    $Reference = defined( @{ $GetParam{UserIDs} } ) ? \@{ $GetParam{UserIDs} } : '';
     $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
         Name => 'UserIDs',
         Size => 6,
         Multiple    => 1,
         Translation => 0,
-        SelectedID  => $Reference,
         Class       => $Errors{BccInvalid} || '',
     );
 
-    $Reference = defined( @{ $GetParam{GroupIDs} } ) ? \@{ $GetParam{GroupIDs} } : '';
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
         Size => 6,
         Name => 'GroupIDs',
         Multiple    => 1,
         Translation => 0,
-        SelectedID  => $Reference,
         Class       => $Errors{BccInvalid} || '',
     );
-
     my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );
-    $Reference = defined( @{ $GetParam{RoleIDs} } ) ? \@{ $GetParam{RoleIDs} } : '';
     $Param{RoleOption} = $Self->{LayoutObject}->BuildSelection(
         Data        => \%RoleList,
         Size        => 6,
         Name        => 'RoleIDs',
         Multiple    => 1,
         Translation => 0,
-        SelectedID  => $Reference,
         Class       => $Errors{BccInvalid} || '',
     );
 
@@ -260,7 +251,7 @@ sub Run {
         },
     );
 
-    if ( scalar( keys %RoleList ) ) {
+    if ( keys %RoleList ) {
         $Self->{LayoutObject}->Block(
             Name => 'RoleRecipients',
             Data => \%Param,
