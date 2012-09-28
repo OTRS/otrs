@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.66 2012-09-28 03:02:55 cr Exp $
+# $Id: Dropdown.pm,v 1.67 2012-09-28 16:40:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -835,10 +835,28 @@ sub ValueLookup {
 
     my $Value = defined $Param{Key} ? $Param{Key} : '';
 
+    # get real values
+    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
     if ($Value) {
 
-        # get readeable value or use $Param{Key} if no value found
-        $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} || $Value;
+        # check if there is a real value for this key (otherwise keep the key)
+        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+
+            # get readeable value
+            $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+
+            # check if translation is possible
+            if (
+                defined $Param{LanguageObject}
+                && $Param{DynamicFieldConfig}->{Config}->{TranslatableValues}
+                )
+            {
+
+                # translate value
+                $Value = $Param{LanguageObject}->Get($Value);
+            }
+        }
     }
 
     return $Value;

@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.63 2012-09-28 03:05:10 cr Exp $
+# $Id: TemplateGenerator.pm,v 1.64 2012-09-28 16:40:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -1177,10 +1177,24 @@ sub _Replace {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
+        my $LanguageObject;
+
+        # translate values if needed
+        if ( $Param{Language} ) {
+            $LanguageObject = Kernel::Language->new(
+                MainObject   => $Self->{MainObject},
+                ConfigObject => $Self->{ConfigObject},
+                EncodeObject => $Self->{EncodeObject},
+                LogObject    => $Self->{LogObject},
+                UserLanguage => $Param{Language},
+            );
+        }
+
         # get the display value for each dynamic field
         my $DisplayValue = $Self->{BackendObject}->ValueLookup(
             DynamicFieldConfig => $DynamicFieldConfig,
             Key                => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            LanguageObject     => $LanguageObject,
         );
 
         # get the readable value (value) for each dynamic field
@@ -1457,6 +1471,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2012-09-28 03:05:10 $
+$Revision: 1.64 $ $Date: 2012-09-28 16:40:34 $
 
 =cut

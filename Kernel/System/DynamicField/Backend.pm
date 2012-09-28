@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.72 2012-09-28 03:02:56 cr Exp $
+# $Id: Backend.pm,v 1.73 2012-09-28 16:40:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -2144,8 +2144,9 @@ as the value key
 
     my $Value = $BackendObject->ValueLookup(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
-        Key                => 'sotred value'             # could also be an array ref for
+        Key                => 'sotred value',             # could also be an array ref for
                                                          #    MultipleSelect fields
+        LanguageObject     => $LanguageObject,            # optional, used to get value translations
     );
 
     Returns:
@@ -2194,6 +2195,11 @@ sub ValueLookup {
         return;
     }
 
+    # remove LanguageObject param if is not a real LanguageObject
+    if ( defined $Param{LanguageObject} && ref $Param{LanguageObject} ne 'Kernel::Language' ) {
+        delete $Param{LanguageObject};
+    }
+
     # call ValueLookup on the specific backend
     return $Self->{$DynamicFieldBackend}->ValueLookup(
         %Param,
@@ -2216,6 +2222,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2012-09-28 03:02:56 $
+$Revision: 1.73 $ $Date: 2012-09-28 16:40:34 $
 
 =cut
