@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.53 2012-05-29 19:08:59 mb Exp $
+# $Id: Multiselect.pm,v 1.54 2012-09-28 03:02:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -949,6 +949,40 @@ sub HistoricalValuesGet {
 
     # return the historical values from database
     return $HistoricalValues;
+}
+
+sub ValueLookup {
+    my ( $Self, %Param ) = @_;
+
+    my @Keys;
+    if ( ref $Param{Key} eq 'ARRAY' ) {
+        @Keys = @{ $Param{Key} };
+    }
+    else {
+        @Keys = ( $Param{Key} );
+    }
+
+    # get real values
+    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
+    # to store final values
+    my @Values;
+
+    KEYITEM:
+    for my $Item (@Keys) {
+        next KEYITEM if !$Item;
+
+        # set the value as the key by default
+        my $Value = $Item;
+
+        # try to convert key to real value
+        if ( $PossibleValues->{$Item} ) {
+            $Value = $PossibleValues->{$Item};
+        }
+        push @Values, $Value;
+    }
+
+    return \@Values;
 }
 
 1;

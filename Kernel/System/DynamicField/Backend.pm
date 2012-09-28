@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.71 2012-04-18 19:47:39 cr Exp $
+# $Id: Backend.pm,v 1.72 2012-09-28 03:02:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -2135,6 +2135,71 @@ sub HistoricalValuesGet {
     );
 }
 
+=item ValueLookup()
+
+returns the display value for a value key for a defined Dynamic Field. This function is meaningfull
+for those Dynamic Fields that stores a value different than the value that is shown ( e.g. a
+Dropdown field could store Key = 1 and Display Value = One ) other fields return the same value
+as the value key
+
+    my $Value = $BackendObject->ValueLookup(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+        Key                => 'sotred value'             # could also be an array ref for
+                                                         #    MultipleSelect fields
+    );
+
+    Returns:
+
+    $Value = 'value to display';
+
+=cut
+
+sub ValueLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Config Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call ValueLookup on the specific backend
+    return $Self->{$DynamicFieldBackend}->ValueLookup(
+        %Param,
+    );
+}
+
 1;
 
 =back
@@ -2151,6 +2216,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2012-04-18 19:47:39 $
+$Revision: 1.72 $ $Date: 2012-09-28 03:02:56 $
 
 =cut
