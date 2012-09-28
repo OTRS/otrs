@@ -3,7 +3,7 @@
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.2.pl,v 1.4 2012-09-14 12:09:54 mg Exp $
+# $Id: DBUpdate-to-3.2.pl,v 1.5 2012-09-28 17:49:27 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -66,7 +66,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 6;
+    my $Steps = 7;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -88,13 +88,17 @@ EOF
     _MigrateToolbarConfig($CommonObject);
     print "done.\n\n";
 
+    print "Step 5 of $Steps: Updating AgentTicketZoom window configuration... ";
+    _MigrateAgentTicketZoomWindowConfiguration($CommonObject);
+    print "done.\n\n";
+
     # Clean up the cache completely at the end.
-    print "Step 5 of $Steps: Clean up the cache... ";
+    print "Step 6 of $Steps: Clean up the cache... ";
     my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
     $CacheObject->CleanUp();
     print "done.\n\n";
 
-    print "Step 6 of $Steps: Refresh configuration cache another time... ";
+    print "Step 7 of $Steps: Refresh configuration cache another time... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -246,4 +250,41 @@ sub _MigrateToolbarConfig {
     return $Success;
 }
 
+=item _MigrateAgentTicketZoomWindowConfiguration($CommonObject)
+
+migrates the configuration of the dynamic fields in AgentTicketZoom to be
+compatible with ProcessManagement new feature.
+
+original field configration is set to the fields in the Sidebar
+
+    _MigrateAgentTicketZoomWindowConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateAgentTicketZoomWindowConfiguration {
+    my $CommonObject = shift;
+
+    # create a new SysConfigObject
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    # Get the values to be set
+    my $ExistingSetting = $CommonObject->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
+        || {};
+    my %ValuesToSet = %{ $ExistingSetting->{DynamicField} || {} };
+
+    # update configuration
+    my $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::AgentTicketZoom###SidebarDynamicField',
+        Value => \%ValuesToSet,
+    );
+
+    # print errors if any
+    if ( !$Success ) {
+        print "Could not migrate the config values on AgentTicketZoom window!\n";
+        return 0;
+    }
+
+    return 1;
+}
 1;
