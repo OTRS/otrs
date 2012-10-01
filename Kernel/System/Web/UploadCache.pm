@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.24 2012-03-27 18:34:39 mb Exp $
+# $Id: UploadCache.pm,v 1.25 2012-10-01 14:46:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
-Kernel::System::Web::UploadCache - a upload file system cache
+Kernel::System::Web::UploadCache - an upload file system cache
 
 =head1 SYNOPSIS
 
@@ -96,7 +96,7 @@ sub new {
 
 =item FormIDCreate()
 
-create a new form id
+create a new Form ID
 
     my $FormID = $UploadCacheObject->FormIDCreate();
 
@@ -110,7 +110,7 @@ sub FormIDCreate {
 
 =item FormIDRemove()
 
-remove all data with form id
+remove all data for a provided Form ID
 
     $UploadCacheObject->FormIDRemove( FormID => 123456 );
 
@@ -124,7 +124,7 @@ sub FormIDRemove {
 
 =item FormIDAddFile()
 
-add a file to the form id
+add a file to a Form ID
 
     $UploadCacheObject->FormIDAddFile(
         FormID      => 12345,
@@ -155,7 +155,7 @@ sub FormIDAddFile {
 
 =item FormIDRemoveFile()
 
-removes a file to the form id
+removes a file from a form id
 
     $UploadCacheObject->FormIDRemoveFile(
         FormID => 12345,
@@ -172,7 +172,7 @@ sub FormIDRemoveFile {
 
 =item FormIDGetAllFilesData()
 
-returns a array with hash ref of all form id files
+returns an array with a hash ref of all files for a Form ID
 
     my @Data = $UploadCacheObject->FormIDGetAllFilesData(
         FormID => 12345,
@@ -190,15 +190,15 @@ sub FormIDGetAllFilesData {
 
 =item FormIDGetAllFilesMeta()
 
-returns a array with hash ref of all form id files
+returns an array with a hash ref of all files for a Form ID
 
-Note: No Content will be returned, just meta data.
+Note: returns no content, only meta data.
 
     my @Data = $UploadCacheObject->FormIDGetAllFilesMeta(
         FormID => 12345,
     );
 
-    Return data of on hash is ContentType, ContentID, Filename, Filesize, FileID;
+    Return data of hash is ContentType, ContentID, Filename, Filesize, FileID;
 
 =cut
 
@@ -210,9 +210,9 @@ sub FormIDGetAllFilesMeta {
 
 =item FormIDCleanUp()
 
-Removed no longer needed tmp file.
+Removed no longer needed temporary files.
 
-Each file older then 1 day will be removed.
+Each file older than 1 day will be removed.
 
     $UploadCacheObject->FormIDCleanUp();
 
@@ -240,6 +240,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2012-03-27 18:34:39 $
+$Revision: 1.25 $ $Date: 2012-10-01 14:46:29 $
 
 =cut
