@@ -1,8 +1,8 @@
 // --
 // Core.Installer.js - provides the special module functions for Installer
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Installer.js,v 1.7 2011-11-14 09:34:17 mab Exp $
+// $Id: Core.Installer.js,v 1.8 2012-10-01 14:50:07 mb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ InstallerDBStart
     /**
      * @function
      * @return nothing
-     *      This function display the results for the check on the database
+     *      This function displays the results for the database credentials
      */
     function CheckDBDataCallback(json) {
         if (parseInt(json['Successful']) < 1) {
@@ -59,8 +59,8 @@ InstallerDBStart
     /**
      * @function
      * @description
-     *      This function is used to enalbe or disable some mail configuration fields.
-     * @param {Object} obj The form object that has the value to decide if enable or disable fields
+     *      This function is used to enable or disable some mail configuration fields.
+     * @param {Object} obj The form object that holds the value that makes fields visible or hidden
      * @return nothing
      */
     TargetNS.SelectOutboundMailType = function (obj) {
@@ -80,7 +80,7 @@ InstallerDBStart
     /**
      * @function
      * @return nothing
-     *      This function check for the SMTP configuration
+     *      This function checks the SMTP configuration
      */
     TargetNS.CheckSMTPAuth = function (obj) {
         if ($(obj).is(':checked')) {
@@ -95,7 +95,7 @@ InstallerDBStart
     /**
      * @function
      * @return nothing
-     *      This function skip check the mail configuration
+     *      This function skips the mail configuration
      */
     TargetNS.SkipMailConfig = function () {
         $('input[name=Skip]').val('1');
@@ -121,7 +121,7 @@ InstallerDBStart
      * @function
      * @private
      * @return nothing
-     * @description This function shows the check the mail configuration result
+     * @description This function shows the mail configuration check result
      */
     function CheckMailConfigCallback(json) {
         if (parseInt(json['Successful']) == 1) {
