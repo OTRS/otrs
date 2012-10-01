@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.50 2012-01-27 12:21:34 mb Exp $
+# $Id: DB.pm,v 1.51 2012-10-01 15:11:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -85,7 +85,7 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "RemoteIP of '$Param{SessionID}' ($Data{UserRemoteAddr}) is "
-                . "different with the request IP ($RemoteAddr). Don't grant access!!!"
+                . "different from registered IP ($RemoteAddr). Invalidating session!"
                 . " Disable config 'SessionCheckRemoteIP' if you don't want this!",
         );
 
