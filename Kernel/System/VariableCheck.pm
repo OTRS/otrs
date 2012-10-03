@@ -1,8 +1,8 @@
 # --
 # Kernel/System/VariableCheck.pm - helpers to check variables
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.pm,v 1.6 2011-11-08 09:43:04 mg Exp $
+# $Id: VariableCheck.pm,v 1.7 2012-10-03 00:37:59 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Exporter;
 %EXPORT_TAGS = (
@@ -51,7 +51,7 @@ input data validation, for example.
 Call this module directly without instantiating:
 
     use Kernel::System::VariableCheck qw(:all);             # export all functions into the calling package
-    use Kernel::System::VariableCheck qw(IsHashRefWitData); # export just one funciton
+    use Kernel::System::VariableCheck qw(IsHashRefWitData); # export just one function
 
     if (IsHashRefWithData($HashRef)) {
         ...
@@ -148,7 +148,7 @@ sub IsStringWithData {
 
 =item IsArrayRefWithData()
 
-test supplied data to deterine if it is an array reference and contains at least one key
+test supplied data to determine if it is an array reference and contains at least one key
 
 returns 1 if data matches criteria or undef otherwise
 
@@ -173,7 +173,7 @@ sub IsArrayRefWithData {
 
 =item IsHashRefWithData()
 
-test supplied data to deterine if it is a hash reference and contains at least one key/value pair
+test supplied data to determine if it is a hash reference and contains at least one key/value pair
 
 returns 1 if data matches criteria or undef otherwise
 
@@ -545,6 +545,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-11-08 09:43:04 $
+$Revision: 1.7 $ $Date: 2012-10-03 00:37:59 $
 
 =cut
