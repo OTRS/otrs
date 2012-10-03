@@ -1,8 +1,8 @@
 # --
 # RPM spec file for Fedora of the OTRS package
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.17 2011-09-08 14:26:47 mg Exp $
+# $Id: fedora-otrs-4.spec,v 1.18 2012-10-03 08:14:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
+Requires:     perl cronie perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
