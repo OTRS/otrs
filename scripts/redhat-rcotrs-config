@@ -1,7 +1,7 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: redhat-rcotrs-config,v 1.6 2011-08-22 10:59:17 mb Exp $
+# $Id: redhat-rcotrs-config,v 1.7 2012-10-03 08:55:37 mb Exp $
 # --
 
 # 
@@ -48,8 +48,6 @@ OTRS_CHECKDB=$OTRS_ROOT/bin/otrs.CheckDB.pl
 # location of otrs.Scheduler.pl
 #
 OTRS_SCHEDULER=$OTRS_ROOT/bin/otrs.Scheduler.pl
-
-OTRS_SCHEDULER_TEST="$OTRS_SCHEDULER -a status | grep 'Running'"
 
 # 
 # location of OTRS spool dir

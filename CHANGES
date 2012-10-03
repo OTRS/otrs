@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2442 2012-10-03 08:14:42 mb Exp $
+# $Id: CHANGES,v 1.2443 2012-10-03 08:55:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,6 +96,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-03 Fixed bug#8214 - OTRS Init script on Red Hat fails to check scheduler.
  - 2012-10-03 Fixed bug#8850 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
  - 2012-09-27 Fixed bug#8792 - TriggerEscalationStopEvents logs as loglevel 'error'.
  - 2012-09-26 Fixed bug#8743 - AgentTicketCompose.pm creates To, CC, BCC filelds without spaces after comma.
