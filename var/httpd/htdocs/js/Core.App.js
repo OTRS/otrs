@@ -2,7 +2,7 @@
 // Core.App.js - provides the application functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.App.js,v 1.9 2012-06-21 12:09:35 ub Exp $
+// $Id: Core.App.js,v 1.10 2012-10-03 00:38:28 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -103,7 +103,7 @@ Core.App = (function (TargetNS) {
      *  Escapes the special characters (. :) in the given jQuery Selector
      *  jQ does not allow the usage of dot or colon in ID or class names
      * @param {String} Selector The original selector (e.g. ID, class, etc.)
-     * @return {String} The escsaped selector
+     * @return {String} The escaped selector
      */
     TargetNS.EscapeSelector = function (Selector) {
         return Selector.replace(/(:|\.)/g,'\\$1');
