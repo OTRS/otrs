@@ -2,7 +2,7 @@
 # AgentDashboardCustomerCompanyInformation.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerCompanyInformation.dtl,v 1.2 2012-09-11 09:08:10 mg Exp $
+# $Id: AgentDashboardCustomerCompanyInformation.dtl,v 1.3 2012-10-03 14:08:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@
 <!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyStreet -->
 
 <!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyZIP -->
-    <label>$Text{"ZIP"}:</label>
+    <label>$Text{"Zip"}:</label>
     <div class="Field">$QData{"CustomerCompanyZIP"}</div>
     <div class="Clear"></div>
 <!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyZIP -->
@@ -57,7 +57,7 @@
 <!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyComment -->
     <label>$Text{"Comment"}:</label>
     <div class="Field">
-        <p>$QData{"CustomerCompanyName"}</p>
+        <p>$QData{"CustomerCompanyComment"}</p>
     </div>
     <div class="Clear"></div>
 <!-- dtl:block:ContentSmallCustomerCompanyInformationCustomerCompanyComment -->
