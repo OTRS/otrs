@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.131 2012-10-03 08:13:36 mb Exp $
+# $Id: CHANGES,v 1.2260.2.132 2012-10-03 08:56:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-10-03 Fixed bug#8214 - OTRS Init script on Red Hat fails to check scheduler.
  - 2012-10-03 Fixed bug#8850 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
  - 2012-09-28 Fixed bug#7274 - Ticket QueueView sorts by priority on first page but subsequent
     pages sort incorrectly by Age.
