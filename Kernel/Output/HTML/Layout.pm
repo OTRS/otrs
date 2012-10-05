@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.407 2012-10-05 01:26:26 ep Exp $
+# $Id: Layout.pm,v 1.408 2012-10-05 01:38:53 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.407 $) [1];
+$VERSION = qw($Revision: 1.408 $) [1];
 
 =head1 NAME
 
@@ -2148,7 +2148,7 @@ build a html option element based on given data
     my $HTML = $LayoutObject->BuildSelection(
         Data       => $ArrayRef,             # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
         Name       => 'TheName',             # name of element
-        ID         => 'HTMLID',              # (optional) the HTML ID for this element
+        ID         => 'HTMLID',              # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
         Multiple   => 0,                     # (optional) default 0 (0|1)
         Size       => 1,                     # (optional) default 1 element size
         Class      => 'class',               # (optional) a css class
@@ -5227,6 +5227,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.407 $ $Date: 2012-10-05 01:26:26 $
+$Revision: 1.408 $ $Date: 2012-10-05 01:38:53 $
 
 =cut
