@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.132 2012-10-03 08:56:54 mb Exp $
+# $Id: CHANGES,v 1.2260.2.133 2012-10-05 08:49:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -578,14 +578,83 @@
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
      of > 70 characters exists.
 
-3.0.12 ????-??-??
+3.0.17 2012-10-16
+ - 2012-10-05 Fixed bug#6820 - OTRS crash with "division by zero" if escalation set incorrectly.
+ - 2012-09-25 Fixed bug#8606 - Escalation notifications should not be sent to agents who are set out-of-office.
+ - 2012-09-13 Improved HTML security filter to better find javascript source URLs.
+
+3.0.16 2012-08-30
+ - 2012-08-28 Improved HTML security filter to detect tag nesting.
+ - 2012-08-24 Fixed bug#8611 - Ticket count is wrong in QueueView.
+
+3.0.15 2012-09-04
+ - 2012-08-17 HTML mails will now be displayed in an HTML5 sandbox iframe.
+    This means that modern browsers will not execute plugins or JavaScript on the content
+    any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
+ - 2012-08-17 HTML mails will now be displayed in the restricted zone in IE.
+    This means that more restrictive security settings will apply, such as blocking of
+    JavaScript content by default.
+ - 2012-08-06 Fixed bug#8672 - Search Profile can't have an ampersand in the name via
+    Toolbar module.
+
+3.0.14 2012-08-07
+ - 2012-07-31 Improved robustness of HTML security filter: Detect masked UTF-7 < and > signs.
+ - 2012-07-16 Fixed bug#8616 - Spell Checker does not work using IE9.
+ - 2012-07-16 Fixed JavaScript error when no suggestions can be made by the spell checker.
+ - 2012-06-29 Fixed bug#8618 - Inform and Involved Agents select boxes can not be resizable.
+ - 2012-06-15 Fixed bug#7879 - Broken Content-Type in forwarded attachments.
+ - 2012-06-14 Fixed bug#8574 - Perl special variable $/ is changed and never restored.
+ - 2012-06-14 Fixed bug#8337 - Parentheses in user last_name / first_name are not sanitized (follow-up fix).
+ - 2012-06-12 Fixed bug#7872 - "Created" date in Large view is actually Last Updated date.
+ - 2012-06-04 Improved performance of TemplateGenerator.pm, thanks to Stelios Gikas!
+
+3.0.13 2012-06-05
+ - 2012-05-30 Fixed bug#7532 - 'Field is required' message should be removed in RTE if content is added.
+ - 2012-05-30 Fixed bug#8514 - Long words in description break rendering of SysConfig items.
+ - 2012-05-25 Fixed bug#8189 - AgentTicketCompose: Pressing "Enter" will delete Attachment.
+ - 2012-05-24 Fixed bug#7512 - AJAX-reload of SMIME-fields did not work properly.
+ - 2012-05-24 Fixed bug#8518 - Crypt on multiple recipients error replaces Crypt selection.
+ - 2012-05-22 Fixed bug#8164 - Internal articles are visible within customer ticket overview.
+ - 2012-05-16 Fixed bug#8337 - Parentheses in user last_name / first_name are not sanitized.
+ - 2012-05-04 Fixed bug#7877 - SMIME emails don't get parsed properly (follow-up fix).
+ - 2012-04-26 Fixed bug#8424 - Ticket articles of large tickets cannot be opened.
+ - 2012-04-24 Fixed bug#8288 - Autocomplete search results show up in Times font when using Internet Explorer.
+ - 2012-03-26 Fixed bug#7877 - SMIME emails don't get parsed properly.
+ - 2012-03-20 Fixed bug#8331 - Unable to delete ticket with > 1000 articles
+    on Oracle database.
+
+3.0.12 2012-03-13
+ - 2012-03-05 Fixed bug#7545 - AgentTicketBounce lacks permission checks.
  - 2012-02-28 Improved #7526 - Fixed handling of special characters (, ), &, - within statistics.
+ - 2012-02-23 Fixed bug#8227 - LDAP user syncronisation doesn't work.
+ - 2012-02-15 Fixed bug#8144 - Typo and improved logging in GenericAgent.pm.
+ - 2012-02-14 Fixed bug#7652 - OpenSearch providers are served with wrong mime type.
+    Follow-up fix.
+ - 2012-02-09 Fixed bug#7109 - no one statistic is working with your selected.
+ - 2012-02-09 Fixed bug#8199 - Linked tickets open only in tabs.
+ - 2012-02-03 Fixed bug#8180 - bin/otrs.LoaderCache.pl exit code is wrong.
+ - 2012-02-02 Fixed bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.
+ - 2012-02-02 Fixed bug#7972 - Some mails may not present HTML part when using rich viewing.
+ - 2012-01-27 Fixed bug#2820 - Wide character in Syslog message causes Perl crash on utf8 systems.
+ - 2012-01-23 Fixed bug#8019 - Ticket customer info widget has scroll bars
+ - 2012-01-20 Fixed bug#8128 - Ticket Unwatch may lead to errorscreen.
+ - 2012-01-16 Creation of QueueObject was not possible because of missing EncodeObject in CustomerUserGenericTicket.pm
  - 2011-12-20 Fixed bug#8035 - SOAP interface does not allow to create/update
     CustomerCompany records.
+ - 2011-12-19 Fixed bug#7005 - JavaScript Init function is executed more than once in TicketZoom
+ - 2011-12-14 Fixed bug#7014 - Inline article gets bigger than Ticket::Frontend::HTMLArticleHeightMax.
+ - 2011-12-16 Fixed Lithuanian language file encoding.
  - 2011-12-14 Fixed bug#8000 - Queues are translated if are displayed in list-style.
+ - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
+ - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
+ - 2011-12-09 Fixed bug#7997 - Fetching mail via AdminMailAccount does not work.
+ - 2011-12-09 Fixed bug#7995 - Previous owner is missing in AgentTicketMove.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
-    interface.
+    interface
+ - 2011-12-05 Fixed bug#7864 - Inconsequent wrapping of text causes ugly notifications.
+ - 2011-12-05 Fixed bug#7338 - Upgrade Script DBUpdate-to-3.0.pl fails to create
+    virtual_fs tables on oracle.
  - 2011-12-02 Fixed bug#7442 - Dashboard permission check for multiple Groups only
     tests first group.
  - 2011-11-29 Fixed bug#7719 - Agent login page does not offer user to save password
@@ -608,6 +677,7 @@
  - 2011-11-15 Fixed bug#7901 - Package Manager does not clear the cache.
  - 2011-11-15 Fixed bug#7120 - Inline images from Lotus Notes do not show in
     AgentTicketCompose interface.
+ - 2011-11-14 Fixed bug#7526 - OTRS Ticket Search not working with ( or ).
  - 2011-11-10 Fixed bug#7879 - Ticket forward not working if content-id exists.
  - 2011-11-07 Fixed bug#7887 - Type based ACLs do not match if Type (Name) is sent.
  - 2011-11-05 Fixed bug#7876 - NewTicketReject Postmaster module uses Admin Address
@@ -624,6 +694,7 @@
 
 3.0.11 2011-10-18
  - 2011-10-07 Fixed bug#7812 - Height of search terms doesn't fit on search results page on IE7
+ - 2011-10-05 Fixed bug#7807 - Ticket free text misplaced in IE7.
  - 2011-09-22 Fixed bug#7776 - Double encoding for AJAX responses on ActiveState perl.
  - 2011-09-19 Fixed bug#7756 - DefaultViewNewLine Config does not get used.
  - 2011-09-13 Fixed bug#6902 - QueueView: My Queues > bulk menu duplication.

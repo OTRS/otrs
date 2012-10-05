@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.549.2.9 2012-08-21 04:55:17 cg Exp $
+# $Id: Ticket.pm,v 1.549.2.10 2012-10-05 08:49:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.549.2.9 $) [1];
+$VERSION = qw($Revision: 1.549.2.10 $) [1];
 
 =head1 NAME
 
@@ -2343,17 +2343,23 @@ sub TicketEscalationDateCalculation {
         # ticket is not escalated till now ($TimeTillEscalation > 0)
         my $WorkingTime = 0;
         if ( $TimeTillEscalation > 0 ) {
+
             $WorkingTime = $Self->{TimeObject}->WorkingTime(
                 StartTime => $Time,
                 StopTime  => $Ticket{$Key},
                 Calendar  => $Escalation{Calendar},
             );
 
+            # extract needed data
+            my $Notify = $Escalation{ $Map{$Key} . 'Notify' };
+            my $Time   = $Escalation{ $Map{$Key} . 'Time' };
+
             # set notification if notify % is reached
-            if ( $Escalation{ $Map{$Key} . 'Notify' } ) {
-                my $Reached
-                    = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
-                if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify' } ) {
+            if ( $Notify && $Time ) {
+
+                my $Reached = 100 - ( $WorkingTime / ( $Time * 60 / 100 ) );
+
+                if ( $Reached >= $Notify ) {
                     $Data{ $Map{$Key} . 'TimeNotification' } = 1;
                 }
             }
@@ -7808,6 +7814,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.549.2.9 $ $Date: 2012-08-21 04:55:17 $
+$Revision: 1.549.2.10 $ $Date: 2012-10-05 08:49:40 $
 
 =cut
