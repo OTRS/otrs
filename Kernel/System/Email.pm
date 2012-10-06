@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.75.2.5 2012-06-20 12:40:16 alm Exp $
+# $Id: Email.pm,v 1.75.2.6 2012-10-06 04:53:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.5 $) [1];
+$VERSION = qw($Revision: 1.75.2.6 $) [1];
 
 =head1 NAME
 
@@ -642,9 +642,15 @@ sub Send {
         $head->delete('Content-Transfer-Encoding');
         my $Header = $head->as_string();
 
+        my $T = $Entity->parts(0)->as_string();
+
+        # according to RFC3156 all line endings MUST be CR/LF
+        $T =~ s/\x0A/\x0D\x0A/g;
+        $T =~ s/\x0D+/\x0D/g;
+
         # crypt it
         my $Crypt = $CryptObject->Crypt(
-            Message  => $Entity->parts(0)->as_string(),
+            Message  => $T,
             Filename => $Param{Crypt}->{Key},
         );
         use MIME::Parser;
@@ -892,6 +898,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.75.2.5 $ $Date: 2012-06-20 12:40:16 $
+$Revision: 1.75.2.6 $ $Date: 2012-10-06 04:53:40 $
 
 =cut
