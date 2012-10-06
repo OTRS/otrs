@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2444 2012-10-05 12:07:23 mh Exp $
+# $Id: CHANGES,v 1.2445 2012-10-06 04:53:14 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-05 Fixed bug#8812 - Encrypted email doesn't see properly in Outlook.
  - 2012-09-28 Fixed bug#8794 - Depreciation warnings in web server error log for
     AdminEmail.pm when using perl >= 5.16.
  - 2012-09-27 Fixed bug#8551 - Missing DynamicFields values in TemplateGenerator and
@@ -96,6 +97,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-05 Fixed bug#8812 - Encrypted email doesn't see properly in Outlook.
  - 2012-10-03 Fixed bug#8214 - OTRS Init script on Red Hat fails to check scheduler.
  - 2012-10-03 Fixed bug#8850 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
  - 2012-09-28 Fixed bug#7274 - Ticket QueueView sorts by priority on first page but subsequent
