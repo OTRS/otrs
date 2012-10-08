@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.23 2012-04-17 07:11:53 mg Exp $
+# $Id: hi.pm,v 1.24 2012-10-08 11:19:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:21
+    # Last translation file sync: 2012-10-08 13:17:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -876,6 +876,8 @@ sub Data {
             'ग्राहक को एक ग्राहक इतिहास की आवश्यकता होगी और ग्राहक पटल के माध्यम से प्रवेश की।',
         'Please enter a search term to look for customers.' => 'कृपया ग्राहकों को देखने के लिए एक खोज शब्द दर्ज करें।',
         'Last Login' => 'पिछला प्रवेश ',
+        'Login as' => 'के रूप में प्रवेश',
+        'Switch to customer' => '',
         'Add Customer' => 'ग्राहक जोड़ें',
         'Edit Customer' => 'ग्राहक संपादित करें',
         'This field is required and needs to be a valid email address.' =>
@@ -963,6 +965,8 @@ sub Data {
             '',
         'Field type' => '',
         'Object type' => '',
+        'Internal field' => '',
+        'This field is protected and can\'t be deleted.' => '',
         'Field Settings' => '',
         'Default value' => 'तयशुदा मान',
         'This is the default value for this field.' => '',
@@ -1408,6 +1412,7 @@ sub Data {
         'Recipient email addresses' => 'प्राप्तकर्ता के ईमेल पते',
         'Article type' => 'आलेख प्रकार',
         'Only for ArticleCreate event' => 'कार्यक्रम केवल अनुच्छेद बनाने के लिए',
+        'Article sender type' => '',
         'Subject match' => 'विषय मिलान',
         'Body match' => 'मुख्य-भाग मिलान',
         'Include attachments to notification' => 'अधिसूचना में संलग्नक शामिल करें',
@@ -1522,6 +1527,155 @@ sub Data {
         'Add Priority' => 'प्राथमिकता जोड़ें',
         'Edit Priority' => 'प्राथमिकता संपादित करें ',
 
+        # Template: AdminProcessManagement
+        'Process Management' => '',
+        'Filter for Processes' => '',
+        'Filter' => 'निस्पादक',
+        'Create New Process' => '',
+        'Synchronize All Processes' => '',
+        'Configuration import' => '',
+        'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
+            '',
+        'Upload process configuration' => '',
+        'Import process configuration' => '',
+        'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
+            '',
+        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+            '',
+        'Processes' => '',
+        'Process name' => '',
+        'Export Process Configuration' => '',
+
+        # Template: AdminProcessManagementActivity
+        'Cancel & close window' => 'रद्द करें और विंडो बंद करें',
+        'Go Back' => '',
+        'Please note, that changing this activity will affect the following processes' =>
+            '',
+        'Activity' => '',
+        'Activity Name' => '',
+        'Activity Dialogs' => '',
+        'Filter available Activity Dialogs' => '',
+        'Available Activity Dialogs' => '',
+        'Create New Activity Dialog' => '',
+        'Assigned Activity Dialogs' => '',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            '',
+
+        # Template: AdminProcessManagementActivityDialog
+        'Please note that changing this activity dialog will affect the following activities' =>
+            '',
+        'Activity Dialog' => '',
+        'Activity dialog Name' => '',
+        'Available in' => '',
+        'Description (Short)' => '',
+        'Description (Long)' => '',
+        'The selected permission does not exists.' => '',
+        'Required Lock' => '',
+        'The selected required lock does not exists.' => '',
+        'Submit Advice Text' => '',
+        'Submit Button Text' => '',
+        'Fields' => '',
+        'Filter available Fields' => '',
+        'Available Fields' => '',
+        'Assigned Fields' => '',
+        'Edit Details for Field' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
+        'ArticleType' => '',
+        'Display' => '',
+        'Edit Field Details' => '',
+
+        # Template: AdminProcessManagementPath
+        'Path' => '',
+        'Transition Actions' => '',
+        'Filter available Transition Actions' => '',
+        'Available Transition Actions' => '',
+        'Create New Transition Action' => '',
+        'Assigned Transition Actions' => '',
+
+        # Template: AdminProcessManagementPopupResponse
+
+        # Template: AdminProcessManagementProcessAccordion
+        'Filter Activities...' => '',
+        'Create New Activity' => '',
+        'Filter Activity Dialogs...' => '',
+        'Filter Transitions...' => '',
+        'Create New Transition' => '',
+        'Filter Transition Actions...' => '',
+
+        # Template: AdminProcessManagementProcessEdit
+        'Edit Process' => '',
+        'Back To Overview' => '',
+        'Delete Process' => '',
+        'Delete Inactive Process' => '',
+        'Available Process Elements' => '',
+        'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
+            '',
+        'Activities' => '',
+        'You can place Activities on the canvas area to assign this Activity to the Process.' =>
+            '',
+        'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
+            '',
+        'Transitions' => '',
+        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+            '',
+        'Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition.' =>
+            '',
+        'Edit Process Information' => '',
+        'Process Name' => '',
+        'The selected state does not exists.' => '',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
+        'Extend the width of the Canvas' => '',
+        'Extend the height of the Canvas' => '',
+        'Remove the Activity from this Process' => '',
+        'Do you really want to delete this Process?' => '',
+        'Do you really want to delete this Activity?' => '',
+        'Do you really want to delete this Activity Dialog?' => '',
+        'Do you really want to delete this Transition?' => '',
+        'Do you really want to delete this Transition Action?' => '',
+        'Delete Entity' => '',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            '',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            '',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            '',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            '',
+        'The Start Event cannot loose the Start Transition!' => '',
+        'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
+            '',
+        'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
+            '',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+
+        # Template: AdminProcessManagementProcessNew
+        'Here is the description of what this screen is all about.' => '',
+
+        # Template: AdminProcessManagementTransition
+        'Please note that changing this transition will affect the following processes' =>
+            '',
+        'Transition' => '',
+        'Transition Name' => '',
+        'Conditions' => '',
+        'Type of Linking between Conditions' => '',
+        'Condition' => '',
+        'Remove this Condition' => '',
+        'Type of Linking' => '',
+        'Remove this Field' => '',
+        'Add a new Field' => '',
+        'Add New Condition' => '',
+
+        # Template: AdminProcessManagementTransitionAction
+        'Please note that changing this transition action will affect the following processes' =>
+            '',
+        'Transition Action' => '',
+        'Transition Action Name' => '',
+        'Config Parameters' => '',
+        'Remove this Parameter' => '',
+        'Add a new Parameter' => '',
+
         # Template: AdminQueue
         'Manage Queues' => 'श्रेणी का प्रबंधन करें',
         'Add queue' => 'श्रेणी जोड़ें',
@@ -1563,7 +1717,6 @@ sub Data {
 
         # Template: AdminQueueResponses
         'Manage Response-Queue Relations' => 'श्रेणी-प्रतिक्रिया संबंधों का प्रबंधन करें',
-        'Filter' => 'निस्पादक',
         'Filter for Responses' => 'प्रतिक्रियाओं के लिए निस्पादक',
         'Responses' => 'प्रतिक्रियाएँ',
         'Change Queue Relations for Response' => 'श्रेणी संबंधों को प्रतिक्रिया के लिए बदलॆ',
@@ -1645,6 +1798,7 @@ sub Data {
         'Hash' => '',
         'Create' => 'बनाएँ',
         'Handle related certificates' => '',
+        'Read certificate' => '',
         'Delete this certificate' => 'इस प्रमाणपत्र को हटाएँ',
         'Add Certificate' => 'प्रमाणपत्र जोड़ें',
         'Add Private Key' => 'निजी कुंजी जोड़ें',
@@ -1653,6 +1807,10 @@ sub Data {
         'Delete this relation' => '',
         'Available Certificates' => '',
         'Relate this certificate' => '',
+
+        # Template: AdminSMIMECertRead
+        'SMIME Certificate' => '',
+        'Close window' => 'विंडो बंद करें',
 
         # Template: AdminSalutation
         'Salutation Management' => 'अभिवादन प्रबंधन',
@@ -1794,7 +1952,6 @@ sub Data {
         'Don\'t forget to add a new agent to groups and/or roles!' => 'प्रतिनिधियॊ को समूहों और/या भूमिकाएं सॆ जोड़ना ना भुलॆ।',
         'Please enter a search term to look for agents.' => 'कृपया एक खोज शब्द दर्ज करें प्रतिनिधियॊ को देखने के लिए।',
         'Last login' => 'पिछला प्रवेश',
-        'Login as' => 'के रूप में प्रवेश',
         'Switch to agent' => 'प्रतिनिधि से बदलें',
         'Add Agent' => 'प्रतिनिधि जोड़ें',
         'Edit Agent' => 'प्रतिनिधि संपादित करें',
@@ -1822,10 +1979,18 @@ sub Data {
         'Add email address %s to the Bcc field' => 'ईमेल पता %s शामिल करें गुप्त प्रतिलिपि क्षेत्र मॆ',
         'Apply' => 'लागू करें',
 
+        # Template: AgentCustomerInformationCenter
+        'Customer Information Center' => '',
+
+        # Template: AgentCustomerInformationCenterSearch
+        'Customer ID' => 'ग्राहक ID',
+        'Customer User' => '',
+
         # Template: AgentCustomerSearch
         'Search Customer' => 'ग्राहक खोजें',
         'Duplicated entry' => '',
         'This address already exists on the address list.' => '',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1834,6 +1999,21 @@ sub Data {
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'में',
+
+        # Template: AgentDashboardCustomerCompanyInformation
+        'URL' => 'URL',
+
+        # Template: AgentDashboardCustomerIDStatus
+        'Escalated tickets' => '',
+
+        # Template: AgentDashboardCustomerUserList
+        'Customer information' => '',
+        '%s open ticket(s) of %s' => '',
+        '%s closed ticket(s) of %s' => '',
+        'New phone ticket for %s' => '',
+        'New phone ticket' => 'नया फोन टिकट',
+        'New email ticket for %s' => '',
+        'New email ticket' => 'नया ईमेल टिकट',
 
         # Template: AgentDashboardIFrame
 
@@ -1857,6 +2037,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
+        'out of office' => '',
+
+        # Template: AgentDashboardUserOutOfOffice
+        'until' => '',
 
         # Template: AgentHTMLReferenceForms
 
@@ -1872,7 +2056,6 @@ sub Data {
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'लिंक वस्तु: %s',
-        'Close window' => 'विंडो बंद करें',
         'go to link delete screen' => 'लिंक नष्ट स्क्रीन पर जाने के लिए',
         'Select Target Object' => 'लक्ष्य वस्तु चयन करें',
         'Link Object' => 'लिंक वस्तु',
@@ -1984,7 +2167,6 @@ sub Data {
         'Set Pending' => 'विचाराधीन निर्धारित करें',
         'Change Priority of Ticket' => 'टिकट की प्राथमिकता बदलें',
         'Change Responsible of Ticket' => 'टिकट के उत्तरदायी बदलें',
-        'Cancel & close window' => 'रद्द करें और विंडो बंद करें',
         'Service invalid.' => 'अवैध सेवा।',
         'New Owner' => 'नया स्वामी',
         'Please set a new owner!' => 'कृपया नया स्वामी सेट करें',
@@ -2051,8 +2233,6 @@ sub Data {
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
-        'Need a valid email address or don\'t use a local email address' =>
-            'एक मान्य ईमेल पता की आवश्यकता है या एक स्थानीय ईमेल पते का उपयोग मत किजिए।',
 
         # Template: AgentTicketFreeText
 
@@ -2120,6 +2300,12 @@ sub Data {
 
         # Template: AgentTicketPriority
 
+        # Template: AgentTicketProcess
+        'Create New Process Ticket' => '',
+        'Process' => '',
+
+        # Template: AgentTicketProcessNavigationBar
+
         # Template: AgentTicketQueue
 
         # Template: AgentTicketResponsible
@@ -2146,6 +2332,8 @@ sub Data {
         'Ticket Change Time (between)' => 'टिकट बदलनॆ का समय (बीच में)',
         'Ticket Close Time (before/after)' => 'टिकट बंद होने का समय (के बाद/से पहले)',
         'Ticket Close Time (between)' => 'टिकट बंद होने का समय (बीच में)',
+        'Ticket Escalation Time (before/after)' => '',
+        'Ticket Escalation Time (between)' => '',
         'Archive Search' => 'संग्रह खोजें',
         'Run search' => '',
 
@@ -2160,10 +2348,12 @@ sub Data {
         'Article Type' => 'अनुच्छेद प्रकार',
         'Sender Type' => 'प्रेषक का प्रकार',
         'Save filter settings as default' => 'तयशुदा रूप में निस्पादक की व्यवस्थाऐं सुरक्षित करें',
-        'Ticket Information' => 'टिकट की जानकारी',
+        'Archive' => '',
+        'This ticket is archived.' => '',
         'Linked Objects' => 'लिंक्ड वस्तु',
         'Article(s)' => 'अनुच्छेद',
         'Change Queue' => 'श्रेणी बदलें',
+        'This item has no articles yet.' => '',
         'Article Filter' => 'अनुच्छेद निस्पादक',
         'Add Filter' => 'निस्पादक जोड़ें',
         'Set' => 'निर्धारित करें',
@@ -2179,8 +2369,7 @@ sub Data {
         'Resize' => 'आकारबदलें',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, active or/and remote content has blocked.' =>
-            'आपकी गोपनीयता को सुरक्षित करने के लिए,सक्रिय या / और दूरदराज के विषयवस्तु को अवरोधित किया है।',
+        'To protect your privacy, remote content was blocked.' => '',
         'Load blocked content.' => 'लोड विषयवस्तु अवरुद्ध',
 
         # Template: Copyright
@@ -2197,9 +2386,22 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'पॉपअप विंडो नहीं खोला जा सकता। कृपया इस अनुप्रयोग के लिए पॉपअप ब्लॉकर्स निष्क्रिय करें।',
 
+        # Template: CustomerFooterSmall
+
         # Template: CustomerHeader
 
+        # Template: CustomerHeaderSmall
+
         # Template: CustomerLogin
+        'JavaScript Not Available' => 'जावास्क्रिप्ट उपलब्ध नहीं है।',
+        'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
+            'OTRS अनुभव करने के लिए,आपको अपने ब्राउज़र में जावास्क्रिप्ट सक्षम करना होगा।',
+        'Browser Warning' => 'ब्राउज़र चेतावनी',
+        'The browser you are using is too old.' => 'आप जो ब्राउज़र उपयोग कर रहे बहुत पुराना है।',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS ब्राउज़रों की एक बड़ी सूची के साथ चलाता है,तो कृपया इनमें से एक को का उन्नयन करे।',
+        'Please see the documentation or ask your admin for further information.' =>
+            'कृपया अधिक जानकारी के लिए दस्तावेज़ देखे या अपने व्यवस्थापक से पूछे।',
         'Login' => 'प्रवेश',
         'User name' => 'उपयोगकर्ता का नाम',
         'Your user name' => 'आपका उपयोगकर्ता नाम',
@@ -2243,7 +2445,6 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'वर्णन',
         'e. g. 10*5155 or 105658*' => 'उदा.: 10*5155 or 105658*',
-        'Customer ID' => 'ग्राहक ID',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'टिकटों में पूर्ण पाठ खोज(उदा."John*n" or "Will*")',
         'Recipient' => 'प्राप्तकर्ता',
         'Carbon Copy' => 'प्रतिलिपि',
@@ -2270,7 +2471,11 @@ sub Data {
         '","18' => '',
 
         # Template: CustomerTicketZoom
+        'Show  article' => '',
         'Expand article' => 'अनुच्छेद का विस्तार करें',
+        'Information' => '',
+        'Next Steps' => '',
+        'There are no further steps in this process' => '',
         'Reply' => 'जवाब देना',
 
         # Template: CustomerWarning
@@ -2320,14 +2525,15 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
+        'Fulltext search' => '',
+        'CustomerID Search' => '',
+        'CustomerUser Search' => '',
         'You are logged in as' => 'आप इस रूप में प्रवॆशित हैं।',
 
         # Template: HeaderSmall
 
         # Template: Installer
         'JavaScript not available' => 'जावास्क्रिप्ट उपलब्ध नहीं है।',
-        'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
-            'OTRS अनुभव करने के लिए,आपको अपने ब्राउज़र में जावास्क्रिप्ट सक्षम करना होगा।',
         'Database Settings' => 'आंकड़ाकोष व्यवस्थाऐं',
         'General Specifications and Mail Settings' => 'सामान्य निर्दिष्टीकरण और मेल व्यवस्थाऐं',
         'Registration' => '',
@@ -2430,13 +2636,6 @@ sub Data {
         'Delete links' => 'लिंक हटाएँ',
 
         # Template: Login
-        'JavaScript Not Available' => 'जावास्क्रिप्ट उपलब्ध नहीं है।',
-        'Browser Warning' => 'ब्राउज़र चेतावनी',
-        'The browser you are using is too old.' => 'आप जो ब्राउज़र उपयोग कर रहे बहुत पुराना है।',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS ब्राउज़रों की एक बड़ी सूची के साथ चलाता है,तो कृपया इनमें से एक को का उन्नयन करे।',
-        'Please see the documentation or ask your admin for further information.' =>
-            'कृपया अधिक जानकारी के लिए दस्तावेज़ देखे या अपने व्यवस्थापक से पूछे।',
         'Lost your password?' => ' आपने कूटशब्द खो दिया?',
         'Request New Password' => 'नए कूटशब्द के लिए अनुरोध करे',
         'Back to login' => 'प्रवेश करने के लिए वापस जाएँ',
@@ -2463,7 +2662,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'फ़ाइल एक छवि नहीं है जो इनलाइन दिखाया जा सकता है।',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'के द्वारा मुद्रित',
@@ -2518,6 +2716,7 @@ sub Data {
         'Agent interface article notification module to check PGP.' => 'PGP की जाँच करने के लिए प्रतिनिधि अंतरफलक अनुच्छेद अधिसूचना मॉड्यूल।',
         'Agent interface article notification module to check S/MIME.' =>
             'S/MIME की जाँच करने के लिए प्रतिनिधि अंतरफलक अनुच्छेद अधिसूचना मॉड्यूल।',
+        'Agent interface module to access CIC search via nav bar.' => '',
         'Agent interface module to access fulltext search via nav bar.' =>
             'संचरण में प्रतिनिधि अंतरफलक मॉड्यूल से पूर्ण पाठ खोज का उपयोग।',
         'Agent interface module to access search profiles via nav bar.' =>
@@ -2563,6 +2762,10 @@ sub Data {
             'ग्राहकों को ग्राहक अंतरफलक में टिकट श्रेणी स्थापित करने के लिए अनुमति देता है। यदि यह  \'नहीं\'के लिए स्थापित है,तयशुदा श्रेणी विन्यस्त होना चाहिये।',
         'Allows customers to set the ticket service in the customer interface.' =>
             'ग्राहकों को ग्राहक अंतरफलक में टिकट सेवा स्थापित करने के लिए अनुमति देता है।',
+        'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
+            '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'टिकट के लिए नए प्रकार को परिभाषित करने की अनुमति देता है (अगर टिकट प्रकार सुविधा सक्षम है)।',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2575,6 +2778,8 @@ sub Data {
             'एक मध्यम प्रारूप टिकट अवलोकन होने की अनुमति देता है(ग्राहक जानकारी =>1 - यह भी ग्राहकों की जानकारी दिखाता है)।',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'एक छोटे प्रारूप टिकट अवलोकन होने की अनुमति देता है(ग्राहक जानकारी =>1 - यह भी ग्राहकों की जानकारी दिखाता है)।',
+        'Allows the administrators to login as other customers, via the customer user administration panel.' =>
+            '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'प्रशासक को प्रशासन पैनल के माध्यम से अन्य उपयोगकर्ताओं को प्रशासक के रूप में प्रवेश की अनुमति देता है।',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
@@ -2600,6 +2805,9 @@ sub Data {
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
+        'Cache time in seconds for the DB process backend.' => '',
+        'Cache time in seconds for the ticket process navigation bar output module.' =>
+            '',
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => 'कूटशब्द बदलें',
         'Change queue!' => 'श्रेणी बदलें',
@@ -2614,10 +2822,10 @@ sub Data {
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
-        'Companies' => 'कंपनियां',
         'Company Tickets' => 'कंपनी के टिकट',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
+        'Configure Processes.' => '',
         'Configure your own log text for PGP.' => 'आपके PGP के लिए अपनी अभिलेख पाठ विन्यस्त करें।',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -2627,7 +2835,10 @@ sub Data {
             'नियंत्रित करता है यदि ग्राहकों को उनके टिकट सॉर्ट करने की क्षमता है।',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             '',
+        'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
+            '',
         'Converts HTML mails into text messages.' => 'HTML मेल को पाठ संदेशों में बदलता है। ',
+        'Create New process ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'सेवा स्तर के समझौतों को बनाएँ और प्रबंधन करें।',
         'Create and manage agents.' => 'प्रतिनिधियॊ को बनाएँ और प्रबंधन करें।',
         'Create and manage attachments.' => 'संलग्नक को बनाएँ और प्रबंधन करें।',
@@ -2636,7 +2847,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'घटना आधारित अधिसूचना को बनाएँ और प्रबंधन करें।',
         'Create and manage groups.' => 'समूहों को बनाएँ और प्रबंधन करें।',
-        'Create and manage notifications that are sent to agents.' => 'अधिसूचना जो प्रतिनिधियॊ को भेजे जाते हैं को बनाएँ और प्रबंधन करें।',
         'Create and manage queues.' => 'श्रेणीयों को बनाएँ और प्रबंधन करें।',
         'Create and manage response templates.' => 'प्रतिक्रिया टेम्पलेट्स को बनाएँ और प्रबंधन करें।',
         'Create and manage responses that are automatically sent.' => 'प्रतिक्रियाएं जो स्वचालित रूप से भेजी जाती है को बनाएँ और प्रबंधन करें।',
@@ -2652,6 +2862,8 @@ sub Data {
         'Create new phone ticket (inbound)' => 'नया फोन टिकट (इनबाउंड)बनाएँ',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'कस्टम पाठ जो उन ग्राहकों को दिखाया जाएगा जिनके पास अभी तक कोई टिकट नहीं है।',
+        'Customer Company Administration' => '',
+        'Customer User Administration' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -2665,6 +2877,7 @@ sub Data {
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'निर्धारित अनुवाद को दोषमार्जन करना। यदि यह "हाँ" पर निर्धारित है तो अनुवाद किए बिना सभी स्ट्रिंग्स(पाठ)stderr में लिखा जाता है।',
         'Default ACL values for ticket actions.' => 'तयशुदा ACL मान टिकट कार्रवाई के लिए।',
+        'Default Process Management Entity prefixes for entity IDs.' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -2855,11 +3068,9 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट की फोन आउटबाउंड स्क्रीन में फोन टिकटों के लिए तयशुदा प्रेषक प्रकार को परिभाषित करता है।',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             'ग्राहक अंतरफलक के टिकट की ज़ूम स्क्रीन में फोन टिकटों के लिए तयशुदा प्रेषक प्रकार को परिभाषित करता है।',
-        'Defines the default sender type of the article for this operation.' =>
-            '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'टिकट की खोज स्क्रीन के लिए दिखाई टिकट की तयशुदा खोज विशेषता को परिभाषित करता है।',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             'प्राथमिकता के आधार पर क्रमबद्ध करने के बाद,श्रेणी दृश्य में प्रदर्शित सभी श्रेणीऔ के लिए तयशुदा क्रमबद्ध करने के मापदंड को परिभाषित करता है।',
@@ -2925,6 +3136,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक में जूम टिकट के टिकट प्राथमिकता स्क्रीन में तयशुदा टिकट की प्राथमिकता को परिभाषित करता है।',
         'Defines the default ticket priority in the ticket responsible screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक में जूम टिकट के टिकट उत्तरदायी स्क्रीन में तयशुदा टिकट की प्राथमिकता को परिभाषित करता है।',
+        'Defines the default ticket type for new customer tickets in the customer interface.' =>
+            '',
         'Defines the default type for article in the customer interface.' =>
             'ग्राहक अंतरफलक में तयशुदा अनुच्छेद प्रकार के लिए को परिभाषित करता है।',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
@@ -3152,6 +3365,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य और ईमेल के प्रेषक टिकट को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
+            '',
         'Defines the search limit for the stats.' => 'आँकड़े के लिए खोज सीमा को परिभाषित करता है।',
         'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' =>
@@ -3179,6 +3394,8 @@ sub Data {
             'प्रणाली प्रशासक के ईमेल पते को परिभाषित करता है। यह अनुप्रयोग की त्रुटि स्क्रीन में प्रदर्शित किया जाएगा।',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
             'प्रणाली पहचानक को परिभाषित करता है। हर टिकट संख्या और http सत्र स्ट्रिंग के पास यह ID होते हैं। यह सुनिश्चित करता है कि केवल टिकटों है जो आपके प्रणाली से संबंधित है उनकी अनुसरण कार्रवाई की जाएगी(उपयोगी है जब OTRS की दो मामलों के बीच संवाद होते हैं)।',
+        'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             'बाहरी ग्राहक आंकड़ाकोष की कड़ी में लक्ष्य विशेषता को परिभाषित करता है।',
         'Defines the time in days to keep log backup files.' => '',
@@ -3243,6 +3460,7 @@ sub Data {
             'एक टिकट के जिम्मेदार प्रतिनिधि को अनुस्मारक सूचनाएं भेजना निष्क्रिय करता है (टिकट:जिम्मेदार सक्रिय करने की जरूरत है)।',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
+        'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में एक अनुच्छेद के समय का हिसाब प्रदर्शित करता है।',
         'Dropdown' => '',
@@ -3255,8 +3473,14 @@ sub Data {
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
+        'Dynamic fields groups for process widget. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+            '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+            '',
+        'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+            '',
+        'Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3273,6 +3497,8 @@ sub Data {
         'Dynamic fields shown in the ticket move screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the ticket overview screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the ticket owner screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3296,7 +3522,7 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket search overview results screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket search screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the ticket search screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and shown by default.' =>
             '',
         'Dynamic fields shown in the ticket search screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -3308,6 +3534,7 @@ sub Data {
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
+        'Edit customer company' => '',
         'Email Addresses' => 'ईमेल पते',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF उत्पादन सक्षम बनाता है। CPAN मॉड्यूल PDF: API2 की आवश्यकता है,यदि स्थापित नहीं है,PDF उत्पादन निष्क्रिय कर दिया जाएगा।',
@@ -3333,6 +3560,8 @@ sub Data {
         'Enables ticket watcher feature only for the listed groups.' => 'केवल सूचीबद्ध समूहों के लिए टिकट पहरेदार सुविधा को सक्षम बनाता है।',
         'Escalation view' => 'संवर्धित दृश्य',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
+            '',
+        'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
@@ -3364,6 +3593,8 @@ sub Data {
         'Frontend language' => 'दृश्यपटल भाषा',
         'Frontend module registration (disable company link if no company feature is used).' =>
             'दृश्यपटल मॉड्यूल पंजीकरण(कंपनी लिंक निष्क्रिय करे यदि कंपनी सुविधा का उपयोग नहीं किया है)।',
+        'Frontend module registration (disable ticket processes screen if no process available).' =>
+            '',
         'Frontend module registration for the agent interface.' => 'प्रतिनिधि अंतरफलक के लिए दृश्यपटल मॉड्यूल पंजीकरण।',
         'Frontend module registration for the customer interface.' => 'ग्राहक अंतरफलक के लिए दृश्यपटल मॉड्यूल पंजीकरण।',
         'Frontend theme' => 'दृश्यपटल थीम',
@@ -3530,8 +3761,6 @@ sub Data {
             'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली सीएसएस फ़ाइलों के सूची।',
         'List of CSS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली सीएसएस फ़ाइलों के सूची।',
-        'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
-            'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE6 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -3546,6 +3775,7 @@ sub Data {
             '',
         'Log file for the ticket counter.' => 'टिकट काउंटर के लिए अभिलेख फ़ाइल।',
         'Mail Accounts' => '',
+        'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'एक ईमेल भेजने या एक टेलीफोन जमा या ईमेल के टिकट से पहले अनुप्रयोग ईमेल पतों की MX रिकॉर्ड की जाँच करें।',
         'Makes the application check the syntax of email addresses.' => 'अनुप्रयोग ईमेल पतों के वाक्यविन्यास की जाँच करें।',
@@ -3556,9 +3786,14 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'ईमेल आनयन करने के लिए POP3 या IMAP खातों का प्रबंधन करें।',
         'Manage S/MIME certificates for email encryption.' => 'ईमेल कूटलेखन के लिए S/MIME प्रमाणपत्र कुंजी प्रबंधित का प्रबंधन करें।',
         'Manage existing sessions.' => 'मौजूदा सत्र का प्रबंधन करें।',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'आवधिक कार्यों का प्रबंधन करें।',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'ग्राहक जानकारी तालिका(फोन और ईमेल) के स्क्रीन रचना में अधिकतम आकार(अक्षरों में)।',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
+            '',
         'Max size of the subjects in an email reply.' => 'ईमेल जवाब में विषय का अधिकतम आकार।',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'अधिकतम स्वत ईमेल प्रतिक्रियाओं जो ईमेल पता एक दिन स्वयं के लिए(लूप-संरक्षण)।',
@@ -3606,8 +3841,7 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'अनुकूलित श्रेणी के नाम। अनुकूलित कतार एक कतार चयन है,आपकी वरीयता श्रेणीयों का और चयनित किया जा सकता है वरीयता व्यवस्थाओ में।',
         'NameX' => '',
-        'New email ticket' => 'नया ईमेल टिकट',
-        'New phone ticket' => 'नया फोन टिकट',
+        'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -3644,6 +3878,12 @@ sub Data {
             'प्रतिनिधि अंतरफलक वरीयता दृश्य में RefreshTime ऑब्जेक्ट के लिए मापदंड।',
         'Parameters for the WatcherNotify object in the preference view of the agent interface.' =>
             'प्रतिनिधि अंतरफलक वरीयता दृश्य में WatcherNotify ऑब्जेक्ट के लिए मापदंड।',
+        'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'प्रतिनिधि अंतरफलक के नया टिकटों अवलोकन के बैकेंड पटल के लिए मापदंड। प्रविष्टियों की संख्या "सीमा" है जो तयशुदा रूप से दिखाई जाती हैं। "समूह" प्लगइन का उपयोग प्रतिबंधित करने के लिए प्रयोग किया जाता है(उदाहरण के लिए समूह: व्यवस्थापक, समूह 1; समूह 2;)।"तयशुदा" निर्धारित करता है, यदि प्लगइन तयशुदा रूप से सक्षम है या उपयोगकर्ता के लिए यह नियमावली रूप से सक्षम करने की जरूरत है।  "CacheTTLLocal" प्लगइन के लिए मिनटों में कैश समय है।',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -3684,11 +3924,19 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'डाकपाल निस्पादक',
         'PostMaster Mail Accounts' => 'डाकपाल मेल खाते',
+        'Process Information' => '',
+        'Process Management Activity Dialog GUI' => '',
+        'Process Management Activity GUI' => '',
+        'Process Management Path GUI' => '',
+        'Process Management Transition Action GUI' => '',
+        'Process Management Transition GUI' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'CSRF(क्रॉस साइट अनुरोध जालसाजी) के खिलाफ संरक्षण,कारनामे(अधिक जानकारी के लिए http://en.wikipedia.org/wiki/Cross-site_request_forgery देखें)।',
         'Queue view' => 'श्रेणी दृश्य',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'ताज़ाकरण अंतराल',
+        'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक रचना स्क्रीन में जवाब रचना पर मौलिक प्रेषक को वर्तमान ग्राहक के ईमेल पते के साथ बदलता है।',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -3737,6 +3985,7 @@ sub Data {
         'Search backend default router.' => 'बैकेंड तयशुदा अनुर्मागक खोजें।',
         'Search backend router.' => 'बैकेंड अनुर्मागक खोजें।',
         'Select your frontend Theme.' => 'आपकी दृश्यपटल थीम चुनें।',
+        'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'वेब अंतरफलक के द्वारा अपलोड संभालने के लिए मॉड्यूल चुनता है। "DB" आंकड़ाकोष में सभी अपलोड को संग्रहीत करता है,"FS" फ़ाइल प्रणाली का उपयोग करता है।',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
@@ -4090,6 +4339,8 @@ sub Data {
             'अवांछनीय अवरोधी उदाहरण स्थापना। चिह्नित मेल अवांछनीय श्रेणी में स्थानांतरित करें।',
         'Specifies if an agent should receive email notification of his own actions.' =>
             'निर्दिष्ट करता है यदि एक प्रतिनिधि अपने खुद के कार्यों की ईमेल अधिसूचना प्राप्त करना चाहे।',
+        'Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.' =>
+            '',
         'Specifies the background color of the chart.' => 'संचित्र की पृष्ठभूमि का रंग निर्दिष्ट करता है।',
         'Specifies the background color of the picture.' => 'चित्र की पृष्ठभूमि का रंग निर्दिष्ट करता है।',
         'Specifies the border color of the chart.' => 'संचित्र की सरहद का रंग निर्दिष्ट करता है।',
@@ -4106,6 +4357,8 @@ sub Data {
             'निर्देशिका निर्दिष्ट करता है जहाँ निजी SSL प्रमाणपत्र संग्रहीत हैं।',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             'ईमेल पते निर्दिष्ट करता है जब अनुप्रयोग के द्वारा उपयोग किया जाना चाहिए अधिसूचनाएँ भेजने के लिए। ईमेल पते अधिसूचना मास्टर के लिए पूर्ण प्रदर्शन नाम बनाने के काम आता है(अर्थात् "OTRS अधिसूचना मास्टर " otrs@your.example.com)। आप OTRS_CONFIG_FQDN परिवर्तनीय का उपयोग कर सकते हैं,जैसा आपके विन्यास में निर्धारित हैं,या किसी अन्य ईमेल पते का चयन करें। अधिसूचनाएं संदेशों के रूप में हैं जैसे en::Customer::QueueUpdate या en::Agent::Move।',
+        'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
+            '',
         'Specifies the left margin of the chart.' => 'संचित्र की दाईं हाशिए को निर्दिष्ट करता है।',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             'नाम निर्दिष्ट करता है जब अनुप्रयोग के द्वारा उपयोग किया जाना चाहिए अधिसूचनाएँ भेजने के लिए। प्रेषक का नाम अधिसूचना मास्टर के लिए पूर्ण प्रदर्शन नाम बनाने के काम आता है(अर्थात् "OTRS अधिसूचना मास्टर " otrs@your.example.com)। आप OTRS_CONFIG_FQDN परिवर्तनीय का उपयोग कर सकते हैं,जैसा आपके विन्यास में निर्धारित हैं,या किसी अन्य ईमेल पते का चयन करें। अधिसूचनाएं संदेशों के रूप में हैं जैसे en::Customer::QueueUpdate या en::Agent::Move।',
@@ -4127,6 +4380,8 @@ sub Data {
             'पाठ को निर्दिष्ट करता है जो लॉग फ़ाइल में दिखाई देना चाहिए CGI स्क्रिप्ट प्रविष्टि निरूपित करने के लिए।',
         'Specifies the top margin of the chart.' => 'संचित्र के शीर्ष हाशिए को निर्दिष्ट करता है।',
         'Specifies user id of the postmaster data base.' => 'डाकपाल आंकड़ा कोष के उपयोगकर्ता आईडी को निर्दिष्ट करता है।',
+        'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
+            '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'मानक अनुप्रयोग के भीतर प्रतिनिधियों के लिए उपलब्ध अनुमतियाँ। यदि अधिक अनुमतियों की आवश्यकता है,उन्हें यहाँ दर्ज किया जा सकता। अनुमतियों के लिए प्रभावी होगा परिभाषित किया जाना चाहिए। कुछ अन्य अच्छी अन्तर्निहित अनुमतियाँ भी प्रदान की है: टिप्पणी,विचाराधीन,बंद,ग्राहक,मुक्त पाठ,स्थानांतरित,रचना,उत्तरदायी,अग्रेषण और फलांग। सुनिश्चित करें कि "rw" हमेशा अंतिम पंजीकृत अनुमति हैं।',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -4165,6 +4420,14 @@ sub Data {
             'एक ईमेल जवाब में विषय के प्रारंभ में पाठ जब एक ईमेल अग्रेषित किया हैं,उदा. FW, Fwd, या WG। ',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'इस मॉड्यूल और उसके(PreRun) प्रकार्य में क्रियान्वित किया जाएगा,यदि परिभाषित हैं,प्रत्येक अनुरोध के लिए। यह मॉड्यूल उपयोगी है कुछ उपयोगकर्ता की जाँच विकल्प या नये अनुप्रयोगों के बारे में समाचार प्रदर्शित करने के लिए।',
+        'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
+            '',
+        'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
+            '',
+        'This option defines the process tickets default lock.' => '',
+        'This option defines the process tickets default priority.' => '',
+        'This option defines the process tickets default queue.' => '',
+        'This option defines the process tickets default state.' => '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -4199,7 +4462,6 @@ sub Data {
             'जब टिकटों को विलय कर रहे हैं,एक टिप्पणी स्वचालित रूप से जोड़ दी जाएगी उस टिकट को जो अब सक्रिय नहीं है। इस पाठ क्षेत्र में आप इस पाठ को परिभाषित कर सकते हैं(यह पाठ प्रतिनिधि के द्वारा बदला नहीं जा सकता है)।',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'जब टिकटों को विलय कर रहे हैं, चेक बॉक्स "सूचित प्रेषक" निर्धारित करने के बाद ग्राहक को ईमेल द्वारा सूचित किया जा सकता है। इस पाठ क्षेत्र में,आप एक पूर्व स्वरूपित पाठ परिभाषित कर सकते हैं जो बाद में प्रतिनिधियों द्वारा संशोधित किया जा सकता है। ',
-        'Your language' => 'आपकी भाषा',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'अपनी श्रेणी का चयन करें पसंदीदा श्रेणीयो से। आपको उन श्रेणीयो के बारे में ईमेल द्वारा अधिसूचित किया जाएगा। सक्रिय होने पर।',
 
@@ -4278,10 +4540,12 @@ sub Data {
         'Change the ticket priority!' => 'टिकट की प्राथमिकता बदलें।',
         'Change the ticket responsible!' => 'टिकट की उत्तरदायी बदलें',
         'Close this ticket!' => 'इस टिकट को बंद करें',
+        'Companies' => 'कंपनियां',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' =>
             'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है।',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है। विकासकर्ता पुस्तिका(http://doc.otrs.org/) अध्याय "टिकट घटना मॉड्यूल " की जाँच करें।',
+        'Create and manage notifications that are sent to agents.' => 'अधिसूचना जो प्रतिनिधियॊ को भेजे जाते हैं को बनाएँ और प्रबंधन करें।',
         'Create/Expires' => 'बनाना/समाप्त होना',
         'Customer item (icon) which shows the open tickets of this customer as info block.' =>
             'ग्राहक वस्तु (चिह्न) जो जानकारी ब्लॉक के रूप में इस ग्राहक के खुले टिकटों को दिखाता है।',
@@ -4578,6 +4842,8 @@ sub Data {
             'यदि निर्धारित है,इस पते के रूप में लिफाफा शीर्षक से बाहर जाने वाले सूचनाओं में प्रयोग किया जाता है। यदि कोई पता निर्दिष्ट नहीं है,शीर्षक से लिफाफा खाली है।',
         'Link this ticket to an other objects!' => 'इस टिकट को दूसरे वस्तु से लिंक करें।',
         'Link this ticket to other objects!' => 'अन्य वस्तुओं से यह टिकट जोडें।',
+        'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
+            'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE6 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
             'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'Lock it to work on it!' => 'काम करने के लिए इसे लॉक करें।',
@@ -4589,6 +4855,8 @@ sub Data {
         'Module to genetare ticket statistics.' => 'टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' =>
             'प्रतिनिधि को सूचित करने के लिए मॉड्यूल,प्रतिनिधि अंतरफलक के द्वारा,प्रयुक्त वर्णसमूह के बारे में। एक अधिसूचना प्रदर्शित होता है,यदि मूलभूत वर्णसमूह का प्रयोग नहीं किया है,उदा. टिकट में।',
+        'Need a valid email address or don\'t use a local email address' =>
+            'एक मान्य ईमेल पता की आवश्यकता है या एक स्थानीय ईमेल पते का उपयोग मत किजिए।',
         'New TicketFreeFields' => 'नई टिकट स्वतंत्र क्षेत्र',
         'Next Week' => 'अगले हफ्ते',
         'Package not correctly deployed! You should reinstall the Package again!' =>
@@ -4615,6 +4883,7 @@ sub Data {
             'प्रतिनिधि अंतरफलक के शीर्षक में दिखाया गया प्रतीक चिह्न। छवि के लिए URL सतही की छवि निर्देशिका के कोई सापेक्ष URL होना चाहिए।',
         'The logo shown in the header of the customer interface. The URL to the image must be a relative URL to the skin image directory.' =>
             'ग्राहक अंतरफलक के शीर्षक में दिखाया गया प्रतीक चिह्न। छवि के लिए URL सतही की छवि निर्देशिका के कोई सापेक्ष URL होना चाहिए।',
+        'Ticket Information' => 'टिकट की जानकारी',
         'Ticket free text options shown in the close ticket screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'प्रतिनिधि अंतरफलक के बंद टिकट स्क्रीन में दिखाए गए टिकट मुक्त पाठ विकल्प। संभावित व्यवस्थाऐं:0=निष्क्रिय,1=सक्रिय,2=सक्रिय और आवश्यक।',
         'Ticket free text options shown in the email ticket screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
@@ -4681,9 +4950,12 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट खोजें स्क्रीन में दिखाए गए टिकट मुक्त समय विकल्प। संभावित व्यवस्थाऐं:0=निष्क्रिय,1=सक्रिय,2=सक्रिय और आवश्यक।',
         'TicketFreeFields' => 'टिकट स्वतंत्र क्षेत्र',
         'Tickets available' => 'उपलब्ध टिकटें',
+        'To protect your privacy, active or/and remote content has blocked.' =>
+            'आपकी गोपनीयता को सुरक्षित करने के लिए,सक्रिय या / और दूरदराज के विषयवस्तु को अवरोधित किया है।',
         'To: (%s) replaced with database email!' => 'को: (%s) आंकड़ाकोष ईमेल के साथ प्रतिस्थापित करें।',
         'Unlock to give it back to the queue!' => 'श्रेणी में वापस देने के लिए इसे अनलॉक करें।',
         'Wildcards are allowed.' => 'वाइल्डकार्ड की अनुमति है।',
+        'Your language' => 'आपकी भाषा',
 
     };
     # $$STOP$$
