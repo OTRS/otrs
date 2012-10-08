@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.SetPermissions.pl - to set the otrs permissions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.SetPermissions.pl,v 1.4 2010-12-17 07:35:44 martin Exp $
+# $Id: otrs.SetPermissions.pl,v 1.4.4.1 2012-10-08 09:22:49 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,10 +25,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.4.4.1 $) [1];
 
 print "bin/otrs.SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
-print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 use File::Find;
 use Getopt::Long;
@@ -158,7 +158,11 @@ my @Dirs = (
     "$DestDir/var/tmp",
     "$DestDir/var/spool",
     "$DestDir/var/stats",
-    "$DestDir/var/sessions"
+    "$DestDir/var/sessions",
+
+    # CSS cache directories
+    "$DestDir/var/httpd/htdocs/skins/Agent",
+    "$DestDir/var/httpd/htdocs/skins/Customer",
 );
 for my $Dir (@Dirs) {
     if ( !-e $Dir ) {
