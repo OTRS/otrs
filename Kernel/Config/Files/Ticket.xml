@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.501.2.8 2012-09-29 05:56:12 cg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.501.2.9 2012-10-08 09:37:50 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -879,7 +879,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###SortBy::Default" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done, if PreSort::ByPriority is enable.</Description>
+        <Description Translatable="1">Defines the default sort criteria for all queues displayed in the queue view.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
@@ -893,7 +893,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###PreSort::ByPriority" Required="1" Valid="1">
-        <Description Translatable="1">Defines if should be performed a pre-sorting by priority.</Description>
+        <Description Translatable="1">Defines if a pre-sorting by priority should be done in the queue view.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
