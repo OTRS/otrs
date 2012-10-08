@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.79 2011-12-15 15:10:29 mg Exp $
+# $Id: AgentTicketQueue.pm,v 1.80 2012-10-08 18:03:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,18 +76,14 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    my $SortDefault = 1;
-
     my $SortBy = $Self->{Config}->{'SortBy::Default'} || 'Age';
     if ( $Self->{ParamObject}->GetParam( Param => 'SortBy' ) ) {
         $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
-        $SortDefault = 0;
     }
 
     my $OrderBy;
     if ( $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) ) {
         $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
-        $SortDefault = 0;
     }
 
     # if we have only one queue, check if there
@@ -135,7 +131,10 @@ sub Run {
 
     # sort on default by using both (Priority, Age) else use only one sort argument
     my %Sort;
-    if ( !$SortDefault ) {
+
+    # get if search result should be pre-sorted by priority
+    my $PreSortByPriority = $Self->{Config}->{'PreSort::ByPriority'};
+    if ( !$PreSortByPriority ) {
         %Sort = (
             SortBy  => $SortBy,
             OrderBy => $OrderBy,
