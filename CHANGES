@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2447 2012-10-08 12:54:52 mg Exp $
+# $Id: CHANGES,v 1.2448 2012-10-08 17:53:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-08 Fixed bug#7274 - Ticket QueueView sorts by priority on first page but subsequent
+    pages sort incorrectly by Age.
  - 2012-10-08 Fixed bug#8802 - Update to 3.1 leaves freetext columns in article_search.
  - 2012-09-28 Fixed bug#8794 - Depreciation warnings in web server error log for
     AdminEmail.pm when using perl >= 5.16.
