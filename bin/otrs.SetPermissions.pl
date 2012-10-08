@@ -3,7 +3,7 @@
 # bin/otrs.SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.SetPermissions.pl,v 1.6 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.SetPermissions.pl,v 1.7 2012-10-08 09:22:56 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use File::Find;
 use Getopt::Long;
@@ -164,7 +164,11 @@ my @Dirs = (
     "$DestDir/var/tmp",
     "$DestDir/var/spool",
     "$DestDir/var/stats",
-    "$DestDir/var/sessions"
+    "$DestDir/var/sessions",
+
+    # CSS cache directories
+    "$DestDir/var/httpd/htdocs/skins/Agent",
+    "$DestDir/var/httpd/htdocs/skins/Customer",
 );
 for my $Dir (@Dirs) {
     if ( !-e $Dir ) {
