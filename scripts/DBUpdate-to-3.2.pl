@@ -3,7 +3,7 @@
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.2.pl,v 1.5 2012-09-28 17:49:27 cr Exp $
+# $Id: DBUpdate-to-3.2.pl,v 1.6 2012-10-08 12:54:51 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -66,40 +66,52 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 7;
+    my $Steps = 8;
+    my $Step  = 1;
 
-    print "Step 1 of $Steps: Refresh configuration cache... ";
-    RebuildConfig($CommonObject);
+    print "Step $Step of $Steps: Refresh configuration cache... ";
+    RebuildConfig($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
 
     # create common objects with new default config
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of $Steps: Check framework version... ";
-    _CheckFrameworkVersion($CommonObject);
+    print "Step $Step of $Steps: Check framework version... ";
+    _CheckFrameworkVersion($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
 
-    print "Step 3 of $Steps: Cleanup UserPreferences... ";
-    _CleanupUserPreferences($CommonObject);
+    print "Step $Step of $Steps: Cleanup UserPreferences... ";
+    _CleanupUserPreferences($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
 
-    print "Step 4 of $Steps: Updating toolbar configuration... ";
-    _MigrateToolbarConfig($CommonObject);
+    print "Step $Step of $Steps: Updating toolbar configuration... ";
+    _MigrateToolbarConfig($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
 
-    print "Step 5 of $Steps: Updating AgentTicketZoom window configuration... ";
-    _MigrateAgentTicketZoomWindowConfiguration($CommonObject);
+    print "Step $Step of $Steps: Updating AgentTicketZoom window configuration... ";
+    _MigrateAgentTicketZoomWindowConfiguration($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
+
+    print "Step $Step of $Steps: Dropping obsolete columns from article_search... ";
+    _DropArticleSearchColumns($CommonObject) || die;
+    print "done.\n\n";
+    $Step++;
 
     # Clean up the cache completely at the end.
-    print "Step 6 of $Steps: Clean up the cache... ";
-    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    print "Step $Step of $Steps: Clean up the cache... ";
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} ) || die;
     $CacheObject->CleanUp();
     print "done.\n\n";
+    $Step++;
 
-    print "Step 7 of $Steps: Refresh configuration cache another time... ";
-    RebuildConfig($CommonObject);
+    print "Step $Step of $Steps: Refresh configuration cache another time... ";
+    RebuildConfig($CommonObject) || die;
     print "done.\n\n";
 
     print "Migration completed!\n";
@@ -287,4 +299,85 @@ sub _MigrateAgentTicketZoomWindowConfiguration {
 
     return 1;
 }
+
+=item _DropArticleSearchColumns($CommonObject)
+
+this will check if the table article_search has some obsolete columns that were forgotten
+to drop for the migration to OTRS 3.1 but also absent from the 3.1 schema definition. So
+on some systems (migrated from 3.0 or older) these will be present, on some not.
+
+Therefore we first check if the columns are present, and then in a second step we will
+drop them on the fly.
+
+    _DropArticleSearchColumns($CommonObject);
+
+=cut
+
+sub _DropArticleSearchColumns {
+    my $CommonObject = shift;
+
+    my $ColumnExists;
+
+    print
+        "Check if columns exist. Never mind if you get an error message about column a_freekey1 not being present.\n";
+
+    $ColumnExists = $CommonObject->{DBObject}->Prepare(
+        SQL   => "SELECT a_freekey1 FROM article_search WHERE 1=0",
+        Limit => 1,
+    );
+
+    if ( !$ColumnExists ) {
+        print "Columns are not present, no need to drop them.\n";
+        return 1;
+    }
+
+    print "Columns found, drop them.\n";
+
+    # fetch data to avoid warnings
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # noop
+    }
+
+    my $XMLString = '
+    <TableAlter Name="article_search">
+        <ColumnDrop Name="a_freetext1"/>
+        <ColumnDrop Name="a_freetext2"/>
+        <ColumnDrop Name="a_freetext3"/>
+        <ColumnDrop Name="a_freekey1"/>
+        <ColumnDrop Name="a_freekey2"/>
+        <ColumnDrop Name="a_freekey3"/>
+    </TableAlter>';
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = Kernel::System::XML->new( %{$CommonObject} );
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $CommonObject->{DBObject}->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        print $SQL . "\n";
+        my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $CommonObject->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
+
 1;
