@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.408 2012-10-05 01:38:53 ep Exp $
+# $Id: Layout.pm,v 1.409 2012-10-09 09:46:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.408 $) [1];
+$VERSION = qw($Revision: 1.409 $) [1];
 
 =head1 NAME
 
@@ -3303,7 +3303,14 @@ sub CustomerLogin {
         && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
         'Kernel::System::CustomerAuth::DB'
         )
+
     {
+
+        # if we use the HTML5 input type 'email' jQuery Validate will always validate
+        # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
+        $Param{EmailFieldType}
+            = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
+
         $Self->Block(
             Name => 'CreateAccountLink',
             Data => \%Param,
@@ -5227,6 +5234,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.408 $ $Date: 2012-10-05 01:38:53 $
+$Revision: 1.409 $ $Date: 2012-10-09 09:46:11 $
 
 =cut

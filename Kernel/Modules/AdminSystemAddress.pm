@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.43 2012-02-27 22:53:37 ep Exp $
+# $Id: AdminSystemAddress.pm,v 1.44 2012-10-09 09:46:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -277,6 +277,10 @@ sub _Edit {
         Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,
     );
+
+    # if we use the HTML5 input type 'email' jQuery Validate will always validate
+    # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
+    $Param{EmailFieldType} = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
