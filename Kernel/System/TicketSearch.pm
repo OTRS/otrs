@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.13.2.3 2012-10-09 06:08:10 cg Exp $
+# $Id: TicketSearch.pm,v 1.13.2.4 2012-10-09 07:36:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13.2.3 $) [1];
+$VERSION = qw($Revision: 1.13.2.4 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -1623,82 +1623,14 @@ sub TicketSearch {
 
     # database query
     my %Tickets;
-    my %TicketsForSorting;
     my @TicketIDs;
     my $Count;
     return
         if !$Self->{DBObject}->Prepare( SQL => $SQLSelect . $SQLFrom . $SQLExt, Limit => $Limit );
-
-    # perform real alphabetic sorting
-    # if SortBy
-    my @SortByItems = split( ',', $SQLSelect );
-    if ( scalar @SortByItems > 2 && $SortByArray[0] eq 'State' ) {
-        for my $Item (@SortByArray) {
-            my $Key = $SortOptions{$Item};
-
-            # get array possition
-            my ($ItemIndex) = grep { $SortByItems[$_] =~ /$Key/ } 0 .. $#SortByItems;
-
-            # get hash result structure
-            # with extra values
-            my %TicketsTmp;
-            if ($ItemIndex) {
-                while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                    $TicketsTmp{ $Row[0] } = {
-                        TN      => $Row[1],
-                        "$Item" => $Row[2],
-                    };
-                }    # end while
-
-                # set the backend file
-                my $BackendModule = "Kernel::System::$Item";
-
-                # if module available
-                if ( $Self->{MainObject}->Require($BackendModule) ) {
-
-                    # create a backend object
-                    my $BackendObject = $BackendModule->new( %{$Self} );
-
-                    if ( !$BackendObject ) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "Couldn't create a backend object for $Item!",
-                        );
-                        return;
-                    }
-
-                    # get translated and sorted list
-                    my $TempTickets = $BackendObject->GetTranslatedSortedList(
-                        Tickets => \%TicketsTmp,
-                        UserID  => $Param{UserID},
-                        Item    => $Item,
-                    );
-
-                    my %ForSorting = %{$TempTickets};
-
-                    # sorting
-                    for my $Key (
-                        sort { $ForSorting{$a}->{$Item} cmp $ForSorting{$b}->{$Item} }    #
-                        keys %ForSorting
-                        )
-                    {
-                        $Count = $Key;
-                        $Tickets{$Key} = $TempTickets->{$Key}->{TN};
-                        push @TicketIDs, $Key;
-                    }
-                    @TicketIDs = reverse @TicketIDs if $SQLExt =~ /DESC/;
-
-                }
-
-            }
-        }    # end for sort option
-    }
-    else {
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Count = $Row[0];
-            $Tickets{ $Row[0] } = $Row[1];
-            push @TicketIDs, $Row[0];
-        }
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Count = $Row[0];
+        $Tickets{ $Row[0] } = $Row[1];
+        push @TicketIDs, $Row[0];
     }
 
     # return COUNT
@@ -1801,6 +1733,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13.2.3 $ $Date: 2012-10-09 06:08:10 $
+$Revision: 1.13.2.4 $ $Date: 2012-10-09 07:36:30 $
 
 =cut

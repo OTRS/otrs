@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All ticket state related functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.56.2.1 2012-10-09 06:08:46 cg Exp $
+# $Id: State.pm,v 1.56.2.2 2012-10-09 07:36:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56.2.1 $) [1];
+$VERSION = qw($Revision: 1.56.2.2 $) [1];
 
 =head1 NAME
 
@@ -536,40 +536,6 @@ sub StateList {
     return %Data;
 }
 
-=item GetTranslatedSortedList()
-
-get state list as a hash of ID, Name pairs
-
-    my %List = $StateObject->GetTranslatedSortedList(
-        UserID => 123,
-    );
-
-returns
-
-=cut
-
-sub GetTranslatedSortedList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
-        return;
-    }
-
-    my %List = $Self->StateList(
-        UserID => $Param{UserID},
-    );
-
-    my %Tickets = %{ $Param{Tickets} };
-    for my $Ticket ( sort keys %Tickets ) {
-        my $Key = $Tickets{$Ticket}->{ $Param{Item} };
-        $Tickets{$Ticket}->{ $Param{Item} } = $List{$Key};
-    }
-
-    return \%Tickets;
-}
-
 =item StateLookup()
 
 returns the id or the name of a state
@@ -755,6 +721,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56.2.1 $ $Date: 2012-10-09 06:08:46 $
+$Revision: 1.56.2.2 $ $Date: 2012-10-09 07:36:30 $
 
 =cut
