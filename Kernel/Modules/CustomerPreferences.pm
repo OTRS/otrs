@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.31 2010-07-14 22:18:25 dz Exp $
+# $Id: CustomerPreferences.pm,v 1.31.4.1 2012-10-10 12:03:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.31.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,23 +151,46 @@ sub CustomerPreferencesForm {
     );
 
     my @Groups = @{ $Self->{ConfigObject}->Get('CustomerPreferencesView') };
+
+    COLUMN:
     for my $Column (@Groups) {
+
+        next COLUMN if !$Column;
+
         my %Data;
         my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
-        for my $Group ( keys %Preferences ) {
-            if ( $Preferences{$Group}->{Column} eq $Column ) {
-                if ( $Data{ $Preferences{$Group}->{Prio} } ) {
-                    for ( 1 .. 151 ) {
-                        $Preferences{$Group}->{Prio}++;
-                        if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
-                            $Data{ $Preferences{$Group}->{Prio} } = $Group;
-                            last;
-                        }
+
+        GROUP:
+        for my $Group ( sort keys %Preferences ) {
+
+            next GROUP if !$Group;
+
+            my $PreferencesGroup = $Preferences{$Group};
+
+            next GROUP if !$PreferencesGroup;
+            next GROUP if ref $PreferencesGroup ne 'HASH';
+
+            $PreferencesGroup->{Column} ||= '';
+            $PreferencesGroup->{Prio}   ||= 9999;
+
+            next GROUP if $PreferencesGroup->{Column} ne $Column;
+
+            if ( $Data{ $PreferencesGroup->{Prio} } ) {
+
+                for ( 1 .. 151 ) {
+
+                    $PreferencesGroup->{Prio}++;
+
+                    if ( !$Data{ $PreferencesGroup->{Prio} } ) {
+                        $Data{ $PreferencesGroup->{Prio} } = $Group;
+                        last;
                     }
                 }
-                $Data{ $Preferences{$Group}->{Prio} } = $Group;
             }
+
+            $Data{ $PreferencesGroup->{Prio} } = $Group;
         }
+
         $Self->{LayoutObject}->Block(
             Name => 'Head',
             Data => { Header => $Column, },
