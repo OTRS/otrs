@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.83 2012-10-09 09:46:10 mb Exp $
+# $Id: AdminUser.pm,v 1.84 2012-10-10 10:26:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -463,10 +463,6 @@ sub _Edit {
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
-
-    # if we use the HTML5 input type 'email' jQuery Validate will always validate
-    # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Param{EmailFieldType} = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',

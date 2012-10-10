@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.410 2012-10-10 09:23:48 mab Exp $
+# $Id: Layout.pm,v 1.411 2012-10-10 10:26:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.410 $) [1];
+$VERSION = qw($Revision: 1.411 $) [1];
 
 =head1 NAME
 
@@ -201,7 +201,7 @@ sub new {
     # check Frontend::Output::FilterText
     $Self->{FilterText} = $Self->{ConfigObject}->Get('Frontend::Output::FilterText');
 
-    # check browser (defaut is IE because I don't have IE)
+    # check browser (default is IE because I don't have IE)
     $Self->{Browser} = 'Unknown';
 
     $Self->{BrowserJavaScriptSupport} = 1;
@@ -525,6 +525,11 @@ sub Output {
         }
         undef $Self->{EnvNewRef};
     }
+
+    # if we use the HTML5 input type 'email' jQuery Validate will always validate
+    # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
+    $Self->{EnvRef}->{EmailFieldType}
+        = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     # read template from filesystem
     my $TemplateString = '';
@@ -3305,12 +3310,6 @@ sub CustomerLogin {
         )
 
     {
-
-        # if we use the HTML5 input type 'email' jQuery Validate will always validate
-        # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-        $Param{EmailFieldType}
-            = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
-
         $Self->Block(
             Name => 'CreateAccountLink',
             Data => \%Param,
@@ -5235,6 +5234,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.410 $ $Date: 2012-10-10 09:23:48 $
+$Revision: 1.411 $ $Date: 2012-10-10 10:26:39 $
 
 =cut

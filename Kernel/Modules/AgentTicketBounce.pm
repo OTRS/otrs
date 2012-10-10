@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.57 2012-10-09 09:46:11 mb Exp $
+# $Id: AgentTicketBounce.pm,v 1.58 2012-10-10 10:26:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -217,11 +217,6 @@ sub Run {
                 String => $Param{BounceText},
             );
         }
-
-        # if we use the HTML5 input type 'email' jQuery Validate will always validate
-        # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-        $Param{EmailFieldType}
-            = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
 
         # build InformationFormat
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
