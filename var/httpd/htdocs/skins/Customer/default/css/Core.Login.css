@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -88,6 +88,7 @@
 }
 
 .Login input[type='text'],
+.Login input[type='email'],
 .Login input[type='password']  {
     width: 177px;
     padding: 3px 5px;
@@ -173,7 +174,8 @@
     width: 55px;
 }
 
-#Signup input[type='text'] {
+#Signup input[type='text'],
+#Signup input[type='email'] {
     width: 250px;
 }
 
