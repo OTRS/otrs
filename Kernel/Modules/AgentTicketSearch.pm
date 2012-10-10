@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.151 2012-09-20 05:28:22 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.152 2012-10-10 14:49:36 alm Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.151 $) [1];
+$VERSION = qw($Revision: 1.152 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1235,6 +1235,13 @@ sub Run {
             }
         }
         else {
+
+            # redirect to the ticketzoom if result of the search is only one
+            if ( scalar @ViewableTicketIDs eq 1 ) {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AgentTicketZoom;TicketID=$ViewableTicketIDs[0]",
+                );
+            }
 
             # start html page
             my $Output = $Self->{LayoutObject}->Header();
