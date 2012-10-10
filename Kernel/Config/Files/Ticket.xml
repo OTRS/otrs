@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.526 2012-10-08 17:54:32 cg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.527 2012-10-10 09:23:49 mab Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6899,11 +6899,22 @@ $QData{"Body"}
                 <NavBarName>Ticket</NavBarName>
                 <Title>Overview</Title>
                 <NavBar>
+                    <Description Translatable="1">Tickets</Description>
+                    <Name Translatable="1">Tickets</Name>
+                    <Block></Block>
+                    <Type>Menu</Type>
+                    <NavBar>Ticket</NavBar>
+                    <Link>Action=CustomerTicketOverview;Subaction=MyTickets</Link>
+                    <LinkOption></LinkOption>
+                    <AccessKey>m</AccessKey>
+                    <Prio>100</Prio>
+                </NavBar>
+                <NavBar>
                     <Description Translatable="1">My Tickets</Description>
                     <Name Translatable="1">My Tickets</Name>
                     <Block></Block>
-                    <Type>Menu</Type>
-                    <NavBar></NavBar>
+                    <Type>Submenu</Type>
+                    <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketOverview;Subaction=MyTickets</Link>
                     <LinkOption></LinkOption>
                     <AccessKey>m</AccessKey>
@@ -6913,8 +6924,8 @@ $QData{"Body"}
                     <Description Translatable="1">Company Tickets</Description>
                     <Name Translatable="1">Company Tickets</Name>
                     <Block></Block>
-                    <Type>Menu</Type>
-                    <NavBar></NavBar>
+                    <Type>Submenu</Type>
+                    <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketOverview;Subaction=CompanyTickets</Link>
                     <LinkOption></LinkOption>
                     <AccessKey>c</AccessKey>
@@ -6936,8 +6947,8 @@ $QData{"Body"}
                     <Description Translatable="1">Create new Ticket</Description>
                     <Name Translatable="1">New Ticket</Name>
                     <Block></Block>
-                    <Type>Menu</Type>
-                    <NavBar></NavBar>
+                    <Type>Submenu</Type>
+                    <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketMessage</Link>
                     <LinkOption></LinkOption>
                     <AccessKey>n</AccessKey>
@@ -6999,8 +7010,8 @@ $QData{"Body"}
                     <Description Translatable="1">Search</Description>
                     <Name Translatable="1">Search</Name>
                     <Block></Block>
-                    <Type>Menu</Type>
-                    <NavBar></NavBar>
+                    <Type>Submenu</Type>
+                    <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketSearch</Link>
                     <LinkOption></LinkOption>
                     <AccessKey>s</AccessKey>

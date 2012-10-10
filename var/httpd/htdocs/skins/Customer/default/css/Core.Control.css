@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -144,7 +144,6 @@
     margin-top: -1px;
     background: url(../img/tabs_active_bg.png) no-repeat bottom left;
     border-bottom: 1px solid #666;
-    z-index: 1;
 }
 
 #Navigation .Selected > a {
