@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.135 2012-10-08 11:39:23 mg Exp $
+# $Id: CHANGES,v 1.2260.2.136 2012-10-11 20:02:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-10-11 Fixed bug#8667 - TicketSplit does not use QueueID of old Ticket for ACL Checking.
  - 2012-10-08 Fixed bug#8780 - 508 Compliance: Text descriptions of "Responsible Tickets"
     and "Locked Tickets" links are insufficient for screen reader users.
  - 2012-10-05 Fixed bug#8812 - Encrypted email doesn't see properly in Outlook.
