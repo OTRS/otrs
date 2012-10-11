@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.243 2012-06-22 17:34:46 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.244 2012-10-11 20:02:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.243 $) [1];
+$VERSION = qw($Revision: 1.244 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -529,6 +529,17 @@ sub Run {
             $Body = $Self->{LayoutObject}->Ascii2RichText(
                 String => $Body,
             );
+        }
+
+        # in case of ticket split set $Self->{QueueID} as the QueueID of the original ticket,
+        # in order to set correct ACLs on page load (initial). See bug 8687.
+        if (
+            IsHashRefWithData( \%SplitTicketParam )
+            && $SplitTicketParam{QueueID}
+            && !$Self->{QueueID}
+            )
+        {
+            $Self->{QueueID} = $SplitTicketParam{QueueID};
         }
 
         # html output
