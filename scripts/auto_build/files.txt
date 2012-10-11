@@ -31,7 +31,6 @@
 /opt/otrs/Kernel/Modules*
 %dir /opt/otrs/Kernel/Output/
 %dir /opt/otrs/Kernel/Output/HTML/
-%dir /opt/otrs/Kernel/Output/HTML/Standard/
 /opt/otrs/Kernel/Output/HTML/Standard*
 /opt/otrs/Kernel/Output/HTML/*.pm
 /opt/otrs/Kernel/Scheduler*
