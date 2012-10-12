@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.326 2012-10-08 11:19:49 mg Exp $
+# $Id: de.pm,v 1.327 2012-10-12 09:28:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.326 $) [1];
+$VERSION = qw($Revision: 1.327 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -875,7 +875,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
         'Last Login' => 'Letzte Anmeldung',
         'Login as' => 'Anmelden als',
-        'Switch to customer' => '',
+        'Switch to customer' => 'Zum Kunden wechseln',
         'Add Customer' => 'Kunden hinzufügen',
         'Edit Customer' => 'Kunden bearbeiten',
         'This field is required and needs to be a valid email address.' =>
@@ -963,8 +963,8 @@ sub Data {
             'Die Feldreihenfolge steuert die Ausgabe der Felder auf den Bildschirmen.',
         'Field type' => 'Feldtyp',
         'Object type' => 'Objekttyp',
-        'Internal field' => '',
-        'This field is protected and can\'t be deleted.' => '',
+        'Internal field' => 'Internes Feld',
+        'This field is protected and can\'t be deleted.' => 'Dies ist ein geschütztes internes Feld und kann nicht gelöscht werden.',
         'Field Settings' => 'Feldeinstellungen',
         'Default value' => 'Standardwert',
         'This is the default value for this field.' => 'Dies ist der Standardwert für dieses Feld',
@@ -1121,27 +1121,27 @@ sub Data {
         'Affected Tickets' => 'Betroffene Tickets',
 
         # Template: AdminGenericInterfaceDebugger
-        'GenericInterface Debugger for Web Service %s' => '',
-        'Web Services' => '',
-        'Debugger' => '',
-        'Go back to web service' => '',
-        'Clear' => '',
+        'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger für Webservice',
+        'Web Services' => 'Webservices',
+        'Debugger' => 'Debugger',
+        'Go back to web service' => 'Zurück zum Webservice',
+        'Clear' => 'Leeren',
         'Do you really want to clear the debug log of this web service?' =>
-            '',
-        'Request List' => '',
+            'Möchten Sie wirklich das Debug-Log dieses Webservice leeren?',
+        'Request List' => 'Anfrage-Liste',
         'Time' => 'Zeit',
-        'Remote IP' => '',
+        'Remote IP' => 'Entfernte IP',
         'Loading' => 'Lade...',
-        'Select a single request to see its details.' => '',
-        'Filter by type' => '',
-        'Filter from' => '',
-        'Filter to' => '',
-        'Filter by remote IP' => '',
+        'Select a single request to see its details.' => 'Wählen Sie eine Anfrage aus, um die Details zu sehen.',
+        'Filter by type' => 'Filtern nach Typ',
+        'Filter from' => 'Filter von',
+        'Filter to' => 'Filter bis',
+        'Filter by remote IP' => 'Filter nach entfernter IP',
         'Refresh' => 'Aktualisieren',
-        'Request Details' => '',
-        'An error occurred during communication.' => '',
+        'Request Details' => 'Anfragedetails',
+        'An error occurred during communication.' => 'Während der Kommunikation ist ein Fehler aufgetreten',
         'Show or hide the content' => 'Inhalt anzeigen oder ausblenden',
-        'Clear debug log' => '',
+        'Clear debug log' => 'Debug-Log leeren',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '',
@@ -1410,7 +1410,7 @@ sub Data {
         'Recipient email addresses' => 'Empfänger-E-Mail-Adressen',
         'Article type' => 'Artikeltyp',
         'Only for ArticleCreate event' => 'Nur für das ArticleCreate-Ereignis',
-        'Article sender type' => '',
+        'Article sender type' => 'Sender-Typ des Artikels',
         'Subject match' => 'Suchbegriff im Betreff',
         'Body match' => 'Suchbegriff im Text',
         'Include attachments to notification' => 'Anlagen an Benachrichtigung anfügen',
@@ -1874,7 +1874,7 @@ sub Data {
         # Template: AdminState
         'State Management' => 'Status-Verwaltung',
         'Add state' => 'Status hinzufügen',
-        'Please also update the states in SysConfig where needed.' => '',
+        'Please also update the states in SysConfig where needed.' => 'Bitte aktualisieren Sie auch die Status in der SysConfig dort, wo es erforderlich ist.',
         'Add State' => 'Status hinzufügen',
         'Edit State' => 'Status bearbeiten',
         'State type' => 'Status-Typ',
@@ -1978,7 +1978,7 @@ sub Data {
         'Apply' => 'Anwenden',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'Kunden-Informationszentrum',
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'Kunden-ID',
@@ -1988,7 +1988,7 @@ sub Data {
         'Search Customer' => 'Kunden suchen',
         'Duplicated entry' => 'Doppelter Eintrag',
         'This address already exists on the address list.' => 'Dieser Eintrag existiert bereits in der Adressliste',
-        'It is going to be deleted from the field, please try again.' => '',
+        'It is going to be deleted from the field, please try again.' => 'Er wird aus dem Feld entfernt, bitte versuchen Sie es erneut.',
 
         # Template: AgentCustomerTableView
 
@@ -2002,15 +2002,15 @@ sub Data {
         'URL' => 'URL',
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'Eskalierte Tickets',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer information' => '',
-        '%s open ticket(s) of %s' => '',
-        '%s closed ticket(s) of %s' => '',
-        'New phone ticket for %s' => '',
+        'Customer information' => 'Kundeninformation',
+        '%s open ticket(s) of %s' => '%s offene Tickets von %s',
+        '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
+        'New phone ticket for %s' => 'Neues Telefonticket für %s',
         'New phone ticket' => 'Neues Telefon-Ticket',
-        'New email ticket for %s' => '',
+        'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New email ticket' => 'Neues E-Mail-Ticket',
 
         # Template: AgentDashboardIFrame
@@ -2299,8 +2299,8 @@ sub Data {
         # Template: AgentTicketPriority
 
         # Template: AgentTicketProcess
-        'Create New Process Ticket' => '',
-        'Process' => '',
+        'Create New Process Ticket' => 'Neues Prozessticket',
+        'Process' => 'Prozess',
 
         # Template: AgentTicketProcessNavigationBar
 
@@ -2330,8 +2330,8 @@ sub Data {
         'Ticket Change Time (between)' => 'Ticket-Änderungszeit (zwischen)',
         'Ticket Close Time (before/after)' => 'Ticket-Schließzeit (vor/nach)',
         'Ticket Close Time (between)' => 'Ticket-Schließzeit (zwischen)',
-        'Ticket Escalation Time (before/after)' => '',
-        'Ticket Escalation Time (between)' => '',
+        'Ticket Escalation Time (before/after)' => 'Ticket-Eskalationszeit (vor/nach)',
+        'Ticket Escalation Time (between)' => 'Ticket-Eskalationszeit (zwischen)',
         'Archive Search' => 'Archivsuche',
         'Run search' => 'Suche starten',
 
@@ -2346,12 +2346,12 @@ sub Data {
         'Article Type' => 'Artikel Typ',
         'Sender Type' => 'Absender Typ',
         'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
-        'Archive' => '',
-        'This ticket is archived.' => '',
+        'Archive' => 'Archiv',
+        'This ticket is archived.' => 'Dieses Ticket ist archiviert.',
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
-        'This item has no articles yet.' => '',
+        'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
         'Article Filter' => 'Artikelfilter',
         'Add Filter' => 'Filter hinzufügen',
         'Set' => 'Setzen',
@@ -2367,7 +2367,7 @@ sub Data {
         'Resize' => 'Größe anpassen',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => '',
+        'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrere Privatsphäre wurden entfernte Inhalte blockiert.',
         'Load blocked content.' => 'Blockierten Inhalt laden.',
 
         # Template: Copyright
@@ -2469,11 +2469,11 @@ sub Data {
         '","18' => '',
 
         # Template: CustomerTicketZoom
-        'Show  article' => '',
+        'Show  article' => 'Artikel anzeigen',
         'Expand article' => 'Artikel aufklappen',
-        'Information' => '',
-        'Next Steps' => '',
-        'There are no further steps in this process' => '',
+        'Information' => 'Information',
+        'Next Steps' => 'Nächste Schritte',
+        'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Reply' => 'Antworten',
 
         # Template: CustomerWarning
@@ -2523,9 +2523,9 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
+        'Fulltext search' => 'Volltextsuche',
+        'CustomerID Search' => 'Kunden-Nr.-Suche',
+        'CustomerUser Search' => 'Kunden-Login-Suche',
         'You are logged in as' => 'Angemeldet als',
 
         # Template: HeaderSmall
@@ -4618,10 +4618,10 @@ sub Data {
         'Customer Owner Notify' => 'Kundeninfo Besitzer',
         'Customer State Notify' => 'Kundeninfo Status',
         'Customer User Management' => 'Kunden-Benutzer-Verwaltung',
-        'Customer Users' => 'Kunden Benutzer',
-        'Customer Users <-> Groups' => 'Kunden Benutzer <-> Gruppen',
+        'Customer Users' => 'Kunden-Benutzer',
+        'Customer Users <-> Groups' => 'Kunden-Benutzer <-> Gruppen',
         'Customer Users <-> Groups Management' => 'Kundenbenutzer <-> Gruppen-Verwaltung',
-        'Customer Users <-> Services' => 'Kunden Benutzer <-> Services',
+        'Customer Users <-> Services' => 'Kunden-Benutzer <-> Services',
         'Customer Users <-> Services Management' => 'Kundenbenutzer <-> Services-Verwaltung',
         'Customer history' => 'Kunden-Historie',
         'Customer history search' => 'Kunden-Historie-Suche',
