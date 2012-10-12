@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.47 2012-10-12 14:18:15 mh Exp $
+# $Id: AuthSession.pm,v 1.48 2012-10-12 19:35:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -75,8 +75,6 @@ create an object
         TimeObject   => $TimeObject,
     );
 
-(The session backend (DB or FS) is configured in Kernel/Config.pm)
-
 =cut
 
 sub new {
@@ -91,12 +89,15 @@ sub new {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
-    # load generator backend module
-    my $GenericModule = $Self->{ConfigObject}->Get('SessionModule')
-        || 'Kernel::System::AuthSession::DB';
+    # get configured session backend
+    my $GenericModule = $Self->{ConfigObject}->Get('SessionModule');
+    $GenericModule ||= 'Kernel::System::AuthSession::DB';
+
+    # load session backend module
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
         $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
     }
+
     $Self->{Backend} = $GenericModule->new(%Param);
 
     return $Self;
@@ -174,7 +175,6 @@ create a new session with given data
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
-    # return created session id
     return $Self->{Backend}->CreateSessionID(%Param);
 }
 
@@ -209,13 +209,19 @@ false (if can't update)
 sub UpdateSessionID {
     my ( $Self, %Param ) = @_;
 
-    if ( $Param{Key} && $Param{Key} =~ /:/ ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't update key: '$Param{Key}' because ':' is not allowed!",
-        );
-        return;
+    if ( $Param{Key} ) {
+
+        my @Parts = split /:/, $Param{Key};
+
+        if ( defined $Parts[1] ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't update key: '$Param{Key}' because ':' is not allowed!",
+            );
+            return;
+        }
     }
+
     return $Self->{Backend}->UpdateSessionID(%Param);
 }
 
@@ -233,17 +239,37 @@ returns a array with expired session ids
 sub GetExpiredSessionIDs {
     my ( $Self, %Param ) = @_;
 
+    # get config
+    my $MaxSessionTime     = $Self->{ConfigObject}->Get('SessionMaxTime');
+    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
+    # get current time
+    my $SystemTime = $Self->{TimeObject}->SystemTime();
+
+    # get all session ids
+    my @List = $Self->{Backend}->GetAllSessionIDs();
+
     my @ExpiredSession;
     my @ExpiredIdle;
-    my @List = $Self->{Backend}->GetAllSessionIDs();
+    SESSIONID:
     for my $SessionID (@List) {
-        my %SessionData    = $Self->GetSessionIDData( SessionID => $SessionID );
-        my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
-        my $ValidTime      = ( ( $SessionData{UserSessionStart} || 0 ) + $MaxSessionTime )
-            - $Self->{TimeObject}->SystemTime();
-        my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-        my $ValidIdleTime = ( ( $SessionData{UserLastRequest} || 0 ) + $MaxSessionIdleTime )
-            - $Self->{TimeObject}->SystemTime();
+
+        next SESSIONID if !$SessionID;
+
+        # get session data
+        my %SessionData = $Self->GetSessionIDData(
+            SessionID => $SessionID,
+        );
+
+        next SESSIONID if !%SessionData;
+
+        # get needed timestamps
+        my $UserSessionStart = $SessionData{UserSessionStart} || 0;
+        my $UserLastRequest  = $SessionData{UserLastRequest}  || 0;
+
+        # time calculation
+        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $SystemTime;
+        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $SystemTime;
 
         # delete invalid session time
         if ( $ValidTime <= 0 ) {
@@ -255,6 +281,7 @@ sub GetExpiredSessionIDs {
             push @ExpiredIdle, $SessionID;
         }
     }
+
     return ( \@ExpiredSession, \@ExpiredIdle );
 }
 
@@ -285,6 +312,7 @@ sub CleanUp {
 
     return $Self->{Backend}->CleanUp(%Param);
 }
+
 1;
 
 =back
@@ -299,6 +327,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2012-10-12 14:18:15 $
+$Revision: 1.48 $ $Date: 2012-10-12 19:35:32 $
 
 =cut
