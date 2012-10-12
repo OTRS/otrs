@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2452 2012-10-12 14:41:51 mg Exp $
+# $Id: CHANGES,v 1.2453 2012-10-12 22:56:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,6 +101,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-12 Fixed bug#8819 - Syntax error (stop crontab command) in SuSE rc script.
  - 2012-10-12 Removed auto cleanup of expired sessions in CreateSessionID() to improve the scalability
     of the hole system.
  - 2012-10-11 Fixed bug#8667 - TicketSplit does not use QueueID of old Ticket for ACL Checking.
