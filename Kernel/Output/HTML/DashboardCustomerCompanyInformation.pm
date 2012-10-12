@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerCompanyInformation.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerCompanyInformation.pm,v 1.2 2012-09-11 09:08:10 mg Exp $
+# $Id: DashboardCustomerCompanyInformation.pm,v 1.3 2012-10-12 14:17:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,22 +68,74 @@ sub Run {
 
     return if !$Param{CustomerID};
 
+    my $CustomerCompanyConfig = $Self->{ConfigObject}->Get('CustomerCompany');
+    return if ref $CustomerCompanyConfig ne 'HASH';
+    return if ref $CustomerCompanyConfig->{Map} ne 'ARRAY';
+
     my %CustomerCompany = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
         CustomerID => $Param{CustomerID},
     );
 
     return if !%CustomerCompany;
 
-    for my $Key ( keys %CustomerCompany ) {
-        $Self->{LayoutObject}->Block(
-            Name => "ContentSmallCustomerCompanyInformation$Key",
-            Data => \%CustomerCompany,
+    # make ValidID readable
+    if ( $CustomerCompany{ValidID} ) {
+        $CustomerCompany{ValidID} = $Self->{ValidObject}->ValidLookup(
+            ValidID => $CustomerCompany{ValidID},
         );
+
+        $CustomerCompany{ValidID}
+            = $Self->{LayoutObject}->{LanguageObject}->Get( $CustomerCompany{ValidID} );
     }
 
-    $CustomerCompany{Valid} = $Self->{ValidObject}->ValidLookup(
-        ValidID => $CustomerCompany{ValidID},
-    );
+    ENTRY:
+    for my $Entry ( @{ $CustomerCompanyConfig->{Map} } ) {
+        my $Key = $Entry->[0];
+
+        $Self->{LayoutObject}->Block( Name => "ContentSmallCustomerCompanyInformationRow" );
+
+        if ( $Key eq 'CustomerCompanyName' ) {
+            $Self->{LayoutObject}->Block(
+                Name => "ContentSmallCustomerCompanyInformationRowLink",
+                Data => {
+                    %CustomerCompany,
+                    Label => $Entry->[1],
+                    Value => $CustomerCompany{$Key},
+                    URL =>
+                        '$Env{"Baselink"}Action=AdminCustomerCompany;Subaction=Change;CustomerID=$QData{"CustomerID"};Nav=Agent',
+                    Target => '',
+                },
+            );
+
+            next ENTRY;
+        }
+
+        # check if a link must be placed
+        if ( $Entry->[6] ) {
+            $Self->{LayoutObject}->Block(
+                Name => "ContentSmallCustomerCompanyInformationRowLink",
+                Data => {
+                    %CustomerCompany,
+                    Label  => $Entry->[1],
+                    Value  => $CustomerCompany{$Key},
+                    URL    => $Entry->[6],
+                    Target => '_blank',
+                },
+            );
+
+            next ENTRY;
+
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => "ContentSmallCustomerCompanyInformationRowText",
+            Data => {
+                %CustomerCompany,
+                Label => $Entry->[1],
+                Value => $CustomerCompany{$Key},
+            },
+        );
+    }
 
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardCustomerCompanyInformation',
