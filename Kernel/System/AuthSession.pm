@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession.pm - provides session check and session data
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.46 2011-12-19 14:48:02 mg Exp $
+# $Id: AuthSession.pm,v 1.47 2012-10-12 14:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -174,14 +174,6 @@ create a new session with given data
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
-    # delete old session ids
-    my @Expired = $Self->GetExpiredSessionIDs();
-    for ( 0 .. 1 ) {
-        for my $SessionID ( @{ $Expired[$_] } ) {
-            $Self->RemoveSessionID( SessionID => $SessionID );
-        }
-    }
-
     # return created session id
     return $Self->{Backend}->CreateSessionID(%Param);
 }
@@ -307,6 +299,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2011-12-19 14:48:02 $
+$Revision: 1.47 $ $Date: 2012-10-12 14:18:15 $
 
 =cut

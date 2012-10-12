@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2450 2012-10-11 20:02:25 cr Exp $
+# $Id: CHANGES,v 1.2451 2012-10-12 14:18:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,6 +100,8 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-12 Removed auto cleanup of expired sessions in CreateSessionID() to improve the scalability
+    of the hole system.
  - 2012-10-11 Fixed bug#8667 - TicketSplit does not use QueueID of old Ticket for ACL Checking.
  - 2012-10-08 Fixed bug#8780 - 508 Compliance: Text descriptions of "Responsible Tickets"
     and "Locked Tickets" links are insufficient for screen reader users.
