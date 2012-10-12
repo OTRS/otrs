@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.33 2012-10-08 11:19:49 mg Exp $
+# $Id: ja.pm,v 1.34 2012-10-12 09:33:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-08 13:17:21
+    # Last translation file sync: 2012-10-12 11:29:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2862,11 +2862,14 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '顧客に対して表示されるチケットがまだ無いページのための、カスタム・テキストです。',
         'Customer Company Administration' => '',
+        'Customer Company Information' => '',
         'Customer User Administration' => '',
+        'Customer Users' => '顧客ユーザー',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerID Status' => '',
         'Customers <-> Groups' => '顧客 <-> グループ',
         'Customers <-> Services' => '顧客 <-> サービス',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
@@ -2937,6 +2940,8 @@ sub Data {
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'EメールのFromフィールドについて（回答およびEメールチケットからの目標）が、どのように見えるべきかを定義します。',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '担当者インタフェースのクローズ・チケット画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3071,8 +3076,8 @@ sub Data {
             'チケット検索画面で、デフォルトの表示されるチケット検索属性を定義します。',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
-            'キュー・ビューで表示される全てのキューに関して、優先度によるソートを実行した後の、デフォルトのソート基準を定義します。',
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
+            '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             'キュー・ビューの全てのキューに関して、優先度ソートの後の、デフォルトのソート順番を定義します。',
         'Defines the default spell checker dictionary.' => 'デフォルトのスペル・チェッカー辞書を定義します。',
@@ -4743,7 +4748,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Customer Owner Notify' => '顧客の所有者通知',
         'Customer State Notify' => '顧客の状態通知',
         'Customer User Management' => '顧客ユーザー管理',
-        'Customer Users' => '顧客ユーザー',
         'Customer Users <-> Groups' => '顧客ユーザー <-> グループ',
         'Customer Users <-> Groups Management' => '顧客ユーザー <-> グループ管理',
         'Customer Users <-> Services' => '顧客ユーザー <-> サービス',
@@ -4863,6 +4867,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'チケットについてfree text field number 8のデフォルトの一覧を定義します（2つ以上のオプションが提示された場合）。',
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' =>
             'チケットについてfree text field number 9のデフォルトの一覧を定義します（2つ以上のオプションが提示された場合）。',
+        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+            'キュー・ビューで表示される全てのキューに関して、優先度によるソートを実行した後の、デフォルトのソート基準を定義します。',
         'Defines the default subject of a note in the additional ITSM field screen of the agent interface.' =>
             '担当者インタフェースにおける追加ITSMフィールド画面で、注釈のデフォルトの件名を定義します。',
         'Defines the default subject of a note in the decision screen of the agent interface.' =>

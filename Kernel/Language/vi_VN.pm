@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.69 2012-10-08 11:19:50 mg Exp $
+# $Id: vi_VN.pm,v 1.70 2012-10-12 09:33:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-08 13:17:40
+    # Last translation file sync: 2012-10-12 11:30:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2860,11 +2860,14 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '',
+        'Customer Company Information' => '',
         'Customer User Administration' => '',
+        'Customer Users' => 'Người dùng khách hàng',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerID Status' => '',
         'Customers <-> Groups' => '',
         'Customers <-> Services' => '',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
@@ -2934,6 +2937,8 @@ sub Data {
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
+            '',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
@@ -3069,7 +3074,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',
@@ -4579,7 +4584,6 @@ sub Data {
         'Customer Owner Notify' => 'Thông báo phụ trách khách hàng',
         'Customer State Notify' => 'Thông báo trạng thái khách hàng',
         'Customer User Management' => 'Quản trị người dùng khách hàng',
-        'Customer Users' => 'Người dùng khách hàng',
         'Customer Users <-> Groups' => 'Người dùng khách hàng <-> Nhóm',
         'Customer Users <-> Groups Management' => 'Người dùng khách hàng <-> Quản trị nhóm',
         'Customer Users <-> Services' => 'Người dùng khách hàng <-> Dịch vụ',

@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.136 2012-10-08 11:19:50 mg Exp $
+# $Id: it.pm,v 1.137 2012-10-12 09:33:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-08 13:17:20
+    # Last translation file sync: 2012-10-12 11:29:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2868,11 +2868,14 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '',
+        'Customer Company Information' => '',
         'Customer User Administration' => '',
+        'Customer Users' => 'Utenti Clienti',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerID Status' => '',
         'Customers <-> Groups' => 'Clienti <-> Gruppi',
         'Customers <-> Services' => 'Clienti <-> Servizi',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
@@ -2943,6 +2946,8 @@ sub Data {
             'Definisce un link esterno al database del cliente (e.g. \'http://yourhost/customer.php=CID=$Data{"CustomerID"}\' o \'\'.',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'Definisce l\'aspetto del campo Da: delle email (inviate come risposte nei ticket email).',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Definisce se una presa in carico è necessaria nella schermata di chiusura ticket dell\'interfaccia degli agenti (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'agente viene automaticamente impostato come proprietario).',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3077,7 +3082,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',
@@ -4674,7 +4679,6 @@ sub Data {
         'Customer Owner Notify' => 'Notifica il cliente del cambio operatore',
         'Customer State Notify' => 'Notifica il cliente del cambio di stato',
         'Customer User Management' => 'Gestione clienti',
-        'Customer Users' => 'Utenti Clienti',
         'Customer Users <-> Groups' => 'Utenti Clienti <-> Gruppi',
         'Customer Users <-> Groups Management' => 'Utente <-> Gruppi',
         'Customer Users <-> Services Management' => 'Utenti <-> Servizi',
