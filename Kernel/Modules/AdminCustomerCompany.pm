@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.26 2011-12-21 13:27:27 mg Exp $
+# $Id: AdminCustomerCompany.pm,v 1.27 2012-10-12 14:41:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::ReferenceData;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -247,10 +247,16 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
         );
+
+        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+            $Self->{LayoutObject}->Block( Name => 'LocalDB' );
+        }
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
+
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -470,12 +476,22 @@ sub _Overview {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
-                        Valid => $ValidList{ $Data{ValidID} },
                         %Data,
                         Search => $Search,
                         Nav    => $Param{Nav},
                     },
                 );
+
+                if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'LocalDBRow',
+                        Data => {
+                            Valid => $ValidList{ $Data{ValidID} },
+                            %Data,
+                        },
+                    );
+                }
+
             }
         }
 

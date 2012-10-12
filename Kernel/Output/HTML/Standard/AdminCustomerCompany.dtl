@@ -1,8 +1,8 @@
 # --
 # AdminCustomerCompany.dtl - provides HTML form for AdminCustomerCompany
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.dtl,v 1.28 2011-05-16 09:24:01 mb Exp $
+# $Id: AdminCustomerCompany.dtl,v 1.29 2012-10-12 14:41:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,9 +74,11 @@
                             <th class="W5pc">$Text{"CustomerID"}</th>
                             <th class="W20pc">$Text{"Name"}</th>
                             <th class="W25pc">$Text{"Comment"}</th>
+<!-- dtl:block:LocalDB -->
                             <th>$Text{"Validity"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
+<!-- dtl:block:LocalDB -->
                         </tr>
                     </thead>
                     <tbody>
@@ -92,9 +94,11 @@
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"};Nav=$LQData{"Nav"}">$QData{"CustomerID","20"}</a></td>
                             <td>$QData{"CustomerCompanyName"}</td>
                             <td title="$QData{"CustomerCompanyComment"}">$QData{"CustomerCompanyComment","26"}</td>
+<!-- dtl:block:LocalDBRow -->
                             <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
+<!-- dtl:block:LocalDBRow -->
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
                     </tbody>
