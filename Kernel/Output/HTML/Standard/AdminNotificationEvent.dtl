@@ -2,7 +2,7 @@
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.32 2012-04-27 06:55:47 mb Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.33 2012-10-12 21:21:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -416,11 +416,27 @@
                         &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>).
                     </dd>
 
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of ticket dynamic fields internal key values"}
+                        ($Text{" e. g."} <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*_Value&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields"}
+                        ($Text{" e. g."} <code>&lt;OTRS_TICKET_DynamicField_TestField_Value&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1_Value&gt;</code>).
+                    </dd>
+
                     <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
                     <dd>
                         $Text{"Config options"}
                         ($Text{" e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
                     </dd>
+
+
                 </dl>
 
 

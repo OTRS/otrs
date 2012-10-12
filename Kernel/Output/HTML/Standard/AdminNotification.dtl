@@ -1,8 +1,8 @@
 # --
 # AdminNotification.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.dtl,v 1.27 2011-05-16 08:35:28 mb Exp $
+# $Id: AdminNotification.dtl,v 1.28 2012-10-12 21:21:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -209,6 +209,21 @@ $('#LanguageSelection').bind('change', function(){
                         $Text{"Options of the ticket data"} ($Text{"e. g."} <code>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID>,
                         &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</code>).
                     </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of ticket dynamic fields internal key values"}
+                        ($Text{" e. g."} <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*_Value&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields"}
+                        ($Text{" e. g."} <code>&lt;OTRS_TICKET_DynamicField_TestField_Value&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1_Value&gt;</code>).
+                    </dd>
+
                     <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
                     <dd>
                         $Text{"Config options"} ($Text{"e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
