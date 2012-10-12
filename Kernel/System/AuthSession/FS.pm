@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.45 2012-10-01 15:11:11 mb Exp $
+# $Id: FS.pm,v 1.46 2012-10-12 19:36:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,12 +13,13 @@ package Kernel::System::AuthSession::FS;
 
 use strict;
 use warnings;
+umask 002;
 
-use Digest::MD5;
-use MIME::Base64;
+use Storable qw();
+use Digest::MD5 qw();
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,9 +36,6 @@ sub new {
     # get more common params
     $Self->{SessionSpool} = $Self->{ConfigObject}->Get('SessionDir');
     $Self->{SystemID}     = $Self->{ConfigObject}->Get('SystemID');
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
 
     return $Self;
 }
@@ -84,15 +82,20 @@ sub CheckSessionID {
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfNotRemoteID') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
+
         return;
     }
 
     # check session idle time
     my $TimeNow            = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
+
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
+
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
@@ -103,15 +106,19 @@ sub CheckSessionID {
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
+
         return;
     }
 
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
+
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
 
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
+
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
@@ -121,6 +128,7 @@ sub CheckSessionID {
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
+
         return;
     }
 
@@ -147,50 +155,43 @@ sub GetSessionIDData {
         if $Self->{Cache}->{ $Param{SessionID} };
 
     # read data
-    my $ContentRef = $Self->{MainObject}->FileRead(
-        Directory => $Self->{SessionSpool},
-        Filename  => $Param{SessionID},
-        Mode      => 'utf8',
-        Result    => 'ARRAY',
+    my $Content = $Self->{MainObject}->FileRead(
+        Directory       => $Self->{SessionSpool},
+        Filename        => $Param{SessionID},
+        Type            => 'Local',
+        Mode            => 'binmode',
+        DisableWarnings => 1,
     );
 
-    return if !$ContentRef;
+    return if !$Content;
+    return if ref $Content ne 'SCALAR';
 
-    my %Data;
-    for my $Line ( @{$ContentRef} ) {
-        chomp $Line;
+    # read data structure back from file dump, use block eval for safety reasons
+    my $Storage = eval { Storable::thaw( ${$Content} ) };
 
-        # split data
-        my @PaarData = split( /:/, $Line );
-        $Data{ $PaarData[0] } = ${ $Self->_Decode( \$PaarData[1] ) };
-
-        # Debug
-        if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "GetSessionIDData: '$PaarData[0]:$Data{ $PaarData[0] }'",
-            );
-        }
+    if ( !$Storage || ref $Storage ne 'HASH' ) {
+        delete $Self->{Cache}->{ $Param{SessionID} };
+        return;
     }
 
     # cache result
-    $Self->{Cache}->{ $Param{SessionID} } = \%Data;
+    $Self->{Cache}->{ $Param{SessionID} } = $Storage;
 
-    return %Data;
+    return %{$Storage};
 }
 
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
-    # REMOTE_ADDR
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-
-    # HTTP_USER_AGENT
+    # get remote address and the http user agent
+    my $RemoteAddr      = $ENV{REMOTE_ADDR}     || 'none';
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # create session id
+    # get system time
     my $TimeNow = $Self->{TimeObject}->SystemTime();
-    my $md5     = Digest::MD5->new();
+
+    # create session id
+    my $md5 = Digest::MD5->new();
     $md5->add(
         ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
@@ -201,27 +202,40 @@ sub CreateSessionID {
     $md5->add( $TimeNow . $SessionID );
     my $ChallengeToken = $md5->hexdigest;
 
-    # data 2 strg
-    my $DataToStore = '';
+    my %Data;
+    KEY:
     for my $Key ( keys %Param ) {
 
-        next if !defined $Param{$Key};
+        next KEY if !defined $Param{$Key};
 
-        $DataToStore .= $Self->_Encode( $Key, $Param{$Key} );
+        $Data{$Key} = $Param{$Key};
     }
 
-    $DataToStore .= $Self->_Encode( 'UserSessionStart',    $TimeNow );
-    $DataToStore .= $Self->_Encode( 'UserRemoteAddr',      $RemoteAddr );
-    $DataToStore .= $Self->_Encode( 'UserRemoteUserAgent', $RemoteUserAgent );
-    $DataToStore .= $Self->_Encode( 'UserChallengeToken',  $ChallengeToken );
+    $Data{UserSessionStart}    = $TimeNow;
+    $Data{UserRemoteAddr}      = $RemoteAddr;
+    $Data{UserRemoteUserAgent} = $RemoteUserAgent;
+    $Data{UserChallengeToken}  = $ChallengeToken;
 
-    # store SessionID + data
-    return $Self->{MainObject}->FileWrite(
-        Directory => $Self->{SessionSpool},
-        Filename  => $SessionID,
-        Content   => \$DataToStore,
-        Mode      => 'utf8',
+    # dump the data
+    my $Dump = Storable::nfreeze( \%Data );
+
+    # write file
+    my $FileLocation = $Self->{MainObject}->FileWrite(
+        Directory       => $Self->{SessionSpool},
+        Filename        => $SessionID,
+        Content         => \$Dump,
+        Type            => 'Local',
+        Mode            => 'binmode',
+        Permission      => '664',
+        DisableWarnings => 1,
     );
+
+    return if !$FileLocation;
+
+    # set cache
+    $Self->{Cache}->{$SessionID} = \%Data;
+
+    return $SessionID;
 }
 
 sub RemoveSessionID {
@@ -233,12 +247,14 @@ sub RemoveSessionID {
         return;
     }
 
-    # delete fs file
+    # delete file
     my $Delete = $Self->{MainObject}->FileDelete(
         Directory       => $Self->{SessionSpool},
         Filename        => $Param{SessionID},
+        Type            => 'Local',
         DisableWarnings => 1,
     );
+
     return if !$Delete;
 
     # reset cache
@@ -298,72 +314,15 @@ sub CleanUp {
 
     # delete fs files
     my @SessionIDs = $Self->GetAllSessionIDs();
+
+    return 1 if !@SessionIDs;
+
+    SESSIONID:
     for my $SessionID (@SessionIDs) {
-        return if !$Self->RemoveSessionID( SessionID => $SessionID );
-    }
 
-    return 1;
-}
+        next SESSIONID if !$SessionID;
 
-sub _Encode {
-    my ( $Self, $Key, $Value ) = @_;
-
-    # set to bin string
-    $Self->{EncodeObject}->EncodeOutput( \$Value );
-
-    # encode data
-    my $Data = "$Key:" . encode_base64( $Value, '' ) . "\n";
-
-    return $Data;
-}
-
-sub _Decode {
-    my ( $Self, $Value ) = @_;
-
-    # check empty case
-    my $Empty = '';
-    return \$Empty if ( !defined ${$Value} || ${$Value} eq '' );
-
-    # decode and return
-    ${$Value} = decode_base64( ${$Value} );
-    $Self->{EncodeObject}->EncodeInput($Value);
-
-    return $Value;
-}
-
-sub _SyncToStorage {
-    my ( $Self, %Param ) = @_;
-
-    return 1 if !$Self->{Cache};
-
-    for my $SessionID ( keys %{ $Self->{Cache} } ) {
-
-        my %SessionData = %{ $Self->{Cache}->{$SessionID} };
-
-        # set new data sting
-        my $Data = '';
-        for my $Key ( keys %SessionData ) {
-
-            next if !defined $SessionData{$Key};
-
-            $Data .= $Self->_Encode( $Key, $SessionData{$Key} );
-
-            # Debug
-            if ( $Self->{Debug} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
-                );
-            }
-        }
-
-        # store SessionID + data
-        return $Self->{MainObject}->FileWrite(
-            Directory => $Self->{SessionSpool},
-            Filename  => $SessionID,
-            Content   => \$Data,
-            Mode      => 'utf8',
-        );
+        $Self->RemoveSessionID( SessionID => $SessionID );
     }
 
     return 1;
@@ -372,7 +331,41 @@ sub _SyncToStorage {
 sub DESTROY {
     my ( $Self, %Param ) = @_;
 
-    $Self->_SyncToStorage();
+    return 1 if !$Self->{Cache};
+
+    SESSIONID:
+    for my $SessionID ( sort keys %{ $Self->{Cache} } ) {
+
+        next SESSIONID if !$SessionID;
+
+        my %SessionData;
+        KEY:
+        for my $Key ( sort keys %{ $Self->{Cache}->{$SessionID} } ) {
+
+            next KEY if !$Key;
+
+            # extract key value pair
+            my $Value = $Self->{Cache}->{$SessionID}->{$Key};
+
+            next KEY if !defined $Value;
+
+            $SessionData{$Key} = $Value;
+        }
+
+        # dump the data
+        my $Dump = Storable::nfreeze( \%SessionData );
+
+        # write file
+        my $FileLocation = $Self->{MainObject}->FileWrite(
+            Directory       => $Self->{SessionSpool},
+            Filename        => $SessionID,
+            Content         => \$Dump,
+            Type            => 'Local',
+            Mode            => 'binmode',
+            Permission      => '664',
+            DisableWarnings => 1,
+        );
+    }
 
     return 1;
 }
