@@ -205,7 +205,7 @@ case "$1" in
     # restart
     # ------------------------------------------------------
     restart)
-      $0 stop
+      $0 stop && sleep 3
       $0 start
       # Remember status and be quiet
     ;;
