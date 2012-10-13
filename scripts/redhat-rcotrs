@@ -64,7 +64,7 @@ case "$1" in
       # test if apache is running..
       # --
       if test $OTRS_HTTP_RUNNING -gt 0; then
-    echo -n " Checking httpd ..."
+        echo -n " Checking httpd ..."
         if $OTRS_USED_WEBSERVER_TEST >/dev/null 2>&1; then
           echo " done."
         else
@@ -82,7 +82,7 @@ case "$1" in
       echo -n " Checking database connection... "
       if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
-      echo "  Maybe your database isn't configured yet? "
+          echo "  Maybe your database isn't configured yet? "
           echo ""
           echo " Try the web installer to configure your database: "
           echo ""
@@ -180,7 +180,7 @@ case "$1" in
       # --
       if test $OTRS_CRON_RUNNING -gt 0; then
         echo -e " Shutting down cronjobs ..."
-    if crontab $OTRS_CRON_USER -r ; then
+        if crontab $OTRS_CRON_USER -r ; then
           echo " done."
         else
           echo " failed!"
@@ -246,7 +246,7 @@ case "$1" in
       echo -n "Checking database connection... "
       if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
-      echo " Maybe your database isn't configured yet? "
+          echo " Maybe your database isn't configured yet? "
       else
           echo "done."
       fi
@@ -282,8 +282,8 @@ case "$1" in
       for i in $OTRS_SPOOLDIR/* ; do
           # echo old emails
           echo $i | grep -v '*' > /dev/null && \
-            echo "" && \
-            echo -n " (message:$i) found! "
+          echo "" && \
+          echo -n " (message:$i) found! "
       done
       echo "done."
     ;;
