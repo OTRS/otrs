@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SUSE Linux
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.35.2.3 2012-10-12 22:55:40 cr Exp $
+# $Id: suse-rcotrs,v 1.35.2.4 2012-10-13 19:58:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -345,7 +345,7 @@ case "$1" in
     # restart
     # ------------------------------------------------------
     restart)
-      $0 stop
+      $0 stop && sleep 3
       $0 start
       # Remember status and be quiet
       rc_status
@@ -354,7 +354,7 @@ case "$1" in
     # restart-force
     # ------------------------------------------------------
     restart-force)
-      $0 stop-force  && sleep 3
+      $0 stop-force && sleep 3
       $0 start-force
       # Remember status and be quiet
       rc_status
