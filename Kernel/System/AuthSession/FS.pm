@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.46 2012-10-12 19:36:42 mh Exp $
+# $Id: FS.pm,v 1.47 2012-10-14 21:21:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 umask 002;
 
-use Storable qw();
-use Digest::MD5 qw();
+use Storable;
+use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -167,17 +167,17 @@ sub GetSessionIDData {
     return if ref $Content ne 'SCALAR';
 
     # read data structure back from file dump, use block eval for safety reasons
-    my $Storage = eval { Storable::thaw( ${$Content} ) };
+    my $Session = eval { Storable::thaw( ${$Content} ) };
 
-    if ( !$Storage || ref $Storage ne 'HASH' ) {
+    if ( !$Session || ref $Session ne 'HASH' ) {
         delete $Self->{Cache}->{ $Param{SessionID} };
         return;
     }
 
     # cache result
-    $Self->{Cache}->{ $Param{SessionID} } = $Storage;
+    $Self->{Cache}->{ $Param{SessionID} } = $Session;
 
-    return %{$Storage};
+    return %{$Session};
 }
 
 sub CreateSessionID {
@@ -283,6 +283,8 @@ sub UpdateSessionID {
     # check cache
     if ( !$Self->{Cache}->{ $Param{SessionID} } ) {
         my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
+
+        $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
     }
 
     # update the value, set cache
