@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOutOfOffice.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOutOfOffice.pm,v 1.2 2012-09-25 09:10:08 mh Exp $
+# $Id: DashboardUserOutOfOffice.pm,v 1.3 2012-10-15 01:33:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,6 +61,11 @@ sub Preferences {
                 15 => '15',
                 20 => '20',
                 25 => '25',
+                30 => '30',
+                35 => '35',
+                40 => '40',
+                45 => '45',
+                50 => '50',
             },
             SelectedID  => $Self->{PageShown},
             Translation => 0,
@@ -140,9 +145,10 @@ sub Run {
             my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $End,
             );
-            if ( $TimeStart < $Time && $TimeEnd > $Time ) {
-                $Data{OutOfOfficeUntil} = $End;
-            }
+
+            next USERID if $TimeStart > $Time || $TimeEnd < $Time;
+
+            $Data{OutOfOfficeUntil} = $End;
 
             # remember user and data
             $OutOfOffice->{User}->{ $Data{UserID} } = $Data{$SortBy};
