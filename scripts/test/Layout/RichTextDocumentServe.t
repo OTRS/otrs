@@ -2,7 +2,7 @@
 # scripts/test/Layout/RichTextDocumentServe.t - layout testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextDocumentServe.t,v 1.3 2012-08-14 12:42:52 mg Exp $
+# $Id: RichTextDocumentServe.t,v 1.4 2012-10-15 08:14:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     GroupObject        => $GroupObject,
     UserChallengeToken => 'TestToken',
     UserID             => 1,
-    Lang               => 'de',
+    Lang               => 'en',
     SessionID          => 123,
 );
 
