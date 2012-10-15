@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2455 2012-10-15 11:55:37 mg Exp $
+# $Id: CHANGES,v 1.2456 2012-10-15 13:04:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,6 +103,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-12 Updated Polish translation, thanks to Pawel!
  - 2012-10-13 Fixed bug#8820 - Service rcotrs restart fails because a race condition happens.
  - 2012-10-12 Fixed bug#8819 - Syntax error (stop crontab command) in SuSE rc script.
  - 2012-10-12 Removed auto cleanup of expired sessions in CreateSessionID() to improve the scalability
