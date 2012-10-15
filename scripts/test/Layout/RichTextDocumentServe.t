@@ -2,7 +2,7 @@
 # scripts/test/Layout/RichTextDocumentServe.t - layout testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextDocumentServe.t,v 1.4 2012-10-15 08:14:20 mg Exp $
+# $Id: RichTextDocumentServe.t,v 1.5 2012-10-15 09:38:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     GroupObject        => $GroupObject,
     UserChallengeToken => 'TestToken',
     UserID             => 1,
-    Lang               => 'en',
+    Lang               => 'de',
     SessionID          => 123,
 );
 
@@ -234,8 +234,8 @@ my @Tests = (
 
 <div style="margin: 5px 0; padding: 0px; border: 1px solid #999; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
     <div style="padding: 5px; background-color: #DDD; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center;">
-        To protect your privacy, remote content was blocked.
-        <a href="No-$ENV{"SCRIPT_NAME"}?;LoadExternalImages=1">Blockierten Inhalt laden.</a>
+        Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.
+        <a href="No-$ENV{"SCRIPT_NAME"}?;LoadExternalImages=1">Blockierte Inhalte laden.</a>
     </div>
 </div>1',
             ContentType => 'text/html; charset="utf-8"',
