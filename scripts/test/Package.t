@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.42 2012-09-14 13:57:30 mb Exp $
+# $Id: Package.t,v 1.43 2012-10-15 09:19:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1143,6 +1143,7 @@ my $FilesNotAllowed = [
     'Kernel/Config.pm',
     'Kernel/Config/Files/ZZZAuto.pm',
     'Kernel/Config/Files/ZZZAAuto.pm',
+    'Kernel/Config/Files/ZZZProcessManagement.pm',
     'var/tmp/Cache/Tmp.cache',
     'var/log/some_log',
     '../../etc/passwd',

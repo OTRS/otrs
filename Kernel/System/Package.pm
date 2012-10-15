@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.136 2012-09-13 14:35:07 mb Exp $
+# $Id: Package.pm,v 1.137 2012-10-15 09:19:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 =head1 NAME
 
@@ -1808,6 +1808,7 @@ sub PackageParse {
         'Kernel/Config.pm$',
         'Kernel/Config/Files/ZZZAuto.pm$',
         'Kernel/Config/Files/ZZZAAuto.pm$',
+        'Kernel/Config/Files/ZZZProcessManagement.pm$',
         'var/tmp/Cache',
         'var/log/',
         '\.\./',
@@ -2845,6 +2846,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.136 $ $Date: 2012-09-13 14:35:07 $
+$Revision: 1.137 $ $Date: 2012-10-15 09:19:21 $
 
 =cut
