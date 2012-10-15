@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.31 2012-08-29 10:20:56 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.32 2012-10-15 08:58:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -908,7 +908,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ProcessSync' ) {
 
         my $Location
-            = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ProcessManagement.pm';
+            = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
         my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
             ResultType => 'FILE',
