@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.27 2012-09-25 12:43:53 mg Exp $
+# $Id: backup.pl,v 1.28 2012-10-15 09:19:44 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -200,7 +200,7 @@ if ( !mkdir($Directory) ) {
 print "Backup $Directory/Config.tar.gz ... ";
 if (
     !system(
-        "tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZA*.pm Kernel/Config/GenericAgen*.pm"
+        "tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZ*.pm Kernel/Config/GenericAgen*.pm"
     )
     )
 {
