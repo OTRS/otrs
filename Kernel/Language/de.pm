@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.328 2012-10-12 09:32:08 mg Exp $
+# $Id: de.pm,v 1.329 2012-10-15 08:13:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.328 $) [1];
+$VERSION = qw($Revision: 1.329 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2367,7 +2367,7 @@ sub Data {
         'Resize' => 'Größe anpassen',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrere Privatsphäre wurden entfernte Inhalte blockiert.',
+        'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.',
         'Load blocked content.' => 'Blockierten Inhalt laden.',
 
         # Template: Copyright
