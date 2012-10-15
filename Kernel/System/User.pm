@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.122 2012-09-04 08:27:46 mh Exp $
+# $Id: User.pm,v 1.123 2012-10-15 11:55:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 =head1 NAME
 
@@ -731,12 +731,6 @@ sub SetPassword {
         $CryptedPw = $SHAObject->hexdigest();
     }
 
-    # md5 sum of pw, needed for password history
-    my $MD5Pw = $Self->{MainObject}->MD5sum(
-        String => \$Pw,
-    );
-    $Self->SetPreferences( UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw );
-
     # update db
     my $UserLogin = lc $Param{UserLogin};
     return if !$Self->{DBObject}->Do(
@@ -1164,6 +1158,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.122 $ $Date: 2012-09-04 08:27:46 $
+$Revision: 1.123 $ $Date: 2012-10-15 11:55:37 $
 
 =cut
