@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.101 2012-09-20 13:02:51 mg Exp $
+# $Id: DB.pm,v 1.102 2012-10-15 13:38:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -707,17 +707,19 @@ sub CustomerUserAdd {
 
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
+    my %SeenKey;    # If the map contains duplicated field names, insert only once.
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        if ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Entry->[2], ";
-        }
+        next if ( lc( $Entry->[0] ) eq "userpassword" );
+        next if $SeenKey{ $Entry->[2] }++;
+        $SQL .= " $Entry->[2], ";
     }
     $SQL .= 'create_time, create_by, change_time, change_by)';
     $SQL .= ' VALUES (';
+    my %SeenValue;
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        if ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Value{ $Entry->[0] }, ";
-        }
+        next if ( lc( $Entry->[0] ) eq "userpassword" );
+        next if $SeenValue{ $Entry->[2] }++;
+        $SQL .= " $Value{ $Entry->[0] }, ";
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     $SQL = $Self->_ConvertTo($SQL);
@@ -798,12 +800,13 @@ sub CustomerUserUpdate {
 
     # update db
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
+    my %SeenKey;    # If the map contains duplicated field names, insert only once.
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         next ENTRY if $Entry->[7];    # skip readonly fields
-        if ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
-        }
+        next if ( lc( $Entry->[0] ) eq "userpassword" );
+        next if $SeenKey{ $Entry->[2] }++;
+        $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
     }
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
