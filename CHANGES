@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.140 2012-10-15 13:04:25 mg Exp $
+# $Id: CHANGES,v 1.2260.2.141 2012-10-16 09:53:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-10-16 Fixed bug#8194 - Wrong handling of subject when SubjectFormat=right.
  - 2012-10-12 Updated Polish translation, thanks to Pawel!
  - 2012-10-13 Fixed bug#8820 - Service rcotrs restart fails because a race condition happens.
  - 2012-10-12 Fixed bug#8819 - Syntax error (stop crontab command) in SuSE rc script.
