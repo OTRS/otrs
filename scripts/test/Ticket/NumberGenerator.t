@@ -2,7 +2,7 @@
 # NumberGenerator.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NumberGenerator.t,v 1.2 2012-06-14 09:21:32 mb Exp $
+# $Id: NumberGenerator.t,v 1.3 2012-10-16 09:54:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,36 +27,45 @@ for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
         Key   => 'Ticket::NumberGenerator',
         Value => 'Kernel::System::Ticket::Number::' . $Backend,
     );
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
 
-    for my $Count ( 1 .. 1000 ) {
-        my $TicketNumber = $TicketObject->TicketCreateNumber();
-
-        $Self->True(
-            scalar $TicketNumber,
-            "$Backend - $Count - TicketCreateNumber() - result $TicketNumber",
+    # check subject formats
+    for my $TicketSubjectFormat (qw(Left Right)) {
+        $ConfigObject->Set(
+            Key   => 'Ticket::SubjectFormat',
+            Value => $TicketSubjectFormat,
         );
 
-        my $Subject = $TicketObject->TicketSubjectBuild(
-            TicketNumber => $TicketNumber,
-            Subject      => 'Test',
+        my $TicketObject = Kernel::System::Ticket->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
         );
 
-        $Self->True(
-            scalar $Subject,
-            "$Backend - $Count - TicketSubjectBuild() - result $Subject",
-        );
+        for my $Count ( 1 .. 100 ) {
+            my $TicketNumber = $TicketObject->TicketCreateNumber();
 
-        my $TicketNumberFound = $TicketObject->GetTNByString($Subject);
+            $Self->True(
+                scalar $TicketNumber,
+                "$Backend - $TicketSubjectFormat - $Count - TicketCreateNumber() - result $TicketNumber",
+            );
 
-        $Self->Is(
-            $TicketNumberFound,
-            $TicketNumber,
-            "$Backend - $Count - GetTNByString",
-        );
+            my $Subject = $TicketObject->TicketSubjectBuild(
+                TicketNumber => $TicketNumber,
+                Subject      => 'Test',
+            );
+
+            $Self->True(
+                scalar $Subject,
+                "$Backend - $TicketSubjectFormat - $Count - TicketSubjectBuild() - result $Subject",
+            );
+
+            my $TicketNumberFound = $TicketObject->GetTNByString($Subject);
+
+            $Self->Is(
+                $TicketNumberFound,
+                $TicketNumber,
+                "$Backend - $TicketSubjectFormat - $Count - GetTNByString",
+            );
+        }
     }
 }
 
