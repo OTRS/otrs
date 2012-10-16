@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.260 2012-10-05 08:45:23 mh Exp $
+# $Id: CHANGES,v 1.1758.2.261 2012-10-16 09:53:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.0.18 ???-???-??
+ - 2012-10-16 Fixed bug#8194 - Wrong handling of subject when SubjectFormat=right.
 
 3.0.17 2012-10-16
  - 2012-10-05 Fixed bug#6820 - OTRS crash with "division by zero" if escalation set incorrectly.
