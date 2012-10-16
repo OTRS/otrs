@@ -5,6 +5,7 @@
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
 %config(noreplace) /opt/otrs/.mailfilter
+%config(noreplace) /opt/otrs/var/cron/*
 
 %dir /opt/otrs/
 /opt/otrs/RELEASE
@@ -27,7 +28,7 @@
 /opt/otrs/Kernel/Modules*
 %dir /opt/otrs/Kernel/Output/
 %dir /opt/otrs/Kernel/Output/HTML/
-/opt/otrs/Kernel/Output/HTML/Standard*
+/opt/otrs/Kernel/Output/HTML/Standard/
 /opt/otrs/Kernel/Output/HTML/*.pm
 /opt/otrs/Kernel/Scheduler*
 /opt/otrs/Kernel/System*
@@ -36,8 +37,9 @@
 %dir /opt/otrs/var/
 /opt/otrs/var/packages/*.opm
 %dir /opt/otrs/var/article/
-/opt/otrs/var/httpd/
 /opt/otrs/var/fonts/
+/opt/otrs/var/httpd/
+/opt/otrs/var/logo-otrs.png
 %dir /opt/otrs/var/log/
 %dir /opt/otrs/var/sessions/
 %dir /opt/otrs/var/spool/
