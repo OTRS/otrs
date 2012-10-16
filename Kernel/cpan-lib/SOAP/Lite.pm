@@ -4,7 +4,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: Lite.pm,v 1.4 2012-07-16 10:51:11 mh Exp $
+# $Id: Lite.pm,v 1.5 2012-10-16 22:32:17 cr Exp $
 #
 # ======================================================================
 
@@ -1990,7 +1990,13 @@ sub match {
 sub _traverse {
     my ($self, $pointer, $itself, $path, @path) = @_;
 
-    die "Incorrect parameter" unless $itself =~/^\d$/;
+    # ---
+    # OTRS Patch
+    # Fixed error when more than 2 parameters are sent to a method using RPC, this is a general
+    # error and a bug report with a similar issue has been added to SOAP::Lite bug tracker in:
+    # http://sourceforge.net/tracker/?func=detail&aid=3547564&group_id=66000&atid=513017
+    # ---
+    die "Incorrect parameter" unless $itself =~/^\d*$/;
 
     if ($path && substr($path, 0, 1) eq '{') {
         $path = join '/', $path, shift @path while @path && $path !~ /}/;
