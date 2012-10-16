@@ -5,10 +5,6 @@
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
 %config(noreplace) /opt/otrs/.mailfilter
-%config(noreplace) /opt/otrs/Kernel/Output/HTML/Standard/*.dtl
-%config(noreplace) /opt/otrs/Kernel/Language/*.pm
-%config(noreplace) /opt/otrs/var/cron/*
-%config(noreplace) /opt/otrs/var/logo-otrs.png
 
 %dir /opt/otrs/
 /opt/otrs/RELEASE
