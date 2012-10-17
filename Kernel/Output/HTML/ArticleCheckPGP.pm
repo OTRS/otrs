@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.25 2010-12-02 19:16:52 dz Exp $
+# $Id: ArticleCheckPGP.pm,v 1.26 2012-10-17 20:40:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,6 +84,14 @@ sub Check {
                 Key       => 'Body',
                 Value     => $Decrypt{Data},
                 UserID    => $Self->{UserID},
+            );
+            push(
+                @Return,
+                {
+                    Key   => 'Crypted',
+                    Value => $Decrypt{Message},
+                    %Decrypt,
+                },
             );
         }
         else {
