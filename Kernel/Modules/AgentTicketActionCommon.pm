@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.92 2012-09-24 09:26:46 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.93 2012-10-17 15:28:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -210,7 +210,7 @@ sub Run {
     my %GetParam;
     for my $Key (
         qw(
-        NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject
+        NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject NewQueueID
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
         TypeID ServiceID SLAID Expand
         )
@@ -617,6 +617,36 @@ sub Run {
             }
         }
 
+        # move ticket to a new queue, but only if the queue was changed
+        if (
+            $Self->{Config}->{Queue}
+            && $GetParam{NewQueueID}
+            && $GetParam{NewQueueID} ne $Ticket{QueueID}
+            )
+        {
+
+            # move ticket (send notification if no new owner is selected)
+            my $BodyAsText = '';
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $BodyAsText = $Self->{LayoutObject}->RichText2Ascii(
+                    String => $GetParam{Body} || 0,
+                );
+            }
+            else {
+                $BodyAsText = $GetParam{Body} || 0;
+            }
+            my $Move = $Self->{TicketObject}->TicketQueueSet(
+                QueueID            => $GetParam{NewQueueID},
+                UserID             => $Self->{UserID},
+                TicketID           => $Self->{TicketID},
+                SendNoNotification => $GetParam{NewUserID},
+                Comment            => $BodyAsText,
+            );
+            if ( !$Move ) {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+        }
+
         # add note
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
@@ -904,12 +934,35 @@ sub Run {
                 }
             );
         }
+
+        # get user of own groups
+        my %ShownUsers;
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1,
+        );
+        if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            %ShownUsers = %AllGroupsMembers;
+        }
+        else {
+            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $GetParam{NewQueueID} );
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
+                Type    => 'owner',
+                Result  => 'HASH',
+                Cached  => 1,
+            );
+            for my $UserID ( keys %MemberList ) {
+                $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+            }
+        }
+
         my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
             [
 
                 {
                     Name         => 'NewOwnerID',
-                    Data         => $Owners,
+                    Data         => \%ShownUsers,
                     SelectedID   => $GetParam{NewOwnerID},
                     Translation  => 0,
                     PossibleNone => 1,
@@ -1179,6 +1232,33 @@ sub _Mask {
             Data => {%Param},
         );
     }
+
+    if ( $Self->{Config}->{Queue} ) {
+
+        # fetch all queues
+        my %MoveQueues = $Self->{TicketObject}->TicketMoveList(
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID},
+            Action   => $Self->{Action},
+            Type     => 'move_into',
+        );
+
+        $Param{QueuesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data         => \%MoveQueues,
+            Name         => 'NewQueueID',
+            SelectedID   => $Param{NewQueueID},
+            PossibleNone => 0,
+            TreeView     => 1,
+            Sort         => 'TreeView',
+            Translation  => 0,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Queue',
+            Data => {%Param},
+        );
+    }
+
     if ( $Self->{Config}->{Owner} ) {
 
         # get user of own groups
@@ -1234,13 +1314,11 @@ sub _Mask {
 
         # build string
         $Param{OldOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-
             Data         => \%UserHash,
             SelectedID   => $OldOwnerSelectedID,
             Name         => 'OldOwnerID',
             Class        => $Param{OldOwnerInvalid} || ' ',
             PossibleNone => 1,
-
         );
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
             $Param{'NewOwnerType::Old'} = 'checked = "checked"';

@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.66 2012-05-25 13:32:13 mg Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.67 2012-10-17 15:28:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -131,6 +131,23 @@ $('#TypeID').bind('change', function (Event) {
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:SLA -->
+
+<!-- dtl:block:Queue -->
+                <label for="NewQueueID">$Text{"Queue"}:</label>
+                <div class="Field">
+                    $Data{"QueuesStrg"}
+                    <div id="QueueIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="QueueIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#NewQueueID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:Queue -->
 
 <!-- dtl:block:Owner -->
                 <label for="NewOwnerID">$Text{"New Owner"}:</label>
