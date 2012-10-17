@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.21 2012-10-17 11:34:14 mb Exp $
+# $Id: TicketList.pm,v 1.22 2012-10-17 22:07:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -741,20 +741,29 @@ sub GetStatTable {
                     # without the 'DynamicField_' prefix
                     next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
+                    # prevent unitilization errors
+                    if ( !defined $Ticket{$ParameterName} ) {
+                        $Ticket{$ParameterName} = '';
+                        next DYNAMICFIELD;
+                    }
+
+                    # convert from stored keys to values for certain Dynamic Fields like
+                    # Dropdown, Checkbox and Multiselect
+                    my $ValueLookup = $Self->{BackendObject}->ValueLookup(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Key                => $Ticket{$ParameterName},
+                    );
+
                     # get field value in plain text
                     my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
                         DynamicFieldConfig => $DynamicFieldConfig,
-                        Value              => $Ticket{$ParameterName},
-                    );
-                    my $ValueLookup = $Self->{BackendObject}->ValueLookup(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        Key                => $ValueStrg->{Value},
+                        Value              => $ValueLookup,
                     );
 
                     if ( $ValueStrg->{Value} ) {
 
                         # change raw value from ticket to a plain text value
-                        $Ticket{$ParameterName} = $ValueLookup;
+                        $Ticket{$ParameterName} = $ValueStrg->{Value};
                     }
                 }
             }
