@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.20 2012-05-02 23:07:46 cr Exp $
+# $Id: TicketList.pm,v 1.21 2012-10-17 11:34:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -646,7 +646,7 @@ sub GetStatTable {
         }
     }
 
-    my %DynamiFieldRestrictions;
+    my %DynamicFieldRestrictions;
     for my $ParameterName ( keys %{ $Param{Restrictions} } ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
@@ -668,7 +668,7 @@ sub GetStatTable {
                     );
 
                 # add new search parameter
-                $DynamiFieldRestrictions{$ParameterName} = $DynamicFieldStatsSearchParameter;
+                $DynamicFieldRestrictions{$ParameterName} = $DynamicFieldStatsSearchParameter;
             }
         }
     }
@@ -691,7 +691,7 @@ sub GetStatTable {
         Result     => 'ARRAY',
         Permission => 'ro',
         %{ $Param{Restrictions} },
-        %DynamiFieldRestrictions,
+        %DynamicFieldRestrictions,
     );
 
     # find out if the extended version of TicketGet is needed,
@@ -746,11 +746,15 @@ sub GetStatTable {
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Ticket{$ParameterName},
                     );
+                    my $ValueLookup = $Self->{BackendObject}->ValueLookup(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Key                => $ValueStrg->{Value},
+                    );
 
                     if ( $ValueStrg->{Value} ) {
 
                         # change raw value from ticket to a plain text value
-                        $Ticket{$ParameterName} = $ValueStrg->{Value};
+                        $Ticket{$ParameterName} = $ValueLookup;
                     }
                 }
             }

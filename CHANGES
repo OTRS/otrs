@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2460 2012-10-16 22:32:17 cr Exp $
+# $Id: CHANGES,v 1.2461 2012-10-17 11:34:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-17 Fixed bug#8842 - Stats outputs DynamicField keys, not values.
  - 2012-10-16 Added unit test for SOAP::Lite "Incorrect parameter" error.
  - 2012-10-16 Fixed "Incorrect parameter" error in SOAP::Lite 0.715 on any RPC with more than 2
     parameters.
