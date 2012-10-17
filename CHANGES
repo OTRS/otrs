@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2462 2012-10-17 15:28:46 mb Exp $
+# $Id: CHANGES,v 1.2463 2012-10-17 20:20:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,6 +111,8 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-17 Fixed bug#8848 - AgentTicketEmail does not preserve PGP Signatures set if attachment
+    is added.
  - 2012-10-16 Fixed bug#8149 - Wrong handling of subject when SubjectFormat=right.
  - 2012-10-12 Updated Polish translation, thanks to Pawel!
  - 2012-10-13 Fixed bug#8820 - Service rcotrs restart fails because a race condition happens.
