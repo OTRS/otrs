@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.185 2012-09-10 04:57:07 sb Exp $
+# $Id: AgentTicketZoom.pm,v 1.186 2012-10-17 10:11:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.185 $) [1];
+$VERSION = qw($Revision: 1.186 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,8 +92,13 @@ sub new {
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField};
+    $Self->{DynamicFieldFilter} = {
+        %{ $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
+        %{
+            $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
+                ->{ProcessWidgetDynamicField} || {}
+            },
+    };
 
     # create additional objects for process management
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(%Param);
@@ -896,13 +901,6 @@ sub MaskAgentZoom {
         );
     }
 
-    # get the dynamic fields for ticket object
-    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => ['Ticket'],
-        FieldFilter => $Self->{DynamicFieldFilter} || {},
-    );
-
     # show no articles block if ticket does not contain articles
     if ( !@ArticleBox ) {
         $Self->{LayoutObject}->Block(
@@ -1048,6 +1046,13 @@ sub MaskAgentZoom {
         }
     }
 
+    # get the dynamic fields for ticket object
+    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
+
     # to store dynamic fields to be displayed in the process widget and in the sidebar
     my ( @FieldsWidget, @FieldsSidebar );
 
@@ -1070,6 +1075,7 @@ sub MaskAgentZoom {
         my $Label = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} );
 
         if (
+            $IsProcessTicket &&
             $Self->{DisplaySettings}->{ProcessWidgetDynamicField}->{ $DynamicFieldConfig->{Name} }
             )
         {
@@ -1086,7 +1092,7 @@ sub MaskAgentZoom {
         }
 
         if (
-            $Self->{DisplaySettings}->{SidebarDynamicField}->{ $DynamicFieldConfig->{Name} }
+            $Self->{DisplaySettings}->{DynamicField}->{ $DynamicFieldConfig->{Name} }
             )
         {
             my $TrimmedValue = $ValueStrg->{Value};
@@ -1123,130 +1129,134 @@ sub MaskAgentZoom {
         );
     }
 
-    # output dynamic fields registered for a group in the process widget
-    my @FieldsInAGroup;
-    for my $GroupName ( keys %{ $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups} } ) {
+    if ($IsProcessTicket) {
+
+        # output dynamic fields registered for a group in the process widget
+        my @FieldsInAGroup;
+        for my $GroupName ( keys %{ $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups} } )
+        {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessWidgetDynamicFieldGroups',
+            );
+
+            my $GroupFieldsString
+                = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
+
+            $GroupFieldsString =~ s{\s}{}xmsg;
+            my @GroupFields = split( ',', $GroupFieldsString );
+
+            if ( $#GroupFields + 1 ) {
+
+                my $ShowGroupTitle = 0;
+                for my $Field (@FieldsWidget) {
+
+                    if ( grep { $_ eq $Field->{Name} } @GroupFields ) {
+
+                        $ShowGroupTitle = 1;
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ProcessWidgetDynamicField',
+                            Data => {
+                                Label => $Field->{Label},
+                                Name  => $Field->{Name},
+                            },
+                        );
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+                        );
+
+                        if ( $Field->{Link} ) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'ProcessWidgetDynamicFieldLink',
+                                Data => {
+                                    Value          => $Field->{Value},
+                                    Title          => $Field->{Title},
+                                    Link           => $Field->{Link},
+                                    $Field->{Name} => $Field->{Title},
+                                },
+                            );
+                        }
+                        else {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'ProcessWidgetDynamicFieldPlain',
+                                Data => {
+                                    Value => $Field->{Value},
+                                    Title => $Field->{Title},
+                                },
+                            );
+                        }
+                        push @FieldsInAGroup, $Field->{Name};
+                    }
+                }
+
+                if ($ShowGroupTitle) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                        Data => {
+                            Name => $GroupName,
+                        },
+                    );
+                }
+            }
+        }
+
+        # output dynamic fields not registered in a group in the process widget
+        my @RemainingFieldsWidget;
+        for my $Field (@FieldsWidget) {
+
+            if ( !grep { $_ eq $Field->{Name} } @FieldsInAGroup ) {
+                push @RemainingFieldsWidget, $Field;
+            }
+        }
 
         $Self->{LayoutObject}->Block(
             Name => 'ProcessWidgetDynamicFieldGroups',
         );
 
-        my $GroupFieldsString
-            = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
+        if ( $#RemainingFieldsWidget + 1 ) {
 
-        $GroupFieldsString =~ s{\s}{}xmsg;
-        my @GroupFields = split( ',', $GroupFieldsString );
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                Data => {
+                    Name => $Self->{LayoutObject}->{LanguageObject}->Get('Fields with no group'),
+                },
+            );
+        }
+        for my $Field (@RemainingFieldsWidget) {
 
-        if ( $#GroupFields + 1 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessWidgetDynamicField',
+                Data => {
+                    Label => $Field->{Label},
+                    Name  => $Field->{Name},
+                },
+            );
 
-            my $ShowGroupTitle = 0;
-            for my $Field (@FieldsWidget) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
+            );
 
-                if ( grep { $_ eq $Field->{Name} } @GroupFields ) {
-
-                    $ShowGroupTitle = 1;
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ProcessWidgetDynamicField',
-                        Data => {
-                            Label => $Field->{Label},
-                            Name  => $Field->{Name},
-                        },
-                    );
-
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
-                    );
-
-                    if ( $Field->{Link} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ProcessWidgetDynamicFieldLink',
-                            Data => {
-                                Value          => $Field->{Value},
-                                Title          => $Field->{Title},
-                                Link           => $Field->{Link},
-                                $Field->{Name} => $Field->{Title},
-                            },
-                        );
-                    }
-                    else {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ProcessWidgetDynamicFieldPlain',
-                            Data => {
-                                Value => $Field->{Value},
-                                Title => $Field->{Title},
-                            },
-                        );
-                    }
-                    push @FieldsInAGroup, $Field->{Name};
-                }
-            }
-
-            if ($ShowGroupTitle) {
+            if ( $Field->{Link} ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                    Name => 'ProcessWidgetDynamicFieldLink',
                     Data => {
-                        Name => $GroupName,
+                        Value          => $Field->{Value},
+                        Title          => $Field->{Title},
+                        Link           => $Field->{Link},
+                        $Field->{Name} => $Field->{Title},
                     },
                 );
             }
-        }
-    }
-
-    # output dynamic fields not registered in a group in the process widget
-    my @RemainingFieldsWidget;
-    for my $Field (@FieldsWidget) {
-
-        if ( !grep { $_ eq $Field->{Name} } @FieldsInAGroup ) {
-            push @RemainingFieldsWidget, $Field;
-        }
-    }
-
-    $Self->{LayoutObject}->Block(
-        Name => 'ProcessWidgetDynamicFieldGroups',
-    );
-
-    if ( $#RemainingFieldsWidget + 1 ) {
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ProcessWidgetDynamicFieldGroupSeparator',
-            Data => {
-                Name => $Self->{LayoutObject}->{LanguageObject}->Get('Fields with no group'),
-            },
-        );
-    }
-    for my $Field (@RemainingFieldsWidget) {
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ProcessWidgetDynamicField',
-            Data => {
-                Label => $Field->{Label},
-                Name  => $Field->{Name},
-            },
-        );
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
-        );
-
-        if ( $Field->{Link} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ProcessWidgetDynamicFieldLink',
-                Data => {
-                    Value          => $Field->{Value},
-                    Title          => $Field->{Title},
-                    Link           => $Field->{Link},
-                    $Field->{Name} => $Field->{Title},
-                },
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'ProcessWidgetDynamicFieldPlain',
-                Data => {
-                    Value => $Field->{Value},
-                    Title => $Field->{Title},
-                },
-            );
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ProcessWidgetDynamicFieldPlain',
+                    Data => {
+                        Value => $Field->{Value},
+                        Title => $Field->{Title},
+                    },
+                );
+            }
         }
     }
 
