@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.20 2012-10-17 10:11:51 mg Exp $</CVS>
-    <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
-        <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
-        <Group>ProcessManagement</Group>
-        <SubGroup>Core::Cache</SubGroup>
-        <Setting>
-            <String Regex="">3600</String><!-- default 1 hour -->
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Process::Entity::Prefix" Required="1" Valid="1">
-        <Description Translatable="1">Default Process Management Entity prefixes for entity IDs.</Description>
-        <Group>ProcessManagement</Group>
-        <SubGroup>Core::Entity</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Process">P</Item>
-                <Item Key="Activity">A</Item>
-                <Item Key="ActivityDialog">AD</Item>
-                <Item Key="Transition">T</Item>
-                <Item Key="TransitionAction">TA</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-
+    <CVS>$Id: ProcessManagement.xml,v 1.21 2012-10-17 12:22:02 mg Exp $</CVS>
     <ConfigItem Name="Frontend::Module###AdminProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>ProcessManagement</Group>
@@ -152,14 +129,6 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Process::NavBarOutput::CacheTTL" Required="1" Valid="1">
-        <Description Translatable="1">Cache time in seconds for the ticket process navigation bar output module.</Description>
-        <Group>ProcessManagement</Group>
-        <SubGroup>Core::Cache</SubGroup>
-        <Setting>
-            <String Regex="">900</String><!-- default 15 minutes -->
-        </Setting>
-    </ConfigItem>
 
     <!-- OTRSTicketProcesses Merged Settings Start -->
     <ConfigItem Name="Frontend::Module###AgentTicketProcess" Required="0" Valid="1">
@@ -222,6 +191,7 @@
         <Description Translatable="1">This option defines the process tickets default queue.</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
         <Setting>
             <String Regex="">Raw</String>
         </Setting>
@@ -230,6 +200,7 @@
         <Description Translatable="1">This option defines the process tickets default state.</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <String Regex="">new</String>
         </Setting>
@@ -246,6 +217,7 @@
         <Description Translatable="1">This option defines the process tickets default priority.</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Core</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -295,5 +267,36 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <!-- OTRSTicketProcesses Merged Settings Start -->
+    <!-- OTRSTicketProcesses Merged Settings End -->
+
+    <ConfigItem Name="Process::Entity::Prefix" Required="1" Valid="1">
+        <Description Translatable="1">Default ProcessManagement entity prefixes for entity IDs that are automatically generated.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Process">P</Item>
+                <Item Key="Activity">A</Item>
+                <Item Key="ActivityDialog">AD</Item>
+                <Item Key="Transition">T</Item>
+                <Item Key="TransitionAction">TA</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">3600</String><!-- default 1 hour -->
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Process::NavBarOutput::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the ticket process navigation bar output module.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">900</String><!-- default 15 minutes -->
+        </Setting>
+    </ConfigItem>
 </otrs_config>
