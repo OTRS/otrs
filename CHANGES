@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2464 2012-10-17 20:40:16 cr Exp $
+# $Id: CHANGES,v 1.2465 2012-10-18 06:48:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -190,7 +190,7 @@
  - 2012-07-16 Fixed bug#8616 - Spell Checker does not work using IE9.
  - 2012-07-11 Fixed bug#8568 - IMAPTLS - More than one email at one cron run will not work.
  - 2012-07-05 Added bug#8627 - bin/otrs.AddQueue2StdResponse.pl Script to add standard responses
-    to queues, thanks to Oliver Skippe @ CIPHRON GmbH.
+    to queues, thanks to Oliver Skibbe @ CIPHRON GmbH.
  - 2012-07-04 Fixed bug#8607 - otrs service fails in 3.1.7 on SUSE linux.
  - 2012-07-02 Increased cache TTL of some core modules to improve performance.
  - 2012-07-01 Fixed bug#8620 - Using a default queue in the customer interface causes database
