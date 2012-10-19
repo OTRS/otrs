@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.41 2012-10-19 11:47:43 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.42 2012-10-19 12:16:35 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -62,13 +62,12 @@ Core.Form.Validate = (function (TargetNS) {
 
     /**
      * @function
-     * @private
      * @param {jQueryObject} $Element The jQuery object of the form  or any element
      * @param {String} ErrorType The error type (a class that identify the error type)
      * @return nothing
      * @description Show initialize the tooltips
      */
-    function HighlightError(Element, ErrorType) {
+    TargetNS.HighlightError = function (Element, ErrorType) {
         var $Element = $(Element),
             InputErrorMessageHTML,
             InputErrorMessageText;
@@ -124,16 +123,15 @@ Core.Form.Validate = (function (TargetNS) {
                 $Element.focus();
             }, 0);
         }
-    }
+    };
 
     /**
      * @function
-     * @private
      * @param {Object} Element The object of the form  or any element within this form that should be serialized
      * @return nothing
      * @description Remove error classes from element and its label
      */
-    function UnHighlightError(Element) {
+    TargetNS.UnHighlightError = function (Element) {
         var $Element = $(Element),
             ElementValue,
             RemoveError = true;
@@ -171,7 +169,7 @@ Core.Form.Validate = (function (TargetNS) {
                 Core.Form.ErrorTooltips.RemoveTooltip($Element);
             }
         }
-    }
+    };
 
     /**
      * @function
@@ -505,8 +503,8 @@ Core.Form.Validate = (function (TargetNS) {
             $(this).validate({
                 ignoreTitle: true,
                 errorClass: Options.ErrorClass,
-                highlight: HighlightError,
-                unhighlight: UnHighlightError,
+                highlight: TargetNS.HighlightError,
+                unhighlight: TargetNS.UnHighlightError,
                 errorPlacement: OnErrorElement,
                 submitHandler: OnSubmit,
                 ignore: '.' + Options.IgnoreClass
@@ -523,7 +521,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         if ($ServerErrors.length) {
             $ServerErrors.each(function () {
-                HighlightError(this, 'ServerError');
+                TargetNS.HighlightError(this, 'ServerError');
             });
 
             // When the dialog closes, focus the first element which had a server error
@@ -542,11 +540,6 @@ Core.Form.Validate = (function (TargetNS) {
             return $Element.closest('form').validate().element($Element);
         }
         return false;
-    };
-
-    // public wrapper for HighlightError
-    TargetNS.HighlightError = function (Element, ErrorType) {
-        HighlightError(Element, ErrorType);
     };
 
     /**
