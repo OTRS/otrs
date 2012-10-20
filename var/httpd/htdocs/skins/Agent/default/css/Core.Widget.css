@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.36 $
+ * @version     $Revision: 1.37 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -283,10 +283,6 @@ ul.Tablelike li.Header + li {
 .Expanded > .Header > .WidgetAction.Toggle,
 .Collapsed.AnimationRunning > .Header > .WidgetAction.Toggle {
     background-position: 0 -26px;
-}
-
-.Collapsed .WidgetAction.Toggle {
-    background-position: 0 0;
 }
 
 .RTL .WidgetAction.Toggle {
