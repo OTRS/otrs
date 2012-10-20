@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.42 2012-10-19 12:16:35 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.43 2012-10-20 15:15:31 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -102,8 +102,8 @@ Core.Form.Validate = (function (TargetNS) {
 
         // Get the target element and find the associated hidden div with the
         // error message.
-        InputErrorMessageHTML = $('#' + $Element.attr('id') + ErrorType).html();
-        InputErrorMessageText = $('#' + $Element.attr('id') + ErrorType).text();
+        InputErrorMessageHTML = $(Core.App.EscapeSelector('#' + $Element.attr('id') + ErrorType)).html();
+        InputErrorMessageText = $(Core.App.EscapeSelector('#' + $Element.attr('id') + ErrorType)).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             // if error field is a RTE, it is a little bit more difficult

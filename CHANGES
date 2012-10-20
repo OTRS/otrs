@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2465 2012-10-18 06:48:25 mg Exp $
+# $Id: CHANGES,v 1.2466 2012-10-20 15:15:31 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-20 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a
+    colon (:)
  - 2012-10-17 Added possibility to select the queue in AgentTicketActionCommon based
     screens.
  - 2012-10-17 Fixed bug#8842 - Stats outputs DynamicField keys, not values.
@@ -111,6 +113,8 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-10-20 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a
+    colon (:)
  - 2012-10-17 Fixed bug#8847 - Inline PGP message description routine does not add any info, thanks
     to IB Development Team.
  - 2012-10-17 Fixed bug#8848 - AgentTicketEmail does not preserve PGP Signatures set if attachment
