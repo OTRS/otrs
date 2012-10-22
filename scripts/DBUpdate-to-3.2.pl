@@ -3,7 +3,7 @@
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.2.pl,v 1.8 2012-10-15 11:55:36 mg Exp $
+# $Id: DBUpdate-to-3.2.pl,v 1.9 2012-10-22 14:00:54 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -66,7 +66,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 8;
+    my $Steps = 9;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -100,6 +100,11 @@ EOF
 
     print "Step $Step of $Steps: Dropping obsolete columns from article_search... ";
     _DropArticleSearchColumns($CommonObject) || die;
+    print "done.\n\n";
+    $Step++;
+
+    print "Step $Step of $Steps: Migration cache backend configuration... ";
+    _MigrateCacheConfiguration($CommonObject) || die;
     print "done.\n\n";
     $Step++;
 
@@ -409,6 +414,39 @@ sub _DropArticleSearchColumns {
             return;
         }
     }
+    return 1;
+}
+
+=item _MigrateCacheConfiguration($CommonObject)
+
+disable legacy cache setting. CacheFileRaw was removed.
+
+    _MigrateCacheConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateCacheConfiguration {
+    my $CommonObject = shift;
+
+    # create a new SysConfigObject
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    my $CacheModule = $CommonObject->{ConfigObject}->Get("Cache::Module");
+
+    if ( $CacheModule eq 'Kernel::System::Cache::FileRaw' ) {
+
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Cache::Module',
+            Value => 'Kernel::System::Cache::FileStorable',
+        );
+
+        if ( !$Success ) {
+            print "Could not migrate the config value Cache::Module!\n";
+            return 0;
+        }
+    }
+
     return 1;
 }
 
