@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-19 10:27:08
+#  driver: mysql, generated: 2012-10-22 19:04:52
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -802,9 +802,11 @@ CREATE TABLE service_sla (
 #  create table sessions
 # ----------------------------------------------------------
 CREATE TABLE sessions (
-    session_id VARCHAR (150) NOT NULL,
-    session_value TEXT NOT NULL,
-    PRIMARY KEY(session_id)
+    id VARCHAR (100) NOT NULL,
+    data_key VARCHAR (100) NOT NULL,
+    data_value TEXT NULL,
+    UNIQUE INDEX sessions_id_data_key (id, data_key),
+    INDEX sessions_id (id)
 );
 # ----------------------------------------------------------
 #  create table customer_user

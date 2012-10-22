@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-19 10:27:08
+--  driver: mssql, generated: 2012-10-22 19:06:12
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -803,10 +803,12 @@ CREATE TABLE service_sla (
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    session_id NVARCHAR (150) NOT NULL,
-    session_value NVARCHAR (MAX) NOT NULL,
-    PRIMARY KEY(session_id)
+    id NVARCHAR (100) NOT NULL,
+    data_key NVARCHAR (100) NOT NULL,
+    data_value NVARCHAR (MAX) NULL,
+    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
+CREATE INDEX sessions_id ON sessions (id);
 -- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-19 10:27:08
+--  driver: db2, generated: 2012-10-22 19:06:20
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -921,10 +921,13 @@ CREATE TABLE service_sla (
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    session_id VARCHAR (150) NOT NULL,
-    session_value CLOB (195K) NOT NULL,
-    PRIMARY KEY(session_id)
+    id VARCHAR (100) NOT NULL,
+    data_key VARCHAR (100) NOT NULL,
+    data_value CLOB (78K),
+    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
+
+CREATE INDEX sessions_id ON sessions (id);
 
 -- ----------------------------------------------------------
 --  create table customer_user
@@ -1509,3 +1512,4 @@ CREATE TABLE pm_entity_sync (
     change_time TIMESTAMP NOT NULL,
     CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );
+

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-19 10:27:08
+--  driver: oracle, generated: 2012-10-22 19:06:03
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1354,10 +1354,12 @@ CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    session_id VARCHAR2 (150) NOT NULL,
-    session_value CLOB NOT NULL
+    id VARCHAR2 (100) NOT NULL,
+    data_key VARCHAR2 (100) NOT NULL,
+    data_value CLOB NULL,
+    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
-ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (session_id);
+CREATE INDEX sessions_id ON sessions (id);
 -- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------
