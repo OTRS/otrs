@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.497 2012-10-12 09:28:22 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.498 2012-10-22 16:50:08 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -788,22 +788,6 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <String Regex="">sessions</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="SessionTableID" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Session</SubGroup>
-        <Setting>
-            <String Regex="">session_id</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="SessionTableValue" Required="1" Valid="1">
-        <Description Translatable="1">If "DB" was selected for SessionModule, a column for the values in session table must be specified.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Session</SubGroup>
-        <Setting>
-            <String Regex="">session_value</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionSaveLoginPasswd" Required="1" Valid="1">

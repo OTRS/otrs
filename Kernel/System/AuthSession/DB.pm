@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.51 2012-10-01 15:11:11 mb Exp $
+# $Id: DB.pm,v 1.52 2012-10-22 16:50:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,11 @@ package Kernel::System::AuthSession::DB;
 
 use strict;
 use warnings;
+
 use Digest::MD5;
-use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,21 +31,11 @@ sub new {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
-    # get more common params
+    # get system id
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
 
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
-
-    # session table data
-    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
-
-    # id row
-    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('SessionTableID') || 'session_id';
-
-    # value row
-    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue')
-        || 'session_value';
+    # get session table
+    $Self->{SessionTable} = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
 
     return $Self;
 }
@@ -53,13 +43,12 @@ sub new {
 sub CheckSessionID {
     my ( $Self, %Param ) = @_;
 
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-
     # check session id
     if ( !$Param{SessionID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
+    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # set default message
     $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
@@ -93,15 +82,20 @@ sub CheckSessionID {
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfNotRemoteID') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
+
         return;
     }
 
     # check session idle time
     my $TimeNow            = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
+
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
+
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
@@ -112,14 +106,19 @@ sub CheckSessionID {
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
+
         return;
     }
 
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
+
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
+
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
+
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
@@ -129,8 +128,10 @@ sub CheckSessionID {
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
+
         return;
     }
+
     return 1;
 }
 
@@ -143,9 +144,6 @@ sub CheckSessionIDMessage {
 sub GetSessionIDData {
     my ( $Self, %Param ) = @_;
 
-    my $Strg = '';
-    my %Data;
-
     # check session id
     if ( !$Param{SessionID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
@@ -153,54 +151,43 @@ sub GetSessionIDData {
     }
 
     # check cache
-    if ( $Self->{Cache}->{ $Param{SessionID} } ) {
-        return %{ $Self->{Cache}->{ $Param{SessionID} } };
-    }
+    return %{ $Self->{Cache}->{ $Param{SessionID} } }
+        if $Self->{Cache}->{ $Param{SessionID} };
 
     # read data
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT $Self->{SQLSessionTableValue} FROM "
-            . " $Self->{SQLSessionTable} WHERE $Self->{SQLSessionTableID} = ?",
+        SQL  => "SELECT data_key, data_value FROM $Self->{SessionTable} WHERE id = ?",
         Bind => [ \$Param{SessionID} ],
     );
+
+    my %Session;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Strg = $Row[0];
+        $Session{ $Row[0] } = $Row[1];
     }
 
-    # split data
-    my @StrgData = split( /;/, $Strg );
-    for my $Line (@StrgData) {
-        my @PaarData = split( /:/, $Line );
-        $Data{ $PaarData[0] } = ${ $Self->_Decode( \$PaarData[1] ) };
-
-        # Debug
-        if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "GetSessionIDData: '$PaarData[0]:$Data{ $PaarData[0] }'",
-            );
-        }
+    if ( !%Session ) {
+        delete $Self->{Cache}->{ $Param{SessionID} };
+        return;
     }
 
     # cache result
-    $Self->{Cache}->{ $Param{SessionID} } = \%Data;
+    $Self->{Cache}->{ $Param{SessionID} } = \%Session;
 
-    # return data
-    return %Data;
+    return %Session;
 }
 
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
-    # get REMOTE_ADDR
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-
-    # get HTTP_USER_AGENT
+    # get remote address and the http user agent
+    my $RemoteAddr      = $ENV{REMOTE_ADDR}     || 'none';
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # create session id
+    # get system time
     my $TimeNow = $Self->{TimeObject}->SystemTime();
-    my $md5     = Digest::MD5->new();
+
+    # create session id
+    my $md5 = Digest::MD5->new();
     $md5->add(
         ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
@@ -211,23 +198,48 @@ sub CreateSessionID {
     $md5->add( $TimeNow . $SessionID );
     my $ChallengeToken = $md5->hexdigest;
 
-    # data 2 strg
-    my $DataToStore = '';
+    my %Data;
+    KEY:
     for my $Key ( keys %Param ) {
-        next if !defined $Param{$Key};
-        $DataToStore .= $Self->_Encode( $Key, $Param{$Key} );
-    }
-    $DataToStore .= $Self->_Encode( 'UserSessionStart',    $TimeNow );
-    $DataToStore .= $Self->_Encode( 'UserRemoteAddr',      $RemoteAddr );
-    $DataToStore .= $Self->_Encode( 'UserRemoteUserAgent', $RemoteUserAgent );
-    $DataToStore .= $Self->_Encode( 'UserChallengeToken',  $ChallengeToken );
 
-    # store SessionID + data
+        next KEY if !defined $Param{$Key};
+
+        $Data{$Key} = $Param{$Key};
+    }
+
+    $Data{UserSessionStart}    = $TimeNow;
+    $Data{UserRemoteAddr}      = $RemoteAddr;
+    $Data{UserRemoteUserAgent} = $RemoteUserAgent;
+    $Data{UserChallengeToken}  = $ChallengeToken;
+
+    my $SQLData = '';
+    my @Bind;
+    KEY:
+    for my $Key ( sort keys %Data ) {
+
+        next KEY if !$Key;
+        next KEY if !defined $Data{$Key};
+
+        push @Bind, \$SessionID;
+        push @Bind, \$Key;
+        push @Bind, \$Data{$Key};
+
+        $SQLData .= '(?,?,?),';
+    }
+
+    # remove the last character
+    chop $SQLData;
+
+    return if !@Bind;
+
+    # store session id and data
     return if !$Self->{DBObject}->Do(
-        SQL => "INSERT INTO $Self->{SQLSessionTable} "
-            . " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) VALUES (?, ?)",
-        Bind => [ \$SessionID, \$DataToStore ],
+        SQL  => "INSERT INTO $Self->{SessionTable} (id, data_key, data_value) VALUES " . $SQLData,
+        Bind => \@Bind,
     );
+
+    # set cache
+    $Self->{Cache}->{$SessionID} = \%Data;
 
     return $SessionID;
 }
@@ -241,9 +253,9 @@ sub RemoveSessionID {
         return;
     }
 
-    # delete db record
+    # delete session from the database
     return if !$Self->{DBObject}->Do(
-        SQL  => "DELETE FROM $Self->{SQLSessionTable} WHERE $Self->{SQLSessionTableID} = ?",
+        SQL  => "DELETE FROM $Self->{SessionTable} WHERE id = ?",
         Bind => [ \$Param{SessionID} ],
     );
 
@@ -255,6 +267,7 @@ sub RemoveSessionID {
         Priority => 'notice',
         Message  => "Removed SessionID $Param{SessionID}."
     );
+
     return 1;
 }
 
@@ -272,6 +285,8 @@ sub UpdateSessionID {
     # check cache
     if ( !$Self->{Cache}->{ $Param{SessionID} } ) {
         my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
+
+        $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
     }
 
     # update the value, set cache
@@ -283,86 +298,75 @@ sub UpdateSessionID {
 sub GetAllSessionIDs {
     my ( $Self, %Param ) = @_;
 
-    # read data
-    my @SessionIDs;
+    # get all session ids from the database
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT $Self->{SQLSessionTableID} FROM $Self->{SQLSessionTable}",
+        SQL => "SELECT DISTINCT(id) FROM $Self->{SessionTable}",
     );
+
+    # fetch the result
+    my @SessionIDs;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @SessionIDs, $Row[0];
     }
+
     return @SessionIDs;
 }
 
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    # delete db recodes
-    return if !$Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SQLSessionTable}" );
-    return 1;
-}
-
-sub _Encode {
-    my ( $Self, $Key, $Value ) = @_;
-
-    # set to bin string
-    $Self->{EncodeObject}->EncodeOutput( \$Value );
-
-    # encode data
-    my $Data = "$Key:" . encode_base64( $Value, '' ) . ':;';
-    return $Data;
-}
-
-sub _Decode {
-    my ( $Self, $Value ) = @_;
-
-    # check empty case
-    my $Empty = '';
-    return \$Empty if ( !defined ${$Value} || ${$Value} eq '' );
-
-    # decode and return
-    ${$Value} = decode_base64( ${$Value} );
-    $Self->{EncodeObject}->EncodeInput($Value);
-    return $Value;
-}
-
-sub _SyncToStorage {
-    my ( $Self, %Param ) = @_;
-
-    return 1 if !$Self->{Cache};
-
-    for my $SessionID ( keys %{ $Self->{Cache} } ) {
-        my %SessionData = %{ $Self->{Cache}->{$SessionID} };
-
-        # set new data sting
-        my $Data = '';
-        for my $Key ( keys %SessionData ) {
-            next if !defined $SessionData{$Key};
-            $Data .= $Self->_Encode( $Key, $SessionData{$Key} );
-
-            # Debug
-            if ( $Self->{Debug} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "UpdateSessionID: $Key=$SessionData{$Key}",
-                );
-            }
-        }
-
-        # update db enrty
-        return if !$Self->{DBObject}->Do(
-            SQL => "UPDATE $Self->{SQLSessionTable} SET "
-                . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
-            Bind => [ \$Data, \$SessionID ],
-        );
-    }
+    # delete all session data from database
+    return if !$Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SessionTable}" );
     return 1;
 }
 
 sub DESTROY {
     my ( $Self, %Param ) = @_;
 
-    $Self->_SyncToStorage();
+    return 1 if !$Self->{Cache};
+
+    SESSIONID:
+    for my $SessionID ( sort keys %{ $Self->{Cache} } ) {
+
+        next SESSIONID if !$SessionID;
+
+        my $SQLData = '';
+        my @Bind;
+        KEY:
+        for my $Key ( sort keys %{ $Self->{Cache}->{$SessionID} } ) {
+
+            next KEY if !$Key;
+
+            # extract key value pair
+            my $Value = $Self->{Cache}->{$SessionID}->{$Key};
+
+            next KEY if !defined $Value;
+
+            push @Bind, \$SessionID;
+            push @Bind, \$Key;
+            push @Bind, \$Value;
+
+            $SQLData .= '(?,?,?),';
+        }
+
+        # remove the last character
+        chop $SQLData;
+
+        # delete old session data from the database
+        return if !$Self->{DBObject}->Do(
+            SQL  => "DELETE FROM $Self->{SessionTable} WHERE id = ?",
+            Bind => [ \$SessionID ],
+        );
+
+        next SESSIONID if !@Bind;
+
+        # store session id and data
+        return if !$Self->{DBObject}->Do(
+            SQL => "INSERT INTO $Self->{SessionTable} (id, data_key, data_value) VALUES "
+                . $SQLData,
+            Bind => \@Bind,
+        );
+    }
 
     return 1;
 }

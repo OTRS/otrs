@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
 
+<!-- Drop old sessions table and create the new one -->
+<TableDrop Name="sessions"/>
+<TableCreate Name="sessions">
+    <Column Name="id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="data_value" Required="false" Size="10000" Type="VARCHAR"/>
+    <Unique Name="sessions_id_data_key">
+        <UniqueColumn Name="id"/>
+        <UniqueColumn Name="data_key"/>
+    </Unique>
+    <Index Name="sessions_id">
+        <IndexColumn Name="id"/>
+    </Index>
+</TableCreate>
+
 <!-- Drop unneeded fields in the ticket table -->
 <TableAlter Name="ticket">
     <ColumnDrop Name="group_read"/>
@@ -190,6 +205,5 @@ DefaultValue: ''
     <Data Key="change_by">1</Data>
     <Data Key="change_time">current_timestamp</Data>
 </Insert>
-
 
 </database>

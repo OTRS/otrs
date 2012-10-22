@@ -1302,7 +1302,6 @@
     </ForeignKey>
 </Table>
 
-
 <!-- service_sla - relation service<->sla -->
 <Table Name="service_sla">
     <Column Name="service_id" Required="true" Type="INTEGER"/>
@@ -1321,8 +1320,16 @@
 
 <!-- sessions -->
 <Table Name="sessions">
-    <Column Name="session_id" Required="true" Size="150" PrimaryKey="true" Type="VARCHAR"/>
-    <Column Name="session_value" Required="true" Size="25000" Type="VARCHAR"/>
+    <Column Name="id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="data_value" Required="false" Size="10000" Type="VARCHAR"/>
+    <Unique Name="sessions_id_data_key">
+        <UniqueColumn Name="id"/>
+        <UniqueColumn Name="data_key"/>
+    </Unique>
+    <Index Name="sessions_id">
+        <IndexColumn Name="id"/>
+    </Index>
 </Table>
 
 <!-- customer user -->
