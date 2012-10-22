@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.75 2012-09-14 12:09:54 mg Exp $
+# $Id: UPGRADING,v 1.76 2012-10-22 15:00:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -161,14 +161,26 @@ XXXXXXXXXXXXXXXXYZ.
     Now you can log into your system.
 
 
-11) Check installed packages
+11) Check 'Cache::Module' setting
+    -----------------------------
+
+    The file cache backend 'FileRaw' was removed in favor of the faster 'FileStorable'.
+    The DBUpdate-to-3.2.pl automatically updates the config setting 'Cache::Module', but
+    you need to change it manually if you defined this setting in Kernel/Config.pm directly.
+    It needs to be changed from 'Kernel::System::Cache::FileRaw' to
+    'Kernel::System::Cache::FileStorable'.
+
+
+12) Check installed packages
     ------------------------
+
     In the package manager, check if all packages are still marked as
     correctly installed or if any require reinstallation or even a package upgrade.
 
 
-12) Cleanup metadata of archived tickets
+13) Cleanup metadata of archived tickets
     ------------------------------------
+
     Note: This step only applies if you use the ticket archiving feature of OTRS.
 
     With OTRS 3.2, when tickets are archived, the information which agent read the
@@ -188,5 +200,5 @@ XXXXXXXXXXXXXXXXYZ.
     Ticket::ArchiveSystem::RemoveTicketWatchers
 
 
-13) Well done!
+14) Well done!
     ----------
