@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.130.2.5 2012-09-13 14:33:35 mb Exp $
+# $Id: Package.pm,v 1.130.2.6 2012-10-22 12:53:39 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.130.2.5 $) [1];
+$VERSION = qw($Revision: 1.130.2.6 $) [1];
 
 =head1 NAME
 
@@ -2288,23 +2288,20 @@ sub _CheckVersion {
         $Parts{ $Type . 'Num' } = scalar @ThisParts;
     }
 
-    # remove all version parts after the first three parts and increase
-    # the patchlevel if four version levels are found. --> Testrelease
+    # if it is not an external package, and the versions are different
+    # we want to add a 0 at the end of the shorter version number
+    # (1.2.3 will be modified to 1.2.3.0)
+    # This is important to compare with a test releaseversion number
     if ( !$Param{ExternalPackage} && $Parts{Version1Num} ne $Parts{Version2Num} ) {
 
         TYPE:
         for my $Type (qw(Version1 Version2)) {
 
-            next TYPE if $Parts{ $Type . 'Num' } <= 3;
+            next TYPE if $Parts{ $Type . 'Num' } > 3;
 
-            # extract parts
-            my @ThisParts = @{ $Parts{$Type} };
-
-            splice @ThisParts, 3;
-            $ThisParts[2]++;
-
-            $Parts{$Type} = \@ThisParts;
-            $Parts{ $Type . 'Num' } = scalar @ThisParts;
+            # add a zero at the end if number has less than 4 digits
+            push @{ $Parts{$Type} }, 0;
+            $Parts{ $Type . 'Num' } = scalar @{ $Parts{$Type} };
         }
     }
 
@@ -2845,6 +2842,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.130.2.5 $ $Date: 2012-09-13 14:33:35 $
+$Revision: 1.130.2.6 $ $Date: 2012-10-22 12:53:39 $
 
 =cut

@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.37.2.3 2012-09-14 13:58:16 mb Exp $
+# $Id: Package.t,v 1.37.2.4 2012-10-22 12:53:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -856,6 +856,13 @@ my @Tests = (
         ExternalPackage => 0,
         Result          => 0,
     },
+    {
+        Version1        => '1.1.5',
+        Version2        => '1.1.4.1',
+        Type            => 'Min',
+        ExternalPackage => 0,
+        Result          => 0,
+    },
 
     # maximum tests
     {
@@ -966,6 +973,13 @@ my @Tests = (
     {
         Version1        => '1.0.0.999',
         Version2        => '1.0.0.1',
+        Type            => 'Max',
+        ExternalPackage => 0,
+        Result          => 1,
+    },
+    {
+        Version1        => '1.1.5',
+        Version2        => '1.1.4.1',
         Type            => 'Max',
         ExternalPackage => 0,
         Result          => 1,
