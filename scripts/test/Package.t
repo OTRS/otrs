@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.43 2012-10-15 09:19:21 mg Exp $
+# $Id: Package.t,v 1.44 2012-10-22 13:17:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,6 +69,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -297,6 +298,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="de">Ein Test Paket.</Description>
   <PackageRequired Version="0.1">SomeNotExistingModule</PackageRequired>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -329,6 +331,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>NonExistingOS</OS>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -364,6 +367,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>freebsd</OS>
   <OS>MSWin32</OS>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -403,6 +407,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="0.1">SomeNotExistingModule</ModuleRequired>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -434,6 +439,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="12.999">Encode</ModuleRequired>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -466,6 +472,7 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -495,6 +502,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -525,6 +533,7 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -550,6 +559,7 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -583,6 +593,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -856,6 +867,13 @@ my @Tests = (
         ExternalPackage  => 0,
         Result           => 0,
     },
+    {
+        VersionNew       => '1.1.5',
+        VersionInstalled => '1.1.4.1',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
 
     # maximum tests
     {
@@ -970,6 +988,13 @@ my @Tests = (
         ExternalPackage  => 0,
         Result           => 1,
     },
+    {
+        VersionNew       => '1.1.5',
+        VersionInstalled => '1.1.4.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
 );
 
 for my $Test (@Tests) {
@@ -1007,6 +1032,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -1078,6 +1104,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <Framework>2.5.x</Framework>
   <Framework>2.4.x</Framework>
@@ -1159,6 +1186,7 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
   <Framework>3.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
@@ -1234,6 +1262,7 @@ if ( !$DeveloperSystem ) {
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
       <Framework>3.2.x</Framework>
+      <Framework>3.1.x</Framework>
       <Framework>3.0.x</Framework>
       <Framework>2.5.x</Framework>
       <Framework>2.4.x</Framework>
@@ -1315,6 +1344,7 @@ if ( !$DeveloperSystem ) {
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
       <Framework>3.2.x</Framework>
+      <Framework>3.1.x</Framework>
       <Framework>3.0.x</Framework>
       <Framework>2.5.x</Framework>
       <Framework>2.4.x</Framework>
