@@ -1,8 +1,8 @@
 # --
 # AuthSession.t - auth session tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.16 2010-10-29 13:18:21 en Exp $
+# $Id: AuthSession.t,v 1.17 2012-10-22 14:55:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,7 @@ for my $Module (qw(DB FS)) {
             UserEmail                => 'root@example.com',
             'LongStringNew' . $Count => $LongString,
             UserTest                 => 'SomeÄÖÜß.',
+            UserType                 => 'User',
         );
 
         # tests
