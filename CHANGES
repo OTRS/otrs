@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2471 2012-10-22 16:07:44 mg Exp $
+# $Id: CHANGES,v 1.2472 2012-10-22 16:24:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,8 @@
  - 2012-10-22 Fixed bug#7121 - Upgrading OTRS using RPM will not upgrade changed ITSM files.
  - 2012-10-22 Removed obsolete and slow cache backend FileRaw in favor of the better FileStorable.
     Config setting is updated automatically if needed.
- - 2012-10-22 Kernel::System::Web::Request::GetParam()/GetArray() now always perform whitespace trimming
+ - 2012-10-22 Fixed bug#1423 - Trim OTRS fields before processing.
+    Kernel::System::Web::Request::GetParam()/GetArray() now always perform whitespace trimming
     by default. Use Raw => 1 to get the unchanged data if you need it.
  - 2012-10-20 Fixed bug#8678 - 'WidgetAction Toggle' is always shown as 'Expanded' when nesting elements
  - 2012-10-20 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a
