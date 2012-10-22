@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.29 2012-10-15 11:55:37 mg Exp $
+# $Id: PreferencesPassword.pm,v 1.30 2012-10-22 13:47:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,18 +61,21 @@ sub Param {
             %Param,
             Key   => 'Current password',
             Name  => 'CurPw',
+            Raw   => 1,
             Block => 'Password'
         },
         {
             %Param,
             Key   => 'New password',
             Name  => 'NewPw',
+            Raw   => 1,
             Block => 'Password'
         },
         {
             %Param,
             Key   => 'Verify password',
             Name  => 'NewPw1',
+            Raw   => 1,
             Block => 'Password'
         },
     );

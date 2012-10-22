@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.41 2011-11-21 10:20:47 mg Exp $
+# $Id: Request.pm,v 1.42 2012-10-22 13:47:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -128,10 +128,12 @@ sub Error {
 
 =item GetParam()
 
-to get params
+to get single request parameters.
+By default, trimming is performed on the data.
 
     my $Param = $ParamObject->GetParam(
         Param => 'ID',
+        Raw   => 1,     # optional, input data is not changed
     );
 
 =cut
@@ -142,17 +144,13 @@ sub GetParam {
     my $Value = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->EncodeInput( \$Value );
 
-    if (
-        $Param{TrimLeft}
-        || $Param{TrimRight}
-        || $Param{RemoveAllNewlines}
-        || $Param{RemoveAllTabs}
-        || $Param{RemoveAllSpaces}
-        )
-    {
+    my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
+
+    if ( !$Raw ) {
         $Self->{CheckItemObject}->StringClean(
             StringRef => \$Value,
-            %Param,
+            TrimLeft  => 1,
+            TrimRight => 1,
         );
     }
 
@@ -191,9 +189,13 @@ sub GetParamNames {
 
 =item GetArray()
 
-to get array params
+to get array request parameters.
+By default, trimming is performed on the data.
 
-    my @Param = $ParamObject->GetArray( Param => 'ID' );
+    my @Param = $ParamObject->GetArray(
+        Param => 'ID',
+        Raw   => 1,     # optional, input data is not changed
+    );
 
 =cut
 
@@ -203,18 +205,14 @@ sub GetArray {
     my @Values = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->EncodeInput( \@Values );
 
-    if (
-        $Param{TrimLeft}
-        || $Param{TrimRight}
-        || $Param{RemoveAllNewlines}
-        || $Param{RemoveAllTabs}
-        || $Param{RemoveAllSpaces}
-        )
-    {
+    my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
+
+    if ( !$Raw ) {
         for my $Value (@Values) {
             $Self->{CheckItemObject}->StringClean(
                 StringRef => \$Value,
-                %Param,
+                TrimLeft  => 1,
+                TrimRight => 1,
             );
         }
     }
@@ -382,6 +380,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2011-11-21 10:20:47 $
+$Revision: 1.42 $ $Date: 2012-10-22 13:47:09 $
 
 =cut

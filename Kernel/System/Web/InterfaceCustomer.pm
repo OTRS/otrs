@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.63 2012-01-23 15:12:17 mb Exp $
+# $Id: InterfaceCustomer.pm,v 1.64 2012-10-22 13:47:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -196,8 +196,8 @@ sub Run {
         my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang} );
 
         # get params
-        my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' )     || '';
-        my $PostPw   = $Self->{ParamObject}->GetParam( Param => 'Password' ) || '';
+        my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
+        my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
 
         # create AuthObject
         my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
@@ -1067,6 +1067,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2012-01-23 15:12:17 $
+$Revision: 1.64 $ $Date: 2012-10-22 13:47:09 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.53 2012-01-06 12:38:40 mg Exp $
+# $Id: AgentPreferences.pm,v 1.54 2012-10-22 13:47:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,7 +112,10 @@ sub Run {
         my @Params = $Object->Param( UserData => \%UserData );
         my %GetParam;
         for my $ParamItem (@Params) {
-            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+            my @Array = $Self->{ParamObject}->GetArray(
+                Param => $ParamItem->{Name},
+                Raw => $ParamItem->{Raw} || 0,
+            );
             $GetParam{ $ParamItem->{Name} } = \@Array;
         }
         my $Message  = '';

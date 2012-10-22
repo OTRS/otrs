@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2468 2012-10-22 13:21:24 ub Exp $
+# $Id: CHANGES,v 1.2469 2012-10-22 13:47:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-22 Kernel::System::Web::Request::GetParam()/GetArray() now always perform whitespace trimming
+    by default. Use Raw => 1 to get the unchanged data if you need it.
  - 2012-10-20 Fixed bug#8678 - 'WidgetAction Toggle' is always shown as 'Expanded' when nesting elements
  - 2012-10-20 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a
     colon (:)
