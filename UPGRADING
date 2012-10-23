@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.77 2012-10-23 02:17:54 cr Exp $
+# $Id: UPGRADING,v 1.78 2012-10-23 08:25:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,6 +199,7 @@ XXXXXXXXXXXXXXXXYZ.
     Ticket::ArchiveSystem::RemoveSeenFlags
     Ticket::ArchiveSystem::RemoveTicketWatchers
 
+
 14) Review (Modify) ACLs for Dynamic Fields
     ------------------------------------
     Note: This step only applies if you use ACLs to limit Dynamic Fields Dropdown or Multiselect
@@ -254,6 +255,7 @@ XXXXXXXXXXXXXXXXYZ.
             },
         },
     };
+
 
 15) Well done!
     ----------
