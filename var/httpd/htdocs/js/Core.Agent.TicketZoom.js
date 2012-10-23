@@ -2,7 +2,7 @@
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.34.2.2 2012-04-26 12:23:01 mn Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.34.2.3 2012-10-23 11:27:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             $('#ArticleItems .WidgetBox').removeClass('Loading');
 
             // Scroll to new active article
-            TicketScrollerTop = parseInt($('#FixedTable tbody tr.Active').offset().top, 10) - parseInt($('#FixedTable tbody').offset().top, 10);
+            TicketScrollerTop = parseInt($('#FixedTable tbody tr.Active').position().top, 10) - parseInt($('#FixedTable tbody').offset().top, 10);
             $('div.Scroller').get(0).scrollTop = TicketScrollerTop;
 
             // Initiate URL hash check again
