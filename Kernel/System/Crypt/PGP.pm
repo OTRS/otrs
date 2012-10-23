@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.51 2011-01-25 23:26:10 dz Exp $
+# $Id: PGP.pm,v 1.52 2012-10-23 03:04:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -231,6 +231,7 @@ Inline sign:
 
     my %Result = $CryptObject->Verify(
         Message => $Message,
+        Charset => 'utf-8',             # optional, 'ISO-8859-1', 'UTF-8', etc.
     );
 
 Attached sign:
@@ -242,12 +243,12 @@ Attached sign:
 
 The returned hash %Result has the following keys:
 
-    SignatureFound => 1,        # was a signature found at all (0 or 1)
-    Successful     => 1,        # could the signature be verified (0 or 1)
-    KeyID          => 'FA23FB24'  # hex ID of PGP-key that was used for signing
+    SignatureFound => 1,                          # was a signature found at all (0 or 1)
+    Successful     => 1,                          # could the signature be verified (0 or 1)
+    KeyID          => 'FA23FB24'                  # hex ID of PGP-key that was used for signing
     KeyUserID      => 'username <user@test.org>'  # PGP-User-ID (e-mail address) used for signing
-    Message        => '...'       # descriptive text containing the result status
-    MessageLong    => '...'       # full output of GPG binary
+    Message        => '...'                       # descriptive text containing the result status
+    MessageLong    => '...'                       # full output of GPG binary
 
 =cut
 
@@ -258,6 +259,13 @@ sub Verify {
     if ( !$Param{Message} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Message!' );
         return;
+    }
+
+    # check if original mail was encoded as UTF8, UTF-8, utf8 or utf-8
+    if ( defined $Param{Charset} && $Param{Charset} =~ m{ utf -?? 8 }imsx ) {
+
+        # encode the message to be written into the FS
+        $Self->{EncodeObject}->EncodeOutput( \$Param{Message} );
     }
 
     my ( $FH, $File ) = $Self->{FileTempObject}->TempFile();
@@ -1106,6 +1114,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2011-01-25 23:26:10 $
+$Revision: 1.52 $ $Date: 2012-10-23 03:04:56 $
 
 =cut

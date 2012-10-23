@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.26 2012-10-17 20:40:16 cr Exp $
+# $Id: ArticleCheckPGP.pm,v 1.27 2012-10-23 03:04:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Crypt;
+use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +110,28 @@ sub Check {
 
     # check inline pgp signature
     if ( $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms ) {
-        %SignCheck = $Self->{CryptObject}->Verify( Message => $Param{Article}->{Body}, );
+
+        # get original message
+        my $Message = $Self->{TicketObject}->ArticlePlain(
+            ArticleID => $Self->{ArticleID},
+            UserID    => $Self->{UserID},
+        );
+
+        # create local email parser object
+        my $ParserObject = Kernel::System::EmailParser->new(
+            %{$Self},
+            Email => $Message,
+        );
+
+        # get the charset of the original message
+        my $Charset = $ParserObject->GetCharset();
+
+        # verify message PGP signature
+        %SignCheck = $Self->{CryptObject}->Verify(
+            Message => $Param{Article}->{Body},
+            Charset => $Charset
+        );
+
         if (%SignCheck) {
 
             # remember to result
