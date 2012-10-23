@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.264 2012-10-23 11:27:21 mn Exp $
+# $Id: CHANGES,v 1.1758.2.265 2012-10-23 13:48:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.18 ???-???-??
+ - 2012-10-23 Fixed bug#8566 - Cannot download attachment if filename has character #.
  - 2012-10-23 Fixed bug#8833 - Article table in TicketZoom does not scroll correctly.
  - 2012-10-23 Fixed bug#8673 - Richtext-Editor popups broken on Customer-Interface.
  - 2012-10-16 Fixed bug#8149 - Wrong handling of subject when SubjectFormat=right.

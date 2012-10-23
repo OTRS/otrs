@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.182.2.12 2012-08-17 09:01:22 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.182.2.13 2012-10-23 13:48:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -446,7 +446,7 @@ $Data{"ArticleItems"}
                                         <h3>
 # bugfix for bug#5579 - Spaces in filenames are converted to + characters when downloading in IE.
 # $QData{"Filename"} need to be the filename, take care that it is not $LQData{""}
-                                            <a href="$Env{"CGIHandle"}/$QData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
+                                            <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=AgentTicketAttachment;ArticleID=$LQData{"ArticleID"};FileID=$LQData{"FileID"}" $Data{"Target"}>$QData{"Filename"}</a>
                                         </h3>
                                         <p>$QData{"Filesize"}</p>
                                     </div>
