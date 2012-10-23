@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2476 2012-10-23 09:07:43 mn Exp $
+# $Id: CHANGES,v 1.2477 2012-10-23 09:34:29 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-23 Fixed bug#8861 - Placeholder container for multiple customer fields are being displayed though being empty.
  - 2012-10-23 Fixed bug#8673 - Richtext-Editor popups broken on Customer-Interface.
  - 2012-10-23 Upgraded CKEditor to version 3.6.5.
  - 2012-10-22 Fixed bug#8840 - Verifying signature of inline-pgp-signed email with utf8 characters

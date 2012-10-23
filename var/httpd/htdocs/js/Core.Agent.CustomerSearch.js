@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.41 2012-08-20 20:13:12 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.42 2012-10-23 09:33:53 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -452,6 +452,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         var TicketCustomerIDs = 0,
         TicketCustomerIDsCounter = 0,
         ObjectoToCheck,
+        $Field = Object.closest('.Field'),
         $Form;
 
         if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
@@ -472,6 +473,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             //set the first one as checked
             $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
         }
+
+        if ($Field.find('.CustomerTicketText:visible').length === 0) {
+            $Field.addClass('Hidden');
+        }        
 
         CheckPhoneCustomerCountLimit();
     };

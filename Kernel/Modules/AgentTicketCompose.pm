@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.167 2012-10-23 02:13:07 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.168 2012-10-23 09:33:58 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.167 $) [1];
+$VERSION = qw($Revision: 1.168 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1527,14 +1527,6 @@ sub _Mask {
         $Param{CcInvalid} = ''
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'Content',
-        Data => {
-            FormID => $Self->{FormID},
-            %Param,
-        },
-    );
-
     # Cc
     my $CustomerCounterCc = 0;
     if ( $Param{MultipleCustomerCc} ) {
@@ -1554,6 +1546,10 @@ sub _Mask {
             }
             $CustomerCounterCc++;
         }
+    }
+
+    if ( !$CustomerCounterCc ) {
+        $Param{CcCustomerHiddenContainer} = 'Hidden';
     }
 
     # set customer counter
@@ -1585,6 +1581,10 @@ sub _Mask {
         }
     }
 
+    if ( !$CustomerCounterBcc ) {
+        $Param{BccCustomerHiddenContainer} = 'Hidden';
+    }
+
     # set customer counter
     $Self->{LayoutObject}->Block(
         Name => 'BccMultipleCustomerCounter',
@@ -1613,6 +1613,18 @@ sub _Mask {
             $CustomerCounter++;
         }
     }
+
+    if ( !$CustomerCounter ) {
+        $Param{CustomerHiddenContainer} = 'Hidden';
+    }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Content',
+        Data => {
+            FormID => $Self->{FormID},
+            %Param,
+        },
+    );
 
     # set customer counter
     $Self->{LayoutObject}->Block(

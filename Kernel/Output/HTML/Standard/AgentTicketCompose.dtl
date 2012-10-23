@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.106 2012-05-25 13:32:13 mg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.107 2012-10-23 09:33:58 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <div class="Field">
+                    <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
                             <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="$QData{"To"}" />
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -130,7 +130,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:PreFilledTo -->
 
-                    <div class="Field">
+                    <div class="Field $QData{"CcCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                             <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -197,7 +197,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:PreFilledCc -->
 
-                    <div class="Field">
+                    <div class="Field $QData{"BccCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                             <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
