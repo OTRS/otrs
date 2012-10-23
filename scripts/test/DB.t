@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.88.2.1 2012-08-06 14:46:37 mg Exp $
+# $Id: DB.t,v 1.88.2.2 2012-10-23 11:46:58 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3227,4 +3227,78 @@ for my $Test (@Tests) {
         'QueryStringEscape - ' . $Test->{Name}
     );
 }
+
+# ------------------------------------------------------------ #
+# XML test 11 (XML:TableCreate, XML:TableAlter,
+# SQL:Insert (size check),  XML:TableDrop)
+# ------------------------------------------------------------ #
+$XML = '
+<TableCreate Name="test_a">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
+    <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
+</TableCreate>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#11 SQLProcessor() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#11 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+$XML = '
+<TableAlter Name="test_a">
+    <ColumnChange NameOld="name_a" NameNew="name_a" Type="varchar" Size="1800000" Required="false"/>
+    <ColumnChange NameOld="name_b" NameNew="name_b" Type="varchar" Size="1800000" Required="true"/>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#11 SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#11 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+# both values have the exact max size
+my $ValueA = 'A' x 1800000;
+my $ValueB = 'B' x 1800000;
+
+$Self->True(
+    $DBObject->Do(
+        SQL => 'INSERT INTO test_a (name_a, name_b) VALUES (?, ?)',
+        Bind => [ \$ValueA, \$ValueB ],
+        )
+        || 0,
+    '#11 Do() SQL INSERT 1',
+);
+
+$XML      = '<TableDrop Name="test_a"/>';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#11 SQLProcessor() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#11 Do() DROP TABLE ($SQL)",
+    );
+}
+
 1;
