@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.17 $
+ * @version     $Revision: 1.18 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -91,6 +91,11 @@ label {
     margin: 0 0 0 8px;
     float: right;
     text-align: left;
+}
+
+/* Fix bug#8673: labels in CKEditor  popups should be ignored by our css */
+.cke_skin_default label {
+    float: none;
 }
 
 /**
