@@ -40,9 +40,14 @@ function postWords() {
 	bodyDoc.write('<html>');
 	bodyDoc.write('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">');
 	bodyDoc.write('<link rel="stylesheet" type="text/css" href="spellerStyle.css"/>');
-	
+
 	if (opener) {
-		var speller = opener.speller;
+		var speller = opener.speller,
+// ---
+// OTRS
+		SessionName = opener.Core.Config.Get('SessionName'),
+		SessionID = opener.Core.Config.Get('SessionID');
+// ---
 		bodyDoc.write('<body class="normalText" onLoad="document.forms[0].submit();">');
 		bodyDoc.write('<p>' + window.parent.FCKLang.DlgSpellProgress + '<\/p>');		// by FredCK
 		bodyDoc.write('<form action="'+speller.spellCheckScript+'" method="post">');
@@ -50,6 +55,7 @@ function postWords() {
 // OTRS
 		bodyDoc.write('<input type="hidden" name="Action" value="SpellingInline">');
 		bodyDoc.write('<input type="hidden" name="Subaction" value="Inline">');
+		bodyDoc.write('<input type="hidden" name="' + SessionName + '" value="' + SessionID + '">');
 // ---
 		for( var i = 0; i < speller.textInputs.length; i++ ) {
 			bodyDoc.write('<input type="hidden" name="textinputs[]" value="'+encodeForPost(speller.textInputs[i].value)+'">');
