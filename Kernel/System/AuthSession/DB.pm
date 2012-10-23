@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.52 2012-10-22 16:50:38 mh Exp $
+# $Id: DB.pm,v 1.53 2012-10-23 08:24:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Digest::MD5;
+use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,13 +157,24 @@ sub GetSessionIDData {
 
     # read data
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT data_key, data_value FROM $Self->{SessionTable} WHERE id = ?",
+        SQL  => "SELECT data_key, data_value, serialized FROM $Self->{SessionTable} WHERE id = ?",
         Bind => [ \$Param{SessionID} ],
     );
 
     my %Session;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Session{ $Row[0] } = $Row[1];
+
+        # deserialize data if needed
+        if ( $Row[2] ) {
+            my $Value = eval { Storable::thaw( $Row[1] ) };
+
+            $Self->{EncodeObject}->EncodeOutput( \$Value );
+
+            $Session{ $Row[0] } = $Value;
+        }
+        else {
+            $Session{ $Row[0] } = $Row[1];
+        }
     }
 
     if ( !%Session ) {
@@ -214,18 +226,14 @@ sub CreateSessionID {
 
     my $SQLData = '';
     my @Bind;
-    KEY:
-    for my $Key ( sort keys %Data ) {
 
-        next KEY if !$Key;
-        next KEY if !defined $Data{$Key};
-
-        push @Bind, \$SessionID;
-        push @Bind, \$Key;
-        push @Bind, \$Data{$Key};
-
-        $SQLData .= '(?,?,?),';
-    }
+    # create sql data
+    $Self->_SQLCreate(
+        Data      => \%Data,
+        SQLData   => \$SQLData,
+        Bind      => \@Bind,
+        SessionID => $SessionID,
+    );
 
     # remove the last character
     chop $SQLData;
@@ -234,7 +242,8 @@ sub CreateSessionID {
 
     # store session id and data
     return if !$Self->{DBObject}->Do(
-        SQL  => "INSERT INTO $Self->{SessionTable} (id, data_key, data_value) VALUES " . $SQLData,
+        SQL => "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES "
+            . $SQLData,
         Bind => \@Bind,
     );
 
@@ -320,6 +329,43 @@ sub CleanUp {
     return 1;
 }
 
+sub _SQLCreate {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{SessionID};
+    return if !defined $Param{SQLData};
+    return if !$Param{Data};
+    return if ref $Param{Data} ne 'HASH';
+    return if !$Param{Bind};
+    return if ref $Param{Bind} ne 'ARRAY';
+
+    KEY:
+    for my $Key ( sort keys %{ $Param{Data} } ) {
+
+        next KEY if !$Key;
+        next KEY if !defined $Param{Data}->{$Key};
+
+        my $Value      = $Param{Data}->{$Key};
+        my $Serialized = 0;
+
+        if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+
+            # dump the data
+            $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+            $Serialized = 1;
+        }
+
+        push @{ $Param{Bind} }, \$Param{SessionID};
+        push @{ $Param{Bind} }, \$Key;
+        push @{ $Param{Bind} }, \$Value;
+        push @{ $Param{Bind} }, \$Serialized;
+
+        ${ $Param{SQLData} } .= '(?,?,?,?),';
+    }
+
+    return 1;
+}
+
 sub DESTROY {
     my ( $Self, %Param ) = @_;
 
@@ -332,22 +378,14 @@ sub DESTROY {
 
         my $SQLData = '';
         my @Bind;
-        KEY:
-        for my $Key ( sort keys %{ $Self->{Cache}->{$SessionID} } ) {
 
-            next KEY if !$Key;
-
-            # extract key value pair
-            my $Value = $Self->{Cache}->{$SessionID}->{$Key};
-
-            next KEY if !defined $Value;
-
-            push @Bind, \$SessionID;
-            push @Bind, \$Key;
-            push @Bind, \$Value;
-
-            $SQLData .= '(?,?,?),';
-        }
+        # create sql data
+        $Self->_SQLCreate(
+            Data      => $Self->{Cache}->{$SessionID},
+            SQLData   => \$SQLData,
+            Bind      => \@Bind,
+            SessionID => $SessionID,
+        );
 
         # remove the last character
         chop $SQLData;
@@ -362,11 +400,15 @@ sub DESTROY {
 
         # store session id and data
         return if !$Self->{DBObject}->Do(
-            SQL => "INSERT INTO $Self->{SessionTable} (id, data_key, data_value) VALUES "
+            SQL =>
+                "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES "
                 . $SQLData,
             Bind => \@Bind,
         );
     }
+
+    # remove cached data
+    delete $Self->{Cache};
 
     return 1;
 }

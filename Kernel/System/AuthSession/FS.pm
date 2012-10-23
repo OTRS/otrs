@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.47 2012-10-14 21:21:22 mh Exp $
+# $Id: FS.pm,v 1.48 2012-10-23 08:24:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,11 @@ use strict;
 use warnings;
 umask 002;
 
-use Storable;
 use Digest::MD5;
+use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -368,6 +368,9 @@ sub DESTROY {
             DisableWarnings => 1,
         );
     }
+
+    # remove cached data
+    delete $Self->{Cache};
 
     return 1;
 }

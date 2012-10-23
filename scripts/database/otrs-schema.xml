@@ -1323,6 +1323,7 @@
     <Column Name="id" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="data_key" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="data_value" Required="false" Size="10000" Type="VARCHAR"/>
+    <Column Name="serialized" Required="true" Type="SMALLINT"/>
     <Unique Name="sessions_id_data_key">
         <UniqueColumn Name="id"/>
         <UniqueColumn Name="data_key"/>
