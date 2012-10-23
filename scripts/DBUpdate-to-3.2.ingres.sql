@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-08-17 12:53:16
+--  driver: ingres, generated: 2012-10-23 09:54:07
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -25,9 +25,9 @@ ALTER TABLE ticket DROP COLUMN ticket_answered RESTRICT;\g
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN group_id RESTRICT;\g
-CREATE SEQUENCE pm_process_354;\g
+CREATE SEQUENCE pm_process_960;\g
 CREATE TABLE pm_process (
-    id INTEGER NOT NULL DEFAULT pm_process_354.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_process_960.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     state_entity_id VARCHAR(50) NOT NULL,
@@ -41,9 +41,9 @@ CREATE TABLE pm_process (
 );\g
 MODIFY pm_process TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_process ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_592;\g
+CREATE SEQUENCE pm_activity_481;\g
 CREATE TABLE pm_activity (
-    id INTEGER NOT NULL DEFAULT pm_activity_592.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_481.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE pm_activity (
 );\g
 MODIFY pm_activity TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_activity ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_dialog_958;\g
+CREATE SEQUENCE pm_activity_dialog_589;\g
 CREATE TABLE pm_activity_dialog (
-    id INTEGER NOT NULL DEFAULT pm_activity_dialog_958.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_dialog_589.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE pm_activity_dialog (
 );\g
 MODIFY pm_activity_dialog TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_activity_dialog ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_transition_106;\g
+CREATE SEQUENCE pm_transition_496;\g
 CREATE TABLE pm_transition (
-    id INTEGER NOT NULL DEFAULT pm_transition_106.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_transition_496.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -83,9 +83,9 @@ CREATE TABLE pm_transition (
 );\g
 MODIFY pm_transition TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_transition ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_transition_action_954;\g
+CREATE SEQUENCE pm_transition_action_466;\g
 CREATE TABLE pm_transition_action (
-    id INTEGER NOT NULL DEFAULT pm_transition_action_954.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_transition_action_466.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -127,6 +127,15 @@ INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type,
 INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
+DROP TABLE sessions;\g
+CREATE TABLE sessions (
+    id VARCHAR(100) NOT NULL,
+    data_key VARCHAR(100) NOT NULL,
+    data_value VARCHAR(10000),
+    UNIQUE (id, data_key)
+);\g
+MODIFY sessions TO btree;\g
+CREATE INDEX sessions_id ON sessions (id);\g
 ALTER TABLE pm_process ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE pm_process ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE pm_activity ADD FOREIGN KEY (create_by) REFERENCES users(id);\g

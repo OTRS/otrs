@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-08-17 12:53:16
+--  driver: postgresql, generated: 2012-10-23 09:54:07
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -145,6 +145,17 @@ INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type,
 INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
+DROP TABLE sessions;
+-- ----------------------------------------------------------
+--  create table sessions
+-- ----------------------------------------------------------
+CREATE TABLE sessions (
+    id VARCHAR (100) NOT NULL,
+    data_key VARCHAR (100) NOT NULL,
+    data_value VARCHAR NULL,
+    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
+);
+CREATE INDEX sessions_id ON sessions (id);
 SET standard_conforming_strings TO ON;
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
