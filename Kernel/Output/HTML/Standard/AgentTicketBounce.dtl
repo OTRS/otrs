@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.55 2012-10-10 10:26:39 mb Exp $
+# $Id: AgentTicketBounce.dtl,v 1.56 2012-10-23 12:53:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,10 +40,6 @@
         </div>
 
         <div class="Content">
-
-            <div class="Header">
-                <h2>$Text{"Options"}</h2>
-            </div>
 
             <fieldset class="TableLike FixedLabel">
                 <label for="BounceTo">$Text{"Bounce to"}:</label>

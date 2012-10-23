@@ -1,8 +1,8 @@
 # --
 # AgentTicketCustomer.dtl - provides HTML for AgentTicketCustomer.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.37 2011-01-27 10:35:37 bes Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.38 2012-10-23 12:53:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,9 +33,6 @@ $Include{"AgentCustomerSearch"}
 
 
             <div class="ContentColumn">
-                <div class="Header">
-                    <h2>$Text{"Options"}</h2>
-                </div>
                 <div class="Content">
                     <form action="$Env{"CGIHandle"}" id="MainForm" method="post" name="compose" class="Validate">
                         <input type="hidden" name="Action" value="$Env{"Action"}"/>

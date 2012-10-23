@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.86 2012-05-25 13:32:13 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.87 2012-10-23 12:53:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,10 +39,6 @@
 
         </div>
         <div class="Content">
-
-            <div class="Header">
-                <h2>$Text{"Options"}</h2>
-            </div>
 
             <div class="Content">
                 <fieldset class="TableLike FixedLabel">

@@ -1,8 +1,8 @@
 # --
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.70 2011-06-01 15:22:30 mb Exp $
+# $Id: AgentTicketBulk.dtl,v 1.71 2012-10-23 12:53:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,10 +24,6 @@
             </p>
         </div>
         <div class="Content">
-
-            <div class="Header">
-                <h2>$Text{"Options"}</h2>
-            </div>
 
             <div class="Content">
 <!-- dtl:block:UsedTicketID -->
