@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.57 2012-01-24 00:08:45 cr Exp $
+# $Id: AgentTicketMerge.pm,v 1.58 2012-10-23 13:03:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,6 +206,11 @@ sub Run {
 
             # add rich text editor
             if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+                # use height/width defined for this screen
+                $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+                $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
                 $Self->{LayoutObject}->Block(
                     Name => 'RichText',
                     Data => \%Param,
@@ -254,6 +259,11 @@ sub Run {
 
             # add rich text editor
             if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+                # use height/width defined for this screen
+                $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+                $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
                 $Self->{LayoutObject}->Block(
                     Name => 'RichText',
                     Data => \%Param,
@@ -400,6 +410,11 @@ sub Run {
 
         # add rich text editor
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+            # use height/width defined for this screen
+            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,

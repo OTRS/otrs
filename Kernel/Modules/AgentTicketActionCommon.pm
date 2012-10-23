@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.94 2012-10-23 02:13:07 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.95 2012-10-23 13:03:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1487,6 +1487,11 @@ sub _Mask {
 
         # add rich text editor
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+            # use height/width defined for this screen
+            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
