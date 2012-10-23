@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.38 $
+ * @version     $Revision: 1.39 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -196,6 +196,7 @@ form label.Mandatory span.Marker {
     position: relative;
     top: 0.35em;
     line-height: 1px;
+    right: 2px;
 }
 
 form label.LabelError {
@@ -236,9 +237,11 @@ fieldset.TableLike > .Row > label {
     width: 30%;
     text-align: right;
     color: #929292;
-    padding-top: 3px;
-    padding-bottom: 3px;
     text-shadow: 0 1px 0 #FAFAFA;
+    min-height: 17px;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    padding-left: 0px;
 }
 
 .RTL fieldset.TableLike > label,
@@ -253,10 +256,9 @@ fieldset.TableLike > .Row > .Field {
     margin-left: 30%;
     margin-right: 0;
     padding-top: 3px;
-    padding-left: 10px;
-    padding-right: 0;
     padding-bottom: 3px;
-    min-height: 16px;
+    padding-left: 10px;
+    min-height: 20px;
 }
 
 .RTL fieldset.TableLike > .Field,
