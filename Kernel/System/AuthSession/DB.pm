@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.53 2012-10-23 08:24:19 mh Exp $
+# $Id: DB.pm,v 1.54 2012-10-23 09:54:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,7 +54,7 @@ sub CheckSessionID {
     # set default message
     $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
 
-    # session id check
+    # get session data
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
@@ -179,6 +179,7 @@ sub GetSessionIDData {
 
     if ( !%Session ) {
         delete $Self->{Cache}->{ $Param{SessionID} };
+        delete $Self->{CacheUpdate}->{ $Param{SessionID} };
         return;
     }
 
@@ -270,6 +271,7 @@ sub RemoveSessionID {
 
     # reset cache
     delete $Self->{Cache}->{ $Param{SessionID} };
+    delete $Self->{CacheUpdate}->{ $Param{SessionID} };
 
     # log event
     $Self->{LogObject}->Log(
@@ -299,7 +301,8 @@ sub UpdateSessionID {
     }
 
     # update the value, set cache
-    $Self->{Cache}->{ $Param{SessionID} }->{ $Param{Key} } = $Param{Value};
+    $Self->{Cache}->{ $Param{SessionID} }->{ $Param{Key} }       = $Param{Value};
+    $Self->{CacheUpdate}->{ $Param{SessionID} }->{ $Param{Key} } = $Param{Value};
 
     return 1;
 }
@@ -319,6 +322,63 @@ sub GetAllSessionIDs {
     }
 
     return @SessionIDs;
+}
+
+sub GetExpiredSessionIDs {
+    my ( $Self, %Param ) = @_;
+
+    # get config
+    my $MaxSessionTime     = $Self->{ConfigObject}->Get('SessionMaxTime');
+    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
+    # get current time
+    my $SystemTime = $Self->{TimeObject}->SystemTime();
+
+    # get all needed timestamps to investigate the expired sessions
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT id, data_key, data_value FROM $Self->{SessionTable} "
+            . "WHERE id = ? AND ( data_key = 'UserSessionStart' OR data_key = 'UserLastRequest' )",
+        Bind => [ \$Param{SessionID} ],
+    );
+
+    my %SessionData;
+    ROW:
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        next ROW if !$Row[0];
+        next ROW if !$Row[1];
+
+        $SessionData{ $Row[0] }->{ $Row[1] } = $Row[2];
+    }
+
+    my @ExpiredSession;
+    my @ExpiredIdle;
+    SESSIONID:
+    for my $SessionID ( sort keys %SessionData ) {
+
+        next SESSIONID if !$SessionID;
+        next SESSIONID if !$SessionData{$SessionID};
+
+        # get needed timestamps
+        my $UserSessionStart = $SessionData{$SessionID}->{UserSessionStart} || 0;
+        my $UserLastRequest  = $SessionData{$SessionID}->{UserLastRequest}  || 0;
+
+        # time calculation
+        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $SystemTime;
+        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $SystemTime;
+
+        # delete invalid session time
+        if ( $ValidTime <= 0 ) {
+            push @ExpiredSession, $SessionID;
+        }
+
+        # delete invalid idle session time
+        elsif ( $ValidIdleTime <= 0 ) {
+            push @ExpiredIdle, $SessionID;
+        }
+    }
+
+    return ( \@ExpiredSession, \@ExpiredIdle );
 }
 
 sub CleanUp {
@@ -376,12 +436,19 @@ sub DESTROY {
 
         next SESSIONID if !$SessionID;
 
+        my $Data       = $Self->{Cache}->{$SessionID};
+        my $UpdateMode = 0;
+        if ( $Self->{CacheUpdate}->{$SessionID} ) {
+            $Data       = $Self->{CacheUpdate}->{$SessionID};
+            $UpdateMode = 1;
+        }
+
         my $SQLData = '';
         my @Bind;
 
         # create sql data
         $Self->_SQLCreate(
-            Data      => $Self->{Cache}->{$SessionID},
+            Data      => $Data,
             SQLData   => \$SQLData,
             Bind      => \@Bind,
             SessionID => $SessionID,
@@ -390,25 +457,42 @@ sub DESTROY {
         # remove the last character
         chop $SQLData;
 
-        # delete old session data from the database
-        return if !$Self->{DBObject}->Do(
-            SQL  => "DELETE FROM $Self->{SessionTable} WHERE id = ?",
-            Bind => [ \$SessionID ],
-        );
+        if ($UpdateMode) {
+
+            KEY:
+            for my $Key ( sort keys %{ $Self->{CacheUpdate}->{$SessionID} } ) {
+
+                next KEY if !$Key;
+
+                # delete old session data from the database
+                $Self->{DBObject}->Do(
+                    SQL => "DELETE FROM $Self->{SessionTable} WHERE id = ? AND data_key = ?",
+                    Bind => [ \$SessionID, \$Key ],
+                );
+            }
+        }
+        else {
+
+            # delete old session data from the database
+            $Self->{DBObject}->Do(
+                SQL  => "DELETE FROM $Self->{SessionTable} WHERE id = ?",
+                Bind => [ \$SessionID ],
+            );
+        }
 
         next SESSIONID if !@Bind;
 
         # store session id and data
         return if !$Self->{DBObject}->Do(
-            SQL =>
-                "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES "
-                . $SQLData,
+            SQL => "INSERT INTO $Self->{SessionTable} "
+                . "(id, data_key, data_value, serialized) VALUES " . $SQLData,
             Bind => \@Bind,
         );
     }
 
     # remove cached data
     delete $Self->{Cache};
+    delete $Self->{CacheUpdate};
 
     return 1;
 }

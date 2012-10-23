@@ -3,7 +3,7 @@
 # bin/otrs.DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteSessionIDs.pl,v 1.8 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.DeleteSessionIDs.pl,v 1.9 2012-10-23 09:54:25 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -52,7 +52,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SessionObject} = Kernel::System::AuthSession->new( %CommonObject, CMD => 1, );
+$CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 
 # check args
 my $Command = shift || '--help';
@@ -61,9 +61,14 @@ print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 # show/delete all session ids
 if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
+
     print " Working on all session ids:\n";
+
+    # get all sessions
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
+
     for my $SessionID (@List) {
+
         if ( $Command eq '--showall' ) {
             print " SessionID $SessionID!\n";
         }
@@ -74,6 +79,7 @@ if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
             print " Warning: Can't delete SessionID $SessionID!\n";
         }
     }
+
     exit 0;
 }
 
@@ -86,6 +92,7 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
 
     # expired session
     for my $SessionID ( @{ $Expired[0] } ) {
+
         if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID expired!\n";
         }
@@ -99,6 +106,7 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
 
     # idle session
     for my $SessionID ( @{ $Expired[1] } ) {
+
         if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID idle timeout!\n";
         }
@@ -109,17 +117,17 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
             print " Warning: Can't delete SessionID $SessionID!\n";
         }
     }
+
     exit 0;
 }
 
 # show usage
-else {
-    print "usage: $0 [options] \n";
-    print "  Options are as follows:\n";
-    print "  --help          display this option help\n";
-    print "  --showexpired   show all expired session ids\n";
-    print "  --expired       delete all expired session ids\n";
-    print "  --showall       show all session ids\n";
-    print "  --all           delete all session ids\n";
-    exit 1;
-}
+print "usage: $0 [options] \n";
+print "  Options are as follows:\n";
+print "  --help          display this option help\n";
+print "  --showexpired   show all expired session ids\n";
+print "  --expired       delete all expired session ids\n";
+print "  --showall       show all session ids\n";
+print "  --all           delete all session ids\n";
+
+exit 1;

@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.48 2012-10-12 19:35:32 mh Exp $
+# $Id: AuthSession.pm,v 1.49 2012-10-23 09:54:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -92,6 +92,8 @@ sub new {
     # get configured session backend
     my $GenericModule = $Self->{ConfigObject}->Get('SessionModule');
     $GenericModule ||= 'Kernel::System::AuthSession::DB';
+
+    $GenericModule = 'Kernel::System::AuthSession::DB';
 
     # load session backend module
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
@@ -239,50 +241,7 @@ returns a array with expired session ids
 sub GetExpiredSessionIDs {
     my ( $Self, %Param ) = @_;
 
-    # get config
-    my $MaxSessionTime     = $Self->{ConfigObject}->Get('SessionMaxTime');
-    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-
-    # get current time
-    my $SystemTime = $Self->{TimeObject}->SystemTime();
-
-    # get all session ids
-    my @List = $Self->{Backend}->GetAllSessionIDs();
-
-    my @ExpiredSession;
-    my @ExpiredIdle;
-    SESSIONID:
-    for my $SessionID (@List) {
-
-        next SESSIONID if !$SessionID;
-
-        # get session data
-        my %SessionData = $Self->GetSessionIDData(
-            SessionID => $SessionID,
-        );
-
-        next SESSIONID if !%SessionData;
-
-        # get needed timestamps
-        my $UserSessionStart = $SessionData{UserSessionStart} || 0;
-        my $UserLastRequest  = $SessionData{UserLastRequest}  || 0;
-
-        # time calculation
-        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $SystemTime;
-        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $SystemTime;
-
-        # delete invalid session time
-        if ( $ValidTime <= 0 ) {
-            push @ExpiredSession, $SessionID;
-        }
-
-        # delete invalid idle session time
-        elsif ( $ValidIdleTime <= 0 ) {
-            push @ExpiredIdle, $SessionID;
-        }
-    }
-
-    return ( \@ExpiredSession, \@ExpiredIdle );
+    return $Self->{Backend}->GetExpiredSessionIDs(%Param);
 }
 
 =item GetAllSessionIDs()
@@ -327,6 +286,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2012-10-12 19:35:32 $
+$Revision: 1.49 $ $Date: 2012-10-23 09:54:25 $
 
 =cut

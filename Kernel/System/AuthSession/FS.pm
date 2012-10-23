@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.48 2012-10-23 08:24:19 mh Exp $
+# $Id: FS.pm,v 1.49 2012-10-23 09:54:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,6 +309,55 @@ sub GetAllSessionIDs {
     }
 
     return @SessionIDs;
+}
+
+sub GetExpiredSessionIDs {
+    my ( $Self, %Param ) = @_;
+
+    # get config
+    my $MaxSessionTime     = $Self->{ConfigObject}->Get('SessionMaxTime');
+    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
+    # get current time
+    my $SystemTime = $Self->{TimeObject}->SystemTime();
+
+    # get all session ids
+    my @List = $Self->GetAllSessionIDs();
+
+    my @ExpiredSession;
+    my @ExpiredIdle;
+    SESSIONID:
+    for my $SessionID (@List) {
+
+        next SESSIONID if !$SessionID;
+
+        # get session data
+        my %SessionData = $Self->GetSessionIDData(
+            SessionID => $SessionID,
+        );
+
+        next SESSIONID if !%SessionData;
+
+        # get needed timestamps
+        my $UserSessionStart = $SessionData{UserSessionStart} || 0;
+        my $UserLastRequest  = $SessionData{UserLastRequest}  || 0;
+
+        # time calculation
+        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $SystemTime;
+        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $SystemTime;
+
+        # delete invalid session time
+        if ( $ValidTime <= 0 ) {
+            push @ExpiredSession, $SessionID;
+        }
+
+        # delete invalid idle session time
+        elsif ( $ValidIdleTime <= 0 ) {
+            push @ExpiredIdle, $SessionID;
+        }
+    }
+
+    return ( \@ExpiredSession, \@ExpiredIdle );
 }
 
 sub CleanUp {
