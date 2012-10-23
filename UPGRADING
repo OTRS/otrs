@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.76 2012-10-22 15:00:21 mg Exp $
+# $Id: UPGRADING,v 1.77 2012-10-23 02:17:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,6 +199,61 @@ XXXXXXXXXXXXXXXXYZ.
     Ticket::ArchiveSystem::RemoveSeenFlags
     Ticket::ArchiveSystem::RemoveTicketWatchers
 
+14) Review (Modify) ACLs for Dynamic Fields
+    ------------------------------------
+    Note: This step only applies if you use ACLs to limit Dynamic Fields Dropdown or Multiselect
+    possible values.
 
-14) Well done!
+    Now in OTRS 3.2 the Possible and PossibleNot ACL sections for Dynamic Fields Dropdown and
+    Multiselect must refer to the key (internal values) rather than the value (shown values).
+
+    Example:
+    For the defined field "Dropdown1"  with possible values:
+    1 => 'A',
+    2 => 'B',
+    3 => 'C',
+
+    ACLs prior OTRS 3.2 should look like:
+
+    $Self->{TicketAcl}->{'Limit Dropdown1 entries'} = {
+       Properties => {},
+       Possible => {
+           Ticket => {
+               # White list entries with VALUES containing 'B' and 'C'
+               DynamicField_Dropdown1 => [ 'B', 'C' ],
+           },
+       },
+    };
+
+    ACLs must be modified to:
+
+    $Self->{TicketAcl}->{'Limit Dropdown1 entries'} = {
+       Properties => {},
+       Possible => {
+           Ticket => {
+               # White list entries with VALUES containing 'B' and 'C' (now using KEYS)
+               DynamicField_Dropdown1 => [ '2', '3' ],
+           },
+       },
+    };
+
+    By doing this change ACLs will look much more consistent, since Possible and PossibleDatabase
+    sections already use Keys instead of Values, please look at the following example:
+
+    $Self->{TicketAcl}->{'Limit Dropdown1 entries based in Dropdown2'} = {
+        Properties => {
+            Ticket => {
+                # Match on the DeopDown2 KEY '1'
+                DynamicField_Dwondown2 => ['1'],
+            },
+        },
+        Possible => {
+            Ticket => {
+                # White list Dropdown1 entries with VALUES containing 'B' and 'C' (now using KEYS)
+                DynamicField_Dropdown1 => ['1', '2'],
+            },
+        },
+    };
+
+15) Well done!
     ----------
