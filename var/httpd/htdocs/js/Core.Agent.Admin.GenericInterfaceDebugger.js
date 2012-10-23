@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Admin.GenericInterfaceDebugger.js - provides the special module functions for the GenericInterface debugger.
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceDebugger.js,v 1.6 2011-07-27 23:31:29 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceDebugger.js,v 1.7 2012-10-23 20:59:41 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -140,6 +140,11 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
                     $Container.append($Header);
 
                     if (this.Data && this.Data.length) {
+
+                        // quote XML tags
+                        this.Data = this.Data.replace( new RegExp("<","gm"),"&lt;");
+                        this.Data = this.Data.replace( new RegExp(">","gm"),"&gt;");
+
                         $Content.append('<pre><code>' + this.Data + '</code></pre>');
                     }
                     $Container.append($Content);
