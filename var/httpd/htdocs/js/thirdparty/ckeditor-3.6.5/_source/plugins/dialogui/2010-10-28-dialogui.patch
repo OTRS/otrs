@@ -1,0 +1,23 @@
+? 2010-10-28-dialogui.patch
+Index: plugin.js
+===================================================================
+RCS file: /home/cvs/otrs/var/httpd/htdocs/js/thirdparty/ckeditor-3.4.1/_source/plugins/dialogui/plugin.js,v
+retrieving revision 1.1
+diff -u -r1.1 plugin.js
+--- plugin.js	28 Oct 2010 08:43:06 -0000	1.1
++++ plugin.js	28 Oct 2010 08:56:58 -0000
+@@ -1434,7 +1434,13 @@
+ 								'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
+ 								CKEDITOR.tools.htmlEncode( elementDefinition.action ),
+ 								'">',
+-								'<input type="file" name="',
++                                '<input type="hidden" name="Action" value="',
++                                CKEDITOR.config.action,
++                                '" /><input type="hidden" name="FormID" value="',
++                                CKEDITOR.config.formID,
++                                '"/><input type="hidden" name="CKEditorFuncNum" value="',
++                                _.dialog._.editor._.filebrowserFn,
++                                '" /><input type="file" name="',
+ 								CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
+ 								'" size="',
+ 								CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
