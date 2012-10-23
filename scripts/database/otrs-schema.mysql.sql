@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-10-22 19:04:52
+#  driver: mysql, generated: 2012-10-23 10:27:48
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -805,6 +805,7 @@ CREATE TABLE sessions (
     id VARCHAR (100) NOT NULL,
     data_key VARCHAR (100) NOT NULL,
     data_value TEXT NULL,
+    serialized SMALLINT NOT NULL,
     UNIQUE INDEX sessions_id_data_key (id, data_key),
     INDEX sessions_id (id)
 );

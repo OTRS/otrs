@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-10-23 09:54:07
+--  driver: oracle, generated: 2012-10-23 10:26:24
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -232,6 +232,7 @@ CREATE TABLE sessions (
     id VARCHAR2 (100) NOT NULL,
     data_key VARCHAR2 (100) NOT NULL,
     data_value CLOB NULL,
+    serialized NUMBER (5, 0) NOT NULL,
     CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
 CREATE INDEX sessions_id ON sessions (id);

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-10-22 19:06:12
+--  driver: mssql, generated: 2012-10-23 10:27:48
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -806,6 +806,7 @@ CREATE TABLE sessions (
     id NVARCHAR (100) NOT NULL,
     data_key NVARCHAR (100) NOT NULL,
     data_value NVARCHAR (MAX) NULL,
+    serialized SMALLINT NOT NULL,
     CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
 CREATE INDEX sessions_id ON sessions (id);

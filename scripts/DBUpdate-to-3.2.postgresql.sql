@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-10-23 09:54:07
+--  driver: postgresql, generated: 2012-10-23 10:26:24
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -153,6 +153,7 @@ CREATE TABLE sessions (
     id VARCHAR (100) NOT NULL,
     data_key VARCHAR (100) NOT NULL,
     data_value VARCHAR NULL,
+    serialized INTEGER NOT NULL,
     CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
 CREATE INDEX sessions_id ON sessions (id);

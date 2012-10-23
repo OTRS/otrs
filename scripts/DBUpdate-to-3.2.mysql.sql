@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-10-23 09:54:07
+#  driver: mysql, generated: 2012-10-23 10:26:24
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -151,6 +151,7 @@ CREATE TABLE sessions (
     id VARCHAR (100) NOT NULL,
     data_key VARCHAR (100) NOT NULL,
     data_value TEXT NULL,
+    serialized SMALLINT NOT NULL,
     UNIQUE INDEX sessions_id_data_key (id, data_key),
     INDEX sessions_id (id)
 );

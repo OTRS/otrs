@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-10-22 19:06:20
+--  driver: db2, generated: 2012-10-23 10:27:48
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -924,6 +924,7 @@ CREATE TABLE sessions (
     id VARCHAR (100) NOT NULL,
     data_key VARCHAR (100) NOT NULL,
     data_value CLOB (78K),
+    serialized SMALLINT NOT NULL,
     CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
 

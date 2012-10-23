@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-10-22 19:05:50
+--  driver: postgresql_before_8_2, generated: 2012-10-23 10:27:48
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -805,6 +805,7 @@ CREATE TABLE sessions (
     id VARCHAR (100) NOT NULL,
     data_key VARCHAR (100) NOT NULL,
     data_value VARCHAR NULL,
+    serialized INTEGER NOT NULL,
     CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
 CREATE INDEX sessions_id ON sessions (id);

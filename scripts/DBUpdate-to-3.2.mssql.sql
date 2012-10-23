@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-10-23 09:54:07
+--  driver: mssql, generated: 2012-10-23 10:26:24
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -287,6 +287,7 @@ CREATE TABLE sessions (
     id NVARCHAR (100) NOT NULL,
     data_key NVARCHAR (100) NOT NULL,
     data_value NVARCHAR (MAX) NULL,
+    serialized SMALLINT NOT NULL,
     CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
 );
 CREATE INDEX sessions_id ON sessions (id);
