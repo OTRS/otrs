@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.168 2012-10-12 09:33:24 mg Exp $
+# $Id: fr.pm,v 1.169 2012-10-23 16:33:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.168 $) [1];
+$VERSION = qw($Revision: 1.169 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2400,7 +2400,7 @@ sub Data {
         'JavaScript Not Available' => 'JavaScript non disponible',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Pour utiliser OTRS, vous devez activer le JavaScript dans votre navigateur.',
-        'Browser Warning' => 'Avertissement du novagateur',
+        'Browser Warning' => 'Avertissement du navigateur',
         'The browser you are using is too old.' => 'Votre navigateur est trop ancien.',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
             'OTRS tourne sur un grand nombre de navigateurs, merci de mettre à jour votre navigateur vers l\'un de ceux-ci.',
