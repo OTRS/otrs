@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.65 2012-10-22 13:47:09 mg Exp $
+# $Id: InterfaceAgent.pm,v 1.66 2012-10-23 09:53:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -276,29 +276,12 @@ sub Run {
             }
         }
 
-        my $NewSessionID;
-
-        # verify if the login and password should be saved in the session
-        if ( $Self->{ConfigObject}->Get("SessionSaveLoginPasswd") ) {
-
-            # create new session id
-            $NewSessionID = $Self->{SessionObject}->CreateSessionID(
-                _UserLogin => $PostUser,
-                _UserPw    => $PostPw,
-                %UserData,
-                UserLastRequest => $Self->{TimeObject}->SystemTime(),
-                UserType        => 'User',
-            );
-        }
-        else {
-
-            # create new session id
-            $NewSessionID = $Self->{SessionObject}->CreateSessionID(
-                %UserData,
-                UserLastRequest => $Self->{TimeObject}->SystemTime(),
-                UserType        => 'User',
-            );
-        }
+        # create new session id
+        my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+            %UserData,
+            UserLastRequest => $Self->{TimeObject}->SystemTime(),
+            UserType        => 'User',
+        );
 
         # set time zone offset if TimeZoneFeature is active
         if (
@@ -938,6 +921,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2012-10-22 13:47:09 $
+$Revision: 1.66 $ $Date: 2012-10-23 09:53:25 $
 
 =cut

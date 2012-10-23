@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.84 2012-10-10 10:26:39 mb Exp $
+# $Id: AdminUser.pm,v 1.85 2012-10-23 09:52:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,8 +84,6 @@ sub Run {
             $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';
         }
         my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
-            _UserLogin => $UserData{UserLogin},
-            _UserPw    => 'lal',
             %UserData,
             UserLastRequest => $Self->{TimeObject}->SystemTime(),
             UserType        => 'User',
