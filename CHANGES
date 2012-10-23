@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2472 2012-10-22 16:24:52 mg Exp $
+# $Id: CHANGES,v 1.2473 2012-10-23 02:15:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-22 Fixed bug#8746 - Unequal usage for ticket ACL match and limitation settings for
+    dynamic fields.
  - 2012-10-22 Fixed bug#7121 - Upgrading OTRS using RPM will not upgrade changed ITSM files.
  - 2012-10-22 Removed obsolete and slow cache backend FileRaw in favor of the better FileStorable.
     Config setting is updated automatically if needed.

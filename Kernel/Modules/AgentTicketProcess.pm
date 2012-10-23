@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.13 2012-09-10 03:10:30 sb Exp $
+# $Id: AgentTicketProcess.pm,v 1.14 2012-10-23 02:13:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -445,19 +445,25 @@ sub _RenderAjax {
             my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
                 grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
+            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            my %AclData = %{$PossibleValues};
+            @AclData{ keys %AclData } = keys %AclData;
+
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %{ $Param{GetParam} },
                 DynamicField  => \%DynamicFieldCheckParam,
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => $PossibleValues,
+                Data          => \%AclData,
                 UserID        => $Self->{UserID},
             );
 
             if ($ACL) {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
-                $PossibleValues = \%Filter;
+
+                # convert Filer key => key back to key => value using map
+                %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
 
             # add dynamic field to the JSONCollector
@@ -1981,6 +1987,10 @@ sub _RenderDynamicField {
     # check if field has PossibleValues property in its configuration
     if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
+        # convert possible values key => value to key => key for ACLs usign a Hash slice
+        my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
+        @AclData{ keys %AclData } = keys %AclData;
+
         # set possible values filter from ACLs
         my $ACL = $Self->{TicketObject}->TicketAcl(
             %{ $Param{GetParam} },
@@ -1988,12 +1998,15 @@ sub _RenderDynamicField {
             Action        => $Self->{Action},
             ReturnType    => 'Ticket',
             ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+            Data          => \%AclData,
             UserID        => $Self->{UserID},
         );
         if ($ACL) {
             my %Filter = $Self->{TicketObject}->TicketAclData();
-            $PossibleValuesFilter = \%Filter;
+
+            # convert Filer key => key back to key => value using map
+            %{$PossibleValuesFilter}
+                = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} } keys %Filter;
         }
     }
 

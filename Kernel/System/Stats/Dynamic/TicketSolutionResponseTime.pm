@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSolutionResponseTime.pm,v 1.13 2012-02-28 10:38:01 jp Exp $
+# $Id: TicketSolutionResponseTime.pm,v 1.14 2012-10-23 02:13:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -468,18 +468,25 @@ sub GetObjectAttributes {
 
         my $PossibleValuesFilter;
 
+        # convert possible values key => value to key => key for ACLs usign a Hash slice
+        my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} || {} };
+        @AclData{ keys %AclData } = keys %AclData;
+
         # set possible values filter from ACLs
         my $ACL = $Self->{TicketObject}->TicketAcl(
             Action        => 'AgentStats',
             Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
             ReturnType    => 'Ticket',
             ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data          => $DynamicFieldConfig->{Config}->{PossibleValues} || {},
+            Data          => \%AclData || {},
             UserID        => 1,
         );
         if ($ACL) {
             my %Filter = $Self->{TicketObject}->TicketAclData();
-            $PossibleValuesFilter = \%Filter;
+
+            # convert Filer key => key back to key => value using map
+            %{$PossibleValuesFilter}
+                = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} } keys %Filter;
         }
 
         # get field html

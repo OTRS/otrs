@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.152 2012-10-10 14:49:36 alm Exp $
+# $Id: AgentTicketSearch.pm,v 1.153 2012-10-23 02:13:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1549,17 +1549,23 @@ sub Run {
                     }
                 }
 
+                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                my %AclData = %{$Data};
+                @AclData{ keys %AclData } = keys %AclData;
+
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
                     Action        => $Self->{Action},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data          => $Data,
+                    Data          => \%AclData,
                     UserID        => $Self->{UserID},
                 );
                 if ($ACL) {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
-                    $PossibleValuesFilter = \%Filter;
+
+                    # convert Filer key => key back to key => value using map
+                    %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
                 }
             }
 

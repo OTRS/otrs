@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.134 2012-06-11 18:40:57 cg Exp $
+# $Id: AgentTicketForward.pm,v 1.135 2012-10-23 02:13:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -407,6 +407,10 @@ sub Form {
         # check if field has PossibleValues property in its configuration
         if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
+            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
+            @AclData{ keys %AclData } = keys %AclData;
+
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
@@ -415,12 +419,16 @@ sub Form {
                 TicketID      => $Self->{TicketID},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                Data          => \%AclData,
                 UserID        => $Self->{UserID},
             );
             if ($ACL) {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
-                $PossibleValuesFilter = \%Filter;
+
+                # convert Filer key => key back to key => value using map
+                %{$PossibleValuesFilter}
+                    = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                    keys %Filter;
             }
         }
 
@@ -598,6 +606,10 @@ sub SendEmail {
         # check if field has PossibleValues property in its configuration
         if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
+            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
+            @AclData{ keys %AclData } = keys %AclData;
+
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
@@ -606,12 +618,16 @@ sub SendEmail {
                 TicketID      => $Self->{TicketID},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                Data          => \%AclData,
                 UserID        => $Self->{UserID},
             );
             if ($ACL) {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
-                $PossibleValuesFilter = \%Filter;
+
+                # convert Filer key => key back to key => value using map
+                %{$PossibleValuesFilter}
+                    = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                    keys %Filter;
             }
         }
 
@@ -1036,6 +1052,10 @@ sub AjaxUpdate {
             DynamicFieldConfig => $DynamicFieldConfig,
         );
 
+        # convert possible values key => value to key => key for ACLs usign a Hash slice
+        my %AclData = %{$PossibleValues};
+        @AclData{ keys %AclData } = keys %AclData;
+
         # set possible values filter from ACLs
         my $ACL = $Self->{TicketObject}->TicketAcl(
             %GetParam,
@@ -1045,12 +1065,14 @@ sub AjaxUpdate {
             QueueID       => $Self->{QueueID},
             ReturnType    => 'Ticket',
             ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data          => $PossibleValues,
+            Data          => \%AclData,
             UserID        => $Self->{UserID},
         );
         if ($ACL) {
             my %Filter = $Self->{TicketObject}->TicketAclData();
-            $PossibleValues = \%Filter;
+
+            # convert Filer key => key back to key => value using map
+            %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
         }
 
         # add dynamic field to the list of fields to update
