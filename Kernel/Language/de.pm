@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.333 2012-10-24 12:44:29 mg Exp $
+# $Id: de.pm,v 1.334 2012-10-24 13:33:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.333 $) [1];
+$VERSION = qw($Revision: 1.334 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -856,9 +856,9 @@ sub Data {
         'Ticket responsible options' => 'Attribute des Ticket-Verantwortlichen',
         'Options of the current user who requested this action' => 'Attribute des aktuellen Benutzers, der die Aktion angefordert hat',
         'Options of the ticket data' => 'Attribute der Ticketdaten',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Interne Werte der DynamicFields von Tickets',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Angezeigte Werte der DynamicFields von Tickets, nutzbar mit Dropdown und Multiselect',
         'Config options' => 'Konfigurationseinstellungen',
         'Example response' => 'Beispielantwort',
 
@@ -1793,25 +1793,25 @@ sub Data {
         'Filter for certificates' => 'Filter für Zertifikate',
         'Filter for SMIME certs' => 'Filter für SMIME-Zertifikate',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            '',
+            'Hier können Sie Zugehörigkeiten zu Ihren privaten Zertifikaten hinzufügen, diese werden in die SMIME-Signatur eingebettet, wenn Sie das Zertifikat zum Signieren einer Mail benutzen.',
         'See also' => 'Siehe auch',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
         'Hash' => 'Hash',
         'Create' => 'Erstellen',
-        'Handle related certificates' => '',
-        'Read certificate' => '',
+        'Handle related certificates' => 'Zugehörige Zertifikate verwalten',
+        'Read certificate' => 'Zertifikat lesen',
         'Delete this certificate' => 'Dieses Zertifikat löschen',
         'Add Certificate' => 'Zertifikat hinzufügen',
         'Add Private Key' => 'Privaten Schlüssel hinzufügen',
         'Secret' => 'Secret',
-        'Related Certificates for' => '',
-        'Delete this relation' => '',
-        'Available Certificates' => '',
-        'Relate this certificate' => '',
+        'Related Certificates for' => 'Zugehörige Zertifikate zu %s',
+        'Delete this relation' => 'Diese Zugehörigkeit löschen',
+        'Available Certificates' => 'Verfügbare Zertifikate',
+        'Relate this certificate' => 'Dieses Zertifikat zuordnen',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => '',
+        'SMIME Certificate' => 'SMIME-Zertifikat',
         'Close window' => 'Fenster schließen',
 
         # Template: AdminSalutation
@@ -1823,10 +1823,10 @@ sub Data {
 
         # Template: AdminScheduler
         'This option will force Scheduler to start even if the process is still registered in the database' =>
-            '',
-        'Start scheduler' => '',
+            'Diese Option zwingt den Scheduler, auch dann zu starten, wenn bereits ein Prozess in der Datenbank registriert ist',
+        'Start scheduler' => 'Scheduler starten',
         'Scheduler could not be started. Check if scheduler is not running and try it again with Force Start option' =>
-            '',
+            'Scheduler konnte nicht gestartet werden. Prüfen Sie, ob er bereits läuft und versuchen Sie es erneut mit der Option "Start erzwingen"',
 
         # Template: AdminSecureMode
         'Secure mode needs to be enabled!' => 'Sicherheitsmodus muss eingeschaltet sein!',
