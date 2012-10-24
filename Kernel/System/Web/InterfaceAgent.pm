@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.66 2012-10-23 09:53:25 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.67 2012-10-24 08:11:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,8 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
-# all framework needed modules
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -93,6 +92,7 @@ sub new {
             Message  => 'Global handle started...',
         );
     }
+
     return $Self;
 }
 
@@ -283,6 +283,23 @@ sub Run {
             UserType        => 'User',
         );
 
+        # show error message if ne session id has been created
+        if ( !$NewSessionID ) {
+
+            # get error message
+            my $Error = $Self->{SessionObject}->SessionIDErrorMessage() || '';
+
+            # output error message
+            $LayoutObject->Print(
+                Output => \$LayoutObject->Login(
+                    Title   => 'Login',
+                    Message => $Error,
+                    %Param,
+                ),
+            );
+            return;
+        }
+
         # set time zone offset if TimeZoneFeature is active
         if (
             $Self->{ConfigObject}->Get('TimeZoneUser')
@@ -348,7 +365,7 @@ sub Run {
         return 1;
     }
 
-    # Logout
+    # logout
     elsif ( $Param{Action} eq 'Logout' ) {
 
         # check session id
@@ -666,14 +683,12 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => $Self->{SessionObject}->CheckSessionIDMessage(),
+                    Message => $Self->{SessionObject}->SessionIDErrorMessage(),
                     %Param,
                 ),
             );
             return;
         }
-
-        # run module
 
         # get session data
         my %UserData = $Self->{SessionObject}->GetSessionIDData(
@@ -921,6 +936,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-10-23 09:53:25 $
+$Revision: 1.67 $ $Date: 2012-10-24 08:11:40 $
 
 =cut

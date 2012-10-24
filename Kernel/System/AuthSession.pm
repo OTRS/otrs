@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.49 2012-10-23 09:54:25 mh Exp $
+# $Id: AuthSession.pm,v 1.50 2012-10-24 08:13:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -93,8 +93,6 @@ sub new {
     my $GenericModule = $Self->{ConfigObject}->Get('SessionModule');
     $GenericModule ||= 'Kernel::System::AuthSession::DB';
 
-    $GenericModule = 'Kernel::System::AuthSession::DB';
-
     # load session backend module
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
         $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
@@ -121,19 +119,18 @@ sub CheckSessionID {
     return $Self->{Backend}->CheckSessionID(%Param);
 }
 
-=item CheckSessionIDMessage()
+=item SessionIDErrorMessage()
 
-returns why CheckSessionID() returns false (e. g. invalid session id,
-different remote ip, ...)
+returns an error in the session handling
 
-    my $Message = $SessionObject->CheckSessionIDMessage();
+    my $Message = $SessionObject->SessionIDErrorMessage();
 
 =cut
 
-sub CheckSessionIDMessage {
+sub SessionIDErrorMessage {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->CheckSessionIDMessage(%Param);
+    return $Self->{Backend}->SessionIDErrorMessage(%Param);
 }
 
 =item GetSessionIDData()
@@ -286,6 +283,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2012-10-23 09:54:25 $
+$Revision: 1.50 $ $Date: 2012-10-24 08:13:16 $
 
 =cut

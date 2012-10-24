@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.54 2012-10-23 09:54:25 mh Exp $
+# $Id: DB.pm,v 1.55 2012-10-24 08:13:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,11 +32,12 @@ sub new {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
-    # get system id
-    $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
-
-    # get session table
-    $Self->{SessionTable} = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
+    # get more common params
+    $Self->{SessionTable}         = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
+    $Self->{SystemID}             = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit') || 2;
+    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit') || 2;
+    $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
 }
@@ -52,13 +53,13 @@ sub CheckSessionID {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # set default message
-    $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
+    $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
 
     # get session data
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
-        $Self->{CheckSessionIDMessage} = 'SessionID invalid! Need user data!';
+        $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
@@ -93,7 +94,7 @@ sub CheckSessionID {
 
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
 
-        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{SessionIDErrorMessage} = 'Session has timed out. Please log in again.';
 
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
 
@@ -116,7 +117,7 @@ sub CheckSessionID {
 
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
 
-        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{SessionIDErrorMessage} = 'Session has timed out. Please log in again.';
 
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
 
@@ -136,10 +137,10 @@ sub CheckSessionID {
     return 1;
 }
 
-sub CheckSessionIDMessage {
+sub SessionIDErrorMessage {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{CheckSessionIDMessage} || '';
+    return $Self->{SessionIDErrorMessage} || '';
 }
 
 sub GetSessionIDData {
@@ -192,17 +193,69 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
+    # get system time
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
+
+    # get session limit config
+    my $SessionLimit;
+    if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionLimit} ) {
+        $SessionLimit = $Self->{AgentSessionLimit};
+    }
+    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionLimit} ) {
+        $SessionLimit = $Self->{CustomerSessionLimit};
+    }
+
+    if ($SessionLimit) {
+
+        # get all needed timestamps to investigate the expired sessions
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id, data_key, data_value FROM $Self->{SessionTable} "
+                . "WHERE data_key = 'UserType' OR data_key = 'UserLastRequest'",
+        );
+
+        my %SessionData;
+        ROW:
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+            next ROW if !$Row[0];
+            next ROW if !$Row[1];
+
+            $SessionData{ $Row[0] }->{ $Row[1] } = $Row[2];
+        }
+
+        my $ActiveSessionCount = 0;
+        SESSIONID:
+        for my $SessionID ( sort keys %SessionData ) {
+
+            next SESSIONID if !$SessionID;
+            next SESSIONID if !$SessionData{$SessionID};
+
+            # get needed data
+            my $UserType        = $SessionData{$SessionID}->{UserType}        || '';
+            my $UserLastRequest = $SessionData{$SessionID}->{UserLastRequest} || $TimeNow;
+
+            next SESSIONID if $UserType ne $Param{UserType};
+
+            next SESSIONID if ( $UserLastRequest + $Self->{SessionActiveTime} ) < $TimeNow;
+
+            $ActiveSessionCount++;
+
+            next SESSIONID if $ActiveSessionCount < $SessionLimit;
+
+            $Self->{SessionIDErrorMessage} = 'Session limit reached! Please try again later.';
+
+            return;
+        }
+    }
+
     # get remote address and the http user agent
     my $RemoteAddr      = $ENV{REMOTE_ADDR}     || 'none';
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # get system time
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
-
     # create session id
     my $md5 = Digest::MD5->new();
     $md5->add(
-        ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
+        ( $TimeNow . int( rand 999999999 ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
@@ -332,13 +385,12 @@ sub GetExpiredSessionIDs {
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
 
     # get current time
-    my $SystemTime = $Self->{TimeObject}->SystemTime();
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
 
     # get all needed timestamps to investigate the expired sessions
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id, data_key, data_value FROM $Self->{SessionTable} "
-            . "WHERE id = ? AND ( data_key = 'UserSessionStart' OR data_key = 'UserLastRequest' )",
-        Bind => [ \$Param{SessionID} ],
+            . "WHERE data_key = 'UserSessionStart' OR data_key = 'UserLastRequest'",
     );
 
     my %SessionData;
@@ -360,12 +412,12 @@ sub GetExpiredSessionIDs {
         next SESSIONID if !$SessionData{$SessionID};
 
         # get needed timestamps
-        my $UserSessionStart = $SessionData{$SessionID}->{UserSessionStart} || 0;
-        my $UserLastRequest  = $SessionData{$SessionID}->{UserLastRequest}  || 0;
+        my $UserSessionStart = $SessionData{$SessionID}->{UserSessionStart} || $TimeNow;
+        my $UserLastRequest  = $SessionData{$SessionID}->{UserLastRequest}  || $TimeNow;
 
         # time calculation
-        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $SystemTime;
-        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $SystemTime;
+        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $TimeNow;
+        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $TimeNow;
 
         # delete invalid session time
         if ( $ValidTime <= 0 ) {

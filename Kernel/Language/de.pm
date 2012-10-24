@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.330 2012-10-15 09:38:26 mg Exp $
+# $Id: de.pm,v 1.331 2012-10-24 08:16:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.330 $) [1];
+$VERSION = qw($Revision: 1.331 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -260,7 +260,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
         'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
         'No entry found!' => 'Kein Eintrag gefunden!',
-        'Session has timed out. Please log in again.' => 'Zeitüberschreitung der Session. Bitte neu anmelden.',
+        'Session invalid. Please log in again.' => 'Session ungültig. Bitte neu anmelden.',
+        'Session has timed out. Please log in again.' => 'Session abgelaufen. Bitte neu anmelden.',
+        'Session limit reached! Please try again later.' => 'Maximale Anzahl an Sessions erreicht. Bitte später noch einmal versuchen.',
         'No Permission!' => 'Keine Zugriffsrechte!',
         '(Click here to add)' => '(Hier klicken um hinzuzufügen)',
         'Preview' => 'Vorschau',

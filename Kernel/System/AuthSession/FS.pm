@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.49 2012-10-23 09:54:50 mh Exp $
+# $Id: FS.pm,v 1.50 2012-10-24 08:13:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,8 +34,11 @@ sub new {
     }
 
     # get more common params
-    $Self->{SessionSpool} = $Self->{ConfigObject}->Get('SessionDir');
-    $Self->{SystemID}     = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{SessionSpool}         = $Self->{ConfigObject}->Get('SessionDir');
+    $Self->{SystemID}             = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit') || 2;
+    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit') || 2;
+    $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
 }
@@ -51,13 +54,13 @@ sub CheckSessionID {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # set default message
-    $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
+    $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
 
     # session id check
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
-        $Self->{CheckSessionIDMessage} = 'SessionID invalid! Need user data!';
+        $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
@@ -92,7 +95,7 @@ sub CheckSessionID {
 
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
 
-        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{SessionIDErrorMessage} = 'Session has timed out. Please log in again.';
 
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
 
@@ -115,7 +118,7 @@ sub CheckSessionID {
 
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
 
-        $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        $Self->{SessionIDErrorMessage} = 'Session has timed out. Please log in again.';
 
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
 
@@ -135,10 +138,10 @@ sub CheckSessionID {
     return 1;
 }
 
-sub CheckSessionIDMessage {
+sub SessionIDErrorMessage {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{CheckSessionIDMessage} || '';
+    return $Self->{SessionIDErrorMessage} || '';
 }
 
 sub GetSessionIDData {
@@ -157,7 +160,7 @@ sub GetSessionIDData {
     # read data
     my $Content = $Self->{MainObject}->FileRead(
         Directory       => $Self->{SessionSpool},
-        Filename        => $Param{SessionID},
+        Filename        => 'Data-' . $Param{SessionID},
         Type            => 'Local',
         Mode            => 'binmode',
         DisableWarnings => 1,
@@ -183,17 +186,75 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
+    # get system time
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
+
+    # get session limit config
+    my $SessionLimit;
+    if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionLimit} ) {
+        $SessionLimit = $Self->{AgentSessionLimit};
+    }
+    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionLimit} ) {
+        $SessionLimit = $Self->{CustomerSessionLimit};
+    }
+
+    if ($SessionLimit) {
+
+        # read data
+        my @List = $Self->{MainObject}->DirectoryRead(
+            Directory => $Self->{SessionSpool},
+            Filter    => 'State-' . $Self->{SystemID} . '*',
+        );
+
+        my $ActiveSessionCount = 0;
+        SESSIONID:
+        for my $SessionID (@List) {
+
+            $SessionID =~ s!^.*/!!;
+            $SessionID =~ s{ State- } {}xms;
+
+            next SESSIONID if !$SessionID;
+
+            # read state data
+            my $StateData = $Self->{MainObject}->FileRead(
+                Directory       => $Self->{SessionSpool},
+                Filename        => 'State-' . $SessionID,
+                Type            => 'Local',
+                Mode            => 'binmode',
+                DisableWarnings => 1,
+            );
+
+            next SESSIONID if !$StateData;
+            next SESSIONID if ref $StateData ne 'SCALAR';
+
+            my @SessionData = split '####', ${$StateData};
+
+            # get needed timestamps
+            my $UserType        = $SessionData[0] || '';
+            my $UserLastRequest = $SessionData[2] || $TimeNow;
+
+            next SESSIONID if $UserType ne $Param{UserType};
+
+            next SESSIONID if ( $UserLastRequest + $Self->{SessionActiveTime} ) < $TimeNow;
+
+            $ActiveSessionCount++;
+
+            next SESSIONID if $ActiveSessionCount < $SessionLimit;
+
+            $Self->{SessionIDErrorMessage} = 'Session limit reached! Please try again later.';
+
+            return;
+        }
+    }
+
     # get remote address and the http user agent
     my $RemoteAddr      = $ENV{REMOTE_ADDR}     || 'none';
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # get system time
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
-
     # create session id
     my $md5 = Digest::MD5->new();
     $md5->add(
-        ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
+        ( $TimeNow . int( rand 999999999 ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
@@ -217,13 +278,13 @@ sub CreateSessionID {
     $Data{UserChallengeToken}  = $ChallengeToken;
 
     # dump the data
-    my $Dump = Storable::nfreeze( \%Data );
+    my $DataContent = Storable::nfreeze( \%Data );
 
-    # write file
+    # write data file
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory       => $Self->{SessionSpool},
-        Filename        => $SessionID,
-        Content         => \$Dump,
+        Filename        => 'Data-' . $SessionID,
+        Content         => \$DataContent,
         Type            => 'Local',
         Mode            => 'binmode',
         Permission      => '664',
@@ -234,6 +295,24 @@ sub CreateSessionID {
 
     # set cache
     $Self->{Cache}->{$SessionID} = \%Data;
+
+    # create needed state content
+    my $UserType         = $Self->{Cache}->{$SessionID}->{UserType}         || '';
+    my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
+    my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
+
+    my $StateContent = $UserType . '####' . $UserSessionStart . '####' . $UserLastRequest;
+
+    # write state file
+    $Self->{MainObject}->FileWrite(
+        Directory       => $Self->{SessionSpool},
+        Filename        => 'State-' . $SessionID,
+        Content         => \$StateContent,
+        Type            => 'Local',
+        Mode            => 'binmode',
+        Permission      => '664',
+        DisableWarnings => 1,
+    );
 
     return $SessionID;
 }
@@ -248,14 +327,21 @@ sub RemoveSessionID {
     }
 
     # delete file
-    my $Delete = $Self->{MainObject}->FileDelete(
+    my $DeleteData = $Self->{MainObject}->FileDelete(
         Directory       => $Self->{SessionSpool},
-        Filename        => $Param{SessionID},
+        Filename        => 'Data-' . $Param{SessionID},
+        Type            => 'Local',
+        DisableWarnings => 1,
+    );
+    my $DeleteState = $Self->{MainObject}->FileDelete(
+        Directory       => $Self->{SessionSpool},
+        Filename        => 'State-' . $Param{SessionID},
         Type            => 'Local',
         DisableWarnings => 1,
     );
 
-    return if !$Delete;
+    return if !$DeleteData;
+    return if !$DeleteState;
 
     # reset cache
     delete $Self->{Cache}->{ $Param{SessionID} };
@@ -299,12 +385,13 @@ sub GetAllSessionIDs {
     # read data
     my @List = $Self->{MainObject}->DirectoryRead(
         Directory => $Self->{SessionSpool},
-        Filter    => "$Self->{SystemID}*",
+        Filter    => 'Data-' . $Self->{SystemID} . '*',
     );
 
     my @SessionIDs;
     for my $SessionID (@List) {
         $SessionID =~ s!^.*/!!;
+        $SessionID =~ s{ Data- } {}xms;
         push @SessionIDs, $SessionID;
     }
 
@@ -319,32 +406,45 @@ sub GetExpiredSessionIDs {
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
 
     # get current time
-    my $SystemTime = $Self->{TimeObject}->SystemTime();
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
 
-    # get all session ids
-    my @List = $Self->GetAllSessionIDs();
+    # read data
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{SessionSpool},
+        Filter    => 'State-' . $Self->{SystemID} . '*',
+    );
 
     my @ExpiredSession;
     my @ExpiredIdle;
     SESSIONID:
     for my $SessionID (@List) {
 
+        $SessionID =~ s!^.*/!!;
+        $SessionID =~ s{ State- } {}xms;
+
         next SESSIONID if !$SessionID;
 
-        # get session data
-        my %SessionData = $Self->GetSessionIDData(
-            SessionID => $SessionID,
+        # read state data
+        my $StateData = $Self->{MainObject}->FileRead(
+            Directory       => $Self->{SessionSpool},
+            Filename        => 'State-' . $SessionID,
+            Type            => 'Local',
+            Mode            => 'binmode',
+            DisableWarnings => 1,
         );
 
-        next SESSIONID if !%SessionData;
+        next SESSIONID if !$StateData;
+        next SESSIONID if ref $StateData ne 'SCALAR';
+
+        my @SessionData = split '####', ${$StateData};
 
         # get needed timestamps
-        my $UserSessionStart = $SessionData{UserSessionStart} || 0;
-        my $UserLastRequest  = $SessionData{UserLastRequest}  || 0;
+        my $UserSessionStart = $SessionData[1] || $TimeNow;
+        my $UserLastRequest  = $SessionData[2] || $TimeNow;
 
         # time calculation
-        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $SystemTime;
-        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $SystemTime;
+        my $ValidTime     = $UserSessionStart + $MaxSessionTime - $TimeNow;
+        my $ValidIdleTime = $UserLastRequest + $MaxSessionIdleTime - $TimeNow;
 
         # delete invalid session time
         if ( $ValidTime <= 0 ) {
@@ -404,13 +504,31 @@ sub DESTROY {
         }
 
         # dump the data
-        my $Dump = Storable::nfreeze( \%SessionData );
+        my $DataContent = Storable::nfreeze( \%SessionData );
 
-        # write file
-        my $FileLocation = $Self->{MainObject}->FileWrite(
+        # write data file
+        $Self->{MainObject}->FileWrite(
             Directory       => $Self->{SessionSpool},
-            Filename        => $SessionID,
-            Content         => \$Dump,
+            Filename        => 'Data-' . $SessionID,
+            Content         => \$DataContent,
+            Type            => 'Local',
+            Mode            => 'binmode',
+            Permission      => '664',
+            DisableWarnings => 1,
+        );
+
+        # create needed state content
+        my $UserType         = $Self->{Cache}->{$SessionID}->{UserType}         || '';
+        my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
+        my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
+
+        my $StateContent = $UserType . '####' . $UserSessionStart . '####' . $UserLastRequest;
+
+        # write state file
+        $Self->{MainObject}->FileWrite(
+            Directory       => $Self->{SessionSpool},
+            Filename        => 'State-' . $SessionID,
+            Content         => \$StateContent,
             Type            => 'Local',
             Mode            => 'binmode',
             Permission      => '664',
