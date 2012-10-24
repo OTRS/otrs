@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.133 2012-10-12 09:33:25 mg Exp $
+# $Id: pt_BR.pm,v 1.134 2012-10-24 12:44:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-12 11:29:51
+    # Last translation file sync: 2012-10-24 14:42:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -234,7 +234,6 @@ sub Data {
         'Please contact your administrator' => 'Por favor, contate seu administrador',
         'Logout' => 'Sair',
         'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
-        'Invalid SessionID!' => 'Identificação de Sessão Inválida',
         'Feature not active!' => 'Funcionalidade não ativada!',
         'Agent updated!' => 'Atendente atualizado!',
         'Create Database' => 'Criar Banco de Dados',
@@ -263,7 +262,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Distribuição de acordo com o campo e-mail para:.',
         'Dispatching by selected Queue.' => 'Distribuição de acordo com a fila selecionada',
         'No entry found!' => 'Nenhuma entrada encontrada!',
+        'Session invalid. Please log in again.' => '',
         'Session has timed out. Please log in again.' => 'A sessão expirou. Por favor, autentique novamente.',
+        'Session limit reached! Please try again later.' => '',
         'No Permission!' => 'Sem permissão!',
         '(Click here to add)' => '(Clique aqui para adicionar)',
         'Preview' => 'Pré-visualizar',
@@ -858,6 +859,9 @@ sub Data {
         'Ticket responsible options' => 'Opções do responsável pelo chamado',
         'Options of the current user who requested this action' => 'Opções do usuário atual que solicitou a ação',
         'Options of the ticket data' => 'Opções dos dados do chamado',
+        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
         'Config options' => 'Opções de Configuração',
         'Example response' => 'Resposta de exemplo',
 
@@ -2002,7 +2006,6 @@ sub Data {
         'in' => 'em',
 
         # Template: AgentDashboardCustomerCompanyInformation
-        'URL' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '',
@@ -2663,6 +2666,7 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'O arquivo não é uma imagem que pode ser mostrada embutida!',
 
         # Template: PrintFooter
+        'URL' => '',
 
         # Template: PrintHeader
         'printed by' => 'Impresso por',
@@ -2823,6 +2827,7 @@ sub Data {
             'Verifica o SystemID na detecção de número de chamado para acompanhamentos (use "Não" se SystemID tiver sido alterado após usar o sistema).',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Comentário para novas entradas de histórico na interface de cliente.',
+        'Company Status' => '',
         'Company Tickets' => 'Chamados de Empresa',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
@@ -2871,17 +2876,15 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'CustomerID Status' => '',
         'Customers <-> Groups' => 'Clientes <-> Grupos',
         'Customers <-> Services' => 'Clientes <-> Serviços',
-        'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
-            '',
         'Data used to export the search result in CSV format.' => 'Os dados utilizados para exportar o resultado da pesquisa no formato CSV.',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'Depura a tradução definida. Se isso for ajustado para "Sim" todas as cadeias (texto), sem traduções são escritas no stderr. Isso pode ser útil quando você está criando um novo arquivo de tradução. Caso contrário, essa opção deve permanecer definida para "Não ".',
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
-        'Default Process Management Entity prefixes for entity IDs.' => '',
+        'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
+            '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -3187,6 +3190,8 @@ sub Data {
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => '',
@@ -3421,6 +3426,8 @@ sub Data {
             '',
         'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
             '',
+        'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width of the legend.' => '',
@@ -3479,14 +3486,14 @@ sub Data {
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
-        'Dynamic fields groups for process widget. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+        'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3534,8 +3541,6 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
-            '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'DynamicField backend registration.' => '',
@@ -3571,7 +3576,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for free text' => '',
         'Execute SQL statements.' => 'Executar consultas SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
@@ -3639,10 +3643,6 @@ sub Data {
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
-            '',
-        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
-            '',
-        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
             '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
             '',
@@ -3986,8 +3986,6 @@ sub Data {
         'S/MIME Certificate Upload' => 'Upload de certificado S/MIME',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
-        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
-            '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Selecione seu tema de interface.',
@@ -4100,6 +4098,20 @@ sub Data {
         'Sets the prefered time units (e.g. work units, hours, minutes).' =>
             '',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
+            '',
+        'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
             '',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
             '',
@@ -4817,6 +4829,7 @@ sub Data {
         'Information about the Stat' => 'Informações sobre a Estatística',
         'Insert of the common specifications' => 'Inserção das especificações comuns',
         'Instance' => 'Instanz',
+        'Invalid SessionID!' => 'Identificação de Sessão Inválida',
         'Is Job Valid' => 'O trabalho é válido.',
         'Is Job Valid?' => 'O trabalho é válido?',
         'It\'s useful for ASP solutions.' => 'Isto é útil para soluções ASP.',

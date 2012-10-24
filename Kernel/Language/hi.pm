@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.25 2012-10-12 09:33:25 mg Exp $
+# $Id: hi.pm,v 1.26 2012-10-24 12:44:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-12 11:29:38
+    # Last translation file sync: 2012-10-24 14:41:57
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,7 +233,6 @@ sub Data {
         'Please contact your administrator' => 'कृपया अपने प्रशासक से संपर्क करें।',
         'Logout' => 'बाहर प्रवेश करें',
         'Logout successful. Thank you for using OTRS!' => 'बाहर प्रवेश सफल। OTRS उपयोग करने के लिए धन्यवाद।',
-        'Invalid SessionID!' => 'अवैध सत्र ID',
         'Feature not active!' => 'सुविधा सक्रिय नहीं है।',
         'Agent updated!' => 'प्रतिनिधि अद्यतन।',
         'Create Database' => 'आंकड़ाकोष बनाएँ',
@@ -262,7 +261,9 @@ sub Data {
         'Dispatching by email To: field.' => 'ईमेल से भेजने के लिए :क्षेत्र',
         'Dispatching by selected Queue.' => 'चयनित श्रेणी से भेजने के लिए।',
         'No entry found!' => 'कोई प्रविष्टि नहीं है।',
+        'Session invalid. Please log in again.' => '',
         'Session has timed out. Please log in again.' => 'सत्र का समय समाप्त हो गया है। कृपया फिर से प्रवेश करें।',
+        'Session limit reached! Please try again later.' => '',
         'No Permission!' => 'अनुमति नहीं है।',
         '(Click here to add)' => '(जोड़ने के लिए यहाँ दबाऐ।)',
         'Preview' => 'पूर्वावलोकन',
@@ -857,6 +858,9 @@ sub Data {
         'Ticket responsible options' => 'टिकट उत्तरदायी विकल्प',
         'Options of the current user who requested this action' => 'वर्तमान उपयोगकर्ता के विकल्प जिसनॆ इस कार्रवाई के लिए अनुरोध किया।',
         'Options of the ticket data' => 'टिकट आंकड़ॊ के विकल्प',
+        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
         'Config options' => 'संरचना के विकल्पों',
         'Example response' => 'उदाहरण प्रतिक्रिया',
 
@@ -2001,7 +2005,6 @@ sub Data {
         'in' => 'में',
 
         # Template: AgentDashboardCustomerCompanyInformation
-        'URL' => 'URL',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '',
@@ -2662,6 +2665,7 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'फ़ाइल एक छवि नहीं है जो इनलाइन दिखाया जा सकता है।',
 
         # Template: PrintFooter
+        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'के द्वारा मुद्रित',
@@ -2822,6 +2826,7 @@ sub Data {
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
+        'Company Status' => '',
         'Company Tickets' => 'कंपनी के टिकट',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
@@ -2870,17 +2875,15 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'CustomerID Status' => '',
         'Customers <-> Groups' => 'ग्राहकों<->समूहों',
         'Customers <-> Services' => 'ग्राहकों<->सेवाएँ',
-        'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
-            '',
         'Data used to export the search result in CSV format.' => 'CSV प्रारूप में खोज परिणाम भेजने के लिए उपयोग होनेवाला आंकड़ा।',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'निर्धारित अनुवाद को दोषमार्जन करना। यदि यह "हाँ" पर निर्धारित है तो अनुवाद किए बिना सभी स्ट्रिंग्स(पाठ)stderr में लिखा जाता है।',
         'Default ACL values for ticket actions.' => 'तयशुदा ACL मान टिकट कार्रवाई के लिए।',
-        'Default Process Management Entity prefixes for entity IDs.' => '',
+        'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
+            '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -3186,6 +3189,8 @@ sub Data {
             'पूरी तरह से योग्य प्रणाली के डोमेन नाम को परिभाषित करता है। यह व्यवस्था किसी परिवर्तनीय के रूप में प्रयोग की जाती है, OTRS_CONFIG_FQDN जो अनुप्रयोग द्वारा उपयोग संदेश प्रेषण के सभी रूपों में पाया जाता है,आपकी प्रणाली में टिकटों के लिए लिंक बनाने के लिए।',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             'प्रत्येक ग्राहक उपयोगकर्ता जिन समूहों में होगा को परिभाषित करता है(यदि CustomerGroupSupport सक्षम है और आप इन समूहों के लिए प्रत्येक उपयोगकर्ता का प्रबंधन नहीं करना चाहते हैं)। ',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => 'किंवदंती की ऊँचाई को परिभाषित करता है।',
@@ -3420,6 +3425,8 @@ sub Data {
             'अनलॉक टिकटों के लिए वैध स्थिति को परिभाषित करता है। टिकट अनलॉक करने के लिए लिपि "bin/otrs.UnlockTickets.pl" का उपयोग किया जा सकता है।',
         'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
             'एक टिकट के देखने योग्य लॉक को परिभाषित करता है। तयशुदा: अनलॉक, tmp_lock।',
+        'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'समृद्ध पाठ संपादक घटक के लिए चौड़ाई को परिभाषित करता है।(पिक्सेल) संख्या या प्रतिशत मान (सापेक्ष) को लिखें।',
         'Defines the width of the legend.' => 'किंवदंती की चौड़ाई को परिभाषित करता है।',
@@ -3478,14 +3485,14 @@ sub Data {
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
-        'Dynamic fields groups for process widget. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+        'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3533,8 +3540,6 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
-            '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'DynamicField backend registration.' => '',
@@ -3570,7 +3575,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for free text' => 'मुक्त पाठ के लिए उदाहरण',
         'Execute SQL statements.' => 'SQL बयान चलाएँ।',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'प्रत्युत्तर के लिए या मेल की संदर्भ शीर्षलेख कि विषय में कोई टिकट नंबर नहीं है के लिए अनुसरण जांच कार्यान्वित करता है।',
@@ -3639,10 +3643,6 @@ sub Data {
             'यदि "डीबी" ग्राहक::AuthModule के लिए चयन किया गया,तो ग्राहक तालिका में ग्राहक कुंजी के लिए स्तंभ का नाम निर्दिष्ट किया जाना चाहिए।',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
             'यदि "डीबी" ग्राहक::AuthModule के लिए चयन किया गया,तो तालिका जहाँ आपका ग्राहक आंकड़ा संग्रहीत किया जाना चाहिए का नाम निर्दिष्ट किया जाना चाहिए।',
-        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
-            'यदि "डीबी" SessionModule के लिए चयन किया गया,तो सत्र तालिका में पहचानकर्ताओं के लिए एक स्तंभ निर्दिष्ट किया जाना चाहिए।',
-        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
-            'यदि "डीबी" SessionModule के लिए चयन किया गया,तो सत्र तालिका में मानों के लिए कोई स्तंभ निर्दिष्ट किया जाना चाहिए।',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
             'यदि "डीबी" SessionModule के लिए चयन किया गया,तो आंकड़ाकोष में एक तालिका जहां सत्र आंकड़ों को संग्रहीत किया जाएगा निर्दिष्ट किया जाना चाहिए।',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
@@ -3985,8 +3985,6 @@ sub Data {
         'S/MIME Certificate Upload' => 'S/MIME प्रमाण पत्र अपलोड करें।',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             'अनुच्छेदो के संलग्नक सुरक्षित करता है। "DB" आंकड़ाकोष में सभी आंकड़ों को संग्रहीत करता है(बड़े संलग्नक संग्रहीत करने के लिए अनुशंसित नहीं)। "FS" फाइल प्रणाली पर संग्रहीत करता है;यह तेज है, लेकिन वेबसर्वर OTRS उपयोगकर्ता के अधीन चलाना चाहिए। आप मॉड्यूल बदल सकते यहां तक कि कोई प्रणाली पहले से ही उत्पादन में है बिना आंकड़ो को हानि पहुँचायें।',
-        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
-            '',
         'Search backend default router.' => 'बैकेंड तयशुदा अनुर्मागक खोजें।',
         'Search backend router.' => 'बैकेंड अनुर्मागक खोजें।',
         'Select your frontend Theme.' => 'आपकी दृश्यपटल थीम चुनें।',
@@ -4100,6 +4098,20 @@ sub Data {
             'अनुशंसित समय इकाइयों को स्थापित करता है(उदा. कार्य,इकाइयों,घंटे,मिनट)।',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
             'सर्वर पर लिपि फ़ोल्डर में उपसर्ग स्थापित करता है,जिस रूप में वेब सर्वर पर विन्यस्त है। यह व्यवस्था किसी परिवर्तनीय के रूप में प्रयोग कि जाती है,OTRS_CONFIG_ScriptAlias जो के सभी रूपों में पाया जाता है अनुप्रयोग द्वारा उपयोग संदेश प्रेषण में,इस प्रणाली के भीतर टिकटों के लिए लिंक बनाने के लिए।',
+        'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
+            '',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के बंद टिकट स्क्रीन में टिकट के उत्तरदायी प्रतिनिधि को स्थापित करता है।',
         'Sets the responsible agent of the ticket in the ticket bulk screen of the agent interface.' =>
@@ -4840,13 +4852,19 @@ sub Data {
             'उपयोगकर्ता id 1(प्रणाली खाता) के साथ न काम करें । नए उपयोगकर्ता बनाऐ।',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.' =>
             'घटना मॉड्यूल पंजीकरण। और अधिक प्रदर्शन के लिए आप एक ट्रिगर घटना परिभाषित कर सकते हैं(उदा.घटना =>टिकट बनाएँ )। यह तभी संभव है यदि सभी टिकट मुक्त फील्ड तत्वों को एक ही घटना की जरूरत है।',
+        'Example for free text' => 'मुक्त पाठ के लिए उदाहरण',
         'Filter for Language' => 'भाषा के लिए निस्पादक',
         'Forward ticket: ' => 'टिकट अग्रेषित करें',
         'Hash/Fingerprint' => 'द्रुतान्वेषण/अंगुली-चिह्न',
+        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
+            'यदि "डीबी" SessionModule के लिए चयन किया गया,तो सत्र तालिका में पहचानकर्ताओं के लिए एक स्तंभ निर्दिष्ट किया जाना चाहिए।',
+        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
+            'यदि "डीबी" SessionModule के लिए चयन किया गया,तो सत्र तालिका में मानों के लिए कोई स्तंभ निर्दिष्ट किया जाना चाहिए।',
         'If configured, all emails sent by the application will contain an X-Header with this organization or company name.' =>
             'यदि विन्यस्त है,सभी आवेदन द्वारा भेजे गए ईमेल के इस संगठन या कंपनी के नाम के साथ एक एक्स शीर्षक शामिल होंगे।',
         'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
             'यदि निर्धारित है,इस पते के रूप में लिफाफा शीर्षक से बाहर जाने वाले सूचनाओं में प्रयोग किया जाता है। यदि कोई पता निर्दिष्ट नहीं है,शीर्षक से लिफाफा खाली है।',
+        'Invalid SessionID!' => 'अवैध सत्र ID',
         'Link this ticket to an other objects!' => 'इस टिकट को दूसरे वस्तु से लिंक करें।',
         'Link this ticket to other objects!' => 'अन्य वस्तुओं से यह टिकट जोडें।',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>

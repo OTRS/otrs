@@ -9,7 +9,7 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.132 2012-10-12 09:33:22 mg Exp $
+# $Id: nb_NO.pm,v 1.133 2012-10-24 12:44:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.132 $;
+$VERSION = q$Revision: 1.133 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-12 11:29:46
+    # Last translation file sync: 2012-10-24 14:42:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -238,7 +238,6 @@ sub Data {
         'Please contact your administrator' => 'Vennligst kontakt administratoren',
         'Logout' => 'Logg ut',
         'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
-        'Invalid SessionID!' => 'Ugyldig SessionID!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
         'Agent updated!' => 'Saksbehandler oppdatert',
         'Create Database' => 'Opprett database',
@@ -267,7 +266,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Utsending etter oppføringer i To:-felt.',
         'Dispatching by selected Queue.' => 'Utsending etter valgt kø.',
         'No entry found!' => 'Ingen oppføringer funnet!',
+        'Session invalid. Please log in again.' => '',
         'Session has timed out. Please log in again.' => 'Sesjonen har gått ut på tid.  Vennligst logg inn igjen.',
+        'Session limit reached! Please try again later.' => '',
         'No Permission!' => 'Ingen rettigheter!',
         '(Click here to add)' => '(Klikk her for å legge til)',
         'Preview' => 'Forhåndsvisning',
@@ -862,6 +863,9 @@ sub Data {
         'Ticket responsible options' => 'Valg for saksansvarlige',
         'Options of the current user who requested this action' => 'Valg for den nåværende brukeren som ba om denne handlingen',
         'Options of the ticket data' => 'Valg for sakens data',
+        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
         'Config options' => 'Valg for oppsett',
         'Example response' => 'Eksempel på svar',
 
@@ -2006,7 +2010,6 @@ sub Data {
         'in' => 'om',
 
         # Template: AgentDashboardCustomerCompanyInformation
-        'URL' => 'URL',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '',
@@ -2667,6 +2670,7 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Filen er ikke et bilde som kan vises i nettleseren!',
 
         # Template: PrintFooter
+        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'skrevet ut av',
@@ -2827,6 +2831,7 @@ sub Data {
             'Sjekker SystemID i saksnummer-generatoren for oppfølginger (bruk "Nei" hvis SystemID har blitt endret etter å ha brukt systemet.',
         'Closed tickets of customer' => 'Kundes lukkede saker',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
+        'Company Status' => '',
         'Company Tickets' => 'Firmasaker',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             'Firmanavn for kundegrensesnittet. Vil også bli inkludert i epostens subjekt som X-Hoder',
@@ -2875,17 +2880,15 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'CustomerID Status' => '',
         'Customers <-> Groups' => 'Kunder <-> Grupper',
         'Customers <-> Services' => 'Kunder <-> Tjenester',
-        'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
-            '',
         'Data used to export the search result in CSV format.' => 'Data brukt for å eksportere søkeresultatet i CSV-format.',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '',
         'Default ACL values for ticket actions.' => 'Standard ACL-verdier for sakshendelser',
-        'Default Process Management Entity prefixes for entity IDs.' => '',
+        'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
+            '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -3191,6 +3194,8 @@ sub Data {
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => 'Definerer høyden på symbolforklaringen.',
@@ -3425,6 +3430,8 @@ sub Data {
             '',
         'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
             '',
+        'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width of the legend.' => 'Definerer bredden på symbolforklaringen.',
@@ -3483,14 +3490,14 @@ sub Data {
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
-        'Dynamic fields groups for process widget. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+        'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3538,8 +3545,6 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
-            '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'DynamicField backend registration.' => '',
@@ -3575,7 +3580,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for free text' => 'Eksempel på fritekst',
         'Execute SQL statements.' => 'Kjør SQL-spørringer',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
@@ -3644,10 +3648,6 @@ sub Data {
             'Hvis "DB" er valgt som Customer::AuthModule må feltnavnet som skal kobles til CustomerKey spesifiseres.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
             'Hvis "DB" er valgt som Customer::AuthModule må man skrive inn navnet på tabellen for lagring av kundedata.',
-        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
-            'Hvis "DB" er valgt for SessionModule må feltnavnet for identifikatorene i sesjonstabellen oppgis.',
-        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
-            'Hvis "DB" er valgt for SessionModule må feltnavnet for verdier i sesjonstabellen oppgis.',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
             'Hvis "DB" er valgt for SessionModule må man spesifisere tabellnavnet for lagring av sesjonsdata.',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
@@ -3990,8 +3990,6 @@ sub Data {
         'S/MIME Certificate Upload' => 'Opplasting av S/MIME-sertifikat',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
-        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
-            '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Velg tema for webvisningen.',
@@ -4104,6 +4102,20 @@ sub Data {
         'Sets the prefered time units (e.g. work units, hours, minutes).' =>
             '',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
+            '',
+        'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
             '',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
             '',
@@ -4943,6 +4955,7 @@ sub Data {
         'Escalation Times' => 'Eskaleringstider',
         'Escalation time' => 'Eskalasjonstid',
         'Event is required!' => 'Hendelse er påkrevd',
+        'Example for free text' => 'Eksempel på fritekst',
         'Expand View' => 'Utvid',
         'Explanation' => 'Forklaring',
         'Explorer' => 'Utforsker',
@@ -4989,6 +5002,10 @@ sub Data {
         'Here you can select the dynamic object you want to use.' => 'Her kan du velge det dynamiske objektet som du ønsker å benytte.',
         'Home' => 'Hjem',
         'How we should adress you' => 'Hvilken benevnelse vi skal bruke',
+        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
+            'Hvis "DB" er valgt for SessionModule må feltnavnet for identifikatorene i sesjonstabellen oppgis.',
+        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
+            'Hvis "DB" er valgt for SessionModule må feltnavnet for verdier i sesjonstabellen oppgis.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove tailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Hvis "HTTPBasicAuth" er valgt som Customer::AuthModule kan du skrive en Regulær-uttrykk-setning for å strippe deler av REMOTE_USER (f.eks. for å ta vekk domenenavn). I Regulær-uttrykk-uttrykket vil $1 bli det nye brukernavnet.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.' =>
@@ -5035,6 +5052,7 @@ sub Data {
         'Insert of the common specifications' => 'Registrering av felles spesifikasjoner',
         'Installs ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             'Bruk ispell eller aspell dersom du trenger en stavekontroll. Vennligst skriv inn stien til aspell- eller ispell-programmet som er installert på systemet',
+        'Invalid SessionID!' => 'Ugyldig SessionID!',
         'Is Job Valid' => 'Er jobben gyldig',
         'Is Job Valid?' => 'Er jobben gyldig?',
         'It\'s useful for ASP solutions.' => 'Nyttig for ASP-løsninger.',

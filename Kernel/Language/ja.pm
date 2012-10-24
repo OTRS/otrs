@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.34 2012-10-12 09:33:24 mg Exp $
+# $Id: ja.pm,v 1.35 2012-10-24 12:44:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-12 11:29:43
+    # Last translation file sync: 2012-10-24 14:42:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -232,7 +232,6 @@ sub Data {
         'Please contact your administrator' => '管理者に連絡してください',
         'Logout' => 'ログアウト',
         'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます！',
-        'Invalid SessionID!' => 'セッションIDが無効です！',
         'Feature not active!' => '機能が有効になっていません！',
         'Agent updated!' => '担当者更新！',
         'Create Database' => 'データベース作成',
@@ -261,7 +260,9 @@ sub Data {
         'Dispatching by email To: field.' => 'メールの宛先で振り分け',
         'Dispatching by selected Queue.' => '選択したキューで振り分け',
         'No entry found!' => '登録がありません！',
+        'Session invalid. Please log in again.' => '',
         'Session has timed out. Please log in again.' => '接続が時間切れです。再ログインしてください。',
+        'Session limit reached! Please try again later.' => '',
         'No Permission!' => '権限がありません！',
         '(Click here to add)' => '(クリックして追加)',
         'Preview' => 'プレビュー',
@@ -856,6 +857,9 @@ sub Data {
         'Ticket responsible options' => 'チケット応答オプション',
         'Options of the current user who requested this action' => '操作を要求された現在のユーザーのオプション',
         'Options of the ticket data' => 'チケットデータのオプション',
+        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
         'Config options' => '設定オプション',
         'Example response' => '応答例',
 
@@ -2000,7 +2004,6 @@ sub Data {
         'in' => '＞',
 
         # Template: AgentDashboardCustomerCompanyInformation
-        'URL' => 'URL',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '',
@@ -2661,6 +2664,7 @@ sub Data {
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
+        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => '',
@@ -2821,6 +2825,7 @@ sub Data {
             'チケット番号ディテクションの中のシステムIDを、フォロー・アップのために確認します（もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください）。',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
+        'Company Status' => '',
         'Company Tickets' => '企業チケット',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
@@ -2869,17 +2874,15 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'CustomerID Status' => '',
         'Customers <-> Groups' => '顧客 <-> グループ',
         'Customers <-> Services' => '顧客 <-> サービス',
-        'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
-            '',
         'Data used to export the search result in CSV format.' => '検索結果をCSVフォーマットでエクスポートするために使用されるデータです。',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '翻訳セットのデバッグです。“Yes”にセットした場合、翻訳の無い全ての文字列（テキスト）がSTDERRに書かれます。これは、新しく翻訳ファイルを作成している場合に役立ちます。そうでなければ“No”のままにしてください。',
         'Default ACL values for ticket actions.' => 'チケット・アクションに関するデフォルトのACLの値です。',
-        'Default Process Management Entity prefixes for entity IDs.' => '',
+        'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
+            '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -3185,6 +3188,8 @@ sub Data {
             'フルに認定されたシステムのドメイン名を定義します。この設定は変数OTRS_CONFIG_FQDNとして使用され、アプリケーションによって使用されるメッセージングの全てのフォームに存在し、ご利用のシステム内のチケットへのリンクを作成することとなります。',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '全顧客が所属するグループを定義します（CustomerGroupSupportが有効であり、全ユーザをこれらのグループで管理したくない場合）。',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => '凡例の高さを定義します。',
@@ -3419,6 +3424,8 @@ sub Data {
             'アンロックされたチケットについて、有効な状態を定義します。チケットをアンロックするには、スクリプト"bin/otrs.UnlockTickets.pl"を使用できます。',
         'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
             'チケットについて、視認できるロックを定義します。デフォルト：unlock, tmp_lock。',
+        'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'リッチテキスト・エディター・コンポーネントを定義します。数字（ピクセル）またはパーセント値（相対的）を入力します。',
         'Defines the width of the legend.' => '凡例の幅を定義します。',
@@ -3479,14 +3486,14 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
-        'Dynamic fields groups for process widget. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+        'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3534,8 +3541,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
-            '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'DynamicField backend registration.' => '',
@@ -3571,7 +3576,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for free text' => '自由入力の例',
         'Execute SQL statements.' => 'SQL文の実行',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '件名にチケット番号を持たないメールに関して、In-Reply-Toまたはレファレンス・ヘッダーにおけるフォロー・アップ・チェックを行います。',
@@ -3640,10 +3644,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブル内のCustomerKeyのためのコラム名を特定する必要があります。',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
             'もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客データが格納されるべきテーブル名を特定する必要があります。',
-        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
-            'セッション・モジュールに"DB"が選択されていた場合、セッション・テーブルのなかの識別子のカラムを特定する必要があります。',
-        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
-            'セッション・モジュールに"DB"が選択されていた場合、セッション・テーブルの値のカラムを設定する必要があります。',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
             'セッション・モジュールに"DB"が選択されていた場合、セッション・データが格納されるデータベースのテーブルを特定する必要があります。',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
@@ -3987,8 +3987,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'S/MIME Certificate Upload' => 'S/MIME証明書アップロード',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '項目の添付ファイルを保存します。. "DB"は、全てのデータをデータベースに保存します（大きな添付物の保存にはお奨めしません）。"FS"は、データをファイル・システム上に保存するもので、これは速い方法ですがウェブ・サーバがOTRSユーザの配下で動作している必要があります。すでに製品となっているシステムにおいても、データを損失すること無く、モジュール間で切替を行うことができます。',
-        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
-            'セッション・モジュールに"DB"が選択されていた場合、データベースの中のセッション・テーブル上のログインおよびパスワードを保存します。',
         'Search backend default router.' => 'バックエンドのデフォルト・ルーターを検索します。',
         'Search backend router.' => 'バックエンド・ルーターを検索します。',
         'Select your frontend Theme.' => 'フロントエンドのテーマを選択してください。',
@@ -4102,6 +4100,20 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '優先される時間の単位（例：業務ユニット、時間、分）を設定します。',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
             'ウェブ・サーバ上に設定されるように、サーバ上のスクリプト・フォルダに対する接頭辞を設定します。この設定は、OTRS_CONFIG_ScriptAlias変数として設定され、これはアプリケーションによって使用されるメッセージングの全フォームに存在し、システム内のチケットへのリンクを作成するために使用されます。',
+        'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
+            '',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
             '担当者インタフェースのクローズ・チケット画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket bulk screen of the agent interface.' =>
@@ -5143,6 +5155,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Event is required!' => 'イベントが必要です！',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.' =>
             'イベント・モジュールの登録です。より多くのパフォーマンスのために、トリガー・イベントを定義することができます（例：Event => TicketCreate）。これは、全てのTicketFreeField要素が同じイベントを必要としている場合にのみ、可能となります。',
+        'Example for free text' => '自由入力の例',
         'Expand View' => '展開表示',
         'Explanation' => '説明',
         'Export Config' => '設定のエクスポート',
@@ -5204,6 +5217,10 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'IP Address' => 'IPアドレス',
         'ITSM Change' => 'ITSM変更管理',
         'ITSM ChangeManagement Notification Management' => 'ITSM変更管理　通知管理',
+        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
+            'セッション・モジュールに"DB"が選択されていた場合、セッション・テーブルのなかの識別子のカラムを特定する必要があります。',
+        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
+            'セッション・モジュールに"DB"が選択されていた場合、セッション・テーブルの値のカラムを設定する必要があります。',
         'If a note is added by an agent, sets the state of a ticket in the additional ITSM field screen of the agent interface.' =>
             'もし、注釈が担当者によって追加された場合、担当者インタフェースにおける追加ITSMフィールド画面でのチケット状態を設定します。',
         'If a note is added by an agent, sets the state of a ticket in the decision screen of the agent interface.' =>
@@ -5245,6 +5262,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Insert of the common specifications' => '共通仕様の挿入',
         'Install Date' => 'インストール日',
         'Instance' => 'インスタンス',
+        'Invalid SessionID!' => 'セッションIDが無効です！',
         'Is Job Valid' => '有効なジョブ',
         'Is Job Valid?' => '有効なジョブ？',
         'It\'s useful for ASP solutions.' => 'これはASPソリューションが便利です。',
@@ -5480,6 +5498,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'SUBCATEGORIES' => 'サブカテゴリ',
         'Save Job as?' => 'ジョブを保存しますか？',
         'Save Search-Profile as Template?' => 'テンプレートを検索プロファイルに保存しますか？',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
+            'セッション・モジュールに"DB"が選択されていた場合、データベースの中のセッション・テーブル上のログインおよびパスワードを保存します。',
         'Schedule' => 'スケジュール',
         'Search Result' => '検索結果',
         'Search Ticket' => 'チケット検索',
