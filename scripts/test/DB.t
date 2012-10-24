@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.92 2012-10-24 13:52:11 ub Exp $
+# $Id: DB.t,v 1.93 2012-10-24 17:29:08 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3239,6 +3239,7 @@ $XML = '
     <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="name_c" Required="false" Size="60" Type="VARCHAR"/>
     <Column Name="name_d" Required="false" Size="60" Type="VARCHAR"/>
+    <Column Name="name_e" Required="true" Size="60" Type="VARCHAR"/>
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
@@ -3261,6 +3262,7 @@ $XML = '
     <ColumnChange NameOld="name_b" NameNew="name_b" Type="VARCHAR" Size="1800000" Required="false"/>
     <ColumnChange NameOld="name_c" NameNew="name_c" Type="VARCHAR" Size="1800000" Required="true"/>
     <ColumnChange NameOld="name_d" NameNew="name_d" Type="VARCHAR" Size="1800000" Required="false"/>
+    <ColumnAdd Name="name_f" Type="varchar" Size="20" Required="true"/>
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
@@ -3282,14 +3284,54 @@ my $ValueA = 'A' x 1800000;
 my $ValueB = 'B' x 1800000;
 my $ValueC = 'C' x 1800000;
 my $ValueD = 'D' x 1800000;
+my $ValueE = 'E';
+my $ValueF = 'F';
 
+# adding valid values in each column
 $Self->True(
     $DBObject->Do(
-        SQL => 'INSERT INTO test_a (name_a, name_b, name_c, name_d ) VALUES (?, ?, ?, ?)',
-        Bind => [ \$ValueA, \$ValueB, \$ValueC, \$ValueD ],
+        SQL =>
+            'INSERT INTO test_a (name_a, name_b, name_c, name_d, name_e, name_f) VALUES (?, ?, ?, ?, ?, ?)',
+        Bind => [ \$ValueA, \$ValueB, \$ValueC, \$ValueD, \$ValueE, \$ValueF ],
         )
         || 0,
     '#11 Do() SQL INSERT 1',
+);
+
+# adding NULL values in columns that are allowed to be NULL
+$Self->True(
+    $DBObject->Do(
+        SQL => 'INSERT INTO test_a (name_b, name_d) VALUES (NULL, NULL)',
+        )
+        || 0,
+    '#11 Do() SQL INSERT 2',
+);
+
+# trying to add a NULL value in a column that must not be NULL and was created as "NOT NULL" during TableCreate
+$Self->False(
+    $DBObject->Do(
+        SQL => 'INSERT INTO test_a (name_e) VALUES (NULL)',
+        )
+        || '',
+    '#11 Do() SQL INSERT 3',
+);
+
+# trying to add a NULL value in a column that must not be NULL and was created as "NOT NULL" during TableAlter
+$Self->False(
+    $DBObject->Do(
+        SQL => 'INSERT INTO test_a (name_f) VALUES (NULL)',
+        )
+        || '',
+    '#11 Do() SQL INSERT 4',
+);
+
+# trying to add a NULL value in a column that must not be NULL and was changed to "NOT NULL" during TableAlter
+$Self->False(
+    $DBObject->Do(
+        SQL => 'INSERT INTO test_a (name_c) VALUES (NULL)',
+        )
+        || '',
+    '#11 Do() SQL INSERT 5',
 );
 
 $XML      = '<TableDrop Name="test_a"/>';
