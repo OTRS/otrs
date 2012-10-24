@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.77 2012-04-20 12:16:58 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.78 2012-10-24 14:21:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,7 +114,7 @@
                                 <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}
                             </td>
                             <td>
-                                <label>$Text{"State"}</label><div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","26"}</div>
+                                <label>$Text{"State"}</label><div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</div>
                             </td>
                         </tr>
 <!-- dtl:block:Service -->
@@ -134,7 +134,7 @@
                                 <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
                             </td>
                             <td>
-                                <label>$Text{"Lock"}</label><div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}","26"}</div>
+                                <label>$Text{"Lock"}</label><div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}"}</div>
                             </td>
                         </tr>
                         <tr class="Middle">

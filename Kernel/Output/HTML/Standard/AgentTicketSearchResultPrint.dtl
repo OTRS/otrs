@@ -1,8 +1,8 @@
 # --
 # AgentTicketSearchResultPrint.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearchResultPrint.dtl,v 1.6 2011-06-22 09:16:31 mb Exp $
+# $Id: AgentTicketSearchResultPrint.dtl,v 1.7 2012-10-24 14:21:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
                     <td class="contentvalue">$Data{"TicketNumber"}</td>
                     <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
                     <td class="contentvalue">$QData{"From","30"}<br/>$QData{"Subject","30"}</td>
-                    <td class="contentvalue">$Text{"$Data{"State"}","30"}<br/>$QData{"Queue","30"}</td>
+                    <td class="contentvalue">$Text{"$Data{"State"}"}<br/>$QData{"Queue","30"}</td>
                     <td class="contentvalue">$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})</td>
                     <td class="contentvalue">$QData{"CustomerID","15"}&nbsp;<br/>$QData{"CustomerName","15"}</td>
                 </tr>

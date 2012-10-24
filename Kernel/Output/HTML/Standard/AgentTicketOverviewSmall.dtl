@@ -1,8 +1,8 @@
 # --
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.85 2011-11-07 08:41:20 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.86 2012-10-24 14:21:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,10 +179,10 @@
 <!-- dtl:block:RecordTicketTitle -->
                     </td>
                     <td width="8%">
-                        <div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","30"}</div>
+                        <div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</div>
                     </td>
                     <td>
-                        <div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}","30"}</div>
+                        <div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}"}</div>
                     </td>
                     <td width="10%">
                         <div title="$QData{"Queue"}">$QData{"Queue","30"}</div>
