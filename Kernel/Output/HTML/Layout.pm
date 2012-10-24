@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.411 2012-10-10 10:26:39 mb Exp $
+# $Id: Layout.pm,v 1.412 2012-10-24 08:53:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.411 $) [1];
+$VERSION = qw($Revision: 1.412 $) [1];
 
 =head1 NAME
 
@@ -2500,7 +2500,7 @@ sub Attachment {
     # clean filename to get no problems with some browsers
     if ( $Param{Filename} ) {
 
-        # detect if IE workaround is used (solution for IE problem with multi byte filename)
+        # detect if IE6 workaround is used (solution for IE problem with multi byte filename)
         # to solve this kind of problems use the following in dtl for attachment downloads:
         # <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=...">xxx</a>
         my $FilenameInHeader = 1;
@@ -2508,7 +2508,7 @@ sub Attachment {
         # check if browser is broken
         if ( $Self->{BrowserBreakDispositionHeader} && $ENV{REQUEST_URI} ) {
 
-            # check if IE workaround is used
+            # check if IE 6 workaround is used
             if ( $ENV{REQUEST_URI} =~ /\Q$Self->{CGIHandle}\E\/.+?\?Action=/ ) {
                 $FilenameInHeader = 0;
             }
@@ -5234,6 +5234,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.411 $ $Date: 2012-10-10 10:26:39 $
+$Revision: 1.412 $ $Date: 2012-10-24 08:53:13 $
 
 =cut
