@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2485 2012-10-24 13:45:14 mab Exp $
+# $Id: CHANGES,v 1.2486 2012-10-24 15:43:38 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-10-24 Fixed bug#8062 - Optimize images in all defualt skins.
  - 2012-10-24 Fixed bug#8861 - Ticket History overlaid calender choice function.
  - 2012-10-24 Fixed bug#8818 - Slash in attachment filename breaks webinterface.
  - 2012-10-24 Added feature to limit the numbers of cuncurrent working agents and customers.
