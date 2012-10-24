@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.150 2012-10-24 12:44:29 mg Exp $
+# $Id: es.pm,v 1.151 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
+$VERSION = qw($Revision: 1.151 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:51
+    # Last translation file sync: 2012-10-24 16:21:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2273,12 +2273,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalado en',
         'Locked' => 'Bloqueado',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2473,7 +2471,6 @@ sub Data {
         'of' => 'de',
         'Page' => 'Página',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

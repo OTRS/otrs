@@ -2,7 +2,7 @@
 # Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2012 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ca.pm,v 1.11 2012-10-24 12:44:30 mg Exp $
+# $Id: ca.pm,v 1.12 2012-10-24 14:23:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:45
+    # Last translation file sync: 2012-10-24 16:21:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2269,12 +2269,10 @@ sub Data {
         'Tickets per page' => 'Tiquets per pàgina',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalat en',
         'Locked' => 'Bloquejat',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2469,7 +2467,6 @@ sub Data {
         'of' => 'de',
         'Page' => 'Pàgina',
         'Search Results for' => 'Resultats de la recerca para',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

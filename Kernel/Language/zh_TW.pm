@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.45 2012-10-24 12:44:31 mg Exp $
+# $Id: zh_TW.pm,v 1.46 2012-10-24 14:23:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:21
+    # Last translation file sync: 2012-10-24 16:22:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2271,12 +2271,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => '限時',
         'Locked' => '鎖定狀態',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,7 +2469,6 @@ sub Data {
         'of' => '',
         'Page' => '頁',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

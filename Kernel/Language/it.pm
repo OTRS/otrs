@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.138 2012-10-24 12:44:30 mg Exp $
+# $Id: it.pm,v 1.139 2012-10-24 14:23:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:01
+    # Last translation file sync: 2012-10-24 16:21:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2276,12 +2276,10 @@ sub Data {
         'Tickets per page' => 'Numero di ticket per pagina',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalation in',
         'Locked' => 'In gestione',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2476,7 +2474,6 @@ sub Data {
         'of' => 'di',
         'Page' => 'Pagina',
         'Search Results for' => 'Risultati di ricerca per',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

@@ -9,7 +9,7 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.133 2012-10-24 12:44:28 mg Exp $
+# $Id: nb_NO.pm,v 1.134 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.133 $;
+$VERSION = q$Revision: 1.134 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:05
+    # Last translation file sync: 2012-10-24 16:21:57
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2276,12 +2276,10 @@ sub Data {
         'Tickets per page' => 'Saker per side',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalering om',
         'Locked' => 'Tilgjengelighet',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2476,7 +2474,6 @@ sub Data {
         'of' => 'av',
         'Page' => 'Side',
         'Search Results for' => 'Søkeresultater for',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

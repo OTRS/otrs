@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Lukoševičius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.25 2012-10-24 12:44:29 mg Exp $
+# $Id: lt.pm,v 1.26 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:03
+    # Last translation file sync: 2012-10-24 16:21:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2269,12 +2269,10 @@ sub Data {
         'Tickets per page' => 'Trikčių puslapyje',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalavimas po',
         'Locked' => 'Užrakintas',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2469,7 +2467,6 @@ sub Data {
         'of' => 'iš',
         'Page' => 'Puslapis',
         'Search Results for' => 'Paieškos rezultatai: ',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

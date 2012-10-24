@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.26 2012-10-24 12:44:30 mg Exp $
+# $Id: hi.pm,v 1.27 2012-10-24 14:23:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:57
+    # Last translation file sync: 2012-10-24 16:21:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2271,12 +2271,10 @@ sub Data {
         'Tickets per page' => 'टिकट प्रति पृष्ठ',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'में संवर्धित',
         'Locked' => 'लॉकड',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,7 +2469,6 @@ sub Data {
         'of' => 'की',
         'Page' => 'पृष्ठ',
         'Search Results for' => 'के लिए परिणाम खोजें',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

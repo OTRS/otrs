@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.138 2012-10-24 12:44:30 mg Exp $
+# $Id: fi.pm,v 1.139 2012-10-24 14:23:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:55
+    # Last translation file sync: 2012-10-24 16:21:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2270,12 +2270,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskaloituu',
         'Locked' => 'Lukitut',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2470,7 +2468,6 @@ sub Data {
         'of' => '/',
         'Page' => 'Sivu',
         'Search Results for' => 'Hakutulokset',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.81 2012-10-24 12:44:28 mg Exp $
+# $Id: ar_SA.pm,v 1.82 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:43
+    # Last translation file sync: 2012-10-24 16:21:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2271,12 +2271,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'تصعيد خلال',
         'Locked' => 'مقفل',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,7 +2469,6 @@ sub Data {
         'of' => 'من',
         'Page' => 'الصفحة',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

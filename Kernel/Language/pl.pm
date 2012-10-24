@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011-2012 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.132 2012-10-24 12:44:31 mg Exp $
+# $Id: pl.pm,v 1.133 2012-10-24 14:23:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:07
+    # Last translation file sync: 2012-10-24 16:21:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2271,12 +2271,10 @@ sub Data {
         'Tickets per page' => 'Zgłoszeń na stronę',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalowane w',
         'Locked' => 'Blokada',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,7 +2469,6 @@ sub Data {
         'of' => 'z',
         'Page' => 'Strona',
         'Search Results for' => 'Wyniki wyszukiwania dla',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

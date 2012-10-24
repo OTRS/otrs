@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.112 2012-10-24 12:44:28 mg Exp $
+# $Id: fa.pm,v 1.113 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:54
+    # Last translation file sync: 2012-10-24 16:21:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2274,12 +2274,10 @@ sub Data {
         'Tickets per page' => 'درخواست در هر صفحه',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'بالارفتن اولویت در',
         'Locked' => 'تحویل گرفته شده',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2474,7 +2472,6 @@ sub Data {
         'of' => ' از ',
         'Page' => 'صفحه',
         'Search Results for' => 'نتایج جستجو برای',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

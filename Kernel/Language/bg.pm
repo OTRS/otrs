@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.137 2012-10-24 12:44:29 mg Exp $
+# $Id: bg.pm,v 1.138 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:44
+    # Last translation file sync: 2012-10-24 16:21:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2270,12 +2270,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Улеличение на приоритета в',
         'Locked' => 'Заключен',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2470,7 +2468,6 @@ sub Data {
         'of' => 'на',
         'Page' => 'Страница',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

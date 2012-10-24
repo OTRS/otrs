@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.98 2012-10-24 12:44:30 mg Exp $
+# $Id: sk_SK.pm,v 1.99 2012-10-24 14:23:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:12
+    # Last translation file sync: 2012-10-24 16:22:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2269,12 +2269,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => '',
         'Locked' => '',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2469,7 +2467,6 @@ sub Data {
         'of' => '',
         'Page' => '',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

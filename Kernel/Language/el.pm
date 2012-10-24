@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.100 2012-10-24 12:44:28 mg Exp $
+# $Id: el.pm,v 1.101 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:50
+    # Last translation file sync: 2012-10-24 16:21:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2276,12 +2276,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Αναβάθμιση σε',
         'Locked' => 'Κλειδωμένο',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2476,7 +2474,6 @@ sub Data {
         'of' => 'του',
         'Page' => 'Σελίδα',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.187 2012-10-24 12:44:31 mg Exp $
+# $Id: nl.pm,v 1.188 2012-10-24 14:23:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.187 $) [1];
+$VERSION = qw($Revision: 1.188 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:06
+    # Last translation file sync: 2012-10-24 16:21:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2275,12 +2275,10 @@ sub Data {
         'Tickets per page' => 'Tickets per pagina',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalatie om',
         'Locked' => 'Vergrendeling',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2475,7 +2473,6 @@ sub Data {
         'of' => 'van',
         'Page' => 'Pagina',
         'Search Results for' => 'Zoekresultaat voor',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

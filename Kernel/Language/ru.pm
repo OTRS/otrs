@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.139 2012-10-24 12:44:30 mg Exp $
+# $Id: ru.pm,v 1.140 2012-10-24 14:23:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.139 $) [1];
+$VERSION = qw($Revision: 1.140 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:10
+    # Last translation file sync: 2012-10-24 16:22:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2276,12 +2276,10 @@ sub Data {
         'Tickets per page' => 'Заявок на страницу',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Эскалация через',
         'Locked' => 'Блокировка',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2476,7 +2474,6 @@ sub Data {
         'of' => 'из',
         'Page' => 'Страница',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

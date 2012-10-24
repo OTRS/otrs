@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.334 2012-10-24 13:33:50 mg Exp $
+# $Id: de.pm,v 1.335 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.334 $) [1];
+$VERSION = qw($Revision: 1.335 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:49
+    # Last translation file sync: 2012-10-24 16:21:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2269,12 +2269,10 @@ sub Data {
         'Tickets per page' => 'Tickets pro Seite',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalation in',
         'Locked' => 'Sperre',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2469,7 +2467,6 @@ sub Data {
         'of' => 'von',
         'Page' => 'Seite',
         'Search Results for' => 'Suchergebnisse für',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => 'Artikel anzeigen',

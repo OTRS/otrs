@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.170 2012-10-24 12:44:29 mg Exp $
+# $Id: fr.pm,v 1.171 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.170 $) [1];
+$VERSION = qw($Revision: 1.171 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:56
+    # Last translation file sync: 2012-10-24 16:21:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2275,12 +2275,10 @@ sub Data {
         'Tickets per page' => 'Tickets par page',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalade dans',
         'Locked' => 'Verrouillé',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2475,7 +2473,6 @@ sub Data {
         'of' => 'de',
         'Page' => 'Page',
         'Search Results for' => 'Résultats de recherche pour',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

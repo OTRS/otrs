@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.35 2012-10-24 12:44:30 mg Exp $
+# $Id: sr_Cyrl.pm,v 1.36 2012-10-24 14:23:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:14
+    # Last translation file sync: 2012-10-24 16:22:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2269,12 +2269,10 @@ sub Data {
         'Tickets per page' => 'Тикета по страни',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '","26',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Ескалација у',
         'Locked' => 'Закључано',
-        '","30' => '","30',
 
         # Template: AgentTicketOwner
 
@@ -2469,7 +2467,6 @@ sub Data {
         'of' => 'од',
         'Page' => 'Страна',
         'Search Results for' => 'Резултати претраживања за',
-        '","18' => '","18',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',
@@ -4483,6 +4480,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        '","18' => '","18',
+        '","26' => '","26',
+        '","30' => '","30',
         '%s Tickets affected! Do you really want to use this job?' => '%s тикета захваћено! Да ли стварно желите да покренете овај посао?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Проверите "MX" записе употребљених имејл адреса  креирањем одговора. Немојте користити ову функцију ако је ваш "OTRS" сервер на "dial-up" линији!)',

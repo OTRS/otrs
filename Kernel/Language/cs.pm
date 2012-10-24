@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.26 2012-10-24 12:44:29 mg Exp $
+# $Id: cs.pm,v 1.27 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:46
+    # Last translation file sync: 2012-10-24 16:21:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2273,12 +2273,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalace v',
         'Locked' => 'Uzamčeno',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2473,7 +2471,6 @@ sub Data {
         'of' => 'z',
         'Page' => 'Strana',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

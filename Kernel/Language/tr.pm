@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.72 2012-10-24 12:44:30 mg Exp $
+# $Id: tr.pm,v 1.73 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $)[1];
+$VERSION = qw($Revision: 1.73 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:17
+    # Last translation file sync: 2012-10-24 16:22:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2268,12 +2268,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Yükselme',
         'Locked' => 'Kilitli',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2468,7 +2466,6 @@ sub Data {
         'of' => '..nın',
         'Page' => 'Sayfa',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

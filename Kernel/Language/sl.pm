@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Andrej Cimerlajt, i-Rose d.o.o. <andrej.cimerlajt@i-rose.si>
 # Copyright (C) 2011 Gorazd Žagar, i-Rose d.o.o. <gorazd.zagar@i-rose.si>
 # --
-# $Id: sl.pm,v 1.6 2012-10-24 12:44:28 mg Exp $
+# $Id: sl.pm,v 1.7 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:13
+    # Last translation file sync: 2012-10-24 16:22:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2273,12 +2273,10 @@ sub Data {
         'Tickets per page' => 'Zahtevkov na stran',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalacija v',
         'Locked' => 'Status',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2473,7 +2471,6 @@ sub Data {
         'of' => 'od',
         'Page' => 'Stran',
         'Search Results for' => 'Rezultati iskanja za',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.70 2012-10-24 12:44:30 mg Exp $
+# $Id: et.pm,v 1.71 2012-10-24 14:23:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:53
+    # Last translation file sync: 2012-10-24 16:21:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2268,12 +2268,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskaleerub',
         'Locked' => 'Lukustatud',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2468,7 +2466,6 @@ sub Data {
         'of' => '',
         'Page' => 'Lehekülg',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

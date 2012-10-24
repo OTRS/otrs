@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.109 2012-10-24 12:44:29 mg Exp $
+# $Id: da.pm,v 1.110 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:41:47
+    # Last translation file sync: 2012-10-24 16:21:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2271,12 +2271,10 @@ sub Data {
         'Tickets per page' => 'Sager pr. side',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalerer om',
         'Locked' => 'Tildelt',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,7 +2469,6 @@ sub Data {
         'of' => 'af',
         'Page' => 'Side',
         'Search Results for' => 'Søgeresultater for',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

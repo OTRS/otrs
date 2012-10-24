@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.115 2012-10-24 12:44:29 mg Exp $
+# $Id: sv.pm,v 1.116 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:16
+    # Last translation file sync: 2012-10-24 16:22:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2270,12 +2270,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Upptrappning om',
         'Locked' => 'Låst',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2470,7 +2468,6 @@ sub Data {
         'of' => 'av',
         'Page' => 'Sida',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

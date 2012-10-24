@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.35 2012-10-24 12:44:29 mg Exp $
+# $Id: ja.pm,v 1.36 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:02
+    # Last translation file sync: 2012-10-24 16:21:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2270,12 +2270,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'エスカレーション: ',
         'Locked' => 'ロック状態',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2470,7 +2468,6 @@ sub Data {
         'of' => '/',
         'Page' => 'ページ',
         'Search Results for' => '検索結果: ',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

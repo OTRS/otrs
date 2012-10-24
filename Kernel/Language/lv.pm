@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.48 2012-10-24 12:44:28 mg Exp $
+# $Id: lv.pm,v 1.49 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:04
+    # Last translation file sync: 2012-10-24 16:21:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2268,12 +2268,10 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalēt',
         'Locked' => 'Aizslēgts',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2468,7 +2466,6 @@ sub Data {
         'of' => 'no',
         'Page' => 'Lapa',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

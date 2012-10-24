@@ -3,7 +3,7 @@
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>viz
 # Copyright (C) 2012 FCCN - Rui Francisco <rui.francisco@fccn.pt>
 # --
-# $Id: pt.pm,v 1.127 2012-10-24 12:44:28 mg Exp $
+# $Id: pt.pm,v 1.128 2012-10-24 14:23:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:08
+    # Last translation file sync: 2012-10-24 16:22:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2270,12 +2270,10 @@ sub Data {
         'Tickets per page' => 'Tickets por página',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalado em',
         'Locked' => 'Bloqueado',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2470,7 +2468,6 @@ sub Data {
         'of' => 'de',
         'Page' => 'Página',
         'Search Results for' => 'Pesquisar resultados para',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

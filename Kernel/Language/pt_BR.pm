@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.134 2012-10-24 12:44:30 mg Exp $
+# $Id: pt_BR.pm,v 1.135 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:09
+    # Last translation file sync: 2012-10-24 16:22:03
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2272,12 +2272,10 @@ sub Data {
         'Tickets per page' => 'Chamados por página',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalação em',
         'Locked' => 'Bloqueio',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2472,7 +2470,6 @@ sub Data {
         'of' => 'de',
         'Page' => 'Página',
         'Search Results for' => 'Resultados da pesquisa para',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',

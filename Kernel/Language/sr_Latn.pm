@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.35 2012-10-24 12:44:29 mg Exp $
+# $Id: sr_Latn.pm,v 1.36 2012-10-24 14:23:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 14:42:15
+    # Last translation file sync: 2012-10-24 16:22:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2269,12 +2269,10 @@ sub Data {
         'Tickets per page' => 'Tiketa po strani',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '","26',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalacija u',
         'Locked' => 'Zaključano',
-        '","30' => '","30',
 
         # Template: AgentTicketOwner
 
@@ -2469,7 +2467,6 @@ sub Data {
         'of' => 'od',
         'Page' => 'Strana',
         'Search Results for' => 'Rezultati pretraživanja za',
-        '","18' => '","18',
 
         # Template: CustomerTicketZoom
         'Show  article' => '',
@@ -4483,6 +4480,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        '","18' => '","18',
+        '","26' => '","26',
+        '","30' => '","30',
         '%s Tickets affected! Do you really want to use this job?' => '%s tiketa zahvaćeno! Da li stvarno želite da pokrenete ovaj posao?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Proverite "MX" zapise upotrebljenih imejl adresa  kreiranjem odgovora. Nemojte koristiti ovu funkciju ako je vaš "OTRS" server na "dial-up" liniji!)',
