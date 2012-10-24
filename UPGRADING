@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.78 2012-10-23 08:25:03 mg Exp $
+# $Id: UPGRADING,v 1.79 2012-10-24 11:39:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
 3.2.4. If you need to do such a "patch level upgrade", you should skip steps
-XXXXXXXXXXXXXXXXYZ.
+8, 11, 13 and 14.
 
 
 1) Stop all relevant services
