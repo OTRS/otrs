@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.65 2011-03-01 18:23:35 en Exp $
+# $Id: oracle.pm,v 1.66 2012-10-24 23:53:28 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -449,8 +449,33 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type} DEFAULT NULL";
-            push @SQL, $SQLEnd;
+            # if the column is a CLOB we create a temporary column with the CLOB type,
+            # then copy the data from the old column to the temporary column
+            # and then remove the temporary column
+            # Fix/Workaround for ORA-22858: invalid alteration of datatype
+            if ( $Tag->{Type} eq 'CLOB' ) {
+
+                # create temp column name
+                my $ColumnTemp = $Tag->{Name} . '_TEMP';
+
+                # create temp column
+                push @SQL, "ALTER TABLE $Table ADD $ColumnTemp $Tag->{Type} NULL";
+
+                # copy data from old column into temp column
+                push @SQL, "UPDATE $Table SET $ColumnTemp = $Tag->{Name}";
+
+                # delete old column column
+                push @SQL, "ALTER TABLE $Table DROP COLUMN $Tag->{Name}";
+
+                # rename temp column to old column name
+                push @SQL, "ALTER TABLE $Table RENAME COLUMN $ColumnTemp TO $Tag->{Name}";
+            }
+
+            # the column type is no CLOB
+            else {
+                my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type} DEFAULT NULL";
+                push @SQL, $SQLEnd;
+            }
 
             # handle default and require
             if ( $Default ne "''" && ( $Required || defined $Tag->{Default} ) ) {

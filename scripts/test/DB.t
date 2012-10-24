@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.95 2012-10-24 17:51:19 ub Exp $
+# $Id: DB.t,v 1.96 2012-10-24 23:53:27 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3187,9 +3187,9 @@ for my $SQL (@SQL) {
     );
 }
 
-#
-# Statement size checks
-#
+# ------------------------------------------------------------ #
+# Statement size checks (test 11)
+# ------------------------------------------------------------ #
 for my $QuerySize (
     100, 500, 1_000, 1_050, 2_000, 2_100, 3_000, 3_200,
     4_000, 4_400, 5_000, 10_000, 100_000, 1_000_000
@@ -3225,6 +3225,97 @@ for my $Test (@Tests) {
         $Result,
         $Test->{Result},
         'QueryStringEscape - ' . $Test->{Name}
+    );
+}
+
+# ------------------------------------------------------------ #
+# XML test 12 (XML:TableCreate, XML:TableAlter,
+# SQL:Insert (size check),  XML:TableDrop)
+# Fix/Workaround for ORA-22858: invalid alteration of datatype
+# ------------------------------------------------------------ #
+$XML = '
+<TableCreate Name="test_a">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+    <Column Name="name_a" Required="false" Size="60" Type="VARCHAR"/>
+    <Column Name="name_b" Required="false" Size="60" Type="VARCHAR"/>
+</TableCreate>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#12 SQLProcessor() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#12 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+# all values have the exact maximum size
+my $ValueA = 'A';
+my $ValueB = 'B';
+
+# adding valid values in each column
+$Self->True(
+    $DBObject->Do(
+        SQL =>
+            'INSERT INTO test_a (name_a, name_b) VALUES (?, ?)',
+        Bind => [ \$ValueA, \$ValueB ],
+        )
+        || 0,
+    '#12 Do() SQL INSERT before column size change',
+);
+
+$XML = '
+<TableAlter Name="test_a">
+    <ColumnChange NameOld="name_a" NameNew="name_a" Type="VARCHAR" Size="1800000" Required="false"/>
+    <ColumnChange NameOld="name_b" NameNew="name_b" Type="VARCHAR" Size="1800000" Required="false"/>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#12 SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#12 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+# all values have the exact maximum size
+$ValueA = 'A' x 1800000;
+$ValueB = 'B' x 1800000;
+
+# adding valid values in each column
+$Self->True(
+    $DBObject->Do(
+        SQL =>
+            'INSERT INTO test_a (name_a, name_b) VALUES (?, ?)',
+        Bind => [ \$ValueA, \$ValueB ],
+        )
+        || 0,
+    '#12 Do() SQL INSERT after column size change',
+);
+
+$XML      = '<TableDrop Name="test_a"/>';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#12 SQLProcessor() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "#12 Do() DROP TABLE ($SQL)",
     );
 }
 
