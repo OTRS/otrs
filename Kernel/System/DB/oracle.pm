@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.66 2012-10-24 23:53:28 ub Exp $
+# $Id: oracle.pm,v 1.67 2012-10-24 23:55:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -464,7 +464,7 @@ sub TableAlter {
                 # copy data from old column into temp column
                 push @SQL, "UPDATE $Table SET $ColumnTemp = $Tag->{Name}";
 
-                # delete old column column
+                # delete old column
                 push @SQL, "ALTER TABLE $Table DROP COLUMN $Tag->{Name}";
 
                 # rename temp column to old column name
