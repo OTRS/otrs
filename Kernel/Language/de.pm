@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.331 2012-10-24 08:16:09 mh Exp $
+# $Id: de.pm,v 1.332 2012-10-24 08:32:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.331 $) [1];
+$VERSION = qw($Revision: 1.332 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -231,7 +231,6 @@ sub Data {
         'Please contact your administrator' => 'Bitte kontaktieren Sie Ihren Administrator',
         'Logout' => 'Abmelden',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
-        'Invalid SessionID!' => 'Ungültige SessionID!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Agent updated!' => 'Agent aktualisiert!',
         'Create Database' => 'Datenbank erstellen',

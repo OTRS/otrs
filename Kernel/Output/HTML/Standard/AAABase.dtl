@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.111 2012-03-29 14:11:54 mh Exp $
+# $Id: AAABase.dtl,v 1.112 2012-10-24 08:32:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -214,7 +214,6 @@ $Text{"There is no acount with that user name."}
 $Text{"Please contact your administrator"}
 $Text{"Logout"}
 $Text{"Logout successful. Thank you for using OTRS!"}
-$Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 $Text{"Agent updated!"}
 $Text{"Create Database"}
@@ -249,7 +248,9 @@ $Text{"Don't use the Superuser account to work with OTRS! Create new Agents and 
 $Text{"Dispatching by email To: field."}
 $Text{"Dispatching by selected Queue."}
 $Text{"No entry found!"}
+$Text{"Session invalid. Please log in again."}
 $Text{"Session has timed out. Please log in again."}
+$Text{"Session limit reached! Please try again later."}
 $Text{"No Permission!"}
 $Text{"(Click here to add)"}
 $Text{"Normal"}
