@@ -2,7 +2,7 @@
 # AgentCustomerInformationCenter.dtl - provides HTML for customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenter.dtl,v 1.4 2012-09-11 08:14:57 mg Exp $
+# $Id: AgentCustomerInformationCenter.dtl,v 1.5 2012-10-24 11:58:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:Content -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
-    <h1>$Text{"Customer Information Center"} &mdash; $QData{"CustomerID"}</h1>
+    <h1>$Text{"Customer Information Center"} &mdash; $QData{"CustomerIDTitle"}</h1>
 
     <div class="SidebarColumn">
         <div class="DontPrint WidgetSimple Collapsed Animate">

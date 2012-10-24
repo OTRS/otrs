@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerInformationCenter.pm - customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenter.pm,v 1.3 2012-09-11 08:14:56 mg Exp $
+# $Id: AgentCustomerInformationCenter.pm,v 1.4 2012-10-24 11:58:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ use strict;
 use warnings;
 
 use Kernel::System::Cache;
+use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +36,8 @@ sub new {
     }
 
     $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+
+    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
     $Self->{SlaveDBObject}     = $Self->{DBObject};
     $Self->{SlaveTicketObject} = $Self->{TicketObject};
@@ -295,11 +298,23 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
+    # H1 title
+    my $CustomerIDTitle = $Self->{CustomerID};
+
+    my %CustomerCompanyData = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+        CustomerID => $Self->{CustomerID},
+    );
+
+    if ( $CustomerCompanyData{CustomerCompanyName} ) {
+        $CustomerIDTitle = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
+    }
+
     # show dashboard
     $Self->{LayoutObject}->Block(
         Name => 'Content',
         Data => {
-            CustomerID => $Self->{CustomerID},
+            CustomerID      => $Self->{CustomerID},
+            CustomerIDTitle => $CustomerIDTitle,
         },
     );
 
