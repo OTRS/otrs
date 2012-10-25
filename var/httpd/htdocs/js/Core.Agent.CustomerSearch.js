@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.45 2012-10-25 09:34:40 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.46 2012-10-25 12:15:00 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -537,14 +537,16 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             var ObjectId = $(this).attr('id');
 
             $('#' + ObjectId).bind('change', function () {
+
                 if ( !$('#' + ObjectId).val() || $('#' + ObjectId).val() === '') {
                     return false;
                 }
+
                 // If the autocomplete popup window is visible, delay this change event.
                 // It might be caused by clicking with the mouse into the autocomplete list.
                 // Wait until it is closed to be sure that we don't add a customer twice.
-                var ObjectIndex = $('.CustomerAutoComplete').index(this);
-                if ( $('.ui-autocomplete').eq(ObjectIndex).css('display') === 'block' ) {
+
+                if ( $(this).autocomplete("widget").is(':visible') ) {
                     window.setTimeout(function(){
                         $('#' + ObjectId).trigger('change');
                     }, 200);
