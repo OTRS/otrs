@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.102 2012-10-15 13:38:26 mg Exp $
+# $Id: DB.pm,v 1.103 2012-10-25 12:29:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,7 +309,7 @@ sub CustomerSearch {
     # check cache
     if ( $Self->{CacheObject} ) {
         my $Users = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
+            Type => $Self->{CacheType} . '_CustomerSearch',
             Key  => "CustomerSearch::$SQL",
         );
         return %{$Users} if ref $Users eq 'HASH';
@@ -334,7 +334,7 @@ sub CustomerSearch {
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
+            Type  => $Self->{CacheType} . '_CustomerSearch',
             Key   => "CustomerSearch::$SQL",
             Value => \%Users,
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
@@ -860,6 +860,7 @@ sub CustomerUserUpdate {
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
+    print STDERR "Cache cleanup: $Param{UserLogin}, $UserData{UserLogin}";
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
         $Self->_CustomerUserCacheClear( UserLogin => $UserData{UserLogin} );
     }
@@ -1120,6 +1121,9 @@ sub _CustomerUserCacheClear {
     # delete all search chache entries
     $Self->{CacheObject}->CleanUp(
         Type => $Self->{CacheType} . '_CustomerIDList',
+    );
+    $Self->{CacheObject}->CleanUp(
+        Type => $Self->{CacheType} . '_CustomerSearch',
     );
 
     for my $Function (qw(CustomerUserList)) {
