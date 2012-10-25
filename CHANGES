@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2489 2012-10-25 09:29:10 mg Exp $
+# $Id: CHANGES,v 1.2490 2012-10-25 09:34:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@
  - 2012-10-24 Added feature to limit the numbers of cuncurrent working agents and customers.
  - 2012-10-24 Refactored session management to improve performance and scalability.
  - 2012-10-23 Fixed bug#8566 - Cannot download attachment if filename has character #.
+ - 2012-10-23 Fixed bug#8541 - Tooltip hides customer field in AgentTicketPhoneNew.
  - 2012-10-23 Fixed bug#8833 - Article table in TicketZoom does not scroll correctly.
  - 2012-10-23 Fixed bug#8685 - Cannot use address book / customer / spell check in phone / email if cookies are disabled.
  - 2012-10-23 Fixed bug#8861 - Placeholder container for multiple customer fields are being displayed though being empty.
