@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.55 2012-10-24 08:13:49 mh Exp $
+# $Id: DB.pm,v 1.56 2012-10-25 14:44:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,8 +35,8 @@ sub new {
     # get more common params
     $Self->{SessionTable}         = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
     $Self->{SystemID}             = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit') || 2;
-    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit') || 2;
+    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit');
+    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit');
     $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
@@ -278,28 +278,31 @@ sub CreateSessionID {
     $Data{UserRemoteUserAgent} = $RemoteUserAgent;
     $Data{UserChallengeToken}  = $ChallengeToken;
 
-    my $SQLData = '';
-    my @Bind;
-
     # create sql data
+    my @SQLs;
     $Self->_SQLCreate(
         Data      => \%Data,
-        SQLData   => \$SQLData,
-        Bind      => \@Bind,
+        SQLs      => \@SQLs,
         SessionID => $SessionID,
     );
 
-    # remove the last character
-    chop $SQLData;
-
-    return if !@Bind;
+    return if !@SQLs;
 
     # store session id and data
-    return if !$Self->{DBObject}->Do(
-        SQL => "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES "
-            . $SQLData,
-        Bind => \@Bind,
-    );
+    ROW:
+    for my $Row (@SQLs) {
+
+        next ROW if !$Row;
+        next ROW if ref $Row ne 'HASH';
+        next ROW if !$Row->{SQL};
+        next ROW if !$Row->{Bind};
+        next ROW if ref $Row->{Bind} ne 'ARRAY';
+
+        $Self->{DBObject}->Do(
+            SQL  => $Row->{SQL},
+            Bind => $Row->{Bind},
+        );
+    }
 
     # set cache
     $Self->{Cache}->{$SessionID} = \%Data;
@@ -441,43 +444,6 @@ sub CleanUp {
     return 1;
 }
 
-sub _SQLCreate {
-    my ( $Self, %Param ) = @_;
-
-    return if !$Param{SessionID};
-    return if !defined $Param{SQLData};
-    return if !$Param{Data};
-    return if ref $Param{Data} ne 'HASH';
-    return if !$Param{Bind};
-    return if ref $Param{Bind} ne 'ARRAY';
-
-    KEY:
-    for my $Key ( sort keys %{ $Param{Data} } ) {
-
-        next KEY if !$Key;
-        next KEY if !defined $Param{Data}->{$Key};
-
-        my $Value      = $Param{Data}->{$Key};
-        my $Serialized = 0;
-
-        if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
-
-            # dump the data
-            $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
-            $Serialized = 1;
-        }
-
-        push @{ $Param{Bind} }, \$Param{SessionID};
-        push @{ $Param{Bind} }, \$Key;
-        push @{ $Param{Bind} }, \$Value;
-        push @{ $Param{Bind} }, \$Serialized;
-
-        ${ $Param{SQLData} } .= '(?,?,?,?),';
-    }
-
-    return 1;
-}
-
 sub DESTROY {
     my ( $Self, %Param ) = @_;
 
@@ -495,19 +461,19 @@ sub DESTROY {
             $UpdateMode = 1;
         }
 
-        my $SQLData = '';
-        my @Bind;
+        next SESSIONID if !$Data;
+        next SESSIONID if ref $Data ne 'HASH';
+        next SESSIONID if !%{$Data};
 
         # create sql data
+        my @SQLs;
         $Self->_SQLCreate(
             Data      => $Data,
-            SQLData   => \$SQLData,
-            Bind      => \@Bind,
+            SQLs      => \@SQLs,
             SessionID => $SessionID,
         );
 
-        # remove the last character
-        chop $SQLData;
+        next SESSIONID if !@SQLs;
 
         if ($UpdateMode) {
 
@@ -532,14 +498,21 @@ sub DESTROY {
             );
         }
 
-        next SESSIONID if !@Bind;
-
         # store session id and data
-        return if !$Self->{DBObject}->Do(
-            SQL => "INSERT INTO $Self->{SessionTable} "
-                . "(id, data_key, data_value, serialized) VALUES " . $SQLData,
-            Bind => \@Bind,
-        );
+        ROW:
+        for my $Row (@SQLs) {
+
+            next ROW if !$Row;
+            next ROW if ref $Row ne 'HASH';
+            next ROW if !$Row->{SQL};
+            next ROW if !$Row->{Bind};
+            next ROW if ref $Row->{Bind} ne 'ARRAY';
+
+            $Self->{DBObject}->Do(
+                SQL  => $Row->{SQL},
+                Bind => $Row->{Bind},
+            );
+        }
     }
 
     # remove cached data
@@ -547,6 +520,141 @@ sub DESTROY {
     delete $Self->{CacheUpdate};
 
     return 1;
+}
+
+sub _SQLCreate {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{Data};
+    return if ref $Param{Data} ne 'HASH';
+    return if !%{ $Param{Data} };
+    return if !$Param{SessionID};
+    return if !$Param{SQLs};
+    return if ref $Param{SQLs} ne 'ARRAY';
+
+    # get database type
+    my $DBType = $Self->{DBObject}->{'DB::Type'} || '';
+    $DBType = lc $DBType;
+
+    if ( $DBType eq 'mysql' || $DBType eq 'postgresql' ) {
+
+        # define row
+        my $SQL
+            = "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES ";
+        my @Bind;
+
+        KEY:
+        for my $Key ( sort keys %{ $Param{Data} } ) {
+
+            next KEY if !$Key;
+
+            my $Value      = $Param{Data}->{$Key};
+            my $Serialized = 0;
+
+            if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+
+                # dump the data
+                $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+                $Serialized = 1;
+            }
+
+            push @Bind, \$Param{SessionID};
+            push @Bind, \$Key;
+            push @Bind, \$Value;
+            push @Bind, \$Serialized;
+
+            $SQL .= '(?,?,?,?),';
+        }
+
+        # remove the last character
+        chop $SQL;
+
+        my %Row = (
+            SQL  => $SQL,
+            Bind => \@Bind,
+        );
+
+        push @{ $Param{SQLs} }, \%Row;
+
+        return 1;
+    }
+    elsif ( $DBType eq 'oracle' ) {
+
+        # define row
+        my $SQL = 'INSERT ALL ';
+        my @Bind;
+
+        KEY:
+        for my $Key ( sort keys %{ $Param{Data} } ) {
+
+            next KEY if !$Key;
+
+            my $Value      = $Param{Data}->{$Key};
+            my $Serialized = 0;
+
+            if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+
+                # dump the data
+                $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+                $Serialized = 1;
+            }
+
+            push @Bind, \$Param{SessionID};
+            push @Bind, \$Key;
+            push @Bind, \$Value;
+            push @Bind, \$Serialized;
+
+            $SQL
+                .= "INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES (?,?,?,?) ";
+        }
+
+        $SQL .= 'SELECT * FROM dual';
+
+        my %Row = (
+            SQL  => $SQL,
+            Bind => \@Bind,
+        );
+
+        push @{ $Param{SQLs} }, \%Row;
+
+        return 1;
+    }
+    else {
+
+        KEY:
+        for my $Key ( sort keys %{ $Param{Data} } ) {
+
+            next KEY if !$Key;
+
+            my $Value      = $Param{Data}->{$Key};
+            my $Serialized = 0;
+
+            if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+
+                # dump the data
+                $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+                $Serialized = 1;
+            }
+
+            my @Bind;
+            push @Bind, \$Param{SessionID};
+            push @Bind, \$Key;
+            push @Bind, \$Value;
+            push @Bind, \$Serialized;
+
+            my $SQL
+                = "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES (?,?,?,?)";
+
+            my %Row = (
+                SQL  => $SQL,
+                Bind => \@Bind,
+            );
+
+            push @{ $Param{SQLs} }, \%Row;
+        }
+
+        return 1;
+    }
 }
 
 1;
