@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.153 2012-10-24 13:45:07 mab Exp $
+# $Id: CHANGES,v 1.2260.2.154 2012-10-25 02:54:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-10-24 Fixed bug#8841 - Search for Dynamic Fields shows all tickets (on "enter" key pressed).
  - 2012-10-24 Fixed bug#8861 - Ticket History overlaid calender choice function.
  - 2012-10-23 Fixed bug#8862 - GI debugger GUI does not show SOAP XML tags correctly.
  - 2012-10-23 Fixed bug#8566 - Cannot download attachment if filename has character #.
