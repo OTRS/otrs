@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.8 2012-01-25 17:29:13 cr Exp $
+# $Id: Common.t,v 1.9 2012-10-25 17:12:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,14 +13,13 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::System::User;
+use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Session::Common;
-
-use Kernel::System::UnitTest::Helper;
-
-use Kernel::GenericInterface::Debugger;
+use Kernel::System::AuthSession;
 use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::User;
 
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
@@ -303,5 +302,14 @@ $Self->True(
     $WebserviceDelete,
     "Deleted Webservice $WebserviceID",
 );
+
+# create needed object to cleanup the sessions
+my $SessionObject = Kernel::System::AuthSession->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# cleanup sessions
+my $CleanUp = $SessionObject->CleanUp();
 
 1;

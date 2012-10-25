@@ -2,7 +2,7 @@
 # SessionCreate.t - GenericInterface SessionCreate tests for SessionConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionCreate.t,v 1.2 2012-09-20 05:28:22 mb Exp $
+# $Id: SessionCreate.t,v 1.3 2012-10-25 17:12:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,13 @@ use vars (qw($Self));
 
 use Socket;
 use YAML;
+
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
+use Kernel::System::AuthSession;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-
 use Kernel::System::User;
 
 # set UserID to root because in public interface there is no user
@@ -468,5 +469,14 @@ $Self->True(
     $WebserviceDelete,
     "Deleted Webservice $WebserviceID",
 );
+
+# create needed object to cleanup the sessions
+my $SessionObject = Kernel::System::AuthSession->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# cleanup sessions
+my $CleanUp = $SessionObject->CleanUp();
 
 1;
