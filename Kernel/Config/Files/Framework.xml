@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.500 2012-10-23 09:52:32 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.501 2012-10-25 14:55:18 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -689,7 +689,15 @@
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
-            <String Regex="">Session</String>
+            <String Regex="">OTRSAgentInterface</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelSessionName" Required="1" Valid="1">
+        <Description Translatable="1">Defines the name of the key for customer sessions.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="">OTRSCustomerInterface</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionCheckRemoteIP" Required="1" Valid="1">
@@ -728,6 +736,14 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,8}$">21600</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SessionActiveTime" Required="1" Valid="1">
+        <Description Translatable="1">Sets the time (in seconds) a user is marked as active.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">600</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
@@ -772,6 +788,22 @@
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentSessionLimit" Required="0" Valid="1">
+        <Description Translatable="1">Sets the maximum number of activ agents within the timespan defined in SessionActiveTime.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">100</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerSessionLimit" Required="0" Valid="1">
+        <Description Translatable="1">Sets the maximum number of activ customers within the timespan defined in SessionActiveTime.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">100</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDir" Required="1" Valid="1">
@@ -3226,14 +3258,6 @@ You can log in via the following URL:
                 <Item Key="Prio">5000</Item>
                 <Item Key="Active">1</Item>
             </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerPanelSessionName" Required="1" Valid="1">
-        <Description Translatable="1">Defines the name of the key for customer sessions.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Session</SubGroup>
-        <Setting>
-            <String Regex="">CSID</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###CSVSeparator" Required="0" Valid="0">
