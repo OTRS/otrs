@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.151 2012-10-24 14:23:21 mg Exp $
+# $Id: es.pm,v 1.152 2012-10-25 15:46:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.151 $) [1];
+$VERSION = qw($Revision: 1.152 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 16:21:44
+    # Last translation file sync: 2012-10-25 17:44:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4081,6 +4081,10 @@ sub Data {
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             '',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             '',
         'Sets the minimum number of characters before autocomplete query is sent.' =>
@@ -4177,6 +4181,7 @@ sub Data {
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '',
+        'Sets the time (in seconds) a user is marked as active.' => '',
         'Sets the time type which should be shown.' => '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

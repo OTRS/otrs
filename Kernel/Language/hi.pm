@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.27 2012-10-24 14:23:23 mg Exp $
+# $Id: hi.pm,v 1.28 2012-10-25 15:46:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 16:21:50
+    # Last translation file sync: 2012-10-25 17:44:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4079,6 +4079,10 @@ sub Data {
             'विभिन्न वस्तुओं के प्रदर्शन क्रम में प्राथमिकता दृश्य स्थापित करता है।',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'निष्क्रियता समय(सेकंड में)उपयोगकर्ता के लॉग होने और सत्र के खतम होने से पहले पारित करने के लिए स्थापित करता है।',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             'न्यूनतम टिकट काउंटर आकार स्थापित करता है(यदि "AutoIncrement" टिकट संख्या उत्पन्नकर्ता के रूप में चुना गया)। तयशुदा 5 है,इसका मतलब काउंटर 10000 से शुरू होता है।',
         'Sets the minimum number of characters before autocomplete query is sent.' =>
@@ -4175,6 +4179,7 @@ sub Data {
             'प्रतिनिधि अंतरफलक के जूम टिकट के प्राथमिकता स्क्रीन में टिकट प्रकार को स्थापित करता है(टिकट::प्रकार को सक्रिय करने की आवश्यकता है)।',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'प्रतिनिधि अंतरफलक के टिकट उत्तरदायी स्क्रीन में टिकट प्रकार को स्थापित करता है(टिकट::प्रकार को सक्रिय करने की आवश्यकता है)।',
+        'Sets the time (in seconds) a user is marked as active.' => '',
         'Sets the time type which should be shown.' => 'समय प्रकार जो दिखाया जाना चाहिए को स्थापित करता है।',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'http / FTP डाउनलोड करने के लिए समय समाप्ति(सेकेंड में) को स्थापित करता है।',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

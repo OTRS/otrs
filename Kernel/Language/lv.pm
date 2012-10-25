@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.49 2012-10-24 14:23:20 mg Exp $
+# $Id: lv.pm,v 1.50 2012-10-25 15:46:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 16:21:56
+    # Last translation file sync: 2012-10-25 17:44:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4076,6 +4076,10 @@ sub Data {
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             '',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             '',
         'Sets the minimum number of characters before autocomplete query is sent.' =>
@@ -4172,6 +4176,7 @@ sub Data {
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '',
+        'Sets the time (in seconds) a user is marked as active.' => '',
         'Sets the time type which should be shown.' => '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

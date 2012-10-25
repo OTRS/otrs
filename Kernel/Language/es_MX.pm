@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.65 2012-10-24 14:23:21 mg Exp $
+# $Id: es_MX.pm,v 1.66 2012-10-25 15:46:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 16:21:45
+    # Last translation file sync: 2012-10-25 17:44:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4077,6 +4077,10 @@ sub Data {
             'Define el orden por defecto en el que se mostrarán los diferentes elementos, en la vista de preferencias.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'Define el tiempo de inactividad (en segundos) que deberá pasar antes de cerrar la sesión de un usuario y finalizar su sesión.',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             'Define el tamaño mínimo del contador de tickets (si "AutoIncrement" se eligió como TicketNumberGenerator). El valor por defecto es 5, lo cual quiere decir que el contador comineza en 10000.',
         'Sets the minimum number of characters before autocomplete query is sent.' =>
@@ -4173,6 +4177,7 @@ sub Data {
             'Define el tipo de ticket, en la ventana para cambiar la prioridad de un ticket, en su vista detallada de la interfaz del agente.',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'Define el tipo de ticket, en la ventana para cambiar el responsable de un ticket, en la interfaz del agente.',
+        'Sets the time (in seconds) a user is marked as active.' => '',
         'Sets the time type which should be shown.' => 'Define el tipo de tiempo que debe mostrarse.',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Define el tiempo de espera (en segundos) para descargas http/ftp.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

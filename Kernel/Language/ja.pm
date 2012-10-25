@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.36 2012-10-24 14:23:21 mg Exp $
+# $Id: ja.pm,v 1.37 2012-10-25 15:46:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-24 16:21:54
+    # Last translation file sync: 2012-10-25 17:44:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4081,6 +4081,10 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'プレファレンス・ビューにおいて異なるアイテムを表示する順番を設定します。',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             'セッションが切られユーザがログアウトするまで経過する、非活動時間（秒）を設定します。',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             '最小のチケット・カウンター・サイズを設定します（"AutoIncrement"がチケット番号生成として選択されていた場合）。デフォルトは5で、これはカウンターが10000から始まることを意味します。',
         'Sets the minimum number of characters before autocomplete query is sent.' =>
@@ -4177,6 +4181,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '担当者インタフェースのチケット責任者画面で、チケット・タイプを設定します（Ticket::Typeを有効とする必要があります)。',
+        'Sets the time (in seconds) a user is marked as active.' => '',
         'Sets the time type which should be shown.' => '表示されるタイム・タイプを設定します。',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'http/ftp downloadsのためのタイムアウト（秒）を設定します。',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
