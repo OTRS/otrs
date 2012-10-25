@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2490 2012-10-25 09:34:40 mg Exp $
+# $Id: CHANGES,v 1.2491 2012-10-25 13:27:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.2.0 beta1 2012-??-??
+3.2.0.beta1 2012-10-30
  - 2012-10-25 Fixed bug#8864 - Increasing the column size of a varchar column does not work on oracle
     under certain conditions.
  - 2012-10-24 Fixed bug#8062 - Optimize images in all defualt skins.
