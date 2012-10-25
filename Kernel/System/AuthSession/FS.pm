@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.50 2012-10-24 08:13:49 mh Exp $
+# $Id: FS.pm,v 1.51 2012-10-25 14:43:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,8 +36,8 @@ sub new {
     # get more common params
     $Self->{SessionSpool}         = $Self->{ConfigObject}->Get('SessionDir');
     $Self->{SystemID}             = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit') || 2;
-    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit') || 2;
+    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit');
+    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit');
     $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
