@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.103 2012-10-25 12:29:49 mg Exp $
+# $Id: DB.pm,v 1.104 2012-10-25 12:34:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -860,7 +860,6 @@ sub CustomerUserUpdate {
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
-    print STDERR "Cache cleanup: $Param{UserLogin}, $UserData{UserLogin}";
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
         $Self->_CustomerUserCacheClear( UserLogin => $UserData{UserLogin} );
     }
