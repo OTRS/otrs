@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.67 2012-10-24 08:11:40 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.68 2012-10-25 13:49:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -388,7 +388,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Logout',
-                    Message => 'Invalid SessionID!',
+                    Message => 'Session invalid. Please log in again.',
                     %Param,
                 ),
             );
@@ -936,6 +936,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-10-24 08:11:40 $
+$Revision: 1.68 $ $Date: 2012-10-25 13:49:08 $
 
 =cut
