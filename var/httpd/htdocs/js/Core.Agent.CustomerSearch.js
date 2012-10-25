@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.43 2012-10-23 13:05:15 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.44 2012-10-25 09:29:10 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -196,15 +196,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         if (isJQueryObject($Element)) {
-            // Hide tooltip in autocomplete field, if user already typed something to prevent the autocomplete list
-            // to be hidden under the tooltip. (Only needed for serverside errors)
-            $Element.unbind('keyup.Validate').bind('keyup.Validate', function () {
-               var Value = $Element.val();
-               if ($Element.hasClass('ServerError') && Value.length) {
-                   $('#OTRS_UI_Tooltips_ErrorTooltip').hide();
-               }
-            });
-
             $Element.autocomplete({
                 minLength: ActiveAutoComplete ? Core.Config.Get('Autocomplete.MinQueryLength') : 500,
                 delay: Core.Config.Get('Autocomplete.QueryDelay'),
