@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.265 2012-10-23 13:48:30 mg Exp $
+# $Id: CHANGES,v 1.1758.2.266 2012-10-25 13:16:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@
  - 2012-08-28 Improved HTML security filter to detect tag nesting.
  - 2012-08-24 Fixed bug#8611 - Ticket count is wrong in QueueView.
 
-3.0.15 2012-09-04
+3.0.15 2012-08-21
  - 2012-08-17 HTML mails will now be displayed in an HTML5 sandbox iframe.
     This means that modern browsers will not execute plugins or JavaScript on the content
     any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
