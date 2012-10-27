@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.52 2012-10-27 08:59:44 mh Exp $
+# $Id: FS.pm,v 1.53 2012-10-27 12:01:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -267,7 +267,7 @@ sub CreateSessionID {
     KEY:
     for my $Key ( keys %Param ) {
 
-        next KEY if !defined $Param{$Key};
+        next KEY if !$Key;
 
         $Data{$Key} = $Param{$Key};
     }
@@ -372,8 +372,6 @@ sub UpdateSessionID {
 
         $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
     }
-
-    return if !defined $Param{Value};
 
     # update the value, set cache
     $Self->{Cache}->{ $Param{SessionID} }->{ $Param{Key} } = $Param{Value};
@@ -497,12 +495,7 @@ sub DESTROY {
 
             next KEY if !$Key;
 
-            # extract key value pair
-            my $Value = $Self->{Cache}->{$SessionID}->{$Key};
-
-            next KEY if !defined $Value;
-
-            $SessionData{$Key} = $Value;
+            $SessionData{$Key} = $Self->{Cache}->{$SessionID}->{$Key};
         }
 
         # dump the data
