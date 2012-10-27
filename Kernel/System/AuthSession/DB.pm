@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.56 2012-10-25 14:44:11 mh Exp $
+# $Id: DB.pm,v 1.57 2012-10-27 08:59:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,6 +163,7 @@ sub GetSessionIDData {
     );
 
     my %Session;
+    ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # deserialize data if needed
@@ -176,6 +177,10 @@ sub GetSessionIDData {
         else {
             $Session{ $Row[0] } = $Row[1];
         }
+
+        next ROW if defined $Session{ $Row[0] };
+
+        delete $Session{ $Row[0] };
     }
 
     if ( !%Session ) {
@@ -355,6 +360,8 @@ sub UpdateSessionID {
 
         $Self->{Cache}->{ $Param{SessionID} } = \%SessionData;
     }
+
+    return if !defined $Param{Value};
 
     # update the value, set cache
     $Self->{Cache}->{ $Param{SessionID} }->{ $Param{Key} }       = $Param{Value};
@@ -558,6 +565,8 @@ sub _SQLCreate {
                 $Serialized = 1;
             }
 
+            next KEY if !defined $Value;
+
             push @Bind, \$Param{SessionID};
             push @Bind, \$Key;
             push @Bind, \$Value;
@@ -599,6 +608,8 @@ sub _SQLCreate {
                 $Serialized = 1;
             }
 
+            next KEY if !defined $Value;
+
             push @Bind, \$Param{SessionID};
             push @Bind, \$Key;
             push @Bind, \$Value;
@@ -635,6 +646,8 @@ sub _SQLCreate {
                 $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
                 $Serialized = 1;
             }
+
+            next KEY if !defined $Value;
 
             my @Bind;
             push @Bind, \$Param{SessionID};
