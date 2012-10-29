@@ -3,7 +3,7 @@
 # bin/otrs.AddService.pl - add new Services
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddService.pl,v 1.3 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.AddService.pl,v 1.4 2012-10-29 08:40:41 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 
@@ -49,7 +49,7 @@ my $NoOptions = $ARGV[0] ? 0 : 1;
 
 # get options
 my %Opts;
-getopts( 'hg:n:p:S:c:r:u:l:', \%Opts );
+getopts( 'hn:p:c:', \%Opts );
 
 if ( $Opts{h} || $NoOptions ) {
     print STDERR "Usage: $FindBin::Script -n <Name> -p <Parent> -c <Comment>\n";
@@ -79,7 +79,7 @@ if ( $Opts{p} ) {
         UserID => 1,
     );
     if ( !$Param{ParentID} ) {
-        print STDERR "ERROR: Can't add Service: Parent $Opts{p} does not exist!\n";
+        print STDERR "ERROR: Can't add Service: Parent '$Opts{p}' does not exist!\n";
         exit 1;
     }
     $ServiceName = $Opts{p} . '::';
@@ -94,7 +94,7 @@ my %ServiceList = $CommonObject{ServiceObject}->ServiceList(
 );
 my %Reverse = reverse %ServiceList;
 if ( $Reverse{$ServiceName} ) {
-    print STDERR "ERROR: Can't add Service: Service $ServiceName already exists!\n";
+    print STDERR "ERROR: Can't add Service: Service '$ServiceName' already exists!\n";
     exit 1;
 }
 
