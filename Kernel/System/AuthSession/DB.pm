@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.58 2012-10-27 12:01:32 mh Exp $
+# $Id: DB.pm,v 1.59 2012-10-30 15:09:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,6 +169,11 @@ sub GetSessionIDData {
         # deserialize data if needed
         if ( $Row[2] ) {
             my $Value = eval { Storable::thaw( $Row[1] ) };
+
+           # workaround for the oracle problem with empty strings and NULL values in VARCHAR columns
+            if ( $Value && ref $Value eq 'SCALAR' ) {
+                $Value = ${$Value};
+            }
 
             $Self->{EncodeObject}->EncodeOutput( \$Value );
 
@@ -593,7 +598,25 @@ sub _SQLCreate {
             my $Value      = $Param{Data}->{$Key};
             my $Serialized = 0;
 
-            if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+            if (
+                !defined $Param{Data}->{$Key}
+                || $Param{Data}->{$Key}     eq ''
+                || ref $Param{Data}->{$Key} eq 'HASH'
+                || ref $Param{Data}->{$Key} eq 'ARRAY'
+                )
+            {
+
+           # workaround for the oracle problem with empty strings and NULL values in VARCHAR columns
+                if ( !defined $Param{Data}->{$Key} ) {
+
+                    my $Empty = undef;
+                    $Param{Data}->{$Key} = \$Empty;
+                }
+                elsif ( $Param{Data}->{$Key} eq '' ) {
+
+                    my $Empty = '';
+                    $Param{Data}->{$Key} = \$Empty;
+                }
 
                 # dump the data
                 $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
