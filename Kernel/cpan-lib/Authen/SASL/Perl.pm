@@ -176,7 +176,7 @@ sub _secflags { 0 }
 
 sub securesocket {
   my $self = shift;
-  return $_[0] unless ($self->property('ssf') > 0);
+  return $_[0] unless (defined($self->property('ssf')) && $self->property('ssf') > 0);
 
   local *GLOB; # avoid used only once warning
   my $glob = \do { local *GLOB; };
