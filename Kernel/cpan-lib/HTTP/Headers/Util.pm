@@ -3,7 +3,7 @@ package HTTP::Headers::Util;
 use strict;
 use vars qw($VERSION @ISA @EXPORT_OK);
 
-$VERSION = "6.00";
+$VERSION = "6.03";
 
 require Exporter;
 @ISA=qw(Exporter);
@@ -153,7 +153,7 @@ the requirement for tokens).
 Each I<header> is represented by an anonymous array of key/value
 pairs.  The keys will be all be forced to lower case.
 The value for a simple token (not part of a parameter) is C<undef>.
-Syntactically incorrect headers will not necessary be parsed as you
+Syntactically incorrect headers will not necessarily be parsed as you
 would want.
 
 This is easier to describe with some examples:

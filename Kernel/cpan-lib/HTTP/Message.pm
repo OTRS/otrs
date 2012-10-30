@@ -2,13 +2,20 @@ package HTTP::Message;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = "6.02";
+$VERSION = "6.06";
 
 require HTTP::Headers;
 require Carp;
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
-$HTTP::URI_CLASS ||= $ENV{PERL_HTTP_URI_CLASS} || "URI";
+unless ($HTTP::URI_CLASS) {
+    if ($ENV{PERL_HTTP_URI_CLASS}
+    &&  $ENV{PERL_HTTP_URI_CLASS} =~ /^([\w:]+)$/) {
+        $HTTP::URI_CLASS = $1;
+    } else {
+        $HTTP::URI_CLASS = "URI";
+    }
+}
 eval "require $HTTP::URI_CLASS"; die $@ if $@;
 
 *_utf8_downgrade = defined(&utf8::downgrade) ?
@@ -207,10 +214,10 @@ sub content_charset
     # Unicode BOM
     for ($$cref) {
 	return "UTF-8"     if /^\xEF\xBB\xBF/;
-	return "UTF-32-LE" if /^\xFF\xFE\x00\x00/;
-	return "UTF-32-BE" if /^\x00\x00\xFE\xFF/;
-	return "UTF-16-LE" if /^\xFF\xFE/;
-	return "UTF-16-BE" if /^\xFE\xFF/;
+	return "UTF-32LE" if /^\xFF\xFE\x00\x00/;
+	return "UTF-32BE" if /^\x00\x00\xFE\xFF/;
+	return "UTF-16LE" if /^\xFF\xFE/;
+	return "UTF-16BE" if /^\xFE\xFF/;
     }
 
     if ($self->content_is_xml) {
@@ -219,10 +226,10 @@ sub content_charset
 	# in UTF-8 or UTF-16 encoding must begin with an XML encoding declaration,
 	# in which the first characters must be '<?xml'
 	for ($$cref) {
-	    return "UTF-32-BE" if /^\x00\x00\x00</;
-	    return "UTF-32-LE" if /^<\x00\x00\x00/;
-	    return "UTF-16-BE" if /^(?:\x00\s)*\x00</;
-	    return "UTF-16-LE" if /^(?:\s\x00)*<\x00/;
+	    return "UTF-32BE" if /^\x00\x00\x00</;
+	    return "UTF-32LE" if /^<\x00\x00\x00/;
+	    return "UTF-16BE" if /^(?:\x00\s)*\x00</;
+	    return "UTF-16LE" if /^(?:\s\x00)*<\x00/;
 	    if (/^\s*(<\?xml[^\x00]*?\?>)/) {
 		if ($1 =~ /\sencoding\s*=\s*(["'])(.*?)\1/) {
 		    my $enc = $2;
@@ -236,34 +243,21 @@ sub content_charset
     elsif ($self->content_is_html) {
 	# look for <META charset="..."> or <META content="...">
 	# http://dev.w3.org/html5/spec/Overview.html#determining-the-character-encoding
-	my $charset;
-	require HTML::Parser;
-	my $p = HTML::Parser->new(
-	    start_h => [sub {
-		my($tag, $attr, $self) = @_;
-		$charset = $attr->{charset};
-		unless ($charset) {
-		    # look at $attr->{content} ...
-		    if (my $c = $attr->{content}) {
-			require HTTP::Headers::Util;
-			my @v = HTTP::Headers::Util::split_header_words($c);
-			return unless @v;
-			my($ct, undef, %ct_param) = @{$v[0]};
-			$charset = $ct_param{charset};
-		    }
-		    return unless $charset;
-		}
-		if ($charset =~ /^utf-?16/i) {
-		    # converted document, assume UTF-8
-		    $charset = "UTF-8";
-		}
-		$self->eof;
-	    }, "tagname, attr, self"],
-	    report_tags => [qw(meta)],
-	    utf8_mode => 1,
-	);
-	$p->parse($$cref);
-	return $charset if $charset;
+	require IO::HTML;
+	# Use relaxed search to match previous versions of HTTP::Message:
+	my $encoding = IO::HTML::find_charset_in($$cref, { encoding    => 1,
+	                                                   need_pragma => 0 });
+	return $encoding->mime_name if $encoding;
+    }
+    elsif ($self->content_type eq "application/json") {
+	for ($$cref) {
+	    # RFC 4627, ch 3
+	    return "UTF-32BE" if /^\x00\x00\x00./s;
+	    return "UTF-32LE" if /^.\x00\x00\x00/s;
+	    return "UTF-16BE" if /^\x00.\x00./s;
+	    return "UTF-16LE" if /^.\x00.\x00/s;
+	    return "UTF-8";
+	}
     }
     if ($self->content_type =~ /^text\//) {
 	for ($$cref) {
@@ -307,7 +301,7 @@ sub decoded_content
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
-		elsif ($ce eq "x-bzip2") {
+		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require IO::Uncompress::Bunzip2;
 		    my $output;
 		    IO::Uncompress::Bunzip2::bunzip2($content_ref, \$output, Transparent => 0)
@@ -557,13 +551,14 @@ sub dump
 	$content =~ s/(\n+)\n/("\\n" x length($1)) . "\n"/eg;
 	$content =~ s/\n\z/\\n/;
 
-	my $no_content = "(no content)";
+	my $no_content = $opt{no_content};
+	$no_content = "(no content)" unless defined $no_content;
 	if ($content eq $no_content) {
 	    # escape our $no_content marker
 	    $content =~ s/^(.)/sprintf('\\x%02X',ord($1))/eg;
 	}
 	elsif ($content eq "") {
-	    $content = "(no content)";
+	    $content = $no_content;
 	}
     }
 
@@ -646,7 +641,7 @@ sub AUTOLOAD
     # We create the function here so that it will not need to be
     # autoloaded the next time.
     no strict 'refs';
-    *$method = sub { shift->headers->$method(@_) };
+    *$method = sub { local $Carp::Internal{+__PACKAGE__} = 1; shift->headers->$method(@_) };
     goto &$method;
 }
 
@@ -676,7 +671,7 @@ sub _parts {
 	my %h = @{$h[0]};
 	if (defined(my $b = $h{boundary})) {
 	    my $str = $self->content;
-	    $str =~ s/\r?\n--\Q$b\E--\r?\n.*//s;
+	    $str =~ s/\r?\n--\Q$b\E--.*//s;
 	    if ($str =~ s/(^|.*?\r?\n)--\Q$b\E\r?\n//s) {
 		$self->{_parts} = [map HTTP::Message->parse($_),
 				   split(/\r?\n--\Q$b\E\r?\n/, $str)]
@@ -981,7 +976,7 @@ one part returned.
 If the content type is C<message/http>, then the return value will be
 either an C<HTTP::Request> or an C<HTTP::Response> object.
 
-If an @parts argument is given, then the content of the message will be
+If a @parts argument is given, then the content of the message will be
 modified. The array reference form is provided so that an empty list
 can be provided.  The @parts array should contain C<HTTP::Message>
 objects.  The @parts objects are owned by $mess after this call and
@@ -1056,6 +1051,10 @@ for unlimited.
 
 If the content is longer then the string is chopped at the limit and
 the string "...\n(### more bytes not shown)" appended.
+
+=item no_content => $str
+
+Replaces the "(no content)" marker.
 
 =item prefix => $str
 

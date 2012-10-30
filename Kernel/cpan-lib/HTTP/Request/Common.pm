@@ -13,7 +13,7 @@ require Exporter;
 require HTTP::Request;
 use Carp();
 
-$VERSION = "6.00";
+$VERSION = "6.04";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
@@ -81,6 +81,9 @@ sub POST
 	    my $url = URI->new('http:');
 	    $url->query_form(ref($content) eq "HASH" ? %$content : @$content);
 	    $content = $url->query;
+
+	    # HTML/4.01 says that line breaks are represented as "CR LF" pairs (i.e., `%0D%0A')
+	    $content =~ s/(?<!%0D)%0A/%0D%0A/g if defined($content);
 	}
     }
 
@@ -389,7 +392,7 @@ the $form_ref this way.
 The $form_ref argument can be used to pass key/value pairs for the
 form content.  By default we will initialize a request using the
 C<application/x-www-form-urlencoded> content type.  This means that
-you can emulate a HTML E<lt>form> POSTing like this:
+you can emulate an HTML E<lt>form> POSTing like this:
 
   POST 'http://www.perl.org/survey.cgi',
        [ name   => 'Gisle Aas',
@@ -399,7 +402,7 @@ you can emulate a HTML E<lt>form> POSTing like this:
          perc   => '3%',
        ];
 
-This will create a HTTP::Request object that looks like this:
+This will create an HTTP::Request object that looks like this:
 
   POST http://www.perl.org/survey.cgi
   Content-Length: 66
@@ -445,7 +448,7 @@ achieved by this:
                          init   => ["$ENV{HOME}/.profile"],
                        ]
 
-This will create a HTTP::Request object that almost looks this (the
+This will create an HTTP::Request object that almost looks this (the
 boundary and the content of your F<~/.profile> is likely to be
 different):
 
