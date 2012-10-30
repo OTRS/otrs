@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.39 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.40 2012-10-30 15:19:10 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 # config
 my @NeededModules = (
@@ -255,15 +255,6 @@ my @NeededModules = (
         Module   => 'Net::POP3',
         Comment  => 'Required for POP3 connections.',
         Required => 1,
-
-        # Moved to Mail::POP3Client because of SSL problems
-        #        Depends  => [
-        #            {
-        #                Module   => 'Net::POP3::SSLWrapper',
-        #                Required => 0,
-        #                Comment  => 'Required for SSL connections.',
-        #            },
-        #        ],
     },
     {
         Module   => 'Net::IMAP::Simple',
@@ -343,6 +334,11 @@ my @NeededModules = (
                 Comment  => 'Required for PDF output.',
             },
         ],
+    },
+    {
+        Module   => 'Storable',
+        Required => 1,
+        Comment  => 'Required serialize and deserialize data structures.',
     },
     {
         Module       => 'SOAP::Lite',
