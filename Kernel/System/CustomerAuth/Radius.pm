@@ -1,9 +1,9 @@
 # --
 # Kernel/System/CustomerAuth/Radius.pm - provides the radius Authentication
 # based on Martin Edenhofer's Kernel::System::Auth::DB
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Radius.pm,v 1.11 2009-09-22 15:16:05 mb Exp $
+# $Id: Radius.pm,v 1.12 2012-10-30 15:03:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,7 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: '$User' tried to authentificate with Pw: '$Pw' ($RemoteAddr)",
+            Message  => "User: '$User' tried to authenticate with Pw: '$Pw' ($RemoteAddr)",
         );
     }
 
