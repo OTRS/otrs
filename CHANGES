@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2497 2012-10-30 13:29:42 mh Exp $
+# $Id: CHANGES,v 1.2498 2012-10-30 13:35:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - Updated CPAN module Mozilla::CA to version 20120823.
  - Updated CPAN module Locale::Codes to version 3.23.
  - Updated CPAN module HTTP::Message to version 6.06.
  - Updated CPAN module Digest::SHA::PurePerl to version 5.72.
