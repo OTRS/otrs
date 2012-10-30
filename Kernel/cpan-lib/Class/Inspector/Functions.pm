@@ -8,7 +8,7 @@ use Class::Inspector ();
 
 use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $VERSION);
 BEGIN {
-	$VERSION = '1.27';
+	$VERSION = '1.28';
 	@ISA     = 'Exporter';
 
 

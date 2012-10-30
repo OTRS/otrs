@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2493 2012-10-30 13:16:30 mh Exp $
+# $Id: CHANGES,v 1.2494 2012-10-30 13:21:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - Updated CPAN module Class::Inspector to version 1.28.
  - Updated CPAN module CGI to version 3.60.
  - Updated CPAN module Authen::SASL to version 2.16.
 
