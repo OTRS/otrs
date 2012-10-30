@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.17 2012-10-22 14:55:57 mh Exp $
+# $Id: AuthSession.t,v 1.18 2012-10-30 15:10:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,7 +122,7 @@ for my $Module (qw(DB FS)) {
 
         $Self->True(
             $Update,
-            "#$Module - UpdateSessionID() - Value''",
+            "#$Module - UpdateSessionID() - Value-undef",
         );
 
         $Update = $SessionObject->UpdateSessionID(
@@ -219,25 +219,25 @@ for my $Module (qw(DB FS)) {
         $Self->Is(
             $Data{"UserTest"},
             'カスタ äüöß.',
-            "#$Module - GetSessionIDData() - recconect 1 - utf8",
+            "#$Module - GetSessionIDData() - reconnect 1 - utf8",
         );
 
         $Self->Is(
             $Data{"Value0"},
             0,
-            "#$Module - GetSessionIDData() - recconect 1 - Value0 ($Data{ 'Value0' })",
+            "#$Module - GetSessionIDData() - reconnect 1 - Value0 ($Data{ 'Value0' })",
         );
 
         $Self->Is(
             $Data{"Value1"},
             1,
-            "#$Module - GetSessionIDData() - recconect 1 - Value1 ($Data{ 'Value1' })",
+            "#$Module - GetSessionIDData() - reconnect 1 - Value1 ($Data{ 'Value1' })",
         );
 
         $Self->Is(
             $Data{"Value''"},
             '',
-            "#$Module - GetSessionIDData() - recconect 1 - Value'' (" . $Data{"Value''"} . ")",
+            "#$Module - GetSessionIDData() - reconnect 1 - Value'' (" . $Data{"Value''"} . ")",
         );
 
         $Update = $SessionObject->UpdateSessionID(
@@ -257,31 +257,31 @@ for my $Module (qw(DB FS)) {
         $Self->Is(
             $Data{"UserTest"},
             'カスタ äüöß.',
-            "#$Module - GetSessionIDData() - recconect 2 - utf8",
+            "#$Module - GetSessionIDData() - reconnect 2 - utf8",
         );
 
         $Self->Is(
             $Data{"Value0"},
             0,
-            "#$Module - GetSessionIDData() - recconect 2 - Value0 ($Data{ 'Value0' })",
+            "#$Module - GetSessionIDData() - reconnect 2 - Value0 ($Data{ 'Value0' })",
         );
 
         $Self->Is(
             $Data{"Value1"},
             1,
-            "#$Module - GetSessionIDData() - recconect 2 - Value1 ($Data{ 'Value1' })",
+            "#$Module - GetSessionIDData() - reconnect 2 - Value1 ($Data{ 'Value1' })",
         );
 
         $Self->Is(
             $Data{"Value''"},
             '',
-            "#$Module - GetSessionIDData() - recconect 2 - Value'' (" . $Data{"Value''"} . ")",
+            "#$Module - GetSessionIDData() - reconnect 2 - Value'' (" . $Data{"Value''"} . ")",
         );
 
         $Self->Is(
             $Data{"Value-undef"},
             undef,
-            "#$Module - GetSessionIDData() - recconect 2 - Value-undef (undef)",
+            "#$Module - GetSessionIDData() - reconnect 2 - Value-undef (undef)",
         );
 
         my $Remove = $SessionObject->RemoveSessionID( SessionID => $SessionID );
@@ -298,6 +298,6 @@ for my $Module (qw(DB FS)) {
         $CleanUp,
         "#$Module - CleanUp()",
     );
-
 }
+
 1;
