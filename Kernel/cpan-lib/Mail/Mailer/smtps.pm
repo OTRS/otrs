@@ -1,4 +1,4 @@
-# Copyrights 1995-2012 by Mark Overmeer <perl@overmeer.net>.
+# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
 # Pod stripped from pm file by OODoc 2.00.
@@ -8,7 +8,7 @@ use strict;
 
 package Mail::Mailer::smtps;
 use vars '$VERSION';
-$VERSION = '2.09';
+$VERSION = '2.11';
 
 use base 'Mail::Mailer::rfc822';
 
@@ -35,7 +35,7 @@ sub exec {
 
     ${*$self}{sock} = $smtp;
 
-    $smtp->mail(mailaddress);
+    $smtp->mail($opt{From} || mailaddress);
     $smtp->to($_) for @$to;
     $smtp->data;
 
@@ -90,7 +90,7 @@ sub close(@)
 
 package Mail::Mailer::smtps::pipe;
 use vars '$VERSION';
-$VERSION = '2.09';
+$VERSION = '2.11';
 
 
 sub TIEHANDLE

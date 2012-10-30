@@ -1,10 +1,10 @@
-# Copyrights 1995-2012 by Mark Overmeer <perl@overmeer.net>.
+# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
 # Pod stripped from pm file by OODoc 2.00.
 package Mail::Internet;
 use vars '$VERSION';
-$VERSION = '2.09';
+$VERSION = '2.11';
 
 use strict;
 # use warnings?  probably breaking too much code
@@ -284,8 +284,8 @@ sub reply(@)
     my $name = $sender->name;
     unless(defined $name)
     {    my $fr = $self->get('From');
-         defined $fr and $fr   = (Mail::Address->parse($fr))[0];
-         defined $fr and $name = $fr->name;
+         $fr    = (Mail::Address->parse($fr))[0] if defined $fr;
+         $name  = $fr->name if defined $fr;
     }
 
     my $indent = $arg{Indent} || ">";
