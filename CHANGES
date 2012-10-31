@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2501 2012-10-30 21:13:53 cr Exp $
+# $Id: CHANGES,v 1.2502 2012-10-31 19:27:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-10-31 Fixed bug#8430 - Dynamic field management: selection dropdowns
+    aren't translated.
  - 2012-10-30 Fixed bug#8872 - Need a scalar reference! error on File uploads.
  - Updated CPAN module MailTools to version 2.11.
  - Updated CPAN module Net::IMAP::Simple to version 1.2034.
