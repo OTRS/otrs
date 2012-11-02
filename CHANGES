@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2502 2012-10-31 19:27:44 mb Exp $
+# $Id: CHANGES,v 1.2503 2012-11-02 15:47:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-11-02 Fixed bug#8791 - IMAPTLS fails with some Microsoft Exchange servers.
  - 2012-10-31 Fixed bug#8430 - Dynamic field management: selection dropdowns
     aren't translated.
  - 2012-10-30 Fixed bug#8872 - Need a scalar reference! error on File uploads.
@@ -152,6 +153,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-11-02 Fixed bug#8791 - IMAPTLS fails with some Microsoft Exchange servers.
  - 2012-10-24 Fixed bug#8841 - Search for Dynamic Fields shows all tickets (on "enter" key pressed).
  - 2012-10-23 Fixed bug#8862 - GI debugger GUI does not show SOAP XML tags correctly.
  - 2012-10-22 Fixed bug#8859 - Package upgrade does not work if an installed testpackage
