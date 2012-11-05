@@ -2,7 +2,7 @@
 # AgentDashboardCustomerUserList.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerUserList.dtl,v 1.5 2012-09-21 11:52:22 ub Exp $
+# $Id: AgentDashboardCustomerUserList.dtl,v 1.6 2012-11-05 13:12:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,9 @@
     $Data{"SiteNavBar"}
 </span>
 <!-- dtl:block:ContentLargeCustomerUserListNavBar -->
+<!-- dtl:block:ContentLargeCustomerUserAdd -->
+<h2><a class="CallForAction Plus" href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Add;CustomerID=$LQData{"CustomerID"}"><span>$Text{"Add Customer"}</span></a></h2>
+<!-- dtl:block:ContentLargeCustomerUserAdd -->
 
 <table class="DataTable">
     <thead>
@@ -33,7 +36,7 @@
 <!-- dtl:block:ContentLargeCustomerUserListRow -->
         <tr>
             <td>
-                <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerID"};Nav=Agent" class="AsBlock MasterActionLink">
+                <a href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Change;ID=$LQData{"CustomerKey"};Nav=Agent" class="AsBlock MasterActionLink">
                     $QData{"CustomerKey"}
                 </a>
             </td>

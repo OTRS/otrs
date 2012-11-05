@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.101 2012-09-21 09:49:57 ub Exp $
+# $Id: AdminCustomerUser.pm,v 1.102 2012-11-05 13:12:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -386,7 +386,8 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        $GetParam{UserLogin} = $Self->{ParamObject}->GetParam( Param => 'UserLogin' ) || '';
+        $GetParam{UserLogin}  = $Self->{ParamObject}->GetParam( Param => 'UserLogin' )  || '';
+        $GetParam{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         my $Output = $NavBar;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
@@ -903,7 +904,7 @@ sub _Edit {
                 Data       => \%CompanyList,
                 Name       => $Entry->[0],
                 Max        => 80,
-                SelectedID => $Param{ $Entry->[0] },
+                SelectedID => $Param{ $Entry->[0] } || $Param{CustomerID},
                 Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }

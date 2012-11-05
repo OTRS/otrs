@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.3 2012-09-21 09:49:57 ub Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.4 2012-11-05 13:12:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -237,11 +237,32 @@ sub Run {
         }
     }
 
-    # show "none" if no ticket is available
+    # show "none" if there are no customers
     if ( !%{$CustomerIDs} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeCustomerUserListNone',
             Data => {},
+        );
+    }
+
+    # show add new customer button if there are writable customer backends and if
+    # the agent has permission
+    my $AddAccess = $Self->{LayoutObject}->Permission(
+        Action => 'AdminCustomerUser',
+        Type   => 'rw',                  # ro|rw possible
+    );
+
+    # get writable data sources
+    my %CustomerSource = $Self->{CustomerUserObject}->CustomerSourceList(
+        ReadOnly => 0,
+    );
+
+    if ( $AddAccess && scalar keys %CustomerSource ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeCustomerUserAdd',
+            Data => {
+                CustomerID => $Self->{CustomerID},
+            },
         );
     }
 
