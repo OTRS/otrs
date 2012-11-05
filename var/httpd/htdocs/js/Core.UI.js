@@ -1,8 +1,8 @@
 // --
 // Core.UI.js - provides all UI functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.js,v 1.18 2011-02-17 21:30:59 en Exp $
+// $Id: Core.UI.js,v 1.19 2012-11-05 14:18:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -275,6 +275,34 @@ Core.UI = (function (TargetNS) {
         if (isJQueryObject($Element) && $Element.length) {
             window.scrollTo(0, $Element.offset().top);
         }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function initializes a click event for tables / divs with checkboxes.
+     *      If you click in the table cell / div around the checkbox the checkbox will be selected.
+     *      A possible MasterAction will not be executed.
+     * @param {jQueryObject} $Element The element selector which describes the element(s) which surround the checkboxes
+     * @return nothing
+     */
+    TargetNS.InitCheckboxSelection = function ($Element) {
+        if (!$Element.length) {
+            return;
+        }
+
+        // e.g. 'table td.Checkbox' or 'div.Checkbox'
+        $Element.unbind('click.CheckboxSelection').bind('click.CheckboxSelection', function (Event) {
+            var $Checkbox = $(this).find('input:checkbox');
+
+            if (!$Checkbox.length) {
+                return;
+            }
+
+            $Checkbox.prop('checked', !$Checkbox.prop('checked'));
+
+            Event.stopPropagation();
+        });
     };
 
     // this part stolen from wordpress 3, many thanks guys

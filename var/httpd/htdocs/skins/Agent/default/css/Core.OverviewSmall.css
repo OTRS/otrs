@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -78,5 +78,10 @@
 .Overview.FixedHeader table tbody tr {
     cursor: pointer;
 }
+
+.Overview.FixedHeader table tbody tr td.Checkbox{
+    cursor: auto !important;
+}
+
 
 } /* end @media */

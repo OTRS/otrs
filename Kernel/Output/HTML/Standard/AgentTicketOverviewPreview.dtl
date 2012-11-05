@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.78 2012-10-24 14:21:31 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.79 2012-11-05 14:18:11 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,9 @@
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:InlineActionRow -->
 <!-- dtl:block:Bulk -->
-            <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" />
+            <div class="Checkbox">
+                <input class="Checkbox AutocompleteOff" type="checkbox" name="TicketID" value="$QData{"TicketID"}" />
+            </div>
 <!-- dtl:block:Bulk -->
 <!-- dtl:block:Meta -->
 <!-- dtl:block:MetaIcon -->
@@ -352,6 +354,7 @@ $Data{"Body"}
 <!-- dtl:block:DocumentReadyStart -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.StaticTableControl($('#OverviewControl'));
+    Core.UI.InitCheckboxSelection($('div.Checkbox'));
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
         // only act if the link was not clicked directly

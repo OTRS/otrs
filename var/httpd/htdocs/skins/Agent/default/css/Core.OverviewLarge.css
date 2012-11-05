@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -148,15 +148,28 @@
     background-color: #F5F5F5;
 }
 
-.OverviewLarge input.Checkbox {
+.OverviewLarge div.Checkbox {
     position: absolute;
-    top: 9px;
-    left: 4px;
+    top: 0px;
+    left: 0px;
+    width: 35px;
+    height: 35px;
+    cursor: auto;
+}
+
+.OverviewLarge div.Checkbox input {
+    margin-top: 12px;
+    margin-left: 8px;
 }
 
 .RTL .OverviewLarge input.Checkbox {
     left: auto;
-    right: 5px;
+    right: 0px;
+}
+
+.RTL .OverviewLarge div.Checkbox input {
+    margin-left: 0px;
+    margin-right: 8px;
 }
 
 .OverviewLarge div.Flag {
