@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.336 2012-10-25 15:46:05 mg Exp $
+# $Id: de.pm,v 1.337 2012-11-05 14:10:40 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.336 $) [1];
+$VERSION = qw($Revision: 1.337 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2013,8 +2013,10 @@ sub Data {
         '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
         'New phone ticket' => 'Neues Telefon-Ticket',
+        'Phone ticket' => 'Telefon-Ticket',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New email ticket' => 'Neues E-Mail-Ticket',
+        'Email ticket' => 'E-Mail-Ticket',
 
         # Template: AgentDashboardIFrame
 
