@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2503 2012-11-02 15:47:10 mb Exp $
+# $Id: CHANGES,v 1.2504 2012-11-05 12:10:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-11-05 Updated Swedish translation, thanks to Andreas Berger!
  - 2012-11-02 Fixed bug#8791 - IMAPTLS fails with some Microsoft Exchange servers.
  - 2012-10-31 Fixed bug#8430 - Dynamic field management: selection dropdowns
     aren't translated.

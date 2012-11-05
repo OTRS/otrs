@@ -2,8 +2,9 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
+# Copyright (C) 2012 Andreas Berger" <andreas.berger at hagfors.se>
 # --
-# $Id: sv.pm,v 1.117 2012-10-25 15:46:05 mg Exp $
+# $Id: sv.pm,v 1.118 2012-11-05 12:10:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -63,7 +64,7 @@ sub Data {
         'd' => '',
         'hour' => 'timme',
         'hours' => 'timmar',
-        'hour(s)' => '',
+        'hour(s)' => 'timm(ar)',
         'Hours' => 'Timmar',
         'h' => '',
         'minute' => 'minut',
@@ -75,7 +76,7 @@ sub Data {
         'months' => 'månader',
         'month(s)' => 'månad(er)',
         'week' => 'vecka',
-        'week(s)' => 'vecka(or)',
+        'week(s)' => 'veck(or)',
         'year' => 'år',
         'years' => 'år',
         'year(s)' => 'år',
@@ -100,7 +101,7 @@ sub Data {
         'valid' => 'giltig',
         'Valid' => 'Giltigt',
         'invalid' => 'ogiltig',
-        'Invalid' => '',
+        'Invalid' => 'Ogiltig',
         '* invalid' => '* ogiltlig',
         'invalid-temporarily' => '* ogiltlig-tillfälligt',
         ' 2 minutes' => ' 2 minuter',
@@ -118,7 +119,7 @@ sub Data {
         'none' => 'inga',
         'none!' => 'inga!',
         'none - answered' => 'inga - besvarat',
-        'please do not edit!' => 'Var vänlig och ändra inte detta!',
+        'please do not edit!' => 'var vänlig ändra inte!',
         'Need Action' => '',
         'AddLink' => 'Lägg till länk',
         'Link' => 'Länk',
@@ -152,9 +153,9 @@ sub Data {
         'agent' => 'agent',
         'system' => 'System',
         'Customer Info' => 'Kundinfo',
-        'Customer Information' => '',
+        'Customer Information' => 'Kundinformation',
         'Customer Company' => 'Kundföretag',
-        'Customer Companies' => '',
+        'Customer Companies' => 'Kundföretag',
         'Company' => 'Företag',
         'go!' => 'Starta!',
         'go' => 'Starta',
@@ -208,10 +209,10 @@ sub Data {
         'Category' => 'Kategori',
         'Viewer' => 'Bevakare',
         'Expand' => 'Expandera',
-        'Small' => '',
-        'Medium' => '',
-        'Large' => '',
-        'Date picker' => '',
+        'Small' => 'Liten',
+        'Medium' => 'Mellan',
+        'Large' => 'Stor',
+        'Date picker' => 'Datumväljare',
         'New message' => 'Nytt meddelande',
         'New message!' => 'Nytt meddelande!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -219,31 +220,31 @@ sub Data {
         'You have %s new message(s)!' => 'Du har %s nya meddelanden!',
         'You have %s reminder ticket(s)!' => 'Du har %s påminnelse-ärende(n)!',
         'The recommended charset for your language is %s!' => 'Den rekommenderade teckenuppsättningen för ditt språk är %s!',
-        'Change your password.' => '',
-        'Please activate %s first!' => '',
+        'Change your password.' => 'Byt ditt lösenord.',
+        'Please activate %s first!' => 'Vänligen aktivera %s först!',
         'No suggestions' => 'Inga förslag',
         'Word' => 'Ord',
         'Ignore' => 'Ignorera',
-        'replace with' => 'Ersätt med',
+        'replace with' => 'ersätt med',
         'There is no account with that login name.' => 'Det finns inget konto med detta namn.',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            '',
-        'There is no acount with that user name.' => '',
-        'Please contact your administrator' => '',
+            'Inloggning misslyckades! Felaktigt användarnamn eller lösenord.',
+        'There is no acount with that user name.' => 'Det finns inget konto med det användarnamnet',
+        'Please contact your administrator' => 'Vänligen kontakta din administratör',
         'Logout' => 'Logga ut',
         'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
         'Feature not active!' => 'Funktion inte aktiverad!',
-        'Agent updated!' => '',
+        'Agent updated!' => 'Agent uppdaterad!',
         'Create Database' => 'Skapa databas',
         'System Settings' => 'Systeminställningar',
-        'Mail Configuration' => '',
+        'Mail Configuration' => 'Mailkonfiguration',
         'Finished' => 'Klar',
-        'Install OTRS' => '',
+        'Install OTRS' => 'Installera OTRS',
         'Intro' => '',
         'License' => 'Licens',
         'Database' => 'Databas',
-        'Configure Mail' => '',
-        'Database deleted.' => '',
+        'Configure Mail' => 'Konfigurera mail',
+        'Database deleted.' => 'Databas borttagen.',
         'Database setup succesful!' => '',
         'Login is needed!' => 'Inloggning krävs!',
         'Password is needed!' => 'Lösenord krävs!',
@@ -253,41 +254,41 @@ sub Data {
         'reject' => 'Avvisas',
         'reverse' => 'baklänges',
         'Facility' => 'Innrättning',
-        'Time Zone' => '',
+        'Time Zone' => 'Tidszon',
         'Pending till' => 'Väntande tills',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            '',
-        'Dispatching by email To: field.' => 'Skickar iväg enligt epostmeddelandets Till:-fält.',
+            'Använd inte Superuser-kontot för att arbeta med OTRS! Skapa nya Agenter och arbeta med dom istället.',
+        'Dispatching by email To: field.' => 'Skickar iväg enligt e-postmeddelandets Till:-fält.',
         'Dispatching by selected Queue.' => 'Skickar iväg enligt vald kö.',
         'No entry found!' => 'Ingen inmatning funnen!',
-        'Session invalid. Please log in again.' => '',
-        'Session has timed out. Please log in again.' => 'Sessionstiden har löpt ut.  Vänligen logga på igen.',
+        'Session invalid. Please log in again.' => 'Ogiltig session. Vänligen logga in igen.',
+        'Session has timed out. Please log in again.' => 'Sessionstiden har löpt ut.  Vänligen logga in igen.',
         'Session limit reached! Please try again later.' => '',
         'No Permission!' => 'Ej Behörig!',
         '(Click here to add)' => '(Klicka här för att lägga till)',
-        'Preview' => 'Forhandsvisning',
+        'Preview' => 'Förhandsvisning',
         'Package not correctly deployed! Please reinstall the package.' =>
             '',
         '%s is not writable!' => '',
-        'Cannot create %s!' => '',
+        'Cannot create %s!' => 'Kan inte skapa %s!',
         'Check to activate this date' => '',
         'You have Out of Office enabled, would you like to disable it?' =>
             '',
         'Customer %s added' => '',
-        'Role added!' => '',
-        'Role updated!' => '',
-        'Attachment added!' => '',
-        'Attachment updated!' => '',
-        'Response added!' => '',
-        'Response updated!' => '',
-        'Group updated!' => '',
-        'Queue added!' => '',
-        'Queue updated!' => '',
+        'Role added!' => 'Roll tillagd!',
+        'Role updated!' => 'Roll uppdaterad!',
+        'Attachment added!' => 'Bilaga tillagd!',
+        'Attachment updated!' => 'Bilaga uppdaterad',
+        'Response added!' => 'Svar tillagt!',
+        'Response updated!' => 'Svar uppdaterat!',
+        'Group updated!' => 'Grupp uppdaterad!',
+        'Queue added!' => 'Kö tillagd!',
+        'Queue updated!' => 'Kö uppdaterad!',
         'State added!' => '',
         'State updated!' => '',
         'Type added!' => '',
         'Type updated!' => '',
-        'Customer updated!' => '',
+        'Customer updated!' => 'Kund uppdaterad!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
         'Mail account added!' => '',
@@ -334,7 +335,7 @@ sub Data {
             '',
         'Edit the system configuration settings.' => '',
         'printed at' => 'utskriven vid',
-        'Loading...' => '',
+        'Loading...' => 'Laddar...',
         'Dear Mr. %s,' => 'Bäste Herr %s,',
         'Dear Mrs. %s,' => 'Bäste Fru %s,',
         'Dear %s,' => 'Bäste %s,',
@@ -346,7 +347,7 @@ sub Data {
         'Please press Back and try again.' => 'Tryck på bakåtknappen och försök igen.',
         'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
-        'Upcoming Events' => 'Kommande Evenemang',
+        'Upcoming Events' => 'Kommande evenemang',
         'Event' => 'Evenemang',
         'Events' => 'Evenemang',
         'Invalid Token!' => 'Ogiltlig inmatning!',
@@ -354,11 +355,11 @@ sub Data {
         'For more info see:' => 'För mer info:',
         'Package verification failed!' => 'Paketverifiering misslyckades!',
         'Collapse' => 'Kollapsa',
-        'Shown' => '',
+        'Shown' => 'Visade',
         'News' => 'Nyheter',
         'Product News' => 'Produktnyheter',
-        'OTRS News' => '',
-        '7 Day Stats' => '',
+        'OTRS News' => 'OTRS nyheter',
+        '7 Day Stats' => '7-dagars statistik',
         'Bold' => 'Fet',
         'Italic' => 'Kursiv',
         'Underline' => 'Understruket',
@@ -426,13 +427,13 @@ sub Data {
 
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Inställningar lagrade!',
-        'User Profile' => '',
-        'Email Settings' => '',
-        'Other Settings' => '',
+        'User Profile' => 'Användarprofil',
+        'Email Settings' => 'E-postinställningar',
+        'Other Settings' => 'Övriga inställningar',
         'Change Password' => 'Byt lösenord',
-        'Current password' => '',
+        'Current password' => 'Nuvarande lösenord',
         'New password' => 'Nytt lösenord',
-        'Verify password' => '',
+        'Verify password' => 'Bekräfta lösenord',
         'Spelling Dictionary' => 'Stavningslexikon',
         'Default spelling dictionary' => '',
         'Max. shown Tickets a page in Overview.' => 'Max. visade ärenden per sida i Översikt.',
@@ -526,7 +527,7 @@ sub Data {
         'Ticket Close Time' => 'Ärende Stängt Tid',
 
         # Template: AAATicket
-        'Status View' => '',
+        'Status View' => 'Status-vy',
         'Bulk' => '',
         'Lock' => 'Lås',
         'Unlock' => 'Lås upp',
@@ -544,7 +545,7 @@ sub Data {
         'Queue' => 'Kö',
         'Queues' => 'Köer',
         'Priority' => 'Prioritet',
-        'Priorities' => '',
+        'Priorities' => 'Prioriteter',
         'Priority Update' => 'Ändra Prioritet',
         'Priority added!' => '',
         'Priority updated!' => '',
@@ -554,26 +555,26 @@ sub Data {
         'Service Level Agreement' => '',
         'Service Level Agreements' => '',
         'Service' => 'Tjänst',
-        'Services' => '',
+        'Services' => 'Tjänster',
         'State' => 'Status',
         'States' => '',
         'Status' => 'Status',
         'Statuses' => '',
-        'Ticket Type' => '',
-        'Ticket Types' => '',
+        'Ticket Type' => 'Ärendetyp',
+        'Ticket Types' => 'Ärendetyper',
         'Compose' => 'Författa',
         'Pending' => 'Väntande',
         'Owner' => 'Ägare',
-        'Owner Update' => 'Ändra Ägare',
+        'Owner Update' => 'Ändra ägare',
         'Responsible' => 'Ansvarig',
-        'Responsible Update' => 'Ändra Ansvarig',
+        'Responsible Update' => 'Ändra ansvarig',
         'Sender' => 'Avsändare',
         'Article' => 'Artikel',
         'Ticket' => 'Ärende',
         'Createtime' => 'Tidpunkt för skapande',
         'plain' => 'rå',
-        'Email' => 'Epost',
-        'email' => 'epost',
+        'Email' => 'E-post',
+        'email' => 'e-post',
         'Close' => 'Stäng',
         'Action' => 'Åtgärd',
         'Attachment' => 'Bifogat dokument',
@@ -599,22 +600,22 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Alla ärenden',
-        'Available tickets' => '',
+        'Available tickets' => 'Tillgängliga ärenden',
         'Escalation' => 'Eskalering',
         'last-search' => '',
         'QueueView' => 'Köer',
         'Ticket Escalation View' => 'Ärendeeskaleringsvy',
-        'Message from' => '',
+        'Message from' => 'Meddelande från',
         'End message' => '',
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'new' => 'ny',
         'open' => 'öppen',
         'Open' => 'Öppen',
-        'Open tickets' => '',
+        'Open tickets' => 'Öppna ärenden',
         'closed' => 'stängt',
         'Closed' => 'Stängt',
-        'Closed tickets' => '',
+        'Closed tickets' => 'Stängda ärenden',
         'removed' => 'borttagen',
         'pending reminder' => 'väntar på påminnelse',
         'pending auto' => 'väntar på auto',
@@ -622,9 +623,9 @@ sub Data {
         'pending auto close-' => 'väntar på att stängas (olöst)',
         'email-external' => 'email externt',
         'email-internal' => 'email internt',
-        'note-external' => 'notis externt',
-        'note-internal' => 'notis internt',
-        'note-report' => 'notis till rapport',
+        'note-external' => 'notering externt',
+        'note-internal' => 'notering internt',
+        'note-report' => 'notering till rapport',
         'phone' => 'telefon',
         'sms' => 'sms',
         'webrequest' => 'web-anmodan',
@@ -635,7 +636,7 @@ sub Data {
         'normal' => 'normal',
         'high' => 'hög',
         'very high' => 'kritisk',
-        '1 very low' => '1 Planeras',
+        '1 very low' => '1 planeras',
         '2 low' => '2 låg',
         '3 normal' => '3 medium',
         '4 high' => '4 hög',
@@ -661,51 +662,51 @@ sub Data {
         'Unread article(s) available' => '',
         'Remove from list of watched tickets' => '',
         'Add to list of watched tickets' => '',
-        'Email-Ticket' => 'Epostärende',
-        'Create new Email Ticket' => 'Skapa nytt Epostärende',
+        'Email-Ticket' => 'E-postärende',
+        'Create new Email Ticket' => 'Skapa nytt e-postärende',
         'Phone-Ticket' => 'Telefonärende',
         'Search Tickets' => 'Sök ärenden',
         'Edit Customer Users' => 'Redigera Kundanvändare',
         'Edit Customer Company' => 'Redigera Kundföretag',
         'Bulk Action' => 'Massförändring',
         'Bulk Actions on Tickets' => 'Massförändring av Ärenden',
-        'Send Email and create a new Ticket' => 'Skicka Epost och skapa nytt Ärende',
-        'Create new Email Ticket and send this out (Outbound)' => 'Skapa nytt Epostärende och skicka detta (Utgående)',
-        'Create new Phone Ticket (Inbound)' => 'Skapa nytt Telefonärende (Inkommande)',
+        'Send Email and create a new Ticket' => 'Skicka E-post och skapa nytt Ärende',
+        'Create new Email Ticket and send this out (Outbound)' => 'Skapa nytt e-postärende och skicka detta (utgående)',
+        'Create new Phone Ticket (Inbound)' => 'Skapa nytt telefonärende (Inkommande)',
         'Address %s replaced with registered customer address.' => '',
         'Customer automatically added in Cc.' => '',
-        'Overview of all open Tickets' => 'Översikt över alla öppna Ärenden',
+        'Overview of all open Tickets' => 'Översikt över alla öppna ärenden',
         'Locked Tickets' => 'Låsta Ärenden',
         'My Locked Tickets' => 'Mina Låsta Ärenden',
-        'My Watched Tickets' => '',
+        'My Watched Tickets' => 'Mina Bevakade Ärenden',
         'My Responsible Tickets' => '',
         'Watched Tickets' => 'Bevakade Ärenden',
         'Watched' => 'Bevakade',
-        'Watch' => '',
+        'Watch' => 'Bevaka',
         'Unwatch' => '',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
-        'Show the ticket history' => '',
-        'Print this ticket' => '',
-        'Print this article' => '',
-        'Split this article' => '',
-        'Forward article via mail' => '',
-        'Change the ticket priority' => '',
+        'Lock it to work on it' => 'Lås det för att jobba med det',
+        'Unlock to give it back to the queue' => 'Lås upp för att lägga tillbaka i kön',
+        'Show the ticket history' => 'Visa ärende-historik',
+        'Print this ticket' => 'Skriv ut detta ärende',
+        'Print this article' => 'Skriv ut den här artikeln',
+        'Split this article' => 'Dela den här artikeln',
+        'Forward article via mail' => 'Vidarebefordra artikeln via e-post',
+        'Change the ticket priority' => 'Ändra ärendets prioritet',
         'Change the ticket free fields!' => 'Ändra ärendets fria fält!',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
+        'Link this ticket to other objects' => 'Länka detta ärende till andra objekt',
+        'Change the owner for this ticket' => 'Byt ägare av detta ärende',
+        'Change the  customer for this ticket' => 'Ändra kund för detta ärende',
+        'Add a note to this ticket' => 'Lägg till en notering till detta ärendet',
         'Merge into a different ticket' => '',
-        'Set this ticket to pending' => '',
-        'Close this ticket' => '',
+        'Set this ticket to pending' => 'Sätt ärendet som väntande',
+        'Close this ticket' => 'Stäng detta ärende',
         'Look into a ticket!' => 'Visa ärendet!',
-        'Delete this ticket' => '',
+        'Delete this ticket' => 'Ta bort detta ärende',
         'Mark as Spam!' => 'Markera som SPAM!',
         'My Queues' => 'Mina köer',
         'Shown Tickets' => 'Visade Ärenden',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
-            'Ditt epostärende med nummer "<OTRS_TICKET>" har slagits samman med "<OTRS_MERGE_TO_TICKET>".',
+            'Ditt e-postärende med nummer "<OTRS_TICKET>" har slagits samman med "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ärende %s: första åtgärdstid har passerats (%s)!',
         'Ticket %s: first response time will be over in %s!' => 'Ärende %s: första åtgärdstid har passerats om %s!',
         'Ticket %s: update time is over (%s)!' => 'Ärende %s: uppdateringstid har passerats (%s)!',
@@ -714,7 +715,7 @@ sub Data {
         'Ticket %s: solution time will be over in %s!' => 'Ärende %s: lösningstid har passerats om %s!',
         'There are more escalated tickets!' => 'Det finns fler eskalerade ärenden!',
         'Plain Format' => '',
-        'Reply All' => '',
+        'Reply All' => 'Svara alla',
         'Direction' => '',
         'Agent (All with write permissions)' => '',
         'Agent (Owner)' => '',
@@ -759,12 +760,12 @@ sub Data {
         'Create new Ticket' => 'Skapa nytt ärende',
         'Customer called' => 'Kund ringde',
         'phone call' => 'telefonsamtal',
-        'Phone Call Outbound' => '',
-        'Phone Call Inbound' => '',
-        'Reminder Reached' => 'Påminnelse Finns',
-        'Reminder Tickets' => 'Påminnelse Ärenden',
-        'Escalated Tickets' => 'Eskalerade Ärenden',
-        'New Tickets' => 'Nya Ärenden',
+        'Phone Call Outbound' => 'Telefonsamtal utgående',
+        'Phone Call Inbound' => 'Telefonsamtal inkommande',
+        'Reminder Reached' => 'Påminnelse finns',
+        'Reminder Tickets' => 'Påminnelse ärenden',
+        'Escalated Tickets' => 'Eskalerade ärenden',
+        'New Tickets' => 'Nya ärenden',
         'Open Tickets / Need to be answered' => 'Öppna ärenden / Måste besvaras',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             '',
@@ -772,8 +773,8 @@ sub Data {
         'All escalated tickets' => '',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
-        'Archived tickets' => '',
-        'Unarchived tickets' => '',
+        'Archived tickets' => 'Arkiverade ärenden',
+        'Unarchived tickets' => 'Oarkiverade ärenden',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -826,7 +827,7 @@ sub Data {
         # Template: AdminAttachment
         'Attachment Management' => 'Hantering av bifogade dokument',
         'Actions' => '',
-        'Go to overview' => '',
+        'Go to overview' => 'Gå till översikt',
         'Add attachment' => '',
         'List' => 'Lista',
         'Validity' => '',
@@ -909,7 +910,7 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
         'Search Result:' => '',
-        'Customers' => '',
+        'Customers' => 'Kunder',
         'Groups' => 'Grupper',
         'No matches found.' => '',
         'Change Group Relations for Customer' => '',
@@ -1003,7 +1004,7 @@ sub Data {
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' =>
             '',
-        'Note' => 'Notis',
+        'Note' => 'Notering',
         'You need to add the translations manually into the language translation files.' =>
             '',
 
@@ -1145,7 +1146,7 @@ sub Data {
         'Refresh' => 'Uppdatera',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content' => '',
+        'Show or hide the content' => 'Visa eller dölj innehållet',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1347,7 +1348,7 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             '',
         'Your current web service configuration will be overwritten.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content.' => 'Visa eller dölj innehållet',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1370,7 +1371,7 @@ sub Data {
         'Recent Log Entries' => '',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => 'Epostkontohantering',
+        'Mail Account Management' => 'E-postkontohantering',
         'Add mail account' => '',
         'All incoming emails with one account will be dispatched in the selected queue!' =>
             'Inkommande email från POP3-konton sorteras till vald kö!',
@@ -1505,11 +1506,11 @@ sub Data {
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster Filter',
-        'Add filter' => '',
+        'Add filter' => 'Lägg till filter',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
-            'Om du bara vill hantera epostadressen, använd EMAILADDRESS:info@example.com i Från, Till eller CC.',
+            'Om du bara vill hantera e-postadressen, använd EMAILADDRESS:info@example.com i Från, Till eller CC.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '',
         'Delete this filter' => '',
@@ -1550,7 +1551,7 @@ sub Data {
         'Export Process Configuration' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close window' => '',
+        'Cancel & close window' => 'Ångra & stäng fönster',
         'Go Back' => '',
         'Please note, that changing this activity will affect the following processes' =>
             '',
@@ -1776,7 +1777,7 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '',
         'Filter for Agents' => '',
-        'Agents' => '',
+        'Agents' => 'Agenter',
         'Manage Role-Agent Relations' => '',
         'Change Role Relations for Agent' => '',
         'Change Agent Relations for Role' => '',
@@ -2009,13 +2010,13 @@ sub Data {
         'Escalated tickets' => '',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer information' => '',
+        'Customer information' => 'Kundinformation',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
-        'New phone ticket for %s' => '',
-        'New phone ticket' => '',
-        'New email ticket for %s' => '',
-        'New email ticket' => '',
+        'New phone ticket for %s' => 'Nytt telefonärende för %s',
+        'New phone ticket' => 'Nytt telefonärende',
+        'New email ticket for %s' => 'Nytt e-postärende för %s',
+        'New email ticket' => 'Nytt e-postärende',
 
         # Template: AgentDashboardIFrame
 
@@ -2031,10 +2032,10 @@ sub Data {
         'Posted %s ago.' => 'Postad för %s sedan.',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
-        'My watched tickets' => '',
+        'My locked tickets' => 'Mina låsta ärenden',
+        'My watched tickets' => 'Mina bevakade ärenden',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
+        'Tickets in My Queues' => 'Ärenden i mina köer',
 
         # Template: AgentDashboardTicketStats
 
@@ -2050,7 +2051,7 @@ sub Data {
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => '',
-        'Undo & close window' => '',
+        'Undo & close window' => 'Ångra & stäng fönstret',
 
         # Template: AgentInfo
         'Info' => 'Info',
@@ -2068,7 +2069,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferences
-        'Edit your preferences' => '',
+        'Edit your preferences' => 'Ändra dina inställningar',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Stavningskontroll',
@@ -2163,40 +2164,40 @@ sub Data {
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
-        'Change Owner of Ticket' => '',
-        'Close Ticket' => '',
-        'Add Note to Ticket' => '',
+        'Change Owner of Ticket' => 'Ändra ägare av ärendet',
+        'Close Ticket' => 'Stäng ärendet',
+        'Add Note to Ticket' => 'Lägg till notering till ärendet',
         'Set Pending' => 'Markera som väntande',
         'Change Priority of Ticket' => '',
         'Change Responsible of Ticket' => '',
         'Service invalid.' => '',
         'New Owner' => 'Ny Ägare',
-        'Please set a new owner!' => '',
+        'Please set a new owner!' => 'Vänligen sätt en ny ägare!',
         'Previous Owner' => 'Tidigare ägare',
         'Inform Agent' => 'Meddela Agent',
         'Optional' => 'Valfri',
         'Inform involved Agents' => 'Meddela inblandade agenter',
-        'Spell check' => '',
+        'Spell check' => 'Stavningskontroll',
         'Note type' => 'Anteckningstyp',
         'Next state' => 'Nästa tillstånd',
         'Pending date' => 'Väntande datum',
-        'Date invalid!' => '',
+        'Date invalid!' => 'Ogiltigt datum!',
 
         # Template: AgentTicketActionPopupClose
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
         'Bounce to' => 'Skicka över till',
-        'You need a email address.' => '',
+        'You need a email address.' => 'Du behöver en e-postadress.',
         'Need a valid email address or don\'t use a local email address.' =>
             '',
         'Next ticket state' => 'Nästa ärendestatus',
         'Inform sender' => 'Informera avsändare',
-        'Send mail!' => 'Skicka mail!',
+        'Send mail!' => 'Skicka e-post!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ärendemassförändring',
-        'Send Email' => '',
+        'Send Email' => 'Skicka e-post',
         'Merge to' => 'Slå samman med',
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => 'Slå samman till äldsta',
@@ -2225,9 +2226,9 @@ sub Data {
         'Customer user' => '',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => '',
-        'From queue' => '',
-        'To customer' => '',
+        'Create New Email Ticket' => 'Skapa nytt e-postärende',
+        'From queue' => 'Från kö',
+        'To customer' => 'Till kund',
         'Please include at least one customer for the ticket.' => '',
         'Get all' => '',
 
@@ -2256,23 +2257,23 @@ sub Data {
         # Template: AgentTicketNote
 
         # Template: AgentTicketOverviewMedium
-        'Select all' => '',
-        'No ticket data found.' => '',
+        'Select all' => 'Välj alla',
+        'No ticket data found.' => 'Ingen ärendeinformation hittad.',
         'First Response Time' => 'Första Responstid',
         'Service Time' => 'Tjänsttid',
         'Update Time' => 'Uppdateringstid',
         'Solution Time' => 'Lösningstid',
-        'Move ticket to a different queue' => '',
+        'Move ticket to a different queue' => 'Flytta ärende till en annan kö',
         'Change queue' => 'Ändra kö',
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Ändra sökinställningar',
-        'Tickets per page' => '',
+        'Tickets per page' => 'Ärenden per sida',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Upptrappning om',
+        'Escalation in' => 'Eskalering om',
         'Locked' => 'Låst',
 
         # Template: AgentTicketOwner
@@ -2280,9 +2281,9 @@ sub Data {
         # Template: AgentTicketPending
 
         # Template: AgentTicketPhone
-        'Create New Phone Ticket' => '',
-        'From customer' => '',
-        'To queue' => '',
+        'Create New Phone Ticket' => 'Skapa nytt telefonärende',
+        'From customer' => 'Från kund',
+        'To queue' => 'Till kö',
 
         # Template: AgentTicketPhoneCommon
         'Phone call' => 'Telefonsamtal',
@@ -2312,11 +2313,11 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Sökmall',
-        'Create Template' => '',
-        'Create New' => '',
+        'Create Template' => 'Skapa mall',
+        'Create New' => 'Skapa ny',
         'Profile link' => '',
         'Save changes in template' => '',
-        'Add another attribute' => '',
+        'Add another attribute' => 'Lägg till ett annat attribut',
         'Output' => 'Resultatbild',
         'Fulltext' => 'Fritext',
         'Remove' => '',
@@ -2335,7 +2336,7 @@ sub Data {
         'Ticket Escalation Time (before/after)' => '',
         'Ticket Escalation Time (between)' => '',
         'Archive Search' => '',
-        'Run search' => '',
+        'Run search' => 'Kör sökning',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2402,23 +2403,23 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             '',
-        'Login' => 'Login',
-        'User name' => '',
-        'Your user name' => '',
-        'Your password' => '',
-        'Forgot password?' => '',
-        'Log In' => '',
+        'Login' => 'Logga in',
+        'User name' => 'Användarnamn',
+        'Your user name' => 'Ditt användarnamn',
+        'Your password' => 'Ditt lösenord',
+        'Forgot password?' => 'Glömt lösenord?',
+        'Log In' => 'Logga in',
         'Not yet registered?' => '',
         'Sign up now' => '',
         'Request new password' => 'Be om nytt lösenord',
-        'Your User Name' => '',
+        'Your User Name' => 'Ditt användarnamn',
         'A new password will be sent to your email address.' => '',
         'Create Account' => 'Skapa konto',
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
-        'Your First Name' => '',
+        'Your First Name' => 'Ditt förnamn',
         'Please supply a first name' => '',
-        'Your Last Name' => '',
+        'Your Last Name' => 'Ditt efternamn',
         'Please supply a last name' => '',
         'Your email address (this will become your username)' => '',
         'Please supply a' => '',
@@ -2435,7 +2436,7 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
+        'Welcome!' => 'Välkommen!',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
 
@@ -2527,7 +2528,7 @@ sub Data {
         'Fulltext search' => '',
         'CustomerID Search' => '',
         'CustomerUser Search' => '',
-        'You are logged in as' => '',
+        'You are logged in as' => 'Du är inloggad som',
 
         # Template: HeaderSmall
 
@@ -2811,7 +2812,7 @@ sub Data {
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => '',
         'Change queue!' => '',
-        'Change the customer for this ticket' => '',
+        'Change the customer for this ticket' => 'Byt kund för detta ärende',
         'Change the free fields for this ticket' => '',
         'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
@@ -2859,8 +2860,8 @@ sub Data {
         'Create and manage ticket states.' => '',
         'Create and manage ticket types.' => '',
         'Create and manage web services.' => '',
-        'Create new email ticket and send this out (outbound)' => '',
-        'Create new phone ticket (inbound)' => '',
+        'Create new email ticket and send this out (outbound)' => 'Skapa nytt e-postärende och skicka ut detta (utgående)',
+        'Create new phone ticket (inbound)' => 'Skapa nytt telefonärende (inkommande)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '',
@@ -3541,7 +3542,7 @@ sub Data {
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
-        'Email Addresses' => 'Epostadresser',
+        'Email Addresses' => 'E-postadresser',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3564,7 +3565,7 @@ sub Data {
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => '',
+        'Escalation view' => 'Eskalerings-vy',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -3858,9 +3859,9 @@ sub Data {
         'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => '',
+        'Overview Escalated Tickets' => 'Översikt av eskalerade ärenden',
         'Overview Refresh Time' => '',
-        'Overview of all open Tickets.' => '',
+        'Overview of all open Tickets.' => 'Översikt över alla öppna ärenden',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -3933,7 +3934,7 @@ sub Data {
         'Process Management Transition GUI' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Queue view' => '',
+        'Queue view' => 'Kö-vy',
         'Refresh Overviews after' => '',
         'Refresh interval' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
@@ -4406,8 +4407,8 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
-        'Status view' => '',
+        'Statistics' => 'Statistik',
+        'Status view' => 'Status-vy',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4481,7 +4482,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Ditt urval av favoritköer. Du blir också meddelad om dessa köer via epost om det aktiverats.',
+            'Ditt urval av favoritköer. Du blir också meddelad om dessa köer via e-post om det aktiverats.',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -4525,7 +4526,7 @@ sub Data {
         'Add a new State.' => 'Lägg till ny Status.',
         'Add a new System Address.' => 'Lägg till ny Systemadress',
         'Add a new Type.' => 'Lägg till ny Typ',
-        'Add a note to this ticket!' => 'Lägg till en notis på ärendet!',
+        'Add a note to this ticket!' => 'Lägg till en notering på ärendet!',
         'Add note to ticket' => 'Lägg till anteckning till ärende',
         'Added User "%s"' => 'La till Användare "%s"',
         'Admin-Area' => 'Administrationsrelaterat',
@@ -4540,7 +4541,7 @@ sub Data {
         'All Agents' => 'Alla agenter',
         'All customer tickets.' => 'Alla kundärenden.',
         'All email addresses get excluded on replaying on composing an email.' =>
-            'Alla epostadresser exkluderas vid skapande av epost',
+            'Alla e-postadresser exkluderas vid skapande av e-post',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' =>
             'Alla inkommande mail till denna adressat (To:) delas ut till vald kö.',
         'All messages' => 'Alla meddelanden',
@@ -4567,7 +4568,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Kan inte lösenordet, lösenorden är inte lika! Försök igen!',
         'Category Tree' => 'Kategoriträd',
-        'Cc: (%s) added database email!' => 'Cc: (.s) tillagd med epost från databas.',
+        'Cc: (%s) added database email!' => 'Cc: (.s) tillagd med e-post från databas.',
         'Change %s settings' => 'Ändra %s-inställningar',
         'Change Times' => 'ÄndringsTider',
         'Change free text of ticket' => 'Ändra friatextfält i ärende',
@@ -4632,7 +4633,7 @@ sub Data {
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Bortse från ändringarna och stäng fönstret',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
-            'Sänd eller filtrera inkommande epost baserad på X-Headers! RegExp är också möjlig.',
+            'Sänd eller filtrera inkommande e-post baserad på X-Headers! RegExp är också möjlig.',
         'Do you really want to delete this Object?' => 'Vll du verkligen radera detta Objekt?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Vill du verligen ominstallera detta paket (Alla manuella ändringar försvinner)?',
@@ -4646,7 +4647,7 @@ sub Data {
         'Drop Database' => 'Radera databas',
         'Edit Article' => 'Redigera Artikel',
         'Edit default services.' => 'Redigera standardtjänster',
-        'Email based' => 'Epostbaserad',
+        'Email based' => 'E-postbaserad',
         'Escalation - First Response Time' => 'Eskalering - Första responstid',
         'Escalation - Solution Time' => 'Eskalering - Lösningstid',
         'Escalation - Update Time' => 'Eskalering - Uppdateringstid',
@@ -4702,7 +4703,7 @@ sub Data {
         'Login failed! Your username or password was entered incorrectly.' =>
             'Inloggningen misslyckades! Angivet användarnamn och/eller lösenord är inte korrekt.',
         'Lookup' => 'Slå upp',
-        'Mail Management' => 'Eposthantering',
+        'Mail Management' => 'E-posthantering',
         'Match' => 'Träff',
         'Merge this ticket!' => 'Slå samman ärendet!',
         'Message for new Owner' => 'Meddelande till ny ägare',
@@ -4897,7 +4898,7 @@ sub Data {
             'För att få artikelattributen (t.ex. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> och <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'För att få artikelns attribut (t.ex. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> och <OTRS_CUSTOMER_Body)).',
-        'To: (%s) replaced with database email!' => 'Till: (%s) ersatt med epost från databas!',
+        'To: (%s) replaced with database email!' => 'Till: (%s) ersatt med e-post från databas!',
         'Top of Page' => 'Början av sidan',
         'Total hits' => 'Totalt hittade',
         'U' => 'U',
@@ -4926,7 +4927,7 @@ sub Data {
         'You need min. one selected Ticket!' => 'Du måste ha minst ett valt ärende!',
         'You need to account time!' => 'Du måste redovisa tiden!',
         'You need to activate %s first to use it!' => 'Du måste aktivera %s först för att kunna använda det!',
-        'Your email address is new' => 'Din epostadress är ny',
+        'Your email address is new' => 'Din e-postadress är ny',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Emailen med ärendenummer "<OTRS_TICKET>" har skickats över till "<OTRS_BOUNCE_TO>". Vänligen kontakta denna adress för vidare hänvisningar.',
         'Your own Ticket' => 'Ditt eget ärende',
