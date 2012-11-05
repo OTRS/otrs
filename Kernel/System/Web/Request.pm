@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.43 2012-10-30 21:13:53 cr Exp $
+# $Id: Request.pm,v 1.44 2012-11-05 09:30:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -147,11 +147,15 @@ sub GetParam {
     my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
 
     if ( !$Raw ) {
-        $Self->{CheckItemObject}->StringClean(
-            StringRef => \$Value,
-            TrimLeft  => 1,
-            TrimRight => 1,
-        );
+
+        # If it is a plain string, perform trimming
+        if ( ref \$Value eq 'SCALAR' ) {
+            $Self->{CheckItemObject}->StringClean(
+                StringRef => \$Value,
+                TrimLeft  => 1,
+                TrimRight => 1,
+            );
+        }
     }
 
     return $Value;
@@ -253,10 +257,7 @@ sub GetUploadAll {
     return if !$Upload;
 
     # get real file name
-    my $UploadFilenameOrig = $Self->GetParam(
-        Param => $Param{Param},
-        Raw   => 1,
-    ) || 'unkown';
+    my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
 
     my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
     $Self->{EncodeObject}->EncodeInput( \$NewFileName );
@@ -384,6 +385,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2012-10-30 21:13:53 $
+$Revision: 1.44 $ $Date: 2012-11-05 09:30:00 $
 
 =cut
