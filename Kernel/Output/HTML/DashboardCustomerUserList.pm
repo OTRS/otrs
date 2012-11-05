@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.4 2012-11-05 13:12:11 mg Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.5 2012-11-05 13:18:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -91,30 +91,8 @@ sub Run {
 
     return if !$Param{CustomerID};
 
-    my $CacheKey = $Self->{Name} . '-'
-        . $Self->{PageShown} . '-'
-        . $Self->{StartHit} . '-'
-        . $Self->{CustomerID};
-
-    # check cache
-    my $CustomerIDs = $Self->{CacheObject}->Get(
-        Type => 'Dashboard',
-        Key  => $CacheKey,
-    );
-
-    if ( ref $CustomerIDs ne 'HASH' ) {
-        $CustomerIDs
-            = { $Self->{CustomerUserObject}->CustomerSearch( CustomerID => $Param{CustomerID} ) };
-
-        if ( $Self->{Config}->{CacheTTLLocal} ) {
-            $Self->{CacheObject}->Set(
-                Type  => 'Dashboard',
-                Key   => $CacheKey,
-                Value => $CustomerIDs,
-                TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
-            );
-        }
-    }
+    my $CustomerIDs
+        = { $Self->{CustomerUserObject}->CustomerSearch( CustomerID => $Param{CustomerID} ) };
 
     # add page nav bar
     my $Total = scalar keys %{$CustomerIDs};
