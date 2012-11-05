@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.23 $
+ * @version     $Revision: 1.24 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -154,7 +154,7 @@
     left: 0px;
     width: 35px;
     height: 35px;
-    cursor: auto;
+    cursor: default !important;
 }
 
 .OverviewLarge div.Checkbox input {

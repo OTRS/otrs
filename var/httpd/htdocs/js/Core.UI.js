@@ -2,7 +2,7 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.js,v 1.19 2012-11-05 14:18:05 mn Exp $
+// $Id: Core.UI.js,v 1.20 2012-11-05 14:38:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -299,7 +299,9 @@ Core.UI = (function (TargetNS) {
                 return;
             }
 
-            $Checkbox.prop('checked', !$Checkbox.prop('checked'));
+            $Checkbox
+                .prop('checked', !$Checkbox.prop('checked'))
+                .triggerHandler('click');
 
             Event.stopPropagation();
         });
