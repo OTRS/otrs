@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.6 2012-11-05 13:38:46 mg Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.7 2012-11-05 13:56:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -185,7 +185,7 @@ sub Run {
         );
 
         # can edit?
-        if ( 0 && $AddAccess && scalar keys %CustomerSource ) {
+        if ( $AddAccess && scalar keys %CustomerSource ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeCustomerUserListRowCustomerKeyLink',
                 Data => {
