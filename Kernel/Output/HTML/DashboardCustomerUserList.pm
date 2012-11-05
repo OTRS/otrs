@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.5 2012-11-05 13:18:55 mg Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.6 2012-11-05 13:38:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -149,6 +149,27 @@ sub Run {
         }
     }
 
+    # show add new customer button if there are writable customer backends and if
+    # the agent has permission
+    my $AddAccess = $Self->{LayoutObject}->Permission(
+        Action => 'AdminCustomerUser',
+        Type   => 'rw',                  # ro|rw possible
+    );
+
+    # get writable data sources
+    my %CustomerSource = $Self->{CustomerUserObject}->CustomerSourceList(
+        ReadOnly => 0,
+    );
+
+    if ( $AddAccess && scalar keys %CustomerSource ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeCustomerUserAdd',
+            Data => {
+                CustomerID => $Self->{CustomerID},
+            },
+        );
+    }
+
     my @CustomerKeys
         = sort { lc( $CustomerIDs->{$a} ) cmp lc( $CustomerIDs->{$b} ) } keys %{$CustomerIDs};
     @CustomerKeys = splice @CustomerKeys, $Self->{StartHit} - 1, $Self->{PageShown};
@@ -162,6 +183,28 @@ sub Run {
                 CustomerListEntry => $CustomerIDs->{$CustomerKey},
             },
         );
+
+        # can edit?
+        if ( 0 && $AddAccess && scalar keys %CustomerSource ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeCustomerUserListRowCustomerKeyLink',
+                Data => {
+                    %Param,
+                    CustomerKey       => $CustomerKey,
+                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeCustomerUserListRowCustomerKeyText',
+                Data => {
+                    %Param,
+                    CustomerKey       => $CustomerKey,
+                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                },
+            );
+        }
 
         my $CustomerKeySQL = $Self->{DBObject}->QueryStringEscape( QueryString => $CustomerKey );
 
@@ -220,27 +263,6 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeCustomerUserListNone',
             Data => {},
-        );
-    }
-
-    # show add new customer button if there are writable customer backends and if
-    # the agent has permission
-    my $AddAccess = $Self->{LayoutObject}->Permission(
-        Action => 'AdminCustomerUser',
-        Type   => 'rw',                  # ro|rw possible
-    );
-
-    # get writable data sources
-    my %CustomerSource = $Self->{CustomerUserObject}->CustomerSourceList(
-        ReadOnly => 0,
-    );
-
-    if ( $AddAccess && scalar keys %CustomerSource ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeCustomerUserAdd',
-            Data => {
-                CustomerID => $Self->{CustomerID},
-            },
         );
     }
 
