@@ -2,7 +2,7 @@
 # AgentDashboardCustomerUserList.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerUserList.dtl,v 1.7 2012-11-05 13:38:45 mg Exp $
+# $Id: AgentDashboardCustomerUserList.dtl,v 1.8 2012-11-05 14:07:54 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,8 +25,8 @@
             <th>$Text{"Customer information"}</th>
             <th>$Text{"Open"}</th>
             <th>$Text{"Closed"}</th>
-            <th></th>
-            <th></th>
+            <th>$Text{"Phone ticket"}</th>
+            <th>$Text{"Email ticket"}</th>
 <!-- dtl:block:OverviewResultSwitchToCustomer -->
             <th>$Text{"Login as"}</th>
 <!-- dtl:block:OverviewResultSwitchToCustomer -->
@@ -63,13 +63,13 @@
             </td>
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
             <td>
-                <a href="$Env{"Baselink"}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New phone ticket for %s", "$QData{"CustomerKey"}"}" class="AsBlock">
-                    $Text{"New phone ticket"}
+                <a href="$Env{"Baselink"}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" alt="$Text{"New phone ticket for %s", "$QData{"CustomerKey"}"}" title="$Text{"New phone ticket for %s", "$QData{"CustomerKey"}"}">
+                    <span>$Text{"Create"}</span>
                 </a>
             </td>
             <td>
-                <a href="$Env{"Baselink"}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New email ticket for %s", "$QData{"CustomerKey"}"}" class="AsBlock">
-                    $Text{"New email ticket"}
+                <a href="$Env{"Baselink"}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" alt="$Text{"New email ticket for %s", "$QData{"CustomerKey"}"}" title="$Text{"New email ticket for %s", "$QData{"CustomerKey"}"}">
+                    <span>$Text{"Create"}</span>
                 </a>
             </td>
 <!-- dtl:block:OverviewResultRowSwitchToCustomer -->
