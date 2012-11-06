@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.28 2012-11-06 13:25:26 mg Exp $
+# $Id: Process.pm,v 1.29 2012-11-06 14:55:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -1365,7 +1365,7 @@ sub ProcessDump {
             # build comment (therefore we need to trick out the filter)
             my $FileStart = <<'EOF';
 # OTRS config file (automatically generated)
-# VERSION:1.0
+# VERSION:1.1
 package Kernel::Config::Files::ZZZProcessManagement;
 use utf8;
 sub Load {
@@ -1420,6 +1420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2012-11-06 13:25:26 $
+$Revision: 1.29 $ $Date: 2012-11-06 14:55:33 $
 
 =cut
