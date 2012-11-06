@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.27 2012-10-15 08:58:16 mg Exp $
+# $Id: Process.pm,v 1.28 2012-11-06 13:25:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -1335,7 +1335,7 @@ sub ProcessDump {
         );
 
         $Output .= $Self->_ProcessItemOutput(
-            Key   => 'Process::TranstionAction',
+            Key   => 'Process::TransitionAction',
             Value => \%TransitionActionDump,
         );
 
@@ -1363,22 +1363,21 @@ sub ProcessDump {
             $Location =~ s{$Home\/}{}xmsg;
 
             # build comment (therefore we need to trick out the filter)
-            my $Separators  = '--';
-            my $FileComment = <<"__COMMENT_START__";
-# $Separators
-# $Location - Auto generated export of the ProcessManagement configuration, do not edit!
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# $Separators
-# Generated: $CurrentTime by $User{UserLogin}
-# $Separators
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt
-# $Separators
+            my $FileStart = <<'EOF';
+# OTRS config file (automatically generated)
+# VERSION:1.0
+package Kernel::Config::Files::ZZZProcessManagement;
+use utf8;
+sub Load {
+    my ($File, $Self) = @_;
+EOF
 
-__COMMENT_START__
+            my $FileEnd = <<'EOF';
+}
+1;
+EOF
 
-            $Output = $FileComment . $Output . "1;\n";
+            $Output = $FileStart . $Output . $FileEnd;
 
             my $FileLocation = $Self->{MainObject}->FileWrite(
                 Location => $Param{Location},
@@ -1421,6 +1420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2012-10-15 08:58:16 $
+$Revision: 1.28 $ $Date: 2012-11-06 13:25:26 $
 
 =cut
