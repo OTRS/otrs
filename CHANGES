@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2505 2012-11-06 13:31:59 mg Exp $
+# $Id: CHANGES,v 1.2506 2012-11-06 16:13:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-11-06 Fixed bug#8895 - ProcessManagement Transition Path JS error on Transition Dbl Click.
  - 2012-11-06 Fixed bug#3419 - Kernel/Config/GenericAgent.pm and utf8.
  - 2012-11-06 Fixed a typo in the auto-generated process configuration cache.
  - 2012-11-05 Updated Swedish translation, thanks to Andreas Berger!
