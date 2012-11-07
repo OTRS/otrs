@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.31 $
+ * @version     $Revision: 1.32 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -433,6 +433,15 @@ ul.ContextFunctions li:last-child:hover > a {
     -moz-box-shadow: 0 0 0;
     -webkit-box-shadow: 0 0 0;
     box-shadow: 0 0 0;
+}
+
+.ActionRow .ActionMessage {
+    display: block;
+    padding: 8px 8px 9px 8px;
+    background-color: #F6FCE5;
+    font-size: 11px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 
 .Actions form {
