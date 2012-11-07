@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2512 2012-11-07 13:56:28 mab Exp $
+# $Id: CHANGES,v 1.2513 2012-11-07 14:19:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,11 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-11-07 Changed default setting for 'Ticket::Frontend::ZoomRichTextForce'.
+    Now OTRS will display HTML emails as HTML by default, even if RichText is not
+    activated for composing new messages. This helps for devices which cannot
+    use RichText for editing, but are able to display HTML content, such as certain
+    iPads.
  - 2012-11-07 Fixed bug#8897 - Wrong ProcessManagement Transition config format.
  - 2012-11-06 Fixed bug#8873 - Bad example of customization of "static" dynamic fields in
     AgentTicketOverviewSmall.
