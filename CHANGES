@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2508 2012-11-07 00:36:02 cr Exp $
+# $Id: CHANGES,v 1.2509 2012-11-07 02:58:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 3.2.0 beta2 2012-??-??
- - 2012011-06 Fixed bug#8899 - ProcessManagement Articles should not have ArticleType email.
+ - 2012-11-06 Fixed bug#8890 - ProcessManagement Undefined EntityID error on
+    AdminProcessManagementTransition edit.
+ - 2012-11-06 Fixed bug#8899 - ProcessManagement Articles should not have ArticleType email.
  - 2012-11-06 Fixed bug#8898 - ProcessManagement GUI error on popup close (without change).
  - 2012-11-06 Fixed bug#8895 - ProcessManagement Transition Path JS error on Transition Dbl Click.
  - 2012-11-06 Fixed bug#3419 - Kernel/Config/GenericAgent.pm and utf8.
