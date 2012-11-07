@@ -2,7 +2,7 @@
 # ActivityDialogFooter.dtl - provides ActivityDialogFooter HTML for the AgentTicketProcess.pm
 # Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
 # --
-# $Id: ActivityDialogFooter.dtl,v 1.2 2012-08-24 20:38:28 cr Exp $
+# $Id: ActivityDialogFooter.dtl,v 1.3 2012-11-07 15:26:33 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
                     </fieldset>
                 </div>
-<!-- dtl:block:Footer -->        
+<!-- dtl:block:Footer -->
                 <div class="$QData{"FooterCSSClass"}">
 <!-- dtl:block:SubmitAdviceText -->
                     <p class="SubmitInfo">$QData{"AdviceText"}</p>
@@ -33,7 +33,7 @@ window.opener.Core.UI.Popup.FirePopupEvent('Reload');
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('select').each(function() {
-    if ($(this).find('option').length == 1) {
+    if ($(this).find('option').length === 1) {
         $(this).attr('disabled', 'disabled');
         $('<input type="hidden" id="' + $(this).attr('id') + '" name="' + $(this).attr('name') + '" value="' + $(this).val() + '" />').insertAfter($(this));
     }
