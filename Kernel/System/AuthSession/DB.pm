@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.63 2012-11-07 17:04:07 mh Exp $
+# $Id: DB.pm,v 1.64 2012-11-07 20:01:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -178,7 +178,8 @@ sub GetSessionIDData {
         if ( $Row[2] ) {
             my $Value = eval { Storable::thaw( $Row[1] ) };
 
-           # workaround for the oracle problem with empty strings and NULL values in VARCHAR columns
+            # workaround for the oracle problem with empty
+            # strings and NULL values in VARCHAR columns
             if ( $Value && ref $Value eq 'SCALAR' ) {
                 $Value = ${$Value};
             }
@@ -589,10 +590,15 @@ sub _SQLCreate {
             my $Value      = $Param{Data}->{$Key};
             my $Serialized = 0;
 
-            if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+            if (
+                ref $Value    eq 'HASH'
+                || ref $Value eq 'ARRAY'
+                || ref $Value eq 'SCALAR'
+                )
+            {
 
                 # dump the data
-                $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+                $Value      = Storable::nfreeze($Value);
                 $Serialized = 1;
             }
 
@@ -631,28 +637,29 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                !defined $Param{Data}->{$Key}
-                || $Param{Data}->{$Key}     eq ''
-                || ref $Param{Data}->{$Key} eq 'HASH'
-                || ref $Param{Data}->{$Key} eq 'ARRAY'
+                !defined $Value
+                || $Value     eq ''
+                || ref $Value eq 'HASH'
+                || ref $Value eq 'ARRAY'
+                || ref $Value eq 'SCALAR'
                 )
             {
 
                 # workaround for the oracle problem with empty strings
                 # and NULL values in VARCHAR columns
-                if ( !defined $Param{Data}->{$Key} ) {
+                if ( !defined $Value ) {
 
                     my $Empty = undef;
-                    $Param{Data}->{$Key} = \$Empty;
+                    $Value = \$Empty;
                 }
-                elsif ( $Param{Data}->{$Key} eq '' ) {
+                elsif ( $Value eq '' ) {
 
                     my $Empty = '';
-                    $Param{Data}->{$Key} = \$Empty;
+                    $Value = \$Empty;
                 }
 
                 # dump the data
-                $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+                $Value      = Storable::nfreeze($Value);
                 $Serialized = 1;
             }
 
@@ -686,10 +693,15 @@ sub _SQLCreate {
             my $Value      = $Param{Data}->{$Key};
             my $Serialized = 0;
 
-            if ( ref $Param{Data}->{$Key} eq 'HASH' || ref $Param{Data}->{$Key} eq 'ARRAY' ) {
+            if (
+                ref $Value    eq 'HASH'
+                || ref $Value eq 'ARRAY'
+                || ref $Value eq 'SCALAR'
+                )
+            {
 
                 # dump the data
-                $Value      = Storable::nfreeze( $Param{Data}->{$Key} );
+                $Value      = Storable::nfreeze($Value);
                 $Serialized = 1;
             }
 
