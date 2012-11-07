@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.18 $
+ * @version     $Revision: 1.19 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -36,7 +36,7 @@ a.Export {
 }
 
 .Icon_Edit {
-    background-image: url(../img/icons/folder-small.png);
+    background-image: url(../img/icons/edit.png);
 }
 
 .AvailableIn {
@@ -128,7 +128,7 @@ ul#ProcessElements li.AccordionElement div.Content ul li {
 ul#ProcessElements li.AccordionElement div.Content ul li > span {
     position: absolute;
     right: 5px;
-    top: 2px;    
+    top: 2px;
 }
 
 ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
@@ -141,8 +141,8 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     display: block;
     height: 20px;
     width: 200px;
-    border: 1px solid #CCC;    
-}    
+    border: 1px solid #CCC;
+}
 
 /**
  * @subsubsection     Diagram Canvas
@@ -151,8 +151,8 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 #Canvas {
     width: 95%;
     position: relative;
-}    
-    
+}
+
 .CanvasActions {
     position: absolute;
     right: 10px;
@@ -178,7 +178,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 .CanvasActions a#ExtendCanvasWidth {
     background: url(../img/icon_resize_horizontal.png) no-repeat center;
 }
-    
+
 #DiagramTooltip {
     border: 1px solid #aaa;
     border-radius: 5px;
@@ -219,7 +219,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     margin: -2px 5px -2px -6px;
     background-color: #999;
     color: #fff;
-} 
+}
 
 #DiagramTooltip li.NoDialogsAssigned {
     background: none;
@@ -228,7 +228,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     line-height: 120%;
     margin-top: -3px;
 }
-    
+
 #DiagramDeleteLink {
     position: absolute;
     display: none;
@@ -255,11 +255,11 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 
 /**
  * @subsubsection     Transition Popup / Transition Action Popup
- */    
+ */
 
 .Fields {
     margin-top: 15px;
-}    
+}
 
 /**
  * @subsubsection     Path popup
@@ -330,14 +330,14 @@ div.AJAXWaiting {
 
 /**
  * @subsubsection     AllocationList
- */    
+ */
 
 #AvailableFields .ShowOnAssignedList {
     display: none;
-}    
-    
+}
+
 #AssignedFields .ShowOnAssignedList {
     display: inline;
-}    
-    
+}
+
 }/* end @media */
