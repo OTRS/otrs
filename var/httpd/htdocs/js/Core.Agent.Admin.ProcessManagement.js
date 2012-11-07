@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.56 2012-11-06 16:13:50 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.57 2012-11-07 13:00:51 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -656,7 +656,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('input[name=Path]').val(Core.JSON.Stringify(TargetNS.ProcessData.Process[ProcessEntityID].Path));
 
             // get start activity and dialogs and store it into hidden fields as JSON string
-            StartActivity = TargetNS.ProcessData.Process[ProcessEntityID].StartActivity
+            StartActivity = TargetNS.ProcessData.Process[ProcessEntityID].StartActivity;
             $('input[name=StartActivity]').val(StartActivity);
             $('input[name=StartActivityDialog]').val(TargetNS.ProcessData.Activity[StartActivity].ActivityDialog["1"]);
 
@@ -827,7 +827,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                              FieldConfig.DefaultValue = $('#DefaultValue').val();
                              FieldConfig.Display = $('#Display').val();
 
-                             if (Fieldname == 'Article') {
+                             if (Fieldname === 'Article') {
                                  if (typeof FieldConfig.Config === 'undefined'){
                                      FieldConfig.Config = {};
                                  }
@@ -872,7 +872,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     $('#Display').val(FieldConfig.Display);
                 }
 
-                if (Fieldname == 'Article') {
+                if (Fieldname === 'Article') {
                     if (typeof FieldConfig.Config === 'undefined'){
                         FieldConfig.Config = {};
                     }
@@ -888,7 +888,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
 
             // only article should show ArticleType select.
-            if (Fieldname == 'Article') {
+            if (Fieldname === 'Article') {
                 $('#ArticleTypeContainer').removeClass('Hidden');
             }
             else {
