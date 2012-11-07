@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSession.pm - to control all session ids
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.pm,v 1.34 2011-12-23 14:36:07 mg Exp $
+# $Id: AdminSession.pm,v 1.35 2012-11-07 16:54:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,14 +59,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my @List = $Self->{SessionObject}->GetAllSessionIDs();
-        for my $SessionID (@List) {
-
-            # killall sessions but not the own one!
-            if ( $WantSessionID ne $SessionID ) {
-                $Self->{SessionObject}->RemoveSessionID( SessionID => $SessionID );
-            }
-        }
+        $Self->{SessionObject}->CleanUp();
         return $Self->{LayoutObject}->Redirect( OP => "Action=AdminSession" );
     }
 
