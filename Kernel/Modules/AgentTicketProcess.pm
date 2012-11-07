@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.15 2012-10-23 13:03:46 mab Exp $
+# $Id: AgentTicketProcess.pm,v 1.16 2012-11-07 03:10:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -3507,6 +3507,7 @@ sub _StoreActivityDialog {
         }
     }
 
+    my $NewTicketID;
     if ( !$TicketID ) {
 
         $ProcessEntityID = $Param{GetParam}{ProcessEntityID};
@@ -3635,6 +3636,9 @@ sub _StoreActivityDialog {
                     UserID => $Self->{UserID},
                 );
             }
+
+            # remember new created TicketID
+            $NewTicketID = $TicketID;
         }
     }
 
@@ -3744,7 +3748,9 @@ sub _StoreActivityDialog {
             }
         }
 
-        elsif ( $CurrentField eq 'Article' && $UpdateTicketID ) {
+        elsif ( $CurrentField eq 'Article' && ( $UpdateTicketID || $NewTicketID ) ) {
+
+            my $TicketID = $UpdateTicketID || $NewTicketID;
 
             if ( $Param{GetParam}{Subject} && $Param{GetParam}{Body} ) {
 
@@ -3762,7 +3768,7 @@ sub _StoreActivityDialog {
 
                 my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID       => $UpdateTicketID,
+                    TicketID       => $TicketID,
                     SenderType     => 'agent',
                     From           => $From,
                     MimeType       => $MimeType,
