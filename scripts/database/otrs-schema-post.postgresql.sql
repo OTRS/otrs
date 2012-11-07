@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-10-23 10:27:48
+--  driver: postgresql, generated: 2012-11-07 17:15:08
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

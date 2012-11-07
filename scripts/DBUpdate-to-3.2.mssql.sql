@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-10-23 10:26:24
+--  driver: mssql, generated: 2012-11-07 17:16:57
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -284,13 +284,15 @@ DROP TABLE sessions;
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    id NVARCHAR (100) NOT NULL,
-    data_key NVARCHAR (100) NOT NULL,
+    id BIGINT NOT NULL IDENTITY(1,1) ,
+    session_id NVARCHAR (100) NOT NULL,
+    data_key NVARCHAR (1000) NOT NULL,
     data_value NVARCHAR (MAX) NULL,
     serialized SMALLINT NOT NULL,
-    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
+    PRIMARY KEY(id)
 );
-CREATE INDEX sessions_id ON sessions (id);
+CREATE INDEX sessions_data_key ON sessions (data_key);
+CREATE INDEX sessions_session_id_data_key ON sessions (session_id, data_key);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

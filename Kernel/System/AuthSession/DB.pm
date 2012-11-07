@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.59 2012-10-30 15:09:22 mh Exp $
+# $Id: DB.pm,v 1.60 2012-11-07 16:10:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,6 +38,10 @@ sub new {
     $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit');
     $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit');
     $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
+
+    # get database type
+    $Self->{DBType} = $Self->{DBObject}->{'DB::Type'} || '';
+    $Self->{DBType} = lc $Self->{DBType};
 
     return $Self;
 }
@@ -158,7 +162,9 @@ sub GetSessionIDData {
 
     # read data
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT data_key, data_value, serialized FROM $Self->{SessionTable} WHERE id = ?",
+        SQL => "SELECT data_key, data_value, serialized "
+            . "FROM $Self->{SessionTable} WHERE session_id = ? "
+            . "ORDER BY id ASC",
         Bind => [ \$Param{SessionID} ],
     );
 
@@ -215,8 +221,9 @@ sub CreateSessionID {
 
         # get all needed timestamps to investigate the expired sessions
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT id, data_key, data_value FROM $Self->{SessionTable} "
-                . "WHERE data_key = 'UserType' OR data_key = 'UserLastRequest'",
+            SQL => "SELECT session_id, data_key, data_value FROM $Self->{SessionTable} "
+                . "WHERE data_key = 'UserType' OR data_key = 'UserLastRequest' "
+                . "ORDER BY id ASC",
         );
 
         my %SessionData;
@@ -327,7 +334,7 @@ sub RemoveSessionID {
 
     # delete session from the database
     return if !$Self->{DBObject}->Do(
-        SQL  => "DELETE FROM $Self->{SessionTable} WHERE id = ?",
+        SQL  => "DELETE FROM $Self->{SessionTable} WHERE session_id = ?",
         Bind => [ \$Param{SessionID} ],
     );
 
@@ -374,7 +381,7 @@ sub GetAllSessionIDs {
 
     # get all session ids from the database
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT DISTINCT(id) FROM $Self->{SessionTable}",
+        SQL => "SELECT DISTINCT(session_id) FROM $Self->{SessionTable}",
     );
 
     # fetch the result
@@ -398,8 +405,9 @@ sub GetExpiredSessionIDs {
 
     # get all needed timestamps to investigate the expired sessions
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, data_key, data_value FROM $Self->{SessionTable} "
-            . "WHERE data_key = 'UserSessionStart' OR data_key = 'UserLastRequest'",
+        SQL => "SELECT session_id, data_key, data_value FROM $Self->{SessionTable} "
+            . "WHERE data_key = 'UserSessionStart' OR data_key = 'UserLastRequest' "
+            . "ORDER BY id ASC",
     );
 
     my %SessionData;
@@ -445,8 +453,21 @@ sub GetExpiredSessionIDs {
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    # delete all session data from database
-    return if !$Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SessionTable}" );
+    # use trancate if possible to reset the auto increment value
+    if (
+        $Self->{DBType}    eq 'mysql'
+        || $Self->{DBType} eq 'postgresql'
+        || $Self->{DBType} eq 'oracle'
+        || $Self->{DBType} eq 'mssql'
+        )
+    {
+
+        return if !$Self->{DBObject}->Do( SQL => "TRANCATE TABLE $Self->{SessionTable}" );
+    }
+    else {
+        return if !$Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SessionTable}" );
+    }
+
     return 1;
 }
 
@@ -490,7 +511,8 @@ sub DESTROY {
 
                 # delete old session data from the database
                 $Self->{DBObject}->Do(
-                    SQL => "DELETE FROM $Self->{SessionTable} WHERE id = ? AND data_key = ?",
+                    SQL =>
+                        "DELETE FROM $Self->{SessionTable} WHERE session_id = ? AND data_key = ?",
                     Bind => [ \$SessionID, \$Key ],
                 );
             }
@@ -499,7 +521,7 @@ sub DESTROY {
 
             # delete old session data from the database
             $Self->{DBObject}->Do(
-                SQL  => "DELETE FROM $Self->{SessionTable} WHERE id = ?",
+                SQL  => "DELETE FROM $Self->{SessionTable} WHERE session_id = ?",
                 Bind => [ \$SessionID ],
             );
         }
@@ -538,15 +560,11 @@ sub _SQLCreate {
     return if !$Param{SQLs};
     return if ref $Param{SQLs} ne 'ARRAY';
 
-    # get database type
-    my $DBType = $Self->{DBObject}->{'DB::Type'} || '';
-    $DBType = lc $DBType;
-
-    if ( $DBType eq 'mysql' || $DBType eq 'postgresql' ) {
+    if ( $Self->{DBType} eq 'mysql' || $Self->{DBType} eq 'postgresql' ) {
 
         # define row
-        my $SQL
-            = "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES ";
+        my $SQL = "INSERT INTO $Self->{SessionTable} "
+            . "(session_id, data_key, data_value, serialized) VALUES ";
         my @Bind;
 
         KEY:
@@ -584,7 +602,7 @@ sub _SQLCreate {
 
         return 1;
     }
-    elsif ( $DBType eq 'oracle' ) {
+    elsif ( $Self->{DBType} eq 'oracle' ) {
 
         # define row
         my $SQL = 'INSERT ALL ';
@@ -606,7 +624,8 @@ sub _SQLCreate {
                 )
             {
 
-           # workaround for the oracle problem with empty strings and NULL values in VARCHAR columns
+                # workaround for the oracle problem with empty strings
+                # and NULL values in VARCHAR columns
                 if ( !defined $Param{Data}->{$Key} ) {
 
                     my $Empty = undef;
@@ -628,8 +647,8 @@ sub _SQLCreate {
             push @Bind, \$Value;
             push @Bind, \$Serialized;
 
-            $SQL
-                .= "INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES (?,?,?,?) ";
+            $SQL .= "INTO $Self->{SessionTable} "
+                . "(session_id, data_key, data_value, serialized) VALUES (?,?,?,?) ";
         }
 
         $SQL .= 'SELECT * FROM dual';
@@ -666,8 +685,8 @@ sub _SQLCreate {
             push @Bind, \$Value;
             push @Bind, \$Serialized;
 
-            my $SQL
-                = "INSERT INTO $Self->{SessionTable} (id, data_key, data_value, serialized) VALUES (?,?,?,?)";
+            my $SQL = "INSERT INTO $Self->{SessionTable} "
+                . "(session_id, data_key, data_value, serialized) VALUES (?,?,?,?)";
 
             my %Row = (
                 SQL  => $SQL,

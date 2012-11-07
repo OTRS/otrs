@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-10-23 10:27:48
+--  driver: postgresql_before_8_2, generated: 2012-11-07 17:15:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -802,13 +802,15 @@ CREATE TABLE service_sla (
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    id VARCHAR (100) NOT NULL,
-    data_key VARCHAR (100) NOT NULL,
+    id serial NOT NULL,
+    session_id VARCHAR (100) NOT NULL,
+    data_key VARCHAR (1000) NOT NULL,
     data_value VARCHAR NULL,
     serialized INTEGER NOT NULL,
-    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
+    PRIMARY KEY(id)
 );
-CREATE INDEX sessions_id ON sessions (id);
+CREATE INDEX sessions_data_key ON sessions (data_key);
+CREATE INDEX sessions_session_id_data_key ON sessions (session_id, data_key);
 -- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-10-23 10:26:24
+--  driver: postgresql_before_8_2, generated: 2012-11-07 17:16:57
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -149,13 +149,15 @@ DROP TABLE sessions;
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
-    id VARCHAR (100) NOT NULL,
-    data_key VARCHAR (100) NOT NULL,
+    id serial NOT NULL,
+    session_id VARCHAR (100) NOT NULL,
+    data_key VARCHAR (1000) NOT NULL,
     data_value VARCHAR NULL,
     serialized INTEGER NOT NULL,
-    CONSTRAINT sessions_id_data_key UNIQUE (id, data_key)
+    PRIMARY KEY(id)
 );
-CREATE INDEX sessions_id ON sessions (id);
+CREATE INDEX sessions_data_key ON sessions (data_key);
+CREATE INDEX sessions_session_id_data_key ON sessions (session_id, data_key);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2513 2012-11-07 14:19:16 mg Exp $
+# $Id: CHANGES,v 1.2514 2012-11-07 16:11:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-11-07 Fixed race condition in new DB based session backend.
  - 2012-11-07 Changed default setting for 'Ticket::Frontend::ZoomRichTextForce'.
     Now OTRS will display HTML emails as HTML by default, even if RichText is not
     activated for composing new messages. This helps for devices which cannot
