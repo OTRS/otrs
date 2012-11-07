@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.87 2012-11-05 14:18:05 mn Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.88 2012-11-07 03:48:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -214,24 +214,24 @@
 #<!-- dtl:block:RecordDynamicField_Field1 -->
 #                    <td>
 #                        <div title="$QData{"Title"}">
-#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicField_Field1_Link -->
 #                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
-#<!-- dtl:block:RecordDynamicField1Link -->
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicField_Field1_Link -->
+#<!-- dtl:block:RecordDynamicField_Field1_Plain -->
 #                            $Data{"Value"}
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicField_Field1_Plain -->
 #                        </div>
 #                    </td>
 #<!-- dtl:block:RecordDynamicField_Field1 -->
 #<!-- dtl:block:RecordDynamicField_Field2 -->
 #                    <td>
 #                        <div title="$QData{"Title"}">
-#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicField_Field2_Link -->
 #                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
-#<!-- dtl:block:RecordDynamicField1Link -->
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicField_Field2_Link -->
+#<!-- dtl:block:RecordDynamicField_Field2_Plain -->
 #                            $Data{"Value"}
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicField_Field2_Plain -->
 #                        </div>
 #                    </td>
 #<!-- dtl:block:RecordDynamicField_Field2 -->
