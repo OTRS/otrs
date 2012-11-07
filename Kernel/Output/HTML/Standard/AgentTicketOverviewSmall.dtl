@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.85.2.2 2012-11-07 15:13:59 cr Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.85.2.3 2012-11-07 15:43:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,33 +211,31 @@
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
-#<!-- dtl:block:RecordDynamicField_Field1 -->
+#<!-- dtl:block:RecordDynamicFieldField1 -->
 #                    <td>
 #                        <div title="$QData{"Title"}">
-#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicFieldField1Link -->
 #                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
-#<!-- dtl:block:RecordDynamicField1Link -->
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicFieldField1Link -->
+#<!-- dtl:block:RecordDynamicFieldField1Plain -->
 #                            $Data{"Value"}
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicFieldField1Plain -->
 #                        </div>
 #                    </td>
-#<!-- dtl:block:RecordDynamicField_Field1 -->
-#<!-- dtl:block:RecordDynamicField_Field2 -->
+#<!-- dtl:block:RecordDynamicFieldField1 -->
+#<!-- dtl:block:RecordDynamicFieldField2 -->
 #                    <td>
 #                        <div title="$QData{"Title"}">
-#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicFieldField2Link -->
 #                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
-#<!-- dtl:block:RecordDynamicField1Link -->
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicFieldField2Link -->
+#<!-- dtl:block:RecordDynamicFieldField2Plain -->
 #                            $Data{"Value"}
-#<!-- dtl:block:RecordDynamicField1Plain -->
+#<!-- dtl:block:RecordDynamicFieldField2Plain -->
 #                        </div>
 #                    </td>
-#<!-- dtl:block:RecordDynamicField_Field2 -->
-
+#<!-- dtl:block:RecordDynamicFieldField2 -->
                 </tr>
-
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
