@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.576 2012-10-16 12:36:17 mg Exp $
+# $Id: Ticket.pm,v 1.577 2012-11-07 18:17:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.576 $) [1];
+$VERSION = qw($Revision: 1.577 $) [1];
 
 =head1 NAME
 
@@ -6130,9 +6130,11 @@ sub TicketAcl {
                     ActivityEntityID => $ChecksDatabase{Process}{ActivityEntityID},
                 );
 
-                # store all ActivityDialogs from activity
-                %AllActivityDialogs = map { $Activity->{ActivityDialog}{$_} => 1 }
-                    keys %{ $Activity->{ActivityDialog} };
+                # store all ActivityDialogs from activity (if any)
+                if ( IsHashRefWithData( $Activity->{ActivityDialog} ) ) {
+                    %AllActivityDialogs = map { $Activity->{ActivityDialog}{$_} => 1 }
+                        keys %{ $Activity->{ActivityDialog} };
+                }
             }
         }
 
@@ -7975,6 +7977,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.576 $ $Date: 2012-10-16 12:36:17 $
+$Revision: 1.577 $ $Date: 2012-11-07 18:17:44 $
 
 =cut

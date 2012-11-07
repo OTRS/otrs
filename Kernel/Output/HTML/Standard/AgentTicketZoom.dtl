@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.220 2012-11-07 16:54:14 mab Exp $
+# $Id: AgentTicketZoom.dtl,v 1.221 2012-11-07 18:17:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -394,6 +394,11 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                             <a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a>
                         </li>
 <!-- dtl:block:ActivityDialog -->
+<!-- dtl:block:NoActivityDialogs -->
+                        <li>
+                            <span class="NoActivityDialogs" title="$Text{"There are no more steps left for this process"}">$Text{"There are no more steps left for this process"}</span>
+                        </li>
+<!-- dtl:block:NoActivityDialogs -->
                     </ul>
                     <div class="Clear"></div>
                 </div>

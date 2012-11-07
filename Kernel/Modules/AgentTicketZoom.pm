@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.186 2012-10-17 10:11:50 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.187 2012-11-07 18:17:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.186 $) [1];
+$VERSION = qw($Revision: 1.187 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -954,7 +954,12 @@ sub MaskAgentZoom {
 
             # we don't need the whole Activity config,
             # just the Activity Dialogs of the current Activity
-            %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
+            if ( IsHashRefWithData( $NextActivityDialogs->{ActivityDialog} ) ) {
+                %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
+            }
+            else {
+                $NextActivityDialogs = {};
+            }
 
             # ACL Check is done in the initial "Run" statement
             # so here we can just pick the possibly reduced Activity Dialogs
@@ -1028,19 +1033,28 @@ sub MaskAgentZoom {
                 Name => 'NextActivityDialogs',
             );
 
-            for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
-                my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
-                    Interface              => 'AgentInterface',
-                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'ActivityDialog',
-                    Data => {
+            if ( IsHashRefWithData($NextActivityDialogs) ) {
+                for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+                    my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                        Interface              => 'AgentInterface',
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
-                        Name                   => $ActivityDialogData->{Name},
-                        ProcessEntityID        => $Ticket{$ProcessEntityIDField},
-                        TicketID               => $Ticket{TicketID},
-                    },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ActivityDialog',
+                        Data => {
+                            ActivityDialogEntityID
+                                => $NextActivityDialogs->{$NextActivityDialogKey},
+                            Name            => $ActivityDialogData->{Name},
+                            ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                            TicketID        => $Ticket{TicketID},
+                        },
+                    );
+                }
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'NoActivityDialogs',
+                    Data => {},
                 );
             }
         }

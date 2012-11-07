@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - all Activity functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.4 2012-09-10 03:10:30 sb Exp $
+# $Id: Activity.pm,v 1.5 2012-11-07 18:17:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -143,23 +143,29 @@ sub ActivityGet {
     # get activity dialogs
     my $ActivityDialogs = $Self->{ConfigObject}->Get('Process::ActivityDialog');
 
-    # filter activity dialogs
-    ACTIVITYDIALOG:
-    for my $ActivityDialogID ( keys %{ $ActivityEntity->{ActivityDialog} } ) {
-        my $ActivityDialog = $ActivityEntity->{ActivityDialog}->{$ActivityDialogID};
-        if ( IsHashRefWithData($ActivityDialog) ) {
-            $ActivityDialog = $ActivityDialog->{ActivityDialogEntityID};
-        }
-        for my $Interface ( @{ $Param{Interface} } ) {
+    if ( IsHashRefWithData( $ActivityEntity->{ActivityDialog} ) ) {
 
-            # keep activity dialog if interface is included in activity dialog configuration
-            if ( grep { $_ eq $Interface } @{ $ActivityDialogs->{$ActivityDialog}->{Interface} } ) {
-                next ACTIVITYDIALOG;
+        # filter activity dialogs
+        ACTIVITYDIALOG:
+        for my $ActivityDialogID ( keys %{ $ActivityEntity->{ActivityDialog} } ) {
+            my $ActivityDialog = $ActivityEntity->{ActivityDialog}->{$ActivityDialogID};
+            if ( IsHashRefWithData($ActivityDialog) ) {
+                $ActivityDialog = $ActivityDialog->{ActivityDialogEntityID};
             }
-        }
+            for my $Interface ( @{ $Param{Interface} } ) {
 
-        # remove activity dialog if no match could be found
-        delete $ActivityEntity->{ActivityDialog}->{$ActivityDialogID};
+                # keep activity dialog if interface is included in activity dialog configuration
+                if (
+                    grep { $_ eq $Interface } @{ $ActivityDialogs->{$ActivityDialog}->{Interface} }
+                    )
+                {
+                    next ACTIVITYDIALOG;
+                }
+            }
+
+            # remove activity dialog if no match could be found
+            delete $ActivityEntity->{ActivityDialog}->{$ActivityDialogID};
+        }
     }
 
     return $ActivityEntity;
@@ -214,6 +220,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-09-10 03:10:30 $
+$Revision: 1.5 $ $Date: 2012-11-07 18:17:43 $
 
 =cut
