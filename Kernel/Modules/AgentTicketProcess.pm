@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.16 2012-11-07 03:10:49 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.17 2012-11-07 22:06:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2431,26 +2431,33 @@ sub _RenderResponsible {
     $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $ResponsibleIDParam )
         if $ResponsibleIDParam;
 
-    if ( $Param{FieldName} eq 'Responsible' ) {
+    if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{UserObject}->UserLookup(
-            User => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
-    }
-    else {
-        $SelectedValue = $Self->{UserObject}->UserLookup(
-            UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( $Param{FieldName} eq 'Responsible' ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{UserObject}->UserLookup(
+                User => $Param{ActivityDialogField}->{DefaultValue} || ''
+                )
+                if !$SelectedValue;
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
+                if $SelectedValue;
+        }
+        else {
+            $SelectedValue = $Self->{UserObject}->UserLookup(
+                UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
+                )
+                if !$SelectedValue;
+        }
     }
 
     # Get TicketValue
     $SelectedValue = $Param{Ticket}->{Responsible}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+
+    # use the current user
+    $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} )
+        if ( !$SelectedValue );
 
     # set server errors
     my $ServerError;
@@ -2544,26 +2551,34 @@ sub _RenderOwner {
     $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $OwnerIDParam )
         if $OwnerIDParam;
 
-    if ( $Param{FieldName} eq 'Owner' ) {
+    if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{UserObject}->UserLookup(
-            User => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
-    }
-    else {
-        $SelectedValue = $Self->{UserObject}->UserLookup(
-            UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( $Param{FieldName} eq 'Owner' ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{UserObject}->UserLookup(
+                User => $Param{ActivityDialogField}->{DefaultValue}
+                )
+                if !$SelectedValue;
+
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
+                if $SelectedValue;
+        }
+        else {
+            $SelectedValue = $Self->{UserObject}->UserLookup(
+                UserID => $Param{ActivityDialogField}->{DefaultValue}
+                )
+                if !$SelectedValue;
+        }
     }
 
     # Get TicketValue
     $SelectedValue = $Param{Ticket}->{Owner}
         if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+
+    # use the current user
+    $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} )
+        if ( !$SelectedValue );
 
     # set server errors
     my $ServerError;
@@ -4257,6 +4272,16 @@ sub _GetResponsibles {
     }
     else {
 
+        # the StartActivityDialog does not provide a TicketID and it could be that also there
+        # is no QueueID information. Get the default QueueID for this matters.
+        if ( !$Param{QueueID} ) {
+            my $Queue = $Self->{ConfigObject}->Get("Process::DefaultQueue");
+            my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+            if ($QueueID) {
+                $Param{QueueID} = $QueueID;
+            }
+        }
+
         # just show only users with selected custom queue
         if ( $Param{QueueID} && !$Param{ResponsibleAll} ) {
             my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
@@ -4334,6 +4359,16 @@ sub _GetOwners {
         }
     }
     else {
+
+        # the StartActivityDialog does not provide a TicketID and it could be that also there
+        # is no QueueID information. Get the default QueueID for this matters.
+        if ( !$Param{QueueID} ) {
+            my $Queue = $Self->{ConfigObject}->Get("Process::DefaultQueue");
+            my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+            if ($QueueID) {
+                $Param{QueueID} = $QueueID;
+            }
+        }
 
         # just show only users with selected custom queue
         if ( $Param{QueueID} && !$Param{OwnerAll} ) {
