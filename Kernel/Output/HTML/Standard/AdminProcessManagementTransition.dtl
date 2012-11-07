@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.8 2012-11-07 13:53:06 mab Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.9 2012-11-07 17:55:59 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@
 <!-- dtl:block:ConditionItemEditRow -->
                             <label for="Condition[$QData{"Index"}]">$Text{"Condition"} $QData{"Index"}:</label>
                             <div class="Field ConditionField" id="Condition[$QData{"Index"}]">
-                                <button class="Remove" type="submit" name="ConditionRemove[$QData{"Index"}]" title="$Text{"Remove this Condition"}">
+                                <button class="Remove" type="button" name="ConditionRemove[$QData{"Index"}]" title="$Text{"Remove this Condition"}">
                                     $Text{"Remove this Condition"}
                                 </button>
                                 <div class="Condition">
@@ -104,12 +104,12 @@
                                                 $Data{"ConditionFieldType"}
                                                 &nbsp;<label for="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]">$Text{"Value"}:</label>
                                                 <input type="text" name="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]" class="Validate_Required" value="$QData{"Match"}" id="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]" />
-                                                <button class="Remove" type="submit" name="ConditionFieldRemove[$QData{"Index"}][$QData{"FieldIndex"}]" title="$Text{"Remove this Field"}">
+                                                <button class="Remove" type="button" name="ConditionFieldRemove[$QData{"Index"}][$QData{"FieldIndex"}]" title="$Text{"Remove this Field"}">
                                                     $Text{"Remove this Field"}
                                                 </button>
                                             </fieldset>
 <!-- dtl:block:ConditionItemEditRowField -->
-                                            <button class="Add ConditionFieldAdd" type="submit" title="$Text{"Add a new Field"}">
+                                            <button class="Add ConditionFieldAdd" type="button" title="$Text{"Add a new Field"}">
                                                 $Text{"Add a new Field"}
                                             </button>
                                         </div>
@@ -138,11 +138,11 @@
                                                 $Data{"ConditionFieldType"}
                                                 <label for="ConditionFieldValue[1][1]">$Text{"Value"}:</label>
                                                 <input type="text" name="ConditionFieldValue[1][1]"  class="Validate_Required" id="ConditionFieldValue[1][1]" />
-                                                <button class="Remove" type="submit" name="ConditionFieldRemove[1][1]" title="$Text{"Remove this Field"}">
+                                                <button class="Remove" type="button" name="ConditionFieldRemove[1][1]" title="$Text{"Remove this Field"}">
                                                     $Text{"Remove this Field"}
                                                 </button>
                                             </fieldset>
-                                            <button class="Add ConditionFieldAdd" type="submit" title="$Text{"Add a new Field"}">
+                                            <button class="Add ConditionFieldAdd" type="button" title="$Text{"Add a new Field"}">
                                                 $Text{"Add a new Field"}
                                             </button>
                                         </div>
@@ -151,7 +151,7 @@
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ConditionItemInitRow -->
-                            <button type="submit" id="ConditionAdd">$Text{"Add New Condition"}</button>
+                            <button type="button" id="ConditionAdd">$Text{"Add New Condition"}</button>
                         </fieldset>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
             <div id="ConditionContainer" style="display:none;">
                 <label for="Condition[_INDEX_]">$Text{"Condition"} _INDEX_:</label>
                 <div class="Field ConditionField" id="Condition[_INDEX_]">
-                    <button class="Remove" type="submit" name="ConditionRemove[_INDEX_]" title="$Text{"Remove this Condition"}">
+                    <button class="Remove" type="button" name="ConditionRemove[_INDEX_]" title="$Text{"Remove this Condition"}">
                         $Text{"Remove this Condition"}
                     </button>
                     <div class="Condition">
@@ -178,11 +178,11 @@
                                     $Data{"FreshConditionFieldType"}
                                     <label for="ConditionFieldValue[_INDEX_][1]">$Text{"Value"}:</label>
                                     <input type="text" name="ConditionFieldValue[_INDEX_][1]" id="ConditionFieldValue[_INDEX_][1]" />
-                                    <button class="Remove" type="submit" name="ConditionFieldRemove[_INDEX_][1]" title="$Text{"Remove this Field"}">
+                                    <button class="Remove" type="button" name="ConditionFieldRemove[_INDEX_][1]" title="$Text{"Remove this Field"}">
                                         $Text{"Remove this Field"}
                                     </button>
                                 </fieldset>
-                                <button type="submit" class="Add ConditionFieldAdd" title="$Text{"Add a new Field"}">
+                                <button type="button" class="Add ConditionFieldAdd" title="$Text{"Add a new Field"}">
                                     $Text{"Add a new Field"}
                                 </button>
                             </div>
@@ -198,7 +198,7 @@
                     $Data{"FreshConditionFieldType"}
                     <label for="ConditionFieldValue[_INDEX_][_FIELDINDEX_]">$Text{"Value"}:</label>
                     <input type="text" name="ConditionFieldValue[_INDEX_][_FIELDINDEX_]" id="ConditionFieldValue[_INDEX_][_FIELDINDEX_]" />
-                    <button class="Remove" type="submit" name="ConditionFieldRemove[_INDEX_][_FIELDINDEX_]" title="$Text{"Remove this Field"}">
+                    <button class="Remove" type="button" name="ConditionFieldRemove[_INDEX_][_FIELDINDEX_]" title="$Text{"Remove this Field"}">
                         $Text{"Remove this Field"}
                     </button>
                 </fieldset>
