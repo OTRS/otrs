@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.38 $
+ * @version     $Revision: 1.39 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -740,15 +740,6 @@ ul.Tablelike li.Header + li {
 
 #ProgressBar .Visited.Active a {
     border-right-color: #EEE;
-}
-
-/**
- * @subsection Special fix for the customer info widget
- */
-
-#CustomerInfo fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
-#CustomerInfo fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
-    width: 143px;
 }
 
 } /* end @media */
