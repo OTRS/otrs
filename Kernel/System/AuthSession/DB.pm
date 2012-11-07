@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.62 2012-11-07 16:54:10 mh Exp $
+# $Id: DB.pm,v 1.63 2012-11-07 17:04:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,8 +80,8 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "RemoteIP of '$Param{SessionID}' ($Data{UserRemoteAddr}) is "
-                . "different from registered IP ($RemoteAddr). Invalidating session!"
-                . " Disable config 'SessionCheckRemoteIP' if you don't want this!",
+                . "different from registered IP ($RemoteAddr). Invalidating session! "
+                . "Disable config 'SessionCheckRemoteIP' if you don't want this!",
         );
 
         # delete session id if it isn't the same remote ip?
@@ -162,9 +162,11 @@ sub GetSessionIDData {
 
     # read data
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT data_key, data_value, serialized "
-            . "FROM $Self->{SessionTable} WHERE session_id = ? "
-            . "ORDER BY id ASC",
+        SQL => "
+            SELECT data_key, data_value, serialized
+            FROM $Self->{SessionTable}
+            WHERE session_id = ?
+            ORDER BY id ASC",
         Bind => [ \$Param{SessionID} ],
     );
 
@@ -221,9 +223,12 @@ sub CreateSessionID {
 
         # get all needed timestamps to investigate the expired sessions
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT session_id, data_key, data_value FROM $Self->{SessionTable} "
-                . "WHERE data_key = 'UserType' OR data_key = 'UserLastRequest' "
-                . "ORDER BY id ASC",
+            SQL => "
+                SELECT session_id, data_key, data_value
+                FROM $Self->{SessionTable}
+                WHERE data_key = 'UserType'
+                    OR data_key = 'UserLastRequest'
+                ORDER BY id ASC",
         );
 
         my %SessionData;
@@ -405,9 +410,12 @@ sub GetExpiredSessionIDs {
 
     # get all needed timestamps to investigate the expired sessions
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT session_id, data_key, data_value FROM $Self->{SessionTable} "
-            . "WHERE data_key = 'UserSessionStart' OR data_key = 'UserLastRequest' "
-            . "ORDER BY id ASC",
+        SQL => "
+            SELECT session_id, data_key, data_value
+            FROM $Self->{SessionTable}
+            WHERE data_key = 'UserSessionStart'
+                OR data_key = 'UserLastRequest'
+            ORDER BY id ASC",
     );
 
     my %SessionData;
@@ -515,8 +523,10 @@ sub DESTROY {
 
                 # delete old session data from the database
                 $Self->{DBObject}->Do(
-                    SQL =>
-                        "DELETE FROM $Self->{SessionTable} WHERE session_id = ? AND data_key = ?",
+                    SQL => "
+                        DELETE FROM $Self->{SessionTable}
+                        WHERE session_id = ?
+                            AND data_key = ?",
                     Bind => [ \$SessionID, \$Key ],
                 );
             }
