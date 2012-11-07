@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.7 2012-08-10 15:54:18 mab Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.8 2012-11-07 13:53:06 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,11 +99,11 @@
 <!-- dtl:block:ConditionItemEditRowField -->
                                             <fieldset class="Fields">
                                                 <label for="ConditionFieldName[$QData{"Index"}][$QData{"FieldIndex"}]">$Text{"Name"}:</label>
-                                                <input type="text" name="ConditionFieldName[$QData{"Index"}][$QData{"FieldIndex"}]" class="Validate_Required" value="$QData{"Name"}" id="ConditionFieldName[$QData{"Index"}][$QData{"FieldIndex"}]" />
+                                                <input type="text" name="ConditionFieldName[$QData{"Index"}][$QData{"FieldIndex"}]" class="Validate_Required" value="$QData{"FieldIndex"}" id="ConditionFieldName[$QData{"Index"}][$QData{"FieldIndex"}]" />
                                                 <label for="ConditionFieldType[$QData{"Index"}][$QData{"FieldIndex"}]">$Text{"Type"}:</label>
                                                 $Data{"ConditionFieldType"}
-                                                <label for="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]">$Text{"Value"}:</label>
-                                                <input type="text" name="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]"  class="Validate_Required" value="$QData{"Value"}" id="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]" />
+                                                &nbsp;<label for="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]">$Text{"Value"}:</label>
+                                                <input type="text" name="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]" class="Validate_Required" value="$QData{"Match"}" id="ConditionFieldValue[$QData{"Index"}][$QData{"FieldIndex"}]" />
                                                 <button class="Remove" type="submit" name="ConditionFieldRemove[$QData{"Index"}][$QData{"FieldIndex"}]" title="$Text{"Remove this Field"}">
                                                     $Text{"Remove this Field"}
                                                 </button>

@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.57 2012-11-07 13:00:51 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.58 2012-11-07 13:53:06 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -1133,7 +1133,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // use condition key as key for our list
             Conditions[ConditionKey] = {
-                ConditionLinking: $(this).find('.Field > select').val(),
+                Type: $(this).find('.Field > select').val(),
                 Fields: {}
             };
 
@@ -1141,10 +1141,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $(this).find('fieldset.Fields').each(function() {
 
                 var FieldKey = $(this).find('label').attr('for').replace(/(ConditionFieldName\[\d+\]\[|\])/g, '');
-                Conditions[ConditionKey].Fields[FieldKey] = {
-                    Name  : $(this).find('input').first().val(),
+                Conditions[ConditionKey].Fields[$(this).find('input').first().val()] = {
                     Type  : $(this).find('select').val(),
-                    Value : $(this).find('input').last().val()
+                    Match : $(this).find('input').last().val()
                 };
             });
 
