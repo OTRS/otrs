@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.52.2.1 2012-11-07 03:48:40 cr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.52.2.2 2012-11-07 15:13:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52.2.1 $) [1];
+$VERSION = qw($Revision: 1.52.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -601,7 +601,7 @@ sub Run {
 
             # example of dynamic fields order customization
             $Self->{LayoutObject}->Block(
-                Name => 'RecordDynamicField_' . $DynamicFieldConfig->{Name},
+                Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name},
                 Data => {
                     Value => $ValueStrg->{Value},
                     Title => $ValueStrg->{Title},
@@ -610,7 +610,7 @@ sub Run {
 
             if ( $ValueStrg->{Link} ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'RecordDynamicField_' . $DynamicFieldConfig->{Name} . '_Link',
+                    Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name} . 'Link',
                     Data => {
                         Value                       => $ValueStrg->{Value},
                         Title                       => $ValueStrg->{Title},
@@ -621,7 +621,7 @@ sub Run {
             }
             else {
                 $Self->{LayoutObject}->Block(
-                    Name => 'RecordDynamicField_' . $DynamicFieldConfig->{Name} . '_Plain',
+                    Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name} . 'Plain',
                     Data => {
                         Value => $ValueStrg->{Value},
                         Title => $ValueStrg->{Title},
