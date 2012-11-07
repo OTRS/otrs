@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.40 $
+ * @version     $Revision: 1.41 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -202,7 +202,7 @@ form label.Mandatory span.Marker {
 
 .RTL form label.Mandatory span.Marker {
     left: 2px;
-    right: auto;   
+    right: auto;
 }
 
 form label.LabelError {
@@ -395,7 +395,7 @@ fieldset.TableLike.FixedLabelSmall > .Row > .Value {
 
 fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
 fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
-    width: 145px;
+    width: 143px;
 }
 
 iframe.Signature {
