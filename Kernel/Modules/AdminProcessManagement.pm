@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.33 2012-11-07 00:22:38 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.34 2012-11-07 22:39:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -136,7 +136,7 @@ sub Run {
 
         my @MissingDynamicFieldNames;
         for my $UsedDynamicFieldName (@UsedDynamicFields) {
-            if ( grep { $_ ne $UsedDynamicFieldName } @PresentDynamicFieldNames ) {
+            if ( !grep { $_ eq $UsedDynamicFieldName } @PresentDynamicFieldNames ) {
                 push @MissingDynamicFieldNames, $UsedDynamicFieldName;
             }
         }
