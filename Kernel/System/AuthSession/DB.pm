@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.60 2012-11-07 16:10:58 mh Exp $
+# $Id: DB.pm,v 1.61 2012-11-07 16:38:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -462,7 +462,7 @@ sub CleanUp {
         )
     {
 
-        return if !$Self->{DBObject}->Do( SQL => "TRANCATE TABLE $Self->{SessionTable}" );
+        return if !$Self->{DBObject}->Do( SQL => "TRUNCATE TABLE $Self->{SessionTable}" );
     }
     else {
         return if !$Self->{DBObject}->Do( SQL => "DELETE FROM $Self->{SessionTable}" );
