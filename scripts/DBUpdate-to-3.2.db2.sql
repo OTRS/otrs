@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-11-07 17:16:57
+--  driver: db2, generated: 2012-11-07 17:20:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -192,7 +192,7 @@ DROP TABLE sessions;
 CREATE TABLE sessions (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     session_id VARCHAR (100) NOT NULL,
-    data_key VARCHAR (1000) NOT NULL,
+    data_key VARCHAR (100) NOT NULL,
     data_value CLOB (78K),
     serialized SMALLINT NOT NULL,
     PRIMARY KEY(id)

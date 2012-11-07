@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-11-07 17:15:08
+--  driver: oracle, generated: 2012-11-07 17:21:16
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1356,7 +1356,7 @@ CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);
 CREATE TABLE sessions (
     id NUMBER (20, 0) NOT NULL,
     session_id VARCHAR2 (100) NOT NULL,
-    data_key VARCHAR2 (1000) NOT NULL,
+    data_key VARCHAR2 (100) NOT NULL,
     data_value CLOB NULL,
     serialized NUMBER (5, 0) NOT NULL
 );

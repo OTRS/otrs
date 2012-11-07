@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-11-07 17:16:57
+--  driver: mssql, generated: 2012-11-07 17:20:55
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -286,7 +286,7 @@ DROP TABLE sessions;
 CREATE TABLE sessions (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     session_id NVARCHAR (100) NOT NULL,
-    data_key NVARCHAR (1000) NOT NULL,
+    data_key NVARCHAR (100) NOT NULL,
     data_value NVARCHAR (MAX) NULL,
     serialized SMALLINT NOT NULL,
     PRIMARY KEY(id)

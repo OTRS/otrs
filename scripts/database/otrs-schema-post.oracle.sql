@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-11-07 17:15:08
+--  driver: oracle, generated: 2012-11-07 17:21:16
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

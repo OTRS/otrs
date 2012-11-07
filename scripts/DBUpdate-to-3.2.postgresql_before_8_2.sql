@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-11-07 17:16:57
+--  driver: postgresql_before_8_2, generated: 2012-11-07 17:20:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -151,7 +151,7 @@ DROP TABLE sessions;
 CREATE TABLE sessions (
     id serial NOT NULL,
     session_id VARCHAR (100) NOT NULL,
-    data_key VARCHAR (1000) NOT NULL,
+    data_key VARCHAR (100) NOT NULL,
     data_value VARCHAR NULL,
     serialized INTEGER NOT NULL,
     PRIMARY KEY(id)

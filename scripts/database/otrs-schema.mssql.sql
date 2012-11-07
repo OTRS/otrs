@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-11-07 17:15:08
+--  driver: mssql, generated: 2012-11-07 17:21:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -805,7 +805,7 @@ CREATE TABLE service_sla (
 CREATE TABLE sessions (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     session_id NVARCHAR (100) NOT NULL,
-    data_key NVARCHAR (1000) NOT NULL,
+    data_key NVARCHAR (100) NOT NULL,
     data_value NVARCHAR (MAX) NULL,
     serialized SMALLINT NOT NULL,
     PRIMARY KEY(id)

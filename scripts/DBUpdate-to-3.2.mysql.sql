@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-11-07 17:16:57
+#  driver: mysql, generated: 2012-11-07 17:20:55
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -150,7 +150,7 @@ DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions (
     id BIGINT NOT NULL AUTO_INCREMENT,
     session_id VARCHAR (100) NOT NULL,
-    data_key TEXT NOT NULL,
+    data_key VARCHAR (100) NOT NULL,
     data_value TEXT NULL,
     serialized SMALLINT NOT NULL,
     PRIMARY KEY(id),
