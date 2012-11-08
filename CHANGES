@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2520 2012-11-08 09:06:03 mg Exp $
+# $Id: CHANGES,v 1.2521 2012-11-08 09:37:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,15 +40,15 @@
  - 2012-10-31 Fixed bug#8430 - Dynamic field management: selection dropdowns
     aren't translated.
  - 2012-10-30 Fixed bug#8872 - Need a scalar reference! error on File uploads.
- - Updated CPAN module MailTools to version 2.11.
- - Updated CPAN module Net::IMAP::Simple to version 1.2034.
- - Updated CPAN module Mozilla::CA to version 20120823.
- - Updated CPAN module Locale::Codes to version 3.23.
- - Updated CPAN module HTTP::Message to version 6.06.
- - Updated CPAN module Digest::SHA::PurePerl to version 5.72.
- - Updated CPAN module Class::Inspector to version 1.28.
- - Updated CPAN module CGI to version 3.60.
- - Updated CPAN module Authen::SASL to version 2.16.
+ - 2012-10-30 Updated CPAN module MailTools to version 2.11.
+ - 2012-10-30 Updated CPAN module Net::IMAP::Simple to version 1.2034.
+ - 2012-10-30 Updated CPAN module Mozilla::CA to version 20120823.
+ - 2012-10-30 Updated CPAN module Locale::Codes to version 3.23.
+ - 2012-10-30 Updated CPAN module HTTP::Message to version 6.06.
+ - 2012-10-30 Updated CPAN module Digest::SHA::PurePerl to version 5.72.
+ - 2012-10-30 Updated CPAN module Class::Inspector to version 1.28.
+ - 2012-10-30 Updated CPAN module CGI to version 3.60.
+ - 2012-10-30 Updated CPAN module Authen::SASL to version 2.16.
 
 3.2.0.beta1 2012-10-30
  - 2012-10-25 Fixed bug#8864 - Increasing the column size of a varchar column does not work on oracle
