@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.17 2012-06-22 19:11:46 cr Exp $
+# $Id: TicketGet.t,v 1.18 2012-11-08 12:54:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,6 +58,15 @@ my $Password  = $UserLogin;
 
 $Self->{UserID} = $UserObject->UserLookup(
     UserLogin => $UserLogin,
+);
+
+my %SkipFields = (
+    Age            => 1,
+    AgeTimeUnix    => 1,
+    UntilTime      => 1,
+    SolutionTime   => 1,
+    EscalationTime => 1,
+    UpdateTime     => 1,
 );
 
 # start DynamicFields
@@ -280,7 +289,7 @@ for my $Key ( keys %TicketEntryOne ) {
     if ( !$TicketEntryOne{$Key} ) {
         $TicketEntryOne{$Key} = '';
     }
-    if ( $Key eq 'Age' ) {
+    if ( $SkipFields{$Key} ) {
         delete $TicketEntryOne{$Key};
     }
 }
@@ -302,7 +311,7 @@ for my $Key ( keys %TicketEntryOneDF ) {
     if ( !$TicketEntryOneDF{$Key} ) {
         $TicketEntryOneDF{$Key} = '';
     }
-    if ( $Key eq 'Age' ) {
+    if ( $SkipFields{$Key} ) {
         delete $TicketEntryOneDF{$Key};
     }
 }
@@ -386,7 +395,7 @@ for my $Key ( keys %TicketEntryTwo ) {
     if ( !$TicketEntryTwo{$Key} ) {
         $TicketEntryTwo{$Key} = '';
     }
-    if ( $Key eq 'Age' ) {
+    if ( $SkipFields{$Key} ) {
         delete $TicketEntryTwo{$Key};
     }
 }
@@ -408,7 +417,7 @@ for my $Key ( keys %TicketEntryTwoDF ) {
     if ( !$TicketEntryTwoDF{$Key} ) {
         $TicketEntryTwoDF{$Key} = '';
     }
-    if ( $Key eq 'Age' ) {
+    if ( $SkipFields{$Key} ) {
         delete $TicketEntryTwoDF{$Key};
     }
 }
@@ -451,7 +460,7 @@ for my $Key ( keys %TicketEntryThree ) {
     if ( !$TicketEntryThree{$Key} ) {
         $TicketEntryThree{$Key} = '';
     }
-    if ( $Key eq 'Age' ) {
+    if ( $SkipFields{$Key} ) {
         delete $TicketEntryThree{$Key};
     }
 }
@@ -528,7 +537,7 @@ for my $Article (@ArticleWithoutAttachments) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
-        if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+        if ( $SkipFields{$Key} ) {
             delete $Article->{$Key};
         }
     }
@@ -568,7 +577,7 @@ for my $Article (@ArticleBox) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
-        if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+        if ( $SkipFields{$Key} ) {
             delete $Article->{$Key};
         }
     }
@@ -626,7 +635,7 @@ for my $Key ( keys %TicketEntryFour ) {
     if ( !$TicketEntryFour{$Key} ) {
         $TicketEntryFour{$Key} = '';
     }
-    if ( $Key eq 'Age' ) {
+    if ( $SkipFields{$Key} ) {
         delete $TicketEntryFour{$Key};
     }
 }
@@ -1175,7 +1184,7 @@ for my $Test (@Tests) {
                     if ( !$Item->{$Key} ) {
                         $Item->{$Key} = '';
                     }
-                    if ( $Key eq 'Age' ) {
+                    if ( $SkipFields{$Key} ) {
                         delete $Item->{$Key};
                     }
                 }
@@ -1187,7 +1196,7 @@ for my $Test (@Tests) {
                             if ( !$Article->{$Key} ) {
                                 $Article->{$Key} = '';
                             }
-                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+                            if ( $SkipFields{$Key} ) {
                                 delete $Article->{$Key};
                             }
 
@@ -1215,7 +1224,7 @@ for my $Test (@Tests) {
                         if ( !$Item->{$Key} ) {
                             $Item->{$Key} = '';
                         }
-                        if ( $Key eq 'Age' ) {
+                        if ( $SkipFields{$Key} ) {
                             delete $Item->{$Key};
                         }
                     }
@@ -1226,7 +1235,7 @@ for my $Test (@Tests) {
                     if ( !$RequesterResult->{Data}->{Ticket}->{$Key} ) {
                         $RequesterResult->{Data}->{Ticket}->{$Key} = '';
                     }
-                    if ( $Key eq 'Age' ) {
+                    if ( $SkipFields{$Key} ) {
                         delete $RequesterResult->{Data}->{Ticket}->{$Key};
                     }
                 }
@@ -1238,7 +1247,7 @@ for my $Test (@Tests) {
                             if ( !$Article->{$Key} ) {
                                 $Article->{$Key} = '';
                             }
-                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+                            if ( $SkipFields{$Key} ) {
                                 delete $Article->{$Key};
                             }
                             if ( $Key eq 'Attachment' ) {
