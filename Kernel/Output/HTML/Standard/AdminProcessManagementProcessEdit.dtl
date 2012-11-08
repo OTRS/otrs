@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.35 2012-11-08 08:44:55 mab Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.36 2012-11-08 13:29:32 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Back To Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Go to overview"}</span></a>
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>
