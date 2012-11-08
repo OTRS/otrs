@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.64 2012-11-07 20:01:46 mh Exp $
+# $Id: DB.pm,v 1.65 2012-11-08 08:28:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -464,8 +464,8 @@ sub CleanUp {
 
     # use trancate if possible to reset the auto increment value
     if (
-        $Self->{DBType}    eq 'mysql'
-        || $Self->{DBType} eq 'postgresql'
+        $Self->{DBType} eq 'mysql'
+        || $Self->{DBType} =~ m{^postgresql}    # we have 2 backends
         || $Self->{DBType} eq 'oracle'
         || $Self->{DBType} eq 'mssql'
         )
@@ -575,7 +575,7 @@ sub _SQLCreate {
     return if !$Param{SQLs};
     return if ref $Param{SQLs} ne 'ARRAY';
 
-    if ( $Self->{DBType} eq 'mysql' || $Self->{DBType} eq 'postgresql' ) {
+    if ( $Self->{DBType} eq 'mysql' || $Self->{DBType} =~ m{^postgresql} ) {
 
         # define row
         my $SQL = "INSERT INTO $Self->{SessionTable} "
