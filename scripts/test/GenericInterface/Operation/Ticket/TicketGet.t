@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.18 2012-11-08 12:54:47 mg Exp $
+# $Id: TicketGet.t,v 1.19 2012-11-08 14:48:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,12 +61,16 @@ $Self->{UserID} = $UserObject->UserLookup(
 );
 
 my %SkipFields = (
-    Age            => 1,
-    AgeTimeUnix    => 1,
-    UntilTime      => 1,
-    SolutionTime   => 1,
-    EscalationTime => 1,
-    UpdateTime     => 1,
+    Age                       => 1,
+    AgeTimeUnix               => 1,
+    UntilTime                 => 1,
+    SolutionTime              => 1,
+    SolutionTimeWorkingTime   => 1,
+    EscalationTime            => 1,
+    EscalationDestinationIn   => 1,
+    EscalationTimeWorkingTime => 1,
+    UpdateTime                => 1,
+    UpdateTimeWorkingTime     => 1,
 );
 
 # start DynamicFields
