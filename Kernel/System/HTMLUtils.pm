@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.44 2012-09-13 08:10:23 mg Exp $
+# $Id: HTMLUtils.pm,v 1.45 2012-11-08 14:10:00 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -555,7 +555,7 @@ sub ToAscii {
 
 convert an ascii string to a html string
 
-    my $Ascii = $HTMLUtilsObject->ToHTML( String => $String );
+    my $HTMLString = $HTMLUtilsObject->ToHTML( String => $String );
 
 =cut
 
@@ -1162,6 +1162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2012-09-13 08:10:23 $
+$Revision: 1.45 $ $Date: 2012-11-08 14:10:00 $
 
 =cut
