@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.81 2012-11-06 13:24:24 mg Exp $
+# $Id: UPGRADING,v 1.82 2012-11-08 09:02:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,13 @@ to 3.1 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1->3.2 ...)!
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 
+Please note that for upgrades from 3.2.0.beta1, an additional step 9
+is needed!
+
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
 3.2.4. If you need to do such a "patch level upgrade", you should skip steps
-8, 11, 13 and 14.
+8, 12, 14 and 15.
 
 
 1) Stop all relevant services
@@ -129,7 +132,25 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     Otherwise data loss may occur.
 
 
-9) Refresh the configuration cache and delete caches
+9) Database Upgrade During Beta Phase
+   ----------------------------------
+
+    This step is ONLY needed if you upgrade from 3.2.0.beta1!
+
+    Please apply the required database changes as follows:
+
+    MySQL:
+     shell> cat scripts/DBUpdate-3.2.beta.mysql.sql | mysql -p -f -u root otrs
+
+    PostgreSQL 8.2+:
+     shell> cat scripts/DBUpdate-3.2.beta.postgresql.sql | psql otrs
+
+    PostgreSQL, older versions:
+     shell> cat scripts/DBUpdate-3.2.beta.postgresql_before_8_2.sql | psql otrs
+
+
+
+10) Refresh the configuration cache and delete caches
     -------------------------------------------------
 
     Please run:
@@ -138,7 +159,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     shell> bin/otrs.DeleteCache.pl
 
 
-10) Restart your services
+11) Restart your services
     ---------------------
 
     e. g. (depends on used services):
@@ -150,7 +171,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     Now you can log into your system.
 
 
-11) Check 'Cache::Module' setting
+12) Check 'Cache::Module' setting
     -----------------------------
 
     The file cache backend 'FileRaw' was removed in favor of the faster 'FileStorable'.
@@ -160,14 +181,14 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     'Kernel::System::Cache::FileStorable'.
 
 
-12) Check installed packages
+13) Check installed packages
     ------------------------
 
     In the package manager, check if all packages are still marked as
     correctly installed or if any require reinstallation or even a package upgrade.
 
 
-13) Cleanup metadata of archived tickets
+14) Cleanup metadata of archived tickets
     ------------------------------------
 
     Note: This step only applies if you use the ticket archiving feature of OTRS.
@@ -189,7 +210,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     Ticket::ArchiveSystem::RemoveTicketWatchers
 
 
-14) Review (Modify) ACLs for Dynamic Fields
+15) Review (Modify) ACLs for Dynamic Fields
     ------------------------------------
     Note: This step only applies if you use ACLs to limit Dynamic Fields Dropdown or Multiselect
     possible values.
@@ -246,5 +267,5 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     };
 
 
-15) Well done!
+16) Well done!
     ----------
