@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.223 2012-11-08 08:22:43 mab Exp $
+# $Id: AgentTicketZoom.dtl,v 1.224 2012-11-08 08:40:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -396,7 +396,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 <!-- dtl:block:ActivityDialog -->
                     </ul>
 <!-- dtl:block:NoActivityDialogs -->
-                    <span class="ActionMessage" title="$Text{"There are currently no steps available for this process."}">$Text{"There are currently no steps available for this process."}</span>
+                    <span class="ActionMessage">$Text{"There are currently no steps available for this process."}</span>
 <!-- dtl:block:NoActivityDialogs -->
                     <div class="Clear"></div>
                 </div>
