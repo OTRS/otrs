@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessNew.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessNew.dtl,v 1.2 2012-07-10 03:01:13 cr Exp $
+# $Id: AdminProcessManagementProcessNew.dtl,v 1.3 2012-11-08 08:44:55 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Back To Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Fullsize Center Back"><span>$Text{"Back To Overview"}</span></a>
                     </li>
                 </ul>
             </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    $Text{"Here is the description of what this screen is all about."}
+                    $Text{"In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to 'Active' and synchronize after completing your work."}
                 </p>
             </div>
         </div>
@@ -62,7 +62,7 @@
 
                         <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Description"}:</label>
                         <div class="Field">
-                            <textarea name="Description" id="Description" class="W50pc Validate_Required $QData{"DescriptionServerError"}" rows="10">$QData{"Description"}</textarea>
+                            <textarea name="Description" id="Description" class="W50pc Validate_Required $QData{"DescriptionServerError"}" rows="5">$QData{"Description"}</textarea>
                             <div id="DescriptionError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>

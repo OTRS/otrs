@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.9 2012-08-20 07:06:06 mn Exp $
+# $Id: AdminProcessManagement.dtl,v 1.10 2012-11-08 08:44:55 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
                 <h2><label for="Filter">$Text{"Filter for Processes"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="$Text{"Filter"}" placeholder="Process Name" />
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="$Text{"Filter"}" placeholder="Process Name" />
             </div>
         </div>
         <div class="WidgetSimple">
@@ -28,10 +28,10 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessNew" class="CallForAction Plus"><span>$Text{"Create New Process"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessNew" class="CallForAction Fullsize Center Plus"><span>$Text{"Create New Process"}</span></a>
                     </li>
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessSync" class="CallForAction"><span>$Text{"Synchronize All Processes"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessSync" class="CallForAction Fullsize Center Refresh"><span>$Text{"Synchronize All Processes"}</span></a>
                     </li>
                 </ul>
             </div>
@@ -55,7 +55,7 @@
                             <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             <br /><br />
-                            <button class="CallForAction Plus" type="submit" value="$Text{"Upload process configuration"}">
+                            <button class="CallForAction Plus Fullsize Center" type="submit" value="$Text{"Upload process configuration"}">
                                 <span>$Text{"Import process configuration"}</span>
                             </button>
                         </form>

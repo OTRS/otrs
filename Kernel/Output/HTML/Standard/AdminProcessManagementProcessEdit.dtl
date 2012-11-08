@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.34 2012-08-20 07:06:06 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.35 2012-11-08 08:44:55 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Back To Overview"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Back To Overview"}</span></a>
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>
@@ -57,7 +57,7 @@
                                 </li>
 <!-- dtl:block:ActivityNoDataRow -->
                             </ul>
-                            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction Plus AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
@@ -81,7 +81,7 @@
                                 </li>
 <!-- dtl:block:ActivityDialogNoDataRow -->
                             </ul>
-                            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction Plus AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
@@ -104,7 +104,7 @@
                                 </li>
 <!-- dtl:block:TransitionNoDataRow -->
                             </ul>
-                            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionNew;" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionNew;" class="CallForAction Plus AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
@@ -127,7 +127,7 @@
                                 </li>
 <!-- dtl:block:TransitionActionNoDataRow -->
                             </ul>
-                            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionNew;" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionNew;" class="CallForAction Plus AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
                         </div>
                     </li>
                 </ul>
@@ -192,7 +192,7 @@
 
                         <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Description"}:</label>
                         <div class="Field">
-                            <textarea name="Description" id="Description" class="W50pc Validate_Required $QData{"DescriptionServerError"}" rows="10" cols="20">$QData{"Description"}</textarea>
+                            <textarea name="Description" id="Description" class="W50pc Validate_Required $QData{"DescriptionServerError"}" rows="5" cols="20">$QData{"Description"}</textarea>
                             <div id="DescriptionError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>

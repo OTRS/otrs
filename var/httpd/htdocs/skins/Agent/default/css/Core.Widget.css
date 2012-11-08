@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.39 $
+ * @version     $Revision: 1.40 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -318,7 +318,11 @@ ul.Tablelike li.Header + li {
  */
 
 .ActionList li {
-    margin-bottom: 16px;
+    margin-bottom: 7px;
+}
+
+.ActionList li:last-child {
+    margin-bottom: 0px;
 }
 
 .ActionList p {
@@ -346,6 +350,10 @@ ul.Tablelike li.Header + li {
     border-radius: 3px;
     display: inline-block;
     cursor: pointer;
+}
+
+.ActionList li a.Fullsize {
+    display: block;
 }
 
 /**
@@ -396,27 +404,31 @@ ul.Tablelike li.Header + li {
 }
 
 .CallForAction.Plus span {
-    background: url("../img/icons/plus-button.png") no-repeat scroll;
+    background: url(../img/icons/plus-button.png) no-repeat scroll;
 }
-
 .CallForAction.Download span {
-    background: url("../img/icons/drive-download.png") no-repeat scroll;
+    background: url(../img/icons/drive-download.png) no-repeat scroll;
 }
-
 .CallForAction.Upload span {
-    background: url("../img/icons/drive-upload.png") no-repeat scroll;
+    background: url(../img/icons/drive-upload.png) no-repeat scroll;
 }
 .CallForAction.Clone span {
-    background: url("../img/icons/reports.png") no-repeat scroll;
+    background: url(../img/icons/reports.png) no-repeat scroll;
 }
 .CallForAction.Trash span {
-    background: url("../img/icons/trash-can.png") no-repeat scroll;
+    background: url(../img/icons/trash-can.png) no-repeat scroll;
 }
 .CallForAction.History span {
-    background: url("../img/icons/book-brown.png") no-repeat scroll;
+    background: url(../img/icons/book-brown.png) no-repeat scroll;
 }
 .CallForAction.Debug span {
-    background: url("../img/icons/bug--minus.png") no-repeat scroll;
+    background: url(../img/icons/bug--minus.png) no-repeat scroll;
+}
+.CallForAction.Back span {
+    background: url(../img/arrow_left.png) no-repeat scroll;
+}
+.CallForAction.Refresh span {
+    background: url(../img/icons/reload.png) no-repeat scroll;
 }
 
 .CallForAction.Plus span,
@@ -425,9 +437,15 @@ ul.Tablelike li.Header + li {
 .CallForAction.Clone span,
 .CallForAction.Trash span,
 .CallForAction.History span,
-.CallForAction.Debug span {
+.CallForAction.Debug span,
+.CallForAction.Refresh span {
     padding-left: 23px;
     background-position: 2px 2px;
+}
+
+.CallForAction.Back span {
+    padding-left: 23px;
+    background-position: 4px 5px;
 }
 
 .CallForAction.Plus:active span,
@@ -436,8 +454,13 @@ ul.Tablelike li.Header + li {
 .CallForAction.Clone:active span,
 .CallForAction.Trash:active span,
 .CallForAction.History:active span,
-.CallForAction.Debug:active span {
+.CallForAction.Debug:active span,
+.CallForAction.Refresh:active span {
     background-position: 2px 3px;
+}
+
+.CallForAction.Back:active span {
+    background-position: 4px 6px;
 }
 
 .SearchBox {

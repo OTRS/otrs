@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.9 2012-11-07 17:55:59 mab Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.10 2012-11-08 08:44:55 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -136,7 +136,7 @@
                                                 <input type="text" name="ConditionFieldName[1][1]" class="Validate_Required" id="ConditionFieldName[1][1]" />
                                                 <label for="ConditionFieldType[1][1]">$Text{"Type"}:</label>
                                                 $Data{"ConditionFieldType"}
-                                                <label for="ConditionFieldValue[1][1]">$Text{"Value"}:</label>
+                                                &nbsp;<label for="ConditionFieldValue[1][1]">$Text{"Value"}:</label>
                                                 <input type="text" name="ConditionFieldValue[1][1]"  class="Validate_Required" id="ConditionFieldValue[1][1]" />
                                                 <button class="Remove" type="button" name="ConditionFieldRemove[1][1]" title="$Text{"Remove this Field"}">
                                                     $Text{"Remove this Field"}
@@ -176,7 +176,7 @@
                                     <input type="text" name="ConditionFieldName[_INDEX_][1]" id="ConditionFieldName[_INDEX_][1]" />
                                     <label for="ConditionFieldType[_INDEX_][1]">$Text{"Type"}:</label>
                                     $Data{"FreshConditionFieldType"}
-                                    <label for="ConditionFieldValue[_INDEX_][1]">$Text{"Value"}:</label>
+                                    &nbsp;<label for="ConditionFieldValue[_INDEX_][1]">$Text{"Value"}:</label>
                                     <input type="text" name="ConditionFieldValue[_INDEX_][1]" id="ConditionFieldValue[_INDEX_][1]" />
                                     <button class="Remove" type="button" name="ConditionFieldRemove[_INDEX_][1]" title="$Text{"Remove this Field"}">
                                         $Text{"Remove this Field"}
@@ -196,7 +196,7 @@
                     <input type="text" name="ConditionFieldName[_INDEX_][_FIELDINDEX_]" id="ConditionFieldName[_INDEX_][_FIELDINDEX_]" />
                     <label for="ConditionFieldType[_INDEX_][_FIELDINDEX_]">$Text{"Type"}:</label>
                     $Data{"FreshConditionFieldType"}
-                    <label for="ConditionFieldValue[_INDEX_][_FIELDINDEX_]">$Text{"Value"}:</label>
+                    &nbsp;<label for="ConditionFieldValue[_INDEX_][_FIELDINDEX_]">$Text{"Value"}:</label>
                     <input type="text" name="ConditionFieldValue[_INDEX_][_FIELDINDEX_]" id="ConditionFieldValue[_INDEX_][_FIELDINDEX_]" />
                     <button class="Remove" type="button" name="ConditionFieldRemove[_INDEX_][_FIELDINDEX_]" title="$Text{"Remove this Field"}">
                         $Text{"Remove this Field"}

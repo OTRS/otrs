@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessAccordion.dtl - provides HTML for AdminProcessManagement Accordion
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessAccordion.dtl,v 1.5 2012-08-17 06:56:36 mab Exp $
+# $Id: AdminProcessManagementProcessAccordion.dtl,v 1.6 2012-11-08 08:44:55 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
                 </li>
 <!-- dtl:block:ActivityNoDataRow -->
             </ul>
-            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction Plus AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
         </div>
     </li>
     <li class="AccordionElement">
@@ -54,7 +54,7 @@
                 </li>
 <!-- dtl:block:ActivityDialogNoDataRow -->
             </ul>
-            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction Plus AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
         </div>
     </li>
     <li class="AccordionElement">
@@ -77,7 +77,7 @@
                 </li>
 <!-- dtl:block:TransitionNoDataRow -->
             </ul>
-            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionNew;" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionNew;" class="CallForAction Plus AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
         </div>
     </li>
     <li class="AccordionElement">
@@ -100,7 +100,7 @@
                 </li>
 <!-- dtl:block:TransitionActionNoDataRow -->
             </ul>
-            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionNew;" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionNew;" class="CallForAction Plus AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
         </div>
     </li>
 </ul>
