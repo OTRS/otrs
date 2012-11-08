@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.141 2012-10-25 15:46:06 mg Exp $
+# $Id: ru.pm,v 1.142 2012-11-08 08:55:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:40
+    # Last translation file sync: 2012-11-08 09:51:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2016,12 +2016,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Новая телефонная заявка',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Новая заявка по email',
 
         # Template: AgentDashboardIFrame
 
@@ -2359,6 +2359,7 @@ sub Data {
         'Linked Objects' => 'Связанные объекты',
         'Article(s)' => 'сообщений',
         'Change Queue' => 'Сменить очередь',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => 'Добавить фильтр',
@@ -3848,6 +3849,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Новая заявка по email',
+        'New phone ticket' => 'Новая телефонная заявка',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.117 2012-10-25 15:46:04 mg Exp $
+# $Id: zh_CN.pm,v 1.118 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:50
+    # Last translation file sync: 2012-11-08 09:51:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2014,12 +2014,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => '新的电话 Ticket',
         'New email ticket for %s' => '',
-        'New email ticket' => '新的邮件 Ticket',
 
         # Template: AgentDashboardIFrame
 
@@ -2357,6 +2357,7 @@ sub Data {
         'Linked Objects' => '已连接的对象',
         'Article(s)' => '文章',
         'Change Queue' => '改变队列',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => '文章过滤器',
         'Add Filter' => '新增过滤器',
@@ -3846,6 +3847,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => '新的邮件 Ticket',
+        'New phone ticket' => '新的电话 Ticket',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

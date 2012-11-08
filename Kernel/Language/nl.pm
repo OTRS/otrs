@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.189 2012-10-25 15:46:07 mg Exp $
+# $Id: nl.pm,v 1.190 2012-11-08 08:55:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.189 $) [1];
+$VERSION = qw($Revision: 1.190 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:36
+    # Last translation file sync: 2012-11-08 09:51:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2015,12 +2015,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Nieuw telefoon ticket',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Nieuw e-mail ticket',
 
         # Template: AgentDashboardIFrame
 
@@ -2358,6 +2358,7 @@ sub Data {
         'Linked Objects' => 'Gekoppelde objecten',
         'Article(s)' => 'Interactie(s)',
         'Change Queue' => 'Wijzig wachtrij',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filter interacties',
         'Add Filter' => 'Nieuw filter',
@@ -3847,6 +3848,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Nieuw e-mail ticket',
+        'New phone ticket' => 'Nieuw telefoon ticket',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

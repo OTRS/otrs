@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.74 2012-10-25 15:46:05 mg Exp $
+# $Id: tr.pm,v 1.75 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $)[1];
+$VERSION = qw($Revision: 1.75 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:47
+    # Last translation file sync: 2012-11-08 09:51:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2008,12 +2008,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => '',
         'New email ticket for %s' => '',
-        'New email ticket' => '',
 
         # Template: AgentDashboardIFrame
 
@@ -2351,6 +2351,7 @@ sub Data {
         'Linked Objects' => '',
         'Article(s)' => '',
         'Change Queue' => '',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => '',
@@ -3840,6 +3841,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => '',
+        'New phone ticket' => '',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

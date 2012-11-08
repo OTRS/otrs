@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.28 2012-10-25 15:46:06 mg Exp $
+# $Id: hi.pm,v 1.29 2012-11-08 08:55:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:28
+    # Last translation file sync: 2012-11-08 09:51:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2011,12 +2011,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'नया फोन टिकट',
         'New email ticket for %s' => '',
-        'New email ticket' => 'नया ईमेल टिकट',
 
         # Template: AgentDashboardIFrame
 
@@ -2354,6 +2354,7 @@ sub Data {
         'Linked Objects' => 'लिंक्ड वस्तु',
         'Article(s)' => 'अनुच्छेद',
         'Change Queue' => 'श्रेणी बदलें',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'अनुच्छेद निस्पादक',
         'Add Filter' => 'निस्पादक जोड़ें',
@@ -3843,6 +3844,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'अनुकूलित श्रेणी के नाम। अनुकूलित कतार एक कतार चयन है,आपकी वरीयता श्रेणीयों का और चयनित किया जा सकता है वरीयता व्यवस्थाओ में।',
         'NameX' => '',
+        'New email ticket' => 'नया ईमेल टिकट',
+        'New phone ticket' => 'नया फोन टिकट',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

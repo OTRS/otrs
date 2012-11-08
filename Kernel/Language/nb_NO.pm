@@ -9,7 +9,7 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.135 2012-10-25 15:46:04 mg Exp $
+# $Id: nb_NO.pm,v 1.136 2012-11-08 08:55:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.135 $;
+$VERSION = q$Revision: 1.136 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:35
+    # Last translation file sync: 2012-11-08 09:51:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2016,12 +2016,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Ny telefonsak',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Ny epostsak',
 
         # Template: AgentDashboardIFrame
 
@@ -2359,6 +2359,7 @@ sub Data {
         'Linked Objects' => 'Koblede objekter',
         'Article(s)' => 'Innlegg',
         'Change Queue' => 'Bytt kø',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Artikkelfilter',
         'Add Filter' => 'Legg til filter',
@@ -3848,6 +3849,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Ny epostsak',
+        'New phone ticket' => 'Ny telefonsak',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.102 2012-10-25 15:46:04 mg Exp $
+# $Id: el.pm,v 1.103 2012-11-08 08:55:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:20
+    # Last translation file sync: 2012-11-08 09:51:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2016,12 +2016,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Νεό Δελτιο Τηλεφωνου',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Νέο Δελτιο Email',
 
         # Template: AgentDashboardIFrame
 
@@ -2359,6 +2359,7 @@ sub Data {
         'Linked Objects' => 'Συνδεμένα Αντικείμενα',
         'Article(s)' => 'Αρθρ(α)',
         'Change Queue' => 'Αλλαγή Ουράς',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Φίλτρο Αρθορου',
         'Add Filter' => 'Προσθηκη Φιλτρου',
@@ -3848,6 +3849,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Νέο Δελτιο Email',
+        'New phone ticket' => 'Νεό Δελτιο Τηλεφωνου',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

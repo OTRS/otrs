@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.111 2012-10-25 15:46:05 mg Exp $
+# $Id: da.pm,v 1.112 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:18
+    # Last translation file sync: 2012-11-08 09:51:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2011,12 +2011,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Opret ny sag',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Opret ny sag ved at sende mail',
 
         # Template: AgentDashboardIFrame
 
@@ -2354,6 +2354,7 @@ sub Data {
         'Linked Objects' => 'Sammenkædede objekter',
         'Article(s)' => 'Indlæg',
         'Change Queue' => 'Skift kø',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtrer indlæg',
         'Add Filter' => 'Tilføj filter',
@@ -3843,6 +3844,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Opret ny sag ved at sende mail',
+        'New phone ticket' => 'Opret ny sag',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

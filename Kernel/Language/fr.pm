@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.172 2012-10-25 15:46:05 mg Exp $
+# $Id: fr.pm,v 1.173 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.172 $) [1];
+$VERSION = qw($Revision: 1.173 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:26
+    # Last translation file sync: 2012-11-08 09:51:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2015,12 +2015,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Nouveau Ticket Téléphone',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Nouveau Ticket Email',
 
         # Template: AgentDashboardIFrame
 
@@ -2358,6 +2358,7 @@ sub Data {
         'Linked Objects' => 'Objets liés',
         'Article(s)' => 'Article(s)',
         'Change Queue' => 'Modifier file',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtre pour Article',
         'Add Filter' => 'Ajouter filtre',
@@ -3847,6 +3848,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Nouveau Ticket Email',
+        'New phone ticket' => 'Nouveau Ticket Téléphone',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

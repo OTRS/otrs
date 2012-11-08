@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.136 2012-10-25 15:46:05 mg Exp $
+# $Id: pt_BR.pm,v 1.137 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:39
+    # Last translation file sync: 2012-11-08 09:51:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2012,12 +2012,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Novo Chamado Fone',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Novo Chamado E-mail',
 
         # Template: AgentDashboardIFrame
 
@@ -2355,6 +2355,7 @@ sub Data {
         'Linked Objects' => 'Objetos Associados',
         'Article(s)' => 'Artigo(s)',
         'Change Queue' => 'Modificar Fila',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtro de Artigo',
         'Add Filter' => 'Adicionar Filtro',
@@ -3844,6 +3845,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Novo Chamado E-mail',
+        'New phone ticket' => 'Novo Chamado Fone',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

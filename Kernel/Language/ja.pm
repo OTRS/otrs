@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.37 2012-10-25 15:46:05 mg Exp $
+# $Id: ja.pm,v 1.38 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:32
+    # Last translation file sync: 2012-11-08 09:51:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2010,12 +2010,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => '新規電話チケットの作成',
         'New email ticket for %s' => '',
-        'New email ticket' => '新規メールチケットの作成',
 
         # Template: AgentDashboardIFrame
 
@@ -2353,6 +2353,7 @@ sub Data {
         'Linked Objects' => '連結済対象',
         'Article(s)' => '記事',
         'Change Queue' => 'キュー変更',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => '記事フィルタ',
         'Add Filter' => 'フィルタ追加',
@@ -3845,6 +3846,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'カスタム・キューの名前です。カスタム・キューとは、利用者が特に優先するキューの一覧であり、プレファレンス設定から選択できます。',
         'NameX' => '',
+        'New email ticket' => '新規メールチケットの作成',
+        'New phone ticket' => '新規電話チケットの作成',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

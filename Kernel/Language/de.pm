@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.337 2012-11-05 14:10:40 mab Exp $
+# $Id: de.pm,v 1.338 2012-11-08 08:55:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.337 $) [1];
+$VERSION = qw($Revision: 1.338 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:19
+    # Last translation file sync: 2012-11-08 09:51:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2009,14 +2009,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => 'Kundeninformation',
+        'Phone ticket' => 'Telefon-Ticket',
+        'Email ticket' => 'E-Mail-Ticket',
         '%s open ticket(s) of %s' => '%s offene Tickets von %s',
         '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
-        'New phone ticket' => 'Neues Telefon-Ticket',
-        'Phone ticket' => 'Telefon-Ticket',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
-        'New email ticket' => 'Neues E-Mail-Ticket',
-        'Email ticket' => 'E-Mail-Ticket',
 
         # Template: AgentDashboardIFrame
 
@@ -2354,6 +2352,7 @@ sub Data {
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
+        'There are currently no steps available for this process.' => 'Derzeit sind in diesem Prozess keine Schritte verfügbar.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
         'Article Filter' => 'Artikelfilter',
         'Add Filter' => 'Filter hinzufügen',
@@ -3843,6 +3842,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Neues E-Mail-Ticket',
+        'New phone ticket' => 'Neues Telefon-Ticket',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',

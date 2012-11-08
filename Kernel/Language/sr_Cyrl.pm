@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.37 2012-10-25 15:46:06 mg Exp $
+# $Id: sr_Cyrl.pm,v 1.38 2012-11-08 08:55:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-10-25 17:44:44
+    # Last translation file sync: 2012-11-08 09:51:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2009,12 +2009,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket for %s' => '',
-        'New phone ticket' => 'Нови телефонски тикет',
         'New email ticket for %s' => '',
-        'New email ticket' => 'Нови имејл тикет',
 
         # Template: AgentDashboardIFrame
 
@@ -2352,6 +2352,7 @@ sub Data {
         'Linked Objects' => 'Повезани објекти',
         'Article(s)' => 'Чланак/Чланци',
         'Change Queue' => 'Промени Ред',
+        'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Филтер чланка',
         'Add Filter' => 'Додај Филтер',
@@ -3841,6 +3842,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
+        'New email ticket' => 'Нови имејл тикет',
+        'New phone ticket' => 'Нови телефонски тикет',
         'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
