@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2518 2012-11-07 22:38:10 cg Exp $
+# $Id: CHANGES,v 1.2519 2012-11-08 00:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta2 2012-??-??
+ - 2012-11-07 Fixed bug#8749 - CustomerFrontend: missing dynamicfield in  search results.
  - 2012-11-07 Fixed bug#8908 - ProcessManagement import config feature doesn't works if
     dynamic fields are included.
  - 2012-11-07 Fixed bug#8907 - ProcessManagement StartActivityDialog Owner and Responsible fields
@@ -178,6 +179,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-11-07 Fixed bug#8749 - CustomerFrontend: missing dynamicfield in  search results.
  - 2012-11-06 Fixed bug#8873 - Bad example of customization of "static" dynamic fields in
     AgentTicketOverviewSmall.
  - 2012-11-02 Fixed bug#8791 - IMAPTLS fails with some Microsoft Exchange servers.
