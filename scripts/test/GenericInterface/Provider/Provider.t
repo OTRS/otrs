@@ -1,8 +1,8 @@
 # --
 # Provider.t - Provider tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.t,v 1.11 2011-06-22 09:54:43 mg Exp $
+# $Id: Provider.t,v 1.12 2012-11-09 21:49:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,12 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Provider;
 use Kernel::System::UnitTest::Helper;
 
+# helper object
+# skip SSL certiciate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
+    %{$Self},
     UnitTestObject => $Self,
+    SkipSSLVerify  => 1,
 );
 
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );

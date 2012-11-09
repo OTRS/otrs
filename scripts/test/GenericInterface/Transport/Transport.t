@@ -1,8 +1,8 @@
 # --
 # Transport.t - GenericInterface transport interface tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Transport.t,v 1.11 2011-03-09 11:56:57 mg Exp $
+# $Id: Transport.t,v 1.12 2012-11-09 21:49:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,14 @@ use HTTP::Request::Common;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
+
+# helper object
+# skip SSL certiciate verification
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject => $Self,
+    SkipSSLVerify  => 1,
+);
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %$Self,

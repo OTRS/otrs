@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.19 2012-11-08 14:48:58 mg Exp $
+# $Id: TicketGet.t,v 1.20 2012-11-09 21:49:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,10 +34,12 @@ my $RandomID = int rand 1_000_000_000;
 my $ConfigObject = Kernel::Config->new();
 
 # helper object
+# skip SSL certiciate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject             => $Self,
     RestoreSystemConfiguration => 1,
+    SkipSSLVerify              => 1,
 );
 
 # disable CheckEmailInvalidAddress setting

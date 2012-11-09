@@ -1,8 +1,8 @@
 # --
 # Operation.t - Operation tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.t,v 1.6 2011-03-29 12:36:15 mg Exp $
+# $Id: Operation.t,v 1.7 2012-11-09 21:49:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,16 @@ use vars (qw($Self));
 use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation;
+use Kernel::System::UnitTest::Helper;
+
+# helper object
+# skip SSL certiciate verification
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject => $Self,
+    SkipSSLVerify  => 1,
+);
+
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
     DebuggerConfig => {

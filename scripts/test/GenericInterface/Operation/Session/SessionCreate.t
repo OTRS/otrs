@@ -2,7 +2,7 @@
 # SessionCreate.t - GenericInterface SessionCreate tests for SessionConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionCreate.t,v 1.3 2012-10-25 17:12:54 mh Exp $
+# $Id: SessionCreate.t,v 1.4 2012-11-09 21:49:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,11 +28,14 @@ use Kernel::System::User;
 $Self->{UserID} = 1;
 
 # helper object
+# skip SSL certiciate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject             => $Self,
     RestoreSystemConfiguration => 1,
+    SkipSSLVerify              => 1,
 );
+
 my $RandomID = $HelperObject->GetRandomID();
 
 my $ConfigObject = Kernel::Config->new();

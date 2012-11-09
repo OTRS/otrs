@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.13 2012-11-09 18:11:16 cr Exp $
+# $Id: TicketCreate.t,v 1.14 2012-11-09 21:49:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,11 +40,14 @@ use Kernel::System::Valid;
 $Self->{UserID} = 1;
 
 # helper object
+# skip SSL certiciate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject             => $Self,
     RestoreSystemConfiguration => 1,
+    SkipSSLVerify              => 1,
 );
+
 my $RandomID = $HelperObject->GetRandomID();
 
 my $ConfigObject = Kernel::Config->new();
@@ -100,6 +103,13 @@ $SysConfigObject->ConfigItemUpdate(
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 1,
+);
+
+# check if SSL Certificate verification is disabled
+$Self->Is(
+    $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME},
+    0,
+    'Disabled SSL certiticates verification in environment',
 );
 
 # create ticket object

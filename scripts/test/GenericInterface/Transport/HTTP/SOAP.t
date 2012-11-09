@@ -1,8 +1,8 @@
 # --
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.t,v 1.16 2011-06-28 16:00:33 cr Exp $
+# $Id: SOAP.t,v 1.17 2012-11-09 21:49:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,12 @@ use Kernel::GenericInterface::Transport;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 
+# helper object
+# skip SSL certiciate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject => $Self,
+    SkipSSLVerify  => 1,
 );
 
 # add webservice to be used (empty config)

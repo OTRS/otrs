@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.9 2012-10-25 17:12:54 mh Exp $
+# $Id: Common.t,v 1.10 2012-11-09 21:49:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,10 +21,11 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::User;
 
-# helper object
+# skip SSL certiciate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject => $Self,
+    SkipSSLVerify  => 1,
 );
 
 my $RandomID = $HelperObject->GetRandomID();

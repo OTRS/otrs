@@ -1,8 +1,8 @@
 # --
 # Serialize.t - SOAP Serialize tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Serialize.t,v 1.13 2011-06-16 20:23:16 cr Exp $
+# $Id: Serialize.t,v 1.14 2012-11-09 21:49:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,16 @@ use XML::TreePP;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+use Kernel::System::UnitTest::Helper;
+
+# helper object
+# skip SSL certiciate verification
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
+    SkipSSLVerify              => 1,
+);
 
 # create soap object to use the soap output recursion
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(

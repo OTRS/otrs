@@ -1,8 +1,8 @@
 # --
 # Deserialize.t - Deserialize tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Deserialize.t,v 1.11 2011-06-16 20:23:16 cr Exp $
+# $Id: Deserialize.t,v 1.12 2012-11-09 21:49:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,15 @@ use SOAP::Lite;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+use Kernel::System::UnitTest::Helper;
+
+# helper object
+# skip SSL certiciate verification
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject => $Self,
+    SkipSSLVerify  => 1,
+);
 
 # create soap object to use the soap output recursion
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
