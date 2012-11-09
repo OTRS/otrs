@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.24 2012-11-09 21:49:24 cr Exp $
+# $Id: TicketSearch.t,v 1.25 2012-11-09 23:54:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -541,7 +541,7 @@ my $TicketID4 = $TicketObject->TicketCreate(
     Lock         => 'lock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerID   => '654321',
+    CustomerID   => '654321' . $RandomID,
     CustomerUser => 'customerFour@example.com',
     OwnerID      => 1,
     UserID       => 1,
@@ -662,7 +662,7 @@ for my $Article (@ArticleBox) {
 
     my @Attachments;
     ATTACHMENT:
-    for my $FileID (%AtmIndex) {
+    for my $FileID ( keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
         my %Attachment = $TicketObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},
@@ -1027,7 +1027,7 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             Queues     => ['Junk'],
-            CustomerID => '654321',
+            CustomerID => '654321' . $RandomID,
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -1109,7 +1109,8 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            Title => '* äöüßÄÖÜ€ис',
+            Title      => '* äöüßÄÖÜ€ис',
+            CustomerID => '654321' . $RandomID,
         },
         ExpectedReturnLocalData => {
             Data => {
