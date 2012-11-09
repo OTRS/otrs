@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.10.2.1 2012-08-16 14:17:45 cr Exp $
+# $Id: TicketCreate.t,v 1.10.2.2 2012-11-09 18:11:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -476,9 +476,13 @@ $Self->Is(
     "SessionID - Create requester object",
 );
 
+# create a new user for current test
+my $UserLogin = $HelperObject->TestUserCreate(
+    Groups => [ 'admin', 'users' ],
+);
+my $Password = $UserLogin;
+
 # start requester with our webservice
-my $UserLogin              = 'root@localhost';
-my $Password               = 'root';
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'SessionCreate',
@@ -3224,7 +3228,7 @@ for my $Test (@Tests) {
     # tests supposed to succeed
     if ( $Test->{SuccessCreate} ) {
 
-        # local resutls
+        # local results
         $Self->True(
             $LocalResult->{Data}->{TicketID},
             "$Test->{Name} - Local result TicketID with True.",
