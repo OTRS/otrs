@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.13 2012-05-22 13:12:46 mb Exp $
+# $Id: Helper.pm,v 1.14 2012-11-09 21:46:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,6 +93,21 @@ sub new {
         $Self->{SysConfigBackup} = $Self->{SysConfigObject}->Download();
 
         $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration' );
+    }
+
+    #
+    # Set environment variable to skip SSL certificate verification if needed
+    #
+    if ( $Param{SkipSSLVerify} ) {
+
+        # remember original value
+        $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
+
+        # set environment value to 0
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
+
+        $Self->{RestoreSSLVerify} = 1;
+        $Self->{UnitTestObject}->True( 1, 'Skipping SSL certificates verification' );
     }
 
     return $Self;
@@ -260,6 +275,18 @@ sub DESTROY {
         $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
     }
 
+    #
+    # Restore environment variable to skip SSL certificate verification if needed
+    #
+    if ( $Self->{RestoreSSLVerify} ) {
+
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};
+
+        $Self->{RestoreSSLVerify} = 0;
+
+        $Self->{UnitTestObject}->True( 1, 'Restored SSL certificates verification' );
+    }
+
     # invalidate test users
     if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
         for my $TestUser ( @{ $Self->{TestUsers} } ) {
@@ -318,6 +345,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2012-05-22 13:12:46 $
+$Revision: 1.14 $ $Date: 2012-11-09 21:46:43 $
 
 =cut
