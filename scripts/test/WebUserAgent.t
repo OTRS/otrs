@@ -2,7 +2,7 @@
 # WebUserAgent.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUserAgent.t,v 1.3 2012-07-18 03:17:27 cg Exp $
+# $Id: WebUserAgent.t,v 1.4 2012-11-09 13:50:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use vars (qw($Self));
 use Kernel::System::WebUserAgent;
 use Kernel::System::VariableCheck qw(:all);
 
-my $TestNumber = 1;
-my $TimeOut    = $Self->{ConfigObject}->Get('Package::Timeout');
-my $Proxy      = $Self->{ConfigObject}->Get('Package::Proxy');
+my $TestNumber     = 1;
+my $TimeOut        = $Self->{ConfigObject}->Get('Package::Timeout');
+my $Proxy          = $Self->{ConfigObject}->Get('Package::Proxy');
+my $RepositoryRoot = $Self->{ConfigObject}->Get('Package::RepositoryRoot') || [];
 
 my @Tests = (
     {
@@ -88,7 +89,7 @@ my @Tests = (
 );
 
 # get repository list
-for my $URL ( @{ $Self->{ConfigObject}->Get('Package::RepositoryRoot') } ) {
+for my $URL ( @{$RepositoryRoot} ) {
 
     my %NewEntry = (
         Name    => 'Test ' . $TestNumber++,
@@ -97,6 +98,7 @@ for my $URL ( @{ $Self->{ConfigObject}->Get('Package::RepositoryRoot') } ) {
         Proxy   => $Proxy,
         Success => '1',
     );
+
     push @Tests, \%NewEntry;
 }
 
@@ -151,7 +153,6 @@ for my $Test (@Tests) {
             "$Test->{Name} - WebUserAgent - Check request status",
         );
     }
-
 }
 
 1;
