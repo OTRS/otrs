@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.15 2012-03-20 16:27:57 mg Exp $
+# $Id: TicketSearch.t,v 1.15.2.1 2012-11-09 18:13:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,9 +25,17 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::UnitTest::Helper;
 
 use Kernel::System::Type;
 use Kernel::System::Service;
+
+# helper object
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
+);
 
 # extra needed objects
 my $TypeObject    = Kernel::System::Type->new( %{$Self} );
@@ -819,9 +827,13 @@ $Self->Is(
     "SessionID - Create requester object",
 );
 
+# create a new user for current test
+my $UserLogin = $HelperObject->TestUserCreate(
+    Groups => [ 'admin', 'users' ],
+);
+my $Password = $UserLogin;
+
 # start requester with our webservice
-my $UserLogin              = 'root@localhost';
-my $Password               = 'root';
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'SessionCreate',
@@ -1107,6 +1119,7 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             Priorities => ['1 very low'],
+            CustomerID => '123465' . $RandomID,
         },
         ExpectedReturnLocalData => {
             Data => {
