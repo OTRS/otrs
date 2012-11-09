@@ -2,7 +2,7 @@
 # WebUserAgent.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUserAgent.t,v 1.4 2012-11-09 13:50:24 mh Exp $
+# $Id: WebUserAgent.t,v 1.5 2012-11-09 14:41:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@ for my $URL ( @{$RepositoryRoot} ) {
 
     my %NewEntry = (
         Name    => 'Test ' . $TestNumber++,
-        URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
+        URL     => $URL,
         Timeout => $TimeOut,
         Proxy   => $Proxy,
         Success => '1',
