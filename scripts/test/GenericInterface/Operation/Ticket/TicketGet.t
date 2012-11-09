@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.20 2012-11-09 21:49:24 cr Exp $
+# $Id: TicketGet.t,v 1.21 2012-11-09 23:53:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -602,7 +602,7 @@ for my $Article (@ArticleBox) {
 
     my @Attachments;
     ATTACHMENT:
-    for my $FileID (%AtmIndex) {
+    for my $FileID ( keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
         my %Attachment = $TicketObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},

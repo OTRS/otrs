@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.14 2012-11-09 21:49:24 cr Exp $
+# $Id: TicketCreate.t,v 1.15 2012-11-09 23:53:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3411,7 +3411,7 @@ for my $Test (@Tests) {
 
         my @Attachments;
         ATTACHMENT:
-        for my $FileID (%AttachmentIndex) {
+        for my $FileID ( keys %AttachmentIndex ) {
             next ATTACHMENT if !$FileID;
             my %Attachment = $TicketObject->ArticleAttachment(
                 ArticleID => $LocalResult->{Data}->{ArticleID},
