@@ -2,7 +2,7 @@
 # ActivityDialogACL.t - ActivityDialog ACL testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialogACL.t,v 1.4 2012-09-21 15:02:37 cr Exp $
+# $Id: ActivityDialogACL.t,v 1.5 2012-11-12 12:55:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,8 +11,8 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use Kernel::Config;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -27,7 +27,6 @@ use Kernel::System::ProcessManagement::Process;
 use Kernel::System::Ticket;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::User;
-
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($Self);
@@ -128,7 +127,7 @@ my $TestData = {
 
 # add two services, one that will be used for a positive
 # one for a negative acl check
-for my $Type qw(Positive Negative) {
+for my $Type (qw(Positive Negative)) {
     $UTConfig{$Type}{Service}{ID} = $ServiceObject->ServiceAdd(
         Name    => 'ProcessACLService' . $HelperObject->GetRandomID(),
         Comment => 'ProcessACLService' . $HelperObject->GetRandomID(),
@@ -161,7 +160,7 @@ for my $Type qw(Positive Negative) {
 
 # add two SLAs, one that will be used for a positive
 # one for a negative acl check
-for my $Type qw(Positive Negative) {
+for my $Type (qw(Positive Negative)) {
     $UTConfig{$Type}{SLA}{ID} = $SLAObject->SLAAdd(
         Name       => 'ProcessACLSLA' . $HelperObject->GetRandomID(),
         ServiceIDs => [ $UTConfig{Positive}{Service}{ID}, $UTConfig{Negative}{Service}{ID} ],
@@ -764,7 +763,7 @@ $ConfigObject->Set(
 # ----------------------------------------
 # Create a test ticket for positive and one for negative testing
 # ----------------------------------------
-for my $Type qw(Positive Negative) {
+for my $Type (qw(Positive Negative)) {
     $UTConfig{$Type}{Ticket}{ID} = $TicketObject->TicketCreate(
 
         # test data
@@ -1054,7 +1053,7 @@ $Self->IsDeeply(
 # ----------------------------------------
 
 # SLA
-for my $Type qw(Positive Negative) {
+for my $Type (qw(Positive Negative)) {
     my $Success = $SLAObject->SLAUpdate(
         ServiceIDs => [],
         SLAID      => $UTConfig{$Type}{SLA}{ID},
@@ -1071,7 +1070,7 @@ for my $Type qw(Positive Negative) {
 }
 
 # Service
-for my $Type qw(Positive Negative) {
+for my $Type (qw(Positive Negative)) {
 
     $ServiceObject->CustomerUserServiceMemberAdd(
         CustomerUserLogin => $CustomerUserLogin,
@@ -1095,9 +1094,8 @@ for my $Type qw(Positive Negative) {
     );
 }
 
-# Ticket
-
-for my $Type qw(Positive Negative) {
+# ticket
+for my $Type (qw(Positive Negative)) {
     my $Delete = $TicketObject->TicketDelete(
         TicketID => $UTConfig{$Type}{Ticket}{ID},
         UserID   => $User{UserID},
@@ -1108,8 +1106,7 @@ for my $Type qw(Positive Negative) {
     );
 }
 
-# DynamicFields
-
+# dynamic fields
 for my $ID (@AddedDynamicFields) {
     my $Success = $DynamicFieldObject->DynamicFieldDelete(
         ID      => $ID,
