@@ -2,11 +2,11 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.29 2012-11-12 14:04:58 mh Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.30 2012-11-12 18:14:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Modules::AdminDynamicFieldText;
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -2,11 +2,11 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.99 2012-11-12 14:04:59 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.100 2012-11-12 18:18:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Modules::CustomerTicketZoom;
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

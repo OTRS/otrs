@@ -2,11 +2,11 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.136 2012-10-23 13:03:45 mab Exp $
+# $Id: AgentTicketForward.pm,v 1.137 2012-11-12 18:18:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Modules::AgentTicketForward;
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

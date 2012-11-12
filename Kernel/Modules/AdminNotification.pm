@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.36 2011-12-23 13:58:18 mg Exp $
+# $Id: AdminNotification.pm,v 1.37 2012-11-12 18:14:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Modules::AdminNotification;
@@ -18,7 +18,7 @@ use Kernel::System::Notification;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

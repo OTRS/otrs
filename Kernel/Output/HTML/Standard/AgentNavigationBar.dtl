@@ -1,12 +1,12 @@
 # --
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.86 2010-11-08 11:17:56 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.87 2012-11-12 18:19:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 <ul id="Navigation" class="ARIARoleNavigation">

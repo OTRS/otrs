@@ -2,11 +2,11 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.161 2012-05-25 13:32:13 mg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.162 2012-11-12 18:19:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 $Include{"AgentCustomerSearch"}

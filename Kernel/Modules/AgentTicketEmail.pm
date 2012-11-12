@@ -2,11 +2,11 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.216 2012-10-23 13:03:47 mab Exp $
+# $Id: AgentTicketEmail.pm,v 1.217 2012-11-12 18:18:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Modules::AgentTicketEmail;
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.216 $) [1];
+$VERSION = qw($Revision: 1.217 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -2,11 +2,11 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.36 2012-08-20 04:01:15 cg Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.37 2012-11-12 18:19:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 <!-- dtl:block:CustomerSearchAutoComplete -->

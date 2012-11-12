@@ -2,11 +2,11 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.71 2012-11-05 14:18:11 mn Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.72 2012-11-12 18:19:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 <!-- dtl:block:DocumentActionRow -->
 <ul class="Actions">
