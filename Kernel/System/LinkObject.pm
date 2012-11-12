@@ -2,11 +2,11 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.63 2012-11-12 16:23:59 mh Exp $
+# $Id: LinkObject.pm,v 1.64 2012-11-12 18:07:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::System::LinkObject;
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -2405,6 +2405,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2012-11-12 16:23:59 $
+$Revision: 1.64 $ $Date: 2012-11-12 18:07:28 $
 
 =cut

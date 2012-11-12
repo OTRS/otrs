@@ -2,11 +2,11 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupWithWritePermission.pm - generic agent notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.14 2012-09-27 16:32:59 jp Exp $
+# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.15 2012-11-12 18:07:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::System::GenericAgent::NotifyAgentGroupWithWritePermission;
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

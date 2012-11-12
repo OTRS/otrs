@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Email/SMTPS.pm - the global email send module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTPS.pm,v 1.3 2010-09-15 22:47:11 cg Exp $
+# $Id: SMTPS.pm,v 1.4 2012-11-12 18:07:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::System::Email::SMTPS;
@@ -17,7 +17,7 @@ use warnings;
 use Net::SMTP::SSL;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
