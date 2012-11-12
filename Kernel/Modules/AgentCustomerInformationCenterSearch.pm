@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerInformationCenterSearch.pm - customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenterSearch.pm,v 1.2 2012-09-10 12:56:33 mg Exp $
+# $Id: AgentCustomerInformationCenterSearch.pm,v 1.3 2012-11-12 11:43:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,6 +97,34 @@ sub Run {
             }
 
             push @Result, { Label => $Label || $CustomerID, Value => $CustomerID };
+
+            last CUSTOMERID if $Count++ >= $MaxResults;
+        }
+
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => \@Result,
+        );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON || '',
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+    elsif ( $Self->{Subaction} eq 'SearchCustomerCompany' ) {
+        my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+        );
+
+        my @Result;
+
+        my $Count = 1;
+
+        CUSTOMERID:
+        for my $CustomerID ( keys %CustomerCompanyList ) {
+
+            push @Result, { Label => $CustomerCompanyList{$CustomerID}, Value => $CustomerID };
 
             last CUSTOMERID if $Count++ >= $MaxResults;
         }
