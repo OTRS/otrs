@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.15 2012-09-25 11:46:52 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.16 2012-11-12 13:04:48 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 
@@ -196,7 +196,7 @@ EOF
 
     # create tickets
     my @TicketIDs = ();
-    foreach ( 1 .. $Opts{'t'} ) {
+    for ( 1 .. $Opts{'t'} ) {
         my $TicketUserID =
 
             my $TicketID = $CommonObjects->{TicketObject}->TicketCreate(
@@ -229,7 +229,7 @@ EOF
 
             print "NOTICE: Ticket with ID '$TicketID' created.\n";
 
-            foreach ( 1 .. $Opts{'a'} ) {
+            for ( 1 .. $Opts{'a'} ) {
                 my $ArticleID = $CommonObjects->{TicketObject}->ArticleCreate(
                     TicketID       => $TicketID,
                     ArticleType    => 'note-external',
@@ -315,7 +315,7 @@ EOF
             UserID  => 1,
         );
         my @StateList = ();
-        foreach ( keys %States ) {
+        for ( keys %States ) {
             push( @StateList, $_ );
         }
         my %Priorities = $CommonObjects->{TicketObject}->PriorityList(
@@ -323,11 +323,11 @@ EOF
             UserID  => 1,
         );
         my @PriorityList = ();
-        foreach ( keys %Priorities ) {
+        for ( keys %Priorities ) {
             push( @PriorityList, $_ );
         }
 
-        foreach my $TicketID (@TicketIDs) {
+        for my $TicketID (@TicketIDs) {
             my %Ticket = $CommonObjects->{TicketObject}->TicketGet(
                 TicketID      => $TicketID,
                 DynamicFields => 0,
@@ -379,7 +379,7 @@ EOF
             # set state
             # try more times to get an closed state to be more real
             my $StateID = '';
-            foreach ( 1 .. 12 ) {
+            for ( 1 .. 12 ) {
                 $StateID = $StateList[ int( rand( $#StateList + 1 ) ) ];
                 if ( $States{$StateID} =~ /^close/ ) {
                     last;
@@ -523,7 +523,7 @@ sub RandomBody {
         'is fully formed. The speed at which a pathway is formed depends on the individual, but ',
         'is usually localised resulting in talents.[citation needed]',
     );
-    foreach ( 1 .. 50 ) {
+    for ( 1 .. 50 ) {
         $Body .= $Text[ int( rand( $#Text + 1 ) ) ] . "\n";
     }
     return $Body;
@@ -534,7 +534,7 @@ sub QueueGet {
 
     my @QueueIDs = ();
     my %Queues   = $CommonObjects->{QueueObject}->GetAllQueues();
-    foreach ( keys %Queues ) {
+    for ( keys %Queues ) {
         push @QueueIDs, $_;
     }
     return @QueueIDs;
@@ -546,7 +546,7 @@ sub QueueCreate {
     my @GroupIDs      = @{ shift() };
 
     my @QueueIDs = ();
-    foreach ( 1 .. $Count ) {
+    for ( 1 .. $Count ) {
         my $Name = 'fill-up-queue' . int( rand(100_000_000) );
         my $ID   = $CommonObjects->{QueueObject}->QueueAdd(
             Name              => $Name,
@@ -578,7 +578,7 @@ sub GroupGet {
 
     my @GroupIDs = ();
     my %Groups = $CommonObjects->{GroupObject}->GroupList( Valid => 1 );
-    foreach ( keys %Groups ) {
+    for ( keys %Groups ) {
         push @GroupIDs, $_;
     }
     return @GroupIDs;
@@ -589,7 +589,7 @@ sub GroupCreate {
     my $Count = shift || return;
 
     my @GroupIDs = ();
-    foreach ( 1 .. $Count ) {
+    for ( 1 .. $Count ) {
         my $Name = 'fill-up-group' . int( rand(100_000_000) );
         my $ID   = $CommonObjects->{GroupObject}->GroupAdd(
             Name    => $Name,
@@ -627,7 +627,7 @@ sub UserGet {
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );
-    foreach ( keys %Users ) {
+    for ( keys %Users ) {
         push @UserIDs, $_;
     }
     return @UserIDs;
@@ -639,7 +639,7 @@ sub UserCreate {
     my @GroupIDs      = @{ shift() };
 
     my @UserIDs = ();
-    foreach ( 1 .. $Count ) {
+    for ( 1 .. $Count ) {
         my $Name = 'fill-up-user' . int( rand(100_000_000) );
         my $ID   = $CommonObjects->{UserObject}->UserAdd(
             UserFirstname => "$Name-Firstname",
@@ -652,7 +652,7 @@ sub UserCreate {
         if ($ID) {
             print "NOTICE: User '$Name' with ID '$ID' created.\n";
             push( @UserIDs, $ID );
-            foreach my $GroupID (@GroupIDs) {
+            for my $GroupID (@GroupIDs) {
                 my $GroupAdd = int( rand(3) );
                 if ( $GroupAdd == 2 ) {
                     $CommonObjects->{GroupObject}->GroupMemberAdd(
@@ -694,7 +694,7 @@ sub CustomerCreate {
     my $CommonObjects = shift;
     my $Count = shift || return;
 
-    foreach ( 1 .. $Count ) {
+    for ( 1 .. $Count ) {
         my $Name      = 'fill-up-user' . int( rand(100_000_000) );
         my $UserLogin = $CommonObjects->{CustomerUserObject}->CustomerUserAdd(
             Source         => 'CustomerUser',            # CustomerUser source config
