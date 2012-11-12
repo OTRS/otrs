@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.85 2012-11-08 00:41:03 cr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.86 2012-11-12 09:35:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -353,6 +353,7 @@ sub Run {
         if (
             $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
             && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+            && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem') eq 1
             )
         {
 
@@ -366,6 +367,14 @@ sub Run {
             else {
                 $GetParam{ArchiveFlags} = ['n'];
             }
+        }
+        elsif (
+            $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
+            && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+            && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem') eq 2
+            )
+        {
+            $GetParam{ArchiveFlags} = ['n'];
         }
         else {
             $GetParam{ArchiveFlags} = [ 'y', 'n' ];
@@ -1303,6 +1312,7 @@ sub MaskForm {
     if (
         $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
         && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+        && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem') eq 1
         )
     {
 
