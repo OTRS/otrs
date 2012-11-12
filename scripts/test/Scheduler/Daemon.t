@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.17 2012-07-10 10:13:03 mh Exp $
+# $Id: Daemon.t,v 1.18 2012-11-12 23:03:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@ my $CheckAction = sub {
 
     $Self->True(
         scalar( $StateBefore =~ m/^\Q$Param{StateBefore}\E/smxi ),
-        "$Name state before action ($Param{StateBefore})",
+        "$Name state before action (should be '$Param{StateBefore}' and is '$StateBefore' ... ignoring case)",
     );
 
     my ($PIDBefore) = $StateBefore =~ m/(\d+)/;
@@ -105,16 +105,56 @@ my $CheckAction = sub {
         );
     }
 
+    # slow systems needs some time to process actions and gets new PIDs
     if ( $Param{SleepAfterAction} ) {
-        print "Sleeping $Param{SleepAfterAction}s\n";
-        sleep $Param{SleepAfterAction};
+        if ( $Param{PIDChangeExpected} ) {
+            print "Waiting at most $Param{SleepAfterAction} s until scheduler gets a new PID\n";
+            ACTIVESLEEP:
+            for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
+                my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+                my $IntStateAfter = `$Scheduler -a status`;
+                if (
+                    ( $IntPIDInfo{PID} || 0 ) ne ( $PIDInfoBefore{PID} || 0 )
+                    && $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi
+                    )
+                {
+                    last ACTIVESLEEP;
+                }
+                print "Sleeping for $Seconds seconds...\n";
+                sleep 1;
+                if ( $Seconds == $Param{SleepAfterAction} ) {
+                    $Self->True(
+                        0,
+                        "$Name timeout wating for $Seconds seconds state is $IntStateAfter!",
+                    );
+                }
+            }
+        }
+        else {
+            print "Waiting at most $Param{SleepAfterAction} s until scheduler perform action\n";
+            ACTIVESLEEP:
+            for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
+                my $IntStateAfter = `$Scheduler -a status`;
+                if ( $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ) {
+                    last ACTIVESLEEP;
+                }
+                print "Sleeping for $Seconds seconds...\n";
+                sleep 1;
+                if ( $Seconds == $Param{SleepAfterAction} ) {
+                    $Self->True(
+                        0,
+                        "$Name timeout wating for $Seconds seconds state is $IntStateAfter!",
+                    );
+                }
+            }
+        }
     }
 
     my $StateAfter = `$Scheduler -a status`;
 
     $Self->True(
         scalar( $StateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ),
-        "$Name state after action ($Param{StateAfter})",
+        "$Name state after action (Should be '$Param{StateAfter}' and is '$StateAfter' ... ignoring case)",
     );
 
     my ($PIDAfter) = $StateAfter =~ m/(\d+)/;
@@ -135,6 +175,7 @@ my $CheckAction = sub {
     );
 };
 
+my $SleepTime;
 my $PreviousSchedulerStatus = `$Scheduler -a status`;
 
 # stop scheduler if it was not already running before this test
@@ -174,8 +215,17 @@ if ( $PreviousSchedulerStatus =~ m{registered}i ) {
         );
     }
 
-    print "Sleeping 10s\n";
-    sleep 10;
+    $SleepTime = 20;
+    print "Waiting at most $SleepTime s until scheduler stops\n";
+    ACTIVESLEEP:
+    for my $Seconds ( 1 .. $SleepTime ) {
+        my $SchedulerStatus = `$Scheduler -a status`;
+        if ( $SchedulerStatus !~ m{\A running }msxi ) {
+            last ACTIVESLEEP;
+        }
+        print "Sleeping for $Seconds seconds...\n";
+        sleep 1;
+    }
 
     $CheckAction->(
         Name                => 'Cleanup-stop',
@@ -191,6 +241,7 @@ $CheckAction->(
     Name                => 'Initial start',
     Action              => 'start',
     ExpectActionSuccess => 1,
+    SleepAfterAction    => 20,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -208,7 +259,7 @@ $CheckAction->(
 $CheckAction->(
     Name                => 'Reload',
     Action              => 'reload',
-    SleepAfterAction    => 10,
+    SleepAfterAction    => 20,
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'running',
@@ -221,6 +272,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'not running',
+    SleepAfterAction    => 20,
     PIDChangeExpected   => 1,
 );
 
@@ -230,6 +282,7 @@ $CheckAction->(
     ExpectActionSuccess => 0,
     StateBefore         => 'not running',
     StateAfter          => 'not running',
+    SleepAfterAction    => 20,
     PIDChangeExpected   => 0,
 );
 
@@ -269,11 +322,14 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
+    SleepAfterAction    => 20,
     PIDChangeExpected   => 1,
 );
 
 my %PIDInfo1 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
+# this sleep is needed just to test that scheduler is still runing and not self-restart on a short
+# wait
 print "Sleeping 2s\n";
 sleep 2;
 
@@ -294,13 +350,21 @@ $Self->Is(
     'Not restarted yet, same PID',
 );
 
-if ( $^O =~ /^mswin/i ) {
-    print "Sleeping 34s\n";
-    sleep 34;
-}
-else {
-    print "Sleeping 14s\n";
-    sleep 14;
+# wait enough for scheduler to self-restart
+$SleepTime = 40;
+print "Waiting at most $SleepTime s until scheduler gets a new PID\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+    if (
+        $IntPIDInfo{PID}
+        && $IntPIDInfo{PID} ne $PIDInfo2{PID}
+        )
+    {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
 }
 
 $CheckAction->(
@@ -326,6 +390,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'not running',
+    SleepAfterAction    => 20,
     PIDChangeExpected   => 1,
 );
 
@@ -333,13 +398,13 @@ $CheckAction->(
 $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',
-    Value => 18000,
+    Value => 86_400,
 );
 
 $CheckAction->(
     Name                => 'Start auto-stop tests',
     Action              => 'start',
-    SleepAfterAction    => 1,
+    SleepAfterAction    => 20,
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
@@ -352,8 +417,17 @@ my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
 move( "$FrameworkConfigFile", "$FrameworkConfigFile.save" );
 
 # Wait for slow systems
-print "Sleeping 10s\n";
-sleep 10;
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
 
 $CheckAction->(
     Name                => 'Config file is missing, scheduler must die',
@@ -371,6 +445,7 @@ $CheckAction->(
     Name                => 'Config file is recovered, start Scheduler again',
     Action              => 'start',
     ExpectActionSuccess => 1,
+    SleepAfterAction    => 20,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -383,8 +458,21 @@ my %PIDInfo6 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 utime time, time, "$Home/Kernel/Config.pm";
 
 # wait for slow systems
-print "Sleeping 10s\n";
-sleep 10;
+$SleepTime = 40;
+print "Waiting at most $SleepTime s until scheduler gets a new PID\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+    if (
+        $IntPIDInfo{PID}
+        && $IntPIDInfo{PID} ne $PIDInfo6{PID}
+        )
+    {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
 
 # check after Config file timestamp changed
 $CheckAction->(
@@ -408,8 +496,17 @@ $Self->IsNot(
 $PIDObject->PIDDelete( Name => 'otrs.Scheduler' );
 
 # Wait for slow systems
-print "Sleeping 10s\n";
-sleep 10;
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
 
 # check after delete PID on database
 $CheckAction->(
@@ -428,6 +525,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
+    SleepAfterAction    => 20,
     PIDChangeExpected   => 1,
 );
 
@@ -441,8 +539,18 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
-print "Sleeping 4s\n";
-sleep 4;
+# Wait for slow systems
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
 
 # get the process ID
 my %PID = $PIDObject->PIDGet(
@@ -470,6 +578,7 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
         ExpectActionSuccess => 1,
         StateBefore         => 'not running',
         StateAfter          => 'running',
+        SleepAfterAction    => 20,
         PIDChangeExpected   => 1,
     );
 }
