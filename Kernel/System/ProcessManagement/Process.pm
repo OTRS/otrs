@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.5 2012-09-10 03:10:30 sb Exp $
+# $Id: Process.pm,v 1.6 2012-11-12 11:42:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -41,8 +41,8 @@ create an object
 
     use Kernel::Config;
     use Kernel::System::Encode;
-    use Kernel::System::DB;
     use Kernel::System::Log;
+    use Kernel::System::DB;
     use Kernel::System::Main;
     use Kernel::System::ProcessManagement::Activity;
     use Kernel::System::ProcessManagement::Transition;
@@ -98,7 +98,6 @@ create an object
         CustomerUserObject => $CustomerUserObject, # if given
         QueueObject        => $QueueObject,        # if given
     );
-
     my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
         ConfigObject           => $ConfigObject,
         LogObject              => $LogObject,
@@ -816,6 +815,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-09-10 03:10:30 $
+$Revision: 1.6 $ $Date: 2012-11-12 11:42:16 $
 
 =cut

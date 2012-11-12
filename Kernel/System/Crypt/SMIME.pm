@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.68 2012-09-24 17:35:56 cr Exp $
+# $Id: SMIME.pm,v 1.69 2012-11-12 11:39:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -559,8 +559,10 @@ sub CertificateAdd {
     my %Result;
 
     if ( !$Attributes{Hash} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Can\'t add invalid certificate!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Can\'t add invalid certificate!'
+        );
         %Result = (
             Successful => 0,
             Message    => 'Can\'t add invalid certificate!',
@@ -638,8 +640,10 @@ sub CertificateGet {
 
     # check needed stuff
     if ( !$Param{Filename} && !( $Param{Fingerprint} && $Param{Hash} ) ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename or Fingerprint and Hash!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or Fingerprint and Hash!'
+        );
         return;
     }
 
@@ -676,8 +680,10 @@ sub CertificateRemove {
 
     # check needed stuff
     if ( !$Param{Filename} && !( $Param{Hash} && $Param{Fingerprint} ) ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename or Hash and Fingerprint!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or Hash and Fingerprint!'
+        );
         return;
     }
 
@@ -1006,8 +1012,10 @@ sub PrivateGet {
 
     # check needed stuff
     if ( !$Param{Filename} && !( $Param{Hash} && $Param{Modulus} ) ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename or Hash and Modulus!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or Hash and Modulus!'
+        );
         return;
     }
 
@@ -1055,8 +1063,10 @@ sub PrivateRemove {
 
     # check needed stuff
     if ( !$Param{Filename} && !( $Param{Hash} && $Param{Modulus} ) ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need Filename or Hash and Modulus!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or Hash and Modulus!'
+        );
         return;
     }
 
@@ -1378,8 +1388,10 @@ sub SignerCertRelationExists {
 
     # check needed stuff
     if ( !$Param{ID} && !( $Param{CertFingerprint} && $Param{CAFingerprint} ) ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need ID or CertFingerprint & CAFingerprint!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID or CertFingerprint & CAFingerprint!"
+        );
         return;
     }
 
@@ -2487,6 +2499,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2012-09-24 17:35:56 $
+$Revision: 1.69 $ $Date: 2012-11-12 11:39:33 $
 
 =cut

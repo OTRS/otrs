@@ -2,7 +2,7 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.14 2012-11-09 21:46:43 cr Exp $
+# $Id: Helper.pm,v 1.15 2012-11-12 11:42:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 package Kernel::System::UnitTest::Helper;
 
 use strict;
+use warnings;
 
 use Kernel::Config;
 use Kernel::System::User;
@@ -31,8 +32,19 @@ Kernel::System::UnitTest::Helper - unit test helper functions
 
 construct a helper object.
 
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
     use Kernel::System::UnitTest::Helper;
 
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
     my $Helper = Kernel::System::UnitTest::Helper->new(
         %{$Self},
         RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm and restore it in the destructor
@@ -323,8 +335,9 @@ sub DESTROY {
                 UserID         => 1,
             );
 
-            $Self->{UnitTestObject}
-                ->True( $Success, "Set test customer user $TestCustomerUser to invalid" );
+            $Self->{UnitTestObject}->True(
+                $Success, "Set test customer user $TestCustomerUser to invalid"
+            );
         }
     }
 }
@@ -345,6 +358,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2012-11-09 21:46:43 $
+$Revision: 1.15 $ $Date: 2012-11-12 11:42:17 $
 
 =cut

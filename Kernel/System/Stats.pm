@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.114 2012-05-14 19:25:32 mb Exp $
+# $Id: Stats.pm,v 1.115 2012-11-12 11:37:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 =head1 NAME
 
@@ -3437,6 +3437,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.114 $ $Date: 2012-05-14 19:25:32 $
+$Revision: 1.115 $ $Date: 2012-11-12 11:37:13 $
 
 =cut

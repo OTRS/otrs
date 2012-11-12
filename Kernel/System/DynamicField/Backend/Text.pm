@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.66 2012-09-28 03:02:55 cr Exp $
+# $Id: Text.pm,v 1.67 2012-11-12 11:39:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -420,8 +420,9 @@ sub SearchFieldValueGet {
 
     # get dynamic field value form param object
     if ( defined $Param{ParamObject} ) {
-        $Value = $Param{ParamObject}
-            ->GetParam( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+        $Value = $Param{ParamObject}->GetParam(
+            Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
+        );
     }
 
     # otherwise get the value from the profile

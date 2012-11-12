@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.36 2012-09-26 20:40:41 cr Exp $
+# $Id: SysConfig.pm,v 1.37 2012-11-12 11:37:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -51,10 +51,10 @@ create an object
     use Kernel::Language;
 
     my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject  = Kernel::System::Encode->new(
+    my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
     );
@@ -65,7 +65,6 @@ create an object
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -2325,6 +2324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2012-09-26 20:40:41 $
+$Revision: 1.37 $ $Date: 2012-11-12 11:37:13 $
 
 =cut

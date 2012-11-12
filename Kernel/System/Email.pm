@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.86 2012-10-06 04:52:46 cg Exp $
+# $Id: Email.pm,v 1.87 2012-11-12 11:34:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -898,6 +898,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2012-10-06 04:52:46 $
+$Revision: 1.87 $ $Date: 2012-11-12 11:34:50 $
 
 =cut

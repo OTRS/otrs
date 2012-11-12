@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.577 2012-11-07 18:17:44 cr Exp $
+# $Id: Ticket.pm,v 1.578 2012-11-12 11:37:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.577 $) [1];
+$VERSION = qw($Revision: 1.578 $) [1];
 
 =head1 NAME
 
@@ -5639,8 +5639,10 @@ sub TicketWatchUnsubscribe {
 
     # only one of these parameters is needed
     if ( !$Param{WatchUserID} && !$Param{AllUsers} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need WatchUserID or AllUsers param!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need WatchUserID or AllUsers param!"
+        );
         return;
     }
 
@@ -7880,86 +7882,103 @@ sub DESTROY {
 
 sub CustomerPermission {
     my $Self = shift;
+
     return $Self->TicketCustomerPermission(@_);
 }
 
 sub InvolvedAgents {
     my $Self = shift;
+
     return $Self->TicketInvolvedAgentsList(@_);
 }
 
 sub LockIsTicketLocked {
     my $Self = shift;
+
     return $Self->TicketLockGet(@_);
 }
 
 sub LockSet {
     my $Self = shift;
+
     return $Self->TicketLockSet(@_);
 }
 
 sub MoveList {
     my $Self = shift;
+
     return $Self->TicketMoveList(@_);
 }
 
 sub MoveTicket {
     my $Self = shift;
+
     return $Self->TicketQueueSet(@_);
 }
 
 sub MoveQueueList {
     my $Self = shift;
+
     return $Self->TicketMoveQueueList(@_);
 }
 
 sub OwnerList {
     my $Self = shift;
+
     return $Self->TicketOwnerList(@_);
 }
 
 sub OwnerSet {
     my $Self = shift;
+
     return $Self->TicketOwnerSet(@_);
 }
 
 sub Permission {
     my $Self = shift;
+
     return $Self->TicketPermission(@_);
 }
 
 sub PriorityList {
     my $Self = shift;
+
     return $Self->TicketPriorityList(@_);
 }
 
 sub PrioritySet {
     my $Self = shift;
+
     return $Self->TicketPrioritySet(@_);
 }
 
 sub ResponsibleList {
     my $Self = shift;
+
     return $Self->TicketResponsibleList(@_);
 }
 
 sub ResponsibleSet {
     my $Self = shift;
+
     return $Self->TicketResponsibleSet(@_);
 }
 
 sub SetCustomerData {
     my $Self = shift;
+
     return $Self->TicketCustomerSet(@_);
 }
 
 sub StateList {
     my $Self = shift;
+
     return $Self->TicketStateList(@_);
 }
 
 sub StateSet {
     my $Self = shift;
+
     return $Self->TicketStateSet(@_);
 }
 
@@ -7977,6 +7996,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.577 $ $Date: 2012-11-07 18:17:44 $
+$Revision: 1.578 $ $Date: 2012-11-12 11:37:13 $
 
 =cut

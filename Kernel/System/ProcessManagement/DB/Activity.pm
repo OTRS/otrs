@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.7 2012-07-20 06:05:04 cr Exp $
+# $Id: Activity.pm,v 1.8 2012-11-12 11:42:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -71,7 +71,6 @@ create an Activity object
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
-        TimeObject   => $TimeObject,
         MainObject   => $MainObject,
     );
     my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
@@ -720,6 +719,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-07-20 06:05:04 $
+$Revision: 1.8 $ $Date: 2012-11-12 11:42:16 $
 
 =cut

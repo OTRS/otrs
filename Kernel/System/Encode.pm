@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.48 2012-09-03 14:15:08 mh Exp $
+# $Id: Encode.pm,v 1.49 2012-11-12 11:35:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -320,16 +320,19 @@ sub CharsetInternal {
 # COMPAT: to OTRS 1.x and 2.x (can be removed later)
 sub EncodeInternalUsed {
     my $Self = shift;
+
     return $Self->CharsetInternal(@_);
 }
 
 sub Encode {
     my $Self = shift;
+
     return $Self->EncodeInput(@_);
 }
 
 sub Decode {
     my $Self = shift;
+
     return $Self->Convert2CharsetInternal(@_);
 }
 
@@ -349,6 +352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2012-09-03 14:15:08 $
+$Revision: 1.49 $ $Date: 2012-11-12 11:35:22 $
 
 =cut

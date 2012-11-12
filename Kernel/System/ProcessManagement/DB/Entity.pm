@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Entity.pm - Process Management DB Entity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Entity.pm,v 1.3 2012-07-14 04:52:35 cr Exp $
+# $Id: Entity.pm,v 1.4 2012-11-12 11:42:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -67,7 +67,6 @@ create an Entity object
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
-        TimeObject   => $TimeObject,
         MainObject   => $MainObject,
     );
     my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
@@ -689,6 +688,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-07-14 04:52:35 $
+$Revision: 1.4 $ $Date: 2012-11-12 11:42:16 $
 
 =cut
