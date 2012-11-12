@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardCalendar.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.21 2011-11-25 10:36:41 mg Exp $
+# $Id: DashboardCalendar.pm,v 1.22 2012-11-12 12:22:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

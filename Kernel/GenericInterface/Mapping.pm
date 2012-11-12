@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Mapping.pm,v 1.19 2012-07-30 23:32:35 ep Exp $
+# $Id: Mapping.pm,v 1.20 2012-11-12 12:20:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -174,8 +174,9 @@ sub Map {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got Data but it is not a hash ref in Mapping handler!' );
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got Data but it is not a hash ref in Mapping handler!'
+        );
     }
 
     # return if data is empty
@@ -206,6 +207,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2012-07-30 23:32:35 $
+$Revision: 1.20 $ $Date: 2012-11-12 12:20:30 $
 
 =cut

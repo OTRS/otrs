@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketProcess.pm,v 1.5 2012-10-23 13:03:46 mab Exp $
+# $Id: CustomerTicketProcess.pm,v 1.6 2012-11-12 12:16:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -272,11 +272,13 @@ sub _RenderAjax {
 
     # FatalError is safe because a JSON strcuture is expecting, then it will result into a
     # communications error
+
     my ( $Self, %Param ) = @_;
     for my $Needed (qw(ProcessEntityID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LayoutObject}
-                ->CustomerFatalError( Message => "Got no $Needed in _RenderAjax!" );
+            $Self->{LayoutObject}->CustomerFatalError(
+                Message => "Got no $Needed in _RenderAjax!"
+            );
         }
     }
     my $ActivityDialogEntityID = $Param{GetParam}{ActivityDialogEntityID};
@@ -647,8 +649,9 @@ sub _OutputActivityDialog {
         . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
     my $DynamicFieldActivityID
         = 'DynamicField_'
-        . $Self->{ConfigObject}
-        ->Get('Process::DynamicFieldProcessManagementActivityID');
+        . $Self->{ConfigObject}->Get(
+        'Process::DynamicFieldProcessManagementActivityID'
+        );
 
     if ( !$Ticket{$DynamicFieldProcessID} || !$Ticket{$DynamicFieldActivityID} ) {
         $Self->{LayoutObject}->CustomerFatalError(

@@ -3,7 +3,7 @@
 # bin/otrs.TicketDelete.pl - delete tickets by ticket number or ticket id
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.TicketDelete.pl,v 1.3 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.TicketDelete.pl,v 1.4 2012-11-12 12:27:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Long;
 
@@ -148,7 +148,7 @@ exit(0);
 sub DeleteTickets {
 
     # get parameters
-    my %CommonObject = @_;
+    my (%CommonObject) = @_;
 
     # unpack the ticket ids
     my @TicketIDs = @{ $CommonObject{TicketIDs} };

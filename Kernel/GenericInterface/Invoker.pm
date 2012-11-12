@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Invoker.pm,v 1.17 2011-05-09 16:35:00 cr Exp $
+# $Id: Invoker.pm,v 1.18 2012-11-12 12:20:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -172,10 +172,9 @@ sub PrepareRequest {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Invoker handler (PrepareRequest)!'
-            );
+        );
     }
 
     # start map on backend
@@ -210,10 +209,9 @@ sub HandleResponse {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Invoker handler (andleResponse)!'
-            );
+        );
     }
 
     # start map on backend
@@ -237,6 +235,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-05-09 16:35:00 $
+$Revision: 1.18 $ $Date: 2012-11-12 12:20:30 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.15 2012-01-16 15:09:02 mg Exp $
+# $Id: Operation.pm,v 1.16 2012-11-12 12:20:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -114,8 +114,9 @@ sub new {
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        return $Self->{DebuggerObject}
-            ->Error( Summary => "Can't load operation backend module $GenericModule!" );
+        return $Self->{DebuggerObject}->Error(
+            Summary => "Can't load operation backend module $GenericModule!"
+        );
     }
     $Self->{BackendObject} = $GenericModule->new(
         %{$Self},
@@ -170,6 +171,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2012-01-16 15:09:02 $
+$Revision: 1.16 $ $Date: 2012-11-12 12:20:30 $
 
 =cut

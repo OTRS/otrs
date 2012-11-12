@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.18 2011-03-15 09:17:38 sb Exp $
+# $Id: Test.pm,v 1.19 2012-11-12 12:20:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -109,8 +109,9 @@ sub Map {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error( Summary => 'Got Data but it is not a hash ref in Mapping Test backend!' );
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got Data but it is not a hash ref in Mapping Test backend!'
+        );
     }
 
     # return if data is empty
@@ -269,6 +270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-03-15 09:17:38 $
+$Revision: 1.19 $ $Date: 2012-11-12 12:20:30 $
 
 =cut

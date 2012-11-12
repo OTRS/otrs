@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.93 2012-01-07 20:26:30 mb Exp $
+# $Id: Installer.pm,v 1.94 2012-11-12 12:16:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -269,8 +269,9 @@ sub Run {
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => $Title . '-'
-                    . $Self->{LayoutObject}->{LanguageObject}
-                    ->Get('Create Database')
+                    . $Self->{LayoutObject}->{LanguageObject}->Get(
+                    'Create Database'
+                    )
                 );
 
             # FIXME !!! use $DB{Type}!!!
@@ -513,8 +514,9 @@ sub Run {
 
             if ($ReConfigure) {
                 my $Output =
-                    $Self->{LayoutObject}
-                    ->Header( Title => 'Install OTRS - Error' );
+                    $Self->{LayoutObject}->Header(
+                    Title => 'Install OTRS - Error'
+                    );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Kernel/Config.pm isn't writable!",
                     Comment => 'If you want to use the installer, set the '
@@ -527,8 +529,9 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemMessage',
                 Data => {
-                    Message => $Self->{LayoutObject}->{LanguageObject}
-                        ->Get('Database setup successful!'),
+                    Message => $Self->{LayoutObject}->{LanguageObject}->Get(
+                        'Database setup successful!'
+                    ),
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -590,8 +593,9 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
                     Data => {
-                        Message => $Self->{LayoutObject}->{LanguageObject}
-                            ->Get('Database deleted.')
+                        Message => $Self->{LayoutObject}->{LanguageObject}->Get(
+                            'Database deleted.'
+                            )
                     },
                 );
                 $Self->{LayoutObject}->Block(
@@ -837,8 +841,9 @@ sub Run {
             Value => 1,
         );
         if ( !$Result ) {
-            $Self->{LayoutObject}
-                ->FatalError( Message => "Can't write Config file!" );
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't write Config file!"
+            );
         }
 
         # check if the user wants to register
@@ -1029,8 +1034,9 @@ sub ParseSQLFile {
     }
     else {
         if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}
-                ->FatalError( Message => "Can't open $File: $!" );
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't open $File: $!"
+            );
         }
     }
     return @SQL;

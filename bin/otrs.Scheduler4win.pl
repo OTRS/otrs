@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.25 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.26 2012-11-12 12:27:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Getopt::Std;
 
@@ -283,6 +283,7 @@ sub _help {
 sub _start {
 
     # create common objects
+
     my %CommonObject = _CommonObjects();
 
     # create new PID on the Database
@@ -513,6 +514,7 @@ sub _start {
 sub _stop {
 
     # create common objects
+
     my %CommonObject = _CommonObjects();
 
     # get the process ID
@@ -547,6 +549,7 @@ sub _status {
 
     # Windows service status table
     # 5 => 'The service continue is pending.',
+
     # 6 => 'The service pause is pending.',
     # 7 => 'The service is paused.',
     # 4 => 'The service is running.',
@@ -612,7 +615,7 @@ sub _CommonObjects {
 }
 
 sub _AutoRestart {
-    my %Param = @_;
+    my (%Param) = @_;
 
     # create common objects
     my %CommonObject = _CommonObjects();
@@ -679,7 +682,7 @@ sub _AutoRestart {
 }
 
 sub _AutoStop {
-    my %Param = @_;
+    my (%Param) = @_;
 
     # create common objects
     my %CommonObject = _CommonObjects();

@@ -2,7 +2,7 @@
 # SOAPLite.t - SOAP::Lite specific tests for known issues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAPLite.t,v 1.1 2012-10-16 22:32:17 cr Exp $
+# $Id: SOAPLite.t,v 1.2 2012-11-12 12:26:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,43 +99,43 @@ my $SOAPObject = new SOAP::Lite(
 
 my @Tests = (
     {
-        Name       => 'TimeObject::SystemTime() - No parameters',
-        Object     => 'TimeObject',
-        Method     => 'SystemTime',
-        Config     => undef,
+        Name   => 'TimeObject::SystemTime() - No parameters',
+        Object => 'TimeObject',
+        Method => 'SystemTime',
+        Config => undef,
     },
     {
-        Name       => 'TimeObject::SystemTime() - 1 parameter',
-        Object     => 'TimeObject',
-        Method     => 'SystemTime',
-        Config     => {
+        Name   => 'TimeObject::SystemTime() - 1 parameter',
+        Object => 'TimeObject',
+        Method => 'SystemTime',
+        Config => {
             Param1 => 1,
         },
     },
     {
-        Name       => 'TimeObject::SystemTime() - 2 parameters',
-        Object     => 'TimeObject',
-        Method     => 'SystemTime',
-        Config     => {
+        Name   => 'TimeObject::SystemTime() - 2 parameters',
+        Object => 'TimeObject',
+        Method => 'SystemTime',
+        Config => {
             Param1 => 1,
             Param2 => 1,
         },
     },
     {
-        Name       => 'TimeObject::SystemTime() - 3 parameters',
-        Object     => 'TimeObject',
-        Method     => 'SystemTime',
-        Config     => {
+        Name   => 'TimeObject::SystemTime() - 3 parameters',
+        Object => 'TimeObject',
+        Method => 'SystemTime',
+        Config => {
             Param1 => 1,
             Param2 => 1,
             Param3 => 1,
         },
     },
     {
-        Name       => 'TimeObject::SystemTime() - 4 parameters',
-        Object     => 'TimeObject',
-        Method     => 'SystemTime',
-        Config     => {
+        Name   => 'TimeObject::SystemTime() - 4 parameters',
+        Object => 'TimeObject',
+        Method => 'SystemTime',
+        Config => {
             Param1 => 1,
             Param2 => 1,
             Param3 => 1,
@@ -143,10 +143,10 @@ my @Tests = (
         },
     },
     {
-        Name       => 'TimeObject::SystemTime() - 5 parameters',
-        Object     => 'TimeObject',
-        Method     => 'SystemTime',
-        Config     => {
+        Name   => 'TimeObject::SystemTime() - 5 parameters',
+        Object => 'TimeObject',
+        Method => 'SystemTime',
+        Config => {
             Param1 => 1,
             Param2 => 1,
             Param3 => 1,
@@ -169,7 +169,7 @@ for my $Test (@Tests) {
 
     # get fault from SOAP message if any
     my $FaultString;
-    if ( IsHashRefWithData($SOAPMessage->fault) ) {
+    if ( IsHashRefWithData( $SOAPMessage->fault ) ) {
         $FaultString = $SOAPMessage->fault->{faultstring};
     }
 

@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.16 2011-03-16 10:15:54 mg Exp $
+# $Id: Test.pm,v 1.17 2012-11-12 12:20:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use HTTP::Request::Common;
 use Kernel::System::Web::Request;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -38,8 +38,19 @@ Kernel::GenericInterface::Transport::Test - GenericInterface network transport i
 usually, you want to create an instance of this
 by using Kernel::GenericInterface::Transport->new();
 
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
     use Kernel::GenericInterface::Transport;
 
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
     my $TransportObject = Kernel::GenericInterface::Transport->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
@@ -255,11 +266,13 @@ use base qw(LWP::Protocol);
 
 sub new {
     my $Class = shift;
+
     return $Class->SUPER::new(@_);
 }
 
 sub request {
     my $Self = shift;
+
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;
 
     my $Response = HTTP::Response->new( 200 => "OK" );
@@ -290,6 +303,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-03-16 10:15:54 $
+$Revision: 1.17 $ $Date: 2012-11-12 12:20:30 $
 
 =cut

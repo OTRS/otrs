@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.30 2012-09-24 17:40:04 cr Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.31 2012-11-12 12:22:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -383,7 +383,7 @@ sub Check {
 
                 # compare sender email to signer email
                 my $SignerSenderMatch = 0;
-                foreach my $Signer ( @{ $SignCheck{Signers} } ) {
+                for my $Signer ( @{ $SignCheck{Signers} } ) {
                     if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
                         $SignerSenderMatch = 1;
                         last;

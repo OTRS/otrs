@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutDatepicker.pm - provides generic HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutDatepicker.pm,v 1.1 2010-06-15 12:59:02 mn Exp $
+# $Id: LayoutDatepicker.pm,v 1.2 2012-11-12 12:22:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -47,18 +47,19 @@ sub DatepickerGetVacationDays {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
 
     # translate the vacation description if possible
-    foreach my $Month ( keys %{$TimeVacationDays} ) {
-        foreach my $Day ( keys %{ $TimeVacationDays->{$Month} } ) {
+    for my $Month ( keys %{$TimeVacationDays} ) {
+        for my $Day ( keys %{ $TimeVacationDays->{$Month} } ) {
             $TimeVacationDays->{$Month}->{$Day}
                 = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
         }
     }
 
-    foreach my $Year ( keys %{$TimeVacationDaysOneTime} ) {
-        foreach my $Month ( keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
-            foreach my $Day ( keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
-                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} = $Self->{LanguageObject}
-                    ->Get( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} );
+    for my $Year ( keys %{$TimeVacationDaysOneTime} ) {
+        for my $Month ( keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
+            for my $Day ( keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
+                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} = $Self->{LanguageObject}->Get(
+                    $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
+                );
             }
         }
     }
@@ -79,12 +80,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2010-06-15 12:59:02 $
+$Revision: 1.2 $ $Date: 2012-11-12 12:22:58 $
 
 =cut

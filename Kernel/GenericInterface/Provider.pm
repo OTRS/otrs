@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.22 2011-07-21 14:45:57 cr Exp $
+# $Id: Provider.pm,v 1.23 2012-11-12 12:20:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -50,8 +50,19 @@ Kernel::GenericInterface::Provider - handler for incoming webservice requests.
 
 create an object
 
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
     use Kernel::GenericInterface::Provider;
 
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
     my $ProviderObject = Kernel::GenericInterface::Provider->new();
 
 =cut
@@ -397,6 +408,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2011-07-21 14:45:57 $
+$Revision: 1.23 $ $Date: 2012-11-12 12:20:30 $
 
 =cut

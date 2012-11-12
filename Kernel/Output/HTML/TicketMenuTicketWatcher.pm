@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuTicketWatcher.pm,v 1.21 2012-01-06 14:58:05 mg Exp $
+# $Id: TicketMenuTicketWatcher.pm,v 1.22 2012-11-12 12:22:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
