@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.71 2012-11-12 22:50:20 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.72 2012-11-12 23:21:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -518,7 +518,7 @@ sub Run {
                 || 'ERROR: NotificationBodyLostPasswordToken is missing!';
             my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPasswordToken')
                 || 'ERROR: NotificationSubjectLostPasswordToken is missing!';
-            for ( keys %UserData ) {
+            for ( sort keys %UserData ) {
                 $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
             }
             my $Sent = $EmailObject->Send(
@@ -936,6 +936,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2012-11-12 22:50:20 $
+$Revision: 1.72 $ $Date: 2012-11-12 23:21:56 $
 
 =cut

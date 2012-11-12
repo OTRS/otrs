@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.324 2012-11-12 22:49:51 mh Exp $
+# $Id: Article.pm,v 1.325 2012-11-12 23:21:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.324 $) [1];
+$VERSION = qw($Revision: 1.325 $) [1];
 
 =head1 NAME
 
@@ -2495,7 +2495,7 @@ sub SendCustomerNotification {
 
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
-    for ( keys %CurrentPreferences ) {
+    for ( sort keys %CurrentPreferences ) {
         if ( $CurrentPreferences{$_} ) {
             $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
@@ -2523,7 +2523,7 @@ sub SendCustomerNotification {
     my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
         UserID => $Article{ResponsibleID},
     );
-    for ( keys %ResponsiblePreferences ) {
+    for ( sort keys %ResponsiblePreferences ) {
         if ( $ResponsiblePreferences{$_} ) {
             $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
@@ -2550,7 +2550,7 @@ sub SendCustomerNotification {
         );
 
         # replace customer stuff with tags
-        for ( keys %CustomerUser ) {
+        for ( sort keys %CustomerUser ) {
             if ( $CustomerUser{$_} ) {
                 $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
                 $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
@@ -3482,6 +3482,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.324 $ $Date: 2012-11-12 22:49:51 $
+$Revision: 1.325 $ $Date: 2012-11-12 23:21:55 $
 
 =cut

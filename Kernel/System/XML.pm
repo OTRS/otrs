@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.111 2012-11-12 22:57:55 mh Exp $
+# $Id: XML.pm,v 1.112 2012-11-12 23:21:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 =head1 NAME
 
@@ -1012,7 +1012,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 2 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1042,7 +1042,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 4 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1080,7 +1080,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 6 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1126,7 +1126,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 8 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1180,7 +1180,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 10 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1242,7 +1242,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 12 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1312,7 +1312,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 14 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1397,7 +1397,7 @@ sub _XMLStructure2XMLHash {
 sub _Decode {
     my ( $Self, $A ) = @_;
 
-    for ( keys %{$A} ) {
+    for ( sort keys %{$A} ) {
         if ( ref $A->{$_} eq 'ARRAY' ) {
             for my $B ( @{ $A->{$_} } ) {
                 $Self->_Decode($B);
@@ -1529,6 +1529,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.111 $ $Date: 2012-11-12 22:57:55 $
+$Revision: 1.112 $ $Date: 2012-11-12 23:21:55 $
 
 =cut

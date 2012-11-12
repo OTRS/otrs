@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.43 2012-11-12 22:49:51 mh Exp $
+# $Id: NotificationEvent.pm,v 1.44 2012-11-12 23:21:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -616,7 +616,7 @@ sub _SendNotification {
         UserID        => $Param{UserID},
         NoOutOfOffice => 1,
     );
-    for ( keys %CurrentPreferences ) {
+    for ( sort keys %CurrentPreferences ) {
         next if !defined $CurrentPreferences{$_};
         $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
@@ -646,7 +646,7 @@ sub _SendNotification {
         UserID        => $Article{ResponsibleID},
         NoOutOfOffice => 1,
     );
-    for ( keys %ResponsiblePreferences ) {
+    for ( sort keys %ResponsiblePreferences ) {
         next if !$ResponsiblePreferences{$_};
         $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
@@ -671,7 +671,7 @@ sub _SendNotification {
         );
 
         # replace customer stuff with tags
-        for ( keys %CustomerUser ) {
+        for ( sort keys %CustomerUser ) {
             next if !$CustomerUser{$_};
             $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;

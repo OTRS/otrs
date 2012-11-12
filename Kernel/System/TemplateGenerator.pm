@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.67 2012-11-12 22:53:49 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.68 2012-11-12 23:21:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -1057,7 +1057,7 @@ sub _Replace {
         }
 
         # replace it
-        for ( keys %Recipient ) {
+        for ( sort keys %Recipient ) {
             next if !defined $Recipient{$_};
             $Param{Text} =~ s/$Tag$_$End/$Recipient{$_}/gi;
         }
@@ -1082,7 +1082,7 @@ sub _Replace {
         }
 
         # replace it
-        for ( keys %Owner ) {
+        for ( sort keys %Owner ) {
             next if !defined $Owner{$_};
             $Param{Text} =~ s/$Tag$_$End/$Owner{$_}/gi;
         }
@@ -1110,7 +1110,7 @@ sub _Replace {
         }
 
         # replace it
-        for ( keys %Responsible ) {
+        for ( sort keys %Responsible ) {
             next if !defined $Responsible{$_};
             $Param{Text} =~ s/$Tag$_$End/$Responsible{$_}/gi;
         }
@@ -1137,7 +1137,7 @@ sub _Replace {
     }
 
     # replace it
-    for ( keys %CurrentUser ) {
+    for ( sort keys %CurrentUser ) {
         next if !defined $CurrentUser{$_};
         $Param{Text} =~ s/$Tag$_$End/$CurrentUser{$_}/gi;
         $Param{Text} =~ s/$Tag2$_$End/$CurrentUser{$_}/gi;
@@ -1226,7 +1226,7 @@ sub _Replace {
         next if !defined $Ticket{$_};
         $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
     }
-    for ( keys %DynamicFieldDisplayValues ) {
+    for ( sort keys %DynamicFieldDisplayValues ) {
         next if !defined $DynamicFieldDisplayValues{$_};
         $Param{Text} =~ s/$Tag$_$End/$DynamicFieldDisplayValues{$_}/gi;
     }
@@ -1265,7 +1265,7 @@ sub _Replace {
 
         # replace <OTRS_CUSTOMER_*> tags
         $Tag = $Start . 'OTRS_CUSTOMER_';
-        for ( keys %Data ) {
+        for ( sort keys %Data ) {
             next if !defined $Data{$_};
             $Param{Text} =~ s/$Tag$_$End/$Data{$_}/gi;
         }
@@ -1471,6 +1471,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-11-12 22:53:49 $
+$Revision: 1.68 $ $Date: 2012-11-12 23:21:55 $
 
 =cut
