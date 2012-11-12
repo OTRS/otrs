@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.578 2012-11-12 11:37:13 mh Exp $
+# $Id: Ticket.pm,v 1.579 2012-11-12 13:26:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.578 $) [1];
+$VERSION = qw($Revision: 1.579 $) [1];
 
 =head1 NAME
 
@@ -7996,6 +7996,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.578 $ $Date: 2012-11-12 11:37:13 $
+$Revision: 1.579 $ $Date: 2012-11-12 13:26:39 $
 
 =cut
