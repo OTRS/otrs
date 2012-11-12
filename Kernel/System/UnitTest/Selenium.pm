@@ -1,8 +1,8 @@
 # --
 # Selenium.pm - run frontend tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.10 2010-12-22 11:19:57 mg Exp $
+# $Id: Selenium.pm,v 1.11 2012-11-12 11:52:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 package Kernel::System::UnitTest::Selenium;
 
 use strict;
+use warnings;
 use base qw(WWW::Selenium);
 
 use Kernel::Config;
@@ -247,6 +248,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2010-12-22 11:19:57 $
+$Revision: 1.11 $ $Date: 2012-11-12 11:52:28 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.49 2012-02-27 22:53:37 ep Exp $
+# $Id: AdminAutoResponse.pm,v 1.50 2012-11-12 11:55:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,8 +101,9 @@ sub Run {
 
             # update group
             if (
-                $Self->{AutoResponseObject}
-                ->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+                $Self->{AutoResponseObject}->AutoResponseUpdate(
+                    %GetParam, UserID => $Self->{UserID}
+                )
                 )
             {
                 $Self->_Overview();
