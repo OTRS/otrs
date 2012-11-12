@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.18 2012-11-12 13:15:09 mh Exp $
+# $Id: Debugger.pm,v 1.19 2012-11-12 13:31:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -136,7 +136,7 @@ sub new {
     if ( lc $Self->{CommunicationType} !~ /^(provider|requester)/i ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'CommunicationType is not allowed.'
+            Message  => 'CommunicationType is not allowed.',
         );
         return;
     }
@@ -380,6 +380,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2012-11-12 13:15:09 $
+$Revision: 1.19 $ $Date: 2012-11-12 13:31:29 $
 
 =cut

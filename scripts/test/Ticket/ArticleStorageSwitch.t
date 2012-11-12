@@ -2,7 +2,7 @@
 # ArticleStorageSwitch.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageSwitch.t,v 1.2 2012-11-12 12:26:39 mh Exp $
+# $Id: ArticleStorageSwitch.t,v 1.3 2012-11-12 13:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,7 +121,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                 for my $ID ( sort keys %Index ) {
                     next
                         if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
-                            $Index{$ID}->{Filename};
+                        $Index{$ID}->{Filename};
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},
@@ -159,7 +159,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                 for my $ID ( sort keys %Index ) {
                     next
                         if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
-                            $Index{$ID}->{Filename};
+                        $Index{$ID}->{Filename};
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},

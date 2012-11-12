@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldMultiselect.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldMultiselect.pm,v 1.12 2012-11-12 13:28:49 mh Exp $
+# $Id: AdminDynamicFieldMultiselect.pm,v 1.13 2012-11-12 13:31:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,14 +140,14 @@ sub _AddAction {
                 'The field does not contain only ASCII letters and numbers.';
         }
 
-        # check if name is duplicated
-        my %DynamicFieldsList = %{
-            $Self->{DynamicFieldObject}->DynamicFieldList(
-                Valid      => 0,
-                ResultType => 'HASH',
-                )
-            };
+        # get dynamic field list
+        my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList(
+            Valid      => 0,
+            ResultType => 'HASH',
+        ) || {};
 
+        # check if name is duplicated
+        my %DynamicFieldsList = %{$DynamicFieldsList};
         %DynamicFieldsList = reverse %DynamicFieldsList;
 
         if ( $DynamicFieldsList{ $GetParam{Name} } ) {
@@ -370,14 +370,14 @@ sub _ChangeAction {
                 'The field does not contain only ASCII letters and numbers.';
         }
 
-        # check if name is duplicated
-        my %DynamicFieldsList = %{
-            $Self->{DynamicFieldObject}->DynamicFieldList(
-                Valid      => 0,
-                ResultType => 'HASH',
-                )
-            };
+        # get dynamic field list
+        my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList(
+            Valid      => 0,
+            ResultType => 'HASH',
+        ) || {};
 
+        # check if name is duplicated
+        my %DynamicFieldsList = %{$DynamicFieldsList};
         %DynamicFieldsList = reverse %DynamicFieldsList;
 
         if (

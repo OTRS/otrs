@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.29 2012-11-12 12:26:39 mh Exp $
+# $Id: DynamicField.t,v 1.30 2012-11-12 13:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1635,7 +1635,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
 
     # create a get at the first and the last added fields
     next DYNAMICFIELD if $DynamicFieldID ne $AddedFieldIDs[0]
-            && $DynamicFieldID ne $AddedFieldIDs[-2];
+        && $DynamicFieldID ne $AddedFieldIDs[-2];
 
     my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
         ID     => $DynamicFieldID,

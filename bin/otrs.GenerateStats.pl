@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.16 2012-11-12 12:27:47 mh Exp $
+# $Id: otrs.GenerateStats.pl,v 1.17 2012-11-12 13:33:07 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Long;
 
@@ -217,7 +217,7 @@ my @StatArray = @{
         StatID   => $StatID,
         GetParam => \%GetParam,
         )
-    };
+};
 
 # generate output
 my $TitleArrayRef  = shift(@StatArray);

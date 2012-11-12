@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.30 2012-11-12 12:26:39 mh Exp $
+# $Id: Stats.t,v 1.31 2012-11-12 13:34:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,7 +169,7 @@ my @StatArray = @{
         SumRow => 1,
         SumCol => 1,
     ),
-    };
+};
 
 my @SubStatArray = @{ $StatArray[-1] };
 $Counter = $SubStatArray[-1];
