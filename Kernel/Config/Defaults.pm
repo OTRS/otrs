@@ -2,11 +2,11 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.423 2012-11-12 16:23:58 mh Exp $
+# $Id: Defaults.pm,v 1.424 2012-11-12 17:43:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 #
 #  Note:
@@ -28,7 +28,7 @@ use utf8;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.423 $) [1];
+$VERSION = qw($Revision: 1.424 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -1942,6 +1942,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.423 $ $Date: 2012-11-12 16:23:58 $
+$Revision: 1.424 $ $Date: 2012-11-12 17:43:36 $
 
 =cut
