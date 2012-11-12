@@ -2,7 +2,7 @@
 # TicketHistory.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketHistory.t,v 1.3 2012-11-12 17:51:41 mh Exp $
+# $Id: TicketHistory.t,v 1.4 2012-11-12 21:33:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -216,7 +216,7 @@ for my $Test (@Tests) {
 
                 my $Result = $ReferenceData->{HistoryGet}->[$ResultCount];
                 RESULTENTRY:
-                for my $ResultEntry ( keys %{$Result} ) {
+                for my $ResultEntry ( sort keys %{$Result} ) {
                     next RESULTENTRY if !$Result->{$ResultEntry};
 
                     if ( $ResultEntry eq 'Queue' ) {

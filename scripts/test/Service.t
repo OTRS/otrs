@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.19 2012-11-12 17:51:39 mh Exp $
+# $Id: Service.t,v 1.20 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -613,7 +613,7 @@ for my $Item ( @{$ItemData} ) {
         );
 
         # check service data after creation of the service
-        for my $ServiceAttribute ( keys %{ $Item->{AddGet} } ) {
+        for my $ServiceAttribute ( sort keys %{ $Item->{AddGet} } ) {
             $Self->Is(
                 $ServiceGet{$ServiceAttribute} || '',
                 $Item->{AddGet}->{$ServiceAttribute} || '',
@@ -693,7 +693,7 @@ for my $Item ( @{$ItemData} ) {
         );
 
         # check service data after update
-        for my $ServiceAttribute ( keys %{ $Item->{UpdateGet} } ) {
+        for my $ServiceAttribute ( sort keys %{ $Item->{UpdateGet} } ) {
             $Self->Is(
                 $ServiceGet2{$ServiceAttribute} || '',
                 $Item->{UpdateGet}->{$ServiceAttribute} || '',
@@ -768,7 +768,7 @@ my %ServiceList1 = $ServiceObject->ServiceList(
 my %ServiceList1Org = %ServiceListOriginal;
 
 SERVICEID:
-for my $ServiceID ( keys %ServiceList1Org ) {
+for my $ServiceID ( sort keys %ServiceList1Org ) {
 
     if ( $ServiceList1{$ServiceID} && $ServiceList1Org{$ServiceID} eq $ServiceList1{$ServiceID} ) {
         delete $ServiceList1{$ServiceID};
@@ -809,7 +809,7 @@ my %ServiceList2b = $ServiceObject->ServiceList(
 );
 
 SERVICEID:
-for my $ServiceID ( keys %ServiceList2 ) {
+for my $ServiceID ( sort keys %ServiceList2 ) {
 
     if ( $ServiceList2b{$ServiceID} && $ServiceList2{$ServiceID} eq $ServiceList2b{$ServiceID} ) {
         delete $ServiceList2b{$ServiceID};

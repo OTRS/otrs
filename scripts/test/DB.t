@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.97 2012-11-12 17:51:39 mh Exp $
+# $Id: DB.t,v 1.98 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -978,7 +978,7 @@ for my $TestRef ( @{$LikeTests} ) {
         $Self->True( $Result->{ $Row[0] }, "#4 SELECT ... LIKE ... - $Row[0]" );
         delete $Result->{ $Row[0] };
     }
-    for my $Test ( keys %{$Result} ) {
+    for my $Test ( sort keys %{$Result} ) {
         $Self->False( $Test, "#4 SELECT ... LIKE ... - $Test" );
         delete $Result->{$Test};
     }

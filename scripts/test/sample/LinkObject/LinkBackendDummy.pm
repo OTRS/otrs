@@ -1,8 +1,8 @@
 # --
 # scripts/test/sample/LinkBackendDummy.pm - to link dummy objects
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkBackendDummy.pm,v 1.1 2010-06-12 02:50:31 cr Exp $
+# $Id: LinkBackendDummy.pm,v 1.2 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,11 +66,11 @@ sub LinkListWithData {
         return;
     }
 
-    for my $LinkType ( keys %{ $Param{LinkList} } ) {
+    for my $LinkType ( sort keys %{ $Param{LinkList} } ) {
 
-        for my $Direction ( keys %{ $Param{LinkList}->{$LinkType} } ) {
+        for my $Direction ( sort keys %{ $Param{LinkList}->{$LinkType} } ) {
 
-            for my $DummyID ( keys %{ $Param{LinkList}->{$LinkType}->{$Direction} } ) {
+            for my $DummyID ( sort keys %{ $Param{LinkList}->{$LinkType}->{$Direction} } ) {
 
                 # add dummy data
                 $Param{LinkList}->{$LinkType}->{$Direction}->{$DummyID} = { Dummy => 1 };

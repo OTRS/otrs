@@ -2,7 +2,7 @@
 # ActivityDialogACL.t - ActivityDialog ACL testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialogACL.t,v 1.6 2012-11-12 17:51:40 mh Exp $
+# $Id: ActivityDialogACL.t,v 1.7 2012-11-12 21:34:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -245,7 +245,7 @@ my %NewDynamicFields = (
 );
 
 # Set names to the name + random id as used in the DynamicFields hash keys
-for my $DynamicFieldConfig ( keys %NewDynamicFields ) {
+for my $DynamicFieldConfig ( sort keys %NewDynamicFields ) {
     $NewDynamicFields{$DynamicFieldConfig}{Name} = $DynamicFieldConfig;
 }
 
@@ -255,7 +255,7 @@ my @AddedDynamicFields;
 # ----------------------------------------
 # Create the dynamic fields for testing
 # ----------------------------------------
-for my $NewFieldName ( keys %NewDynamicFields ) {
+for my $NewFieldName ( sort keys %NewDynamicFields ) {
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
         %{ $NewDynamicFields{$NewFieldName} },
@@ -388,7 +388,7 @@ $TestACLs{"00$ACLCounter-ACL-Queue"} = {
 };
 $ACLCounter++;
 DYNAMICFIELDLOOP:
-for my $Fieldname ( keys %NewDynamicFields ) {
+for my $Fieldname ( sort keys %NewDynamicFields ) {
     next DYNAMICFIELDLOOP
         if (
         $NewDynamicFields{$Fieldname}{FieldType}    ne 'Dropdown'
@@ -436,8 +436,7 @@ my $ProcessConfigSub = sub {
         # get a translation hash
         # DynamicField_Fieldname => DynamicField_Fieldname839391ß,
         "DynamicField_$key" => "DynamicField_$_"
-        }
-        ( keys %{$DynamicFields} );
+    } ( sort keys %{$DynamicFields} );
 
     # OrderStatus Provider OrderNumberProvider System
     my $Config = {
@@ -717,12 +716,15 @@ my $ProcessConfigSub = sub {
     # and now we have to replace the config's dynamicfield names
     # with our  generated dynamicfield names
     ACTIVITYLOOP:
-    for my $ActivityDialog ( keys %{ $Config->{'Process::ActivityDialog'} } ) {
+    for my $ActivityDialog ( sort keys %{ $Config->{'Process::ActivityDialog'} } ) {
         @{ $Config->{'Process::ActivityDialog'}{$ActivityDialog}{FieldOrder} } =
             map { (/^DynamicField_/) ? $DynamicFieldsLookup{$_} : $_ }
             @{ $Config->{'Process::ActivityDialog'}{$ActivityDialog}{FieldOrder} };
         FIELDLOOP:
-        for my $Field ( keys %{ $Config->{'Process::ActivityDialog'}{$ActivityDialog}{Fields} } ) {
+        for my $Field (
+            sort keys %{ $Config->{'Process::ActivityDialog'}{$ActivityDialog}{Fields} }
+            )
+        {
             next FIELDLOOP if ( $Field !~ /^DynamicField/ );
 
             # Example:
@@ -739,7 +741,7 @@ my $ProcessConfigSub = sub {
         }
     }
 
-    for my $Key ( keys %{$Config} ) {
+    for my $Key ( sort keys %{$Config} ) {
         $ConfigObject->Set(
             Key   => $Key,
             Value => {},
@@ -783,7 +785,7 @@ for my $Type (qw(Positive Negative)) {
         "TicketCreate() - $Type",
     );
 
-    for my $DynamicFieldConfig ( keys %NewDynamicFields ) {
+    for my $DynamicFieldConfig ( sort keys %NewDynamicFields ) {
         my $Success = $BackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldLookup{$DynamicFieldConfig},
             ObjectID           => $UTConfig{$Type}{Ticket}{ID},
@@ -971,7 +973,7 @@ $Self->IsDeeply(
 );
 
 DYNAMICFIELDLOOP:
-for my $Fieldname ( keys %NewDynamicFields ) {
+for my $Fieldname ( sort keys %NewDynamicFields ) {
 
     # skip the loop if we have no fields with defaultvalues
     next DYNAMICFIELDLOOP
@@ -983,7 +985,7 @@ for my $Fieldname ( keys %NewDynamicFields ) {
     next DYNAMICFIELDLOOP
         if ( !IsHashRefWithData( $NewDynamicFields{$Fieldname}{Config}{PossibleValues} ) );
     my %DynamicFieldData = map { $_ => $CheckDataWithoutTicket{Positive}{$_} }
-        grep { $_ =~ /DynamicField/ } ( keys %{ $CheckDataWithoutTicket{Positive} } );
+        grep { $_ =~ /DynamicField/ } ( sort keys %{ $CheckDataWithoutTicket{Positive} } );
 
     my $ACL = $TicketObject->TicketAcl(
         %{ $CheckDataWithoutTicket{Positive} },

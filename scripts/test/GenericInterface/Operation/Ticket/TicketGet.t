@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.22 2012-11-12 17:51:40 mh Exp $
+# $Id: TicketGet.t,v 1.23 2012-11-12 21:32:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -291,7 +291,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet One ID $TicketID1",
 );
 
-for my $Key ( keys %TicketEntryOne ) {
+for my $Key ( sort keys %TicketEntryOne ) {
     if ( !$TicketEntryOne{$Key} ) {
         $TicketEntryOne{$Key} = '';
     }
@@ -313,7 +313,7 @@ $Self->True(
     "TicketGet() successful with DF for Local TicketGet One ID $TicketID1",
 );
 
-for my $Key ( keys %TicketEntryOneDF ) {
+for my $Key ( sort keys %TicketEntryOneDF ) {
     if ( !$TicketEntryOneDF{$Key} ) {
         $TicketEntryOneDF{$Key} = '';
     }
@@ -397,7 +397,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Two ID $TicketID2",
 );
 
-for my $Key ( keys %TicketEntryTwo ) {
+for my $Key ( sort keys %TicketEntryTwo ) {
     if ( !$TicketEntryTwo{$Key} ) {
         $TicketEntryTwo{$Key} = '';
     }
@@ -419,7 +419,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Two ID $TicketID2",
 );
 
-for my $Key ( keys %TicketEntryTwoDF ) {
+for my $Key ( sort keys %TicketEntryTwoDF ) {
     if ( !$TicketEntryTwoDF{$Key} ) {
         $TicketEntryTwoDF{$Key} = '';
     }
@@ -462,7 +462,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Three ID $TicketID3",
 );
 
-for my $Key ( keys %TicketEntryThree ) {
+for my $Key ( sort keys %TicketEntryThree ) {
     if ( !$TicketEntryThree{$Key} ) {
         $TicketEntryThree{$Key} = '';
     }
@@ -539,7 +539,7 @@ my @ArticleWithoutAttachments = $TicketObject->ArticleGet(
 
 for my $Article (@ArticleWithoutAttachments) {
 
-    for my $Key ( keys %{$Article} ) {
+    for my $Key ( sort keys %{$Article} ) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
@@ -579,7 +579,7 @@ my @ArticleBox = $TicketObject->ArticleGet(
 ARTICLE:
 for my $Article (@ArticleBox) {
 
-    for my $Key ( keys %{$Article} ) {
+    for my $Key ( sort keys %{$Article} ) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
@@ -602,7 +602,7 @@ for my $Article (@ArticleBox) {
 
     my @Attachments;
     ATTACHMENT:
-    for my $FileID ( keys %AtmIndex ) {
+    for my $FileID ( sort keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
         my %Attachment = $TicketObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},
@@ -637,7 +637,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Four ID $TicketID4",
 );
 
-for my $Key ( keys %TicketEntryFour ) {
+for my $Key ( sort keys %TicketEntryFour ) {
     if ( !$TicketEntryFour{$Key} ) {
         $TicketEntryFour{$Key} = '';
     }
@@ -1186,7 +1186,7 @@ for my $Test (@Tests) {
 
         if ( ref $LocalResult->{Data}->{Ticket} eq 'ARRAY' ) {
             for my $Item ( @{ $LocalResult->{Data}->{Ticket} } ) {
-                for my $Key ( keys %{$Item} ) {
+                for my $Key ( sort keys %{$Item} ) {
                     if ( !$Item->{$Key} ) {
                         $Item->{$Key} = '';
                     }
@@ -1198,7 +1198,7 @@ for my $Test (@Tests) {
                 # Articles
                 if ( defined $Item->{Article} ) {
                     for my $Article ( @{ $Item->{Article} } ) {
-                        for my $Key ( keys %{$Article} ) {
+                        for my $Key ( sort keys %{$Article} ) {
                             if ( !$Article->{$Key} ) {
                                 $Article->{$Key} = '';
                             }
@@ -1226,7 +1226,7 @@ for my $Test (@Tests) {
         {
             if ( ref $RequesterResult->{Data}->{Ticket} eq 'ARRAY' ) {
                 for my $Item ( @{ $RequesterResult->{Data}->{Ticket} } ) {
-                    for my $Key ( keys %{$Item} ) {
+                    for my $Key ( sort keys %{$Item} ) {
                         if ( !$Item->{$Key} ) {
                             $Item->{$Key} = '';
                         }
@@ -1237,7 +1237,7 @@ for my $Test (@Tests) {
                 }
             }
             elsif ( ref $RequesterResult->{Data}->{Ticket} eq 'HASH' ) {
-                for my $Key ( keys %{ $RequesterResult->{Data}->{Ticket} } ) {
+                for my $Key ( sort keys %{ $RequesterResult->{Data}->{Ticket} } ) {
                     if ( !$RequesterResult->{Data}->{Ticket}->{$Key} ) {
                         $RequesterResult->{Data}->{Ticket}->{$Key} = '';
                     }
@@ -1249,7 +1249,7 @@ for my $Test (@Tests) {
                 # Articles
                 if ( defined $RequesterResult->{Data}->{Ticket}->{Article} ) {
                     for my $Article ( @{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
-                        for my $Key ( keys %{$Article} ) {
+                        for my $Key ( sort keys %{$Article} ) {
                             if ( !$Article->{$Key} ) {
                                 $Article->{$Key} = '';
                             }

@@ -2,7 +2,7 @@
 # StandardResponse.t - StandardResponse tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StandardResponse.t,v 1.5 2012-11-12 17:51:39 mh Exp $
+# $Id: StandardResponse.t,v 1.6 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@ for my $Test (@Tests) {
     my %Data = $StandardResponseObject->StandardResponseGet(
         ID => $ID,
     );
-    for my $Key ( keys %{ $Test->{AddGet} } ) {
+    for my $Key ( sort keys %{ $Test->{AddGet} } ) {
         $Self->Is(
             $Test->{AddGet}->{$Key},
             $Data{$Key},
@@ -109,7 +109,7 @@ for my $Test (@Tests) {
     %Data = $StandardResponseObject->StandardResponseGet(
         ID => $ID,
     );
-    for my $Key ( keys %{ $Test->{UpdateGet} } ) {
+    for my $Key ( sort keys %{ $Test->{UpdateGet} } ) {
         $Self->Is(
             $Test->{UpdateGet}->{$Key},
             $Data{$Key},

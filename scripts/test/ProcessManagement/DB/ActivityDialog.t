@@ -2,7 +2,7 @@
 # ActivityDialog.t - ProcessManagement DB activity dialog tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.t,v 1.2 2012-11-12 17:51:40 mh Exp $
+# $Id: ActivityDialog.t,v 1.3 2012-11-12 21:34:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -815,7 +815,7 @@ $Self->IsNotDeeply(
 );
 
 # delete original ActivityDialogs
-for my $ActivityDialogID ( keys %{$OriginalActivityDialogList} ) {
+for my $ActivityDialogID ( sort keys %{$OriginalActivityDialogList} ) {
     delete $TestActivityDialogList->{$ActivityDialogID};
 }
 

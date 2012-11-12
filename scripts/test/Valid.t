@@ -2,7 +2,7 @@
 # Valid.t - valid module tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.t,v 1.4 2012-11-12 17:51:39 mh Exp $
+# $Id: Valid.t,v 1.5 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ for my $ValidID (@ValidIDsList) {
 
 # makes sure that all ValidIDs in the array are also in the hash containing all IDs
 $Counter = 0;
-for my $ValidIDKey ( keys %ValidList ) {
+for my $ValidIDKey ( sort keys %ValidList ) {
     my $Number = scalar grep /^\Q$ValidIDKey\E$/, @ValidIDsList;
     $Counter++;
     if ( $ValidList{$ValidIDKey} eq 'valid' ) {

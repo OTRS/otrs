@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.105 2012-11-12 17:51:39 mh Exp $
+# $Id: Ticket.t,v 1.106 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1662,7 +1662,7 @@ my %StateTypeList = $StateObject->StateTypeList(
 # you need a hash with the state as key and the related StateType and StateTypeID as
 # reference
 my %StateAsKeyAndStateTypeAsValue;
-for my $StateTypeID ( keys %StateTypeList ) {
+for my $StateTypeID ( sort keys %StateTypeList ) {
     my @List = $StateObject->StateGetStatesByType(
         StateType => [ $StateTypeList{$StateTypeID} ],
         Result    => 'Name',                             # HASH|ID|Name

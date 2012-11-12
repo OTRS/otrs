@@ -3,7 +3,7 @@
 # bin/otrs.PostMasterMailbox.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMasterMailbox.pl,v 1.8 2012-11-12 17:53:04 mh Exp $
+# $Id: otrs.PostMasterMailbox.pl,v 1.9 2012-11-12 21:40:13 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 
@@ -177,7 +177,7 @@ sub Fetch {
     }
     else {
         my %List = $MailAccount->MailAccountList( Valid => 1 );
-        for my $Key ( keys %List ) {
+        for my $Key ( sort keys %List ) {
             my %Data = $MailAccount->MailAccountGet( ID => $Key );
             $MailAccount->MailAccountFetch(
                 %Data,

@@ -3,7 +3,7 @@
 # bin/otrs.AddQueue.pl - Add Queue from CLI
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddQueue.pl,v 1.9 2012-11-12 17:53:04 mh Exp $
+# $Id: otrs.AddQueue.pl,v 1.10 2012-11-12 21:40:13 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -96,7 +96,7 @@ if ( $Opts{S} ) {
         Valid => 1
     );
     ADDRESS:
-    for my $ID ( keys %SystemAddressList ) {
+    for my $ID ( sort keys %SystemAddressList ) {
         my %SystemAddressInfo = $CommonObject{SystemAddressObject}->SystemAddressGet(
             ID => $ID
         );

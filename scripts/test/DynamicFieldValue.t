@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.16 2012-05-30 11:31:51 mg Exp $
+# $Id: DynamicFieldValue.t,v 1.17 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -390,7 +390,7 @@ for my $Test (@Tests) {
             "ValueGet() after ValueSet() - Test $Test->{Name} - with True",
         );
 
-        for my $ValueKey ( keys %{ $Test->{Value}->[0] } ) {
+        for my $ValueKey ( sort keys %{ $Test->{Value}->[0] } ) {
 
             # workaround for oracle
             # oracle databases can't determine the difference between NULL and ''

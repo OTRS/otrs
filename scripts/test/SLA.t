@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.13 2012-11-12 17:51:39 mh Exp $
+# $Id: SLA.t,v 1.14 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -654,7 +654,7 @@ for my $Item ( @{$ItemData} ) {
         $Data::Dumper::Indent = 0;
 
         # check sla data after creation of the sla
-        for my $SLAAttribute ( keys %{ $Item->{AddGet} } ) {
+        for my $SLAAttribute ( sort keys %{ $Item->{AddGet} } ) {
 
             # dump the given attribute
             if ( ref $SLAGet{$SLAAttribute} ) {
@@ -713,7 +713,7 @@ for my $Item ( @{$ItemData} ) {
         );
 
         # check sla data after update
-        for my $SLAAttribute ( keys %{ $Item->{UpdateGet} } ) {
+        for my $SLAAttribute ( sort keys %{ $Item->{UpdateGet} } ) {
 
             # dump the given attribute
             if ( ref $SLAGet2{$SLAAttribute} ) {
@@ -769,7 +769,7 @@ my %SLAList1 = $SLAObject->SLAList(
 my %SLAList1Org = %SLAListOriginal;
 
 SERVICEID:
-for my $SLAID ( keys %SLAList1Org ) {
+for my $SLAID ( sort keys %SLAList1Org ) {
 
     if ( $SLAList1{$SLAID} && $SLAList1Org{$SLAID} eq $SLAList1{$SLAID} ) {
         delete $SLAList1{$SLAID};

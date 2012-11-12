@@ -2,7 +2,7 @@
 # SysConfig.t - SysConfig tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.14 2012-11-12 17:51:39 mh Exp $
+# $Id: SysConfig.t,v 1.15 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@ for my $Test (@Tests) {
     );
 
     # Force a reload of ZZZAuto.pm to get the new value
-    for my $Module ( keys %INC ) {
+    for my $Module ( sort keys %INC ) {
         if ( $Module =~ m/ZZZAuto\.pm$/ ) {
             delete $INC{$Module};
         }

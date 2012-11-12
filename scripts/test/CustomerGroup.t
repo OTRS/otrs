@@ -2,7 +2,7 @@
 # CustomerGroup.t - Customer Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.t,v 1.5 2012-11-12 17:51:39 mh Exp $
+# $Id: CustomerGroup.t,v 1.6 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -176,7 +176,7 @@ for my $Test (@Tests) {
 
         # create permission string
         my @Permissions;
-        for my $Permission ( keys %{ $Test->{Config}->{Permission} } ) {
+        for my $Permission ( sort keys %{ $Test->{Config}->{Permission} } ) {
             next if !$Test->{Config}->{Permission}->{$Permission};
 
             push @Permissions, $Permission;
@@ -188,7 +188,7 @@ for my $Test (@Tests) {
             "GroupMemberAdd() Test: $Test->{Name} - User: $Test->{Config}->{UID}, Group: $Test->{Config}->{GID}, Permissions:[$PermissionsStrg] with true",
         );
 
-        for my $Permission ( keys %{ $Test->{Config}->{Permission} } ) {
+        for my $Permission ( sort keys %{ $Test->{Config}->{Permission} } ) {
             next if !$Test->{Config}->{Permission}->{$Permission};
 
             # check cache internal is empty

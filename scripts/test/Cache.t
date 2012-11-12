@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.28 2012-11-12 17:51:39 mh Exp $
+# $Id: Cache.t,v 1.29 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -422,7 +422,7 @@ for my $Module (qw(FileStorable)) {
             );
 
             TYPE:
-            for my $Type ( keys %CacheTests1 ) {
+            for my $Type ( sort keys %CacheTests1 ) {
 
                 # set cache
                 my $CacheSet = $CacheObject->Set(
@@ -443,7 +443,7 @@ for my $Module (qw(FileStorable)) {
             }
 
             TYPE:
-            for my $Type ( keys %CacheTests2 ) {
+            for my $Type ( sort keys %CacheTests2 ) {
 
                 # set cache
                 my $CacheSet = $CacheObject->Set(
@@ -479,7 +479,7 @@ for my $Module (qw(FileStorable)) {
                 );
 
                 # unset all values of CacheTestLong1
-                for my $Key ( keys %{ $KeyList{1} } ) {
+                for my $Key ( sort keys %{ $KeyList{1} } ) {
                     $KeyList{1}->{$Key} = '';
                 }
             }
@@ -496,14 +496,14 @@ for my $Module (qw(FileStorable)) {
                 );
 
                 # unset all values of CacheTestLong2
-                for my $Key ( keys %{ $KeyList{2} } ) {
+                for my $Key ( sort keys %{ $KeyList{2} } ) {
                     $KeyList{2}->{$Key} = '';
                 }
             }
 
             for my $Count ( sort keys %KeyList ) {
 
-                for my $Key ( keys %{ $KeyList{$Count} } ) {
+                for my $Key ( sort keys %{ $KeyList{$Count} } ) {
 
                     # extract cache item
                     my $CacheItem = $KeyList{$Count}->{$Key};

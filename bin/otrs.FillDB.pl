@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.16 2012-11-12 13:04:48 mh Exp $
+# $Id: otrs.FillDB.pl,v 1.17 2012-11-12 21:40:13 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Std;
 
@@ -315,7 +315,7 @@ EOF
             UserID  => 1,
         );
         my @StateList = ();
-        for ( keys %States ) {
+        for ( sort keys %States ) {
             push( @StateList, $_ );
         }
         my %Priorities = $CommonObjects->{TicketObject}->PriorityList(
@@ -323,7 +323,7 @@ EOF
             UserID  => 1,
         );
         my @PriorityList = ();
-        for ( keys %Priorities ) {
+        for ( sort keys %Priorities ) {
             push( @PriorityList, $_ );
         }
 
@@ -534,7 +534,7 @@ sub QueueGet {
 
     my @QueueIDs = ();
     my %Queues   = $CommonObjects->{QueueObject}->GetAllQueues();
-    for ( keys %Queues ) {
+    for ( sort keys %Queues ) {
         push @QueueIDs, $_;
     }
     return @QueueIDs;
@@ -578,7 +578,7 @@ sub GroupGet {
 
     my @GroupIDs = ();
     my %Groups = $CommonObjects->{GroupObject}->GroupList( Valid => 1 );
-    for ( keys %Groups ) {
+    for ( sort keys %Groups ) {
         push @GroupIDs, $_;
     }
     return @GroupIDs;
@@ -627,7 +627,7 @@ sub UserGet {
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );
-    for ( keys %Users ) {
+    for ( sort keys %Users ) {
         push @UserIDs, $_;
     }
     return @UserIDs;

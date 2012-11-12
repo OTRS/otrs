@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.21 2012-11-12 17:51:39 mh Exp $
+# $Id: LinkObject.t,v 1.22 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -505,7 +505,7 @@ for my $Test ( @{$TypeData} ) {
         }
 
         # check type data
-        for my $Attribute ( keys %{ $Test->{ReferenceData}->{TypeGet} } ) {
+        for my $Attribute ( sort keys %{ $Test->{ReferenceData}->{TypeGet} } ) {
             $Self->Is(
                 $TypeGet{$Attribute},
                 $Test->{ReferenceData}->{TypeGet}->{$Attribute},
@@ -594,7 +594,7 @@ for my $Valid ( 0 .. 1 ) {
     );
 
     # check all state ids
-    for my $StateID ( keys %StateList ) {
+    for my $StateID ( sort keys %StateList ) {
 
         # check if value is valid
         $Self->True(
@@ -855,7 +855,7 @@ $Self->Is(
     "Test $TestCount: PossibleLinkList() - same number of elements",
 );
 
-for my $PossibleLink ( keys %PossibleLinkList ) {
+for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
     # check if setting name is the same as in reference data
     $Self->True(
@@ -864,7 +864,7 @@ for my $PossibleLink ( keys %PossibleLinkList ) {
     );
 
     # check setting data
-    for my $Attribute ( keys %{ $PossibleLinkList{$PossibleLink} } ) {
+    for my $Attribute ( sort keys %{ $PossibleLinkList{$PossibleLink} } ) {
         $Self->Is(
             $PossibleLinkList{$PossibleLink}->{$Attribute},
             $PossibleLinksReference{$PossibleLink}->{$Attribute},
@@ -1102,7 +1102,7 @@ for my $Test ( @{$PossibleObjectsReference} ) {
         my %ObjectsReference = map { $_ => 1 } @{ $Test->{ReferenceData} };
 
         # compare if all elements of both lists are the same
-        for my $PossibleObject ( keys %PossibleObjectsList ) {
+        for my $PossibleObject ( sort keys %PossibleObjectsList ) {
             $Self->True(
                 $ObjectsReference{$PossibleObject},
                 "Test $TestCount: PossibleObjectsList() - check values - $PossibleObject",
@@ -1374,7 +1374,7 @@ for my $Test ( @{$PossibleTypesReference} ) {
         my %TypesReference = map { $_ => 1 } @{ $Test->{ReferenceData} };
 
         # compare if all elements of both lists are the same
-        for my $PossibleType ( keys %PossibleTypesList ) {
+        for my $PossibleType ( sort keys %PossibleTypesList ) {
             $Self->True(
                 $TypesReference{$PossibleType},
                 "Test $TestCount: PossibleTypesList() - check values - $PossibleType",
@@ -1494,7 +1494,7 @@ $Self->Is(
 );
 
 TYPEGROUP:
-for my $TypeGroup ( keys %TypeGroupReference ) {
+for my $TypeGroup ( sort keys %TypeGroupReference ) {
 
     # check if setting names are identical
     $Self->True(

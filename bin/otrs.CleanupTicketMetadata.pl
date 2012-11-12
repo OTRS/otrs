@@ -3,7 +3,7 @@
 # bin/otrs.CleanupTicketMetadata.pl - remove unneeded ticket meta data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanupTicketMetadata.pl,v 1.6 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.CleanupTicketMetadata.pl,v 1.7 2012-11-12 21:40:13 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Long;
 
@@ -243,7 +243,7 @@ sub CleanupInvalidUsers {
     my %AllUsers = $CommonObject->{UserObject}->UserList( Valid => 0 );
     my @CleanupInvalidUsers;
     USERID:
-    for my $UserID ( keys %AllUsers ) {
+    for my $UserID ( sort keys %AllUsers ) {
         my %User = $CommonObject->{UserObject}->GetUserData( UserID => $UserID );
 
         # Only take invalid users

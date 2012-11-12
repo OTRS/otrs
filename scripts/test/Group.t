@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.21 2012-11-12 17:51:39 mh Exp $
+# $Id: Group.t,v 1.22 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -514,7 +514,7 @@ my %MemberList1 = $GroupObject->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList1 = 1;
-for ( keys %MemberList1 ) {
+for ( sort keys %MemberList1 ) {
     if ( $_ ne $GroupID1 ) {
         $GroupMemberList1 = 0;
     }
@@ -531,7 +531,7 @@ $Self->True(
     Result => 'HASH',
 );
 $GroupMemberList1 = 1;
-for ( keys %MemberList1 ) {
+for ( sort keys %MemberList1 ) {
     if ( $_ ne $GroupID1 ) {
         $GroupMemberList1 = 0;
     }
@@ -548,7 +548,7 @@ my %MemberList2 = $GroupObject->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList2 = 1;
-for ( keys %MemberList2 ) {
+for ( sort keys %MemberList2 ) {
     if ( $_ ne $GroupID1 && $_ ne $GroupID3 ) {
         $GroupMemberList2 = 0;
     }
@@ -568,7 +568,7 @@ my %MemberList3 = $GroupObject->GroupMemberList(
     Result => 'HASH',
 );
 my $GroupMemberList3 = 1;
-for ( keys %MemberList3 ) {
+for ( sort keys %MemberList3 ) {
     if ( $_ ne $GroupID2 && $_ ne $GroupID3 ) {
         $GroupMemberList3 = 0;
     }
@@ -588,7 +588,7 @@ my %MemberList4 = $GroupObject->GroupMemberList(
     Result  => 'HASH',
 );
 my $GroupMemberList4 = 1;
-for ( keys %MemberList4 ) {
+for ( sort keys %MemberList4 ) {
     if ( $_ ne $UserID1 && $_ ne $UserID2 ) {
         $GroupMemberList4 = 0;
     }
@@ -608,7 +608,7 @@ my %MemberList5 = $GroupObject->GroupMemberList(
     Result  => 'HASH',
 );
 my $GroupMemberList5 = 1;
-for ( keys %MemberList5 ) {
+for ( sort keys %MemberList5 ) {
     if ( $_ ne $UserID3 ) {
         $GroupMemberList5 = 0;
     }
@@ -625,7 +625,7 @@ my %MemberList6 = $GroupObject->GroupMemberList(
     Result  => 'HASH',
 );
 my $GroupMemberList6 = 1;
-for ( keys %MemberList6 ) {
+for ( sort keys %MemberList6 ) {
     if ( $_ ne $UserID2 && $_ ne $UserID3 ) {
         $GroupMemberList6 = 0;
     }
@@ -644,7 +644,7 @@ my %InvolvedList1 = $GroupObject->GroupMemberInvolvedList(
     Type   => 'ro',
 );
 my $GroupMemberInvolvedList1 = 1;
-for ( keys %InvolvedList1 ) {
+for ( sort keys %InvolvedList1 ) {
     if ( $_ ne $UserID1 && $_ ne $UserID2 ) {
         $GroupMemberInvolvedList1 = 0;
     }
@@ -660,7 +660,7 @@ my %InvolvedList2 = $GroupObject->GroupMemberInvolvedList(
     Type   => 'ro',
 );
 my $GroupMemberInvolvedList2 = 1;
-for ( keys %InvolvedList2 ) {
+for ( sort keys %InvolvedList2 ) {
     if ( $_ ne $UserID1 && $_ ne $UserID2 && $_ ne $UserID3 ) {
         $GroupMemberInvolvedList2 = 0;
     }
@@ -676,7 +676,7 @@ my %InvolvedList3 = $GroupObject->GroupMemberInvolvedList(
     Type   => 'ro',
 );
 my $GroupMemberInvolvedList3 = 1;
-for ( keys %InvolvedList3 ) {
+for ( sort keys %InvolvedList3 ) {
     if ( $_ ne $UserID2 && $_ ne $UserID3 ) {
         $GroupMemberInvolvedList3 = 0;
     }

@@ -2,7 +2,7 @@
 # Process.t - Process module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.5 2012-11-12 17:51:40 mh Exp $
+# $Id: Process.t,v 1.6 2012-11-12 21:34:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1676,7 +1676,7 @@ for my $Test (@Tests) {
 
         # Set Config
         if ( IsHashRefWithData( $Test->{ProcessTransition}{Config} ) ) {
-            for my $Config ( keys %{ $Test->{ProcessTransition}{Config} } ) {
+            for my $Config ( sort keys %{ $Test->{ProcessTransition}{Config} } ) {
                 $ConfigObject->Set(
                     Key   => $Config,
                     Value => {},
@@ -1750,7 +1750,7 @@ for my $Test (@Tests) {
 
         # Set Config
         if ( IsHashRefWithData( $Test->{ProcessTicketProcessSet}{Config} ) ) {
-            for my $Config ( keys %{ $Test->{ProcessTicketProcessSet}{Config} } ) {
+            for my $Config ( sort keys %{ $Test->{ProcessTicketProcessSet}{Config} } ) {
                 $ConfigObject->Set(
                     Key   => $Config,
                     Value => {},
@@ -1815,7 +1815,7 @@ for my $Test (@Tests) {
 
         # Set Config
         if ( IsHashRefWithData( $Test->{ProcessTicketActivitySet}{Config} ) ) {
-            for my $Config ( keys %{ $Test->{ProcessTicketActivitySet}{Config} } ) {
+            for my $Config ( sort keys %{ $Test->{ProcessTicketActivitySet}{Config} } ) {
                 $ConfigObject->Set(
                     Key   => $Config,
                     Value => {},
@@ -1880,7 +1880,7 @@ for my $Test (@Tests) {
 
         # Set Config
         if ( IsHashRefWithData( $Test->{ProcessList}{Config} ) ) {
-            for my $Config ( keys %{ $Test->{ProcessList}{Config} } ) {
+            for my $Config ( sort keys %{ $Test->{ProcessList}{Config} } ) {
                 $ConfigObject->Set(
                     Key   => $Config,
                     Value => {},
@@ -1954,7 +1954,7 @@ for my $Test (@Tests) {
 
         # Set Config
         if ( IsHashRefWithData( $Test->{ProcessGet}{Config} ) ) {
-            for my $Config ( keys %{ $Test->{ProcessGet}{Config} } ) {
+            for my $Config ( sort keys %{ $Test->{ProcessGet}{Config} } ) {
                 $ConfigObject->Set(
                     Key   => $Config,
                     Value => {},
@@ -2028,7 +2028,7 @@ for my $Test (@Tests) {
 
         # Set Config
         if ( IsHashRefWithData( $Test->{ProcessStartpointGet}{Config} ) ) {
-            for my $Config ( keys %{ $Test->{ProcessStartpointGet}{Config} } ) {
+            for my $Config ( sort keys %{ $Test->{ProcessStartpointGet}{Config} } ) {
                 $ConfigObject->Set(
                     Key   => $Config,
                     Value => {},

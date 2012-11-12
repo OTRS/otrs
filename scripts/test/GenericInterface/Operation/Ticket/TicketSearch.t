@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.26 2012-11-12 17:51:40 mh Exp $
+# $Id: TicketSearch.t,v 1.27 2012-11-12 21:32:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -350,7 +350,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet One ID $TicketID1",
 );
 
-for my $Key ( keys %TicketEntryOne ) {
+for my $Key ( sort keys %TicketEntryOne ) {
     if ( !$TicketEntryOne{$Key} ) {
         $TicketEntryOne{$Key} = '';
     }
@@ -372,7 +372,7 @@ $Self->True(
     "TicketGet() successful with DF for Local TicketGet One ID $TicketID1",
 );
 
-for my $Key ( keys %TicketEntryOneDF ) {
+for my $Key ( sort keys %TicketEntryOneDF ) {
     if ( !$TicketEntryOneDF{$Key} ) {
         $TicketEntryOneDF{$Key} = '';
     }
@@ -456,7 +456,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Two ID $TicketID2",
 );
 
-for my $Key ( keys %TicketEntryTwo ) {
+for my $Key ( sort keys %TicketEntryTwo ) {
     if ( !$TicketEntryTwo{$Key} ) {
         $TicketEntryTwo{$Key} = '';
     }
@@ -478,7 +478,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Two ID $TicketID2",
 );
 
-for my $Key ( keys %TicketEntryTwoDF ) {
+for my $Key ( sort keys %TicketEntryTwoDF ) {
     if ( !$TicketEntryTwoDF{$Key} ) {
         $TicketEntryTwoDF{$Key} = '';
     }
@@ -522,7 +522,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Three ID $TicketID3",
 );
 
-for my $Key ( keys %TicketEntryThree ) {
+for my $Key ( sort keys %TicketEntryThree ) {
     if ( !$TicketEntryThree{$Key} ) {
         $TicketEntryThree{$Key} = '';
     }
@@ -599,7 +599,7 @@ my @ArticleWithoutAttachments = $TicketObject->ArticleGet(
 
 for my $Article (@ArticleWithoutAttachments) {
 
-    for my $Key ( keys %{$Article} ) {
+    for my $Key ( sort keys %{$Article} ) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
@@ -639,7 +639,7 @@ my @ArticleBox = $TicketObject->ArticleGet(
 ARTICLE:
 for my $Article (@ArticleBox) {
 
-    for my $Key ( keys %{$Article} ) {
+    for my $Key ( sort keys %{$Article} ) {
         if ( !$Article->{$Key} ) {
             $Article->{$Key} = '';
         }
@@ -662,7 +662,7 @@ for my $Article (@ArticleBox) {
 
     my @Attachments;
     ATTACHMENT:
-    for my $FileID ( keys %AtmIndex ) {
+    for my $FileID ( sort keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
         my %Attachment = $TicketObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},
@@ -697,7 +697,7 @@ $Self->True(
     "TicketGet() successful for Local TicketGet Four ID $TicketID4",
 );
 
-for my $Key ( keys %TicketEntryFour ) {
+for my $Key ( sort keys %TicketEntryFour ) {
     if ( !$TicketEntryFour{$Key} ) {
         $TicketEntryFour{$Key} = '';
     }

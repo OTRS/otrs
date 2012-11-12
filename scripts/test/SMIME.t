@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.40 2012-11-12 17:51:39 mh Exp $
+# $Id: SMIME.t,v 1.41 2012-11-12 21:35:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -282,7 +282,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count CertificateSearch()",
     );
 
-    for my $ID ( keys %{ $Check{$Count} } ) {
+    for my $ID ( sort keys %{ $Check{$Count} } ) {
         $Self->Is(
             $Certs[0]->{$ID} || '',
             $Check{$Count}->{$ID},

@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.29 2012-11-12 17:51:39 mh Exp $
+# $Id: backup.pl,v 1.30 2012-11-12 21:36:21 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -155,7 +155,7 @@ if ( $Opts{r} ) {
 
     for my $Directory (@Directories) {
         my $Leave = 0;
-        for my $Data ( keys %LeaveBackups ) {
+        for my $Data ( sort keys %LeaveBackups ) {
             if ( $Directory =~ m/$Data/ ) {
                 $Leave = 1;
             }

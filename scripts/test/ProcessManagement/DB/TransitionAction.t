@@ -2,7 +2,7 @@
 # TransitionAction.t - ProcessManagement DB TransitionAction tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TransitionAction.t,v 1.3 2012-11-12 17:51:40 mh Exp $
+# $Id: TransitionAction.t,v 1.4 2012-11-12 21:34:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -722,7 +722,7 @@ $Self->IsNotDeeply(
 );
 
 # delete original TransitionActions
-for my $TransitionActionID ( keys %{$OriginalTransitionActionList} ) {
+for my $TransitionActionID ( sort keys %{$OriginalTransitionActionList} ) {
     delete $TestTransitionActionList->{$TransitionActionID};
 }
 

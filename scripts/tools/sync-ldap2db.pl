@@ -3,7 +3,7 @@
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: sync-ldap2db.pl,v 1.12 2012-11-12 17:51:41 mh Exp $
+# $Id: sync-ldap2db.pl,v 1.13 2012-11-12 21:36:21 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Net::LDAP;
 use Kernel::Config;
@@ -129,7 +129,7 @@ for (qw(0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z)
             else {
                 $Type = 'UPDATE';
             }
-            for ( keys %Map ) {
+            for ( sort keys %Map ) {
                 my $Value = $CommonObject{DBObject}->Quote(
                     _ConvertTo( $entry->get_value( $Map{$_} ) ) || ''
                 );

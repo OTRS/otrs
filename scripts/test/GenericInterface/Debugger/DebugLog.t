@@ -2,7 +2,7 @@
 # DebugLog.t - DebugLog tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.t,v 1.4 2012-11-12 17:51:39 mh Exp $
+# $Id: DebugLog.t,v 1.5 2012-11-12 21:32:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -224,7 +224,7 @@ KEY:
 for my $Test (@Tests) {
 
     my $ErrorFlag = 1;
-    for my $DataTest ( keys %{ $Test->{ArrayData} } ) {
+    for my $DataTest ( sort keys %{ $Test->{ArrayData} } ) {
         my $DebugLogResult = $DebugLogObject->LogAdd(
             %{ $Test->{Config} },
             Data => $Test->{ArrayData}->{$DataTest},
@@ -331,7 +331,7 @@ for my $Test (@Tests) {
     );
 
     my $Counter = 0;
-    for my $DataTest ( keys %{ $Test->{ArrayData} } ) {
+    for my $DataTest ( sort keys %{ $Test->{ArrayData} } ) {
         my $AuxData       = $Test->{ArrayData}->{$DataTest};
         my $AuxSummary    = $Test->{Config}->{Summary};
         my $AuxDebugLevel = $Test->{Config}->{DebugLevel};
@@ -427,7 +427,7 @@ for my $Test (@Tests) {
         );
 
         $Counter = 0;
-        for my $DataTest ( keys %{ $Test->{ArrayData} } ) {
+        for my $DataTest ( sort keys %{ $Test->{ArrayData} } ) {
             my $AuxData       = $Test->{ArrayData}->{$DataTest};
             my $AuxSummary    = $Test->{Config}->{Summary};
             my $AuxDebugLevel = $Test->{Config}->{DebugLevel};

@@ -2,7 +2,7 @@
 # DynamicFieldSet.t - DynamicFieldSet testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldSet.t,v 1.3 2012-11-12 17:51:41 mh Exp $
+# $Id: DynamicFieldSet.t,v 1.4 2012-11-12 21:34:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -289,7 +289,7 @@ for my $Test (@Tests) {
         );
 
         ATTRIBUTE:
-        for my $Attribute ( keys %{ $Test->{Config}->{Config} } ) {
+        for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
             $Self->True(
                 defined $Ticket{ 'DynamicField_' . $Attribute },
