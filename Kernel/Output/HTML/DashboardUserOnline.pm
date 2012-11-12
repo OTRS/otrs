@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.23 2012-11-12 13:28:49 mh Exp $
+# $Id: DashboardUserOnline.pm,v 1.24 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,7 +180,7 @@ sub Run {
             next SESSIONID if !$Data{UserLastRequest};
             next SESSIONID
                 if $Data{UserLastRequest} + ( $IdleMinutes * 60 )
-                    < $Self->{TimeObject}->SystemTime();
+                < $Self->{TimeObject}->SystemTime();
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};

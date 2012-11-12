@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.579 2012-11-12 13:26:39 mh Exp $
+# $Id: Ticket.pm,v 1.580 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.579 $) [1];
+$VERSION = qw($Revision: 1.580 $) [1];
 
 =head1 NAME
 
@@ -6205,7 +6205,7 @@ sub TicketAcl {
         next TICKETATTRIBUTE if !$Checks{Ticket}->{$TicketAttribute};
         next TICKETATTRIBUTE if
             ref $Checks{Ticket}->{$TicketAttribute} eq 'ARRAY'
-                && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
+            && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
 
         # compare if data is different and skip on same data
         if ( $Checks{DynamicField}->{$TicketAttribute} ) {
@@ -6228,7 +6228,7 @@ sub TicketAcl {
         next TICKETATTRIBUTE if !$ChecksDatabase{Ticket}->{$TicketAttribute};
         next TICKETATTRIBUTE if
             ref $ChecksDatabase{Ticket}->{$TicketAttribute} eq 'ARRAY'
-                && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
+            && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
 
         $ChecksDatabase{DynamicField}->{$TicketAttribute}
             = $ChecksDatabase{Ticket}->{$TicketAttribute};
@@ -7996,6 +7996,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.579 $ $Date: 2012-11-12 13:26:39 $
+$Revision: 1.580 $ $Date: 2012-11-12 14:04:59 $
 
 =cut

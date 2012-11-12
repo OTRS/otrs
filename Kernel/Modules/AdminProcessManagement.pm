@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.36 2012-11-12 13:28:49 mh Exp $
+# $Id: AdminProcessManagement.pm,v 1.37 2012-11-12 14:04:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -993,9 +993,9 @@ sub Run {
         return if !$GetParam{ItemID};
 
         return if $GetParam{EntityType} ne 'Activity'
-                && $GetParam{EntityType} ne 'ActivityDialog'
-                && $GetParam{EntityType} ne 'Transition'
-                && $GetParam{EntityType} ne 'TransitionAction';
+            && $GetParam{EntityType} ne 'ActivityDialog'
+            && $GetParam{EntityType} ne 'Transition'
+            && $GetParam{EntityType} ne 'TransitionAction';
 
         my $EntityCheck = $Self->_CheckEntityUsage(%GetParam);
 
@@ -1092,10 +1092,10 @@ sub Run {
         return if !$GetParam{EntityID} && !$GetParam{ItemID};
 
         return if $GetParam{EntityType} ne 'Activity'
-                && $GetParam{EntityType} ne 'ActivityDialog'
-                && $GetParam{EntityType} ne 'Transition'
-                && $GetParam{EntityType} ne 'TransitionAction'
-                && $GetParam{EntityType} ne 'Process';
+            && $GetParam{EntityType} ne 'ActivityDialog'
+            && $GetParam{EntityType} ne 'Transition'
+            && $GetParam{EntityType} ne 'TransitionAction'
+            && $GetParam{EntityType} ne 'Process';
 
         # get entity
         my $Method = $GetParam{EntityType} . 'Get';

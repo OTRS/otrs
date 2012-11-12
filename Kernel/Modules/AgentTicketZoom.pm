@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.189 2012-11-12 13:28:49 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.190 2012-11-12 14:04:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.189 $) [1];
+$VERSION = qw($Revision: 1.190 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,7 +98,7 @@ sub new {
             $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
-            },
+        },
     };
 
     # create additional objects for process management
@@ -468,7 +468,7 @@ sub MaskAgentZoom {
             # ignore system sender type
             next ARTICLE
                 if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                    && $Article->{SenderType} eq 'system';
+                && $Article->{SenderType} eq 'system';
 
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
@@ -1415,7 +1415,7 @@ sub MaskAgentZoom {
         # ignore system sender type
         next ARTICLE
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                && $Article->{SenderType} eq 'system';
+            && $Article->{SenderType} eq 'system';
 
         # last if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {

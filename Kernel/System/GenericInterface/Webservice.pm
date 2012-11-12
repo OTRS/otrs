@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.35 2012-11-12 13:26:40 mh Exp $
+# $Id: Webservice.pm,v 1.36 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -352,8 +352,8 @@ sub WebserviceUpdate {
     }
 
     return 1 if $ValidIDCurrent eq $Param{ValidID}
-            && $Config eq $ConfigCurrent
-            && $NameCurrent eq $Param{Name};
+        && $Config eq $ConfigCurrent
+        && $NameCurrent eq $Param{Name};
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -511,6 +511,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-11-12 13:26:40 $
+$Revision: 1.36 $ $Date: 2012-11-12 14:04:59 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.55 2012-11-12 13:26:40 mh Exp $
+# $Id: Date.pm,v 1.56 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -359,9 +359,9 @@ sub EditFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-            && !$DynamicFieldValues{ $Prefix . 'Year' }
-            && !$DynamicFieldValues{ $Prefix . 'Month' }
-            && !$DynamicFieldValues{ $Prefix . 'Day' };
+        && !$DynamicFieldValues{ $Prefix . 'Year' }
+        && !$DynamicFieldValues{ $Prefix . 'Month' }
+        && !$DynamicFieldValues{ $Prefix . 'Day' };
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
@@ -638,11 +638,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartHour' }   = '00';
     $DynamicFieldValues{ $Prefix . 'StartMinute' } = '00';

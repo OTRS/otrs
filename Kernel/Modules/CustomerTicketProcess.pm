@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketProcess.pm,v 1.8 2012-11-12 13:28:49 mh Exp $
+# $Id: CustomerTicketProcess.pm,v 1.9 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -502,7 +502,7 @@ sub _GetParam {
         $ActivityEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID")
-            };
+        };
         if ( !$ActivityEntityID ) {
             $Self->{LayoutObject}->CustomerFatalError(
                 Message =>
@@ -1344,7 +1344,7 @@ sub _StoreActivityDialog {
     $ActivityEntityID = $Ticket{
         'DynamicField_'
             . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementActivityID')
-        };
+    };
     if ( !$ActivityEntityID )
     {
         return $Self->{LayoutObject}->CustomerErrorScreen(
@@ -1356,7 +1356,7 @@ sub _StoreActivityDialog {
     $ProcessEntityID = $Ticket{
         'DynamicField_'
             . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID')
-        };
+    };
 
     if ( !$ProcessEntityID )
     {
@@ -1476,7 +1476,7 @@ sub _StoreActivityDialog {
                         # ignore attachment if not linked in body
                         next ATTACHMENT
                             if $Param{GetParam}{Body}
-                                !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                            !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                     }
 
                     # write existing file to backend

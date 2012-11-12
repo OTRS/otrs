@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.116 2012-11-12 13:26:39 mh Exp $
+# $Id: Stats.pm,v 1.117 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 =head1 NAME
 
@@ -2091,9 +2091,9 @@ sub StatsCleanUp {
         );
 
         next STATSID if $HashRef
-                && ref $HashRef eq 'HASH'
-                && $HashRef->{ObjectModule}
-                && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+            && ref $HashRef eq 'HASH'
+            && $HashRef->{ObjectModule}
+            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -3125,9 +3125,9 @@ sub _WriteResultCache {
         return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
         return
             if $GetParam{Year} == $Y
-                && $GetParam{Month} == $M
-                && $GetParam{Day}
-                && $GetParam{Day} >= $D;
+            && $GetParam{Month} == $M
+            && $GetParam{Day}
+            && $GetParam{Day} >= $D;
     }
 
     # write cache file
@@ -3437,6 +3437,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.116 $ $Date: 2012-11-12 13:26:39 $
+$Revision: 1.117 $ $Date: 2012-11-12 14:04:59 $
 
 =cut

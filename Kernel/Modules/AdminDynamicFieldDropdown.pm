@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.19 2012-11-12 13:28:49 mh Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.20 2012-11-12 14:04:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -146,7 +146,7 @@ sub _AddAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-            };
+        };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 
@@ -380,7 +380,7 @@ sub _ChangeAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-            };
+        };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 

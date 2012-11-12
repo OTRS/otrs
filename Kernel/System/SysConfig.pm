@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.38 2012-11-12 13:26:39 mh Exp $
+# $Id: SysConfig.pm,v 1.39 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -785,7 +785,7 @@ sub ConfigItemGet {
                             push(
                                 @{
                                     $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                    },
+                                },
                                 \%NavBar
                             );
                         }
@@ -885,7 +885,7 @@ sub ConfigItemGet {
                                 @{
                                     $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
                                         ->{Item}
-                                    },
+                                },
                                 {
                                     Year    => $Year,
                                     Month   => $Month,
@@ -1142,7 +1142,7 @@ sub ConfigSubGroupConfigItemList {
                                 push(
                                     @{
                                         $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
-                                        },
+                                    },
                                     $ConfigItem->{Name}
                                 );
                             }
@@ -2324,6 +2324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2012-11-12 13:26:39 $
+$Revision: 1.39 $ $Date: 2012-11-12 14:04:59 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.67 2012-11-12 13:26:40 mh Exp $
+# $Id: DateTime.pm,v 1.68 2012-11-12 14:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -328,11 +328,11 @@ sub EditFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-            && !$DynamicFieldValues{ $Prefix . 'Year' }
-            && !$DynamicFieldValues{ $Prefix . 'Month' }
-            && !$DynamicFieldValues{ $Prefix . 'Day' }
-            && !$DynamicFieldValues{ $Prefix . 'Hour' }
-            && !$DynamicFieldValues{ $Prefix . 'Minute' };
+        && !$DynamicFieldValues{ $Prefix . 'Year' }
+        && !$DynamicFieldValues{ $Prefix . 'Month' }
+        && !$DynamicFieldValues{ $Prefix . 'Day' }
+        && !$DynamicFieldValues{ $Prefix . 'Hour' }
+        && !$DynamicFieldValues{ $Prefix . 'Minute' };
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
@@ -610,11 +610,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartSecond' } = '00';
     $DynamicFieldValues{ $Prefix . 'StopSecond' }  = '59';
