@@ -2,11 +2,11 @@
 # Kernel/Output/HTML/CustomerHeaderMetaTicketSearch.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeaderMetaTicketSearch.pm,v 1.4 2012-02-14 16:46:20 mg Exp $
+# $Id: CustomerHeaderMetaTicketSearch.pm,v 1.5 2012-11-12 18:36:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Output::HTML::CustomerHeaderMetaTicketSearch;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

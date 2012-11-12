@@ -2,11 +2,11 @@
 # Ticket/Number/Random.pm - a ticket number random generator
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.25 2012-06-12 08:47:46 mg Exp $
+# $Id: Random.pm,v 1.26 2012-11-12 18:37:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 # Note:
 # available objects are: ConfigObject, LogObject and DBObject
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub TicketCreateNumber {
     my $Self = shift;

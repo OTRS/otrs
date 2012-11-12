@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.26 2010-11-04 14:18:40 ub Exp $
+# $Id: LayoutLinkObject.pm,v 1.27 2012-11-12 18:36:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Output::HTML::LayoutLinkObject;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =item LinkObjectTableCreate()
 
