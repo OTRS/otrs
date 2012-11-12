@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.21 2012-11-12 17:43:37 mh Exp $
+# $Id: Test.pm,v 1.22 2012-11-12 21:51:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -187,7 +187,7 @@ sub _ToUpper {
     my ( $Self, %Param ) = @_;
 
     my $ReturnData = {};
-    for my $Key ( keys %{ $Param{Data} } ) {
+    for my $Key ( sort keys %{ $Param{Data} } ) {
         $ReturnData->{$Key} = uc $Param{Data}->{$Key};
     }
 
@@ -216,7 +216,7 @@ sub _ToLower {
     my ( $Self, %Param ) = @_;
 
     my $ReturnData = {};
-    for my $Key ( keys %{ $Param{Data} } ) {
+    for my $Key ( sort keys %{ $Param{Data} } ) {
         $ReturnData->{$Key} = lc $Param{Data}->{$Key};
     }
 
@@ -245,7 +245,7 @@ sub _Empty {
     my ( $Self, %Param ) = @_;
 
     my $ReturnData = {};
-    for my $Key ( keys %{ $Param{Data} } ) {
+    for my $Key ( sort keys %{ $Param{Data} } ) {
         $ReturnData->{$Key} = '';
     }
 
@@ -270,6 +270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2012-11-12 17:43:37 $
+$Revision: 1.22 $ $Date: 2012-11-12 21:51:13 $
 
 =cut

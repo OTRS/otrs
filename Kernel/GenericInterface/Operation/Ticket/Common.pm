@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.39 2012-11-12 17:43:37 mh Exp $
+# $Id: Common.pm,v 1.40 2012-11-12 21:51:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -814,7 +814,7 @@ sub ValidatePendingTime {
     return if !IsHashRefWithData( $Param{PendingTime} );
 
     # check that no time attibute is empty or negative
-    for my $TimeAttribute ( keys %{ $Param{PendingTime} } ) {
+    for my $TimeAttribute ( sort keys %{ $Param{PendingTime} } ) {
         return if $Param{PendingTime}->{$TimeAttribute} eq '';
         return if int $Param{PendingTime}->{$TimeAttribute} < 0,
     }
@@ -1531,6 +1531,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2012-11-12 17:43:37 $
+$Revision: 1.40 $ $Date: 2012-11-12 21:51:13 $
 
 =cut

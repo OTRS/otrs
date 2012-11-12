@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketUpdate.pm,v 1.8 2012-11-12 17:43:37 mh Exp $
+# $Id: TicketUpdate.pm,v 1.9 2012-11-12 21:51:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -343,7 +343,7 @@ sub Run {
         $Ticket->{UserID} = $UserID;
 
         # remove leading and trailing spaces
-        for my $Attribute ( keys %{$Ticket} ) {
+        for my $Attribute ( sort keys %{$Ticket} ) {
             if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
                 #remove leading spaces
@@ -354,7 +354,7 @@ sub Run {
             }
         }
         if ( IsHashRefWithData( $Ticket->{PendingTime} ) ) {
-            for my $Attribute ( keys %{ $Ticket->{PendingTime} } ) {
+            for my $Attribute ( sort keys %{ $Ticket->{PendingTime} } ) {
                 if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
                     #remove leading spaces
@@ -387,7 +387,7 @@ sub Run {
         $Article->{UserType} = $UserType;
 
         # remove leading and trailing spaces
-        for my $Attribute ( keys %{$Article} ) {
+        for my $Attribute ( sort keys %{$Article} ) {
             if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
                 #remove leading spaces
@@ -398,7 +398,7 @@ sub Run {
             }
         }
         if ( IsHashRefWithData( $Article->{OrigHeader} ) ) {
-            for my $Attribute ( keys %{ $Article->{OrigHeader} } ) {
+            for my $Attribute ( sort keys %{ $Article->{OrigHeader} } ) {
                 if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
                     #remove leading spaces
@@ -467,7 +467,7 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( keys %{$DynamicFieldItem} ) {
+            for my $Attribute ( sort keys %{$DynamicFieldItem} ) {
                 if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
                     #remove leading spaces
@@ -516,7 +516,7 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( keys %{$AttachmentItem} ) {
+            for my $Attribute ( sort keys %{$AttachmentItem} ) {
                 if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
                     #remove leading spaces
@@ -2021,6 +2021,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2012-11-12 17:43:37 $
+$Revision: 1.9 $ $Date: 2012-11-12 21:51:13 $
 
 =cut

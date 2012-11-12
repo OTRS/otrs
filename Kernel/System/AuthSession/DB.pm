@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.67 2012-11-12 18:07:29 mh Exp $
+# $Id: DB.pm,v 1.68 2012-11-12 21:53:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -285,7 +285,7 @@ sub CreateSessionID {
 
     my %Data;
     KEY:
-    for my $Key ( keys %Param ) {
+    for my $Key ( sort keys %Param ) {
 
         next KEY if !$Key;
 
