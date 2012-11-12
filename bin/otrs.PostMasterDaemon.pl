@@ -3,7 +3,7 @@
 # bin/otrs.PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMasterDaemon.pl,v 1.6 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.PostMasterDaemon.pl,v 1.7 2012-11-12 13:00:58 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 my $Debug = 1;
 
@@ -49,16 +49,6 @@ my $PreForkedServer = 1;
 my $MaxConnects     = 30;
 
 $SIG{CHLD} = \&StopChild;
-
-#unlink "/tmp/Postmaster.sock";
-
-#y $Server = IO::Socket::UNIX->new(
-#    Local => "/tmp/Postmaster.sock",
-#    Peer => "/tmp/Postmaster.sock",
-#   Type => SOCK_DGRAM,
-#    Listen => 50,
-#    Timeout => 10,
-# || die $@;
 
 my $Children = 0;
 my %Children = ();
