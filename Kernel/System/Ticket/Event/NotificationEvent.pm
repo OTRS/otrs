@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.42 2012-11-12 18:37:59 mh Exp $
+# $Id: NotificationEvent.pm,v 1.43 2012-11-12 22:49:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub Run {
             UserID => 1,
         );
         next NOTIFICATION if !$Notification{Data};
-        for my $Key ( keys %{ $Notification{Data} } ) {
+        for my $Key ( sort keys %{ $Notification{Data} } ) {
 
             # ignore not ticket related attributes
             next if $Key eq 'Recipients';
@@ -561,7 +561,7 @@ sub _SendNotification {
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
     );
-    for my $Key ( keys %Ticket ) {
+    for my $Key ( sort keys %Ticket ) {
         next if !defined $Ticket{$Key};
 
         my $DisplayKeyValue = $Ticket{$Key};
@@ -631,7 +631,7 @@ sub _SendNotification {
         UserID        => $Article{OwnerID},
         NoOutOfOffice => 1,
     );
-    for ( keys %OwnerPreferences ) {
+    for ( sort keys %OwnerPreferences ) {
         next if !$OwnerPreferences{$_};
         $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -658,7 +658,7 @@ sub _SendNotification {
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
-    for ( keys %GetParam ) {
+    for ( sort keys %GetParam ) {
         next if !$GetParam{$_};
         $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;

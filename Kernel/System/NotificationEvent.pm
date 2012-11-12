@@ -2,7 +2,7 @@
 # Kernel/System/NotificationEvent.pm - notification system module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.12 2012-11-12 18:07:28 mh Exp $
+# $Id: NotificationEvent.pm,v 1.13 2012-11-12 22:54:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -273,7 +273,7 @@ sub NotificationAdd {
     }
     return if !$ID;
 
-    for my $Key ( keys %{ $Param{Data} } ) {
+    for my $Key ( sort keys %{ $Param{Data} } ) {
         for my $Item ( @{ $Param{Data}->{$Key} } ) {
             next if !defined $Item;
             next if $Item eq '';
@@ -340,7 +340,7 @@ sub NotificationUpdate {
         SQL  => 'DELETE FROM notification_event_item WHERE notification_id = ?',
         Bind => [ \$Param{ID} ],
     );
-    for my $Key ( keys %{ $Param{Data} } ) {
+    for my $Key ( sort keys %{ $Param{Data} } ) {
         for my $Item ( @{ $Param{Data}->{$Key} } ) {
             next if !defined $Item;
             next if $Item eq '';
@@ -451,6 +451,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.13 $ $Date: 2012-11-12 22:54:35 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.64 2012-11-12 18:07:29 mh Exp $
+# $Id: mssql.pm,v 1.65 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,7 +256,7 @@ sub TableCreate {
     push @Return, $SQLStart . $SQL . $SQLEnd;
 
     # add default constraint
-    for my $Column ( keys %Default ) {
+    for my $Column ( sort keys %Default ) {
 
         # create the default name
         my $DefaultName = 'DF_' . $TableName . '_' . $Column;

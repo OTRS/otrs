@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.323 2012-11-12 18:37:59 mh Exp $
+# $Id: Article.pm,v 1.324 2012-11-12 22:49:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.323 $) [1];
+$VERSION = qw($Revision: 1.324 $) [1];
 
 =head1 NAME
 
@@ -707,7 +707,7 @@ sub ArticleCreate {
         }
         if ( $Param{ArticleType} =~ /^note\-/ && $Param{UserID} ne 1 ) {
             my $NewTo = $Param{To} || '';
-            for my $UserID ( keys %AlreadySent ) {
+            for my $UserID ( sort keys %AlreadySent ) {
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Valid  => 1,
@@ -1718,7 +1718,7 @@ sub ArticleGet {
         UserID => $Param{UserID} || 1,
     );
     for my $Part (@Content) {
-        for ( keys %Escalation ) {
+        for ( sort keys %Escalation ) {
             $Part->{$_} = $Escalation{$_};
         }
     }
@@ -1729,11 +1729,11 @@ sub ArticleGet {
             TicketID => $Ticket{TicketID},
             Ticket   => \%Ticket,
         );
-        for my $Key ( keys %TicketExtended ) {
+        for my $Key ( sort keys %TicketExtended ) {
             $Ticket{$Key} = $TicketExtended{$Key};
         }
         for my $Part (@Content) {
-            for ( keys %TicketExtended ) {
+            for ( sort keys %TicketExtended ) {
                 $Part->{$_} = $TicketExtended{$_};
             }
         }
@@ -2482,7 +2482,7 @@ sub SendCustomerNotification {
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
     );
-    for ( keys %Ticket ) {
+    for ( sort keys %Ticket ) {
         if ( defined $Ticket{$_} ) {
             $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
@@ -2508,7 +2508,7 @@ sub SendCustomerNotification {
 
     # get owner data
     my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
-    for ( keys %OwnerPreferences ) {
+    for ( sort keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
             $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -2536,7 +2536,7 @@ sub SendCustomerNotification {
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
-    for ( keys %GetParam ) {
+    for ( sort keys %GetParam ) {
         if ( $GetParam{$_} ) {
             $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
@@ -2564,7 +2564,7 @@ sub SendCustomerNotification {
 
     # format body
     $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ( $Article{Body} );
-    for ( keys %Article ) {
+    for ( sort keys %Article ) {
         if ( $Article{$_} ) {
             $Notification{Body}    =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
@@ -3430,7 +3430,7 @@ sub ArticleAttachmentIndex {
         if ( !$AttachmentIDHTML ) {
             my $AttachmentIDPlain = 0;
             my %AttachmentFilePlain;
-            for my $AttachmentID ( keys %Attachments ) {
+            for my $AttachmentID ( sort keys %Attachments ) {
                 my %File = %{ $Attachments{$AttachmentID} };
 
                 # remember, file-1 got defined by parsing if no filename was given
@@ -3482,6 +3482,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.323 $ $Date: 2012-11-12 18:37:59 $
+$Revision: 1.324 $ $Date: 2012-11-12 22:49:51 $
 
 =cut

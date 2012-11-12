@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.57 2012-11-12 18:07:29 mh Exp $
+# $Id: Multiselect.pm,v 1.58 2012-11-12 22:50:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -622,7 +622,7 @@ sub SearchFieldRender {
 
     # add historic values to current values (if they don't exist anymore)
     if ( IsHashRefWithData($HistoricalValues) ) {
-        for my $Key ( keys %{$HistoricalValues} ) {
+        for my $Key ( sort keys %{$HistoricalValues} ) {
             if ( !$SelectionData->{$Key} ) {
                 $SelectionData->{$Key} = $HistoricalValues->{$Key}
             }
@@ -753,7 +753,7 @@ sub StatsFieldParameterBuild {
     );
 
     # add historic values to current values (if they don't exist anymore)
-    for my $Key ( keys %{$HistoricalValues} ) {
+    for my $Key ( sort keys %{$HistoricalValues} ) {
         if ( !$Values->{$Key} ) {
             $Values->{$Key} = $HistoricalValues->{$Key}
         }

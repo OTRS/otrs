@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.18 2012-11-12 18:07:30 mh Exp $
+# $Id: NewTicketReject.pm,v 1.19 2012-11-12 22:52:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,7 +95,7 @@ sub Run {
         return 1 if $Tn && $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
 
         # set attributes if ticket is created
-        for ( keys %Set ) {
+        for ( sort keys %Set ) {
             $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(
                 Priority => 'notice',

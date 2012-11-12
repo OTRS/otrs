@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.21 2012-11-12 18:07:30 mh Exp $
+# $Id: Match.pm,v 1.22 2012-11-12 22:52:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,7 +130,7 @@ sub Run {
 
     # should I ignore the incoming mail?
     if ( $Matched && !$MatchedNot ) {
-        for ( keys %Set ) {
+        for ( sort keys %Set ) {
             $Set{$_} =~ s/\[\*\*\*\]/$Matched/;
             $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(

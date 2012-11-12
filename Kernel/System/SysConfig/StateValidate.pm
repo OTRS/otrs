@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig/StateValidate.pm - all StateValidate functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StateValidate.pm,v 1.5 2012-11-12 18:40:11 mh Exp $
+# $Id: StateValidate.pm,v 1.6 2012-11-12 22:53:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::Config;
 use Kernel::System::State;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -156,7 +156,7 @@ sub Validate {
         # data is a hash (data is coming from AdminSysConfig frontend)
         if ( ref $Param{Data} eq 'HASH' ) {
 
-            for my $State ( keys %{ $Param{Data} } ) {
+            for my $State ( sort keys %{ $Param{Data} } ) {
 
                 # check the key
                 return if !$State2ID{$State};
@@ -248,7 +248,7 @@ sub GetAutoCorrectValue {
         my %NewStates;
 
         # check each state (in keys and values)
-        for my $State ( keys %{ $Param{Data} } ) {
+        for my $State ( sort keys %{ $Param{Data} } ) {
 
             # store the state (key and value)
             my $Key   = $State;
@@ -357,6 +357,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-11-12 18:40:11 $
+$Revision: 1.6 $ $Date: 2012-11-12 22:53:00 $
 
 =cut

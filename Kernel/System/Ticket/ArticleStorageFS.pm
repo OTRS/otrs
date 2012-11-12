@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.80 2012-11-12 18:37:59 mh Exp $
+# $Id: ArticleStorageFS.pm,v 1.81 2012-11-12 22:49:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -297,7 +297,7 @@ sub ArticleWriteAttachment {
         UserID    => $Param{UserID},
     );
     if ( !$Param{Force} ) {
-        for ( keys %Index ) {
+        for ( sort keys %Index ) {
             $UsedFile{ $Index{$_}->{Filename} } = 1;
         }
         for ( my $i = 1; $i <= 50; $i++ ) {

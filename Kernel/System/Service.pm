@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.58 2012-11-12 18:07:28 mh Exp $
+# $Id: Service.pm,v 1.59 2012-11-12 22:53:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -164,7 +164,7 @@ sub ServiceList {
     my %ServiceListTmp = %ServiceList;
 
     # add suffix for correct sorting
-    for my $ServiceID ( keys %ServiceListTmp ) {
+    for my $ServiceID ( sort keys %ServiceListTmp ) {
         $ServiceListTmp{$ServiceID} .= '::';
     }
 
@@ -182,10 +182,10 @@ sub ServiceList {
     }
 
     # delete invalid services and childs
-    for my $ServiceID ( keys %ServiceList ) {
+    for my $ServiceID ( sort keys %ServiceList ) {
 
         INVALIDNAME:
-        for my $InvalidName ( keys %ServiceInvalidList ) {
+        for my $InvalidName ( sort keys %ServiceInvalidList ) {
 
             if ( $ServiceList{$ServiceID} =~ m{ \A \Q$InvalidName\E :: }xms ) {
                 delete $ServiceList{$ServiceID};
@@ -949,7 +949,7 @@ sub CustomerUserServiceMemberList {
     }
 
     # db quote
-    for ( keys %Param ) {
+    for ( sort keys %Param ) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
     }
     for (qw(ServiceID)) {
@@ -1204,6 +1204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.59 $ $Date: 2012-11-12 22:53:00 $
 
 =cut

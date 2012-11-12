@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.119 2012-11-12 18:07:28 mh Exp $
+# $Id: Stats.pm,v 1.120 2012-11-12 22:53:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 =head1 NAME
 
@@ -410,11 +410,11 @@ sub StatsUpdate {
     }
 
     # adopt changes
-    for my $Key ( keys %{$StatNew} ) {
+    for my $Key ( sort keys %{$StatNew} ) {
         $StatOld->{$Key} = $StatNew->{$Key};
     }
 
-    for my $Key ( keys %{$StatOld} ) {
+    for my $Key ( sort keys %{$StatOld} ) {
         if ( $Key eq 'UseAsXvalue' || $Key eq 'UseAsValueSeries' || $Key eq 'UseAsRestriction' ) {
             my $Index = 0;
             REF:
@@ -1365,7 +1365,7 @@ sub GetDynamicFiles {
 
     my %Filelist = %{ $Self->{ConfigObject}->Get('Stats::DynamicObjectRegistration') };
     OBJECT:
-    for my $Object ( keys %Filelist ) {
+    for my $Object ( sort keys %Filelist ) {
         if ( !$Filelist{$Object} ) {
             delete $Filelist{$Object};
             next OBJECT;
@@ -1720,7 +1720,7 @@ sub Import {
 
         my $Flag = 1;
         ID:
-        for my $ID ( keys %Groups ) {
+        for my $ID ( sort keys %Groups ) {
             if ( $Groups{$ID} eq $Name->{Content} ) {
                 $Name->{Content} = $ID;
                 $Flag = 0;
@@ -2919,7 +2919,7 @@ sub _GenerateDynamicStats {
 
     # merge the array if two elements for the valueseries are avialable
     KEY:
-    for my $Key ( keys %{ $ArraySelected[0]{Values} } ) {
+    for my $Key ( sort keys %{ $ArraySelected[0]{Values} } ) {
         my $Value0;
         if ( $ArraySelected[0]{Block} eq 'SelectField' ) {
             $Value0 = $Key;
@@ -2934,7 +2934,7 @@ sub _GenerateDynamicStats {
             next KEY;
         }
 
-        for my $SubKey ( keys %{ $ArraySelected[1]{Values} } ) {
+        for my $SubKey ( sort keys %{ $ArraySelected[1]{Values} } ) {
             my $Value1;
             if ( $ArraySelected[1]{Block} eq 'SelectField' ) {
                 $Value1 = $SubKey;
@@ -3437,6 +3437,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.119 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.120 $ $Date: 2012-11-12 22:53:00 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/ActivityDialog.pm - all activity dialog functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.3 2012-11-12 18:07:30 mh Exp $
+# $Id: ActivityDialog.pm,v 1.4 2012-11-12 22:51:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -263,7 +263,7 @@ sub ActivityDialogCompletedCheck {
 
     # loop over the fields of the config activity dialog to check if the required fields are filled
     FIELDLOOP:
-    for my $Field ( keys %{ $ActivityDialog->{Fields} } ) {
+    for my $Field ( sort keys %{ $ActivityDialog->{Fields} } ) {
 
         # Checks if Field was invisible
         next FIELDLOOP if ( !$ActivityDialog->{Fields}{$Field}{Display} );
@@ -291,6 +291,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-11-12 18:07:30 $
+$Revision: 1.4 $ $Date: 2012-11-12 22:51:53 $
 
 =cut

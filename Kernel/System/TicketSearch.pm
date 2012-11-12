@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.18 2012-11-12 18:07:28 mh Exp $
+# $Id: TicketSearch.pm,v 1.19 2012-11-12 22:53:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -449,7 +449,7 @@ sub TicketSearch {
 
     # use also history table if required
     ARGUMENT:
-    for my $Key ( keys %Param ) {
+    for my $Key ( sort keys %Param ) {
         if ( $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
             $SQLFrom .= 'INNER JOIN ticket_history th ON st.id = th.ticket_id ';
             last ARGUMENT;
@@ -695,7 +695,7 @@ sub TicketSearch {
         my %Queues = $Self->{QueueObject}->GetAllQueues();
         for my $QueueID ( @{ $Param{QueueIDs} } ) {
             my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
-            for my $QueuesID ( keys %Queues ) {
+            for my $QueuesID ( sort keys %Queues ) {
                 if ( $Queues{$QueuesID} =~ /^\Q$Queue\E::/i ) {
                     push @SubQueueIDs, $QueuesID;
                 }
@@ -1079,7 +1079,7 @@ sub TicketSearch {
     my %ArticleTime = (
         ArticleCreateTime => 'art.incoming_time',
     );
-    for my $Key ( keys %ArticleTime ) {
+    for my $Key ( sort keys %ArticleTime ) {
 
         # get articles created older than x minutes
         if ( defined $Param{ $Key . 'OlderMinutes' } ) {
@@ -1167,7 +1167,7 @@ sub TicketSearch {
         TicketEscalationResponseTime => 'st.escalation_response_time',
         TicketEscalationSolutionTime => 'st.escalation_solution_time',
     );
-    for my $Key ( keys %TicketTime ) {
+    for my $Key ( sort keys %TicketTime ) {
 
         # get tickets created or escalated older than x minutes
         if ( defined $Param{ $Key . 'OlderMinutes' } ) {
@@ -1203,7 +1203,7 @@ sub TicketSearch {
     }
 
     # get tickets created/escalated older/newer than xxxx-xx-xx xx:xx date
-    for my $Key ( keys %TicketTime ) {
+    for my $Key ( sort keys %TicketTime ) {
 
         # get tickets created/escalated older than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'OlderDate' } ) {
@@ -1736,6 +1736,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.19 $ $Date: 2012-11-12 22:53:49 $
 
 =cut

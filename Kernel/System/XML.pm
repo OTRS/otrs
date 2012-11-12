@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.110 2012-11-12 18:07:29 mh Exp $
+# $Id: XML.pm,v 1.111 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 =head1 NAME
 
@@ -648,7 +648,7 @@ sub XMLHash2D {
     my $Count = 0;
     for my $Item ( @{ $Param{XMLHash} } ) {
         if ( ref $Item eq 'HASH' ) {
-            for ( keys %{$Item} ) {
+            for ( sort keys %{$Item} ) {
                 $Self->_XMLHash2D( Key => $Item->{Tag}, Item => $Item, Counter => $Count );
             }
         }
@@ -958,7 +958,7 @@ sub _XMLHash2D {
         # add tag key to the passed in data structure
         $Param{Item}->{TagKey} = $Key;
 
-        for ( keys %{ $Param{Item} } ) {
+        for ( sort keys %{ $Param{Item} } ) {
             if ( defined $Param{Item}->{$_} && ref $Param{Item}->{$_} ne 'ARRAY' ) {
                 $Self->{XMLHash}->{ $Key . "{'$_'}" } = $Param{Item}->{$_};
             }
@@ -1000,7 +1000,7 @@ sub _XMLStructure2XMLHash {
         $Self->{Tll} = $Param{Item}->{TagLevel};
 
         if ( $Param{Item}->{TagLevel} == 1 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1026,7 +1026,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 3 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1060,7 +1060,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 5 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1102,7 +1102,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 7 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1152,7 +1152,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 9 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1210,7 +1210,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 11 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1276,7 +1276,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 13 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1350,7 +1350,7 @@ sub _XMLStructure2XMLHash {
             }
         }
         elsif ( $Param{Item}->{TagLevel} == 15 ) {
-            for ( keys %{ $Param{Item} } ) {
+            for ( sort keys %{ $Param{Item} } ) {
                 if ( !defined $Param{Item}->{$_} ) {
                     $Param{Item}->{$_} = '';
                 }
@@ -1529,6 +1529,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.110 $ $Date: 2012-11-12 18:07:29 $
+$Revision: 1.111 $ $Date: 2012-11-12 22:57:55 $
 
 =cut

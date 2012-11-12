@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.61 2012-11-12 18:07:28 mh Exp $
+# $Id: DynamicField.pm,v 1.62 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -570,7 +570,7 @@ sub DynamicFieldList {
 
         # fill the fieldIDs whitelist
         FIELDNAME:
-        for my $FieldName ( keys %{ $Param{FieldFilter} } ) {
+        for my $FieldName ( sort keys %{ $Param{FieldFilter} } ) {
             next FIELDNAME if !$Param{FieldFilter}->{$FieldName};
 
             my $FieldConfig = $Self->DynamicFieldGet( Name => $FieldName );
@@ -648,7 +648,7 @@ sub DynamicFieldList {
         else {
 
             FIELDID:
-            for my $FieldID ( keys %{$Cache} ) {
+            for my $FieldID ( sort keys %{$Cache} ) {
                 next FIELDID if !$AllowedFieldIDs{$FieldID};
 
                 $FilteredData->{$FieldID} = $Cache->{$FieldID}
@@ -733,7 +733,7 @@ sub DynamicFieldList {
 
             my %FilteredData;
             FIELDID:
-            for my $FieldID ( keys %Data ) {
+            for my $FieldID ( sort keys %Data ) {
                 next FIELDID if !$AllowedFieldIDs{$FieldID};
 
                 $FilteredData{$FieldID} = $Data{$FieldID};
@@ -1309,6 +1309,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.62 $ $Date: 2012-11-12 22:55:39 $
 
 =cut

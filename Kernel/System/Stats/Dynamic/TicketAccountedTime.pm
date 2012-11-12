@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.17 2012-11-12 18:40:11 mh Exp $
+# $Id: TicketAccountedTime.pm,v 1.18 2012-11-12 22:51:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -742,7 +742,7 @@ sub ImportWrapper {
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                 my %PriorityIDs;
-                for my $Key ( keys %PriorityList ) {
+                for my $Key ( sort keys %PriorityList ) {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }
                 ID:
@@ -830,7 +830,7 @@ sub _ReportingValues {
         }
     }
 
-    for my $ParameterName ( keys %TicketSearch ) {
+    for my $ParameterName ( sort keys %TicketSearch ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
             # loop over the dynamic fields configured

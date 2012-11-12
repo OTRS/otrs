@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.41 2012-11-12 18:07:28 mh Exp $
+# $Id: SysConfig.pm,v 1.42 2012-11-12 22:53:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -652,7 +652,7 @@ sub ConfigItemGet {
                 elsif ( ref $Hash{$Key} eq 'HASH' ) {
                     my @Array = ( undef, { Content => '', } );
                     @{ $Array[1]{Item} } = (undef);
-                    for my $Key2 ( keys %{ $Hash{$Key} } ) {
+                    for my $Key2 ( sort keys %{ $Hash{$Key} } ) {
                         push(
                             @{ $Array[1]{Item} },
                             { Content => $Hash{$Key}{$Key2}, Key => $Key2 }
@@ -827,7 +827,7 @@ sub ConfigItemGet {
             if ( ref $DaysRef eq 'HASH' ) {
                 %Days = %{$DaysRef};
             }
-            for my $Day ( keys %Days ) {
+            for my $Day ( sort keys %Days ) {
                 my @Array = (undef);
                 for my $Hour ( @{ $Days{$Day} } ) {
                     push( @Array, { Content => $Hour, } );
@@ -1213,7 +1213,7 @@ sub ConfigItemSearch {
                         }
                     }
                     elsif ( ref $Config eq 'HASH' ) {
-                        for my $Key ( keys %{$Config} ) {
+                        for my $Key ( sort keys %{$Config} ) {
                             if ( !$Used{ $Group . '::' . $SubGroup } ) {
                                 if ( $Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i ) {
                                     push(
@@ -1790,7 +1790,7 @@ sub _DataDiff {
         my %B = %{ $Param{Data2} };
 
         # compare %A with %B and remove it if checked
-        for my $Key ( keys %A ) {
+        for my $Key ( sort keys %A ) {
 
             # Check if both are undefined
             if ( !defined $A{$Key} && !defined $B{$Key} ) {
@@ -1919,7 +1919,7 @@ sub _ConfigItemTranslatableStrings {
 
     # HASH
     if ( ref $Param{Data} eq 'HASH' ) {
-        for my $Key ( keys %{ $Param{Data} } ) {
+        for my $Key ( sort keys %{ $Param{Data} } ) {
             if (
                 ref $Param{Data}->{$Key} eq ''
                 && $Param{Data}->{Translatable}
@@ -2324,6 +2324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.42 $ $Date: 2012-11-12 22:53:00 $
 
 =cut

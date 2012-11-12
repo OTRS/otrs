@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.70 2012-11-12 18:07:29 mh Exp $
+# $Id: LDAP.pm,v 1.71 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -394,7 +394,7 @@ sub CustomerSearch {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
-        for my $Filter2 ( keys %Users ) {
+        for my $Filter2 ( sort keys %Users ) {
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
@@ -488,7 +488,7 @@ sub CustomerUserList {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
-        for my $Filter2 ( keys %Users ) {
+        for my $Filter2 ( sort keys %Users ) {
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
@@ -588,7 +588,7 @@ sub CustomerIDList {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
-        for my $Filter2 ( keys %Users ) {
+        for my $Filter2 ( sort keys %Users ) {
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},

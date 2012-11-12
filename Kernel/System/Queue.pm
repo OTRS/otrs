@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.140 2012-11-12 18:07:28 mh Exp $
+# $Id: Queue.pm,v 1.141 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 =head1 NAME
 
@@ -980,7 +980,7 @@ sub QueueUpdate {
     my %AllQueue = $Self->QueueList( Valid => 0 );
     my %OldQueue = $Self->QueueGet( ID => $Param{QueueID} );
 
-    for ( keys %AllQueue ) {
+    for ( sort keys %AllQueue ) {
         if ( $AllQueue{$_} =~ /^\Q$Param{Name}\E$/i && $_ != $Param{QueueID} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -1017,7 +1017,7 @@ sub QueueUpdate {
     # updated all sub queue names
     my @ParentQueue = split( /::/, $OldQueue{Name} );
 
-    for my $QueueID ( keys %AllQueue ) {
+    for my $QueueID ( sort keys %AllQueue ) {
 
         my @SubQueue = split( /::/, $AllQueue{$QueueID} );
 
@@ -1177,6 +1177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.140 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.141 $ $Date: 2012-11-12 22:57:55 $
 
 =cut

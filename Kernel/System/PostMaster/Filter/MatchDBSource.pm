@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.22 2012-11-12 18:07:30 mh Exp $
+# $Id: MatchDBSource.pm,v 1.23 2012-11-12 22:52:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -72,7 +72,7 @@ sub Run {
         # match 'Match => ???' stuff
         my $Matched    = '';
         my $MatchedNot = 0;
-        for ( keys %Match ) {
+        for ( sort keys %Match ) {
 
             # match only email addresses
             if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
@@ -135,7 +135,7 @@ sub Run {
 
         # should I ignore the incoming mail?
         if ( $Matched && !$MatchedNot ) {
-            for ( keys %Set ) {
+            for ( sort keys %Set ) {
                 $Set{$_} =~ s/\[\*\*\*\]/$Matched/;
                 $Param{GetParam}->{$_} = $Set{$_};
                 $Self->{LogObject}->Log(

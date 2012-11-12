@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.47 2012-11-12 18:07:28 mh Exp $
+# $Id: HTMLUtils.pm,v 1.48 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -203,7 +203,7 @@ sub ToAscii {
     $Param{String} =~ s/[ ]{2,}/ /mg;
 
     # remember <pre> and <code> tags and replace it
-    for my $Key ( keys %One2One ) {
+    for my $Key ( sort keys %One2One ) {
         $Param{String} =~ s/$Key/\n\n\n$One2One{$Key}\n\n/g;
     }
 
@@ -539,7 +539,7 @@ sub ToAscii {
     }
 
     # remember <blockquote> and <div style=\"cite\"
-    for my $Key ( keys %Cite ) {
+    for my $Key ( sort keys %Cite ) {
         $Param{String} =~ s/$Key/$Cite{$Key}\n/g;
     }
 
@@ -1162,6 +1162,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.48 $ $Date: 2012-11-12 22:57:55 $
 
 =cut

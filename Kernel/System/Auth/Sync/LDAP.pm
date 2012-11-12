@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.14 2012-11-12 18:07:29 mh Exp $
+# $Id: LDAP.pm,v 1.15 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,7 +220,7 @@ sub Sync {
         # get whole user dn
         my %SyncUser;
         for my $Entry ( $Result->all_entries ) {
-            for my $Key ( keys %{$UserSyncMap} ) {
+            for my $Key ( sort keys %{$UserSyncMap} ) {
 
                 # detect old config setting
                 if ( $Key =~ m{ \A (?: Firstname | Lastname | Email ) }xms ) {
@@ -316,7 +316,7 @@ sub Sync {
             # check for changes
             my $AttributeChange;
             ATTRIBUTE:
-            for my $Attribute ( keys %SyncUser ) {
+            for my $Attribute ( sort keys %SyncUser ) {
                 next ATTRIBUTE if $SyncUser{$Attribute} eq $UserData{$Attribute};
                 $AttributeChange = 1;
                 last ATTRIBUTE;
@@ -517,7 +517,7 @@ sub Sync {
             );
 
             GROUPID:
-            for my $GroupID ( keys %SystemGroups ) {
+            for my $GroupID ( sort keys %SystemGroups ) {
 
                 my $OldPermission = $GroupPermissions{$GroupID};
                 my $NewPermission = $GroupPermissionsFromLDAP{$GroupID}->{$PermissionType};
@@ -540,7 +540,7 @@ sub Sync {
 
     # update changed group permissions
     if (%GroupPermissionsChanged) {
-        for my $GroupID ( keys %GroupPermissionsChanged ) {
+        for my $GroupID ( sort keys %GroupPermissionsChanged ) {
 
             $Self->{LogObject}->Log(
                 Priority => 'notice',
@@ -709,7 +709,7 @@ sub Sync {
         );
 
         ROLEID:
-        for my $RoleID ( keys %SystemRoles ) {
+        for my $RoleID ( sort keys %SystemRoles ) {
 
             # if old and new permission for role matches, do nothing
             if (

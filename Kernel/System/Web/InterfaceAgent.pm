@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.70 2012-11-12 18:38:32 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.71 2012-11-12 22:50:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -125,7 +125,7 @@ sub Run {
         Subaction    => '',
         RequestedURL => $QueryString,
     };
-    for my $Key ( keys %{$FrameworkParams} ) {
+    for my $Key ( sort keys %{$FrameworkParams} ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key )
             || $FrameworkParams->{$Key};
     }
@@ -165,7 +165,7 @@ sub Run {
 
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('Frontend::CommonObject') };
-    for my $Key ( keys %CommonObject ) {
+    for my $Key ( sort keys %CommonObject ) {
         if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
             $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
         }
@@ -180,7 +180,7 @@ sub Run {
 
     # get common application and add-on application params
     my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('Frontend::CommonParam') };
-    for my $Key ( keys %CommonObjectParam ) {
+    for my $Key ( sort keys %CommonObjectParam ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
     }
 
@@ -266,7 +266,7 @@ sub Run {
                 Type   => $Type,
                 UserID => $UserData{UserID},
             );
-            for ( keys %GroupData ) {
+            for ( sort keys %GroupData ) {
                 if ( $Type eq 'rw' ) {
                     $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
                 }
@@ -473,7 +473,7 @@ sub Run {
                 Key   => 'UserToken',
                 Value => $Token,
             );
-            for my $UserID ( keys %UserList ) {
+            for my $UserID ( sort keys %UserList ) {
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Valid  => 1,
@@ -572,7 +572,7 @@ sub Run {
             || 'New Password is: <OTRS_NEWPW>';
         my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPassword')
             || 'New Password!';
-        for ( keys %UserData ) {
+        for ( sort keys %UserData ) {
             $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
         }
         my $Sent = $EmailObject->Send(
@@ -936,6 +936,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2012-11-12 18:38:32 $
+$Revision: 1.71 $ $Date: 2012-11-12 22:50:20 $
 
 =cut

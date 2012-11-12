@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.7 2012-11-12 18:07:30 mh Exp $
+# $Id: Process.pm,v 1.8 2012-11-12 22:51:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -268,7 +268,7 @@ sub ProcessList {
 
     # get only processes with the requested ProcessState(s)
     my %ProcessList;
-    for my $ProcessEntityID ( keys %{$Processes} ) {
+    for my $ProcessEntityID ( sort keys %{$Processes} ) {
         if ( grep { $_ eq $Processes->{$ProcessEntityID}{State} } @{ $Param{ProcessState} } ) {
             $ProcessList{$ProcessEntityID} = $Processes->{$ProcessEntityID}{Name} || '';
         }
@@ -815,6 +815,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-11-12 18:07:30 $
+$Revision: 1.8 $ $Date: 2012-11-12 22:51:53 $
 
 =cut

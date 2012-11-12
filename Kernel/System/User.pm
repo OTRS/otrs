@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.124 2012-11-12 18:07:29 mh Exp $
+# $Id: User.pm,v 1.125 2012-11-12 22:54:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 =head1 NAME
 
@@ -308,7 +308,7 @@ sub GetUserData {
     my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
     if ( $Config && ref $Config eq 'HASH' ) {
 
-        for my $Key ( keys %{$Config} ) {
+        for my $Key ( sort keys %{$Config} ) {
 
             # next if no default data exists
             next if !defined $Config->{$Key}->{DataSelected};
@@ -1158,6 +1158,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.124 $ $Date: 2012-11-12 18:07:29 $
+$Revision: 1.125 $ $Date: 2012-11-12 22:54:35 $
 
 =cut

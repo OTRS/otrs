@@ -2,7 +2,7 @@
 # Kernel/System/DB/ingres.pm - ingres database backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ingres.pm,v 1.5 2012-11-12 18:07:29 mh Exp $
+# $Id: ingres.pm,v 1.6 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,7 +208,7 @@ sub TableCreate {
     #        $SQL .= $PrimaryKey;
     #    }
     # add uniq
-    for my $Name ( keys %Uniq ) {
+    for my $Name ( sort keys %Uniq ) {
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -249,7 +249,7 @@ sub TableCreate {
     }
 
     # add indexs
-    for my $Name ( keys %Index ) {
+    for my $Name ( sort keys %Index ) {
         push(
             @Return,
             $Self->IndexCreate(
@@ -269,7 +269,7 @@ sub TableCreate {
     #        ));
     #    }
     # add foreign keys
-    for my $ForeignKey ( keys %Foreign ) {
+    for my $ForeignKey ( sort keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
         for ( 0 .. $#Array ) {
             push(

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.69 2012-11-12 18:07:28 mh Exp $
+# $Id: CustomerUser.pm,v 1.70 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -341,7 +341,7 @@ sub CustomerUserDataGet {
         # add preferences defaults
         my $Config = $Self->{ConfigObject}->Get('CustomerPreferencesGroups');
         if ($Config) {
-            for my $Key ( keys %{$Config} ) {
+            for my $Key ( sort keys %{$Config} ) {
 
                 # next if no default data exists
                 next if !defined $Config->{$Key}->{DataSelected};
@@ -736,6 +736,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.70 $ $Date: 2012-11-12 22:55:39 $
 
 =cut

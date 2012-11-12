@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.66 2012-11-12 18:07:28 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.67 2012-11-12 22:53:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -1048,7 +1048,7 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( keys %Recipient ) {
+            for ( sort keys %Recipient ) {
                 next if !$Recipient{$_};
                 $Recipient{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                     String => $Recipient{$_},
@@ -1073,7 +1073,7 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( keys %Owner ) {
+            for ( sort keys %Owner ) {
                 next if !$Owner{$_};
                 $Owner{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                     String => $Owner{$_},
@@ -1101,7 +1101,7 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( keys %Responsible ) {
+            for ( sort keys %Responsible ) {
                 next if !$Responsible{$_};
                 $Responsible{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                     String => $Responsible{$_},
@@ -1128,7 +1128,7 @@ sub _Replace {
 
     # html quoting of content
     if ( $Param{RichText} ) {
-        for ( keys %CurrentUser ) {
+        for ( sort keys %CurrentUser ) {
             next if !$CurrentUser{$_};
             $CurrentUser{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                 String => $CurrentUser{$_},
@@ -1156,7 +1156,7 @@ sub _Replace {
 
     # html quoting of content
     if ( $Param{RichText} ) {
-        for ( keys %Ticket ) {
+        for ( sort keys %Ticket ) {
             next if !$Ticket{$_};
             $Ticket{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                 String => $Ticket{$_},
@@ -1222,7 +1222,7 @@ sub _Replace {
     }
 
     # replace it
-    for ( keys %Ticket ) {
+    for ( sort keys %Ticket ) {
         next if !defined $Ticket{$_};
         $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
     }
@@ -1249,7 +1249,7 @@ sub _Replace {
 
     # html quoting of content
     if ( $Param{RichText} ) {
-        for ( keys %Data ) {
+        for ( sort keys %Data ) {
             next if !$Data{$_};
             $Data{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                 String => $Data{$_},
@@ -1430,7 +1430,7 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( keys %CustomerUser ) {
+            for ( sort keys %CustomerUser ) {
                 next if !$CustomerUser{$_};
                 $CustomerUser{$_} = $Self->{HTMLUtilsObject}->ToHTML(
                     String => $CustomerUser{$_},
@@ -1439,7 +1439,7 @@ sub _Replace {
         }
 
         # replace it
-        for my $Key ( keys %CustomerUser ) {
+        for my $Key ( sort keys %CustomerUser ) {
             next if !defined $CustomerUser{$Key};
             $Param{Text} =~ s/$Tag$Key$End/$CustomerUser{$Key}/gi;
             $Param{Text} =~ s/$Tag2$Key$End/$CustomerUser{$Key}/gi;
@@ -1471,6 +1471,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.67 $ $Date: 2012-11-12 22:53:49 $
 
 =cut

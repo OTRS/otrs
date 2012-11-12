@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.83 2012-11-12 18:07:28 mh Exp $
+# $Id: GenericAgent.pm,v 1.84 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -201,7 +201,7 @@ sub new {
 
         # Add field type to Map
         if ( IsHashRefWithData($FieldValueType) ) {
-            for my $FieldName ( keys %{$FieldValueType} ) {
+            for my $FieldName ( sort keys %{$FieldValueType} ) {
                 $Map{$FieldName} = $FieldValueType->{$FieldName};
             }
         }
@@ -266,7 +266,7 @@ sub JobRun {
         $Self->_JobUpdateRunTime( Name => $Param{Job}, UserID => $Param{UserID} );
 
         # rework
-        for my $Key ( keys %DBJobRaw ) {
+        for my $Key ( sort keys %DBJobRaw ) {
             if ( $Key =~ /^New/ ) {
                 my $NewKey = $Key;
                 $NewKey =~ s/^New//;
@@ -406,7 +406,7 @@ sub JobRun {
                 %Tickets
             );
         }
-        for ( keys %Tickets ) {
+        for ( sort keys %Tickets ) {
             my %Ticket = $Self->{TicketObject}->TicketGet(
                 TicketID      => $_,
                 DynamicFields => 0,
@@ -430,7 +430,7 @@ sub JobRun {
             }
 
             # also search in Dynamic fields search attributes
-            for my $DynamicFieldName ( keys %DynamicFieldSearchParameters ) {
+            for my $DynamicFieldName ( sort keys %DynamicFieldSearchParameters ) {
                 $Count++;
             }
 
@@ -558,7 +558,7 @@ sub JobGet {
             $Data{ $Row[0] } = $Row[1];
         }
     }
-    for my $Key ( keys %Data ) {
+    for my $Key ( sort keys %Data ) {
         if ( $Key =~ /(NewParam)Key(\d)/ ) {
             if ( $Data{"$1Value$2"} ) {
                 $Data{"New$Data{$Key}"} = $Data{"$1Value$2"};
@@ -719,7 +719,7 @@ sub JobAdd {
     }
 
     # insert data into db
-    for my $Key ( keys %{ $Param{Data} } ) {
+    for my $Key ( sort keys %{ $Param{Data} } ) {
         if ( ref $Param{Data}->{$Key} eq 'ARRAY' ) {
             for my $Item ( @{ $Param{Data}->{$Key} } ) {
                 if ( defined $Item ) {
@@ -1249,7 +1249,7 @@ sub _JobUpdateRunTime {
         ),
         ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
     );
-    for my $Key ( keys %Insert ) {
+    for my $Key ( sort keys %Insert ) {
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
@@ -1285,6 +1285,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.84 $ $Date: 2012-11-12 22:55:39 $
 
 =cut

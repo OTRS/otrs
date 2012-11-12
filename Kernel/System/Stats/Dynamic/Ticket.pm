@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.40 2012-11-12 18:40:11 mh Exp $
+# $Id: Ticket.pm,v 1.41 2012-11-12 22:51:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -537,7 +537,7 @@ sub GetStatElement {
         'Title'      => 1,
     );
 
-    for my $ParameterName ( keys %Param ) {
+    for my $ParameterName ( sort keys %Param ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
             # loop over the dynamic fields configured
@@ -692,7 +692,7 @@ sub ImportWrapper {
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                 my %PriorityIDs;
-                for my $Key ( keys %PriorityList ) {
+                for my $Key ( sort keys %PriorityList ) {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }
                 ID:

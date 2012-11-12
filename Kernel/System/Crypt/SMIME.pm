@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.70 2012-11-12 18:07:29 mh Exp $
+# $Id: SMIME.pm,v 1.71 2012-11-12 22:55:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -517,7 +517,7 @@ sub CertificateSearch {
         my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate, );
         my $Hit = 0;
         if ($Search) {
-            for my $Attribute ( keys %Attributes ) {
+            for my $Attribute ( sort keys %Attributes ) {
                 if ( $Attributes{$Attribute} =~ m{\Q$Search\E}xms ) {
                     $Hit = 1;
                 }
@@ -880,7 +880,7 @@ sub PrivateSearch {
 
         my $Hit = 0;
         if ($Search) {
-            for my $Attribute ( keys %Attributes ) {
+            for my $Attribute ( sort keys %Attributes ) {
                 if ( $Attributes{$Attribute} =~ m{\Q$Search\E}xms ) {
                     $Hit = 1;
                 }
@@ -1692,7 +1692,7 @@ sub _FetchAttributesFromCert {
         $Line =~ tr{\r\n}{}d;
 
         # look for every attribute by filter
-        for my $Filter ( keys %Filters ) {
+        for my $Filter ( sort keys %Filters ) {
             if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
                 $AttributesRef->{$Filter} = $1 || '';
 
@@ -1733,7 +1733,7 @@ sub _FetchAttributesFromCert {
                 $Day = "0" . int($Day);
             }
 
-            for my $MonthKey ( keys %Month ) {
+            for my $MonthKey ( sort keys %Month ) {
                 if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
                     $Month = $Month{$MonthKey};
                     last;
@@ -2499,6 +2499,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2012-11-12 18:07:29 $
+$Revision: 1.71 $ $Date: 2012-11-12 22:55:39 $
 
 =cut

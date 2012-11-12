@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.582 2012-11-12 18:07:28 mh Exp $
+# $Id: Ticket.pm,v 1.583 2012-11-12 22:53:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.582 $) [1];
+$VERSION = qw($Revision: 1.583 $) [1];
 
 =head1 NAME
 
@@ -1243,7 +1243,7 @@ sub TicketGet {
         UserID => $Param{UserID} || 1,
     );
 
-    for my $Key ( keys %Escalation ) {
+    for my $Key ( sort keys %Escalation ) {
         $Ticket{$Key} = $Escalation{$Key};
     }
 
@@ -1253,7 +1253,7 @@ sub TicketGet {
             TicketID => $Param{TicketID},
             Ticket   => \%Ticket,
         );
-        for my $Key ( keys %TicketExtended ) {
+        for my $Key ( sort keys %TicketExtended ) {
             $Ticket{$Key} = $TicketExtended{$Key};
         }
     }
@@ -2361,7 +2361,7 @@ sub TicketEscalationDateCalculation {
         EscalationSolutionTime => 'Solution',
     );
     my $EscalationAttribute;
-    for my $Key ( keys %Map ) {
+    for my $Key ( sort keys %Map ) {
         if ( $Escalation{ $Map{$Key} . 'Time' } ) {
             $EscalationAttribute = 1;
             last;
@@ -2372,7 +2372,7 @@ sub TicketEscalationDateCalculation {
     # calculate escalation times based on escalation properties
     my $Time = $Self->{TimeObject}->SystemTime();
     my %Data;
-    for my $Key ( keys %Map ) {
+    for my $Key ( sort keys %Map ) {
 
         # next if no escalation time for this type is given
         next if !$Ticket{$Key};
@@ -2491,7 +2491,7 @@ sub TicketEscalationIndexBuild {
             EscalationUpdateTime   => 'escalation_update_time',
             EscalationSolutionTime => 'escalation_solution_time',
         );
-        for my $Key ( keys %EscalationTimes ) {
+        for my $Key ( sort keys %EscalationTimes ) {
 
             # check if table update is needed
             next if !$Ticket{$Key};
@@ -4669,7 +4669,7 @@ sub HistoryTicketStatusGet {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Ticket{ $Row[0] } = 1;
     }
-    for my $TicketID ( keys %Ticket ) {
+    for my $TicketID ( sort keys %Ticket ) {
         my %TicketData = $Self->HistoryTicketGet(
             TicketID  => $TicketID,
             StopYear  => $Param{StopYear},
@@ -4946,7 +4946,7 @@ sub HistoryTicketGet {
 
         # write cache file
         my $Content = '';
-        for my $Key ( keys %Ticket ) {
+        for my $Key ( sort keys %Ticket ) {
             $Content .= "$Key:$Ticket{$Key}\n";
         }
         $Self->{MainObject}->FileWrite(
@@ -5522,7 +5522,7 @@ sub TicketWatchGet {
     }
 
     if ( $Param{Notify} ) {
-        for my $UserID ( keys %Data ) {
+        for my $UserID ( sort keys %Data ) {
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $UserID,
                 Valid  => 1,
@@ -5536,7 +5536,7 @@ sub TicketWatchGet {
     # check result
     if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
         my @UserIDs;
-        for my $UserID ( keys %Data ) {
+        for my $UserID ( sort keys %Data ) {
             push @UserIDs, $UserID;
         }
         return @UserIDs;
@@ -6188,7 +6188,7 @@ sub TicketAcl {
         $Checks{DynamicField} = $Param{DynamicField};
 
         # update or add dynamic fields information to the ticket check
-        for my $DynamicFieldName ( keys %{ $Param{DynamicField} } ) {
+        for my $DynamicFieldName ( sort keys %{ $Param{DynamicField} } ) {
             $Checks{Ticket}->{$DynamicFieldName} = $Param{DynamicField}->{$DynamicFieldName};
         }
     }
@@ -6197,7 +6197,7 @@ sub TicketAcl {
     # different. this can be done because in the previous step ticket info was updated. but maybe
     # ticket has more information stored than in the DynamicField parameter.
     TICKETATTRIBUTE:
-    for my $TicketAttribute ( keys %{ $Checks{Ticket} } ) {
+    for my $TicketAttribute ( sort keys %{ $Checks{Ticket} } ) {
         next TICKETATTRIBUTE if !$TicketAttribute;
 
         # check if is a dynamic field with data
@@ -6220,7 +6220,7 @@ sub TicketAcl {
 
     # also copy the database information to the appropiate hash
     TICKETATTRIBUTE:
-    for my $TicketAttribute ( keys %{ $ChecksDatabase{Ticket} } ) {
+    for my $TicketAttribute ( sort keys %{ $ChecksDatabase{Ticket} } ) {
         next TICKETATTRIBUTE if !$TicketAttribute;
 
         # check if is a dynamic field with data
@@ -7099,8 +7099,8 @@ sub TicketAcl {
             # set match params
             my $Match    = 1;
             my $MatchTry = 0;
-            for my $Key ( keys %{ $Step{$PropertiesHash} } ) {
-                for my $Data ( keys %{ $Step{$PropertiesHash}->{$Key} } ) {
+            for my $Key ( sort keys %{ $Step{$PropertiesHash} } ) {
+                for my $Data ( sort keys %{ $Step{$PropertiesHash}->{$Key} } ) {
                     my $MatchProperty = 0;
                     for my $Item ( @{ $Step{$PropertiesHash}->{$Key}->{$Data} } ) {
                         if ( ref $UsedChecks{$Key}->{$Data} eq 'ARRAY' ) {
@@ -7335,7 +7335,7 @@ sub TicketAcl {
             }
 
             # possible list
-            for my $ID ( keys %Data ) {
+            for my $ID ( sort keys %Data ) {
                 my $Match = 0;
                 for my $New ( @{ $Step{Possible}->{Ticket}->{ $Param{ReturnSubType} } } ) {
 
@@ -7392,7 +7392,7 @@ sub TicketAcl {
             }
 
             # not possible list
-            for my $ID ( keys %Data ) {
+            for my $ID ( sort keys %Data ) {
                 my $Match = 1;
                 for my $New ( @{ $Step{PossibleNot}->{Ticket}->{ $Param{ReturnSubType} } } ) {
 
@@ -7589,7 +7589,7 @@ sub TicketArticleStorageSwitch {
         # read source attachments
         my @Attachments;
         my %MD5Sums;
-        for my $FileID ( keys %Index ) {
+        for my $FileID ( sort keys %Index ) {
             my %Attachment = $TicketObjectSource->ArticleAttachment(
                 ArticleID     => $ArticleID,
                 FileID        => $FileID,
@@ -7659,7 +7659,7 @@ sub TicketArticleStorageSwitch {
             );
         }
 
-        for my $FileID ( keys %Index ) {
+        for my $FileID ( sort keys %Index ) {
             my %Attachment = $TicketObjectDestination->ArticleAttachment(
                 ArticleID     => $ArticleID,
                 FileID        => $FileID,
@@ -7996,6 +7996,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.582 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.583 $ $Date: 2012-11-12 22:53:49 $
 
 =cut

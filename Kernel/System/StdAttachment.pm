@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachment
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.37 2012-11-12 18:07:28 mh Exp $
+# $Id: StdAttachment.pm,v 1.38 2012-11-12 22:53:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -409,7 +409,7 @@ sub StdAttachmentsByResponseID {
     );
     my %AllStdAttachments = $Self->StdAttachmentList( Valid => 1 );
     my %Data;
-    for ( keys %Relation ) {
+    for ( sort keys %Relation ) {
         if ( $AllStdAttachments{$_} ) {
             $Data{$_} = $AllStdAttachments{$_};
         }
@@ -504,6 +504,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.38 $ $Date: 2012-11-12 22:53:00 $
 
 =cut

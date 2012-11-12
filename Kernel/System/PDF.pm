@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.49 2012-11-12 18:07:28 mh Exp $
+# $Id: PDF.pm,v 1.50 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -213,7 +213,7 @@ sub DocumentNew {
         my %FontFiles = %{ $Self->{ConfigObject}->Get('PDF::TTFontFile') };
 
         # set fonts
-        for my $FontType ( keys %FontFiles ) {
+        for my $FontType ( sort keys %FontFiles ) {
             $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
                 $FontFiles{$FontType},
                 -encode     => $Self->{Document}->{Encode},
@@ -239,7 +239,7 @@ sub DocumentNew {
         my %FontFiles = %{ $Self->{ConfigObject}->Get('PDF::TTFontFile') };
 
         # set fonts
-        for my $FontType ( keys %FontFiles ) {
+        for my $FontType ( sort keys %FontFiles ) {
             $Self->{Font}->{$FontType} = $Self->{Font}->{Testfont1};
         }
     }
@@ -3541,6 +3541,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.50 $ $Date: 2012-11-12 22:57:55 $
 
 =cut

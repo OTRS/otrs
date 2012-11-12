@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.39 2012-11-12 18:07:30 mh Exp $
+# $Id: Ticket.pm,v 1.40 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@ create an object
 =cut
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,12 +132,12 @@ sub LinkListWithData {
         return;
     }
 
-    for my $LinkType ( keys %{ $Param{LinkList} } ) {
+    for my $LinkType ( sort keys %{ $Param{LinkList} } ) {
 
-        for my $Direction ( keys %{ $Param{LinkList}->{$LinkType} } ) {
+        for my $Direction ( sort keys %{ $Param{LinkList}->{$LinkType} } ) {
 
             TICKETID:
-            for my $TicketID ( keys %{ $Param{LinkList}->{$LinkType}->{$Direction} } ) {
+            for my $TicketID ( sort keys %{ $Param{LinkList}->{$LinkType}->{$Direction} } ) {
 
                 # get ticket data
                 my %TicketData = $Self->{TicketObject}->TicketGet(
@@ -614,6 +614,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2012-11-12 18:07:30 $
+$Revision: 1.40 $ $Date: 2012-11-12 22:57:55 $
 
 =cut

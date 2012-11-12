@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.64 2012-11-12 18:07:28 mh Exp $
+# $Id: LinkObject.pm,v 1.65 2012-11-12 22:57:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -142,7 +142,7 @@ sub PossibleTypesList {
 
     # remove not needed entries
     POSSIBLELINK:
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # extract objects
         my $Object1 = $PossibleLinkList{$PossibleLink}->{Object1};
@@ -163,7 +163,7 @@ sub PossibleTypesList {
 
     # check types
     POSSIBLELINK:
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # extract type
         my $Type = $PossibleLinkList{$PossibleLink}->{Type} || '';
@@ -176,7 +176,7 @@ sub PossibleTypesList {
 
     # extract the type list
     my %PossibleTypesList;
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # extract type
         my $Type = $PossibleLinkList{$PossibleLink}->{Type};
@@ -226,7 +226,7 @@ sub PossibleObjectsList {
     # investigate the possible object list
     my %PossibleObjectsList;
     POSSIBLELINK:
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # extract objects
         my $Object1 = $PossibleLinkList{$PossibleLink}->{Object1};
@@ -285,7 +285,7 @@ sub PossibleLinkList {
 
     # prepare the possible link list
     POSSIBLELINK:
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # check the object1, object2 and type string
         ARGUMENT:
@@ -323,7 +323,7 @@ sub PossibleLinkList {
 
     # check the existing objects
     POSSIBLELINK:
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # check if object backends exist
         ARGUMENT:
@@ -348,7 +348,7 @@ sub PossibleLinkList {
 
     # check types
     POSSIBLELINK:
-    for my $PossibleLink ( keys %PossibleLinkList ) {
+    for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # extract type
         my $Type = $PossibleLinkList{$PossibleLink}->{Type};
@@ -524,12 +524,12 @@ sub LinkAdd {
 
     # check type groups
     OBJECT:
-    for my $Object ( keys %{$Links} ) {
+    for my $Object ( sort keys %{$Links} ) {
 
         next OBJECT if $Object ne $Param{TargetObject};
 
         TYPE:
-        for my $Type ( keys %{ $Links->{$Object} } ) {
+        for my $Type ( sort keys %{ $Links->{$Object} } ) {
 
             # extract source and target
             my $Source = $Links->{$Object}->{$Type}->{Source} ||= {};
@@ -922,19 +922,19 @@ sub LinkDeleteAll {
         next STATE if !$LinkList;
         next STATE if !%{$LinkList};
 
-        for my $Object ( keys %{$LinkList} ) {
+        for my $Object ( sort keys %{$LinkList} ) {
 
-            for my $LinkType ( keys %{ $LinkList->{$Object} } ) {
+            for my $LinkType ( sort keys %{ $LinkList->{$Object} } ) {
 
                 # extract link type List
                 my $LinkTypeList = $LinkList->{$Object}->{$LinkType};
 
-                for my $Direction ( keys %{$LinkTypeList} ) {
+                for my $Direction ( sort keys %{$LinkTypeList} ) {
 
                     # extract direction list
                     my $DirectionList = $LinkList->{$Object}->{$LinkType}->{$Direction};
 
-                    for my $ObjectKey ( keys %{$DirectionList} ) {
+                    for my $ObjectKey ( sort keys %{$DirectionList} ) {
 
                         # delete the link
                         $Self->LinkDelete(
@@ -1134,10 +1134,10 @@ sub LinkList {
     }
 
     # merge source target pairs into source for unpointed link types
-    for my $Object ( keys %Links ) {
+    for my $Object ( sort keys %Links ) {
 
         TYPE:
-        for my $Type ( keys %{ $Links{$Object} } ) {
+        for my $Type ( sort keys %{ $Links{$Object} } ) {
 
             # next if link type is pointed
             next TYPE if $TypePointedList{$Type};
@@ -1164,7 +1164,7 @@ sub LinkList {
 
     # removed not needed elements
     OBJECT:
-    for my $Object ( keys %Links ) {
+    for my $Object ( sort keys %Links ) {
 
         # removed not needed object
         if ( $Param{Object2} && $Param{Object2} ne $Object ) {
@@ -1175,10 +1175,10 @@ sub LinkList {
         next OBJECT if !$Param{Direction};
 
         # removed not needed direction
-        for my $Type ( keys %{ $Links{$Object} } ) {
+        for my $Type ( sort keys %{ $Links{$Object} } ) {
 
             DIRECTION:
-            for my $Direction ( keys %{ $Links{$Object}->{$Type} } ) {
+            for my $Direction ( sort keys %{ $Links{$Object}->{$Type} } ) {
 
                 next DIRECTION if $Param{Direction} eq $Direction;
                 next DIRECTION if $Param{Direction} ne 'Source' && $Param{Direction} ne 'Target';
@@ -1261,7 +1261,7 @@ sub LinkListWithData {
 
     # add data to hash
     OBJECT:
-    for my $Object ( keys %{$LinkList} ) {
+    for my $Object ( sort keys %{$LinkList} ) {
 
         # load backend
         my $BackendObject = $Self->_LoadBackend(
@@ -1288,13 +1288,13 @@ sub LinkListWithData {
 
     # clean the hash
     OBJECT:
-    for my $Object ( keys %{$LinkList} ) {
+    for my $Object ( sort keys %{$LinkList} ) {
 
         LINKTYPE:
-        for my $LinkType ( keys %{ $Param{LinkList} } ) {
+        for my $LinkType ( sort keys %{ $Param{LinkList} } ) {
 
             DIRECTION:
-            for my $Direction ( keys %{ $Param{LinkList}->{$LinkType} } ) {
+            for my $Direction ( sort keys %{ $Param{LinkList}->{$LinkType} } ) {
 
                 next DIRECTION if %{ $Param{LinkList}->{$LinkType}->{$Direction} };
 
@@ -1369,14 +1369,14 @@ sub LinkKeyList {
 
     # add data to hash
     my %LinkKeyList;
-    for my $Type ( keys %{$TypeList} ) {
+    for my $Type ( sort keys %{$TypeList} ) {
 
         # extract direction list
         my $DirectionList = $TypeList->{$Type};
 
-        for my $Direction ( keys %{$DirectionList} ) {
+        for my $Direction ( sort keys %{$DirectionList} ) {
 
-            for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
+            for my $Key ( sort keys %{ $DirectionList->{$Direction} } ) {
 
                 # add key to list
                 $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
@@ -1442,14 +1442,14 @@ sub LinkKeyListWithData {
 
     # add data to hash
     my %LinkKeyList;
-    for my $Type ( keys %{$TypeList} ) {
+    for my $Type ( sort keys %{$TypeList} ) {
 
         # extract direction list
         my $DirectionList = $TypeList->{$Type};
 
-        for my $Direction ( keys %{$DirectionList} ) {
+        for my $Direction ( sort keys %{$DirectionList} ) {
 
-            for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
+            for my $Key ( sort keys %{ $DirectionList->{$Direction} } ) {
 
                 # add key to list
                 $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
@@ -1873,7 +1873,7 @@ sub TypeList {
 
     # prepare the type list
     TYPE:
-    for my $Type ( keys %TypeList ) {
+    for my $Type ( sort keys %TypeList ) {
 
         # check the source and target name
         ARGUMENT:
@@ -1942,7 +1942,7 @@ sub TypeGroupList {
 
     # prepare the possible link list
     TYPEGROUP:
-    for my $TypeGroup ( keys %TypeGroupList ) {
+    for my $TypeGroup ( sort keys %TypeGroupList ) {
 
         # check the types
         TYPE:
@@ -1979,7 +1979,7 @@ sub TypeGroupList {
 
     # check types
     TYPEGROUP:
-    for my $TypeGroup ( keys %TypeGroupList ) {
+    for my $TypeGroup ( sort keys %TypeGroupList ) {
 
         # check the types
         TYPE:
@@ -2040,7 +2040,7 @@ sub PossibleType {
 
     # check all type groups
     TYPEGROUP:
-    for my $TypeGroup ( keys %TypeGroupList ) {
+    for my $TypeGroup ( sort keys %TypeGroupList ) {
 
         my %TypeList = map { $_ => 1 } @{ $TypeGroupList{$TypeGroup} };
 
@@ -2405,6 +2405,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.65 $ $Date: 2012-11-12 22:57:55 $
 
 =cut

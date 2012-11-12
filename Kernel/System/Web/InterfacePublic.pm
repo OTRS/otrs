@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.34 2012-11-12 18:38:32 mh Exp $
+# $Id: InterfacePublic.pm,v 1.35 2012-11-12 22:50:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -123,7 +123,7 @@ sub Run {
         Subaction    => '',
         RequestedURL => $QueryString,
     };
-    for my $Key ( keys %{$FrameworkParams} ) {
+    for my $Key ( sort keys %{$FrameworkParams} ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key )
             || $FrameworkParams->{$Key};
     }
@@ -144,7 +144,7 @@ sub Run {
     # the loader can not load module specific JavaScript and CSS
     # For details see bug: http://bugs.otrs.org/show_bug.cgi?id=6471
     my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonParam') };
-    for my $Key ( keys %CommonObjectParam ) {
+    for my $Key ( sort keys %CommonObjectParam ) {
         $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
     }
 
@@ -176,7 +176,7 @@ sub Run {
 
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };
-    for my $Key ( keys %CommonObject ) {
+    for my $Key ( sort keys %CommonObject ) {
         if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
             $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
         }
@@ -293,6 +293,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2012-11-12 18:38:32 $
+$Revision: 1.35 $ $Date: 2012-11-12 22:50:20 $
 
 =cut
