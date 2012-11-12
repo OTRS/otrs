@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.122 2012-09-26 20:40:41 cr Exp $
+# $Id: AdminSysConfig.pm,v 1.123 2012-11-12 12:09:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1535,8 +1535,9 @@ sub ListConfigItem {
                 !~ /^\d\d\d\d$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidYear' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidYear'
+                );
             }
             if (
                 $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
@@ -1544,8 +1545,9 @@ sub ListConfigItem {
                 !~ /^(1[0-2]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidMonth' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidMonth'
+                );
             }
             if (
                 $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
@@ -1553,8 +1555,9 @@ sub ListConfigItem {
                 !~ /^([1-3][0-9]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidDay' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidDay'
+                );
             }
         }
         return 1;
@@ -1595,8 +1598,9 @@ sub ListConfigItem {
                 !~ /^(1[0-2]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidMonth' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementTimeVacationDaysContentInvalidMonth'
+                );
             }
 
             if (
@@ -1605,8 +1609,9 @@ sub ListConfigItem {
                 !~ /^([1-3][0-9]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidDay' );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementTimeVacationDaysContentInvalidDay'
+                );
             }
         }
         return 1;

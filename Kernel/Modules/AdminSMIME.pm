@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.44 2012-06-09 02:52:21 cr Exp $
+# $Id: AdminSMIME.pm,v 1.45 2012-11-12 12:08:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,8 +68,9 @@ sub Run {
         my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
         my $Type     = $Self->{ParamObject}->GetParam( Param => 'Type' )     || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to delete!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to delete!',
+            );
         }
 
         my @Result;
@@ -251,8 +252,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DownloadFingerprint' ) {
         my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to download!',
+            );
         }
 
         my $Hash = $Filename;
@@ -276,8 +278,9 @@ sub Run {
 
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to download!',
+            );
         }
 
         my $Hash = $Filename;
@@ -328,8 +331,9 @@ sub Run {
         my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
 
         if ( !$CertFingerprint || !$CAFingerprint ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Needed CertFingerprint and CAFingerprint',
+            );
         }
 
         # relation already exists?
@@ -396,8 +400,9 @@ sub Run {
         my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
 
         if ( !$CertFingerprint && !$CAFingerprint ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Needed CertFingerprint and CAFingerprint!',
+            );
         }
 
         # relation exists?
@@ -452,15 +457,17 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Read' ) {
         my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to download!' );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to download!'
+            );
         }
 
         my $Output = $Self->_CertificateRead( Filename => $Filename );
 
         if ( !$Output ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Certificate $Filename could not be read!" );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Certificate $Filename could not be read!"
+            );
         }
 
         return $Output;

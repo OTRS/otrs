@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.17 2012-11-07 22:06:29 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.18 2012-11-12 12:10:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -376,6 +376,7 @@ sub _RenderAjax {
 
     # FatalError is safe because a JSON strcuture is expecting, then it will result into a
     # communications error
+
     my ( $Self, %Param ) = @_;
     for my $Needed (qw(ProcessEntityID)) {
         if ( !$Param{$Needed} ) {
@@ -1065,8 +1066,9 @@ sub _OutputActivityDialog {
             . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
         my $DynamicFieldActivityID
             = 'DynamicField_'
-            . $Self->{ConfigObject}
-            ->Get('Process::DynamicFieldProcessManagementActivityID');
+            . $Self->{ConfigObject}->Get(
+            'Process::DynamicFieldProcessManagementActivityID'
+            );
 
         if ( !$Ticket{$DynamicFieldProcessID} || !$Ticket{$DynamicFieldActivityID} ) {
             $Self->{LayoutObject}->FatalError(
@@ -2863,6 +2865,7 @@ sub _RenderService {
 sub _RenderLock {
 
     # for lock states there's no ACL checking yet implemented so no checking...
+
     my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(FormID)) {

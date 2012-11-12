@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.10 2012-03-15 02:15:26 cr Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.11 2012-11-12 12:07:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -61,8 +61,9 @@ sub Run {
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need WebserviceID!",
+            );
         }
 
         # get webserice configuration
@@ -95,8 +96,9 @@ sub Run {
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need WebserviceID!",
+            );
         }
 
         # get webserice configuration
@@ -266,8 +268,8 @@ sub _ShowEdit {
     # configuration
     $Param{Type}           = 'HTTP::SOAP';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
-    my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }
-        ->{Transport}->{Config};
+    my $TransportConfig
+        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
     # extract display parameters from transport config
     $Param{Endpoint}            = $TransportConfig->{Endpoint};

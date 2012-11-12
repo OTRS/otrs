@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.21 2012-04-20 00:19:42 ep Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.22 2012-11-12 12:07:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -82,8 +82,9 @@ sub Run {
 
     # check for WebserviceID
     if ( !$WebserviceID ) {
-        return $Self->{LayoutObject}
-            ->ErrorScreen( Message => "Need WebserviceID!", );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need WebserviceID!",
+        );
     }
 
     # get webservice configuration
@@ -98,8 +99,8 @@ sub Run {
     }
 
     # get the action type (back-end)
-    my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
-        ->{$Action}->{'Type'};
+    my $ActionBackend
+        = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{'Type'};
 
     # check for valid action backend
     if ( !$ActionBackend ) {
