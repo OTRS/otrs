@@ -7,11 +7,11 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.118 2012-11-08 08:55:26 mg Exp $
+# $Id: zh_CN.pm,v 1.119 2012-11-12 18:42:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Language::zh_CN;
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub Data {
     my $Self = shift;

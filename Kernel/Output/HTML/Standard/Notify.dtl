@@ -1,12 +1,12 @@
 # --
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Notify.dtl,v 1.20 2011-07-12 21:12:53 cr Exp $
+# $Id: Notify.dtl,v 1.21 2012-11-12 18:33:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 <!-- start Notify -->
 <div class="MessageBox $Data{"BoxClass"}">

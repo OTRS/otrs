@@ -8,11 +8,11 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.173 2012-11-08 08:55:26 mg Exp $
+# $Id: fr.pm,v 1.174 2012-11-12 18:41:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Language::fr;
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.173 $) [1];
+$VERSION = qw($Revision: 1.174 $) [1];
 
 sub Data {
     my $Self = shift;

@@ -4,11 +4,11 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011-2012 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.135 2012-11-08 08:55:27 mg Exp $
+# $Id: pl.pm,v 1.136 2012-11-12 18:43:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Language::pl;
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub Data {
     my $Self = shift;

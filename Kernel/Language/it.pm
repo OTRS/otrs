@@ -9,11 +9,11 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.141 2012-11-08 08:55:27 mg Exp $
+# $Id: it.pm,v 1.142 2012-11-12 18:43:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Language::it;
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub Data {
     my $Self = shift;

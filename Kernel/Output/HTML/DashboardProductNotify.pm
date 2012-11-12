@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/DashboardProductNotify.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.11 2009-08-27 23:08:28 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.12 2012-11-12 18:34:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::Output::HTML::DashboardProductNotify;
@@ -18,7 +18,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

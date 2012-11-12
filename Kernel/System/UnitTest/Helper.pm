@@ -2,11 +2,11 @@
 # Helper.pm - unit test helper functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.15 2012-11-12 11:42:17 mh Exp $
+# $Id: Helper.pm,v 1.16 2012-11-12 18:40:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::System::UnitTest::Helper;
@@ -358,6 +358,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2012-11-12 11:42:17 $
+$Revision: 1.16 $ $Date: 2012-11-12 18:40:11 $
 
 =cut

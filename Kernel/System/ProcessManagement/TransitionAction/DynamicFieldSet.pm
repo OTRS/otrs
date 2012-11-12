@@ -2,11 +2,11 @@
 # Kernel/System/ProcessManagement/TransitionAction/DynamicFieldSet.pm - A Module to change the ticket owner
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldSet.pm,v 1.1 2012-08-15 16:38:16 cr Exp $
+# $Id: DynamicFieldSet.pm,v 1.2 2012-11-12 18:39:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet;
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -222,6 +222,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-08-15 16:38:16 $
+$Revision: 1.2 $ $Date: 2012-11-12 18:39:05 $
 
 =cut

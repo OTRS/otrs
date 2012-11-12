@@ -2,11 +2,11 @@
 # Kernel/System/ProcessManagement/TransitionAction/StateSet.pm - A Module to set the ticket state
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StateSet.pm,v 1.2 2012-11-12 11:42:16 mh Exp $
+# $Id: StateSet.pm,v 1.3 2012-11-12 18:39:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 package Kernel::System::ProcessManagement::TransitionAction::StateSet;
@@ -19,7 +19,7 @@ use utf8;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -435,6 +435,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-11-12 11:42:16 $
+$Revision: 1.3 $ $Date: 2012-11-12 18:39:05 $
 
 =cut
