@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2524 2012-11-12 09:35:26 mh Exp $
+# $Id: CHANGES,v 1.2525 2012-11-12 11:24:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.2.0.beta3 2012-??-??
+ - 2012-11-12 Fixed bug#8915 - CustomerCompany List returns extra spaces.
  - 2012-11-12 Added feature to hide archived tickets in the customer interface.
  - 2012-11-12 Updated CPAN module CGI to version 3.62.
  - 2012-11-09 Fixed bug#8914 - Syntax error in hash loop in TicketGet operation.

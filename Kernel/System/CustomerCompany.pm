@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.33 2012-09-10 13:43:18 mg Exp $
+# $Id: CustomerCompany.pm,v 1.34 2012-11-12 11:24:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -468,15 +468,10 @@ sub CustomerCompanyList {
     }
 
     # what is the result
-    my $What = '';
-    for ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyListFields} } ) {
-
-        if ($What) {
-            $What .= ', ';
-        }
-
-        $What .= "$_";
-    }
+    my $What = join(
+        ', ',
+        @{ $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyListFields} }
+    );
 
     # add valid option if required
     my $SQL;
@@ -535,20 +530,8 @@ sub CustomerCompanyList {
     my %List;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $Value = '';
-
-        for my $Position ( 1 .. 10 ) {
-
-            if ($Value) {
-                $Value .= ' ';
-            }
-
-            if ( defined $Row[$Position] ) {
-                $Value .= $Row[$Position];
-            }
-        }
-
-        $List{ $Row[0] } = $Value;
+        my $CustomerCompanyID = shift @Row;
+        $List{$CustomerCompanyID} = join( ' ', @Row );
     }
 
     # cache request
@@ -623,6 +606,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2012-09-10 13:43:18 $
+$Revision: 1.34 $ $Date: 2012-11-12 11:24:26 $
 
 =cut
