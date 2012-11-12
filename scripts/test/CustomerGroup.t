@@ -2,7 +2,7 @@
 # CustomerGroup.t - Customer Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.t,v 1.3 2012-07-06 16:58:04 cr Exp $
+# $Id: CustomerGroup.t,v 1.4 2012-11-12 10:12:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,8 +233,8 @@ for my $Test (@Tests) {
     }
 }
 
-# reset memebership
-my $ResetMemebership = sub {
+# reset membership
+my $ResetMembership = sub {
     my %Param = @_;
 
     $Param{UID} = $Param{UID} || $UID;
@@ -334,8 +334,8 @@ my $ResetMemebership = sub {
     }
 };
 
-# reset memeberchip
-$ResetMemebership->(
+# reset memberchip
+$ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
 );
@@ -346,8 +346,8 @@ $ConfigObject->Set(
     Value => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
 );
 
-# reset memeberchip with AlwaysGroups
-$ResetMemebership->(
+# reset memberchip with AlwaysGroups
+$ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
 );
@@ -358,8 +358,8 @@ $ConfigObject->Set(
     Value => [],
 );
 
-# reset memeberchip
-$ResetMemebership->(
+# reset memberchip
+$ResetMembership->(
     AlwaysGroups => $ConfigObject->Get('CustomerGroupAlwaysGroups'),
     GID          => $GID1,
 );
@@ -452,7 +452,7 @@ $ResetMemebership->(
         Config => {
             Type    => 'ro',
             Result  => 'Name',
-            UserID  => $GID1,
+            UserID  => $UID,
             GroupID => undef,
         },
         AddConfig => [
@@ -776,7 +776,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             $Success,
-            "GroupMemeberAdd() for GroupMemeberList() Test:$Test->{Name}",
+            "GroupMemberAdd() for GroupMemberList() Test:$Test->{Name}",
         );
     }
 
@@ -836,15 +836,15 @@ for my $Test (@Tests) {
             "Cache after GroupMemberList() $Test->{Name} - Key: $CacheKey",
         );
 
-        # reset memebership if needed
+        # reset membership if needed
         if ( $Test->{ResetMembership} && $Test->{ResetAllUsers} ) {
-            $ResetMemebership->();
-            $ResetMemebership->( UID => $UID . '-1' );
-            $ResetMemebership->( UID => $UID . '-2' );
-            $ResetMemebership->( UID => $UID . '-3' );
+            $ResetMembership->();
+            $ResetMembership->( UID => $UID . '-1' );
+            $ResetMembership->( UID => $UID . '-2' );
+            $ResetMembership->( UID => $UID . '-3' );
         }
         elsif ( $Test->{ResetMembership} ) {
-            $ResetMemebership->();
+            $ResetMembership->();
         }
     }
     else {
