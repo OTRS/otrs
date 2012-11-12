@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.23 2012-11-12 12:20:30 mh Exp $
+# $Id: Provider.pm,v 1.24 2012-11-12 16:23:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -408,6 +408,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2012-11-12 12:20:30 $
+$Revision: 1.24 $ $Date: 2012-11-12 16:23:58 $
 
 =cut

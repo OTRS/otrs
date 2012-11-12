@@ -2,7 +2,7 @@
 # Kernel/System/CacheInternal.pm - all cache functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.10 2012-05-15 08:44:29 mg Exp $
+# $Id: CacheInternal.pm,v 1.11 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -288,6 +288,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2012-05-15 08:44:29 $
+$Revision: 1.11 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

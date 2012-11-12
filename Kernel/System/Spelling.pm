@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.34 2012-03-20 08:19:38 mg Exp $
+# $Id: Spelling.pm,v 1.35 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -299,6 +299,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2012-03-20 08:19:38 $
+$Revision: 1.35 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

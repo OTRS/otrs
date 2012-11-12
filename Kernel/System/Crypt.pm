@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt.pm - the main crypt module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.22 2010-12-13 17:06:42 dz Exp $
+# $Id: Crypt.pm,v 1.23 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::FileTemp;
 use Kernel::System::Time;
 
 use vars qw($VERSION @ISA);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -132,6 +132,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-12-13 17:06:42 $
+$Revision: 1.23 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

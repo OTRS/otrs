@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.27 2012-07-06 16:58:04 cr Exp $
+# $Id: CustomerGroup.pm,v 1.28 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -395,6 +395,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2012-07-06 16:58:04 $
+$Revision: 1.28 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

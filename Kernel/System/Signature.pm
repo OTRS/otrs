@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Signature.pm - All signature related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.pm,v 1.17 2010-06-17 21:39:40 cr Exp $
+# $Id: Signature.pm,v 1.18 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -275,6 +275,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.18 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

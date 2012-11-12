@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.37 2012-05-29 17:32:42 cr Exp $
+# $Id: Common.pm,v 1.38 2012-11-12 16:23:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -1531,6 +1531,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2012-05-29 17:32:42 $
+$Revision: 1.38 $ $Date: 2012-11-12 16:23:58 $
 
 =cut

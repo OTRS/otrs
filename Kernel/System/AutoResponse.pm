@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.47 2012-03-26 23:16:38 mh Exp $
+# $Id: AutoResponse.pm,v 1.48 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -536,6 +536,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2012-03-26 23:16:38 $
+$Revision: 1.48 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

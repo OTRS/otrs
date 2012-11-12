@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.38 2012-07-02 09:50:47 mg Exp $
+# $Id: LayoutLoader.pm,v 1.39 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 use Kernel::System::Loader;
 
@@ -688,6 +688,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2012-07-02 09:50:47 $
+$Revision: 1.39 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

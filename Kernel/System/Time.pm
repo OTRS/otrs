@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.58 2012-07-02 11:59:17 mg Exp $
+# $Id: Time.pm,v 1.59 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -865,6 +865,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2012-07-02 11:59:17 $
+$Revision: 1.59 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

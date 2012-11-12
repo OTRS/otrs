@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.14 2012-07-30 13:30:40 mh Exp $
+# $Id: EventHandler.pm,v 1.15 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -315,6 +315,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2012-07-30 13:30:40 $
+$Revision: 1.15 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

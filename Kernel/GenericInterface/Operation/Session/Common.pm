@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Session/Common.pm - common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.3 2012-01-26 17:02:00 cr Exp $
+# $Id: Common.pm,v 1.4 2012-11-12 16:23:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::User;
 use Kernel::System::Auth;
@@ -227,6 +227,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-01-26 17:02:00 $
+$Revision: 1.4 $ $Date: 2012-11-12 16:23:58 $
 
 =cut

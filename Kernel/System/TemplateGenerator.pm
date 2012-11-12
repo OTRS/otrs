@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.64 2012-09-28 16:40:34 cr Exp $
+# $Id: TemplateGenerator.pm,v 1.65 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -1471,6 +1471,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2012-09-28 16:40:34 $
+$Revision: 1.65 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

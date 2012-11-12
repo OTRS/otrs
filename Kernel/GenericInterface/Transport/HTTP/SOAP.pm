@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.49 2012-06-27 23:18:02 cr Exp $
+# $Id: SOAP.pm,v 1.50 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -1188,6 +1188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2012-06-27 23:18:02 $
+$Revision: 1.50 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

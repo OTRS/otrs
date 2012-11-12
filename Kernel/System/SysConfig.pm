@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.39 2012-11-12 14:04:59 mh Exp $
+# $Id: SysConfig.pm,v 1.40 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -2324,6 +2324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2012-11-12 14:04:59 $
+$Revision: 1.40 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

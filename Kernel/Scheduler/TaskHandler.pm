@@ -1,8 +1,8 @@
 # --
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskHandler.pm,v 1.9 2011-03-10 13:55:12 mg Exp $
+# $Id: TaskHandler.pm,v 1.10 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -174,6 +174,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-03-10 13:55:12 $
+$Revision: 1.10 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

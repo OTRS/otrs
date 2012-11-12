@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutDatepicker.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutDatepicker.pm,v 1.2 2012-11-12 12:22:58 mh Exp $
+# $Id: LayoutDatepicker.pm,v 1.3 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -86,6 +86,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-11-12 12:22:58 $
+$Revision: 1.3 $ $Date: 2012-11-12 16:23:59 $
 
 =cut

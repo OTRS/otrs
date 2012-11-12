@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All ticket state related functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.56 2012-03-18 22:06:23 mh Exp $
+# $Id: State.pm,v 1.57 2012-11-12 16:23:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -721,6 +721,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2012-03-18 22:06:23 $
+$Revision: 1.57 $ $Date: 2012-11-12 16:23:59 $
 
 =cut
