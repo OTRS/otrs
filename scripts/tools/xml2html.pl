@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.19 2012-09-07 13:49:17 mb Exp $
+# $Id: xml2html.pl,v 1.20 2012-11-12 17:51:41 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see http://www.gnu.org/licenses/agpl.txt.
+# or see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 # use ../../ as lib location

@@ -1,12 +1,12 @@
 # --
 # scripts/test/LayoutTicket.t - layout module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.7 2011-11-17 11:32:28 mg Exp $
+# $Id: LayoutTicket.t,v 1.8 2012-11-12 17:51:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 use strict;

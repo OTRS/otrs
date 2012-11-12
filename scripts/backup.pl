@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.28 2012-10-15 09:19:44 mg Exp $
+# $Id: backup.pl,v 1.29 2012-11-12 17:51:39 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see http://www.gnu.org/licenses/agpl.txt.
+# or see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 # use ../ as lib location
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;

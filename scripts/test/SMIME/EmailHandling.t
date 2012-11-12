@@ -2,11 +2,11 @@
 # EmailHandling.t - SMIME email handling tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailHandling.t,v 1.4 2012-05-23 15:44:16 cr Exp $
+# $Id: EmailHandling.t,v 1.5 2012-11-12 17:51:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 use strict;

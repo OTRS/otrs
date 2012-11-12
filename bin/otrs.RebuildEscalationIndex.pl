@@ -3,7 +3,7 @@
 # otrs.RebuildEscalationIndex.pl - rebuild escalation index
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildEscalationIndex.pl,v 1.12 2012-09-07 13:50:34 mb Exp $
+# $Id: otrs.RebuildEscalationIndex.pl,v 1.13 2012-11-12 17:53:04 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see http://www.gnu.org/licenses/agpl.txt.
+# or see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 use strict;
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 
