@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.8 2012-07-10 10:13:03 mh Exp $
+# $Id: Run.t,v 1.9 2012-11-13 03:01:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,8 +100,19 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
             1,
             "Force stoping due to bad status...",
         );
-        print "Sleeping 4s\n";
-        sleep 4;
+
+        # Wait for slow systems
+        my $SleepTime = 20;
+        print "Waiting at most $SleepTime s until scheduler stops\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $SleepTime ) {
+            my $SchedulerStatus = `$Scheduler -a status`;
+            if ( $SchedulerStatus !~ m{\A running }msxi ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
     }
 
     my $ResultMessage = `$Scheduler -a start 2>&1`;
@@ -126,6 +137,19 @@ else {
     );
 }
 
+# Wait for slow systems
+my $SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus =~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
 my $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 $Self->True(
@@ -142,9 +166,10 @@ my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 my $PIDObject         = Kernel::System::PID->new( %{$Self} );
 
 # define global wait times (Secs)
-my $TotalWaitToExecute    = 15;
-my $TotalWaitToStop       = 5;
-my $TotalWaitToReSchedule = 20;
+my $TotalWaitToExecute    = 25;
+my $TotalWaitToCheck      = 10;
+my $TotalWaitToStop       = 40;
+my $TotalWaitToReSchedule = 30;
 
 $Self->Is(
     ref $SchedulerObject,
@@ -211,6 +236,7 @@ for my $Test (@Tests) {
 
     # register tasks
     my @FileRemember;
+    my $TaskCounter;
     for my $Task ( @{ $Test->{Tasks} } ) {
 
         if ( $Task->{Type} eq 'Test' ) {
@@ -226,9 +252,12 @@ for my $Test (@Tests) {
             Data => $Task->{Data},
         );
 
-        $Self->True(
+        $TaskCounter++;
+
+        $Self->IsNot(
             $TaskID,
-            "$Test->{Name} - asap- Kernel::Scheduler->TaskRegister() success",
+            undef,
+            "$Test->{Name} - asap- Kernel::Scheduler->TaskRegister() Count:$TaskCounter Type:$Task->{Type} TaskID",
         );
 
         # for debuging, could be removed if needed
@@ -297,6 +326,19 @@ for my $Test (@Tests) {
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
+
+        # Wait for slow systems
+        $SleepTime = 20;
+        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $TotalWaitToCheck ) {
+            if ( -e $FileToCheck ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
+
         $Self->True(
             -e $FileToCheck,
             "$Test->{Name} - asap - test backend executed correctly (found file $FileToCheck)",
@@ -317,6 +359,7 @@ for my $Test (@Tests) {
 
     # register tasks
     my @FileRemember;
+    my $TaskCounter;
     for my $Task ( @{ $Test->{Tasks} } ) {
         if ( $Task->{Type} eq 'Test' ) {
             my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
@@ -332,9 +375,11 @@ for my $Test (@Tests) {
             DueTime => $DueTime,
         );
 
-        $Self->True(
+        $TaskCounter++;
+        $Self->IsNot(
             $TaskID,
-            "$Test->{Name} - future - Kernel::Scheduler->TaskRegister() success",
+            undef,
+            "$Test->{Name} - future - Kernel::Scheduler->TaskRegister() Count:$TaskCounter Type$Task->{Type} TaskID",
         );
     }
 
@@ -346,8 +391,8 @@ for my $Test (@Tests) {
     );
 
     # wait for scheduler, it will not execute the tasks yet
-    print "Sleeping 6s\n";
-    sleep 6;
+    print "Sleeping 3s\n";
+    sleep 3;
 
     # check task list again
     $Self->Is(
@@ -360,7 +405,7 @@ for my $Test (@Tests) {
     for my $FileToCheck (@FileRemember) {
         $Self->False(
             -e $FileToCheck,
-            "$Test->{Name} - future - test backend did not execute yet",
+            "$Test->{Name} - future - test backend did not execute yet (not found file $FileToCheck)",
         );
     }
 
@@ -390,6 +435,18 @@ for my $Test (@Tests) {
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
+
+        # Wait for slow systems
+        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $TotalWaitToCheck ) {
+            if ( -e $FileToCheck ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
+
         $Self->True(
             -e $FileToCheck,
             "$Test->{Name} - future - test backend executed correctly (found file $FileToCheck)",
@@ -435,12 +492,14 @@ for my $Test (@Tests) {
             $Task->{Data}->{File} = $File;
 
             my $RescheduleFile
-                = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
+                = $Self->{ConfigObject}->Get('Home')
+                . '/var/tmp/task_reschedule_'
+                . int rand 1000000;
             if ( -e $RescheduleFile ) {
                 unlink $RescheduleFile;
             }
-            push @RescheduleFileRemember, $File;
-            $Task->{Data}->{ReScheduleData}->{File} = $File;
+            push @RescheduleFileRemember, $RescheduleFile;
+            $Task->{Data}->{ReScheduleData}->{File} = $RescheduleFile;
         }
 
         my $TaskID = $SchedulerObject->TaskRegister(
@@ -448,9 +507,10 @@ for my $Test (@Tests) {
             Data => $Task->{Data},
         );
 
-        $Self->True(
+        $Self->IsNot(
             $TaskID,
-            "$Test->{Name} - re-schedule - Kernel::Scheduler->TaskRegister() success",
+            undef,
+            "$Test->{Name} - re-schedule - Kernel::Scheduler->TaskRegister() Count:$TaskCount Type:$Task->{Type} TaskID",
         );
     }
 
@@ -487,9 +547,21 @@ for my $Test (@Tests) {
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
+
+        # Wait for slow systems
+        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $TotalWaitToCheck ) {
+            if ( -e $FileToCheck ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
+
         $Self->True(
             -e $FileToCheck,
-            "$Test->{Name} - re-schedule - original tasks executed successfully",
+            "$Test->{Name} - re-schedule - original tasks executed successfully (found file $FileToCheck)",
         );
         unlink $FileToCheck;
     }
@@ -498,7 +570,7 @@ for my $Test (@Tests) {
     for my $FileToCheck (@RescheduleFileRemember) {
         $Self->False(
             -e $FileToCheck,
-            "$Test->{Name} - re-schedule - re-scheduled tasks did not execute yet",
+            "$Test->{Name} - re-schedule - re-scheduled tasks did not execute yet (not found file $FileToCheck)",
         );
     }
 
@@ -528,6 +600,18 @@ for my $Test (@Tests) {
 
     # check if files are there
     for my $FileToCheck (@RescheduleFileRemember) {
+
+        # Wait for slow systems
+        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $TotalWaitToCheck ) {
+            if ( -e $FileToCheck ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
+
         $Self->True(
             -e $FileToCheck,
             "$Test->{Name} - re-schedule - re-scheduled tasks executed correctly (found file $FileToCheck)",
