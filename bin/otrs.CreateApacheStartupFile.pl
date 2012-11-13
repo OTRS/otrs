@@ -3,7 +3,7 @@
 # bin/otrs.CreateApacheStartupFile.pl - create new translation file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateApacheStartupFile.pl,v 1.1 2012-11-08 10:13:43 mg Exp $
+# $Id: otrs.CreateApacheStartupFile.pl,v 1.2 2012-11-13 13:50:12 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std qw();
 use File::Find qw();
@@ -71,72 +71,11 @@ EOF
     my $Home = $CommonObject{ConfigObject}->Get('Home');
 
     #
-    # Determine used DB backend
-    #
-    my $DBCode = '';
-    my $DBType = $CommonObject{DBObject}->GetDatabaseFunction('Type');
-    if ( $DBType eq 'mysql' ) {
-        $DBCode .= << 'EOF';
-use DBD::mysql ();
-use Kernel::System::DB::mysql;
-EOF
-    }
-    elsif ( $DBType =~ /postgresql/smxi ) {
-        $DBCode .= << 'EOF';
-use DBD::Pg ();
-use Kernel::System::DB::postgresql;
-EOF
-    }
-    elsif ( $DBType eq 'oracle' ) {
-        $DBCode .= << 'EOF';
-use DBD::Oracle ();
-use Kernel::System::DB::oracle;
-EOF
-    }
-
-    #
     # Loop over all general system packages and include them
     #
-    my $SystemPackagesCode = '';
-
-    # Directories to check
-    my @Directories = (
-        "$Home/Kernel/GenericInterface",
-        "$Home/Kernel/Language",
-        "$Home/Kernel/Modules",
-        "$Home/Kernel/Output",
-        "$Home/Kernel/System",
-    );
-
-    # Ignore patterns. These modules can possibly not be loaded on all systems.
-    my @Excludes = (
-        "Kernel/System/DB",
-        "LDAP",
-        "Radius",
-        "IMAP",
-        "POP3",
-        "SMTP",
-    );
-
-    my @Files;
-
-    my $Wanted = sub {
-        return if $File::Find::name !~ m{\.pm$}smx;
-        for my $Exclude (@Excludes) {
-            return if $File::Find::name =~ m{\Q$Exclude\E}smx;
-        }
-        push @Files, $File::Find::name;
-    };
-
-    for my $Directory (@Directories) {
-        File::Find::find( $Wanted, $Directory );
-    }
-
-    FILE:
-    foreach my $File (@Files) {
-        my $Package = CheckPerlPackage( CommonObject => \%CommonObject, Filename => $File );
-        next FILE if !$Package;
-        $SystemPackagesCode .= "use $Package;\n";
+    my $PackagesCode = '';
+    foreach my $Package ( GetPackageList( CommonObject => \%CommonObject ) ) {
+        $PackagesCode .= "use $Package;\n";
     }
 
     #
@@ -148,7 +87,7 @@ EOF
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # -\-
-# \$Id: otrs.CreateApacheStartupFile.pl,v 1.1 2012-11-08 10:13:43 mg Exp $
+# \$Id: otrs.CreateApacheStartupFile.pl,v 1.2 2012-11-13 13:50:12 mg Exp $
 # -\-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -193,13 +132,7 @@ use CGI ();
 CGI->compile(':cgi');
 use CGI::Carp ();
 
-use Apache::DBI;
-
-$DBCode
-
-use Kernel::Config;
-
-$SystemPackagesCode
+$PackagesCode
 
 1;
 EOF
@@ -210,6 +143,78 @@ EOF
         Location => "$Home/scripts/apache2-perl-startup2.pl",
         Content  => \$Content,
     );
+}
+
+=item GetPackageList()
+
+=cut
+
+sub GetPackageList {
+    my %Param        = @_;
+    my %CommonObject = %{ $Param{CommonObject} };
+
+    my @Packages = ( 'Apache::DBI', 'Kernel::Config' );
+
+    my $DBType = $CommonObject{DBObject}->GetDatabaseFunction('Type');
+    if ( $DBType eq 'mysql' ) {
+        push @Packages, 'DBD::mysql', 'Kernel::System::DB::mysql';
+    }
+    elsif ( $DBType =~ /postgresql/smxi ) {
+        push @Packages, 'DBD::Pg', 'Kernel::System::DB::postgresql';
+    }
+    elsif ( $DBType =~ /postgresql_before_8_2/smxi ) {
+        push @Packages, 'DBD::Pg', 'Kernel::System::DB::postgresql_before_8_2';
+    }
+    elsif ( $DBType eq 'oracle' ) {
+        push @Packages, 'DBD::Oracle', 'Kernel::System::DB::oracle';
+    }
+
+    my $Home = $CommonObject{ConfigObject}->Get('Home');
+
+    # Directories to check
+    my @Directories = (
+        "$Home/Kernel/GenericInterface",
+        "$Home/Kernel/Language",
+        "$Home/Kernel/Modules",
+        "$Home/Kernel/Output",
+        "$Home/Kernel/System",
+    );
+
+    # Ignore patterns. These modules can possibly not be loaded on all systems.
+    my @Excludes = (
+        "Kernel/System/DB",
+        "LDAP",
+        "Radius",
+        "IMAP",
+        "POP3",
+        "SMTP",
+    );
+
+    my @Files;
+
+    my $Wanted = sub {
+        return if $File::Find::name !~ m{\.pm$}smx;
+        for my $Exclude (@Excludes) {
+            return if $File::Find::name =~ m{\Q$Exclude\E}smx;
+        }
+        push @Files, $File::Find::name;
+    };
+
+    for my $Directory (@Directories) {
+        File::Find::find( $Wanted, $Directory );
+    }
+
+    FILE:
+    foreach my $File (@Files) {
+        my $Package = CheckPerlPackage(
+            CommonObject => \%CommonObject,
+            Filename     => $File,
+        );
+        next FILE if !$Package;
+        push @Packages, $Package;
+    }
+
+    return @Packages;
 }
 
 =item CheckPerlPackage()
@@ -231,15 +236,14 @@ Returns the package name, if it is valid, undef otherwise.
 sub CheckPerlPackage {
     my %Param        = @_;
     my %CommonObject = %{ $Param{CommonObject} };
+    my $Filename     = $Param{Filename};
 
-    my $Home     = $CommonObject{ConfigObject}->Get('Home');
-    my $Filename = $Param{Filename};
+    my $Home = $CommonObject{ConfigObject}->Get('Home');
 
     # Generate package name
     my $PackageName = substr( $Filename, length($Home) );
-    $PackageName =~ s{^/}{}smxg;
+    $PackageName =~ s{^/|\.pm$}{}smxg;
     $PackageName =~ s{/}{::}smxg;
-    $PackageName =~ s{\.pm$}{}smxg;
 
     # Check if the file really contains the package
     my $FileContent = $CommonObject{MainObject}->FileRead(
@@ -247,6 +251,9 @@ sub CheckPerlPackage {
     );
     return if !ref $FileContent;
     return if ( ${$FileContent} !~ /^package\s+\Q$PackageName\E/smx );
+
+    # Check if the package compiles ok
+    return if ( !$CommonObject{MainObject}->Require($PackageName) );
 
     return $PackageName;
 }
