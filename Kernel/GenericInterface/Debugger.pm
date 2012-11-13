@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Debugger.pm,v 1.21 2012-11-12 17:43:36 mh Exp $
+# $Id: Debugger.pm,v 1.22 2012-11-13 22:24:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 use Kernel::System::GenericInterface::DebugLog;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -356,7 +356,7 @@ destructor, this will write the log entries to the database.
 =cut
 
 sub DESTROY {
-    my ($Self) = @_;
+    my $Self = shift;
 
     #TODO: implement storing of the debug messages
 
@@ -380,6 +380,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2012-11-12 17:43:36 $
+$Revision: 1.22 $ $Date: 2012-11-13 22:24:27 $
 
 =cut
