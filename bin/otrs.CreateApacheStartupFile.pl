@@ -3,7 +3,7 @@
 # bin/otrs.CreateApacheStartupFile.pl - create new translation file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateApacheStartupFile.pl,v 1.2 2012-11-13 13:50:12 mg Exp $
+# $Id: otrs.CreateApacheStartupFile.pl,v 1.3 2012-11-13 16:59:32 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std qw();
 use File::Find qw();
@@ -86,8 +86,6 @@ EOF
 # -\-
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# -\-
-# \$Id: otrs.CreateApacheStartupFile.pl,v 1.2 2012-11-13 13:50:12 mg Exp $
 # -\-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
