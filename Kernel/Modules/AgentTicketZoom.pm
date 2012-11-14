@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.191 2012-11-12 18:18:31 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.192 2012-11-14 22:40:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.191 $) [1];
+$VERSION = qw($Revision: 1.192 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1684,7 +1684,7 @@ sub _ArticleTree {
                     },
                 );
 
-                if ( keys %{ $Article{Atms} } > 1 ) {
+                if ( scalar keys %{ $Article{Atms} } > 1 ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'TreeItemAttachmentIconMultiple',
                         Data => {
