@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.158 2012-11-09 23:17:30 cr Exp $
+# $Id: CHANGES,v 1.2260.2.159 2012-11-14 22:14:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-11-14 Fixed bug#8868 - Event Based Notification problem saving 'text' Dynamic Fields.
  - 2012-11-09 Fixed bug#8914 - Syntax error in hash loop in TicketGet operation.
  - 2012-11-07 Fixed bug#8749 - CustomerFrontend: missing dynamicfield in  search results.
  - 2012-11-06 Fixed bug#8873 - Bad example of customization of "static" dynamic fields in

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.64 2012-03-30 16:17:00 cr Exp $
+# $Id: Text.pm,v 1.64.2.1 2012-11-14 22:14:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.64.2.1 $) [1];
 
 =head1 NAME
 
@@ -384,6 +384,11 @@ sub SearchFieldRender {
     # set values from profile if present
     if ( defined $FieldValue ) {
         $Value = $FieldValue;
+    }
+
+    # check if value is an arrayref (GenericAgent Jobs and NotificationEvents)
+    if ( IsArrayRefWithData($Value) ) {
+        $Value = @{$Value}[0];
     }
 
     # check and set class if necessary
