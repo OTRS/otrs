@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.37.2.1 2012-05-14 07:07:33 mg Exp $
+# $Id: AdminNotificationEvent.pm,v 1.37.2.2 2012-11-14 22:03:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.1 $) [1];
+$VERSION = qw($Revision: 1.37.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub Run {
                 LayoutObject           => $Self->{LayoutObject},
             );
 
-            # set the comple value structure in GetParam to store it later in the Generic Agent Job
+            # set the comple value structure in GetParam to store it later in the Notification Item
             if ( IsHashRefWithData($DynamicFieldValue) ) {
 
                 # set search structure for display
