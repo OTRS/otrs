@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.29 2012-11-12 21:35:31 mh Exp $
+# $Id: Cache.t,v 1.30 2012-11-14 22:39:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -176,7 +176,7 @@ for my $Module (qw(FileStorable)) {
             Type  => 'CacheTest2',
             Key   => 'Test',
             Value => 'ü',
-            TTL   => 2,
+            TTL   => 4,
         );
 
         $Self->True(
@@ -204,7 +204,7 @@ for my $Module (qw(FileStorable)) {
             Type  => 'CacheTest2',
             Key   => 'Test',
             Value => '9ßüß-カスタ1234',
-            TTL   => 2,
+            TTL   => 4,
         );
 
         $Self->True(
@@ -227,7 +227,7 @@ for my $Module (qw(FileStorable)) {
             "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
 
-        sleep 4;
+        sleep 5;
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
