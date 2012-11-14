@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.111 2012-11-12 18:18:31 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.112 2012-11-14 03:00:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,12 +176,10 @@ sub Run {
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory =>
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                LayoutObject => $Self->{LayoutObject},
-                ParamObject  => $Self->{ParamObject},
-
-                # CustomerTicketMessage does not support AJAXUpdate
-                AJAXUpdate     => 0,
-                SubmitOnChange => 1,
+                LayoutObject    => $Self->{LayoutObject},
+                ParamObject     => $Self->{ParamObject},
+                AJAXUpdate      => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -352,10 +350,8 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
-
-                # CustomerTicketMessage does not support AJAXUpdate
-                AJAXUpdate     => 0,
-                SubmitOnChange => 1,
+                AJAXUpdate   => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -1086,6 +1082,34 @@ sub _MaskNew {
         TemplateFile => 'CustomerTicketMessage',
         Data         => \%Param,
     );
+}
+
+sub _GetFieldsToUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my @UpdatableFields;
+
+    # set the fields that can be updatable via AJAXUpdate
+    if ( !$Param{OnlyDynamicFields} ) {
+        @UpdatableFields
+            = qw( Dest ServiceID SLAID PriorityID );
+    }
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !$Updateable;
+
+        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
+    }
+
+    return \@UpdatableFields;
 }
 
 1;
