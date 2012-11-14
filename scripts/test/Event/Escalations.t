@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.8.2.5 2012-06-15 18:34:11 cg Exp $
+# $Id: Escalations.t,v 1.8.2.6 2012-11-14 22:55:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,7 +173,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         $Self->True( $TicketID, "TicketCreate() $TicketTitle" );
 
         # sleep to have escalations with min 1
-        sleep 1;
+        sleep 2;
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 
