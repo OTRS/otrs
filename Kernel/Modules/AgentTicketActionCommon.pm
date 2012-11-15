@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.99 2012-11-15 10:27:35 mb Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.100 2012-11-15 12:34:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1679,8 +1679,9 @@ sub _GetResponsible {
         Valid => 1,
     );
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
-        my $GID = $Self->{QueueObject}
-            ->GetQueueGroupID( QueueID => $Param{NewQueueID} || $Param{QueueID} );
+        my $GID = $Self->{QueueObject}->GetQueueGroupID(
+            QueueID => $Param{NewQueueID} || $Param{QueueID}
+        );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'responsible',
@@ -1714,8 +1715,9 @@ sub _GetOwners {
         Valid => 1,
     );
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
-        my $GID = $Self->{QueueObject}
-            ->GetQueueGroupID( QueueID => $Param{NewQueueID} || $Param{QueueID} );
+        my $GID = $Self->{QueueObject}->GetQueueGroupID(
+            QueueID => $Param{NewQueueID} || $Param{QueueID}
+        );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'owner',
