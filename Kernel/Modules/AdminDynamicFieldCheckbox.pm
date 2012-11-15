@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldCheckbox.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.pm,v 1.19 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminDynamicFieldCheckbox.pm,v 1.20 2012-11-15 15:01:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -453,6 +453,7 @@ sub _ShowScreen {
         Name          => 'FieldOrder',
         SelectedValue => $Param{FieldOrder} || 1,
         PossibleNone  => 0,
+        Translation   => 0,
         Class         => 'W50pc Validate_Number',
     );
 
