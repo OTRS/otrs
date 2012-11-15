@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.8.2.6 2012-11-14 22:55:34 mh Exp $
+# $Id: Escalations.t,v 1.8.2.7 2012-11-15 20:07:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,7 +173,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         $Self->True( $TicketID, "TicketCreate() $TicketTitle" );
 
         # sleep to have escalations with min 1
-        sleep 2;
+        sleep 1;
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 
@@ -481,30 +481,32 @@ for my $Hours ( sort keys %WorkingHours ) {
         # make sure that a least a minute is taken off the used up time
         # A timespan of less than 1 minute comes up the 0% reached.
         # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
-        my $SleepTime = $TimeObject->SystemTime() - $TicketGet{CreateTimeUnix};
+        my $SystemTime = $TimeObject->SystemTime();
+        my $SleepTime  = $SystemTime - $TicketGet{CreateTimeUnix};
 
-        # Add extra seconds
-        $SleepTime = 10 if $SleepTime lt 10;
-        $SleepTime = 60 - $SleepTime;
-        $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
-        sleep $SleepTime;
+        # define the sleep time
+        $SleepTime = 50 - $SleepTime;
 
-        # explicitly invalidate the cache for the next TicketGet(),
-        # as TicketEscalationIndexBuild() of OTRS 2.4.7  does not care
-        delete $TicketObject->{ 'Cache::GetTicket' . $TicketID };
+        if ( $SleepTime > 5 ) {
 
-        if ( $WorkingHours{$Hours} ) {
-            $NumEvents{EscalationSolutionTimeNotifyBefore}++;
-            $NumEvents{EscalationUpdateTimeNotifyBefore}++;
+            $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
+
+            sleep $SleepTime;
+
+            if ( $WorkingHours{$Hours} ) {
+                $NumEvents{EscalationSolutionTimeNotifyBefore}++;
+                $NumEvents{EscalationUpdateTimeNotifyBefore}++;
+            }
+            $CheckNumEvents->(
+                GenericAgentObject => $GenericAgentObject,
+                TicketObject       => $TicketObject,
+                TicketID           => $TicketID,
+                NumEvents          => \%NumEvents,
+                JobName            => "Job6-$UniqueSignature",
+                QueueName          => $QueueName,
+                Comment            => "after Job6 - $SleepTime $TicketGet{CreateTimeUnix}",
+            );
         }
-        $CheckNumEvents->(
-            GenericAgentObject => $GenericAgentObject,
-            TicketObject       => $TicketObject,
-            TicketID           => $TicketID,
-            NumEvents          => \%NumEvents,
-            JobName            => "Job6-$UniqueSignature",
-            QueueName          => $QueueName,
-        );
     }
 
     # clean up
