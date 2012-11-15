@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.38 2012-11-15 14:37:45 mb Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.39 2012-11-15 15:07:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -207,7 +207,7 @@
                             $Data{"StateSelection"}
                         </div>
                         <div id="StateEntityIDServerError" class="TooltipErrorMessage">
-                            <p>$Text{"The selected state does not exists."}</p>
+                            <p>$Text{"The selected state does not exist."}</p>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

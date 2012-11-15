@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.13 2012-11-15 14:37:45 mb Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.14 2012-11-15 15:07:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,7 +94,7 @@
                                 $Data{"PermissionSelection"}
                             </div>
                             <div id="PermissionServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The selected permission does not exists."}</p>
+                                <p>$Text{"The selected permission does not exist."}</p>
                             </div>
                             <div class="Clear"></div>
 
@@ -103,7 +103,7 @@
                                 $Data{"RequiredLockSelection"}
                             </div>
                             <div id="RequiredLockServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The selected required lock does not exists."}</p>
+                                <p>$Text{"The selected required lock does not exist."}</p>
                             </div>
                             <div class="Clear"></div>
 
