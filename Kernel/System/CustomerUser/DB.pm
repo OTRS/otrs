@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.105 2012-11-12 18:07:29 mh Exp $
+# $Id: DB.pm,v 1.106 2012-11-15 14:34:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -708,9 +708,10 @@ sub CustomerUserAdd {
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
+    MAPENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next if ( lc( $Entry->[0] ) eq "userpassword" );
-        next if $SeenKey{ $Entry->[2] }++;
+        next MAPENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
+        next MAPENTRY if $SeenKey{ $Entry->[2] }++;
         $SQL .= " $Entry->[2], ";
     }
     $SQL .= 'create_time, create_by, change_time, change_by)';
@@ -803,9 +804,9 @@ sub CustomerUserUpdate {
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next ENTRY if $Entry->[7];    # skip readonly fields
-        next if ( lc( $Entry->[0] ) eq "userpassword" );
-        next if $SeenKey{ $Entry->[2] }++;
+        next ENTRY if $Entry->[7];                               # skip readonly fields
+        next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
+        next ENTRY if $SeenKey{ $Entry->[2] }++;
         $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
     }
     $SQL .= " change_time = current_timestamp, ";
