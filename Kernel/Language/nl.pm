@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.191 2012-11-12 18:44:00 mh Exp $
+# $Id: nl.pm,v 1.192 2012-11-15 14:41:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.191 $) [1];
+$VERSION = qw($Revision: 1.192 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -265,9 +265,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Toewijzen gebaseerd op e-mailadres.',
         'Dispatching by selected Queue.' => 'Toewijzen gebaseerd op geselecteerde wachtrij.',
         'No entry found!' => 'Niets gevonden.',
-        'Session invalid. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'Uw sessie is ongeldig. Meldt u opnieuw aan.',
         'Session has timed out. Please log in again.' => 'Uw sessie is verlopen. Meldt u opnieuw aan.',
-        'Session limit reached! Please try again later.' => '',
+        'Session limit reached! Please try again later.' => 'Sessie-limiet bereikt. Probeert u later opnieuw in te loggen.',
         'No Permission!' => 'Geen toegang! Onvoldoende permissies.',
         '(Click here to add)' => '(Klik hier om toe te voegen)',
         'Preview' => 'Voorbeeld',
@@ -862,9 +862,9 @@ sub Data {
         'Ticket responsible options' => 'Attributen van de verantwoordelijke',
         'Options of the current user who requested this action' => 'Attributen van de huidige gebruiker',
         'Options of the ticket data' => 'Attributen van het ticket',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Attributen van dynamische velden, interne waarden',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Waarden van dynamische velden, voor Dropdown en Multiselect velden',
         'Config options' => 'Attributen van de configuratie',
         'Example response' => 'Voorbeeld',
 
@@ -885,7 +885,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Last Login' => 'Laatst ingelogd',
         'Login as' => 'Inloggen als',
-        'Switch to customer' => '',
+        'Switch to customer' => 'Omschakelen naar klant',
         'Add Customer' => 'Klant toevoegen',
         'Edit Customer' => 'Klant bewerken',
         'This field is required and needs to be a valid email address.' =>
@@ -973,8 +973,8 @@ sub Data {
             'Dit is de volgorde waarin de velden worden weergegeven op de schermen waar ze geactiveerd zijn.',
         'Field type' => 'Veldtype',
         'Object type' => 'Objecttype',
-        'Internal field' => '',
-        'This field is protected and can\'t be deleted.' => '',
+        'Internal field' => 'Intern veld',
+        'This field is protected and can\'t be deleted.' => 'Dit veld is beschermd en kan niet worden verwijderd.',
         'Field Settings' => 'Veld-instellingen',
         'Default value' => 'Standaard waarde',
         'This is the default value for this field.' => 'Dit is de standaard-waarde voor dit veld.',
@@ -1420,7 +1420,7 @@ sub Data {
         'Recipient email addresses' => 'Ontvanger e-mailadressen',
         'Article type' => 'Soort interactie',
         'Only for ArticleCreate event' => 'Alleen bij ArticleCreate gebeurtenis',
-        'Article sender type' => '',
+        'Article sender type' => 'Soort verzender',
         'Subject match' => 'Onderwerp',
         'Body match' => 'Bericht tekst',
         'Include attachments to notification' => 'Voeg bijlagen toe aan melding',
@@ -1536,153 +1536,153 @@ sub Data {
         'Edit Priority' => 'Bewerk prioriteit',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
-        'Filter for Processes' => '',
+        'Process Management' => 'Procesbeheer',
+        'Filter for Processes' => 'Filter op processen',
         'Filter' => 'Filter',
-        'Create New Process' => '',
-        'Synchronize All Processes' => '',
-        'Configuration import' => '',
+        'Create New Process' => 'Nieuw proces',
+        'Synchronize All Processes' => 'Synchroniseer alle processen',
+        'Configuration import' => 'Importeer configuratie',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+            'Hier kunt u een proces importeren vanuit een configuratiebestand. Het bestand moet in .yml formaat zijn, zoals geëxporteerd door de procesbeheer-module.',
+        'Upload process configuration' => 'Upload procesconfiguratie',
+        'Import process configuration' => 'Importeer procesconfiguratie',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
-            '',
+            'Om een nieuw proces aan te maken kunt u een bestand importeren, aangemaakt op een ander systeem, of een compleet nieuw proces aanmaken.',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
-            '',
-        'Processes' => '',
-        'Process name' => '',
-        'Export Process Configuration' => '',
+            'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
+        'Processes' => 'Processen',
+        'Process name' => 'Naam',
+        'Export Process Configuration' => 'Exporteer procesconfiguratie',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Annuleren en scherm sluiten',
-        'Go Back' => '',
+        'Go Back' => 'Terug',
         'Please note, that changing this activity will affect the following processes' =>
-            '',
-        'Activity' => '',
-        'Activity Name' => '',
-        'Activity Dialogs' => '',
-        'Filter available Activity Dialogs' => '',
-        'Available Activity Dialogs' => '',
-        'Create New Activity Dialog' => '',
-        'Assigned Activity Dialogs' => '',
+            'Let op: het wijzigen van deze activiteit heeft invloed op de volgende processen',
+        'Activity' => 'Activiteit',
+        'Activity Name' => 'Naam',
+        'Activity Dialogs' => 'Dialogen',
+        'Filter available Activity Dialogs' => 'Filter beschikbare dialogen',
+        'Available Activity Dialogs' => 'Beschikbare dialogen',
+        'Create New Activity Dialog' => 'Nieuwe dialoog',
+        'Assigned Activity Dialogs' => 'Toegewezen dialogen',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            '',
+            'Als u deze knop of link gebruikt, verlaat u dit scherm en de huidige staat wordt automatisch opgeslagen. Wilt u doorgaan?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
-            '',
-        'Activity Dialog' => '',
-        'Activity dialog Name' => '',
-        'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
-        'The selected permission does not exists.' => '',
-        'Required Lock' => '',
-        'The selected required lock does not exists.' => '',
-        'Submit Advice Text' => '',
-        'Submit Button Text' => '',
-        'Fields' => '',
-        'Filter available Fields' => '',
-        'Available Fields' => '',
-        'Assigned Fields' => '',
-        'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
-        'ArticleType' => '',
-        'Display' => '',
-        'Edit Field Details' => '',
+            'Let op: het wijzigen van deze dialoog heeft invoed op de volgende activiteiten',
+        'Activity Dialog' => 'Dialoog',
+        'Activity dialog Name' => 'Naam',
+        'Available in' => 'Beschikbaar in',
+        'Description (Short)' => 'Beschrijving (kort)',
+        'Description (Long)' => 'Beschrijving (lang)',
+        'The selected permission does not exist.' => 'De gekozen permissie bestaat niet.',
+        'Required Lock' => 'Vergrendeling nodig',
+        'The selected required lock does not exist.' => 'De gekozen vergrendeling bestaat niet.',
+        'Submit Advice Text' => 'Verstuur-advies tekst',
+        'Submit Button Text' => 'Tekst op Verstuur-knop',
+        'Fields' => 'Velden',
+        'Filter available Fields' => 'Filter beschikbare velden',
+        'Available Fields' => 'Beschikbare velden',
+        'Assigned Fields' => 'Toegewezen velden',
+        'Edit Details for Field' => 'Bewerk details voor veld',
+        'Description (short)' => 'Beschrijving (kort)',
+        'Description (long)' => 'Beschrijving (lang)',
+        'ArticleType' => 'Interactie-type',
+        'Display' => 'Weergave',
+        'Edit Field Details' => 'Bewerk veld-details',
 
         # Template: AdminProcessManagementPath
-        'Path' => '',
-        'Transition Actions' => '',
-        'Filter available Transition Actions' => '',
-        'Available Transition Actions' => '',
-        'Create New Transition Action' => '',
-        'Assigned Transition Actions' => '',
+        'Path' => 'Pad',
+        'Transition Actions' => 'Transitie-acties',
+        'Filter available Transition Actions' => 'Filter beschikbare transitie-acties',
+        'Available Transition Actions' => 'Beschikbare transitie-acties',
+        'Create New Transition Action' => 'Nieuwe transitie-actie',
+        'Assigned Transition Actions' => 'Gekoppelde transitie-acties',
 
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
-        'Filter Activities...' => '',
-        'Create New Activity' => '',
-        'Filter Activity Dialogs...' => '',
-        'Filter Transitions...' => '',
-        'Create New Transition' => '',
-        'Filter Transition Actions...' => '',
+        'Filter Activities...' => 'Filter activiteiten',
+        'Create New Activity' => 'Nieuwe activiteit',
+        'Filter Activity Dialogs...' => 'Filter dialogen...',
+        'Filter Transitions...' => 'Filter transities...',
+        'Create New Transition' => 'Nieuwe transitie',
+        'Filter Transition Actions...' => 'Filter transitie-acties...',
 
         # Template: AdminProcessManagementProcessEdit
-        'Edit Process' => '',
-        'Back To Overview' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
-        'Available Process Elements' => '',
+        'Edit Process' => 'Bewerk proces',
+        'Back To Overview' => 'Terug naar het overzicht',
+        'Delete Process' => 'Verwijder proces',
+        'Delete Inactive Process' => 'Verwijder inactief proces',
+        'Available Process Elements' => 'Beschikbare proces-elementen',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
-            '',
-        'Activities' => '',
+            'De elementen hierboven kunnen verplaatst worden naar de canvas aan de rechterzijde door middel van slepen.',
+        'Activities' => 'Activiteiten',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
-            '',
+            'U kunt activiteiten op de canvas plaatsen om ze toe te wijzen aan dit proces.',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
-            '',
-        'Transitions' => '',
+            'Om een dialoog toe te voegen aan een activiteit sleept u de dialoog uit deze lijst naar de activiteit geplaatst op de canvas.',
+        'Transitions' => 'Transities',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '',
+            'U kunt een verbinding maken tussen activiteiten door de transitie op de start-actiiteit te slepen. Daarna kunt u het losse einde van de pijl naar de eind-activiteit slepen.',
         'Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition.' =>
-            '',
-        'Edit Process Information' => '',
-        'Process Name' => '',
-        'The selected state does not exists.' => '',
-        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
-        'Extend the width of the Canvas' => '',
-        'Extend the height of the Canvas' => '',
-        'Remove the Activity from this Process' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
-        'Do you really want to delete this Transition Action?' => '',
-        'Delete Entity' => '',
+            'Acties kunnen gekoppeld worden aan een transitie door het actie-element naar de pijl van een transitie te slepen.',
+        'Edit Process Information' => 'Bewerk proces-informatie',
+        'Process Name' => 'Naam',
+        'The selected state does not exists.' => 'De gekozen status bestaat niet.',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => 'Beheren activiteiten, dialogen en transities',
+        'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
+        'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
+        'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
+        'Do you really want to delete this Process?' => 'Wilt u dit proces verwijderen?',
+        'Do you really want to delete this Activity?' => 'Wilt u deze activiteit verwijderen?',
+        'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
+        'Do you really want to delete this Transition?' => 'Wilt u deze transitie verwijderen?',
+        'Do you really want to delete this Transition Action?' => 'Wilt u deze transitie-actie verwijderen?',
+        'Delete Entity' => 'Verwijderen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
-            '',
+            'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
         'This Activity cannot be deleted because it is the Start Activity.' =>
-            '',
+            'Deze activiteit kan niet worden verwijderd omdat het de start-activiteit is.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '',
+            'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '',
-        'The Start Event cannot loose the Start Transition!' => '',
+            'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
+        'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '',
+            'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
 
         # Template: AdminProcessManagementProcessNew
-        'Here is the description of what this screen is all about.' => '',
+        'Here is the description of what this screen is all about.' => 'Dit is de beschrijving van het scherm.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
-            '',
-        'Transition' => '',
-        'Transition Name' => '',
-        'Conditions' => '',
-        'Type of Linking between Conditions' => '',
-        'Condition' => '',
-        'Remove this Condition' => '',
-        'Type of Linking' => '',
-        'Remove this Field' => '',
-        'Add a new Field' => '',
-        'Add New Condition' => '',
+            'Let op: het wijzigen van deze transitie heeft invloed op de volgende processen',
+        'Transition' => 'Transitie',
+        'Transition Name' => 'Naam',
+        'Conditions' => 'Condities',
+        'Type of Linking between Conditions' => 'Type koppeling tussen condities',
+        'Condition' => 'Conditie',
+        'Remove this Condition' => 'Verwijder conditie',
+        'Type of Linking' => 'Type koppeling',
+        'Remove this Field' => 'Verwijder dit veld',
+        'Add a new Field' => 'Nieuw veld',
+        'Add New Condition' => 'Nieuwe conditie',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
-            '',
-        'Transition Action' => '',
-        'Transition Action Name' => '',
-        'Config Parameters' => '',
-        'Remove this Parameter' => '',
-        'Add a new Parameter' => '',
+            'Let op: het wijzigen van deze transitie-actie heeft invloed op de volgende processen',
+        'Transition Action' => 'Transitie-actie',
+        'Transition Action Name' => 'Naam',
+        'Config Parameters' => 'Configuratie',
+        'Remove this Parameter' => 'Verwijder deze parameter',
+        'Add a new Parameter' => 'Nieuwe parameter',
 
         # Template: AdminQueue
         'Manage Queues' => 'Wachtrijenbeheer',
@@ -1806,7 +1806,7 @@ sub Data {
         'Hash' => 'Hash',
         'Create' => 'Aanmaken',
         'Handle related certificates' => 'Beheer gekoppelde certificaten',
-        'Read certificate' => '',
+        'Read certificate' => 'Lees certificaat',
         'Delete this certificate' => 'Verwijder certificaat',
         'Add Certificate' => 'Nieuw certificaat',
         'Add Private Key' => 'Nieuwe private sleutel',
@@ -1817,7 +1817,7 @@ sub Data {
         'Relate this certificate' => 'Koppel dit certificaat',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => '',
+        'SMIME Certificate' => 'S/MIME certificaat',
         'Close window' => 'Sluit venster',
 
         # Template: AdminSalutation
@@ -1988,7 +1988,7 @@ sub Data {
         'Apply' => 'Toepassen',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'Klantinformatie overzicht',
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'Klant ID',
@@ -1998,7 +1998,7 @@ sub Data {
         'Search Customer' => 'Klanten zoeken',
         'Duplicated entry' => 'Dubbel adres',
         'This address already exists on the address list.' => 'Dit adres is al toegevoegd.',
-        'It is going to be deleted from the field, please try again.' => '',
+        'It is going to be deleted from the field, please try again.' => 'Het wordt verwijderd van dit veld, probeer opnieuw.',
 
         # Template: AgentCustomerTableView
 
@@ -2011,16 +2011,16 @@ sub Data {
         # Template: AgentDashboardCustomerCompanyInformation
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'Geëscaleerde tickets',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer information' => '',
-        'Phone ticket' => '',
-        'Email ticket' => '',
-        '%s open ticket(s) of %s' => '',
-        '%s closed ticket(s) of %s' => '',
-        'New phone ticket for %s' => '',
-        'New email ticket for %s' => '',
+        'Customer information' => 'Klantinformatie',
+        'Phone ticket' => 'Telefoon-ticket',
+        'Email ticket' => 'E-mail-ticket',
+        '%s open ticket(s) of %s' => '%s open ticket(s) van %s',
+        '%s closed ticket(s) of %s' => '%s gesloten ticket(s) van %s',
+        'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
+        'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
 
         # Template: AgentDashboardIFrame
 
@@ -2044,10 +2044,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'afwezigheid',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'tot',
 
         # Template: AgentHTMLReferenceForms
 
@@ -2306,8 +2306,8 @@ sub Data {
         # Template: AgentTicketPriority
 
         # Template: AgentTicketProcess
-        'Create New Process Ticket' => '',
-        'Process' => '',
+        'Create New Process Ticket' => 'Nieuw proces-ticket',
+        'Process' => 'Proces',
 
         # Template: AgentTicketProcessNavigationBar
 
@@ -2337,8 +2337,8 @@ sub Data {
         'Ticket Change Time (between)' => 'Ticket gewijzigd (tussen)',
         'Ticket Close Time (before/after)' => 'Ticket gesloten (voor/na)',
         'Ticket Close Time (between)' => 'Ticket gesloten (tussen)',
-        'Ticket Escalation Time (before/after)' => '',
-        'Ticket Escalation Time (between)' => '',
+        'Ticket Escalation Time (before/after)' => 'Ticket escalatietijd (voor/na)',
+        'Ticket Escalation Time (between)' => 'Ticket escaltietijd (tussen)',
         'Archive Search' => 'Zoek in archief',
         'Run search' => 'Voer zoekopdracht uit',
 
@@ -2353,13 +2353,13 @@ sub Data {
         'Article Type' => 'Soort interactie',
         'Sender Type' => 'Soort verzender',
         'Save filter settings as default' => 'Sla filter op als standaard',
-        'Archive' => '',
-        'This ticket is archived.' => '',
+        'Archive' => 'Archief',
+        'This ticket is archived.' => 'Dit ticket is gearchiveerd.',
         'Linked Objects' => 'Gekoppelde objecten',
         'Article(s)' => 'Interactie(s)',
         'Change Queue' => 'Wijzig wachtrij',
-        'There are currently no steps available for this process.' => '',
-        'This item has no articles yet.' => '',
+        'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
+        'This item has no articles yet.' => 'Dit item heeft nog geen interacties.',
         'Article Filter' => 'Filter interacties',
         'Add Filter' => 'Nieuw filter',
         'Set' => 'Nieuwe waarden',
@@ -2375,7 +2375,7 @@ sub Data {
         'Resize' => 'Grootte wijzigen',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => '',
+        'To protect your privacy, remote content was blocked.' => 'Om uw privacy te beschermen is actieve inhoud geblokkeerd.',
         'Load blocked content.' => 'Laad actieve inhoud.',
 
         # Template: Copyright
@@ -2476,11 +2476,11 @@ sub Data {
         'Search Results for' => 'Zoekresultaat voor',
 
         # Template: CustomerTicketZoom
-        'Show  article' => '',
+        'Show  article' => 'Toon interactie',
         'Expand article' => 'Toon interactie',
-        'Information' => '',
-        'Next Steps' => '',
-        'There are no further steps in this process' => '',
+        'Information' => 'Informatie',
+        'Next Steps' => 'Volgende stappen',
+        'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
         'Reply' => 'Beantwoord',
 
         # Template: CustomerWarning
@@ -2530,9 +2530,9 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
+        'Fulltext search' => 'Zoeken',
+        'CustomerID Search' => 'Zoeken op klantcode',
+        'CustomerUser Search' => 'Zoeken op klant',
         'You are logged in as' => 'Ingelogd als',
 
         # Template: HeaderSmall
@@ -2828,11 +2828,11 @@ sub Data {
             '',
         'Closed tickets of customer' => 'Gesloten tickets van klant',
         'Comment for new history entries in the customer interface.' => '',
-        'Company Status' => '',
+        'Company Status' => 'Klantstatus',
         'Company Tickets' => 'Tickets van groep',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
-        'Configure Processes.' => '',
+        'Configure Processes.' => 'Beheer processen',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -2845,7 +2845,7 @@ sub Data {
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => '',
-        'Create New process ticket' => '',
+        'Create New process ticket' => 'Maak nieuw proces-ticket aan',
         'Create and manage Service Level Agreements (SLAs).' => 'Aanmaken en beheren van Service Level Agreements (SLA\'s).',
         'Create and manage agents.' => 'Aanmaken en beheren van behandelaars.',
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
@@ -2869,9 +2869,9 @@ sub Data {
         'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon ticket aan (inkomend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
-        'Customer User Administration' => '',
+        'Customer Company Administration' => 'Beheren van bedrijven',
+        'Customer Company Information' => 'Bedrijfsinformatie',
+        'Customer User Administration' => 'Beheren van klanten',
         'Customer Users' => 'Klanten',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -3793,7 +3793,7 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail van op te halen en om te zetten in tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
-        'Manage notifications that are sent to agents.' => '',
+        'Manage notifications that are sent to agents.' => 'Beheer van notificatieteksten.',
         'Manage periodic tasks.' => 'Beheer terugkerende taken.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -3848,9 +3848,9 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New email ticket' => 'Nieuw e-mail ticket',
-        'New phone ticket' => 'Nieuw telefoon ticket',
-        'New process ticket' => '',
+        'New email ticket' => 'Nieuw e-mail-ticket',
+        'New phone ticket' => 'Nieuw telefoon-ticket',
+        'New process ticket' => 'Nieuw proces-ticket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -3933,12 +3933,12 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'E-mail filters',
         'PostMaster Mail Accounts' => 'E-mail accounts',
-        'Process Information' => '',
-        'Process Management Activity Dialog GUI' => '',
-        'Process Management Activity GUI' => '',
-        'Process Management Path GUI' => '',
-        'Process Management Transition Action GUI' => '',
-        'Process Management Transition GUI' => '',
+        'Process Information' => 'Procesinformatie',
+        'Process Management Activity Dialog GUI' => 'Procesbeheer dialoog',
+        'Process Management Activity GUI' => 'Procesbeheer activiteit',
+        'Process Management Path GUI' => 'Procesbeheer pad',
+        'Process Management Transition Action GUI' => 'Procesbeheer transitie-actie',
+        'Process Management Transition GUI' => 'Procesbeheer transitie',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Wachtrijoverzicht',
