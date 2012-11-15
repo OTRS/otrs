@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2529 2012-11-14 22:14:04 cr Exp $
+# $Id: CHANGES,v 1.2530 2012-11-15 08:05:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 3.2.0.beta3 2012-??-??
+ - 2012-11-15 Fixed bug#8920 - Owner selection is set to empty list after a selection is made
+    in AgentTicketActionCommon based screens.
  - 2012-11-14 Fixed bug#8868 - Event Based Notification problem saving 'text' Dynamic Fields.
  - 2012-11-13 Fixed bug#8910 - AjaxUpdate of DynamicFields in CustomerFrontend.
  - 2012-11-12 Added feature to search on Company Name in Customer Information Center.
