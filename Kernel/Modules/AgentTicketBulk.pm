@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.98 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.99 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -682,7 +682,7 @@ sub _Mask {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $KeyError ( keys %{ $Param{Errors} } ) {
+        for my $KeyError ( sort keys %{ $Param{Errors} } ) {
             $Param{$KeyError}
                 = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
@@ -708,7 +708,7 @@ sub _Mask {
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
     my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
-    for my $KeyNoteType ( keys %NoteTypes ) {
+    for my $KeyNoteType ( sort keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
             delete $NoteTypes{$KeyNoteType};
         }

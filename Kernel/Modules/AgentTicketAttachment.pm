@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.37 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentTicketAttachment.pm,v 1.38 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,7 +97,7 @@ sub Run {
     # find viewer for ContentType
     my $Viewer = '';
     if ( $Self->{Viewer} && $Self->{ConfigObject}->Get('MIME-Viewer') ) {
-        for ( keys %{ $Self->{ConfigObject}->Get('MIME-Viewer') } ) {
+        for ( sort keys %{ $Self->{ConfigObject}->Get('MIME-Viewer') } ) {
             if ( $Data{ContentType} =~ /^$_/i ) {
                 $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
                 $Viewer =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{ConfigObject}->{$1}/g;

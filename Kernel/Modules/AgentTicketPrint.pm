@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.89 2012-11-12 18:18:31 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.90 2012-11-15 20:55:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -949,7 +949,7 @@ sub _PDFOutputArticles {
             %AtmIndex = %{ $Article{Atms} };
         }
         my $Attachments;
-        for my $FileID ( keys %AtmIndex ) {
+        for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
             $Attachments .= $File{Filename} . ' (' . $File{Filesize} . ")\n";
         }
@@ -1268,7 +1268,7 @@ sub _HTMLMask {
             %AtmIndex = %{ $Article{Atms} };
         }
         $Param{'Article::ATM'} = '';
-        for my $FileID ( keys %AtmIndex ) {
+        for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html( Text => $File{Filename} );
             $Param{'Article::ATM'}

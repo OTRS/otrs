@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.11 2012-11-12 18:36:23 mh Exp $
+# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.12 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +41,7 @@ sub Run {
     # check if own selection is configured
     my %NewTos;
     if ( $Self->{ConfigObject}->{CustomerPanelOwnSelection} ) {
-        for my $Queue ( keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
+        for my $Queue ( sort keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
             my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$Queue};
             if ( $Queue =~ /^\d+$/ ) {
                 $NewTos{$Queue} = $Value;
@@ -63,7 +63,7 @@ sub Run {
             Type           => 'create',
             Action         => $Param{Env}->{Action},
         );
-        for my $QueueID ( keys %NewTos ) {
+        for my $QueueID ( sort keys %NewTos ) {
             if ( !$Queues{$QueueID} ) {
                 delete $NewTos{$QueueID};
             }
@@ -94,7 +94,7 @@ sub Run {
                 Valid => 1,
                 Clamp => 1,
             );
-            for my $QueueID ( keys %Queues ) {
+            for my $QueueID ( sort keys %Queues ) {
                 if ( $SystemTos{$QueueID} ) {
                     $Tos{$QueueID} = $Queues{$QueueID};
                 }
@@ -103,7 +103,7 @@ sub Run {
         %NewTos = %Tos;
 
         # build selection string
-        for my $QueueID ( keys %NewTos ) {
+        for my $QueueID ( sort keys %NewTos ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
             my $String = $Self->{ConfigObject}->Get('CustomerPanelSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';

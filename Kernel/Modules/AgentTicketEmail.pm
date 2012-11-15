@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.217 2012-11-12 18:18:30 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.218 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.217 $) [1];
+$VERSION = qw($Revision: 1.218 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -333,7 +333,7 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -795,7 +795,7 @@ sub Run {
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            for my $CustomerUserKey ( keys %CustomerUserList ) {
+            for my $CustomerUserKey ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
                 $Param{CustomerUserListLast}     = $CustomerUserList{$CustomerUserKey};
                 $Param{CustomerUserListLastUser} = $CustomerUserKey;
@@ -838,7 +838,7 @@ sub Run {
             my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                 UserLogin => $CustomerUser,
             );
-            for my $CustomerUserKey ( keys %CustomerUserList ) {
+            for my $CustomerUserKey ( sort keys %CustomerUserList ) {
                 $GetParam{To} = $CustomerUserList{$CustomerUserKey};
             }
             if ( $CustomerUserData{UserCustomerID} ) {
@@ -1325,7 +1325,7 @@ sub Run {
         my $NewTos;
 
         if ($Tos) {
-            for my $KeyTo ( keys %{$Tos} ) {
+            for my $KeyTo ( sort keys %{$Tos} ) {
                 $NewTos->{"$KeyTo||$Tos->{$KeyTo}"} = $Tos->{$KeyTo};
             }
         }
@@ -1577,7 +1577,7 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $GroupMemberKey ( keys %AllGroupsMembers ) {
+        for my $GroupMemberKey ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
                 if ( $UID eq $GroupMemberKey ) {
@@ -1603,7 +1603,7 @@ sub _GetUsers {
             Type    => 'owner',
             Result  => 'HASH',
         );
-        for my $MemberKey ( keys %MemberList ) {
+        for my $MemberKey ( sort keys %MemberList ) {
             if ( $AllGroupsMembers{$MemberKey} ) {
                 $ShownUsers{$MemberKey} = $AllGroupsMembers{$MemberKey};
             }
@@ -1637,7 +1637,7 @@ sub _GetResponsibles {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $GroupMemberKey ( keys %AllGroupsMembers ) {
+        for my $GroupMemberKey ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
                 if ( $UID eq $GroupMemberKey ) {
@@ -1663,7 +1663,7 @@ sub _GetResponsibles {
             Type    => 'responsible',
             Result  => 'HASH',
         );
-        for my $MemberKey ( keys %MemberList ) {
+        for my $MemberKey ( sort keys %MemberList ) {
             if ( $AllGroupsMembers{$MemberKey} ) {
                 $ShownUsers{$MemberKey} = $AllGroupsMembers{$MemberKey};
             }
@@ -1792,7 +1792,7 @@ sub _GetTos {
         );
 
         # build selection string
-        for my $QueueID ( keys %Tos ) {
+        for my $QueueID ( sort keys %Tos ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
@@ -1876,7 +1876,7 @@ sub _MaskEmailNew {
     # build Destination string
     my %NewTo;
     if ( $Param{FromList} ) {
-        for my $FromKey ( keys %{ $Param{FromList} } ) {
+        for my $FromKey ( sort keys %{ $Param{FromList} } ) {
             $NewTo{"$FromKey||$Param{FromList}->{$FromKey}"} = $Param{FromList}->{$FromKey};
         }
     }
@@ -1915,7 +1915,7 @@ sub _MaskEmailNew {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $ErrorKey ( keys %{ $Param{Errors} } ) {
+        for my $ErrorKey ( sort keys %{ $Param{Errors} } ) {
             $Param{$ErrorKey}
                 = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
         }

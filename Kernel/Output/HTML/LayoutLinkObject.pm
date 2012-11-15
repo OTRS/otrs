@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.27 2012-11-12 18:36:23 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.28 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -98,19 +98,19 @@ sub LinkObjectTableCreateComplex {
 
     # convert the link list
     my %LinkList;
-    for my $Object ( keys %{ $Param{LinkListWithData} } ) {
+    for my $Object ( sort keys %{ $Param{LinkListWithData} } ) {
 
-        for my $LinkType ( keys %{ $Param{LinkListWithData}->{$Object} } ) {
+        for my $LinkType ( sort keys %{ $Param{LinkListWithData}->{$Object} } ) {
 
             # extract link type List
             my $LinkTypeList = $Param{LinkListWithData}->{$Object}->{$LinkType};
 
-            for my $Direction ( keys %{$LinkTypeList} ) {
+            for my $Direction ( sort keys %{$LinkTypeList} ) {
 
                 # extract direction list
                 my $DirectionList = $Param{LinkListWithData}->{$Object}->{$LinkType}->{$Direction};
 
-                for my $ObjectKey ( keys %{$DirectionList} ) {
+                for my $ObjectKey ( sort keys %{$DirectionList} ) {
 
                     $LinkList{$Object}->{$ObjectKey}->{$LinkType} = $Direction;
                 }
@@ -411,7 +411,7 @@ sub LinkObjectTableCreateSimple {
 
     my %OutputData;
     OBJECT:
-    for my $Object ( keys %{ $Param{LinkListWithData} } ) {
+    for my $Object ( sort keys %{ $Param{LinkListWithData} } ) {
 
         # load backend
         my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
@@ -427,7 +427,7 @@ sub LinkObjectTableCreateSimple {
 
         next OBJECT if !%LinkOutputData;
 
-        for my $LinkType ( keys %LinkOutputData ) {
+        for my $LinkType ( sort keys %LinkOutputData ) {
 
             $OutputData{$LinkType}->{$Object} = $LinkOutputData{$LinkType}->{$Object};
         }

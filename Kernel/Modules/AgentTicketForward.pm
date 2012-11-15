@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.137 2012-11-12 18:18:30 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.138 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -527,7 +527,7 @@ sub SendEmail {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -1021,7 +1021,7 @@ sub AjaxUpdate {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -1195,7 +1195,7 @@ sub _Mask {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for ( keys %{ $Param{Errors} } ) {
+        for ( sort keys %{ $Param{Errors} } ) {
             $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }

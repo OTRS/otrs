@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.21 2012-11-12 18:18:31 mh Exp $
+# $Id: AgentTicketProcess.pm,v 1.22 2012-11-15 20:55:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2235,7 +2235,7 @@ sub _RenderArticle {
             Result  => 'HASH',
             Cached  => 1,
         );
-        for my $UserID ( keys %MemberList ) {
+        for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
         }
         $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -4268,7 +4268,7 @@ sub _GetResponsibles {
                 Result  => 'HASH',
                 Cached  => 1,
             );
-            for my $UserID ( keys %MemberList ) {
+            for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
         }
@@ -4288,7 +4288,7 @@ sub _GetResponsibles {
         # just show only users with selected custom queue
         if ( $Param{QueueID} && !$Param{ResponsibleAll} ) {
             my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-            for my $KeyGroupMember ( keys %AllGroupsMembers ) {
+            for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
                 my $Hit = 0;
                 for my $UID (@UserIDs) {
                     if ( $UID eq $KeyGroupMember ) {
@@ -4314,7 +4314,7 @@ sub _GetResponsibles {
                 Type    => 'responsible',
                 Result  => 'HASH',
             );
-            for my $KeyMember ( keys %MemberList ) {
+            for my $KeyMember ( sort keys %MemberList ) {
                 if ( $AllGroupsMembers{$KeyMember} ) {
                     $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
                 }
@@ -4356,7 +4356,7 @@ sub _GetOwners {
                 Result  => 'HASH',
                 Cached  => 1,
             );
-            for my $UserID ( keys %MemberList ) {
+            for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
         }
@@ -4376,7 +4376,7 @@ sub _GetOwners {
         # just show only users with selected custom queue
         if ( $Param{QueueID} && !$Param{OwnerAll} ) {
             my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-            for my $KeyGroupMember ( keys %AllGroupsMembers ) {
+            for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
                 my $Hit = 0;
                 for my $UID (@UserIDs) {
                     if ( $UID eq $KeyGroupMember ) {
@@ -4402,7 +4402,7 @@ sub _GetOwners {
                 Type    => 'owner',
                 Result  => 'HASH',
             );
-            for my $KeyMember ( keys %MemberList ) {
+            for my $KeyMember ( sort keys %MemberList ) {
                 if ( $AllGroupsMembers{$KeyMember} ) {
                     $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
                 }
@@ -4618,7 +4618,7 @@ sub _GetQueues {
         );
 
         # build selection string
-        for my $QueueID ( keys %Queues ) {
+        for my $QueueID ( sort keys %Queues ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
@@ -4684,7 +4684,7 @@ sub _GetAJAXUpdatableFields {
 
     my @UpdatableFields;
     FIELD:
-    for my $Field ( keys %{ $Param{ActivityDialogFields} } ) {
+    for my $Field ( sort keys %{ $Param{ActivityDialogFields} } ) {
 
         my $FieldData = $Param{ActivityDialogFields}->{$Field};
 

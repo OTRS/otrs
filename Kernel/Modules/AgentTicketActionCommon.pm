@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.100 2012-11-15 12:34:29 mh Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.101 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -239,7 +239,7 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -844,7 +844,7 @@ sub Run {
         # convert dynamic field values into a structure for ACLs
         my %DynamicFieldACLParameters;
         DYNAMICFIELD:
-        for my $DynamicField ( keys %DynamicFieldValues ) {
+        for my $DynamicField ( sort keys %DynamicFieldValues ) {
             next DYNAMICFIELD if !$DynamicField;
             next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -1278,7 +1278,7 @@ sub _Mask {
                 Result  => 'HASH',
                 Cached  => 1,
             );
-            for my $UserID ( keys %MemberList ) {
+            for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
         }
@@ -1351,7 +1351,7 @@ sub _Mask {
                 Result  => 'HASH',
                 Cached  => 1,
             );
-            for my $UserID ( keys %MemberList ) {
+            for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
         }
@@ -1491,7 +1491,7 @@ sub _Mask {
                 Result  => 'HASH',
                 Cached  => 1,
             );
-            for my $UserID ( keys %MemberList ) {
+            for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
             my $InformAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InformAgentMaxSize')
@@ -1581,7 +1581,7 @@ sub _Mask {
         if ( $Self->{Config}->{ArticleTypes} ) {
             my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
             my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
-            for my $KeyNoteType ( keys %NoteTypes ) {
+            for my $KeyNoteType ( sort keys %NoteTypes ) {
                 if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
                     delete $NoteTypes{$KeyNoteType};
                 }
@@ -1688,7 +1688,7 @@ sub _GetResponsible {
             Result  => 'HASH',
             Cached  => 1,
         );
-        for my $UserID ( keys %MemberList ) {
+        for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
         }
     }
@@ -1724,7 +1724,7 @@ sub _GetOwners {
             Result  => 'HASH',
             Cached  => 1,
         );
-        for my $UserID ( keys %MemberList ) {
+        for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
         }
     }

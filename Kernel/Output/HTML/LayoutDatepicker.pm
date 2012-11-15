@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutDatepicker.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutDatepicker.pm,v 1.4 2012-11-12 18:36:23 mh Exp $
+# $Id: LayoutDatepicker.pm,v 1.5 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -47,16 +47,16 @@ sub DatepickerGetVacationDays {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
 
     # translate the vacation description if possible
-    for my $Month ( keys %{$TimeVacationDays} ) {
-        for my $Day ( keys %{ $TimeVacationDays->{$Month} } ) {
+    for my $Month ( sort keys %{$TimeVacationDays} ) {
+        for my $Day ( sort keys %{ $TimeVacationDays->{$Month} } ) {
             $TimeVacationDays->{$Month}->{$Day}
                 = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
         }
     }
 
-    for my $Year ( keys %{$TimeVacationDaysOneTime} ) {
-        for my $Month ( keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
-            for my $Day ( keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
+    for my $Year ( sort keys %{$TimeVacationDaysOneTime} ) {
+        for my $Month ( sort keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
+            for my $Day ( sort keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
                 $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} = $Self->{LanguageObject}->Get(
                     $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
                 );
@@ -86,6 +86,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-11-12 18:36:23 $
+$Revision: 1.5 $ $Date: 2012-11-15 20:52:31 $
 
 =cut

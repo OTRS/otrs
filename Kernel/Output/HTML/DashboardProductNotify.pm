@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.12 2012-11-12 18:34:17 mh Exp $
+# $Id: DashboardProductNotify.pm,v 1.13 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,7 +95,7 @@ sub Run {
             my $ContentFound = 0;
 
             # show messages
-            for my $Item ( keys %{ $Data[1]->{otrs_product}->[1] } ) {
+            for my $Item ( sort keys %{ $Data[1]->{otrs_product}->[1] } ) {
                 next if $Item ne 'Message';
 
                 # remember if content got shown
@@ -109,7 +109,7 @@ sub Run {
             }
 
             # show release updates
-            for my $Item ( keys %{ $Data[1]->{otrs_product}->[1] } ) {
+            for my $Item ( sort keys %{ $Data[1]->{otrs_product}->[1] } ) {
                 next if $Item ne 'Release';
                 for my $Record ( @{ $Data[1]->{otrs_product}->[1]->{$Item} } ) {
                     next if !$Record;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.154 2012-11-12 18:18:31 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.155 2012-11-15 20:55:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.154 $) [1];
+$VERSION = qw($Revision: 1.155 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,7 +91,7 @@ sub new {
         ObjectType  => ['Ticket'],
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
-    for my $Field ( keys %{ $Self->{DynamicFieldFilter} } ) {
+    for my $Field ( sort keys %{ $Self->{DynamicFieldFilter} } ) {
         if ( $Self->{DynamicFieldFilter}->{$Field} == 2 ) {
             $Self->{Config}->{Defaults}->{ 'Search_DynamicField_' . $Field } = 1;
         }
@@ -369,7 +369,7 @@ sub Run {
             }
 
             # insert new profile params
-            for my $Key ( keys %GetParam ) {
+            for my $Key ( sort keys %GetParam ) {
                 next if !$GetParam{$Key};
                 $Self->{SearchProfileObject}->SearchProfileAdd(
                     Base      => 'TicketSearch',
@@ -1542,7 +1542,7 @@ sub Run {
 
                 # add historic values to current values (if they don't exist anymore)
                 if ( IsHashRefWithData($HistoricalValues) ) {
-                    for my $Key ( keys %{$HistoricalValues} ) {
+                    for my $Key ( sort keys %{$HistoricalValues} ) {
                         if ( !$Data->{$Key} ) {
                             $Data->{$Key} = $HistoricalValues->{$Key}
                         }
@@ -1656,7 +1656,7 @@ sub Run {
                 UserID => $Self->{UserID},
                 Type   => 'ro',
             );
-            for my $UserID ( keys %ShownUsers ) {
+            for my $UserID ( sort keys %ShownUsers ) {
                 if ( !$Involved{$UserID} ) {
                     delete $ShownUsers{$UserID};
                 }
@@ -2071,7 +2071,7 @@ sub Run {
             EscalationTimeSearchType => 'TicketEscalation',
             ArticleTimeSearchType    => 'ArticleCreate',
         );
-        for my $Key ( keys %Map ) {
+        for my $Key ( sort keys %Map ) {
             next if !$GetParamBackup{$Key};
             if ( $GetParamBackup{$Key} eq 'TimePoint' ) {
                 $GetParamBackup{ $Map{$Key} . 'TimePoint' } = 1;

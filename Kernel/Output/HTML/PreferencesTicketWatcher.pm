@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTicketWatcher.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesTicketWatcher.pm,v 1.4 2012-11-12 18:35:25 mh Exp $
+# $Id: PreferencesTicketWatcher.pm,v 1.5 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +78,7 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Key ( keys %{ $Param{GetParam} } ) {
+    for my $Key ( sort keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
         for (@Array) {
 

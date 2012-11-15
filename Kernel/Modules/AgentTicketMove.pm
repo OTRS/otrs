@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.116 2012-11-12 18:18:31 mh Exp $
+# $Id: AgentTicketMove.pm,v 1.117 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -189,7 +189,7 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -1226,7 +1226,7 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $UserGroupMember ( keys %AllGroupsMembers ) {
+        for my $UserGroupMember ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
                 if ( $UID eq $UserGroupMember ) {
@@ -1252,7 +1252,7 @@ sub _GetUsers {
             Type    => 'owner',
             Result  => 'HASH',
         );
-        for my $MemberUsers ( keys %MemberList ) {
+        for my $MemberUsers ( sort keys %MemberList ) {
             if ( $AllGroupsMembers{$MemberUsers} ) {
                 $ShownUsers{$MemberUsers} = $AllGroupsMembers{$MemberUsers};
             }

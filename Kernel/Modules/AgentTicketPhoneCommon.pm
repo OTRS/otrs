@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.26 2012-11-12 18:18:31 mh Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.27 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,7 +212,7 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -833,7 +833,7 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $KeyGroupMember ( keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
                 if ( $UID eq $KeyGroupMember ) {
@@ -859,7 +859,7 @@ sub _GetUsers {
             Type    => 'rw',
             Result  => 'HASH',
         );
-        for my $KeyMember ( keys %MemberList ) {
+        for my $KeyMember ( sort keys %MemberList ) {
             $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
         }
     }
@@ -901,14 +901,14 @@ sub _GetTos {
             Type   => 'create',
             Result => 'HASH',
         );
-        for my $KeyTo ( keys %Tos ) {
+        for my $KeyTo ( sort keys %Tos ) {
             if ( $UserGroups{ $Self->{QueueObject}->GetQueueGroupID( QueueID => $KeyTo ) } ) {
                 $NewTos{$KeyTo} = $Tos{$KeyTo};
             }
         }
 
         # build selection string
-        for my $KeyNewTo ( keys %NewTos ) {
+        for my $KeyNewTo ( sort keys %NewTos ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $KeyNewTo );
             my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
@@ -1002,7 +1002,7 @@ sub _MaskPhone {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $KeyError ( keys %{ $Param{Errors} } ) {
+        for my $KeyError ( sort keys %{ $Param{Errors} } ) {
             $Param{$KeyError}
                 = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }

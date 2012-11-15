@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.32 2012-11-12 18:36:23 mh Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.33 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,7 +156,7 @@ sub Check {
             # look for private keys for every email address
             # extract every resulting cert and put it into an hash of hashes avoiding repeated
             my %PrivateKeys;
-            for my $EmailAddress ( keys %EmailsToSearch ) {
+            for my $EmailAddress ( sort keys %EmailsToSearch ) {
                 my @PrivateKeysResult
                     = $Self->{CryptObject}->PrivateSearch( Search => $EmailAddress, );
                 for my $Cert (@PrivateKeysResult) {

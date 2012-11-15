@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.415 2012-11-12 18:36:23 mh Exp $
+# $Id: Layout.pm,v 1.416 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.415 $) [1];
+$VERSION = qw($Revision: 1.416 $) [1];
 
 =head1 NAME
 
@@ -511,7 +511,7 @@ sub Output {
         %{ $Self->{EnvRef} } = %ENV;
 
         # all $Self->{*}
-        for ( keys %{$Self} ) {
+        for ( sort keys %{$Self} ) {
             if ( defined $Self->{$_} && !ref $Self->{$_} ) {
                 $Self->{EnvRef}->{$_} = $Self->{$_};
             }
@@ -932,7 +932,7 @@ sub Redirect {
     # add cookies if exists
     my $Cookies = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
-        for ( keys %{ $Self->{SetCookies} } ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
             $Cookies .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
@@ -1034,7 +1034,7 @@ sub Login {
     # add cookies if exists
     my $Output = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
-        for ( keys %{ $Self->{SetCookies} } ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
@@ -1070,7 +1070,7 @@ sub Login {
         my %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
         my %Data;
 
-        for my $CSSStatement ( keys %AgentLogo ) {
+        for my $CSSStatement ( sort keys %AgentLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
                 if ( $AgentLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
@@ -1094,7 +1094,7 @@ sub Login {
         my %AgentLoginLogo = %{ $Self->{ConfigObject}->Get('AgentLoginLogo') };
         my %Data;
 
-        for my $CSSStatement ( keys %AgentLoginLogo ) {
+        for my $CSSStatement ( sort keys %AgentLoginLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
                 $Data{'URL'} = 'url(' . $WebPath . $AgentLoginLogo{$CSSStatement} . ')';
@@ -1437,7 +1437,7 @@ sub Header {
         my %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
         my %Data;
 
-        for my $CSSStatement ( keys %AgentLogo ) {
+        for my $CSSStatement ( sort keys %AgentLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
                 if ( $AgentLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
@@ -1459,7 +1459,7 @@ sub Header {
     # add cookies if exists
     my $Output = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
-        for ( keys %{ $Self->{SetCookies} } ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
@@ -3272,7 +3272,7 @@ sub CustomerLogin {
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
-        for ( keys %{ $Self->{SetCookies} } ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
@@ -3329,7 +3329,7 @@ sub CustomerLogin {
         my %CustomerLogo = %{ $Self->{ConfigObject}->Get('CustomerLogo') };
         my %Data;
 
-        for my $CSSStatement ( keys %CustomerLogo ) {
+        for my $CSSStatement ( sort keys %CustomerLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
                 if ( $CustomerLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
@@ -3369,7 +3369,7 @@ sub CustomerHeader {
     # add cookies if exists
     my $Output = '';
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
-        for ( keys %{ $Self->{SetCookies} } ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
@@ -3452,7 +3452,7 @@ sub CustomerHeader {
         my %CustomerLogo = %{ $Self->{ConfigObject}->Get('CustomerLogo') };
         my %Data;
 
-        for my $CSSStatement ( keys %CustomerLogo ) {
+        for my $CSSStatement ( sort keys %CustomerLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';
                 if ( $CustomerLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
@@ -4149,7 +4149,7 @@ sub RichTextDocumentServe {
         }
 
         # find matching attachment and replace it with runtlime url to image
-        for my $AttachmentID ( keys %{ $Param{Attachments} }) {
+        for my $AttachmentID (  sort keys %{ $Param{Attachments} }) {
             next if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
             $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
             last;
@@ -4164,7 +4164,7 @@ sub RichTextDocumentServe {
     # http://www.ietf.org/rfc/rfc2557.txt
 
     # find matching attachment and replace it with runtlime url to image
-    for my $AttachmentID ( keys %{ $Param{Attachments} } ) {
+    for my $AttachmentID ( sort keys %{ $Param{Attachments} } ) {
         next if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
         # content id cleanup
@@ -4281,7 +4281,7 @@ sub _BlockTemplatePreferences {
     }segxm;
 
     # check open (invalid) tags
-    for ( keys %TagsOpen ) {
+    for ( sort keys %TagsOpen ) {
         if ( $TagsOpen{$_} ) {
             my $Message = "'dtl:block:$_' isn't closed!";
             if ($TemplateFile) {
@@ -4408,7 +4408,7 @@ sub _Output {
                 && ref $BlockStructure->{ $Block->{Layer} + 1 } eq 'HASH'
                 )
             {
-                for my $SubLayer ( keys %{ $BlockStructure->{ $Block->{Layer} + 1 } } ) {
+                for my $SubLayer ( sort keys %{ $BlockStructure->{ $Block->{Layer} + 1 } } ) {
                     my $SubLayerString = join '',
                         @{ $BlockStructure->{ $Block->{Layer} + 1 }->{$SubLayer} };
                     $Block->{Data}
@@ -4630,7 +4630,7 @@ sub _BuildSelectionOptionRefCreate {
         )
     {
         my %SelectedValueNew;
-        for my $OriginalKey ( keys %{ $OptionRef->{SelectedValue} } ) {
+        for my $OriginalKey ( sort keys %{ $OptionRef->{SelectedValue} } ) {
             my $TranslatedKey = $Self->{LanguageObject}->Get($OriginalKey);
             $SelectedValueNew{$TranslatedKey} = 1;
         }
@@ -4768,7 +4768,7 @@ sub _BuildSelectionDataRefCreate {
             my %List = reverse %{ $Param{Data} };
 
             # get each data value
-            for my $Key ( keys %List ) {
+            for my $Key ( sort keys %List ) {
                 my $Parents = '';
 
                 # try to split its parents (e.g. Queue or Service) GrandParent::Parent::Son
@@ -4809,7 +4809,7 @@ sub _BuildSelectionDataRefCreate {
 
         # translate value
         if ( $OptionRef->{Translation} ) {
-            for my $Row ( keys %{ $Param{Data} } ) {
+            for my $Row ( sort keys %{ $Param{Data} } ) {
                 $Param{Data}->{$Row} = $Self->{LanguageObject}->Get( $Param{Data}->{$Row} );
             }
         }
@@ -4829,7 +4829,7 @@ sub _BuildSelectionDataRefCreate {
 
             # add suffix for correct sorting
             my %SortHash;
-            for ( keys %{ $Param{Data} } ) {
+            for ( sort keys %{ $Param{Data} } ) {
                 $SortHash{$_} = $Param{Data}->{$_} . '::';
             }
             @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
@@ -4897,7 +4897,7 @@ sub _BuildSelectionDataRefCreate {
             my %List = map { $_ => 1 } @{ $Param{Data} };
 
             # get each data value
-            for my $Key ( keys %List ) {
+            for my $Key ( sort keys %List ) {
                 my $Parents = '';
 
                 # try to split its parents (e.g. Queue or Service) GrandParent::Parent::Son
@@ -5011,7 +5011,7 @@ sub _BuildSelectionDataRefCreate {
     # DisabledBranch option
     if ( $OptionRef->{DisabledBranch} ) {
         for my $Row ( @{$DataRef} ) {
-            for my $Branch ( keys %{ $OptionRef->{DisabledBranch} } ) {
+            for my $Branch ( sort keys %{ $OptionRef->{DisabledBranch} } ) {
                 if ( $Row->{Value} =~ /^(\Q$Branch\E)$/ || $Row->{Value} =~ /^(\Q$Branch\E)::/ ) {
                     $Row->{Disabled} = 1;
                 }
@@ -5115,7 +5115,7 @@ sub _BuildSelectionOutput {
 
         # generate <select> row
         $String = '<select';
-        for my $Key ( keys %{ $Param{AttributeRef} } ) {
+        for my $Key ( sort keys %{ $Param{AttributeRef} } ) {
             if ( $Key && defined $Param{AttributeRef}->{$Key} ) {
                 $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
             }
@@ -5235,6 +5235,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.415 $ $Date: 2012-11-12 18:36:23 $
+$Revision: 1.416 $ $Date: 2012-11-15 20:52:31 $
 
 =cut

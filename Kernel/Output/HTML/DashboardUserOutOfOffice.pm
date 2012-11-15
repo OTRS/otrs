@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOutOfOffice.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOutOfOffice.pm,v 1.4 2012-11-12 18:34:17 mh Exp $
+# $Id: DashboardUserOutOfOffice.pm,v 1.5 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -117,7 +117,7 @@ sub Run {
         );
 
         USERID:
-        for my $UserID ( keys %UserList ) {
+        for my $UserID ( sort keys %UserList ) {
 
             next USERID if !$UserID;
 

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/OutputFilterTextAutoLink.pm - Auto article links filter
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: OutputFilterTextAutoLink.pm,v 1.6 2012-11-12 18:36:23 mh Exp $
+# $Id: OutputFilterTextAutoLink.pm,v 1.7 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,7 +90,7 @@ sub Post {
         }
 
         # iterate trough keywords and replace them with URLs from the configuration
-        for my $Keyword ( keys %Keywords ) {
+        for my $Keyword ( sort keys %Keywords ) {
             my %KW      = %{ $Keywords{$Keyword} };
             my $URLLink = '';
 
@@ -109,7 +109,7 @@ sub Post {
                 $URL =~ s/<MATCH>/$KeywordLinkEncode/g;
 
                 # replace the keyword components
-                for ( keys %KW ) {
+                for ( sort keys %KW ) {
                     $KeywordLinkEncode = $Self->{LayoutObject}->LinkEncode( $KW{$_} );
                     $URL =~ s/<MATCH$_>/$KeywordLinkEncode/g;
                 }

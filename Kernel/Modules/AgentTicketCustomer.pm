@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.43 2012-11-12 18:18:30 mh Exp $
+# $Id: AgentTicketCustomer.pm,v 1.44 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,7 +145,7 @@ sub Run {
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            for my $KeyCustomerUser ( keys %CustomerUserList ) {
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
                 $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
                 $Param{CustomerUserListLastUser} = $KeyCustomerUser;
@@ -176,7 +176,7 @@ sub Run {
                 = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUserOption, );
             my %CustomerUserList
                 = $Self->{CustomerUserObject}->CustomerSearch( UserLogin => $CustomerUserOption, );
-            for my $KeyCustomerUser ( keys %CustomerUserList ) {
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserID} = $KeyCustomerUser;
             }
             if ( $CustomerUserData{UserCustomerID} ) {

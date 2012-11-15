@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.170 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.171 2012-11-15 20:55:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.170 $) [1];
+$VERSION = qw($Revision: 1.171 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -405,7 +405,7 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -1304,7 +1304,7 @@ $QData{"Signature"}
             $ResponseFormat =~ s/&quot;/"/gi;
 
             # quote all non html content to have it correct in edit area
-            for my $Key ( keys %DataHTML ) {
+            for my $Key ( sort keys %DataHTML ) {
                 next if !$DataHTML{$Key};
                 next if $Key eq 'Salutation';
                 next if $Key eq 'Body';
@@ -1499,7 +1499,7 @@ sub _Mask {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for ( keys %{ $Param{Errors} } ) {
+        for ( sort keys %{ $Param{Errors} } ) {
             $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationSchedulerCheck.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationSchedulerCheck.pm,v 1.6 2012-11-12 18:35:03 mh Exp $
+# $Id: NotificationSchedulerCheck.pm,v 1.7 2012-11-15 20:52:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,7 +123,7 @@ sub Run {
 
     # cycle trough all registered groups
     GROUP:
-    for my $Group ( keys %{ $Param{Config}->{NotifyGroups} } ) {
+    for my $Group ( sort keys %{ $Param{Config}->{NotifyGroups} } ) {
         next GROUP if !$Param{Config}->{NotifyGroups}->{$Group};
 
         # check if registered groups match one of the user groups
