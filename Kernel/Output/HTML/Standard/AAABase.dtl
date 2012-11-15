@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.114 2012-11-15 14:40:20 mb Exp $
+# $Id: AAABase.dtl,v 1.115 2012-11-15 14:50:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -353,6 +353,7 @@ $Text{"News"}
 $Text{"Product News"}
 $Text{"OTRS News"}
 $Text{"7 Day Stats"}
+$Text{"Process Management information from database is not in sync with the system configuration, please synchronize all processes."}
 
 # richtext editor
 $Text{"Bold"}

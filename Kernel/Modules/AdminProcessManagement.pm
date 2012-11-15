@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.38 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminProcessManagement.pm,v 1.39 2012-11-15 14:50:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,13 +82,15 @@ sub Run {
         UserID => $Self->{UserID}
     );
 
+    my $SynchronizeMessage
+        = 'Process Management information from database is not in sync with the system configuration, please synchronize all processes.';
+
     if ( IsArrayRefWithData($EntitySyncStateList) ) {
 
         # create a notification if system is not up to date
         $Param{NotifyData} = [
             {
-                Info =>
-                    'Process Management information from database is not in sync with the system configuration, please synchronize all the Processes.',
+                Info => $SynchronizeMessage,
             },
         ];
     }
@@ -435,8 +437,7 @@ sub Run {
                         . ' and all its data has been imported sucessfully.',
                 },
                 {
-                    Info =>
-                        'Process Management information from database is not in sync with the system configuration, please synchronize all the Processes.',
+                    Info => $SynchronizeMessage,
                 },
             ];
 
@@ -1157,8 +1158,7 @@ sub Run {
         my $Output = '';
         if ( IsArrayRefWithData($EntitySyncStateList) ) {
             $Output = $Self->{LayoutObject}->Notify(
-                Info =>
-                    'Process Management information from database is not in sync with the system configuration, please synchronize all the Processes.',
+                Info => $SynchronizeMessage,
             );
         }
 
