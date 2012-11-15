@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.11 2012-11-12 17:51:40 mh Exp $
+# $Id: BuildSelection.t,v 1.12 2012-11-15 22:14:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,7 +195,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            '<select name="Select1" id="Select1ID">
+            '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
   <option value="2" selected="selected">&nbsp;&nbsp;AttributeA</option>
   <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
@@ -308,7 +308,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            '<select name="Select1" id="Select1ID">
+            '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
   <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
@@ -419,7 +419,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            '<select name="Select1" id="Select1ID">
+            '<select id="Select1ID" name="Select1">
   <option value="1">Object1</option>
   <option value="2" selected="selected">&nbsp;&nbsp;AttributeA</option>
   <option value="3">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
@@ -518,7 +518,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            '<select name="Select1" id="Select1ID">
+            '<select id="Select1ID" name="Select1">
   <option value="Object1">Object1</option>
   <option value="Object1::AttributeA" selected="selected">&nbsp;&nbsp;AttributeA</option>
   <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
@@ -630,7 +630,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            '<select name="Select1" id="Select1ID">
+            '<select id="Select1ID" name="Select1">
   <option value="Object1">Object1</option>
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
   <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
@@ -742,7 +742,7 @@ my @Tests = (
             OptionTitle    => 0,
         },
         Response =>
-            '<select name="Select1" id="Select1ID">
+            '<select id="Select1ID" name="Select1">
   <option value="Object1">Object1</option>
   <option value="Object1::AttributeA" selected="selected">&nbsp;&nbsp;AttributeA</option>
   <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
