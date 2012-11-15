@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.98 2012-11-15 08:13:57 mb Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.99 2012-11-15 10:27:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -839,7 +839,7 @@ sub Run {
             $ServiceID = $Ticket{ServiceID} || '';
         }
 
-        my $QueueID = $Ticket{QueueID};
+        my $QueueID = $GetParam{NewQueueID} || $Ticket{QueueID};
 
         # convert dynamic field values into a structure for ACLs
         my %DynamicFieldACLParameters;
@@ -895,10 +895,10 @@ sub Run {
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID      || 1,
+            QueueID => $QueueID,
         );
 
-        # update Dynamc Fields Possible Values via AJAX
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
         # cycle trough the activated Dynamic Fields for this screen
@@ -923,7 +923,7 @@ sub Run {
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
                 Action        => $Self->{Action},
-                QueueID       => $QueueID || 0,
+                QueueID       => $QueueID,
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => \%AclData,
@@ -949,35 +949,12 @@ sub Run {
             );
         }
 
-        # get user of own groups
-        my %ShownUsers;
-        my %AllGroupsMembers = $Self->{UserObject}->UserList(
-            Type  => 'Long',
-            Valid => 1,
-        );
-        if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-            %ShownUsers = %AllGroupsMembers;
-        }
-        else {
-            my $GID = $Self->{QueueObject}
-                ->GetQueueGroupID( QueueID => $GetParam{NewQueueID} || $QueueID );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $GID,
-                Type    => 'owner',
-                Result  => 'HASH',
-                Cached  => 1,
-            );
-            for my $UserID ( keys %MemberList ) {
-                $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
-            }
-        }
-
         my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
             [
 
                 {
                     Name         => 'NewOwnerID',
-                    Data         => \%ShownUsers,
+                    Data         => $Owners,
                     SelectedID   => $GetParam{NewOwnerID},
                     Translation  => 0,
                     PossibleNone => 1,
@@ -996,7 +973,7 @@ sub Run {
                     Data         => $ResponsibleUsers,
                     SelectedID   => $GetParam{NewResponsibleID},
                     Translation  => 0,
-                    PossibleNone => 0,
+                    PossibleNone => 1,
                     Max          => 100,
                 },
                 {
@@ -1381,10 +1358,11 @@ sub _Mask {
 
         # get responsible
         $Param{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ShownUsers,
-            SelectedID => $Param{NewResponsibleID} || $Ticket{ResponsibleID},
-            Name       => 'NewResponsibleID',
-            Size       => 1,
+            Data         => \%ShownUsers,
+            SelectedID   => $Param{NewResponsibleID} || $Ticket{ResponsibleID},
+            Name         => 'NewResponsibleID',
+            PossibleNone => 1,
+            Size         => 1,
         );
         $Self->{LayoutObject}->Block(
             Name => 'Responsible',
@@ -1701,7 +1679,8 @@ sub _GetResponsible {
         Valid => 1,
     );
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID = $Self->{QueueObject}
+            ->GetQueueGroupID( QueueID => $Param{NewQueueID} || $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'responsible',
@@ -1735,7 +1714,8 @@ sub _GetOwners {
         Valid => 1,
     );
     if ( $Param{QueueID} && !$Param{AllUsers} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID = $Self->{QueueObject}
+            ->GetQueueGroupID( QueueID => $Param{NewQueueID} || $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'owner',
