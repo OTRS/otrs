@@ -2,7 +2,7 @@
 # AgentCustomerInformationCenterSearch.dtl - provides HTML form for AgentCustomerInformationCenterSearch
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenterSearch.dtl,v 1.4 2012-11-12 18:19:38 mh Exp $
+# $Id: AgentCustomerInformationCenterSearch.dtl,v 1.5 2012-11-15 08:42:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,11 +22,6 @@
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="Redirect"/>
         <fieldset class="TableLike">
-            <label>$Text{"Company"}:</label>
-            <div class="Field">
-                <input type="text" id="AgentCustomerInformationCenterSearchCustomerCompany" class="W90pc" />
-            </div>
-            <div class="Clear"></div>
             <label>$Text{"Customer ID"}:</label>
             <div class="Field">
                 <input type="text" id="AgentCustomerInformationCenterSearchCustomerID" class="W90pc" />

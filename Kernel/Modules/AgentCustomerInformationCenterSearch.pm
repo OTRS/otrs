@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerInformationCenterSearch.pm - customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenterSearch.pm,v 1.4 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentCustomerInformationCenterSearch.pm,v 1.5 2012-11-15 08:41:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,12 +80,22 @@ sub Run {
             SearchTerm => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
         );
 
+        my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+        );
+        push @CustomerIDs, keys %CustomerCompanyList;
+
         my @Result;
 
-        my $Count = 1;
+        my %Seen;
 
         CUSTOMERID:
-        for my $CustomerID (@CustomerIDs) {
+        for my $CustomerID ( sort @CustomerIDs ) {
+
+            # skip duplicates
+            next CUSTOMERID if $Seen{$CustomerID};
+            $Seen{$CustomerID} = 1;
+
             my %CustomerCompanyData = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
                 CustomerID => $CustomerID,
             );
@@ -98,35 +108,7 @@ sub Run {
 
             push @Result, { Label => $Label || $CustomerID, Value => $CustomerID };
 
-            last CUSTOMERID if $Count++ >= $MaxResults;
-        }
-
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
-            Data => \@Result,
-        );
-
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON || '',
-            Type        => 'inline',
-            NoCache     => 1,
-        );
-    }
-    elsif ( $Self->{Subaction} eq 'SearchCustomerCompany' ) {
-        my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
-            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
-        );
-
-        my @Result;
-
-        my $Count = 1;
-
-        CUSTOMERID:
-        for my $CustomerID ( keys %CustomerCompanyList ) {
-
-            push @Result, { Label => $CustomerCompanyList{$CustomerID}, Value => $CustomerID };
-
-            last CUSTOMERID if $Count++ >= $MaxResults;
+            last CUSTOMERID if scalar keys %Seen >= $MaxResults;
         }
 
         my $JSON = $Self->{LayoutObject}->JSONEncode(
