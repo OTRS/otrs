@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.12 2012-11-12 17:51:39 mh Exp $
+# $Id: Handler.t,v 1.13 2012-11-16 10:30:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -269,6 +269,7 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
         0,
         "Scheduler start call returned successfully.",
     );
+    sleep 1;
 }
 else {
     $Self->True(
@@ -287,6 +288,7 @@ $Self->True(
 if ( $CurrentSchedulerStatus !~ /^running/i ) {
     die "Scheduler could not be started.";
 }
+
 for my $Test (@Tests) {
 
     # add config
