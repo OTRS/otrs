@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.24 2012-11-15 20:04:52 mh Exp $
+# $Id: Escalations.t,v 1.25 2012-11-16 09:01:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -487,28 +487,26 @@ for my $Hours ( sort keys %WorkingHours ) {
         my $SleepTime  = $SystemTime - $TicketGet{CreateTimeUnix};
 
         # define the sleep time
-        $SleepTime = 50 - $SleepTime;
+        $SleepTime = 65 - $SleepTime;
 
-        if ( $SleepTime > 5 ) {
+        $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
 
-            $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
+        sleep $SleepTime;
 
-            sleep $SleepTime;
-
-            if ( $WorkingHours{$Hours} ) {
-                $NumEvents{EscalationSolutionTimeNotifyBefore}++;
-                $NumEvents{EscalationUpdateTimeNotifyBefore}++;
-            }
-            $CheckNumEvents->(
-                GenericAgentObject => $GenericAgentObject,
-                TicketObject       => $TicketObject,
-                TicketID           => $TicketID,
-                NumEvents          => \%NumEvents,
-                JobName            => "Job6-$UniqueSignature",
-                QueueName          => $QueueName,
-                Comment            => "after Job6 - $SleepTime $TicketGet{CreateTimeUnix}",
-            );
+        if ( $WorkingHours{$Hours} ) {
+            $NumEvents{EscalationSolutionTimeNotifyBefore}++;
+            $NumEvents{EscalationUpdateTimeNotifyBefore}++;
         }
+        $CheckNumEvents->(
+            GenericAgentObject => $GenericAgentObject,
+            TicketObject       => $TicketObject,
+            TicketID           => $TicketID,
+            NumEvents          => \%NumEvents,
+            JobName            => "Job6-$UniqueSignature",
+            QueueName          => $QueueName,
+            Comment =>
+                "after Job6 - $Hours $SleepTime $TicketGet{CreateTimeUnix} $NumEvents{EscalationSolutionTimeNotifyBefore} $NumEvents{EscalationUpdateTimeNotifyBefore}",
+        );
     }
 
     # clean up
