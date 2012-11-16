@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.27 2012-11-16 10:54:19 mh Exp $
+# $Id: Escalations.t,v 1.28 2012-11-16 11:59:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,6 @@ my %WorkingHours = (
     1 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
 );
 
-HOURS:
 for my $Hours ( sort keys %WorkingHours ) {
 
     # An unique indentifier, so that data from different test runs won't be mixed up.
@@ -496,9 +495,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         my $SystemTime = $TimeObject->SystemTime();
         my $TicketAge  = $SystemTime - $TicketGet{CreateTimeUnix};
 
-        #        next HOURS if $TicketAge > 50;
-
-        my $SleepTime = 10 - $TicketAge;
+        my $SleepTime = 20 - $TicketAge;
 
         $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
 
