@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.27 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.28 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,7 +159,7 @@ sub Run {
         # add field detail config to fields
         if ( IsHashRefWithData( $GetParam->{FieldDetails} ) ) {
             FIELDDETAIL:
-            for my $FieldDetail ( keys %{ $GetParam->{FieldDetails} } ) {
+            for my $FieldDetail ( sort keys %{ $GetParam->{FieldDetails} } ) {
                 next FIELDDETAIL if !$FieldDetail;
                 next FIELDDETAIL if !$ActivityDialogData->{Config}->{Fields}->{$FieldDetail};
 
@@ -413,7 +413,7 @@ sub Run {
         # add field detail config to fields
         if ( IsHashRefWithData( $GetParam->{FieldDetails} ) ) {
             FIELDDETAIL:
-            for my $FieldDetail ( keys %{ $GetParam->{FieldDetails} } ) {
+            for my $FieldDetail ( sort keys %{ $GetParam->{FieldDetails} } ) {
                 next FIELDDETAIL if !$FieldDetail;
                 next FIELDDETAIL if !$ActivityDialogData->{Config}->{Fields}->{$FieldDetail};
 
@@ -423,7 +423,7 @@ sub Run {
         }
 
         # set default values for fields in case they don't have details
-        for my $FieldName ( keys %{ $ActivityDialogData->{Config}->{Fields} } ) {
+        for my $FieldName ( sort keys %{ $ActivityDialogData->{Config}->{Fields} } ) {
             if ( !IsHashRefWithData( $ActivityDialogData->{Config}->{Fields}->{$FieldName} ) ) {
                 $ActivityDialogData->{Config}->{Fields}->{$FieldName}->{DescriptionShort}
                     = $FieldName;
@@ -661,7 +661,7 @@ sub _ShowEdit {
 
         if ( IsHashRefWithData( $ActivityDialogData->{Config}->{Fields} ) ) {
             FIELD:
-            for my $Field ( keys %{ $ActivityDialogData->{Config}->{Fields} } ) {
+            for my $Field ( sort keys %{ $ActivityDialogData->{Config}->{Fields} } ) {
                 next FIELD if !$Field;
                 next FIELD if !$ActivityDialogData->{Config}->{Fields}->{$Field};
 
@@ -670,7 +670,7 @@ sub _ShowEdit {
         }
 
         # remove used fields from available list
-        for my $Field ( keys %AssignedFields ) {
+        for my $Field ( sort keys %AssignedFields ) {
             delete $AvailableFields{$Field};
         }
 

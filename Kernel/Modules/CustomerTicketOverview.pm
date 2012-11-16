@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.11 2012-11-12 18:18:31 mh Exp $
+# $Id: CustomerTicketOverview.pm,v 1.12 2012-11-16 09:00:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,7 +206,7 @@ sub Run {
     my $Counter         = 0;
     my $AllTickets      = 0;
     my $AllTicketsTotal = 0;
-    for my $Filter ( keys %{ $Filters{ $Self->{Subaction} } } ) {
+    for my $Filter ( sort keys %{ $Filters{ $Self->{Subaction} } } ) {
         $Counter++;
         my $Count = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Self->{Subaction} }->{$Filter}->{Search} },

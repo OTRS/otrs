@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.84 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminQueue.pm,v 1.85 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -363,7 +363,7 @@ sub Run {
                     %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
                 }
 
-                for my $Item ( keys %Preferences ) {
+                for my $Item ( sort keys %Preferences ) {
 
                     my $Module = $Preferences{$Item}->{Module}
                         || 'Kernel::Output::HTML::QueuePreferencesGeneric';
@@ -495,7 +495,7 @@ sub _Edit {
 
     my $QueueName = '';
     KEY:
-    for my $Key ( keys %Data ) {
+    for my $Key ( sort keys %Data ) {
 
         if ( $Param{QueueID} && $Param{QueueID} eq $Key ) {
             $QueueName = $Data{ $Param{QueueID} };
@@ -503,7 +503,7 @@ sub _Edit {
         }
     }
     my %CleanHash = %Data;
-    for my $Key ( keys %Data ) {
+    for my $Key ( sort keys %Data ) {
         if ( $CleanHash{$Key} eq $QueueName || $CleanHash{$Key} =~ /^\Q$QueueName\E\:\:/ ) {
             delete $CleanHash{$Key};
         }
@@ -526,7 +526,7 @@ sub _Edit {
 
         # leave only queues with 3 levels, because max allowed level is 4:
         # new queue + 3 levels of parent queue = 4 levels
-        for my $Key ( keys %CleanHash ) {
+        for my $Key ( sort keys %CleanHash ) {
             my $QueueName      = $CleanHash{$Key};
             my @QueueNameLevel = split( ::, $QueueName );
             my $QueueLevel     = $#QueueNameLevel + 1;

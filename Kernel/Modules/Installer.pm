@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.95 2012-11-12 18:18:31 mh Exp $
+# $Id: Installer.pm,v 1.96 2012-11-16 08:56:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,7 +103,7 @@ sub Run {
     }
 
     # check if Apache::Reload is loaded
-    for my $Module ( keys %INC ) {
+    for my $Module ( sort keys %INC ) {
         $Module =~ s/\//::/g;
         $Module =~ s/\.pm$//g;
         if ( $Module eq 'Apache2::Reload' ) {
@@ -950,7 +950,7 @@ sub ReConfigure {
     my ( $Self, %Param ) = @_;
 
     # perl quote
-    for my $Key ( keys %Param ) {
+    for my $Key ( sort keys %Param ) {
         if ( $Param{$Key} ) {
             $Param{$Key} =~ s/'/\\'/g;
         }
@@ -969,7 +969,7 @@ sub ReConfigure {
             my $NewConfig = $_;
 
             # replace config with %Param
-            for my $Key ( keys %Param ) {
+            for my $Key ( sort keys %Param ) {
                 if ( $Param{$Key} =~ /^[0-9]+$/ && $Param{$Key} !~ /^0/ ) {
                     $NewConfig =~
                         s/(\$Self->{("|'|)$Key("|'|)} =.+?);/\$Self->{'$Key'} = $Param{$Key};/g;
@@ -1062,7 +1062,7 @@ sub ConnectToDB {
         $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
 
     # check params
-    for my $Key ( keys %DB ) {
+    for my $Key ( sort keys %DB ) {
         if ( !$DB{$Key} && $Key !~ /^(Password)$/ ) {
             return (
                 Successful => 0,
@@ -1184,7 +1184,7 @@ sub CheckMailConfiguration {
             'SendmailModule::Port' => $SMTPPort,
         );
 
-        for my $Key ( keys %NewConfigs ) {
+        for my $Key ( sort keys %NewConfigs ) {
             $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,
                 Key   => $Key,
@@ -1198,7 +1198,7 @@ sub CheckMailConfiguration {
                 'SendmailModule::AuthPassword' => $SMTPAuthPassword,
             );
 
-            for my $Key ( keys %NewConfigs ) {
+            for my $Key ( sort keys %NewConfigs ) {
                 $SysConfigObject->ConfigItemUpdate(
                     Valid => 1,
                     Key   => $Key,

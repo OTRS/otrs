@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.25 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.26 2012-11-16 08:54:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -134,7 +134,7 @@ sub Run {
         # add saved values
         my $KeyIndex = 0;
         for my $KeyMapType (qw( KeyMapExact KeyMapRegEx )) {
-            for my $Key ( keys %{ $MappingConfig->{$KeyMapType} } ) {
+            for my $Key ( sort keys %{ $MappingConfig->{$KeyMapType} } ) {
                 $KeyIndex++;
                 my $NewKey = $MappingConfig->{$KeyMapType}->{$Key};
 
@@ -145,7 +145,7 @@ sub Run {
                 my $ValueIndex = 0;
                 for my $ValueMapType (qw( ValueMapExact ValueMapRegEx )) {
                     for my $ValueName (
-                        keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} }
+                        sort keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} }
                         )
                     {
                         $ValueIndex++;
@@ -286,7 +286,7 @@ sub Run {
         # add saved values
         my $KeyIndex = 0;
         for my $KeyMapType (qw( KeyMapExact KeyMapRegEx )) {
-            for my $Key ( keys %{ $MappingConfig->{$KeyMapType} } ) {
+            for my $Key ( sort keys %{ $MappingConfig->{$KeyMapType} } ) {
                 $KeyIndex++;
                 my $NewKey = $MappingConfig->{$KeyMapType}->{$Key};
 
@@ -297,7 +297,7 @@ sub Run {
                 my $ValueIndex = 0;
                 for my $ValueMapType (qw( ValueMapExact ValueMapRegEx )) {
                     for my $ValueName (
-                        keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} }
+                        sort keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} }
                         )
                     {
                         $ValueIndex++;

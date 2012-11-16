@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.110 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.111 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,7 @@ sub Run {
 
                 # check if Apache::Reload is loaded
                 my $ApacheReload = 0;
-                for my $Module ( keys %INC ) {
+                for my $Module ( sort keys %INC ) {
                     $Module =~ s/\//::/g;
                     $Module =~ s/\.pm$//g;
                     if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {

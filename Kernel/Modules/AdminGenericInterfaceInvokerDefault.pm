@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.7 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.8 2012-11-16 08:54:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -605,7 +605,7 @@ sub _ShowScreen {
         # but left if is needed in future
         my $EventType;
         EVENTTYPE:
-        for my $Type ( keys %{$RegisteredEvents} ) {
+        for my $Type ( sort keys %{$RegisteredEvents} ) {
             if ( $RegisteredEvents->{$Type}->{ $Event->{Event} } ) {
                 $EventType = $Type;
                 last EVENTTYPE;
@@ -629,14 +629,14 @@ sub _ShowScreen {
 
     # create event trigger selectors (one for each type)
     TYPE:
-    for my $Type ( keys %{$RegisteredEvents} ) {
+    for my $Type ( sort keys %{$RegisteredEvents} ) {
         next TYPE if !$Type;
 
         # refresh event list for each event type
         my @EventList;
 
         EVENT:
-        for my $Event ( keys %{ $RegisteredEvents->{$Type} } ) {
+        for my $Event ( sort keys %{ $RegisteredEvents->{$Type} } ) {
             next EVENT if !$RegisteredEvents->{$Type}->{$Event};
             next EVENT if $InvokerEventLookup{$Event};
             push @EventList, $Event;

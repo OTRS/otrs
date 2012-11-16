@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.41 2012-11-14 22:05:11 cr Exp $
+# $Id: AdminNotificationEvent.pm,v 1.42 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,7 +138,7 @@ sub Run {
                 %DynamicFieldValues = ( %DynamicFieldValues, %{$DynamicFieldValue} );
 
                 #make all values array refs
-                for my $FieldName ( keys %{$DynamicFieldValue} ) {
+                for my $FieldName ( sort keys %{$DynamicFieldValue} ) {
                     if ( ref $DynamicFieldValue->{$FieldName} ne 'ARRAY' ) {
                         $DynamicFieldValue->{$FieldName} = [ $DynamicFieldValue->{$FieldName} ];
                     }
@@ -261,7 +261,7 @@ sub Run {
                 %DynamicFieldValues = ( %DynamicFieldValues, %{$DynamicFieldValue} );
 
                 #make all values array refs
-                for my $FieldName ( keys %{$DynamicFieldValue} ) {
+                for my $FieldName ( sort keys %{$DynamicFieldValue} ) {
                     if ( ref $DynamicFieldValue->{$FieldName} ne 'ARRAY' ) {
                         $DynamicFieldValue->{$FieldName} = [ $DynamicFieldValue->{$FieldName} ];
                     }
@@ -663,7 +663,7 @@ sub _Edit {
     # Display article types for article creation if notification is sent
     # only use 'email-notification-*'-type articles
     my %NotificationArticleTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
-    for my $NotifArticleTypeID ( keys %NotificationArticleTypes ) {
+    for my $NotifArticleTypeID ( sort keys %NotificationArticleTypes ) {
         if ( $NotificationArticleTypes{$NotifArticleTypeID} !~ /^email-notification-/ ) {
             delete $NotificationArticleTypes{$NotifArticleTypeID};
         }

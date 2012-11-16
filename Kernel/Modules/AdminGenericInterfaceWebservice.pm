@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.36 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.37 2012-11-16 08:54:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -881,21 +881,21 @@ sub _ShowEdit {
 
     # set transports data
     my %GITransports;
-    for my $Transport ( keys %{ $Self->{GITransportConfig} } ) {
+    for my $Transport ( sort keys %{ $Self->{GITransportConfig} } ) {
         next if !$Transport;
         $GITransports{$Transport} = $Self->{GITransportConfig}->{$Transport}->{ConfigDialog};
     }
 
     # get operations data
     my %GIOperations;
-    for my $Operation ( keys %{ $Self->{GIOperationConfig} } ) {
+    for my $Operation ( sort keys %{ $Self->{GIOperationConfig} } ) {
         next if !$Operation;
         $GIOperations{$Operation} = $Self->{GIOperationConfig}->{$Operation}->{ConfigDialog};
     }
 
     # get operations data
     my %GIInvokers;
-    for my $Invoker ( keys %{ $Self->{GIInvokerConfig} } ) {
+    for my $Invoker ( sort keys %{ $Self->{GIInvokerConfig} } ) {
         next if !$Invoker;
         $GIInvokers{$Invoker} = $Self->{GIInvokerConfig}->{$Invoker}->{ConfigDialog};
     }
@@ -931,7 +931,7 @@ sub _ShowEdit {
 
         my @TransportList;
 
-        for my $Transport ( keys %GITransports ) {
+        for my $Transport ( sort keys %GITransports ) {
             push @TransportList, $Transport;
         }
 
@@ -950,7 +950,7 @@ sub _ShowEdit {
 
         my @ControllerList;
 
-        for my $Action ( keys %GIControllers ) {
+        for my $Action ( sort keys %GIControllers ) {
             push @ControllerList, $Action;
         }
 

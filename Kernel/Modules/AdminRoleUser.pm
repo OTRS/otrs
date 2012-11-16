@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.33 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminRoleUser.pm,v 1.34 2012-11-16 08:54:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,7 +80,7 @@ sub Run {
 
         # get user list, with the full name in the value
         my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
-        for my $UserID ( keys %UserData ) {
+        for my $UserID ( sort keys %UserData ) {
             my $Name = $Self->{UserObject}->UserName( UserID => $UserID );
             next if !$Name;
             $UserData{$UserID} .= " ($Name)";
@@ -124,7 +124,7 @@ sub Run {
         my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
 
         # add or remove user from roles
-        for my $UserID ( keys %UserData ) {
+        for my $UserID ( sort keys %UserData ) {
             my $Active = 0;
             for my $MemberOfRole (@IDs) {
                 next if $MemberOfRole ne $UserID;
@@ -160,7 +160,7 @@ sub Run {
         my %RoleData = $Self->{GroupObject}->RoleList( Valid => 1 );
 
         # add or remove user from roles
-        for my $RoleID ( keys %RoleData ) {
+        for my $RoleID ( sort keys %RoleData ) {
             my $Active = 0;
             for my $RoleOfMember (@IDs) {
                 next if $RoleOfMember ne $RoleID;
@@ -256,7 +256,7 @@ sub _Overview {
     my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
 
     # get user name
-    for my $UserID ( keys %UserData ) {
+    for my $UserID ( sort keys %UserData ) {
         my $Name = $Self->{UserObject}->UserName( UserID => $UserID );
         next if !$Name;
         $UserData{$UserID} .= " ($Name)";

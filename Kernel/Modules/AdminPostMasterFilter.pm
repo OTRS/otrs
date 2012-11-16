@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.40 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.41 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -264,7 +264,7 @@ sub _MaskUpdate {
 
     # otrs header
     my %SetHeader = ();
-    for my $HeaderKey ( keys %Header ) {
+    for my $HeaderKey ( sort keys %Header ) {
         if ( $HeaderKey =~ /^x-otrs/i ) {
             $SetHeader{$HeaderKey} = $HeaderKey;
         }

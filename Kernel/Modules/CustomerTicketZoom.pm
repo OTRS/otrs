@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.101 2012-11-16 00:09:20 cr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.102 2012-11-16 08:58:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -846,7 +846,7 @@ sub _Mask {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $KeyError ( keys %{ $Param{Errors} } ) {
+        for my $KeyError ( sort keys %{ $Param{Errors} } ) {
             $Param{$KeyError}
                 = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }

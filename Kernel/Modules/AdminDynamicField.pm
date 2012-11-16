@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.20 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminDynamicField.pm,v 1.21 2012-11-16 08:53:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -158,7 +158,7 @@ sub _ShowOverview {
 
     # get the field types (backends) and its config dialogs
     FIELDTYPE:
-    for my $FieldType ( keys %{ $Self->{FieldTypeConfig} } ) {
+    for my $FieldType ( sort keys %{ $Self->{FieldTypeConfig} } ) {
         next FIELDTYPE if !$Self->{FieldTypeConfig}->{$FieldType};
 
         # add the field type to the list

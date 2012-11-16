@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.36 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.37 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,7 +74,7 @@ sub Run {
                 ActionHome => 'AdminQueue',
             },
         );
-        for my $TypeID ( keys %TypeResponsesData ) {
+        for my $TypeID ( sort keys %TypeResponsesData ) {
             my %Data = $Self->{DBObject}->GetTableData(
                 Table => 'auto_response ar, auto_response_type art',
                 What  => 'ar.id, ar.name',
@@ -122,7 +122,7 @@ sub Run {
         my %TypeResponsesData = $Self->{AutoResponseObject}->AutoResponseTypeList();
 
         # Set Autoresponses IDs for this queue.
-        for my $TypeID ( keys %TypeResponsesData ) {
+        for my $TypeID ( sort keys %TypeResponsesData ) {
             push( @NewIDs, $Self->{ParamObject}->GetParam( Param => "IDs_$TypeID" ) );
         }
 

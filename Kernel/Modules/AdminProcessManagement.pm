@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.39 2012-11-15 14:50:33 mb Exp $
+# $Id: AdminProcessManagement.pm,v 1.40 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,8 +119,9 @@ sub Run {
 
         # collect all used fields and make sure they're present
         my @UsedDynamicFields;
-        for my $ActivityDialog ( keys %{ $ProcessData->{ActivityDialogs} } ) {
+        for my $ActivityDialog ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
             for my $FieldName (
+                sort
                 keys %{ $ProcessData->{ActivityDialogs}->{$ActivityDialog}->{Config}->{Fields} }
                 )
             {
@@ -197,7 +198,7 @@ sub Run {
 
         # add activity dialogs
         my %ActivityDialogMapping;
-        for my $ActivityDialogEntityID ( keys %{ $ProcessData->{ActivityDialogs} } ) {
+        for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
 
             # get next EntityID
             my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
@@ -226,7 +227,7 @@ sub Run {
 
         # add transition actions
         my %TransitionActionMapping;
-        for my $TransitionActionEntityID ( keys %{ $ProcessData->{TransitionActions} } ) {
+        for my $TransitionActionEntityID ( sort keys %{ $ProcessData->{TransitionActions} } ) {
 
             # get next EntityID
             my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
@@ -255,7 +256,7 @@ sub Run {
 
         # add transitions
         my %TransitionMapping;
-        for my $TransitionEntityID ( keys %{ $ProcessData->{Transitions} } ) {
+        for my $TransitionEntityID ( sort keys %{ $ProcessData->{Transitions} } ) {
 
             # get next EntityID
             my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
@@ -284,7 +285,7 @@ sub Run {
 
         # add activities
         my %ActivityMapping;
-        for my $ActivityEntityID ( keys %{ $ProcessData->{Activities} } ) {
+        for my $ActivityEntityID ( sort keys %{ $ProcessData->{Activities} } ) {
 
             # get next EntityID
             my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
@@ -1435,7 +1436,7 @@ sub _ShowEdit {
 
     # get the 'inactive' state for init
     my $InactiveStateID;
-    for my $StateID ( keys %{$StateList} ) {
+    for my $StateID ( sort keys %{$StateList} ) {
         if ( $StateList->{$StateID} =~ m{Inactive}xmsi ) {
             $InactiveStateID = $StateID;
         }

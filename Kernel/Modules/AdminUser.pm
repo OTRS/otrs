@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.86 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminUser.pm,v 1.87 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,7 +70,7 @@ sub Run {
             Type   => 'rw',
             UserID => $UserData{UserID},
         );
-        for my $GroupKey ( keys %GroupData ) {
+        for my $GroupKey ( sort keys %GroupData ) {
             $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
         }
 
@@ -80,7 +80,7 @@ sub Run {
             Type   => 'ro',
             UserID => $UserData{UserID},
         );
-        for my $GroupKey ( keys %GroupData ) {
+        for my $GroupKey ( sort keys %GroupData ) {
             $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';
         }
         my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
@@ -190,7 +190,7 @@ sub Run {
 
             if ($Update) {
                 my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
-                for my $Group ( keys %Preferences ) {
+                for my $Group ( sort keys %Preferences ) {
                     next if $Group eq 'Password';
 
                     # get user data
@@ -340,7 +340,7 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
-                for my $Group ( keys %Preferences ) {
+                for my $Group ( sort keys %Preferences ) {
                     next if $Group eq 'Password';
 
                     # get user data
@@ -501,7 +501,7 @@ sub _Edit {
         my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
 
         GROUP:
-        for my $Group ( keys %Preferences ) {
+        for my $Group ( sort keys %Preferences ) {
             next GROUP if $Preferences{$Group}->{Column} ne $Column;
 
             if ( $Data{ $Preferences{$Group}->{Prio} } ) {
@@ -517,7 +517,7 @@ sub _Edit {
         }
 
         # sort
-        for my $Key ( keys %Data ) {
+        for my $Key ( sort keys %Data ) {
             $Data{ sprintf( "%07d", $Key ) } = $Data{$Key};
             delete $Data{$Key};
         }

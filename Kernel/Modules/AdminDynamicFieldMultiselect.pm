@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldMultiselect.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldMultiselect.pm,v 1.15 2012-11-15 15:01:20 mb Exp $
+# $Id: AdminDynamicFieldMultiselect.pm,v 1.16 2012-11-16 08:53:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,7 +190,7 @@ sub _AddAction {
 
     # set errors for possible values entries
     KEY:
-    for my $Key ( keys %{$PossibleValues} ) {
+    for my $Key ( sort keys %{$PossibleValues} ) {
 
         # check for empty original values
         if ( $Key =~ m{\A $Self->{EmptyString} (?: \d+)}smx ) {
@@ -441,7 +441,7 @@ sub _ChangeAction {
 
     # set errors for possible values entries
     KEY:
-    for my $Key ( keys %{$PossibleValues} ) {
+    for my $Key ( sort keys %{$PossibleValues} ) {
 
         # check for empty original values
         if ( $Key =~ m{\A $Self->{EmptyString} (?: \d+)}smx ) {
@@ -651,7 +651,7 @@ sub _ShowScreen {
     # check and build the Default Value list based on Possible Values
     my %DefaultValuesList;
     POSSIBLEVALUE:
-    for my $ValueItem ( keys %PossibleValues ) {
+    for my $ValueItem ( sort keys %PossibleValues ) {
         next POSSIBLEVALUE if !defined $ValueItem;
         next POSSIBLEVALUE if !defined $PossibleValues{$ValueItem};
         $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem}

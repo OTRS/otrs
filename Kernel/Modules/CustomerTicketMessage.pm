@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.112 2012-11-14 03:00:02 cr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.113 2012-11-16 08:59:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,7 +100,7 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
@@ -577,7 +577,7 @@ sub Run {
         my $NewTos;
 
         if ($Tos) {
-            for my $KeyTo ( keys %{$Tos} ) {
+            for my $KeyTo ( sort keys %{$Tos} ) {
                 $NewTos->{"$KeyTo||$Tos->{$KeyTo}"} = $Tos->{$KeyTo};
             }
         }
@@ -816,7 +816,7 @@ sub _GetTos {
         );
 
         # build selection string
-        for my $QueueID ( keys %Tos ) {
+        for my $QueueID ( sort keys %Tos ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
@@ -879,7 +879,7 @@ sub _MaskNew {
 
         # build to string
         if (%NewTos) {
-            for ( keys %NewTos ) {
+            for ( sort keys %NewTos ) {
                 $NewTos{"$_||$NewTos{$_}"} = $NewTos{$_};
                 delete $NewTos{$_};
             }
@@ -1016,7 +1016,7 @@ sub _MaskNew {
 
     # prepare errors
     if ( $Param{Errors} ) {
-        for ( keys %{ $Param{Errors} } ) {
+        for ( sort keys %{ $Param{Errors} } ) {
             $Param{$_} = $Param{Errors}->{$_};
         }
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.57 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminResponse.pm,v 1.58 2012-11-16 08:54:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub Run {
         my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
             ID => $ID,
         );
-        for my $Key ( keys %SelectedAttachmentData ) {
+        for my $Key ( sort keys %SelectedAttachmentData ) {
             push @SelectedAttachment, $Key;
         }
 
@@ -383,7 +383,7 @@ sub _Overview {
             my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
                 ID => $ID,
             );
-            for my $Key ( keys %SelectedAttachmentData ) {
+            for my $Key ( sort keys %SelectedAttachmentData ) {
                 push @SelectedAttachment, $Key;
             }
             $Self->{LayoutObject}->Block(

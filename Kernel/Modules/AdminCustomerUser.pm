@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.103 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminCustomerUser.pm,v 1.104 2012-11-16 08:53:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -120,7 +120,7 @@ sub Run {
                 Type   => $Type,
                 UserID => $UserData{UserID},
             );
-            for my $GroupKey ( keys %GroupData ) {
+            for my $GroupKey ( sort keys %GroupData ) {
                 if ( $Type eq 'rw' ) {
                     $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
                 }
@@ -300,7 +300,7 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
-                for my $Group ( keys %Preferences ) {
+                for my $Group ( sort keys %Preferences ) {
                     next if $Group eq 'Password';
 
                     # get user data
@@ -456,7 +456,7 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
-                for my $Group ( keys %Preferences ) {
+                for my $Group ( sort keys %Preferences ) {
                     next if $Group eq 'Password';
 
                     # get user data
@@ -846,7 +846,7 @@ sub _Edit {
                 = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
 
             # make sure the encoding stamp is set
-            for my $Key ( keys %{$SelectionsData} ) {
+            for my $Key ( sort keys %{$SelectionsData} ) {
                 $SelectionsData->{$Key}
                     = $Self->{EncodeObject}->EncodeInput( $SelectionsData->{$Key} );
             }
@@ -974,7 +974,7 @@ sub _Edit {
             my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
 
             GROUP:
-            for my $Group ( keys %Preferences ) {
+            for my $Group ( sort keys %Preferences ) {
 
                 next GROUP if !$Group;
                 next GROUP if !$Preferences{$Group}->{Column};
@@ -999,7 +999,7 @@ sub _Edit {
             }
 
             # sort
-            for my $Key ( keys %Data ) {
+            for my $Key ( sort keys %Data ) {
                 $Data{ sprintf "%07d", $Key } = $Data{$Key};
                 delete $Data{$Key};
             }

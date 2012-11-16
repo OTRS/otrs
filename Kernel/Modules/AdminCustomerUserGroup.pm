@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.40 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.41 2012-11-16 08:53:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -188,8 +188,8 @@ sub Run {
         # get group data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList( Valid => 1 );
         my %NewPermission;
-        for my $UserID ( keys %UserData ) {
-            for my $Permission ( keys %Permissions ) {
+        for my $UserID ( sort keys %UserData ) {
+            for my $Permission ( sort keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
                 for my $ID (@Array) {
@@ -236,8 +236,8 @@ sub Run {
         # get group data
         my %GroupData = $Self->{GroupObject}->GroupList( Valid => 1 );
         my %NewPermission;
-        for my $GroupID ( keys %GroupData ) {
-            for my $Permission ( keys %Permissions ) {
+        for my $GroupID ( sort keys %GroupData ) {
+            for my $Permission ( sort keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
                 for my $ID (@Array) {

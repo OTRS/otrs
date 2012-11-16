@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.18 2012-11-12 18:14:51 mh Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.19 2012-11-16 08:55:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -734,7 +734,7 @@ sub _ShowEdit {
 
         if ( IsHashRefWithData( $ActivityData->{Config}->{ActivityDialog} ) ) {
             ACTIVITYDIALOG:
-            for my $Order ( keys %{ $ActivityData->{Config}->{ActivityDialog} } ) {
+            for my $Order ( sort keys %{ $ActivityData->{Config}->{ActivityDialog} } ) {
                 next ACTIVITYDIALOG if !$Order;
                 my $EntityID = $ActivityData->{Config}->{ActivityDialog}->{$Order};
                 next ACTIVITYDIALOG if !$ActivityData->{Config}->{ActivityDialog}->{$Order};
@@ -744,7 +744,7 @@ sub _ShowEdit {
         }
 
         # remove used activity dialogs from available list
-        for my $EntityID ( keys %AssignedActivityDialogs ) {
+        for my $EntityID ( sort keys %AssignedActivityDialogs ) {
             delete $AvailableActivityDialogsLookup{$EntityID};
         }
 
