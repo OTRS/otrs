@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBook.pm - addressbook module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.pm,v 1.21 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentBook.pm,v 1.22 2012-11-16 08:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,7 +54,7 @@ sub Run {
         %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch( Search => $Search, );
     }
     my %List;
-    for ( keys %CustomerUserList ) {
+    for ( sort keys %CustomerUserList ) {
         my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_, );
         if ( $CustomerUserData{UserEmail} ) {
             $List{ $CustomerUserData{UserEmail} } = $CustomerUserList{$_};

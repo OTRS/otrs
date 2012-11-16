@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerInformationCenterSearch.pm - customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenterSearch.pm,v 1.5 2012-11-15 08:41:37 mb Exp $
+# $Id: AgentCustomerInformationCenterSearch.pm,v 1.6 2012-11-16 08:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,7 +133,7 @@ sub Run {
         my $Count = 1;
 
         CUSTOMERLOGIN:
-        for my $CustomerLogin ( keys %CustomerList ) {
+        for my $CustomerLogin ( sort keys %CustomerList ) {
             my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $CustomerLogin,
             );

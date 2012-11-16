@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.55 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentPreferences.pm,v 1.56 2012-11-16 08:45:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,7 +191,7 @@ sub AgentPreferencesForm {
         my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
 
         GROUP:
-        for my $Group ( keys %Preferences ) {
+        for my $Group ( sort keys %Preferences ) {
 
             next GROUP if !$Group;
             next GROUP if !$Preferences{$Group};
@@ -226,7 +226,7 @@ sub AgentPreferencesForm {
         );
 
         # sort
-        for my $Key ( keys %Data ) {
+        for my $Key ( sort keys %Data ) {
             $Data{ sprintf( "%07d", $Key ) } = $Data{$Key};
             delete $Data{$Key};
         }

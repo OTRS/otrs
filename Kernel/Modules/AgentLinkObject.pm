@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.66 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.67 2012-11-16 08:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -258,7 +258,7 @@ sub Run {
                 for my $TargetKeyOrg (@LinkTargetKeys) {
 
                     TYPE:
-                    for my $LType ( keys %{ $LinkList->{ $Form{TargetObject} } } ) {
+                    for my $LType ( sort keys %{ $LinkList->{ $Form{TargetObject} } } ) {
 
                         # extract source and target
                         my $Source = $LinkList->{ $Form{TargetObject} }->{$LType}->{Source} ||= {};
@@ -449,12 +449,12 @@ sub Run {
         # remove the source object from the search list
         if ( $SearchList && $SearchList->{ $Form{SourceObject} } ) {
 
-            for my $LinkType ( keys %{ $SearchList->{ $Form{SourceObject} } } ) {
+            for my $LinkType ( sort keys %{ $SearchList->{ $Form{SourceObject} } } ) {
 
                 # extract link type List
                 my $LinkTypeList = $SearchList->{ $Form{SourceObject} }->{$LinkType};
 
-                for my $Direction ( keys %{$LinkTypeList} ) {
+                for my $Direction ( sort keys %{$LinkTypeList} ) {
 
                     # remove the source key
                     delete $LinkTypeList->{$Direction}->{ $Form{SourceKey} };
@@ -474,21 +474,24 @@ sub Run {
 
             # build object id lookup hash from search list
             my %SearchListObjectKeys;
-            for my $Key ( keys %{ $SearchList->{ $Form{TargetObject} }->{NOTLINKED}->{Source} } ) {
+            for my $Key (
+                sort keys %{ $SearchList->{ $Form{TargetObject} }->{NOTLINKED}->{Source} }
+                )
+            {
                 $SearchListObjectKeys{$Key} = 1;
             }
 
             # check if linked objects are part of the search list
-            for my $LinkType ( keys %{ $LinkListWithData->{ $Form{TargetObject} } } ) {
+            for my $LinkType ( sort keys %{ $LinkListWithData->{ $Form{TargetObject} } } ) {
 
                 # extract link type List
                 my $LinkTypeList = $LinkListWithData->{ $Form{TargetObject} }->{$LinkType};
 
-                for my $Direction ( keys %{$LinkTypeList} ) {
+                for my $Direction ( sort keys %{$LinkTypeList} ) {
 
                     # extract the keys
                     KEY:
-                    for my $Key ( keys %{ $LinkTypeList->{$Direction} } ) {
+                    for my $Key ( sort keys %{ $LinkTypeList->{$Direction} } ) {
 
                         next KEY if $SearchListObjectKeys{$Key};
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.129 2012-11-12 18:14:51 mh Exp $
+# $Id: AgentStats.pm,v 1.130 2012-11-16 08:45:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -539,7 +539,7 @@ sub Run {
                                 elsif ( $TimeType eq 'Extended' ) {
                                     my $TimeScale = _TimeScale();
                                     my %TimeScaleOption;
-                                    for ( keys %{$TimeScale} ) {
+                                    for ( sort keys %{$TimeScale} ) {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
                                         last if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                     }
