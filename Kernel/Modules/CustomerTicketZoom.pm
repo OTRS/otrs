@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.103 2012-11-16 10:31:54 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.104 2012-11-16 16:21:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,9 +74,6 @@ sub new {
     # get dynamic field config for frontend module
     $Self->{DynamicFieldFilter} = $Self->{Config}->{DynamicField};
 
-    # ---
-    # FollowUp DynamicFields
-    # ---
     $Self->{FollowUpDynamicFieldFilter} = $Self->{Config}->{FollowUpDynamicField};
 
     # get the dynamic fields for ticket object
@@ -85,8 +82,6 @@ sub new {
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Self->{FollowUpDynamicFieldFilter} || {},
     );
-
-    # ---
 
     # create additional objects for process management
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(%Param);
@@ -181,9 +176,6 @@ sub Run {
     my %ACLCompatGetParam;
     $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
 
-    # ---
-    # FollowUp DynamicFields
-    # ---
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
@@ -213,8 +205,6 @@ sub Run {
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
-    # ---
-
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
         # get TicketID
@@ -237,9 +227,6 @@ sub Run {
             CustomerUserID => $CustomerUser || '',
         );
 
-        # ---
-        # FollowUp DynamicFields
-        # ---
         # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
@@ -291,8 +278,6 @@ sub Run {
             );
         }
 
-        # ---
-
         my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
             [
                 {
@@ -309,14 +294,7 @@ sub Run {
                     Translation => 1,
                     Max         => 100,
                 },
-
-                # ---
-                # FollowUp DynamicFields
-                # ---
                 @DynamicFieldAJAX,
-
-                # ---
-
             ],
         );
         return $Self->{LayoutObject}->Attachment(
@@ -406,9 +384,6 @@ sub Run {
             }
         }
 
-        # ---
-        # FollowUp DynamicFields
-        # ---
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
@@ -496,8 +471,6 @@ sub Run {
                 );
         }
 
-        # ---
-
         # show edit again
         if (%Error) {
 
@@ -512,14 +485,7 @@ sub Run {
                 TicketState   => $Ticket{State},
                 TicketStateID => $Ticket{StateID},
                 %GetParam,
-
-                # ---
-                # FollowUp DynamicFields
-                # ---
                 DynamicFieldHTML => \%DynamicFieldHTML,
-
-                # ---
-
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
@@ -646,9 +612,6 @@ sub Run {
             );
         }
 
-        # ---
-        # FollowUp DynamicFields
-        # ---
         # set ticket dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
@@ -681,8 +644,6 @@ sub Run {
             );
         }
 
-        # ---
-
         # remove pre submited attachments
         $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
 
@@ -700,9 +661,6 @@ sub Run {
     # set priority from ticket as fallback
     $GetParam{PriorityID} ||= $Ticket{PriorityID};
 
-    # ---
-    # FollowUp DynamicFields
-    # ---
     # create html strings for all dynamic fields
     my %DynamicFieldHTML;
 
@@ -756,8 +714,6 @@ sub Run {
             );
     }
 
-    # ---
-
     # generate output
     my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
@@ -776,13 +732,7 @@ sub Run {
         TicketState   => $Ticket{State},
         TicketStateID => $Ticket{StateID},
         %GetParam,
-
-        # ---
-        # FollowUp DynamicFields
-        # ---
         DynamicFieldHTML => \%DynamicFieldHTML,
-
-        # ---
     );
 
     # return if HTML email
@@ -1546,9 +1496,6 @@ sub _Mask {
                 );
             }
 
-            # ---
-            # FollowUp DynamicFields
-            # ---
             # Dynamic fields
             # cycle trough the activated Dynamic Fields for this screen
             DYNAMICFIELD:
@@ -1583,8 +1530,6 @@ sub _Mask {
                 );
             }
 
-            # ---
-
             # show attachments
             # get all attachments meta data
             my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
@@ -1610,9 +1555,6 @@ sub _Mask {
     );
 }
 
-# ---
-# FollowUp Dynamicfields
-# ---
 sub _GetFieldsToUpdate {
     my ( $Self, %Param ) = @_;
 
@@ -1641,5 +1583,4 @@ sub _GetFieldsToUpdate {
     return \@UpdatableFields;
 }
 
-# ---
 1;

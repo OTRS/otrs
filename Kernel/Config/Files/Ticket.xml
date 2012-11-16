@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.537 2012-11-16 14:36:05 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.538 2012-11-16 16:21:08 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -8042,7 +8042,6 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-<!-- FollowUp DynamicFields -->
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###FollowUpDynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
         <Group>Ticket</Group>
@@ -8052,7 +8051,6 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-<!-- FollowUp DynamicFields -->
     <ConfigItem Name="Ticket::Frontend::AgentTicketPrint###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the ticket print screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
         <Group>Ticket</Group>
