@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.108 2012-11-12 18:19:38 mh Exp $
+# $Id: AgentTicketCompose.dtl,v 1.109 2012-11-16 12:20:47 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,6 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-<!-- dtl:block:Content -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="ComposeTicket" class="Validate PreventMultipleSubmits">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="SendEmail"/>
@@ -423,4 +422,3 @@ $Include{"RichTextEditor"}
 
     //]]></script>
 <!--dtl:js_on_document_complete-->
-<!-- dtl:block:Content -->

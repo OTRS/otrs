@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.171 2012-11-15 20:55:13 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.172 2012-11-16 12:20:47 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1618,14 +1618,6 @@ sub _Mask {
         $Param{CustomerHiddenContainer} = 'Hidden';
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'Content',
-        Data => {
-            FormID => $Self->{FormID},
-            %Param,
-        },
-    );
-
     # set customer counter
     $Self->{LayoutObject}->Block(
         Name => 'MultipleCustomerCounter',
@@ -1838,7 +1830,13 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCompose', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketCompose',
+        Data         => {
+            FormID => $Self->{FormID},
+            %Param,
+            }
+    );
 }
 
 sub _GetFieldsToUpdate {
