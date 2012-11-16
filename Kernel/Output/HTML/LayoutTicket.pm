@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.146 2012-11-15 20:52:31 mh Exp $
+# $Id: LayoutTicket.pm,v 1.147 2012-11-16 13:46:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -852,7 +852,13 @@ sub TicketListShow {
     }
 
     # view mode
-    for my $Backend ( sort keys %{$Backends} ) {
+    my %Seen;
+    BACKEND:
+    for my $Backend ( ( 'Small', 'Medium', 'Preview', sort keys %{$Backends} ) ) {
+
+        next BACKEND if !ref $Backends->{$Backend};
+        next BACKEND if $Seen{$Backend}++;
+
         $Env->{LayoutObject}->Block(
             Name => 'OverviewNavBarViewMode',
             Data => {
