@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.25 2012-11-16 09:01:27 mh Exp $
+# $Id: Escalations.t,v 1.26 2012-11-16 10:32:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -285,7 +285,8 @@ for my $Hours ( sort keys %WorkingHours ) {
     {
         if ( $WorkingHours{$Hours} ) {
 
-          # check whether events were triggered: first response escalation, solution time escalation
+            # check whether events were triggered: first response
+            # escalation, solution time escalation
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }
@@ -476,8 +477,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         # get ticket attributes
         my %TicketGet = $TicketObject->TicketGet(
-            TicketID      => $TicketID,
-            DynamicFields => 1,
+            TicketID => $TicketID,
         );
 
         # make sure that a least a minute is taken off the used up time
