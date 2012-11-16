@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.26 2012-11-16 10:32:58 mh Exp $
+# $Id: Escalations.t,v 1.27 2012-11-16 10:54:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@ my $CheckNumEvents = sub {
     my $JobName = $Param{JobName} || '';
 
     if ($JobName) {
+
         my $JobRun = $Param{GenericAgentObject}->JobRun(
             Job    => $JobName,
             Config => {
@@ -65,7 +66,11 @@ my $CheckNumEvents = sub {
             },
             UserID => 1,
         );
-        $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
+
+        $Self->True(
+            $JobRun,
+            "JobRun() $JobName Run the GenericAgent job",
+        );
     }
 
     my @Lines = $Param{TicketObject}->HistoryGet(
@@ -79,7 +84,11 @@ my $CheckNumEvents = sub {
 
         my @EventLines = grep { $_->{HistoryType} eq $Event } @Lines;
 
-        $Self->Is( scalar(@EventLines), $NumEvents, "check num of $Event events, $Comment" );
+        $Self->Is(
+            scalar @EventLines,
+            $NumEvents,
+            "check num of $Event events, $Comment",
+        );
 
         # keep current number for reference
         $Param{NumEvents}->{$Event} = scalar @EventLines;
@@ -95,6 +104,7 @@ my %WorkingHours = (
     1 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
 );
 
+HOURS:
 for my $Hours ( sort keys %WorkingHours ) {
 
     # An unique indentifier, so that data from different test runs won't be mixed up.
@@ -457,11 +467,11 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
         my $QueueUpdate = $QueueObject->QueueUpdate(
             %Queue,
-            FirstResponseTime   => 2,
+            FirstResponseTime   => 1,
             FirstResponseNotify => 10,
-            UpdateTime          => 2,
+            UpdateTime          => 1,
             UpdateNotify        => 10,
-            SolutionTime        => 2,
+            SolutionTime        => 1,
             SolutionNotify      => 10,
             Comment             => 'escalations in the future, immediate warnings',
             UserID              => 1,
@@ -484,14 +494,17 @@ for my $Hours ( sort keys %WorkingHours ) {
         # A timespan of less than 1 minute comes up the 0% reached.
         # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
         my $SystemTime = $TimeObject->SystemTime();
-        my $SleepTime  = $SystemTime - $TicketGet{CreateTimeUnix};
+        my $TicketAge  = $SystemTime - $TicketGet{CreateTimeUnix};
 
-        # define the sleep time
-        $SleepTime = 65 - $SleepTime;
+        #        next HOURS if $TicketAge > 50;
+
+        my $SleepTime = 10 - $TicketAge;
 
         $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
 
-        sleep $SleepTime;
+        if ( $SleepTime > 0 ) {
+            sleep $SleepTime;
+        }
 
         if ( $WorkingHours{$Hours} ) {
             $NumEvents{EscalationSolutionTimeNotifyBefore}++;
