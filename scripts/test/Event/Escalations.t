@@ -2,11 +2,11 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.8.2.7 2012-11-15 20:07:08 mh Exp $
+# $Id: Escalations.t,v 1.8.2.8 2012-11-16 13:56:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
 use strict;
@@ -54,6 +54,7 @@ my $CheckNumEvents = sub {
     my $JobName = $Param{JobName} || '';
 
     if ($JobName) {
+
         my $JobRun = $Param{GenericAgentObject}->JobRun(
             Job    => $JobName,
             Config => {
@@ -65,7 +66,11 @@ my $CheckNumEvents = sub {
             },
             UserID => 1,
         );
-        $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
+
+        $Self->True(
+            $JobRun,
+            "JobRun() $JobName Run the GenericAgent job",
+        );
     }
 
     my @Lines = $Param{TicketObject}->HistoryGet(
@@ -76,8 +81,14 @@ my $CheckNumEvents = sub {
     my $Comment = $Param{Comment} || "after $JobName";
 
     while ( my ( $Event, $NumEvents ) = each %{ $Param{NumEvents} } ) {
+
         my @EventLines = grep { $_->{HistoryType} eq $Event } @Lines;
-        $Self->Is( scalar(@EventLines), $NumEvents, "check num of $Event events, $Comment" );
+
+        $Self->Is(
+            scalar @EventLines,
+            $NumEvents,
+            "check num of $Event events, $Comment",
+        );
 
         # keep current number for reference
         $Param{NumEvents}->{$Event} = scalar @EventLines;
@@ -283,7 +294,8 @@ for my $Hours ( sort keys %WorkingHours ) {
     {
         if ( $WorkingHours{$Hours} ) {
 
-          # check whether events were triggered: first response escalation, solution time escalation
+            # check whether events were triggered: first response
+            # escalation, solution time escalation
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }
@@ -436,79 +448,6 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
     }
 
-    # no new start escalations when escalation times are in the future
-    # notify before escalations because immediate notification were turned on
-    {
-        $ConfigObject->Set(
-            Key   => 'OTRSEscalationEvents::DecayTime',
-            Value => 0,
-        );
-
-        # set the escalation into the future, but less than 60 Minutes,
-        # 60 minutes is relevant for GetOverTimeTickets().
-        # Set up NotifyBefore at 10%, which is less than the expected reached percentage of 50%.
-        # reached percentage = ( 'passed time' / 'configured time' ) * 100 = ( 1 / 2 ) * 100
-        my %Queue = $QueueObject->QueueGet(
-            ID     => $QueueID,
-            UserID => 1,
-        );
-        my $QueueUpdate = $QueueObject->QueueUpdate(
-            %Queue,
-            FirstResponseTime   => 2,
-            FirstResponseNotify => 10,
-            UpdateTime          => 2,
-            UpdateNotify        => 10,
-            SolutionTime        => 2,
-            SolutionNotify      => 10,
-            Comment             => 'escalations in the future, immediate warnings',
-            UserID              => 1,
-        );
-        $Self->True( $QueueUpdate, "QueueUpdate() $QueueName" );
-
-        # as queue has changed, the escalation times have changed
-        # trigger an update of escalation times in the database
-        $TicketObject->TicketEscalationIndexBuild(
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
-
-        # get ticket attributes
-        my %TicketGet = $TicketObject->TicketGet(
-            TicketID      => $TicketID,
-            DynamicFields => 1,
-        );
-
-        # make sure that a least a minute is taken off the used up time
-        # A timespan of less than 1 minute comes up the 0% reached.
-        # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
-        my $SystemTime = $TimeObject->SystemTime();
-        my $SleepTime  = $SystemTime - $TicketGet{CreateTimeUnix};
-
-        # define the sleep time
-        $SleepTime = 50 - $SleepTime;
-
-        if ( $SleepTime > 5 ) {
-
-            $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
-
-            sleep $SleepTime;
-
-            if ( $WorkingHours{$Hours} ) {
-                $NumEvents{EscalationSolutionTimeNotifyBefore}++;
-                $NumEvents{EscalationUpdateTimeNotifyBefore}++;
-            }
-            $CheckNumEvents->(
-                GenericAgentObject => $GenericAgentObject,
-                TicketObject       => $TicketObject,
-                TicketID           => $TicketID,
-                NumEvents          => \%NumEvents,
-                JobName            => "Job6-$UniqueSignature",
-                QueueName          => $QueueName,
-                Comment            => "after Job6 - $SleepTime $TicketGet{CreateTimeUnix}",
-            );
-        }
-    }
-
     # clean up
     {
 
@@ -520,10 +459,8 @@ for my $Hours ( sort keys %WorkingHours ) {
         $Self->True( $TicketDelete || '', "TicketDelete() $TicketID" );
 
         # queues can't be deleted
-
         # no need to clean up generic agent job, as it wasn't entered in the database
     }
-
-}    # end main loop
+}
 
 1;
