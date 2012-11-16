@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.104 2012-11-16 16:21:08 cr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.105 2012-11-16 17:20:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1423,6 +1423,25 @@ sub _Mask {
             )
             )
         {
+
+            my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+                OnlyDynamicFields => 1,
+            );
+
+            # create a string with the quoted dynamic field names separated by a commas
+            if ( IsArrayRefWithData($DynamicFieldNames) ) {
+                my $FirstItem = 1;
+                FIELD:
+                for my $Field ( @{$DynamicFieldNames} ) {
+                    if ($FirstItem) {
+                        $FirstItem = 0;
+                    }
+                    else {
+                        $Param{DynamicFieldNamesStrg} .= ', ';
+                    }
+                    $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+                }
+            }
 
             # check subject
             if ( !$Param{Subject} ) {
