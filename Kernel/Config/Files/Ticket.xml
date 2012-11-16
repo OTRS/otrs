@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.536 2012-11-16 00:09:20 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.537 2012-11-16 14:36:05 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -426,6 +426,7 @@ Description>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewSmall</Item>
                 <Item Key="Name">Small</Item>
                 <Item Key="NameShort">S</Item>
+                <Item Key="ModulePriority">100</Item>
                 <Item Key="CustomerInfo">1</Item>
             </Hash>
         </Setting>
@@ -450,6 +451,7 @@ Description>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewMedium</Item>
                 <Item Key="Name">Medium</Item>
                 <Item Key="NameShort">M</Item>
+                <Item Key="ModulePriority">200</Item>
                 <Item Key="CustomerInfo">0</Item>
                 <Item Key="TicketActionsPerTicket">0</Item>
             </Hash>
@@ -464,6 +466,7 @@ Description>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewPreview</Item>
                 <Item Key="Name">Preview</Item>
                 <Item Key="NameShort">L</Item>
+                <Item Key="ModulePriority">300</Item>
                 <Item Key="CustomerInfo">0</Item>
                 <Item Key="CustomerInfoMaxSize">18</Item>
                 <Item Key="DefaultPreViewLines">25</Item>
