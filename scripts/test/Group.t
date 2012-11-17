@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.22 2012-11-12 21:35:31 mh Exp $
+# $Id: Group.t,v 1.23 2012-11-17 13:45:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -244,6 +244,9 @@ $Self->True(
     'GroupList()',
 );
 
+# initialize role list so it is in cache
+my %RoleList = $GroupObject->RoleList();
+
 # add three roles
 my $RoleRand1 = 'example-role1' . int( rand(1000000) );
 my $RoleRand2 = 'example-role2' . int( rand(1000000) );
@@ -281,6 +284,15 @@ $Self->True(
     $RoleID3,
     'RoleAdd3()',
 );
+
+# check role list
+%RoleList = $GroupObject->RoleList();
+for my $LookupRoleID ( $RoleID1, $RoleID2, $RoleID3 ) {
+    $Self->True(
+        $RoleList{$LookupRoleID},
+        "RoleList after adding $LookupRoleID",
+    );
+}
 
 # lookup Role1 by name
 my $LookupRoleID1 = $GroupObject->RoleLookup( Role => $RoleRand1 );

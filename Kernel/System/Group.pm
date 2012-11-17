@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.96 2012-11-12 22:55:39 mh Exp $
+# $Id: Group.pm,v 1.97 2012-11-17 13:45:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 NAME
 
@@ -217,14 +217,8 @@ sub GroupAdd {
         Message  => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
     );
 
-    # delete cache
-    my @CacheKeys = (
-        'GroupLookup::ID::' . $GroupID,
-        'GroupLookup::Name::' . $Param{Name},
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $GroupID;
 }
@@ -302,9 +296,6 @@ sub GroupUpdate {
         }
     }
 
-    # get the old group name to delete the cache
-    my $OldGroupName = $Self->GroupLookup( GroupID => $Param{ID} );
-
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE groups SET name = ?, comments = ?, valid_id = ?, '
@@ -314,15 +305,8 @@ sub GroupUpdate {
         ],
     );
 
-    # delete cache
-    my @CacheKeys = (
-        'GroupLookup::ID::' . $Param{ID},
-        'GroupLookup::Name::' . $Param{Name},
-        'GroupLookup::Name::' . $OldGroupName,
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     return 1;
 }
@@ -1578,14 +1562,8 @@ sub RoleAdd {
         Message  => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
     );
 
-    # delete cache
-    my @CacheKeys = (
-        'RoleLookup::ID::' . $RoleID,
-        'RoleLookup::Name::' . $Param{Name},
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $RoleID;
 }
@@ -1615,9 +1593,6 @@ sub RoleUpdate {
         }
     }
 
-    # get the old role name to delete the cache
-    my $OldRoleName = $Self->RoleLookup( RoleID => $Param{ID} );
-
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE roles SET name = ?, comments = ?, valid_id = ?, '
@@ -1627,15 +1602,8 @@ sub RoleUpdate {
         ],
     );
 
-    # delete cache
-    my @CacheKeys = (
-        'RoleLookup::ID::' . $Param{ID},
-        'RoleLookup::Name::' . $Param{Name},
-        'RoleLookup::Name::' . $OldRoleName,
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     return 1;
 }
@@ -1738,6 +1706,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2012-11-12 22:55:39 $
+$Revision: 1.97 $ $Date: 2012-11-17 13:45:50 $
 
 =cut
