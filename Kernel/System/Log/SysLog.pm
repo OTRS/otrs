@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.23 2012-11-12 18:07:30 mh Exp $
+# $Id: SysLog.pm,v 1.24 2012-11-18 08:30:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Sys::Syslog qw();
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,15 +93,6 @@ sub Log {
             "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}"
         );
     }
-
-    return;
-}
-
-sub DESTROY {
-    my $Self = shift;
-
-    # close syslog request
-    Sys::Syslog::closelog();
 
     return;
 }
