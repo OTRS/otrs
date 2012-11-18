@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.120 2012-11-12 22:53:00 mh Exp $
+# $Id: Stats.pm,v 1.121 2012-11-18 14:41:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 =head1 NAME
 
@@ -2270,27 +2270,16 @@ sub _GenerateDynamicStats {
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
                         $Element->{TimeStart}
                             = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
-                        $Self->{LogObject}->Log(
-                            Priority => 'notice',
-                            Message  => "We have $Element->{TimeStop} and $Element->{TimeStart}"
-                        );
-
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Week' ) {
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -1, 0 );
                         $Element->{TimeStop} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
-                            $Y, $M, Days_in_Month( $Y, $M ),
-                            23, 59, 59
+                            $Y, $M, $D, 23, 59, 59
                         );
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
+                        ( $Y, $M, $D ) = Add_Delta_Days( $Y, $M, $D, -$Count * 7 );
                         $Element->{TimeStart}
-                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
-                        $Self->{LogObject}->Log(
-                            Priority => 'notice',
-                            Message  => "We have $Element->{TimeStop} and $Element->{TimeStart}"
-                        );
-
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Day' ) {
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -1 );
@@ -2612,7 +2601,7 @@ sub _GenerateDynamicStats {
     my @ArraySelected;
     my $ColumnName = '';
 
-    # give me all possilbe elements for Value Series
+    # give me all possible elements for Value Series
     REF1:
     for my $Ref1 ( @{ $Param{UseAsValueSeries} } ) {
 
@@ -3437,6 +3426,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.120 $ $Date: 2012-11-12 22:53:00 $
+$Revision: 1.121 $ $Date: 2012-11-18 14:41:19 $
 
 =cut
