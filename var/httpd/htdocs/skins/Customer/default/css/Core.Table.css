@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -56,6 +56,16 @@ table.Overview {
 }
 
 .Overview thead a {
+    padding: 1px 13px 4px 8px;
+    height: 10px;
+    color: #444;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: block;
+    text-shadow: 0 1px 0 #EEE;
+}
+
+.Overview thead span {
     padding: 1px 13px 4px 8px;
     height: 10px;
     color: #444;
