@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.68 2012-11-12 21:53:32 mh Exp $
+# $Id: DB.pm,v 1.69 2012-11-19 14:18:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,7 +163,7 @@ sub GetSessionIDData {
     # read data
     $Self->{DBObject}->Prepare(
         SQL => "
-            SELECT data_key, data_value, serialized
+            SELECT id, data_key, data_value, serialized
             FROM $Self->{SessionTable}
             WHERE session_id = ?
             ORDER BY id ASC",
@@ -171,12 +171,13 @@ sub GetSessionIDData {
     );
 
     my %Session;
+    my %SessionID;
     ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # deserialize data if needed
-        if ( $Row[2] ) {
-            my $Value = eval { Storable::thaw( $Row[1] ) };
+        if ( $Row[3] ) {
+            my $Value = eval { Storable::thaw( $Row[2] ) };
 
             # workaround for the oracle problem with empty
             # strings and NULL values in VARCHAR columns
@@ -186,21 +187,25 @@ sub GetSessionIDData {
 
             $Self->{EncodeObject}->EncodeOutput( \$Value );
 
-            $Session{ $Row[0] } = $Value;
+            $Session{ $Row[1] } = $Value;
         }
         else {
-            $Session{ $Row[0] } = $Row[1];
+            $Session{ $Row[1] } = $Row[2];
         }
+
+        $SessionID{ $Row[1] } = $Row[0];
     }
 
     if ( !%Session ) {
         delete $Self->{Cache}->{ $Param{SessionID} };
+        delete $Self->{CacheID}->{ $Param{SessionID} };
         delete $Self->{CacheUpdate}->{ $Param{SessionID} };
         return;
     }
 
     # cache result
-    $Self->{Cache}->{ $Param{SessionID} } = \%Session;
+    $Self->{Cache}->{ $Param{SessionID} }   = \%Session;
+    $Self->{CacheID}->{ $Param{SessionID} } = \%SessionID;
 
     return %Session;
 }
@@ -346,6 +351,7 @@ sub RemoveSessionID {
 
     # reset cache
     delete $Self->{Cache}->{ $Param{SessionID} };
+    delete $Self->{CacheID}->{ $Param{SessionID} };
     delete $Self->{CacheUpdate}->{ $Param{SessionID} };
 
     # log event
@@ -479,6 +485,7 @@ sub CleanUp {
 
     # remove cached data
     delete $Self->{Cache};
+    delete $Self->{CacheID};
     delete $Self->{CacheUpdate};
 
     return 1;
@@ -515,32 +522,6 @@ sub DESTROY {
 
         next SESSIONID if !@SQLs;
 
-        if ($UpdateMode) {
-
-            KEY:
-            for my $Key ( sort keys %{ $Self->{CacheUpdate}->{$SessionID} } ) {
-
-                next KEY if !$Key;
-
-                # delete old session data from the database
-                $Self->{DBObject}->Do(
-                    SQL => "
-                        DELETE FROM $Self->{SessionTable}
-                        WHERE session_id = ?
-                            AND data_key = ?",
-                    Bind => [ \$SessionID, \$Key ],
-                );
-            }
-        }
-        else {
-
-            # delete old session data from the database
-            $Self->{DBObject}->Do(
-                SQL  => "DELETE FROM $Self->{SessionTable} WHERE session_id = ?",
-                Bind => [ \$SessionID ],
-            );
-        }
-
         # store session id and data
         ROW:
         for my $Row (@SQLs) {
@@ -556,10 +537,57 @@ sub DESTROY {
                 Bind => $Row->{Bind},
             );
         }
+
+        if ($UpdateMode) {
+
+            KEY:
+            for my $Key ( sort keys %{ $Self->{CacheUpdate}->{$SessionID} } ) {
+
+                next KEY if !$Key;
+
+                # extract database id
+                my $ID = $Self->{CacheID}->{$SessionID}->{$Key} || 1;
+
+                # delete old session data from the database
+                $Self->{DBObject}->Do(
+                    SQL => "
+                        DELETE FROM $Self->{SessionTable}
+                        WHERE session_id = ?
+                            AND data_key = ?
+                            AND id < ?",
+                    Bind => [ \$SessionID, \$Key, \$ID ],
+                );
+            }
+        }
+        else {
+
+            my $BiggestID = 0;
+            if ( %{ $Self->{CacheID}->{$SessionID} } ) {
+
+                ID:
+                for my $ID ( sort keys %{ $Self->{CacheID}->{$SessionID} } ) {
+
+                    next ID if !$ID;
+                    next ID if $ID <= $BiggestID;
+
+                    $BiggestID = $ID;
+                }
+            }
+
+            # delete old session data from the database
+            $Self->{DBObject}->Do(
+                SQL => "
+                    DELETE FROM $Self->{SessionTable}
+                    WHERE session_id = ?
+                        AND id <= ?",
+                Bind => [ \$SessionID, \$BiggestID ],
+            );
+        }
     }
 
     # remove cached data
     delete $Self->{Cache};
+    delete $Self->{CacheID};
     delete $Self->{CacheUpdate};
 
     return 1;
