@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.70 2012-11-12 22:55:39 mh Exp $
+# $Id: CustomerUser.pm,v 1.71 2012-11-19 14:21:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -415,6 +415,7 @@ sub CustomerUserAdd {
             return;
         }
     }
+
     return $Self->{ $Param{Source} }->CustomerUserAdd(%Param);
 }
 
@@ -632,6 +633,7 @@ sub SearchPreferences {
         }
         %Data = ( %SubData, %Data );
     }
+
     return %Data;
 }
 
@@ -654,16 +656,16 @@ sub TokenGenerate {
         return;
     }
 
-    # The list of characters that can appear in a randomly generated token.
+    # the list of characters that can appear in a randomly generated token
     my @Chars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
 
-    # The number of characters in the list.
+    # the number of characters in the list
     my $CharsLen = scalar @Chars;
 
-    # Generate the token.
+    # generate the token
     my $Token = 'C';
     for ( my $i = 0; $i < 14; $i++ ) {
-        $Token .= $Chars[ rand($CharsLen) ];
+        $Token .= $Chars[ rand $CharsLen ];
     }
 
     # save token in preferences
@@ -673,7 +675,6 @@ sub TokenGenerate {
         UserID => $Param{UserID},
     );
 
-    # Return the Token.
     return $Token;
 }
 
@@ -703,21 +704,17 @@ sub TokenCheck {
     );
 
     # check requested vs. stored token
-    if ( $Preferences{UserToken} && $Preferences{UserToken} eq $Param{Token} ) {
+    return if !$Preferences{UserToken};
+    return if $Preferences{UserToken} ne $Param{Token};
 
-        # reset password token
-        $Self->SetPreferences(
-            Key    => 'UserToken',
-            Value  => '',
-            UserID => $Param{UserID},
-        );
+    # reset password token
+    $Self->SetPreferences(
+        Key    => 'UserToken',
+        Value  => '',
+        UserID => $Param{UserID},
+    );
 
-        # return true if token is valid
-        return 1;
-    }
-
-    # return false if token is invalid
-    return;
+    return 1;
 }
 
 1;
@@ -736,6 +733,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2012-11-12 22:55:39 $
+$Revision: 1.71 $ $Date: 2012-11-19 14:21:02 $
 
 =cut
