@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.12 2012-11-16 09:00:34 mh Exp $
+# $Id: CustomerTicketOverview.pm,v 1.13 2012-11-19 13:12:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -578,7 +578,7 @@ sub ShowTicketStatus {
     if ($NoArticle) {
         $Article{State}        = $Ticket{State};
         $Article{TicketNumber} = $Ticket{TicketNumber};
-        $Article{Age}
+        $Article{CustomerAge}
             = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' ) || 0;
         $Article{Body}
             = $Self->{LayoutObject}->{LanguageObject}->Get('This item has no articles yet.');
@@ -586,7 +586,7 @@ sub ShowTicketStatus {
 
     # otherwise return article information
     else {
-        $Article{Age}
+        $Article{CustomerAge}
             = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
     }
 
@@ -612,8 +612,8 @@ sub ShowTicketStatus {
     $Self->{LayoutObject}->Block(
         Name => 'Record',
         Data => {
-            %Ticket,
             %Article,
+            %Ticket,
             Subject => $Subject,
             %Param,
         },

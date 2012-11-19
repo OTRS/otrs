@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.88 2012-11-16 08:59:43 mh Exp $
+# $Id: CustomerTicketSearch.pm,v 1.89 2012-11-19 13:12:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -769,13 +769,14 @@ sub Run {
                         DynamicFields => 1,
                     );
 
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
+                        UserID        => $Self->{UserID},
+                    );
+
                     # if no article found, use ticket information
                     if ( !%Article ) {
-                        my %Ticket = $Self->{TicketObject}->TicketGet(
-                            TicketID      => $TicketID,
-                            DynamicFields => 0,
-                            UserID        => $Self->{UserID},
-                        );
                         %Article = %Ticket;
                         $Article{Subject} = $Ticket{Title} || 'Untitled';
                         $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
@@ -813,7 +814,7 @@ sub Run {
                         TicketNumber => $Article{TicketNumber},
                         Subject => $Article{Subject} || '',
                     );
-                    $Article{Age}
+                    $Article{CustomerAge}
                         = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
                     # customer info string
@@ -826,6 +827,7 @@ sub Run {
                         Name => 'Record',
                         Data => {
                             %Article,
+                            %Ticket,
                             Subject => $Subject,
                             %Owner,
                         },
