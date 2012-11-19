@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2539 2012-11-18 14:41:19 mb Exp $
+# $Id: CHANGES,v 1.2540 2012-11-19 09:58:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -186,7 +186,6 @@
  - 2012-06-21 Fixed bug#8596 - user/group/role data updated unnecessarily on LDAP agent sync.
  - 2012-06-19 Reduced the number of database calls for the article flags in AgentTicketZoom.
  - 2012-06-18 Removed unneeded indices from the article_flags table.
- - 2012-06-15 Improved performance of Syslog backend by reducing the connection count.
  - 2012-06-08 Added feature SMIME certificate read.
  - 2012-05-25 Fixed bug#8522 - Multiple recipient feature is missing in AgentTicketForward.
  - 2012-05-25 Added template list to all output filter config to improve performance.
