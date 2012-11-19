@@ -2,7 +2,7 @@
 # CustomerTicketOverview.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.dtl,v 1.8 2012-11-19 13:12:38 mb Exp $
+# $Id: CustomerTicketOverview.dtl,v 1.9 2012-11-19 14:50:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,16 +45,18 @@
                             $Text{"State"}
                         </a>
                     </th>
-                    <th class="Owner $LQData{"OwnerSort"}">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Owner;OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">
-                            $Text{"Owner"}
-                        </a>
+<!-- dtl:block:OverviewNavBarPageOwner -->
+                    <th class="Owner">
+                        <span>$Text{"Owner"}</span>
                     </th>
+<!-- dtl:block:OverviewNavBarPageOwner -->
+<!-- dtl:block:OverviewNavBarPageQueue -->
                     <th class="Queue $LQData{"QueueSort"}">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$Env{"Subaction"};SortBy=Queue;OrderBy=$LQData{"OrderBy"};Filter=$LQData{"Filter"}">
                             $Text{"Queue"}
                         </a>
                     </th>
+<!-- dtl:block:OverviewNavBarPageQueue -->
 <!-- dtl:block:OverviewNavBarPageDynamicField -->
                     <th class="DynamicField Last $QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
@@ -107,9 +109,13 @@
                             &nbsp;-&nbsp; $QData{"Body","200"}
                         </div>
                     </td>
-                    <td class="Status" title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</td>
-                    <td class="Owner" title="$Text{"$Data{"Owner"}"}">$QData{"Owner","20"}</td>
-                    <td class="Queue" title="$Text{"$Data{"Queue"}"}">$QData{"Queue","20"}</td>
+                    <td class="Status">$Text{"$Data{"State"}"}</td>
+<!-- dtl:block:RecordOwner -->
+                    <td class="Owner">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</td>
+<!-- dtl:block:RecordOwner -->
+<!-- dtl:block:RecordQueue -->
+                    <td class="Queue" title="$Data{"Queue"}">$QData{"Queue","20"}</td>
+<!-- dtl:block:RecordQueue -->
 <!-- dtl:block:RecordDynamicField -->
                     <td>
                         <div title="$QData{"Title"}">
