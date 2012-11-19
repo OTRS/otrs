@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.24 2012-11-18 08:30:34 mb Exp $
+# $Id: SysLog.pm,v 1.25 2012-11-19 09:23:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Sys::Syslog qw();
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,17 +39,6 @@ sub new {
     # set syslog facility
     $Self->{SysLogFacility} = $Param{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
 
-    # start syslog connect
-
-    # According to the docs, this is not needed any longer and should not be used any more.
-    #   Please see the Sys::Syslog documentation for details.
-    #   #TODO: remove this code sometime, and the config setting.
-    #my $LogSock = $Self->{ConfigObject}->Get('LogModule::SysLog::LogSock') || 'unix';
-    #Sys::Syslog::setlogsock($LogSock);
-
-    # This will only open the connection on the first syslog() call
-    Sys::Syslog::openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
-
     return $Self;
 }
 
@@ -68,6 +57,13 @@ sub Log {
             Force => 1,
         );
     }
+
+    # According to the docs, this is not needed any longer and should not be used any more.
+    #   Please see the Sys::Syslog documentation for details.
+    #   #TODO: remove this code sometime, and the config setting.
+    #my $LogSock = $Self->{ConfigObject}->Get('LogModule::SysLog::LogSock') || 'unix';
+    #Sys::Syslog::setlogsock($LogSock);
+    Sys::Syslog::openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
 
     if ( lc $Param{Priority} eq 'debug' ) {
         Sys::Syslog::syslog( 'debug', "[Debug][$Param{Module}][$Param{Line}] $Param{Message}" );
@@ -93,6 +89,8 @@ sub Log {
             "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}"
         );
     }
+
+    Sys::Syslog::closelog();
 
     return;
 }
