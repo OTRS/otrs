@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.17 2012-11-12 21:40:13 mh Exp $
+# $Id: otrs.FillDB.pl,v 1.18 2012-11-19 17:50:50 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Getopt::Std;
 
@@ -264,6 +264,7 @@ EOF
                 for my $DynamicFieldConfig ( @{$ArticleDynamicField} ) {
                     next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
                     next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
+                    next DYNAMICFIELD if $DynamicFieldConfig->{InternalField};
 
                     # set a random value
                     my $Result = $CommonObjects->{DynamicFieldBackendObject}->RandomValueSet(
@@ -285,6 +286,7 @@ EOF
             for my $DynamicFieldConfig ( @{$TicketDynamicField} ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
                 next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+                next DYNAMICFIELD if $DynamicFieldConfig->{InternalField};
 
                 # set a random value
                 my $Result = $CommonObjects->{DynamicFieldBackendObject}->RandomValueSet(
