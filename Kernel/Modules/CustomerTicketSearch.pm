@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.80.2.3 2012-11-08 00:41:34 cr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.80.2.4 2012-11-19 12:36:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80.2.3 $) [1];
+$VERSION = qw($Revision: 1.80.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -730,6 +730,12 @@ sub Run {
                         DynamicFields => 1,
                     );
 
+                    # get ticket dat
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
+                    );
+
                     # customer info
                     my %CustomerData;
                     if ( $Article{CustomerUserID} ) {
@@ -760,7 +766,7 @@ sub Run {
                         TicketNumber => $Article{TicketNumber},
                         Subject => $Article{Subject} || '',
                     );
-                    $Article{Age}
+                    $Article{CustomerAge}
                         = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
                     # customer info string
@@ -773,6 +779,7 @@ sub Run {
                         Name => 'Record',
                         Data => {
                             %Article,
+                            %Ticket,
                             Subject => $Subject,
                             %Owner,
                         },

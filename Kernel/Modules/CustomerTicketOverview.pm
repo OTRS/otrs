@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.4.2.2 2012-08-20 15:24:34 cg Exp $
+# $Id: CustomerTicketOverview.pm,v 1.4.2.3 2012-11-19 12:36:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4.2.2 $) [1];
+$VERSION = qw($Revision: 1.4.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -426,21 +426,16 @@ sub ShowTicketStatus {
         return;
     }
 
-    my $Subject;
+    # get ticket info
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 0,
+    );
 
-    # check if last customer subject or ticket title should be shown
-    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
-        $Subject = $Article{Subject} || '';
-    }
-    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-
-        # get ticket info
-        my %Ticket = $Self->{TicketObject}->TicketGet(
-            TicketID      => $TicketID,
-            DynamicFields => 0,
-        );
-        $Subject = $Ticket{Title};
-    }
+    my $Subject
+        = $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject'
+        ? $Article{Subject}
+        : $Ticket{Title};
 
     # condense down the subject
     $Subject = $Self->{TicketObject}->TicketSubjectClean(
@@ -449,7 +444,8 @@ sub ShowTicketStatus {
     );
 
     # return ticket
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
+    $Article{CustomerAge}
+        = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
 
     # customer info (customer name)
     if ( $Article{CustomerUserID} ) {
@@ -463,6 +459,7 @@ sub ShowTicketStatus {
         Name => 'Record',
         Data => {
             %Article,
+            %Ticket,
             Subject => $Subject,
             %Param,
         },

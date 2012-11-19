@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.40 2011-10-04 21:25:55 cr Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.40.2.1 2012-11-19 12:36:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@
                     <td class="Status">$Text{"$Data{"State"}","18"}</td>
                     <td class="Ticket"><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$Data{"TicketNumber"}">$Data{"TicketNumber"}</a></td>
                     <td class="Title"><div><h2><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$Data{"TicketNumber"}">$QData{"Subject","60"}</a></h2>&nbsp;-&nbsp; $QData{"Body","200"}</div></td>
-                    <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"Age","20"}</td>
+                    <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"CustomerAge","20"}</td>
 <!-- dtl:block:RecordDynamicField -->
                     <td class="DynamicField" title="$QData{"Title"}">$Data{"Value"}</td>
 <!-- dtl:block:RecordDynamicField -->
