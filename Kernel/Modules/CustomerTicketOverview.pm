@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.13 2012-11-19 13:12:38 mb Exp $
+# $Id: CustomerTicketOverview.pm,v 1.14 2012-11-19 14:49:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,11 +17,11 @@ use warnings;
 use Kernel::System::State;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
-use Kernel::System::CustomerUser;
+use Kernel::System::User;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +37,7 @@ sub new {
         }
     }
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{AgentUserObject}    = Kernel::System::User->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
@@ -49,6 +49,12 @@ sub new {
 
     $Self->{SmallViewColumnHeader}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
+
+    $Self->{Owner}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
+
+    $Self->{Queue}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
 
     # get dynamic field config for frontend module
     $Self->{DynamicFieldFilter}
@@ -146,7 +152,7 @@ sub Run {
                 Prio   => 1000,
                 Search => {
                     CustomerID =>
-                        [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                        [ $Self->{UserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
                     OrderBy        => $Self->{OrderBy},
                     SortBy         => $Self->{SortBy},
                     CustomerUserID => $Self->{UserID},
@@ -158,7 +164,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     CustomerID =>
-                        [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                        [ $Self->{UserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
                     StateType      => 'Open',
                     OrderBy        => $Self->{OrderBy},
                     SortBy         => $Self->{SortBy},
@@ -171,7 +177,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     CustomerID =>
-                        [ $Self->{CustomerUserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                        [ $Self->{UserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
                     StateType      => 'Closed',
                     OrderBy        => $Self->{OrderBy},
                     SortBy         => $Self->{SortBy},
@@ -283,7 +289,6 @@ sub Run {
         my $TicketSort = '';
         my $TitleSort  = '';
         my $AgeSort    = '';
-        my $OwnerSort  = '';
         my $QueueSort  = '';
 
         # this sets the opposit to the $OrderBy
@@ -294,7 +299,6 @@ sub Run {
             $Sort = 'SortDescending';
         }
 
-        # perl is missing 'switch' :-| have to learn to work effectivly without it
         if ( $Self->{SortBy} eq 'State' ) {
             $StateSort = $Sort;
         }
@@ -306,9 +310,6 @@ sub Run {
         }
         elsif ( $Self->{SortBy} eq 'Age' ) {
             $AgeSort = $Sort;
-        }
-        elsif ( $Self->{SortBy} eq 'Owner' ) {
-            $OwnerSort = $Sort;
         }
         elsif ( $Self->{SortBy} eq 'Queue' ) {
             $QueueSort = $Sort;
@@ -323,11 +324,22 @@ sub Run {
                 TicketSort => $TicketSort,
                 TitleSort  => $TitleSort,
                 AgeSort    => $AgeSort,
-                OwnerSort  => $OwnerSort,
                 QueueSort  => $QueueSort,
                 Filter     => $Self->{Filter},
             },
         );
+
+        if ( $Self->{Owner} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewNavBarPageOwner',
+            );
+        }
+
+        if ( $Self->{Queue} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewNavBarPageQueue',
+            );
+        }
 
         # show header filter
         for my $Key ( sort keys %NavBarFilter ) {
@@ -475,7 +487,7 @@ sub Run {
             Limit  => 1_000,
         );
 
-        # show ticket's
+        # show tickets
         $Counter = 0;
         for my $TicketID (@ViewableTickets) {
             $Counter++;
@@ -593,7 +605,7 @@ sub ShowTicketStatus {
     # customer info (customer name)
     if ( $Article{CustomerUserID} ) {
         $Param{CustomerName}
-            = $Self->{CustomerUserObject}->CustomerName( UserLogin => $Article{CustomerUserID}, );
+            = $Self->{UserObject}->CustomerName( UserLogin => $Article{CustomerUserID}, );
         $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
     }
 
@@ -618,6 +630,24 @@ sub ShowTicketStatus {
             %Param,
         },
     );
+
+    if ( $Self->{Owner} ) {
+        my %Owner = $Self->{AgentUserObject}->GetUserData( UserID => $Ticket{OwnerID} );
+        $Self->{LayoutObject}->Block(
+            Name => 'RecordOwner',
+            Data => {
+                %Owner,
+            },
+        );
+    }
+    if ( $Self->{Queue} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RecordQueue',
+            Data => {
+                %Ticket,
+            },
+        );
+    }
 
     # Dynamic fields
     # cycle trough the activated Dynamic Fields for this screen
