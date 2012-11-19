@@ -2,7 +2,7 @@
 # CustomerTicketOverview.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.dtl,v 1.9 2012-11-19 14:50:04 mb Exp $
+# $Id: CustomerTicketOverview.dtl,v 1.10 2012-11-19 16:51:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -99,7 +99,7 @@
             </thead>
             <tbody>
 <!-- dtl:block:Record -->
-                <tr title="$QData{"TicketNumber"}" class="MasterAction">
+                <tr class="MasterAction">
                     <td class="Ticket">
                         <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$LQData{"TicketNumber"}" class="MasterActionLink">$QData{"TicketNumber"}</a>
                     </td>
