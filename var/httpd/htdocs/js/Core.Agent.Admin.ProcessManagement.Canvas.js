@@ -2,14 +2,14 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.32 2012-11-20 08:09:03 mg Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.33 2012-11-20 08:44:28 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
-/*global Joint */
+/*global jsPlumb */
 
 // Don't check this file for "dangling _", because of some needed JointJS functionality uses this
 /*jslint nomen: false*/
@@ -140,8 +140,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             endpoint: [ 'Dot', { hoverClass: 'EndpointHover' } ],
             endpointStyle: { fillStyle: "#777" },
             parameters: {
-                'Parent': EntityID,
-            },
+                'Parent': EntityID
+            }
         });
 
         // Add the Activity to our list of elements
@@ -350,11 +350,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 reattach: true,
                 overlays: [
                     [ "Arrow", { location: 0.25, width: 20, length: 12 } ],
-                    [ "Arrow", { location: 0.75, width: 20, length: 12 } ],
+                    [ "Arrow", { location: 0.75, width: 20, length: 12 } ]
                 ],
                 parameters: {
                     'ID': 'StartTransition'
-                },
+                }
             });
         }
     };
@@ -364,8 +364,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             ProcessEntityID = $('#ProcessEntityID').val(),
             Path = Config.Process[ProcessEntityID].Path,
-            StartActivity, EndActivity,
-            OldActivity;
+            StartActivity, EndActivity, OldActivity, Connection;
 
         StartActivity = Elements[StartElement];
         if (EndElement === "Dummy") {
@@ -389,7 +388,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         }
 
-        var Connection = jsPlumb.connect({
+        Connection = jsPlumb.connect({
             connector: [ 'StateMachine', { curviness: 20, margin: -1, showLoopback:false } ],
             source: StartActivity,
             target: EndActivity,
@@ -455,14 +454,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             Event.stopPropagation();
             return false;
         });
-    }
+    };
 
     TargetNS.UnHighlightTransitionLabel = function(Connection) {
         if (TargetNS.DragTransitionAction) {
             $(Connection.canvas).removeClass('ReadyToDrop');
             TargetNS.DragTransitionActionTransition = {};
         }
-    }
+    };
 
     TargetNS.DragActivityItem = false;
     TargetNS.DragTransitionAction = false;
@@ -478,7 +477,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Set some jsPlumb defaults
         jsPlumbInstance.importDefaults({
             Connector: [ 'StateMachine', { curviness: 20, margin: -1, showLoopback:false } ],
-            Anchor: 'Continuous',
+            Anchor: 'Continuous'
         });
 
         // Always start with drawing the start event element
@@ -565,7 +564,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
-    TargetNS.LatestConnectionTransitionID;
+    TargetNS.LatestConnectionTransitionID = '';
 
     TargetNS.Init = function () {
         var CanvasSize = GetCanvasSize($('#Canvas')),
