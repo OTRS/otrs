@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.19 $
+ * @version     $Revision: 1.20 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -186,6 +186,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     width: 200px;
     opacity: 0.9;
     position: absolute;
+    z-index: 101;
 }
 
 #DiagramTooltip h4 {
@@ -229,12 +230,12 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     margin-top: -3px;
 }
 
-#DiagramDeleteLink {
+.DiagramDeleteLink {
     position: absolute;
     display: none;
 }
 
-#DiagramDeleteLink a {
+.DiagramDeleteLink a {
     background: #FFFFFF;
     border: 1px solid #AAAAAA;
     border-radius: 13px;
@@ -249,8 +250,162 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     color: #aaa;
 }
 
-#DiagramDeleteLink a:hover {
+.DiagramDeleteLink a:hover {
     color: #FF9922;
+}
+
+
+/**
+ * @subsubsection     Diagram Canvas Elements
+ */
+
+#Canvas #StartEvent {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 100;
+}
+
+#Canvas .Activity {
+    width: 110px;
+    height: 80px;
+    background-color: #e5e5e5;
+    border: 1px solid #949494;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 100;
+    cursor: move;
+}
+
+#Canvas .Activity.Highlighted {
+    background-color: #555;
+    color: #fff;
+}
+
+#Canvas .Activity.Highlighted.ReadyToDrop {
+    background-color: #A9BF6E;
+}
+
+#Canvas .Activity span {
+    display: block;
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+}
+
+#Canvas .Activity .Icon,
+#Canvas .TransitionLabel .Icon {
+    display: none;
+    position: absolute;
+    background-repeat: none;
+    background-position: center;
+}
+
+#Canvas .Activity .Icon {
+    width: 16px;
+    height: 16px;
+    left: 50%;
+    top: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+}
+
+#Canvas .TransitionLabel .Icon {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#Canvas .Activity .Loader {
+    background-image: url(../img/loader.gif);
+}
+
+#Canvas .Activity .Success,  #Canvas .TransitionLabel .Success {
+    background-image: url(../img/icons/tick.png);
+}
+
+#Canvas .Activity#Dummy {
+    visibility: hidden;
+}
+
+#Canvas .Activity .DiagramDeleteLink {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+
+.EndpointHover {
+    z-index: 150;
+}
+
+#Canvas .TransitionLabel {
+    background-color: #fff;
+    font-size: 11px;
+    padding: 6px 11px;
+    border: 1px solid #aaa;
+    position: relative;
+    z-index: 103;
+    cursor: default;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+#Canvas .TransitionLabel:hover {
+    z-index: 104;
+}
+
+#Canvas .TransitionLabel.Highlighted {
+    background-color: #555;
+    color: #fff;
+}
+
+#Canvas .TransitionLabel.Highlighted.ReadyToDrop {
+    background-color: #A9BF6E;
+}
+
+#Canvas .TransitionLabel a {
+    background: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 13px;
+    display: block;
+    font-family: tahoma;
+    font-size: 12px;
+    height: 10px;
+    width: 10px;
+    padding: 3px 5px 7px 5px;
+    text-align: center;
+    color: #aaa;
+    position: absolute;
+    right: -13px;
+    top: -10px;
+    cursor: pointer;
+    display: none;
+}
+
+#Canvas .TransitionLabel a:hover {
+    color: #FF9922;
+}
+
+#Canvas .TransitionLabel:hover a {
+    display: block;
 }
 
 /**
