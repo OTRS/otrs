@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.15 2012-11-20 14:53:53 mh Exp $
+# $Id: CustomerTicketOverview.pm,v 1.16 2012-11-20 19:50:58 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::User;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -314,6 +314,7 @@ sub Run {
         elsif ( $Self->{SortBy} eq 'Queue' ) {
             $QueueSort = $Sort;
         }
+        warn "$Self->{SortBy} and $QueueSort";
         $Self->{LayoutObject}->Block(
             Name => 'Filled',
             Data => {
@@ -324,7 +325,6 @@ sub Run {
                 TicketSort => $TicketSort,
                 TitleSort  => $TitleSort,
                 AgeSort    => $AgeSort,
-                QueueSort  => $QueueSort,
                 Filter     => $Self->{Filter},
             },
         );
@@ -338,6 +338,10 @@ sub Run {
         if ( $Self->{Queue} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewNavBarPageQueue',
+                Data => {
+                    OrderBy   => $OrderBy,
+                    QueueSort => $QueueSort,
+                },
             );
         }
 
