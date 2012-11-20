@@ -2,11 +2,11 @@
 # Kernel/System/Web/InterfaceInstaller.pm - the installer interface file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceInstaller.pm,v 1.7 2012-11-12 18:38:32 mh Exp $
+# $Id: InterfaceInstaller.pm,v 1.8 2012-11-20 16:02:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Web::InterfaceInstaller;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -186,6 +186,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-11-12 18:38:32 $
+$Revision: 1.8 $ $Date: 2012-11-20 16:02:12 $
 
 =cut

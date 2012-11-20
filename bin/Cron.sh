@@ -3,7 +3,7 @@
 # Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cron.sh,v 1.21 2012-11-12 17:53:04 mh Exp $
+# $Id: Cron.sh,v 1.22 2012-11-20 16:02:25 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 CURRENTUSER=`whoami`
@@ -57,7 +57,7 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.21 $> "
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.22 $> "
 echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/"
 
 #

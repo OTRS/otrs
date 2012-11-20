@@ -3,7 +3,7 @@
 # otrs-scheduler-gentoo-init.d - initscript for the OTRS Scheduler Daemon
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs-scheduler-gentoo-init.d,v 1.2 2012-09-07 13:49:16 mb Exp $
+# $Id: otrs-scheduler-gentoo-init.d,v 1.3 2012-11-20 16:04:56 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 PIDFILE="${OTRS_HOME}"/var/run/scheduler.pid

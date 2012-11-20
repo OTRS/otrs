@@ -2,11 +2,11 @@
 # Kernel/System/VirtualFS/FS.pm - all virtual fs functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.3 2012-11-12 18:40:11 mh Exp $
+# $Id: FS.pm,v 1.4 2012-11-20 16:02:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::VirtualFS::FS;
@@ -20,7 +20,7 @@ use File::Basename;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -2,11 +2,11 @@
 # Kernel/System/ProcessManagement/ActivityDialog.pm - all activity dialog functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.4 2012-11-12 22:51:53 mh Exp $
+# $Id: ActivityDialog.pm,v 1.5 2012-11-20 15:52:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::ProcessManagement::ActivityDialog;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -291,6 +291,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-11-12 22:51:53 $
+$Revision: 1.5 $ $Date: 2012-11-20 15:52:41 $
 
 =cut

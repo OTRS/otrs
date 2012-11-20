@@ -2,11 +2,11 @@
 # Kernel/System/SysConfig/StateValidate.pm - all StateValidate functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StateValidate.pm,v 1.6 2012-11-12 22:53:00 mh Exp $
+# $Id: StateValidate.pm,v 1.7 2012-11-20 15:58:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::SysConfig::StateValidate;
@@ -18,7 +18,7 @@ use Kernel::Config;
 use Kernel::System::State;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -357,6 +357,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2012-11-12 22:53:00 $
+$Revision: 1.7 $ $Date: 2012-11-20 15:58:03 $
 
 =cut

@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.16 2012-11-12 17:51:39 mh Exp $
+# $Id: webform.pl,v 1.17 2012-11-20 16:05:10 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;
@@ -31,7 +31,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = qw($Revision: 1.16 $) [1];
+my $VERSION = qw($Revision: 1.17 $) [1];
 
 # --------------------------
 # web form options

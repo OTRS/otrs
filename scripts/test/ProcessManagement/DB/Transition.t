@@ -2,11 +2,11 @@
 # Transition.t - ProcessManagement DB transition tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.t,v 1.4 2012-11-12 21:34:16 mh Exp $
+# $Id: Transition.t,v 1.5 2012-11-20 16:11:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;

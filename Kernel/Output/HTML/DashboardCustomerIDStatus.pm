@@ -2,11 +2,11 @@
 # Kernel/Output/HTML/DashboardCustomerIDStatus.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerIDStatus.pm,v 1.3 2012-11-12 18:34:17 mh Exp $
+# $Id: DashboardCustomerIDStatus.pm,v 1.4 2012-11-20 14:57:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Output::HTML::DashboardCustomerIDStatus;
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

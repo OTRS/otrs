@@ -2,11 +2,11 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2546 2012-11-20 10:52:55 mg Exp $
+# $Id: CHANGES,v 1.2547 2012-11-20 14:25:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.2.0.beta3 2012-??-??
  - 2012-11-20 Fixed bug#8896 - ProcessManagement GUI Transition arrows overlaps.

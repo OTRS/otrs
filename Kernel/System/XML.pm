@@ -2,11 +2,11 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.112 2012-11-12 23:21:55 mh Exp $
+# $Id: XML.pm,v 1.113 2012-11-20 15:41:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::XML;
@@ -19,7 +19,7 @@ use Digest::MD5;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 =head1 NAME
 
@@ -1529,6 +1529,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2012-11-12 23:21:55 $
+$Revision: 1.113 $ $Date: 2012-11-20 15:41:51 $
 
 =cut

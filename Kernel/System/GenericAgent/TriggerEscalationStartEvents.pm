@@ -2,11 +2,11 @@
 # Kernel/System/GenericAgent/TriggerEscalationStartEvents.pm - trigger escalation start events
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TriggerEscalationStartEvents.pm,v 1.5 2012-11-12 18:07:30 mh Exp $
+# $Id: TriggerEscalationStartEvents.pm,v 1.6 2012-11-20 15:48:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::GenericAgent::TriggerEscalationStartEvents;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use List::Util qw(first);
 

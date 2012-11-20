@@ -3,7 +3,7 @@
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: sync-ldap2db.pl,v 1.13 2012-11-12 21:36:21 mh Exp $
+# $Id: sync-ldap2db.pl,v 1.14 2012-11-20 16:13:26 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 # use ../ as lib location
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Net::LDAP;
 use Kernel::Config;

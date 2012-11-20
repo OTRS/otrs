@@ -2,11 +2,11 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.85 2012-11-12 23:21:55 mh Exp $
+# $Id: GenericAgent.pm,v 1.86 2012-11-20 15:35:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::GenericAgent;
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -1285,6 +1285,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2012-11-12 23:21:55 $
+$Revision: 1.86 $ $Date: 2012-11-20 15:35:03 $
 
 =cut

@@ -1,12 +1,12 @@
 # --
 # TaskManager.t - TaskManager tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.11 2011-04-28 15:44:00 cr Exp $
+# $Id: TaskManager.t,v 1.12 2012-11-20 16:12:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;

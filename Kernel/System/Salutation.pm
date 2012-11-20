@@ -2,11 +2,11 @@
 # Kernel/System/Salutation.pm - All salutation related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Salutation.pm,v 1.19 2012-11-12 18:07:28 mh Exp $
+# $Id: Salutation.pm,v 1.20 2012-11-20 15:37:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Salutation;
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -333,6 +333,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2012-11-12 18:07:28 $
+$Revision: 1.20 $ $Date: 2012-11-20 15:37:47 $
 
 =cut
