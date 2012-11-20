@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.69 2012-11-19 14:18:51 mh Exp $
+# $Id: DB.pm,v 1.70 2012-11-20 10:01:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -563,15 +563,7 @@ sub DESTROY {
 
             my $BiggestID = 0;
             if ( %{ $Self->{CacheID}->{$SessionID} } ) {
-
-                ID:
-                for my $ID ( sort keys %{ $Self->{CacheID}->{$SessionID} } ) {
-
-                    next ID if !$ID;
-                    next ID if $ID <= $BiggestID;
-
-                    $BiggestID = $ID;
-                }
+                $BiggestID = [ sort keys %{ $Self->{CacheID}->{$SessionID} } ]->[-1];
             }
 
             # delete old session data from the database
