@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.160 2012-11-19 12:36:31 mb Exp $
+# $Id: CHANGES,v 1.2260.2.161 2012-11-20 20:14:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-11-19 Fixed bug#8919 - Customer interface search results: ticket can only be accessed
+    via ticket number and subject.
  - 2012-11-19 Fixed bug#8850 - CustomerTicketOverview - MouseOver Age isn't always correct.
  - 2012-11-14 Fixed bug#8868 - Event Based Notification problem saving 'text' Dynamic Fields.
  - 2012-11-09 Fixed bug#8914 - Syntax error in hash loop in TicketGet operation.

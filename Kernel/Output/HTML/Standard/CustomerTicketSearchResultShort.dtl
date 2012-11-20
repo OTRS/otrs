@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.40.2.1 2012-11-19 12:36:33 mb Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.40.2.2 2012-11-20 20:14:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,16 +80,28 @@
                 </tr>
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:Record -->
-                <tr title="$QData{"TicketNumber"}">
-                    <td class="Status">$Text{"$Data{"State"}","18"}</td>
-                    <td class="Ticket"><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$Data{"TicketNumber"}">$Data{"TicketNumber"}</a></td>
-                    <td class="Title"><div><h2><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$Data{"TicketNumber"}">$QData{"Subject","60"}</a></h2>&nbsp;-&nbsp; $QData{"Body","200"}</div></td>
+                <tr class="MasterAction">
+                    <td class="Ticket"><a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketNumber=$LQData{"TicketNumber"}" class="MasterActionLink">$QData{"TicketNumber"}</a></td>
+                    <td class="Status">$Text{"$Data{"State"}"}</td>
+                    <td class="Title"><div><h2>$QData{"Subject","60"}</h2>&nbsp;-&nbsp; $QData{"Body","200"}</div></td>
                     <td class="Age" title="$TimeShort{"$Data{"Created"}"}">$QData{"CustomerAge","20"}</td>
 <!-- dtl:block:RecordDynamicField -->
                     <td class="DynamicField" title="$QData{"Title"}">$Data{"Value"}</td>
 <!-- dtl:block:RecordDynamicField -->
                 </tr>
 <!-- dtl:block:Record -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('.MasterAction').bind('click', function (Event) {
+        var $MasterActionLink = $(this).find('.MasterActionLink');
+        // only act if the link was not clicked directly
+        if (Event.target !== $MasterActionLink.get(0)) {
+            window.location = $MasterActionLink.attr('href');
+            return false;
+        }
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
             </tbody>
         </table>
     </div>
