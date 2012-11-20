@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2547 2012-11-20 14:25:19 mh Exp $
+# $Id: CHANGES,v 1.2548 2012-11-20 20:15:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,6 +84,8 @@
  - 2012-10-30 Updated CPAN module Authen::SASL to version 2.16.
 
 3.2.0.beta1 2012-10-30
+ - 2012-11-19 Fixed bug#8919 - Customer interface search results: ticket can only be accessed
+    via ticket number and subject.
  - 2012-10-25 Fixed bug#8864 - Increasing the column size of a varchar column does not work on oracle
     under certain conditions.
  - 2012-10-24 Fixed bug#8062 - Optimize images in all defualt skins.
