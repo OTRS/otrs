@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.40 2012-11-20 07:32:44 mab Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.41 2012-11-20 07:36:23 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,13 +146,13 @@
                     <strong>$Text{"Activities"}:</strong> $Text{"You can place Activities on the canvas area to assign this Activity to the Process."}
                 </p>
                 <p class="FieldExplanation">
-                    <strong>$Text{"Activity Dialogs"}:</strong> $Text{"To assign an Activity Dialog to an Activity, drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area."}
+                    <strong>$Text{"Activity Dialogs"}:</strong> $Text{"To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area."}
                 </p>
                 <p class="FieldExplanation">
                     <strong>$Text{"Transitions"}:</strong> $Text{"You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity."}
                 </p>
                 <p class="FieldExplanation">
-                    <strong>$Text{"Transition Actions"}:</strong> $Text{"Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition."}
+                    <strong>$Text{"Transition Actions"}:</strong> $Text{"Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition."}
                 </p>
             </div>
         </div>
