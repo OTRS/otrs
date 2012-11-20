@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.107 2012-11-20 15:44:42 mh Exp $
+# $Id: DB.pm,v 1.108 2012-11-20 20:32:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,14 +137,12 @@ sub CustomerName {
     }
 
     # build SQL string 1/2
-    my $SQL = "SELECT $Self->{CustomerKey} ";
+    my $SQL = "SELECT ";
     if ( $Self->{CustomerUserMap}->{CustomerUserNameFields} ) {
-        for my $Entry ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
-            $SQL .= ", $Entry";
-        }
+        $SQL .= join( ", ", @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } );
     }
     else {
-        $SQL .= " , first_name, last_name ";
+        $SQL .= "first_name, last_name ";
     }
     $SQL .= " FROM $Self->{CustomerTable} WHERE ";
 
