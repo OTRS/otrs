@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.33 2012-11-20 08:44:28 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.34 2012-11-21 11:52:05 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -564,8 +564,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
-    TargetNS.LatestConnectionTransitionID = '';
-
     TargetNS.Init = function () {
         var CanvasSize = GetCanvasSize($('#Canvas')),
             CanvasWidth = CanvasSize.Width,
@@ -577,8 +575,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         // Init JsPlumb in Canvas mode (because of bugs with SVG in jQ1.6 in IE9)
         jsPlumb.setRenderMode(jsPlumb.CANVAS);
-
-        TargetNS.DrawDiagram();
 
         // init binding to connection changes
         jsPlumb.bind('jsPlumbConnection', function(Data) {
@@ -641,6 +637,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
            TargetNS.LatestConnectionTransitionID = Data.connection.getParameter('TransitionID');
            return true;
         });
+
+        TargetNS.DrawDiagram();
     };
 
     return TargetNS;
