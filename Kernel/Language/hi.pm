@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.23.2.1 2012-08-17 12:07:55 mg Exp $
+# $Id: hi.pm,v 1.23.2.2 2012-11-22 06:57:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.1 $) [1];
+$VERSION = qw($Revision: 1.23.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-08-17 14:04:48
+    # Last translation file sync: 2012-11-21 21:59:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1826,6 +1826,7 @@ sub Data {
         'Search Customer' => 'ग्राहक खोजें',
         'Duplicated entry' => '',
         'This address already exists on the address list.' => '',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2267,9 +2268,9 @@ sub Data {
         'of' => 'की',
         'Page' => 'पृष्ठ',
         'Search Results for' => 'के लिए परिणाम खोजें',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        '","18' => '',
         'Expand article' => 'अनुच्छेद का विस्तार करें',
         'Reply' => 'जवाब देना',
 
@@ -2726,6 +2727,8 @@ sub Data {
             'ग्राहक के आंकड़ाकोष के लिए एक बाहरी लिंक को परिभाषित करता है।(उदा. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\')।',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'ईमेल(उत्तर और ईमेल टिकट से भेजा गया) के से क्षेत्र कैसे दिखना चाहिए,को परिभाषित करता है। ',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'यदि प्रतिनिधि अंतरफलक के पास टिकट बंद स्क्रीन में  एक टिकट लॉक की आवश्यकता है तो परिभाषित करता है(यदि अभी तक टिकट बंद नहीं है,टिकट बंद हो जाए है और वर्तमान प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -2862,8 +2865,8 @@ sub Data {
             'टिकट की खोज स्क्रीन के लिए दिखाई टिकट की तयशुदा खोज विशेषता को परिभाषित करता है।',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
-            'प्राथमिकता के आधार पर क्रमबद्ध करने के बाद,श्रेणी दृश्य में प्रदर्शित सभी श्रेणीऔ के लिए तयशुदा क्रमबद्ध करने के मापदंड को परिभाषित करता है।',
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
+            '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             'प्राथमिकता के आधार पर क्रमबद्ध करने के बाद,श्रेणी दृश्य में प्रदर्शित सभी श्रेणीऔ के लिए तयशुदा क्रमबद्ध करने के क्रम को परिभाषित करता है।',
         'Defines the default spell checker dictionary.' => 'तयशुदा वर्तनी परीक्षक शब्दकोश को परिभाषित करता है।',
@@ -4372,6 +4375,8 @@ sub Data {
             'टिकटों के लिए मुक्त पाठ क्षेत्र संख्या 8 के तयशुदा चुनाव को परिभाषित करता है(यदि एक से अधिक विकल्प प्रदान की जाती है)।',
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' =>
             'टिकटों के लिए मुक्त पाठ क्षेत्र संख्या 9 के तयशुदा चुनाव को परिभाषित करता है(यदि एक से अधिक विकल्प प्रदान की जाती है)।',
+        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+            'प्राथमिकता के आधार पर क्रमबद्ध करने के बाद,श्रेणी दृश्य में प्रदर्शित सभी श्रेणीऔ के लिए तयशुदा क्रमबद्ध करने के मापदंड को परिभाषित करता है।',
         'Defines the difference from now (in seconds) of the free time field number 1\'s default value.' =>
             'अभी के अंतर (सेकेंड में) से खाली समय क्षेत्र संख्या 1 के तयशुदा मान को परिभाषित करता है।',
         'Defines the difference from now (in seconds) of the free time field number 2\'s default value.' =>

@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.45.2.1 2012-08-17 12:07:55 mg Exp $
+# $Id: lv.pm,v 1.45.2.2 2012-11-22 06:58:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45.2.1 $) [1];
+$VERSION = qw($Revision: 1.45.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-08-17 14:04:57
+    # Last translation file sync: 2012-11-21 21:59:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1823,6 +1823,7 @@ sub Data {
         'Search Customer' => 'Meklēt klientu',
         'Duplicated entry' => '',
         'This address already exists on the address list.' => '',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2264,9 +2265,9 @@ sub Data {
         'of' => 'no',
         'Page' => 'Lapa',
         'Search Results for' => '',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        '","18' => '',
         'Expand article' => '',
         'Reply' => '',
 
@@ -2723,6 +2724,8 @@ sub Data {
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             '',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -2859,7 +2862,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',

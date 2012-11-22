@@ -9,7 +9,7 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.129.2.2 2012-08-17 12:07:55 mg Exp $
+# $Id: nb_NO.pm,v 1.129.2.3 2012-11-22 06:58:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.129.2.2 $;
+$VERSION = q$Revision: 1.129.2.3 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-08-17 14:04:58
+    # Last translation file sync: 2012-11-21 21:59:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1831,6 +1831,7 @@ sub Data {
         'Search Customer' => 'Kunde-søk',
         'Duplicated entry' => 'Doble innlegg',
         'This address already exists on the address list.' => 'Denne adressen finnes allerede i adresseboken',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2272,9 +2273,9 @@ sub Data {
         'of' => 'av',
         'Page' => 'Side',
         'Search Results for' => 'Søkeresultater for',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        '","18' => '',
         'Expand article' => 'Utvid artikkel',
         'Reply' => 'Svar',
 
@@ -2731,6 +2732,8 @@ sub Data {
             'Definerer en ekstern lenke til kundens database (f.eks. \'http://tjener/kunde.php?CID=$Data{"CustomerID"}\' eller \'\').',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'Definerer hvordan Fra-feltet på eposter (sendt som svar eller epost-saker) skal se ut.',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Spesifiserer om en saks-lås er nødvendig for å få stenge en sak. Hvis saken ikke er låst vil den bli det, og nåværende agent vil bli satt som eier.',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -2867,8 +2870,8 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
-            'Definerer standard sorteringskriterier for alle køer vist i køvisning, etter at de har blitt sortert etter prioritet.',
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
+            '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             'Definerer standard sorteringsrekkefølge for alle køer i køvisningen, etter at de er blitt sortert etter prioritet.',
         'Defines the default spell checker dictionary.' => 'Definerer standard ordliste for stavekontroll.',
@@ -4574,6 +4577,8 @@ sub Data {
             'Definerer standard forvalg i fritt tekstfelt 9 for saker (hvis mer enn et valg er angitt)',
         'Defines the default skin to agent frontend. Please write the Skin InternalName. If you want, you can add your own skins.' =>
             'Definerer standard-skin for agentsidene. Skriv inn InternalName for skin. Hvis du vil kan du legge til dine egne skins',
+        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+            'Definerer standard sorteringskriterier for alle køer vist i køvisning, etter at de har blitt sortert etter prioritet.',
         'Defines the hours and week days of the calendar number 1, to count the working time.' =>
             'Definerer timer og ukedager i kalender 1, som telles som arbeidstid.',
         'Defines the hours and week days of the calendar number 2, to count the working time.' =>

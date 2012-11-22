@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.32.2.1 2012-08-17 12:07:58 mg Exp $
+# $Id: sr_Latn.pm,v 1.32.2.2 2012-11-22 06:59:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.1 $) [1];
+$VERSION = qw($Revision: 1.32.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-08-17 14:05:09
+    # Last translation file sync: 2012-11-21 21:59:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1824,6 +1824,7 @@ sub Data {
         'Search Customer' => 'Traži korisnika',
         'Duplicated entry' => 'Dvostruki unos',
         'This address already exists on the address list.' => 'Ova adresa već postoji u listi',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2265,9 +2266,9 @@ sub Data {
         'of' => 'od',
         'Page' => 'Strana',
         'Search Results for' => 'Rezultati pretraživanja za',
-        '","18' => '","18',
 
         # Template: CustomerTicketZoom
+        '","18' => '","18',
         'Expand article' => 'Raširi članak',
         'Reply' => 'Odgovori',
 
@@ -2724,6 +2725,8 @@ sub Data {
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             '',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -2860,7 +2863,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',

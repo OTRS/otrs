@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011-2012 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.128.2.2 2012-10-15 13:04:24 mg Exp $
+# $Id: pl.pm,v 1.128.2.3 2012-11-22 06:58:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128.2.2 $) [1];
+$VERSION = qw($Revision: 1.128.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-08-17 14:05:00
+    # Last translation file sync: 2012-11-21 21:59:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -61,7 +61,6 @@ sub Data {
         'day' => 'dzień',
         'days' => 'dni',
         'day(s)' => 'dzień(dni)',
-        'Database Backend' => 'Baza danych',
         'd' => 'd',
         'hour' => 'godzina',
         'hours' => 'godz.',
@@ -86,7 +85,6 @@ sub Data {
         'second' => 'drugi',
         's' => 's',
         'wrote' => 'napisał(a)',
-        ' On' => 'W dniu',
         'Message' => 'Wiadomość',
         'Error' => 'Błąd',
         'Bug Report' => 'Zgłoś błąd',
@@ -102,7 +100,6 @@ sub Data {
         'Examples' => 'Przykłady',
         'valid' => 'ważne',
         'Valid' => 'Ważne',
-        'Master' => 'Główne',
         'invalid' => 'nieważne',
         'Invalid' => 'Nieważne',
         '* invalid' => '* nieważne',
@@ -1829,6 +1826,7 @@ sub Data {
         'Search Customer' => 'Szukaj klienta',
         'Duplicated entry' => 'Zduplikowana pozycja',
         'This address already exists on the address list.' => '',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2119,7 +2117,6 @@ sub Data {
         'Ticket-Info' => 'Informacje o zgłoszeniu',
         'Accounted time' => 'Zaraportowany czas',
         'Linked-Object' => 'Powiązany obiekt',
-        'Ticket Dynamic Fields' => 'Informacje dodatkowe',
         'by' => 'przez',
 
         # Template: AgentTicketPriority
@@ -2152,7 +2149,6 @@ sub Data {
         'Ticket Close Time (between)' => 'Czas zamknięcia zgłoszenia (pomiędzy)',
         'Archive Search' => 'Szukanie w archiwum',
         'Run search' => 'Szukaj',
-        'Ticket Report' => 'Zgłoszenia',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2272,9 +2268,9 @@ sub Data {
         'of' => 'z',
         'Page' => 'Strona',
         'Search Results for' => 'Wyniki wyszukiwania dla',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        '","18' => '',
         'Expand article' => 'Rozwiń artykuł',
         'Reply' => 'Odpowiedz',
 
@@ -2643,7 +2639,6 @@ sub Data {
         'Create and manage dynamic fields.' => 'Zarządzanie polami dynamicznymi.',
         'Create and manage event based notifications.' => 'Zarządzanie powiadomieniami wywoływanymi za pomocą zdarzeń.',
         'Create and manage groups.' => 'Ustawienia grup agentów.',
-        'Create and manage notifications that are sent to agents.' => 'Ustawienia powiadomień wysyłanych do agentów.',
         'Create and manage queues.' => 'Ustawienia kolejek zgłoszeń.',
         'Create and manage response templates.' => 'Ustawienia szablonów odpowiedzi.',
         'Create and manage responses that are automatically sent.' => 'Ustawienia szablonów odpowiedzi automatycznych.',
@@ -2731,6 +2726,8 @@ sub Data {
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
+            '',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
@@ -2868,7 +2865,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',
@@ -4215,11 +4212,12 @@ sub Data {
             '',
         'Your language' => 'Wybierz swój język',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-             'Twój wybór ulubionych kolejek. Będziesz również informowany e-mailami o tych kolejkach jeśli włączysz powiadamianie.',
+            'Twój wybór ulubionych kolejek. Będziesz również informowany e-mailami o tych kolejkach jeśli włączysz powiadamianie.',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' On' => 'W dniu',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s zgłoszeń dotyczy! Chcesz wykonać zadanie?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
@@ -4387,6 +4385,7 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'DB Type' => 'Typ bazy danych',
         'DB connect host' => 'komputer bazy danych',
+        'Database Backend' => 'Baza danych',
         'Default' => 'Domyślne',
         'Default Charset' => 'Domyślne kodowanie',
         'Default Language' => 'Domyślny język',
@@ -4492,6 +4491,7 @@ sub Data {
         'Lookup' => 'Wyszukiwanie',
         'Mail Management' => 'Zarządzanie pocztą',
         'Mailbox' => 'Skrzynka',
+        'Master' => 'Główne',
         'Match' => 'Odpowiada',
         'Max. displayed tickets' => 'Maksymalna ilość wyświetlanych zgłoszeń',
         'Max. shown Tickets a page' => 'Maksymalna ilość zgłoszeń na stronie',
@@ -4701,9 +4701,11 @@ sub Data {
         'Ticket Close Times (from moment)' => 'Czas zamknięcia zgłoszenia (od momentu)',
         'Ticket Create Times (between)' => 'Czas utworzenia zgłoszenia (pomiędzy)',
         'Ticket Create Times (from moment)' => 'Czas utworzenia zgłoszenia (od momentu)',
+        'Ticket Dynamic Fields' => 'Informacje dodatkowe',
         'Ticket Hook' => 'Identyfikator zgłoszenia',
         'Ticket Lock' => 'Zablokowanie zgłoszenia',
         'Ticket Number Generator' => 'Generator numerów zgłoszeń',
+        'Ticket Report' => 'Zgłoszenia',
         'Ticket Search' => 'Wyszukiwanie zgłoszenia',
         'Ticket Status View' => 'Status zgłoszenia',
         'Ticket Type is required!' => 'Typ zgłoszenia jest wymagany!',

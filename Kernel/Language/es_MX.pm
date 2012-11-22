@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.61.2.1 2012-08-17 12:07:58 mg Exp $
+# $Id: es_MX.pm,v 1.61.2.2 2012-11-22 06:56:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61.2.1 $) [1];
+$VERSION = qw($Revision: 1.61.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-08-17 14:04:41
+    # Last translation file sync: 2012-11-21 21:59:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1824,6 +1824,7 @@ sub Data {
         'Search Customer' => 'Búsqueda de cliente',
         'Duplicated entry' => '',
         'This address already exists on the address list.' => '',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2265,9 +2266,9 @@ sub Data {
         'of' => 'de',
         'Page' => 'Página',
         'Search Results for' => 'Buscar Resultados para',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        '","18' => '',
         'Expand article' => '',
         'Reply' => 'Responder',
 
@@ -2724,6 +2725,8 @@ sub Data {
             'Define un vínculo externo a la base de datos del cliente (por ejemplo: \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' o \'\').',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'Define cómo debe lucir el campo De en los correos electrónicos (enviados como respuestas y tickets).',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Define si se requiere un bloqueo de ticket en la ventana para cerrar dicho ticket, en la interfaz del agente (si el ticket aún no está bloqueado, se bloquea y el agente actual se convierte automáticamente en el propietario).',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -2860,8 +2863,8 @@ sub Data {
             'Define el atributo mostrado por defecto para la búsqueda de tickets, en la ventana de búsqueda.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
-            'Define el criterio de ordenamiento por defecto para todas las filas mostradas en la vista de filas, luego de haberse ordenado por prioridad.',
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
+            '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             'Define el orden por defecto para todas las filas mostradas en la vista de filas, luego de haberse ordenado por prioridad.',
         'Defines the default spell checker dictionary.' => 'Define el diccionario por defecto para la verificación ortográfica.',
@@ -4525,6 +4528,8 @@ sub Data {
             'Define el valor seleccionado por defecto en el campo de texto libre número 8 para tickets (si es que hay más de una opción).',
         'Defines the default selection of the free text field number 9 for tickets (if more than one option is provided).' =>
             'Define el valor seleccionado por defecto en el campo de texto libre número 9 para tickets (si es que hay más de una opción).',
+        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+            'Define el criterio de ordenamiento por defecto para todas las filas mostradas en la vista de filas, luego de haberse ordenado por prioridad.',
         'Defines the difference from now (in seconds) of the free time field number 1\'s default value.' =>
             'Define la diferencia (en segundos) entre el momento actual  y el valor por defecto del campo libre de tiempo número 1.',
         'Defines the difference from now (in seconds) of the free time field number 2\'s default value.' =>
