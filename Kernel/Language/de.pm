@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.341 2012-11-22 10:15:34 mg Exp $
+# $Id: de.pm,v 1.342 2012-11-22 11:13:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.341 $) [1];
+$VERSION = qw($Revision: 1.342 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1533,161 +1533,161 @@ sub Data {
         'Edit Priority' => 'Priorität bearbeiten',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
-        'Filter for Processes' => '',
+        'Process Management' => 'Prozess-Management',
+        'Filter for Processes' => 'Filter für Prozesse',
         'Filter' => 'Filter',
-        'Process Name' => '',
-        'Create New Process' => '',
-        'Synchronize All Processes' => '',
-        'Configuration import' => '',
+        'Process Name' => 'Prozessname',
+        'Create New Process' => 'Neuen Prozess erstellen',
+        'Synchronize All Processes' => 'Alle Prozesse synchronisieren',
+        'Configuration import' => 'Konfiguration importieren',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+            'Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie vom Prozessmanagement auch exportiert wird.',
+        'Upload process configuration' => 'Prozesskonfiguration hochladen',
+        'Import process configuration' => 'Prozesskonfiguration importieren',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
-            '',
+            'Um einen neuen Prozess zu erstellen können Sie entweder einen Prozess aus einem anderen System importieren oder einen ganz neuen erstellen.',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
-            '',
-        'Processes' => '',
-        'Process name' => '',
-        'Export Process Configuration' => '',
+            'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
+        'Processes' => 'Prozesse',
+        'Process name' => 'Prozessname',
+        'Export Process Configuration' => 'Prozesskonfiguration exportieren',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Abbrechen und Fenster schließen',
-        'Go Back' => '',
+        'Go Back' => 'Zurück',
         'Please note, that changing this activity will affect the following processes' =>
-            '',
-        'Activity' => '',
-        'Activity Name' => '',
-        'Activity Dialogs' => '',
+            'Achtung: Änderungen an dieser Aktivität werden sich auf folgende Prozesse auswirken',
+        'Activity' => 'Aktivität',
+        'Activity Name' => 'Name der Aktivität',
+        'Activity Dialogs' => 'Aktivitäts-Dialog',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Sie können Aktivitäts-Dialoge dieser Aktivität zuweisen, indem Sie die Elemente mit der Maus aus der linken Liste in die rechte Liste verschieben.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
-            '',
-        'Filter available Activity Dialogs' => '',
-        'Available Activity Dialogs' => '',
-        'Create New Activity Dialog' => '',
-        'Assigned Activity Dialogs' => '',
+            'Die Elemente können auch durch Verschieben mit der Maus geordnet werden.',
+        'Filter available Activity Dialogs' => 'Verfügbare Aktivitäts-Dialoge filtern',
+        'Available Activity Dialogs' => 'Verfügbare Aktivitäts-Dialoge',
+        'Create New Activity Dialog' => 'Neuen Aktivitäts-Dialog erstellen',
+        'Assigned Activity Dialogs' => 'Zugewiesene Aktivitäts-Dialoge',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            '',
+            'Sobald sie den Knopf oder den Link verwenden, verlassen Sie dieses Fenster, und der aktuelle Stand wird automatisch gespeichert. Möchten Sie fortfahren?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
-        'Activity Dialog' => '',
-        'Activity dialog Name' => '',
-        'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
-        'The selected permission does not exist.' => '',
-        'Required Lock' => '',
-        'The selected required lock does not exist.' => '',
-        'Submit Advice Text' => '',
-        'Submit Button Text' => '',
-        'Fields' => '',
+        'Activity Dialog' => 'Aktivitäts-Dialog',
+        'Activity dialog Name' => 'Name des Aktivitäts-Dialogs',
+        'Available in' => 'Verfügbar in',
+        'Description (Short)' => 'Beschreibung (kurz)',
+        'Description (Long)' => 'Beschreibung (lang)',
+        'The selected permission does not exist.' => 'Die ausgewählte Berechtigung existiert nicht.',
+        'Required Lock' => 'Erforderliche Sperre',
+        'The selected required lock does not exist.' => 'Die ausgewählte Sperre existiert nicht',
+        'Submit Advice Text' => 'Hinweistext beim Absenden',
+        'Submit Button Text' => 'Hinweistext für den Absendeknopf',
+        'Fields' => 'Felder',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available fields' => '',
-        'Available Fields' => '',
-        'Assigned Fields' => '',
-        'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
-        'ArticleType' => '',
-        'Display' => '',
-        'Edit Field Details' => '',
+            'Sie können diesem Aktivitäts-Dialog Felder zuweisen, indem Sie sie mit der Maus aus der rechten Liste in die linke Liste verschieben.',
+        'Filter available fields' => 'Verfügbare Felder filtern',
+        'Available Fields' => 'Verfügbare Felder',
+        'Assigned Fields' => 'Zugewiesene Felder',
+        'Edit Details for Field' => 'Details bearbeiten für Feld',
+        'Description (short)' => 'Beschreibung (kurz)',
+        'Description (long)' => 'Beschreibung (lang)',
+        'ArticleType' => 'Artikeltyp',
+        'Display' => 'Anzeige',
+        'Edit Field Details' => 'Feld-Details bearbeiten',
 
         # Template: AdminProcessManagementPath
-        'Path' => '',
-        'Transition Actions' => '',
+        'Path' => 'Pfad',
+        'Transition Actions' => 'Übergangs-Aktionen',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available Transition Actions' => '',
-        'Available Transition Actions' => '',
-        'Create New Transition Action' => '',
-        'Assigned Transition Actions' => '',
+            'Die können diesem Übergang Übergangs-Aktionen zuweisen, indem Sie sie mit der Maus aus der rechten Liste in die linke Liste verschieben.',
+        'Filter available Transition Actions' => 'Verfügbare Übergangs-Aktionen filtern',
+        'Available Transition Actions' => 'Verfügbare Übergangs-Aktionen',
+        'Create New Transition Action' => 'Neue Übergangs-Aktion erstellen',
+        'Assigned Transition Actions' => 'Zugewiesene Übergangs-Aktionen',
 
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
-        'Activities' => '',
-        'Filter Activities...' => '',
-        'Create New Activity' => '',
-        'Filter Activity Dialogs...' => '',
-        'Transitions' => '',
-        'Filter Transitions...' => '',
-        'Create New Transition' => '',
-        'Filter Transition Actions...' => '',
+        'Activities' => 'Aktivitäten',
+        'Filter Activities...' => 'Aktivitäten filtern...',
+        'Create New Activity' => 'Neue Aktivität erstellen',
+        'Filter Activity Dialogs...' => 'Aktivitäts-Dialoge filtern',
+        'Transitions' => 'Übergänge',
+        'Filter Transitions...' => 'Übergänge filtern',
+        'Create New Transition' => 'Neuen Übergang erstellen',
+        'Filter Transition Actions...' => 'Übergangs-Aktionen filtern...',
 
         # Template: AdminProcessManagementProcessEdit
-        'Edit Process' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
-        'Available Process Elements' => '',
+        'Edit Process' => 'Prozess bearbeiten',
+        'Delete Process' => 'Prozess löschen',
+        'Delete Inactive Process' => 'Inaktive Prozesse löschen',
+        'Available Process Elements' => 'Verfügbare Prozess-Elemente',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
-            '',
+            'Die in der Seitenleiste aufgelisteten Elemente können mit der Maus in den Zeichenbereich gezogen werden.',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
-            '',
+            'Sie können Aktivitäten im Zeichenbereich platzieren, um diese Aktivitäten dem Prozess zuzuordnen',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
-            '',
+            'Aktivitäts-Dialoge können Sie einer Aktivität zuweisen, indem Sie diese aus der Seitenleiste über die Aktivität im Zeichenbereich ziehen.',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '',
+            'Eine Verbindung zwischen Aktivitäten können sie erstellen, indem Sie ein Übergangselement auf die Start-Aktivität der Verbindung ziehen. Anschließend können Sie das freie Ende des Pfeils zur Ziel-Aktivität ziehen.',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
-            '',
-        'Edit Process Information' => '',
-        'The selected state does not exist.' => '',
-        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
-        'Extend the width of the Canvas' => '',
-        'Extend the height of the Canvas' => '',
-        'Remove the Activity from this Process' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
-        'Do you really want to delete this Transition Action?' => '',
-        'Delete Entity' => '',
+            'Aktionen können einem Übergang zugeweisen werden, indem Sie das Aktionselement auf den Namen des Übergangs ziehen.',
+        'Edit Process Information' => 'Prozess-Informationen bearbeiten',
+        'The selected state does not exist.' => 'Der ausgewählte Status existiert nicht.',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitäts-Dialoge und Übergänge hinzufügen und bearbeiten',
+        'Extend the width of the Canvas' => 'Die Breite der Zeichenfläche vergrößern',
+        'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
+        'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
+        'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
+        'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
+        'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
+        'Do you really want to delete this Transition?' => 'Möchten Sie diesen Übergang wirklich löschen?',
+        'Do you really want to delete this Transition Action?' => 'Möchten Sie diese Übergangs-Aktion wirklich löschen?',
+        'Delete Entity' => 'Entität löschen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
-            '',
+            'Diese Aktivität wird bereits im Prozess verwendet. Sie können sie nicht erneut hinzufügen!',
         'This Activity cannot be deleted because it is the Start Activity.' =>
-            '',
+            'Diese Aktivität kann nicht gelöscht werden, weil sie die Start-Aktivität ist.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '',
+            'Dieser Übergang wird bereits für diese Aktiviät verwendet. Sie können ihn nicht erneut hinzufügen!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '',
-        'The Start Event cannot loose the Start Transition!' => '',
+            'Diese Übergangsaktion wird bereits in diesem Pfad verwendet. Sie können sie nicht erneut hinzufügen!',
+        'The Start Event cannot loose the Start Transition!' => 'Das Startereignis kann den Start-Übergang nicht verlieren.',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Möchten Sie diese Aktivität wirklich von der Zeichenfläche entfernen? Das kann nur rückgängig gemacht werden, wenn Sie dieses Fenster ohne speichern verlassen.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Möchten Sie diesn Übergang wirklich von der Zeichenfläche entfernen? Das kann nur rückgängig gemacht werden, wenn Sie dieses Fenster ohne speichern verlassen.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '',
+            'Es sind noch keine Dialoge zugewiesen. Wählen Sie einfach einen Aktivitäts-Dialog in der linken Liste aus und ziehen Sie ihn in die rechte Liste.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
-            '',
+            'Hier können Sie einen neuen Prozess erstellen. Um ihn für die Benutzer verfügbar zu machen, sollten Sie seinen Status auf "Aktiv" setzen und als Abschluss Ihrer Arbeit die Synchronisation durchführen.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
-            '',
-        'Transition' => '',
-        'Transition Name' => '',
-        'Conditions' => '',
-        'Type of Linking between Conditions' => '',
-        'Condition' => '',
-        'Remove this Condition' => '',
-        'Type of Linking' => '',
-        'Remove this Field' => '',
-        'Add a new Field' => '',
-        'Add New Condition' => '',
+            'Achtung: Änderungen an diesem Übergang wirken sich auf folgende Prozesse aus',
+        'Transition' => 'Übergang',
+        'Transition Name' => 'Name des Übergangs',
+        'Conditions' => 'Bedingungen',
+        'Type of Linking between Conditions' => 'Verknüpfung zwischen den Bedingungen',
+        'Condition' => 'Bedingung',
+        'Remove this Condition' => 'Bedingung entfernen',
+        'Type of Linking' => 'Typ der Verknüpfung',
+        'Remove this Field' => 'Feld entfernen',
+        'Add a new Field' => 'Neues Feld hinzufügen',
+        'Add New Condition' => 'Neue Bedingung hinzufügen',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
-            '',
-        'Transition Action' => '',
-        'Transition Action Name' => '',
-        'Config Parameters' => '',
-        'Remove this Parameter' => '',
-        'Add a new Parameter' => '',
+            'Achtung: Änderungen an dieser Übergangs-Aktion wirken sich auf folgende Prozesse aus',
+        'Transition Action' => 'Übergangs-Aktion',
+        'Transition Action Name' => 'Name der Übergangs-Aktion',
+        'Config Parameters' => 'Konfigurations-Parameter',
+        'Remove this Parameter' => 'Parameter entfernen',
+        'Add a new Parameter' => 'Neuen Parameter hinzufügen',
 
         # Template: AdminQueue
         'Manage Queues' => 'Queue-Verwaltung',
@@ -2834,7 +2834,7 @@ sub Data {
             '',
         'Closed tickets of customer' => 'Geschlossene Tickets des Kunden',
         'Comment for new history entries in the customer interface.' => '',
-        'Company Status' => '',
+        'Company Status' => 'Firmenstatus',
         'Company Tickets' => 'Firmen-Tickets',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
