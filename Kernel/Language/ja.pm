@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.40 2012-11-20 14:32:38 mh Exp $
+# $Id: ja.pm,v 1.41 2012-11-22 10:15:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-08 09:51:34
+    # Last translation file sync: 2012-11-22 11:09:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -355,10 +355,13 @@ sub Data {
         'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Collapse' => '',
         'Shown' => '表示',
+        'Shown customer users' => '',
         'News' => 'ニュース',
         'Product News' => '製品ニュース',
         'OTRS News' => 'OTRSニュース',
         '7 Day Stats' => '週間統計',
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
         'Bold' => '太字',
         'Italic' => '斜体',
         'Underline' => '下線',
@@ -1534,6 +1537,7 @@ sub Data {
         'Process Management' => '',
         'Filter for Processes' => '',
         'Filter' => 'フィルタ',
+        'Process Name' => '',
         'Create New Process' => '',
         'Synchronize All Processes' => '',
         'Configuration import' => '',
@@ -1557,6 +1561,10 @@ sub Data {
         'Activity' => '',
         'Activity Name' => '',
         'Activity Dialogs' => '',
+        'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
+            '',
         'Filter available Activity Dialogs' => '',
         'Available Activity Dialogs' => '',
         'Create New Activity Dialog' => '',
@@ -1572,13 +1580,15 @@ sub Data {
         'Available in' => '',
         'Description (Short)' => '',
         'Description (Long)' => '',
-        'The selected permission does not exists.' => '',
+        'The selected permission does not exist.' => '',
         'Required Lock' => '',
-        'The selected required lock does not exists.' => '',
+        'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
         'Fields' => '',
-        'Filter available Fields' => '',
+        'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
@@ -1591,6 +1601,8 @@ sub Data {
         # Template: AdminProcessManagementPath
         'Path' => '',
         'Transition Actions' => '',
+        'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
         'Filter available Transition Actions' => '',
         'Available Transition Actions' => '',
         'Create New Transition Action' => '',
@@ -1599,34 +1611,32 @@ sub Data {
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
+        'Activities' => '',
         'Filter Activities...' => '',
         'Create New Activity' => '',
         'Filter Activity Dialogs...' => '',
+        'Transitions' => '',
         'Filter Transitions...' => '',
         'Create New Transition' => '',
         'Filter Transition Actions...' => '',
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => '',
-        'Back To Overview' => '',
         'Delete Process' => '',
         'Delete Inactive Process' => '',
         'Available Process Elements' => '',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             '',
-        'Activities' => '',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
             '',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             '',
-        'Transitions' => '',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             '',
-        'Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition.' =>
+        'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
         'Edit Process Information' => '',
-        'Process Name' => '',
-        'The selected state does not exists.' => '',
+        'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
@@ -1654,7 +1664,8 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessNew
-        'Here is the description of what this screen is all about.' => '',
+        'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
+            '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -2732,6 +2743,7 @@ sub Data {
             '監視されているチケットの数を見るための、担当者インタフェース通知モジュールです。',
         'Agents <-> Groups' => '担当者 <-> グループ',
         'Agents <-> Roles' => '担当者 <-> 役割',
+        'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '担当者インタフェースのクローズ・チケット画面で、ノートの追加を許可します。',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
@@ -3489,6 +3501,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
+        'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4197,6 +4211,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースにおいて、電話およびEメールのチケットにおける責任者のセレクションを表示します。',
         'Show article as rich text even if rich text writing is disabled.' =>
             'リッチ・テキストのライティングが無効にされている場合でも、項目をリッチ・テキストで表示します。',
+        'Show the current owner in the customer interface.' => '',
+        'Show the current queue in the customer interface.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             '項目に添付ファイルがある場合、チケット・ズームでアイコン・アカウントを表示します。',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' =>

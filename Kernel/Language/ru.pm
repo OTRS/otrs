@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.144 2012-11-20 14:33:41 mh Exp $
+# $Id: ru.pm,v 1.145 2012-11-22 10:15:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-08 09:51:42
+    # Last translation file sync: 2012-11-22 11:09:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -361,10 +361,13 @@ sub Data {
         'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Collapse' => 'Свернуть',
         'Shown' => 'Показано',
+        'Shown customer users' => '',
         'News' => 'Новости',
         'Product News' => 'Новости о продукте',
         'OTRS News' => 'Новости OTRS',
         '7 Day Stats' => 'Статистика за 7 дней',
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
         'Bold' => 'Полужирный',
         'Italic' => 'Курсив',
         'Underline' => 'Подчеркнутый',
@@ -1540,6 +1543,7 @@ sub Data {
         'Process Management' => '',
         'Filter for Processes' => '',
         'Filter' => 'Фильтр',
+        'Process Name' => '',
         'Create New Process' => '',
         'Synchronize All Processes' => '',
         'Configuration import' => '',
@@ -1563,6 +1567,10 @@ sub Data {
         'Activity' => '',
         'Activity Name' => '',
         'Activity Dialogs' => '',
+        'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
+            '',
         'Filter available Activity Dialogs' => '',
         'Available Activity Dialogs' => '',
         'Create New Activity Dialog' => '',
@@ -1578,13 +1586,15 @@ sub Data {
         'Available in' => '',
         'Description (Short)' => '',
         'Description (Long)' => '',
-        'The selected permission does not exists.' => '',
+        'The selected permission does not exist.' => '',
         'Required Lock' => '',
-        'The selected required lock does not exists.' => '',
+        'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
         'Fields' => '',
-        'Filter available Fields' => '',
+        'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
@@ -1597,6 +1607,8 @@ sub Data {
         # Template: AdminProcessManagementPath
         'Path' => '',
         'Transition Actions' => '',
+        'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
         'Filter available Transition Actions' => '',
         'Available Transition Actions' => '',
         'Create New Transition Action' => '',
@@ -1605,34 +1617,32 @@ sub Data {
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
+        'Activities' => '',
         'Filter Activities...' => '',
         'Create New Activity' => '',
         'Filter Activity Dialogs...' => '',
+        'Transitions' => '',
         'Filter Transitions...' => '',
         'Create New Transition' => '',
         'Filter Transition Actions...' => '',
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => '',
-        'Back To Overview' => '',
         'Delete Process' => '',
         'Delete Inactive Process' => '',
         'Available Process Elements' => '',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             '',
-        'Activities' => '',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
             '',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             '',
-        'Transitions' => '',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             '',
-        'Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition.' =>
+        'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
         'Edit Process Information' => '',
-        'Process Name' => '',
-        'The selected state does not exists.' => '',
+        'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
@@ -1660,7 +1670,8 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessNew
-        'Here is the description of what this screen is all about.' => '',
+        'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
+            '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -2738,6 +2749,7 @@ sub Data {
             '',
         'Agents <-> Groups' => 'Агенты <-> Группы',
         'Agents <-> Roles' => 'Агенты <-> Роли',
+        'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
@@ -3493,6 +3505,8 @@ sub Data {
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
+        'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4200,6 +4214,8 @@ sub Data {
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
+        'Show the current owner in the customer interface.' => '',
+        'Show the current queue in the customer interface.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' =>

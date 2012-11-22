@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.193 2012-11-20 14:33:12 mh Exp $
+# $Id: nl.pm,v 1.194 2012-11-22 10:15:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.193 $) [1];
+$VERSION = qw($Revision: 1.194 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-08 09:51:38
+    # Last translation file sync: 2012-11-22 11:09:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -360,10 +360,13 @@ sub Data {
         'Package verification failed!' => 'Pakketverificatie mislukt!',
         'Collapse' => 'Inklappen',
         'Shown' => 'Tonen',
+        'Shown customer users' => '',
         'News' => 'Nieuws',
         'Product News' => 'Productnieuws',
         'OTRS News' => 'OTRS Nieuws',
         '7 Day Stats' => 'Afgelopen 7 dagen',
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
         'Bold' => 'Vet',
         'Italic' => 'Cursief',
         'Underline' => 'Onderstreep',
@@ -1539,6 +1542,7 @@ sub Data {
         'Process Management' => 'Procesbeheer',
         'Filter for Processes' => 'Filter op processen',
         'Filter' => 'Filter',
+        'Process Name' => 'Naam',
         'Create New Process' => 'Nieuw proces',
         'Synchronize All Processes' => 'Synchroniseer alle processen',
         'Configuration import' => 'Importeer configuratie',
@@ -1562,6 +1566,10 @@ sub Data {
         'Activity' => 'Activiteit',
         'Activity Name' => 'Naam',
         'Activity Dialogs' => 'Dialogen',
+        'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
+            '',
         'Filter available Activity Dialogs' => 'Filter beschikbare dialogen',
         'Available Activity Dialogs' => 'Beschikbare dialogen',
         'Create New Activity Dialog' => 'Nieuwe dialoog',
@@ -1583,7 +1591,9 @@ sub Data {
         'Submit Advice Text' => 'Verstuur-advies tekst',
         'Submit Button Text' => 'Tekst op Verstuur-knop',
         'Fields' => 'Velden',
-        'Filter available Fields' => 'Filter beschikbare velden',
+        'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Filter available fields' => '',
         'Available Fields' => 'Beschikbare velden',
         'Assigned Fields' => 'Toegewezen velden',
         'Edit Details for Field' => 'Bewerk details voor veld',
@@ -1596,6 +1606,8 @@ sub Data {
         # Template: AdminProcessManagementPath
         'Path' => 'Pad',
         'Transition Actions' => 'Transitie-acties',
+        'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
         'Filter available Transition Actions' => 'Filter beschikbare transitie-acties',
         'Available Transition Actions' => 'Beschikbare transitie-acties',
         'Create New Transition Action' => 'Nieuwe transitie-actie',
@@ -1604,34 +1616,32 @@ sub Data {
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
+        'Activities' => 'Activiteiten',
         'Filter Activities...' => 'Filter activiteiten',
         'Create New Activity' => 'Nieuwe activiteit',
         'Filter Activity Dialogs...' => 'Filter dialogen...',
+        'Transitions' => 'Transities',
         'Filter Transitions...' => 'Filter transities...',
         'Create New Transition' => 'Nieuwe transitie',
         'Filter Transition Actions...' => 'Filter transitie-acties...',
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Bewerk proces',
-        'Back To Overview' => 'Terug naar het overzicht',
         'Delete Process' => 'Verwijder proces',
         'Delete Inactive Process' => 'Verwijder inactief proces',
         'Available Process Elements' => 'Beschikbare proces-elementen',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             'De elementen hierboven kunnen verplaatst worden naar de canvas aan de rechterzijde door middel van slepen.',
-        'Activities' => 'Activiteiten',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
             'U kunt activiteiten op de canvas plaatsen om ze toe te wijzen aan dit proces.',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'Om een dialoog toe te voegen aan een activiteit sleept u de dialoog uit deze lijst naar de activiteit geplaatst op de canvas.',
-        'Transitions' => 'Transities',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             'U kunt een verbinding maken tussen activiteiten door de transitie op de start-actiiteit te slepen. Daarna kunt u het losse einde van de pijl naar de eind-activiteit slepen.',
-        'Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition.' =>
-            'Acties kunnen gekoppeld worden aan een transitie door het actie-element naar de pijl van een transitie te slepen.',
+        'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
+            '',
         'Edit Process Information' => 'Bewerk proces-informatie',
-        'Process Name' => 'Naam',
-        'The selected state does not exists.' => 'De gekozen status bestaat niet.',
+        'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Beheren activiteiten, dialogen en transities',
         'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
@@ -1659,7 +1669,8 @@ sub Data {
             'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
 
         # Template: AdminProcessManagementProcessNew
-        'Here is the description of what this screen is all about.' => 'Dit is de beschrijving van het scherm.',
+        'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
+            '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -2737,6 +2748,7 @@ sub Data {
             '',
         'Agents <-> Groups' => 'Behandelaars <-> Groepen',
         'Agents <-> Roles' => 'Behandelaars <-> Rollen',
+        'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
@@ -3492,6 +3504,8 @@ sub Data {
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
+        'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4199,6 +4213,8 @@ sub Data {
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
+        'Show the current owner in the customer interface.' => '',
+        'Show the current queue in the customer interface.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' =>
@@ -4528,6 +4544,8 @@ sub Data {
         'About OTRS' => 'Over OTRS',
         'Absolut Period' => 'Absolute data',
         'Accept the license' => 'Accepteer de licentie',
+        'Actions can be assigned to a Transition by dropping the Action Element onto the arrow of a Transition.' =>
+            'Acties kunnen gekoppeld worden aan een transitie door het actie-element naar de pijl van een transitie te slepen.',
         'Add Customer User' => 'Klanten toevoegen',
         'Add System Address' => 'Systeem e-mailadres toevoegen',
         'Add User' => 'Nieuwe gebruiker toevoegen',
@@ -4584,6 +4602,7 @@ sub Data {
         'Attach' => 'Toevoegen',
         'Attribute' => 'Eigenschap',
         'Auto Response From' => 'E-mailadres',
+        'Back To Overview' => 'Terug naar het overzicht',
         'Body is required.' => 'Tekst is verplicht.',
         'Bounce Ticket: ' => 'Bounce Ticket: ',
         'Bounce ticket' => 'Bounce Ticket',
@@ -4707,6 +4726,7 @@ sub Data {
         'Fax{CustomerUser}' => 'Fax',
         'FileManager' => 'Bestandsbeheer',
         'Filelist' => 'Bestandslijst',
+        'Filter available Fields' => 'Filter beschikbare velden',
         'Filter for Language' => 'Filter op taal',
         'Filter name is required.' => 'Filter naam is verplicht.',
         'Filtername' => 'Naam filter',
@@ -4727,6 +4747,7 @@ sub Data {
         'HTML' => 'HTML',
         'Hash/Fingerprint' => 'Hash',
         'Have a lot of fun!' => 'Veel plezier!',
+        'Here is the description of what this screen is all about.' => 'Dit is de beschrijving van het scherm.',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' =>
             'Hier kunt u de waarden op de Y-as kiezen. U kunt één of twee elementen kiezen. Vervolgens kunt u de getoonde attributen van de elementen kiezen. Ieder attribuut wordt getoond als een eigen waarde. Als u geen waarde kiest worden alle attributen van het element gebruikt bij het genereren van het rapport.',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' =>
@@ -5031,6 +5052,7 @@ sub Data {
         'The customer is required.' => 'Kies een klant.',
         'The field is required.' => 'Dit veld is verplicht.',
         'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
+        'The selected state does not exists.' => 'De gekozen status bestaat niet.',
         'The subject is required!' => 'Onderwerp is een verplicht veld.',
         'The subject is required.' => 'Onderwerp is verplicht',
         'The text is required!' => 'Tekst is een verplicht veld.',
