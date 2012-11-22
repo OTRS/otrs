@@ -2,7 +2,7 @@
 # ObjectLockStatePerformance.t - ObjectLockState performance tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockStatePerformance.t,v 1.4 2012-11-20 16:09:40 mh Exp $
+# $Id: ObjectLockStatePerformance.t,v 1.5 2012-11-22 14:59:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,16 +23,17 @@ use Kernel::System::GenericInterface::ObjectLockState;
 
 This test script will create 10000 records in the object lock table,
 and then perform SELECT and UDPATE queries on it to make sure that
-they take not more than 0.5s each.
+they take not more than 0.5s (default config) each.
 
 =cut
 
 my $WebserviceObject      = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
-my $RandomNumber     = int rand(10000000);
+my $RandomNumber     = int rand 10000000;
 my $CustomObjectType = "TestObject$RandomNumber";
-my $Success;
+
+my $TimeLimit = $Self->{ConfigObject}->Get('GenericInterface::ObjectLockState::TimeLimit') || '0.5';
 my $TestDataCount = 10_000;
 
 # add config
@@ -52,6 +53,7 @@ $Self->True(
     "WebserviceAdd()",
 );
 
+my $Success;
 for my $Count ( 1 .. $TestDataCount ) {
 
     # set initial
@@ -87,8 +89,8 @@ for my $Count ( 1 .. 100 ) {
     my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
     $Self->True(
-        $TimeElapsed < 0.5,
-        "ObjectLockStateGet() in $TestDataCount entries took less than 0.5s (${TimeElapsed}s)",
+        $TimeElapsed < $TimeLimit,
+        "ObjectLockStateGet() in $TestDataCount entries took less than $TimeLimit seconds (${TimeElapsed}s)",
     );
 
     $Self->Is(
@@ -111,8 +113,8 @@ for my $Count ( 1 .. 100 ) {
     $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
     $Self->True(
-        $TimeElapsed < 0.5,
-        "ObjectLockStateSet in $TestDataCount entries took less than 0.5s (${TimeElapsed}s)",
+        $TimeElapsed < $TimeLimit,
+        "ObjectLockStateSet in $TestDataCount entries took less than $TimeLimit seconds (${TimeElapsed}s)",
     );
 
     $ObjectLockState = $ObjectLockStateObject->ObjectLockStateGet(
