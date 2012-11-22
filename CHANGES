@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.161 2012-11-20 20:14:54 mb Exp $
+# $Id: CHANGES,v 1.2260.2.162 2012-11-22 09:24:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-11-22 Fixed bug#8937 - "$" should be escaped in interpolated strings when javascript is meant.
  - 2012-11-19 Fixed bug#8919 - Customer interface search results: ticket can only be accessed
     via ticket number and subject.
  - 2012-11-19 Fixed bug#8850 - CustomerTicketOverview - MouseOver Age isn't always correct.

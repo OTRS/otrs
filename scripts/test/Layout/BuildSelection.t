@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.9.2.2 2012-06-14 17:59:47 cr Exp $
+# $Id: BuildSelection.t,v 1.9.2.3 2012-11-22 09:24:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,6 +116,50 @@ my @Tests = (
         Success      => 0,
         ExecuteJSON  => 0,
         JSONResponse => undef,
+    },
+    {
+        Name       => 'AJAX (undocumented option)',
+        Definition => {
+            Data => {
+                1 => 'Object1',
+            },
+            Name     => 'Select1',
+            ID       => 'Select1ID',
+            Sort     => 'TreeView',
+            Multiple => 0,
+            Ajax     => {
+                Subaction => 'test',
+                Depend    => 'other',
+                Update    => [ 1, 2 ],
+            },
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => 2,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 1,
+            DisabledBranch => undef,
+            Max            => undef,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            q{<select onchange="Core.AJAX.FormUpdate($('#Select1ID'), 'test', 'Select1', ['1', '2']);" name="Select1" id="Select1ID">
+  <option value="1">Object1</option>
+</select>},
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+            ],
+        },
     },
     {
         Name       => 'Normal Tree (Hash)',
