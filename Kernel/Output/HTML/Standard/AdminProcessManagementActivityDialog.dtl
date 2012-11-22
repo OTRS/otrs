@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.15 2012-11-20 15:11:16 mh Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.16 2012-11-22 12:18:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,7 +71,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label class="Mandatory" for="DescriptionShort"><span class="Marker">*</span> $Text{"Description (Short)"}:</label>
+                            <label class="Mandatory" for="DescriptionShort"><span class="Marker">*</span> $Text{"Description (short)"}:</label>
                             <div class="Field">
                                 <input type="text" name="DescriptionShort" id="DescriptionShort" value="$QData{"DescriptionShort"}" class="W50pc Validate_Required $QData{"DescriptionShortServerError"}" maxlength="70"/>
                                 <div id="DescriptionShortError" class="TooltipErrorMessage">
@@ -83,7 +83,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="DescriptionLong">$Text{"Description (Long)"}:</label>
+                            <label for="DescriptionLong">$Text{"Description (long)"}:</label>
                             <div class="Field">
                                 <textarea name="DescriptionLong" id="DescriptionLong" class="W50pc" rows="10" cols="20">$QData{"DescriptionLong"}</textarea>
                             </div>

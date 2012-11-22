@@ -9,7 +9,7 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.139 2012-11-22 10:15:32 mg Exp $
+# $Id: nb_NO.pm,v 1.140 2012-11-22 12:18:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.139 $;
+$VERSION = q$Revision: 1.140 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:09:11
+    # Last translation file sync: 2012-11-22 13:14:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1584,8 +1584,8 @@ sub Data {
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
         'The selected permission does not exist.' => '',
         'Required Lock' => '',
         'The selected required lock does not exist.' => '',
@@ -1598,8 +1598,6 @@ sub Data {
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',

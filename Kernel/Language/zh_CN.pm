@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.121 2012-11-22 10:15:33 mg Exp $
+# $Id: zh_CN.pm,v 1.122 2012-11-22 12:18:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:09:26
+    # Last translation file sync: 2012-11-22 13:14:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1582,8 +1582,8 @@ sub Data {
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
         'The selected permission does not exist.' => '',
         'Required Lock' => '',
         'The selected required lock does not exist.' => '',
@@ -1596,8 +1596,6 @@ sub Data {
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',

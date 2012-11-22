@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.144 2012-11-22 10:15:36 mg Exp $
+# $Id: fi.pm,v 1.145 2012-11-22 12:18:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:09:02
+    # Last translation file sync: 2012-11-22 13:14:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1578,8 +1578,8 @@ sub Data {
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
         'The selected permission does not exist.' => '',
         'Required Lock' => '',
         'The selected required lock does not exist.' => '',
@@ -1592,8 +1592,6 @@ sub Data {
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',

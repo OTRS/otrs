@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011-2012 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.138 2012-11-22 10:15:37 mg Exp $
+# $Id: pl.pm,v 1.139 2012-11-22 12:18:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:09:13
+    # Last translation file sync: 2012-11-22 13:14:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1579,8 +1579,8 @@ sub Data {
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
         'The selected permission does not exist.' => '',
         'Required Lock' => '',
         'The selected required lock does not exist.' => '',
@@ -1593,8 +1593,6 @@ sub Data {
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',

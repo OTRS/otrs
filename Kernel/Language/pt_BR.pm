@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.140 2012-11-22 10:15:35 mg Exp $
+# $Id: pt_BR.pm,v 1.141 2012-11-22 12:18:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:09:15
+    # Last translation file sync: 2012-11-22 13:14:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1580,8 +1580,8 @@ sub Data {
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
-        'Description (Short)' => '',
-        'Description (Long)' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
         'The selected permission does not exist.' => '',
         'Required Lock' => '',
         'The selected required lock does not exist.' => '',
@@ -1594,8 +1594,6 @@ sub Data {
         'Available Fields' => '',
         'Assigned Fields' => '',
         'Edit Details for Field' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',

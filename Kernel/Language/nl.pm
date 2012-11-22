@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.195 2012-11-22 11:14:08 mb Exp $
+# $Id: nl.pm,v 1.196 2012-11-22 12:18:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.195 $) [1];
+$VERSION = qw($Revision: 1.196 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:09:12
+    # Last translation file sync: 2012-11-22 13:14:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1583,8 +1583,8 @@ sub Data {
         'Activity Dialog' => 'Dialoog',
         'Activity dialog Name' => 'Naam',
         'Available in' => 'Beschikbaar in',
-        'Description (Short)' => 'Beschrijving (kort)',
-        'Description (Long)' => 'Beschrijving (lang)',
+        'Description (short)' => 'Beschrijving (kort)',
+        'Description (long)' => 'Beschrijving (lang)',
         'The selected permission does not exist.' => 'De gekozen permissie bestaat niet.',
         'Required Lock' => 'Vergrendeling nodig',
         'The selected required lock does not exist.' => 'De gekozen vergrendeling bestaat niet.',
@@ -1597,8 +1597,6 @@ sub Data {
         'Available Fields' => 'Beschikbare velden',
         'Assigned Fields' => 'Toegewezen velden',
         'Edit Details for Field' => 'Bewerk details voor veld',
-        'Description (short)' => 'Beschrijving (kort)',
-        'Description (long)' => 'Beschrijving (lang)',
         'ArticleType' => 'Interactie-type',
         'Display' => 'Weergave',
         'Edit Field Details' => 'Bewerk veld-details',
@@ -4691,6 +4689,8 @@ sub Data {
         'Default Charset' => 'Standaard karakterset',
         'Default Language' => 'Standaardtaal',
         'Delete this ticket!' => 'Verwijder dit ticket.',
+        'Description (Long)' => 'Beschrijving (lang)',
+        'Description (Short)' => 'Beschrijving (kort)',
         'Detail' => 'Detail',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Veranderingen niet opslaan en ga terug naar het berichtscherm',

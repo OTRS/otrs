@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.342 2012-11-22 11:13:26 mg Exp $
+# $Id: de.pm,v 1.343 2012-11-22 12:18:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.342 $) [1];
+$VERSION = qw($Revision: 1.343 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 11:08:55
+    # Last translation file sync: 2012-11-22 13:14:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1577,8 +1577,8 @@ sub Data {
         'Activity Dialog' => 'Aktivitäts-Dialog',
         'Activity dialog Name' => 'Name des Aktivitäts-Dialogs',
         'Available in' => 'Verfügbar in',
-        'Description (Short)' => 'Beschreibung (kurz)',
-        'Description (Long)' => 'Beschreibung (lang)',
+        'Description (short)' => 'Beschreibung (kurz)',
+        'Description (long)' => 'Beschreibung (lang)',
         'The selected permission does not exist.' => 'Die ausgewählte Berechtigung existiert nicht.',
         'Required Lock' => 'Erforderliche Sperre',
         'The selected required lock does not exist.' => 'Die ausgewählte Sperre existiert nicht',
@@ -1591,8 +1591,6 @@ sub Data {
         'Available Fields' => 'Verfügbare Felder',
         'Assigned Fields' => 'Zugewiesene Felder',
         'Edit Details for Field' => 'Details bearbeiten für Feld',
-        'Description (short)' => 'Beschreibung (kurz)',
-        'Description (long)' => 'Beschreibung (lang)',
         'ArticleType' => 'Artikeltyp',
         'Display' => 'Anzeige',
         'Edit Field Details' => 'Feld-Details bearbeiten',
@@ -4677,6 +4675,8 @@ sub Data {
         'Default Language' => 'Standard-Sprache',
         'Delete old database' => 'Alte Datenbank löschen',
         'Delete this ticket!' => 'Ticket löschen!',
+        'Description (Long)' => 'Beschreibung (lang)',
+        'Description (Short)' => 'Beschreibung (kurz)',
         'Detail' => 'Detail',
         'Diff' => 'Differenzen',
         'Discard all changes and return to the compose screen' => 'Alle Änderungen verwerfen und zurück zum Verfassen-Fenster',
