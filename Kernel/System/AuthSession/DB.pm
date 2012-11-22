@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.71 2012-11-20 15:42:41 mh Exp $
+# $Id: DB.pm,v 1.72 2012-11-22 09:19:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -312,6 +312,14 @@ sub CreateSessionID {
 
     return if !@SQLs;
 
+    # delete old session data with the same session id
+    $Self->{DBObject}->Do(
+        SQL => "
+            DELETE FROM $Self->{SessionTable}
+            WHERE session_id = ?",
+        Bind => [ \$SessionID, ],
+    );
+
     # store session id and data
     ROW:
     for my $Row (@SQLs) {
@@ -494,19 +502,15 @@ sub CleanUp {
 sub DESTROY {
     my ( $Self, %Param ) = @_;
 
-    return 1 if !$Self->{Cache};
+    return 1 if !$Self->{CacheUpdate};
 
     SESSIONID:
-    for my $SessionID ( sort keys %{ $Self->{Cache} } ) {
+    for my $SessionID ( sort keys %{ $Self->{CacheUpdate} } ) {
 
         next SESSIONID if !$SessionID;
 
-        my $Data       = $Self->{Cache}->{$SessionID};
-        my $UpdateMode = 0;
-        if ( $Self->{CacheUpdate}->{$SessionID} ) {
-            $Data       = $Self->{CacheUpdate}->{$SessionID};
-            $UpdateMode = 1;
-        }
+        # extract session data to update
+        my $Data = $Self->{CacheUpdate}->{$SessionID};
 
         next SESSIONID if !$Data;
         next SESSIONID if ref $Data ne 'HASH';
@@ -538,41 +542,22 @@ sub DESTROY {
             );
         }
 
-        if ($UpdateMode) {
+        KEY:
+        for my $Key ( sort keys %{ $Self->{CacheUpdate}->{$SessionID} } ) {
 
-            KEY:
-            for my $Key ( sort keys %{ $Self->{CacheUpdate}->{$SessionID} } ) {
+            next KEY if !$Key;
 
-                next KEY if !$Key;
-
-                # extract database id
-                my $ID = $Self->{CacheID}->{$SessionID}->{$Key} || 1;
-
-                # delete old session data from the database
-                $Self->{DBObject}->Do(
-                    SQL => "
-                        DELETE FROM $Self->{SessionTable}
-                        WHERE session_id = ?
-                            AND data_key = ?
-                            AND id < ?",
-                    Bind => [ \$SessionID, \$Key, \$ID ],
-                );
-            }
-        }
-        else {
-
-            my $BiggestID = 0;
-            if ( %{ $Self->{CacheID}->{$SessionID} } ) {
-                $BiggestID = [ sort keys %{ $Self->{CacheID}->{$SessionID} } ]->[-1];
-            }
+            # extract database id
+            my $ID = $Self->{CacheID}->{$SessionID}->{$Key} || 1;
 
             # delete old session data from the database
             $Self->{DBObject}->Do(
                 SQL => "
                     DELETE FROM $Self->{SessionTable}
                     WHERE session_id = ?
+                        AND data_key = ?
                         AND id <= ?",
-                Bind => [ \$SessionID, \$BiggestID ],
+                Bind => [ \$SessionID, \$Key, \$ID ],
             );
         }
     }
