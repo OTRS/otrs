@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.26 2012-11-20 14:58:17 mh Exp $
+# $Id: DashboardUserOnline.pm,v 1.27 2012-11-22 23:12:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,6 +121,9 @@ sub Run {
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
     my $SortBy      = $Self->{Config}->{SortBy}      || 'UserLastname';
 
+    # get current timestamp
+    my $Time = $Self->{TimeObject}->SystemTime();
+
     # check cache
     my $Online = $Self->{CacheObject}->Get(
         Type => 'Dashboard',
@@ -178,9 +181,7 @@ sub Run {
 
             # check last request time / idle time out
             next SESSIONID if !$Data{UserLastRequest};
-            next SESSIONID
-                if $Data{UserLastRequest} + ( $IdleMinutes * 60 )
-                < $Self->{TimeObject}->SystemTime();
+            next SESSIONID if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $Time;
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
@@ -253,24 +254,45 @@ sub Run {
         next USERID if $Count < $Self->{StartHit};
         last USERID if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
 
+        # extract user data
+        my $UserData = $OnlineData{$UserID};
+
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOnlineRow',
-            Data => $OnlineData{$UserID},
+            Data => $UserData,
         );
 
         if ( $Self->{Config}->{ShowEmail} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentSmallUserOnlineRowEmail',
-                Data => $OnlineData{$UserID},
+                Data => $UserData,
             );
         }
 
-        if ( $OnlineData{$UserID}->{OutOfOffice} ) {
+        next USERID if !$UserData->{OutOfOffice};
 
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentSmallUserOnlineRowOutOfOffice',
-            );
-        }
+        my $Start = sprintf(
+            "%04d-%02d-%02d 00:00:00",
+            $UserData->{OutOfOfficeStartYear}, $UserData->{OutOfOfficeStartMonth},
+            $UserData->{OutOfOfficeStartDay}
+        );
+        my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Start,
+        );
+        my $End = sprintf(
+            "%04d-%02d-%02d 23:59:59",
+            $UserData->{OutOfOfficeEndYear}, $UserData->{OutOfOfficeEndMonth},
+            $UserData->{OutOfOfficeEndDay}
+        );
+        my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $End,
+        );
+
+        next USERID if $TimeStart > $Time || $TimeEnd < $Time;
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentSmallUserOnlineRowOutOfOffice',
+        );
     }
 
     if ( !%OnlineUser ) {
