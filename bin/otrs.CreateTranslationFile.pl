@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.34 2012-11-20 16:03:18 mh Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.35 2012-11-22 12:33:58 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 use Getopt::Std qw();
 
@@ -69,6 +69,13 @@ Translating Extension Modules
     otrs.CreateTranslationFile -l <Language> -m <module_directory>
     otrs.CreateTranslationFile -l all -m <module_directory>
 
+Optional Parameters
+=============================
+
+  To purge obsolete translation entries, use -p
+
+    otrs.CreateTranslationFile -l all -p
+
 EOF
 }
 
@@ -94,7 +101,7 @@ my $BreakLineAfterChars = 60;
     my %Opts;
 
     # get opts
-    Getopt::Std::getopt( 'lm', \%Opts );
+    Getopt::Std::getopt( 'lmp', \%Opts );
 
     # check params
     if ( $Opts{l} && $Opts{l} eq 'all' ) {
@@ -120,8 +127,9 @@ my $BreakLineAfterChars = 60;
 
     for my $Language (@Languages) {
         HandleLanguage(
-            Language => $Language,
-            Module   => $Opts{m},
+            Language      => $Language,
+            Module        => $Opts{m},
+            PurgeObsolete => exists $Opts{p} ? 1 : 0,
         );
     }
 
@@ -131,8 +139,9 @@ my $BreakLineAfterChars = 60;
 sub HandleLanguage {
     my (%Param) = @_;
 
-    my $Language = $Param{Language};
-    my $Module   = $Param{Module};
+    my $Language      = $Param{Language};
+    my $Module        = $Param{Module};
+    my $PurgeObsolete = $Param{PurgeObsolete};
 
     my $ModuleDirectory = $Module;
     my $LanguageFile;
@@ -368,43 +377,45 @@ sub HandleLanguage {
     $Data .= $Indent . "# OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!\n";
     $Data .= $Indent . "#\n";
 
-    KEY:
-    for my $Key ( sort keys %{ $LanguageObject->{Translation} } ) {
+    if ( !$PurgeObsolete ) {
+        KEY:
+        for my $Key ( sort keys %{ $LanguageObject->{Translation} } ) {
 
-        # ignore words from the core if we are translating a module
-        next KEY if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$Key};
+            # ignore words from the core if we are translating a module
+            next KEY if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$Key};
 
-        # ignore word if already used
-        next KEY if $UsedWordsMisc{$Key};
+            # ignore word if already used
+            next KEY if $UsedWordsMisc{$Key};
 
-        my $Translation = $LanguageObject->{Translation}->{$Key};
-        $Translation =~ s/'/\\'/g;
-        $Key         =~ s/'/\\'/g;
+            my $Translation = $LanguageObject->{Translation}->{$Key};
+            $Translation =~ s/'/\\'/g;
+            $Key         =~ s/'/\\'/g;
 
-        # if a string was previously in a DTL, but has not yet been translated,
-        # there's no need to preserve it in the translation file.
-        next KEY if !$Translation;
+            # if a string was previously in a DTL, but has not yet been translated,
+            # there's no need to preserve it in the translation file.
+            next KEY if !$Translation;
 
-        # TODO: clarify if regular expression check is still needed
-        # in the past it was used to guard against wrong matches
-        next KEY if $Key =~ /(a href|\$(Text|Quote)\{")/i;
+            # TODO: clarify if regular expression check is still needed
+            # in the past it was used to guard against wrong matches
+            next KEY if $Key =~ /(a href|\$(Text|Quote)\{")/i;
 
-        if ($IsSubTranslation) {
-            if ( length($Key) < $BreakLineAfterChars ) {
-                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+            if ($IsSubTranslation) {
+                if ( length($Key) < $BreakLineAfterChars ) {
+                    $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+                }
+                else {
+                    $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
+                    $Data .= $Indent . '    ' . "'$Translation';\n";
+                }
             }
             else {
-                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
-                $Data .= $Indent . '    ' . "'$Translation';\n";
-            }
-        }
-        else {
-            if ( length($Key) < $BreakLineAfterChars ) {
-                $Data .= $Indent . "'$Key' => '$Translation',\n";
-            }
-            else {
-                $Data .= $Indent . "'$Key' =>\n";
-                $Data .= $Indent . '    ' . "'$Translation',\n";
+                if ( length($Key) < $BreakLineAfterChars ) {
+                    $Data .= $Indent . "'$Key' => '$Translation',\n";
+                }
+                else {
+                    $Data .= $Indent . "'$Key' =>\n";
+                    $Data .= $Indent . '    ' . "'$Translation',\n";
+                }
             }
         }
     }

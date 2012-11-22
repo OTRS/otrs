@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.116 2012-11-22 12:18:21 mg Exp $
+# $Id: da.pm,v 1.117 2012-11-22 12:33:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:14:20
+    # Last translation file sync: 2012-11-22 13:30:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4504,107 +4504,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Et Svar er en standardtekst, der bruges til at skrive et hurtigere svar (med standardtekst) til kunderne.',
-        'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
-            'Aktiverer TypeAhead for autofuldførelses-funktionen, der tillader brugere at skrive i deres egen hastighed, uden at de mister information. Det betyder ofte, at tastetryk ikke vises på skærmen øjeblikkeligt.',
-        'Add a note to this ticket!' => 'Tilføj en bemærkning til denne sag.',
-        'Admin Support Info' => 'Admin Support-info',
-        'Benchmark' => 'Benchmark',
-        'Bounce Ticket: ' => 'Overgiv sag: ',
-        'Bugzilla ID' => 'Bugzilla-ID',
-        'Can\'t create support package, because you work currently with the system user root@localhost and your admin email address is not yet configured. Please define the admin email setting in the SysConfig module and don\'t use the user root@localhost for working with OTRS.' =>
-            'Kan ikke lave support-pakke, fordi du i øjeblikket arbejder med systembrugeren root@localhost, og din mail-adresse er endnu ikke konfigureret. Konfigurer venligst admins mail-adresse i SysConfig-modulet, og brug ikke root@localhost til at arbejde i OTRS.',
-        'Cc: (%s) added database email!' => 'Cc: (%s) tilføjet mail fra database.',
-        'Change the ticket customer!' => 'Skift sagens kunde.',
-        'Change the ticket owner!' => 'Skift sagens ejer.',
-        'Change the ticket priority!' => 'Skift sagens prioritet.',
-        'Close this ticket!' => 'Luk denne sag.',
-        'Confidential information' => 'Konfidentiel information',
-        'Create and manage notifications that are sent to agents.' => 'Administrer beskeder, der sendes til agenter.',
-        'Create your first Ticket' => 'Opret din første sag',
-        'Create/Expires' => 'Oprettet/Udløber',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' =>
-            'Kunde-ikon, der viser åbne sager for denne kunde som en info-blok.',
-        'Delete this ticket!' => 'Slet denne sag.',
-        'Don\'t forget to add a new response a queue!' => 'Glem ikke at tilføje et nyt svar pr. kø!',
-        'Don\'t work with UserID 1 (System account)! Create new users!' =>
-            'Arbejd ikke med bruger-ID 1 (systemkonto)! Opret nye brugere!',
-        'Enterprise Support and Enterprise Subscription information' => 'Information om Enterprise Support og Enterprise Subscription',
-        'Example for free text' => 'Eksempel for fritekst',
-        'Execute a SQL benchmark test on your database to find out how fast your database is (done on dedicated benchmark table).' =>
-            'Udfører en SQL benchmail-test på din database for at finde ud af, hvor hurtid den er. Testen udføres på en dedikeret benchmark-tabel.',
-        'Filter for Language' => 'Filter for sprog',
-        'For more info please check' => 'For yderligere information, tjek venligst',
-        'For quick help please submit your system information and create a support ticket at the vendor\'s site.' =>
-            'For hurtig hjælp, opret en sag hos din leverandør og inkluder denne systeminformation.',
-        'Forward ticket: ' => 'Videresend sag: ',
-        'Go to group %s' => 'Gå til gruppe %s',
-        'Group %s' => 'Gruppe %s',
-        'If you\'ve already added a Bugzilla report at bugs.otrs.org, please add your Bugzilla ID here.' =>
-            'Hvis du allerede har oprette en Bugzilla-report på bugs.orgs.org, angiv venligst dit Bugzilla-ID her.',
-        'Invalid SessionID!' => 'Ugyldigt sessions-ID',
-        'Link this ticket to an other objects!' => 'Sammenkæd denne sag til et andet objekt.',
-        'Link this ticket to other objects!' => 'Kæd denne sag til andre objekter.',
-        'Lock it to work on it!' => 'Træk den for at arbejde på den.',
-        'Looks fine!' => 'Ser godt ud!',
-        'Max. displayed tickets' => 'Max. viste sager',
-        'Max. shown Tickets a page' => 'Max. viste sager på en side',
-        'Merge this ticket!' => 'Saml denne sag.',
-        'Multiplier' => 'Multiplikationsfaktor',
-        'Need a valid email address or don\'t use a local email address' =>
-            'Angiv en gyldig mail-adresse, eller brug ikke en lokal mail-adresse',
-        'New TicketFreeFields' => 'Nye SagsFriFelter',
-        'Next Week' => 'Næste uge',
-        'No, I\'m not yet an ((otrs)) \'Enterprise Subscription\' or \'Enterprise Support\' customer. Please review my support package without any commitment and send me information only and without responsibility, about the different ((otrs)) Enterprise packages' =>
-            'Nej, jeg er endnu ikke en ((otrs)) \'Enterprise Subscription\'- eller \'Enterprise Support\'-kunde. Vurder venligst min support-pakke uden prioritet, og send mig information om de forskellige ((otrs)) Enterprise-pakker',
-        'Ok' => 'Ok',
-        'Package not correctly deployed! You should reinstall the Package again!' =>
-            'Pakke ikke korrekt installeret. Du bør installere pakken igen.',
-        'Package not correctly deployed! You should reinstall the package again!' =>
-            'Pakken er ikke installeret korrekt. Du bør installere pakken igen.',
-        'Please confirm the confidential information to continue.' => 'Bekræft venligst den konfidentielle information for at fortsætte.',
-        'Please fill out this form to recieve login credentials.' => 'Udfyld venligst denne formular for at modtage dine login-oplysninger.',
-        'Please select a multiplier and press start button.' => 'Vælg venligst en multiplikationsfaktor og tryk på start-knappen.',
-        'Print this ticket!' => 'Udskriv denne sag.',
-        'QueueView Refresh Time' => 'Opdateringsfrekvens af kø-billedet',
-        'Reset of unlock time.' => 'Tid til automatisk frigivelse nulstillet.',
-        'Run Search' => 'Søg',
-        'SQL benchmark' => 'SQL Benchmark',
-        'Search Ticket' => 'Søg sager',
-        'Search-Profile as Template?' => 'Søgeprofil som skabelon?',
-        'Set this ticket to pending!' => 'Marker denne sag som afventende.',
-        'Should not take more than' => 'Skal ikke tage mere end',
-        'Shows the ticket history!' => 'Vis saghistorik.',
-        'Split' => 'Opdel',
-        'Start support' => 'Start Systemvurdering',
-        'Support Assessment' => 'Support Assessment (Systemvurdering)',
-        'Take care that you also updated the default states in you Kernel/Config.pm!' =>
-            'Sørg for, at også opdatere standardtilstandene i Kernel/Config.pm!',
-        'The Ticket was locked' => 'Sagen var tildelt',
-        'The User Name you wish to have' => 'Dit ønskede brugernavn',
-        'The ticket was locked' => 'Sagen blev trukket',
-        'This should not be done on production systems!' => 'Bør ikke køres på produktionssystemer!',
-        'Ticket Information' => 'Information om sagen',
-        'Ticket moved into Queue %s from Queue %s' => 'Sag flyttet til kø %s fra kø %s',
-        'TicketFreeFields' => 'SagsFriFelter',
-        'Tickets available' => 'Frie sager',
-        'Time1' => 'Tid1',
-        'Time2' => 'Tid2',
-        'Time3' => 'Tid3',
-        'Time4' => 'Tid4',
-        'Time5' => 'Tid5',
-        'Time6' => 'Tid6',
-        'To protect your privacy, active or/and remote content has blocked.' =>
-            'Af sikkerhedsmæssige årsige er aktivt og/eller eksternt indhold blokeret.',
-        'To: (%s) replaced with database email!' => 'Til: (%s) udskiftet med mail fra database.',
-        'Unlock to give it back to the queue!' => 'Frigiv den for at give den tilbage til køen.',
-        'Vendor Support' => 'Leverandør-support',
-        'Wildcards are allowed.' => 'Jokertegn er tilladt',
-        'Xaxis' => 'X-akse',
-        'You have not created a ticket yet.' => 'Du har endnu ikke oprettet en sag',
-        'Your language' => 'Dit sprog',
-        'on an average system' => 'på et gennemsnitligt system',
 
     };
     # $$STOP$$

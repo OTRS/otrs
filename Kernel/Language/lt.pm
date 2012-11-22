@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Lukoševičius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.32 2012-11-22 12:18:21 mg Exp $
+# $Id: lt.pm,v 1.33 2012-11-22 12:33:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:14:34
+    # Last translation file sync: 2012-11-22 13:30:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4502,61 +4502,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Atsakymas yra standartinis tekstas skirtas greitesniems atsakymams klientams rašyti.',
-        'Add a note to this ticket!' => 'Pridėti pastabą šiam triktimi!',
-        'Bounce Ticket: ' => 'Nukreipti triktį:',
-        'Cc: (%s) added database email!' => 'Cc: (%s) pridėtas duomenų bazės pašto adresas!',
-        'Change the ticket customer!' => 'Pakeisti trikties klientą!',
-        'Change the ticket owner!' => 'Pakeisti trikties savininką!',
-        'Change the ticket priority!' => 'Pakeisti trikties prioritetą',
-        'Close this ticket!' => 'Uždaryti šį triktį!',
-        'Companies' => 'Organizacijos',
-        'Create and manage notifications that are sent to agents.' => 'Kurti ir valdyti agentams siunčiamus pranešimus.',
-        'Create/Expires' => 'Sukurti/Baigiasi galiojimas',
-        'Current Password' => 'Dabartinis slaptažodis',
-        'Delete this ticket!' => 'Ištrinti triktį!',
-        'Don\'t forget to add a new response a queue!' => 'Nepamirškite kiekvienai eilei pridėti po atsakymą!',
-        'Filter for Language' => 'Filtruoti kalbas',
-        'Forward ticket: ' => 'Persiųsti triktį:',
-        'Hash/Fingerprint' => 'Hešas (hash)/ Piršto atspaudas',
-        'History::TicketFreeTextUpdate' => 'Trikties laisvų laukelių pakeitimas: %s=%s;%s=%s;',
-        'Invalid SessionID!' => 'Negaliojantis sesijos ID!',
-        'Link this ticket to an other objects!' => 'Susieti šį triktį su kitais objektais!',
-        'Link this ticket to other objects!' => 'Susieti šią triktį su kitais objektais',
-        'Lock it to work on it!' => 'Užrakinkite, kad su juo dirbtumėte!',
-        'Max. displayed tickets' => 'Daugiausia rodoma trikčių',
-        'Merge this ticket!' => 'Sujungti šį triktį!',
-        'Need a valid email address or don\'t use a local email address' =>
-            'Reikalingas galiojantis el. pašto adresas (arba nenaudokite lokalaus pašto adreso).',
-        'New TicketFreeFields' => 'Nauji laisvi trikčių laukeliai',
-        'Next Week' => 'Ateinančią savaitę',
-        'Online' => 'Prisijungę',
-        'Package not correctly deployed! You should reinstall the Package again!' =>
-            'Paketas išskleistas neteisingai! Turėtumėte iš naujo įdiegti šį paketą!',
-        'Package not correctly deployed! You should reinstall the package again!' =>
-            'Netinkamai įdiegtas paketas! Turėtumėte įdiegti iš naujo!',
-        'Please fill out this form to recieve login credentials.' => 'Prašome užpildyti šią formą, kad gautumėte prisijungimo duomenis.',
-        'Print this ticket!' => 'Spausdinti šį triktį!',
-        'QueueView Refresh Time' => 'Eilų peržiūros atnaujinimo laikas',
-        'Run Search' => 'Pradėti paiešką',
-        'Search Ticket' => 'Ieškoti trikčių',
-        'Search for customers (wildcards are allowed).' => 'Ieškoti klientų (galima naudoti pakaitas (wildcards)).',
-        'Search-Profile as Template?' => 'Paieškos profilis kaip šablonas?',
-        'Set this ticket to pending!' => 'Nustatyti šį triktį kaip laukiantį sprendimo!',
-        'Shows the ticket history!' => 'Parodo trikties istoriją!',
-        'Take care that you also updated the default states in you Kernel/Config.pm!' =>
-            'Pasirūpinkite standartinių būsenų Kernel/Config.pm atnaujinimu!',
-        'The User Name you wish to have' => 'Jūsų pageidaujamas naudotojo vardas',
-        'Ticket Information' => 'Trikties informacija',
-        'TicketFreeFields' => 'Trikčių laisvi laukeliai',
-        'Tickets available' => 'Prieinamos triktys',
-        'To protect your privacy, active or/and remote content has blocked.' =>
-            'Siekiant apsaugoti Jūsų privatumą buvo užblokuotas aktyvus ir/ar nuotolinis turinys.',
-        'To: (%s) replaced with database email!' => 'Kam: (%s) sukeistas su duomenų bazės el. pašto adresu!',
-        'Unlock to give it back to the queue!' => 'Atrakinkite, kad gražintumėte jį atgal į eilę!',
-        'Wildcards are allowed.' => 'Leidžiamos pakaitos (wildcard).',
-        'Your language' => 'Jūs kalbate',
 
     };
     # $$STOP$$

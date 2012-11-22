@@ -3,7 +3,7 @@
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>viz
 # Copyright (C) 2012 FCCN - Rui Francisco <rui.francisco@fccn.pt>
 # --
-# $Id: pt.pm,v 1.134 2012-11-22 12:18:21 mg Exp $
+# $Id: pt.pm,v 1.135 2012-11-22 12:33:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:14:40
+    # Last translation file sync: 2012-11-22 13:31:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -4503,14 +4503,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Cc: (%s) added database email!' => 'Cc: (%s) acrescentado endereço na base de dados!',
-        'Invalid SessionID!' => 'ID de Sessão Inválido',
-        'Need a valid email address or don\'t use a local email address' =>
-            'Necessita de um endereço de email válido, não utilize endereços de email locais',
-        'Ticket Information' => 'Informação do ticket',
-        'To protect your privacy, active or/and remote content has blocked.' =>
-            'para proteger a privacAntiguidade, conteúdo ativo e/ou remoto foi bloqueado',
-        'To: (%s) replaced with database email!' => 'Para: (%s) substituído pelo endereço na base de dados!',
 
     };
     # $$STOP$$
