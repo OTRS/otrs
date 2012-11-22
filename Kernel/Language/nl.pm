@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.194 2012-11-22 10:15:37 mg Exp $
+# $Id: nl.pm,v 1.195 2012-11-22 11:14:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.194 $) [1];
+$VERSION = qw($Revision: 1.195 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -360,13 +360,13 @@ sub Data {
         'Package verification failed!' => 'Pakketverificatie mislukt!',
         'Collapse' => 'Inklappen',
         'Shown' => 'Tonen',
-        'Shown customer users' => '',
+        'Shown customer users' => 'Getoonde klanten',
         'News' => 'Nieuws',
         'Product News' => 'Productnieuws',
         'OTRS News' => 'OTRS Nieuws',
         '7 Day Stats' => 'Afgelopen 7 dagen',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            '',
+            'Proces informatie uit de database is niet gesynchroniseerd met de systeemconfiguratie. Voer een synchronisatie uit.',
         'Bold' => 'Vet',
         'Italic' => 'Cursief',
         'Underline' => 'Onderstreep',
@@ -1567,9 +1567,9 @@ sub Data {
         'Activity Name' => 'Naam',
         'Activity Dialogs' => 'Dialogen',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'U kunt dialogen toevoegen aan deze activiteit door de elementen met de muis van links naar rechts te slepen.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
-            '',
+            'U kunt de elementen ook van volgorde te wijzigen door ze te slepen met de muis.',
         'Filter available Activity Dialogs' => 'Filter beschikbare dialogen',
         'Available Activity Dialogs' => 'Beschikbare dialogen',
         'Create New Activity Dialog' => 'Nieuwe dialoog',
@@ -1592,8 +1592,8 @@ sub Data {
         'Submit Button Text' => 'Tekst op Verstuur-knop',
         'Fields' => 'Velden',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available fields' => '',
+            'U kunt velden aan deze dialoog toevoegen door de elementen met de muis van links naar rechts te slepen.',
+        'Filter available fields' => 'Filter beschikbare velden',
         'Available Fields' => 'Beschikbare velden',
         'Assigned Fields' => 'Toegewezen velden',
         'Edit Details for Field' => 'Bewerk details voor veld',
@@ -1607,7 +1607,7 @@ sub Data {
         'Path' => 'Pad',
         'Transition Actions' => 'Transitie-acties',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'U kunt transitie-acties aan deze transitie toevoegen door de elementen met de muis van links naar rechts te slepen.',
         'Filter available Transition Actions' => 'Filter beschikbare transitie-acties',
         'Available Transition Actions' => 'Beschikbare transitie-acties',
         'Create New Transition Action' => 'Nieuwe transitie-actie',
@@ -1639,9 +1639,9 @@ sub Data {
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             'U kunt een verbinding maken tussen activiteiten door de transitie op de start-actiiteit te slepen. Daarna kunt u het losse einde van de pijl naar de eind-activiteit slepen.',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
-            '',
+            'Acties kunnen gekoppeld worden aan een transitie door het actie-element naar het label van een transitie te slepen.',
         'Edit Process Information' => 'Bewerk proces-informatie',
-        'The selected state does not exist.' => '',
+        'The selected state does not exist.' => 'De geselecteerde status bestaat niet.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Beheren activiteiten, dialogen en transities',
         'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
@@ -1670,7 +1670,7 @@ sub Data {
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
-            '',
+            'In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op \'Actief\' zetten en vervolgens een synchronisatie uitvoeren.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
