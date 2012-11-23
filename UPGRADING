@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.84 2012-11-20 14:26:01 mh Exp $
+# $Id: UPGRADING,v 1.85 2012-11-23 09:44:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -267,5 +267,30 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     };
 
 
-16) Well done!
+16) Adapt custom event handler modules
+    ----------------------------------
+
+    Note: this only applies if you have any custom developed even handler modules.
+
+    Since OTRS 3.2, the data payload for even handler modules is no longer copied
+    into the %Param hash. You need to explicitly access it through $Param{Data}.
+
+    Old:
+
+    # get ticket
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        UserID        => 1,
+    );
+
+    New:
+
+    # get ticket
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{Data}->{TicketID},
+        UserID        => 1,
+    );
+
+
+17) Well done!
     ----------
