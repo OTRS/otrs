@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.85 2012-11-23 09:44:42 mg Exp $
+# $Id: UPGRADING,v 1.86 2012-11-23 09:46:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -270,7 +270,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
 16) Adapt custom event handler modules
     ----------------------------------
 
-    Note: this only applies if you have any custom developed even handler modules.
+    Note: this only applies if you have any custom developed event handler modules.
 
     Since OTRS 3.2, the data payload for even handler modules is no longer copied
     into the %Param hash. You need to explicitly access it through $Param{Data}.
