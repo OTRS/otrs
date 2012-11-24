@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2553 2012-11-24 13:20:02 mb Exp $
+# $Id: CHANGES,v 1.2554 2012-11-24 13:23:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta4 2012-??-??
+ - 2012-11-24 Fixed bug#8936 - Ticket close date is empty when ticket is created in closed state.
  - 2012-11-24 Fixed bug#8942 - Dates show UTC offset on systems with Timezone support activated.
  - 2012-11-23 Fixed problem with out of office feature in dashboard module DashboardUserOnline.
 
@@ -220,6 +221,7 @@
     NotificationEvent definitions.
 
 3.1.12 2012-??-??
+ - 2012-11-24 Fixed bug#8936 - Ticket close date is empty when ticket is created in closed state.
  - 2012-11-19 Fixed bug#8850 - CustomerTicketOverview - MouseOver Age isn't always correct.
  - 2012-11-14 Fixed bug#8868 - Event Based Notification problem saving 'text' Dynamic Fields.
  - 2012-11-09 Fixed bug#8914 - Syntax error in hash loop in TicketGet operation.

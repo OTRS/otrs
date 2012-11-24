@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.584 2012-11-20 15:39:56 mh Exp $
+# $Id: Ticket.pm,v 1.585 2012-11-24 13:23:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.584 $) [1];
+$VERSION = qw($Revision: 1.585 $) [1];
 
 =head1 NAME
 
@@ -1388,22 +1388,28 @@ sub _TicketGetClosed {
         }
     }
 
-    # get close time
+    # get close state types
     my @List = $Self->{StateObject}->StateGetStatesByType(
         StateType => ['closed'],
         Result    => 'ID',
     );
     return if !@List;
 
-    # Get id for StateUpdate;
-    my $HistoryTypeID = $Self->HistoryTypeLookup( Type => 'StateUpdate' );
-    return if !$HistoryTypeID;
+    # Get id for history types
+    my @HistoryTypeIDs;
+    for my $HistoryType (qw ( StateUpdate NewTicket )) {
+        push @HistoryTypeIDs, $Self->HistoryTypeLookup( Type => $HistoryType );
+    }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
-            . " state_id IN (${\(join ', ', sort @List)}) AND history_type_id = ? "
-            . " ORDER BY create_time DESC",
-        Bind => [ \$Param{TicketID}, \$HistoryTypeID ],
+        SQL => "
+            SELECT create_time
+            FROM ticket_history
+            WHERE ticket_id = ?
+               AND state_id IN (${\(join ', ', sort @List)})
+               AND history_type_id IN  (${\(join ', ', sort @HistoryTypeIDs)})
+            ORDER BY create_time DESC",
+        Bind  => [ \$Param{TicketID} ],
         Limit => 1,
     );
 
@@ -7996,6 +8002,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.584 $ $Date: 2012-11-20 15:39:56 $
+$Revision: 1.585 $ $Date: 2012-11-24 13:23:56 $
 
 =cut
