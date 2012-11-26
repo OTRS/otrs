@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.85 2012-11-26 08:29:58 mg Exp $
+# $Id: Language.pm,v 1.86 2012-11-26 09:28:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -356,8 +356,9 @@ sub FormatTimeString {
     if ( $String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/ ) {
         my ( $Y, $M, $D, $T ) = ( $1, $2, $3, $4 );
 
-        # add user time zone diff
-        if ( $Self->{TimeZone} ) {
+        # Add user time zone diff, but only if we actually display the time!
+        # Otherwise the date might be off by one day because of the TimeZone diff.
+        if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
             my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
             my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
@@ -373,7 +374,7 @@ sub FormatTimeString {
         $ReturnString =~ s/\%D/$D/g;
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        if ( $Self->{TimeZone} ) {
+        if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
             return $ReturnString . " ($Self->{TimeZone})";
         }
         return $ReturnString;
@@ -527,6 +528,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2012-11-26 08:29:58 $
+$Revision: 1.86 $ $Date: 2012-11-26 09:28:52 $
 
 =cut
