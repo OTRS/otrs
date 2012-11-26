@@ -2,7 +2,7 @@
 # Auth.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.t,v 1.7 2012-11-20 16:05:13 mh Exp $
+# $Id: Auth.t,v 1.8 2012-11-26 16:19:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,11 +22,18 @@ use Kernel::System::Group;
 my $ConfigObject = Kernel::Config->new();
 
 # configure auth backend to db
-$ConfigObject->Set( 'AuthBackend', 'DB' );
+$ConfigObject->Set(
+    Key   => 'AuthBackend',
+    Value => 'DB',
+);
 
 # no additional auth backends
 for my $Count ( 1 .. 10 ) {
-    $ConfigObject->Set( "AuthBackend$Count", '' );
+
+    $ConfigObject->Set(
+        Key   => "AuthBackend$Count",
+        Value => '',
+    );
 }
 
 # disable email checks to create new user
@@ -37,7 +44,7 @@ $ConfigObject->Set(
 
 my $TestUserID;
 
-my $UserRand1 = 'example-user' . int( rand(1000000) );
+my $UserRand1 = 'example-user' . int rand 1000000;
 
 # add test user
 my $GlobalUserObject = Kernel::System::User->new(
