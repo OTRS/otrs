@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.34 2012-11-21 11:52:05 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.35 2012-11-26 10:22:05 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -618,9 +618,17 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 }
 
                 // set new Path
-                Path[Data.sourceId][TransitionID] = {
-                    ActivityEntityID: Data.targetId
-                };
+                // this event also fires on the initial drawing of the diagram
+                // we have to make sure, that existing data is not overwritten
+                // if the config entry already exists, there is no need to redefine it
+                if (typeof Path[Data.sourceId][TransitionID] === 'undefined') {
+                    Path[Data.sourceId][TransitionID] = {
+                        ActivityEntityID: Data.targetId
+                    };
+                }
+                else if (Path[Data.sourceId][TransitionID].ActivityEntityID !== Data.targetId) {
+                    Path[Data.sourceId][TransitionID].ActivityEntityID = Data.targetId;
+                }
 
                 // Correcting connection: setting parameters and overlays
                 Data.connection.setParameter('TransitionID', TransitionID);
