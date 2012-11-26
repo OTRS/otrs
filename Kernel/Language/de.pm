@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.344 2012-11-22 12:33:57 mg Exp $
+# $Id: de.pm,v 1.345 2012-11-26 13:17:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.344 $) [1];
+$VERSION = qw($Revision: 1.345 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1677,6 +1677,7 @@ sub Data {
         'Remove this Field' => 'Feld entfernen',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
+        'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
@@ -1686,6 +1687,7 @@ sub Data {
         'Config Parameters' => 'Konfigurations-Parameter',
         'Remove this Parameter' => 'Parameter entfernen',
         'Add a new Parameter' => 'Neuen Parameter hinzufügen',
+        'Transition Action Module' => 'Übergangs-Aktionsmodul',
 
         # Template: AdminQueue
         'Manage Queues' => 'Queue-Verwaltung',

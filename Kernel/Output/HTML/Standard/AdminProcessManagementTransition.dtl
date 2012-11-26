@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.13 2012-11-26 11:12:27 mn Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.14 2012-11-26 13:17:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,7 +74,7 @@
                         <h2>$Text{"Conditions"}</h2>
                     </div>
                     <div class="Content LayoutGrid">
-                        <fieldset class="TableLike" id="PresentConditionsContainer">
+                        <fieldset class="TableLike FixedLabel" id="PresentConditionsContainer">
                             <label for="OverallConditionLinking">$Text{"Type of Linking between Conditions"}:</label>
                             <div class="Field">
                                 $Data{"OverallConditionLinking"}

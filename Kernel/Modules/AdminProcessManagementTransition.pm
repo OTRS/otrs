@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.13 2012-11-20 14:42:27 mh Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.14 2012-11-26 13:17:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -492,9 +492,15 @@ sub _ShowEdit {
     );
 
     $Param{FreshConditionFieldType} = $Self->{LayoutObject}->BuildSelection(
-        Data => [ 'String', 'Hash', 'Array', 'Regexp', 'Module' ],
-        Name => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
-        Sort => 'AlphanumericKey',
+        Data => {
+            'String' => 'String',
+            'Hash'   => 'Hash',
+            'Array'  => 'Array',
+            'Regexp' => 'Regexp',
+            'Module' => 'Transition Validation Module'
+        },
+        Name        => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
+        Sort        => 'AlphanumericKey',
         Translation => 1,
     );
 
@@ -538,7 +544,13 @@ sub _ShowEdit {
 
                 my %FieldData          = %{ $ConditionData{Fields}->{$Field} };
                 my $ConditionFieldType = $Self->{LayoutObject}->BuildSelection(
-                    Data => [ 'String', 'Hash', 'Array', 'Regexp', 'Module' ],
+                    Data => {
+                        'String' => 'String',
+                        'Hash'   => 'Hash',
+                        'Array'  => 'Array',
+                        'Regexp' => 'Regexp',
+                        'Module' => 'Transition Validation Module'
+                    },
                     Name          => "ConditionFieldType[$Condition][$Field]",
                     Sort          => 'AlphanumericKey',
                     Translation   => 1,
@@ -593,7 +605,13 @@ sub _ShowEdit {
         );
 
         $Param{ConditionFieldType} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ 'String', 'Hash', 'Array', 'Regexp', 'Module' ],
+            Data => {
+                'String' => 'String',
+                'Hash'   => 'Hash',
+                'Array'  => 'Array',
+                'Regexp' => 'Regexp',
+                'Module' => 'Transition Validation Module'
+            },
             Name        => 'ConditionFieldType[_INDEX_][_FIELDINDEX_]',
             Sort        => 'AlphanumericKey',
             Translation => 1,
