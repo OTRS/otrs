@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.59 2012-11-20 08:09:03 mg Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.60 2012-11-27 11:58:08 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -604,6 +604,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     };
 
     TargetNS.HandlePopupClose = function () {
+        console.log('handle popup close');
         // update accordion
         Core.Agent.Admin.ProcessManagement.UpdateAccordion();
         // redraw canvas
@@ -730,6 +731,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init handling of closing popup with the OS functionality ("X")
         $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
+
+        $('.ClosePopup').bind("click", function () {
+            $(window).unbind("beforeunload.PMPopup");
         });
     };
 
@@ -914,6 +919,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
         });
+
+        $('.ClosePopup').bind("click", function () {
+            $(window).unbind("beforeunload.PMPopup");
+        });
     };
 
     TargetNS.InitTransitionEdit = function () {
@@ -989,6 +998,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
         });
 
+        $('.ClosePopup').bind("click", function () {
+            $(window).unbind("beforeunload.PMPopup");
+        });
+
     };
 
     TargetNS.InitTransitionActionEdit = function () {
@@ -1022,6 +1035,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init handling of closing popup with the OS functionality ("X")
         $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
+
+        $('.ClosePopup').bind("click", function () {
+            $(window).unbind("beforeunload.PMPopup");
         });
     };
 
@@ -1105,6 +1122,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init handling of closing popup with the OS functionality ("X")
         $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
+
+        $('.ClosePopup').bind("click", function () {
+            $(window).unbind("beforeunload.PMPopup");
         });
     };
 
