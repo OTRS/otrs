@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.30 2012-11-27 08:47:40 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.31 2012-11-27 12:43:43 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,8 +79,12 @@ sub new {
 
     for my $DynamicFieldName ( values %{$DynamicFieldList} ) {
         next if !$DynamicFieldName;
-        next if $DynamicFieldName eq 'ProcessManagementProcessID';
-        next if $DynamicFieldName eq 'ProcessManagementActivityID';
+
+        # skip internal fields
+        my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $DynamicFieldName,
+        );
+        next if $DynamicField->{InternalField};
 
         $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
     }
