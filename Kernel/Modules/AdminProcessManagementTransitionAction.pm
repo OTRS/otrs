@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.12 2012-11-20 14:42:37 mh Exp $
+# $Id: AdminProcessManagementTransitionAction.pm,v 1.13 2012-11-27 08:55:03 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,7 +182,7 @@ sub Run {
 
         # get latest config data to send it back to main window
         my $TransitionActionConfig = $Self->_GetTransitionActionConfig(
-            EntityID => $TransitionActionData->{EntityID},
+            EntityID => $EntityID,
         );
 
         my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $TransitionActionConfig );
@@ -192,8 +192,8 @@ sub Run {
 
             $Self->_PushSessionScreen(
                 ID        => $TransitionActionID,
-                EntityID  => $TransitionActionData->{EntityID},
-                Subaction => 'TransitionActionEdit'               # always use edit screen
+                EntityID  => $EntityID,
+                Subaction => 'TransitionActionEdit'    # always use edit screen
             );
 
             my $RedirectAction
