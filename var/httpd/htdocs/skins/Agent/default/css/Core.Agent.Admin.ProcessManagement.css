@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -348,7 +348,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     right: -10px;
 }
 
-.EndpointHover {
+#Canvas .EndpointHover {
     z-index: 150;
 }
 

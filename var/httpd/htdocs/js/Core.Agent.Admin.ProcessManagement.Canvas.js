@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.35 2012-11-26 10:22:05 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.36 2012-11-27 11:19:43 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,18 +29,7 @@ Core.Agent.Admin.ProcessManagement = Core.Agent.Admin.ProcessManagement || {};
  */
 Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
-    var Elements = {},
-        ElementList = [],
-        stateMachineConnector = {
-            connector: 'StateMachine',
-            paintStyle: { lineWidth: 2, strokeStyle: '#aaa' },
-            hoverPaintStyle: { strokeStyle: '#dbe300' },
-            endpoint: [ 'Dot', { cssClass: 'Endpoint', hoverClass: 'EndpointHover' } ],
-            endpointStyle: { fillStyle: '#aaa'  },
-            overlays: [ [ 'Arrow', { location: 0.25, width: 15, length: 10 } ], [ 'Arrow', { location: 0.75, width: 15, length: 10 } ] ],
-            anchor: 'Continuous',
-            reattach: true
-        };
+    var Elements = {};
 
     function GetCanvasSize($Element) {
         var MinWidth = 500,
@@ -137,8 +126,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             isTarget: true,
             detachable: true,
             reattach: true,
-            endpoint: [ 'Dot', { hoverClass: 'EndpointHover' } ],
-            endpointStyle: { fillStyle: "#777" },
+            endpoint: [ 'Dot', { radius: 7, hoverClass: 'EndpointHover' } ],
+            paintStyle: { fillStyle: '#000' },
             parameters: {
                 'Parent': EntityID
             }
@@ -342,6 +331,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             // creates its own Endpoint on CreateActivity()
             jsPlumb.connect({
                 connector: [ 'StateMachine', { curviness: 20, margin: -1, showLoopback:false } ],
+                paintStyle: { strokeStyle: "#000", lineWidth: 2 },
                 source: 'StartEvent',
                 target: EntityID,
                 anchor: 'Continuous',
@@ -349,8 +339,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 detachable: true,
                 reattach: true,
                 overlays: [
-                    [ "Arrow", { location: 0.25, width: 20, length: 12 } ],
-                    [ "Arrow", { location: 0.75, width: 20, length: 12 } ]
+                    [ "PlainArrow", { location: -15, width: 20, length: 15 } ]
                 ],
                 parameters: {
                     'ID': 'StartTransition'
@@ -390,15 +379,20 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         Connection = jsPlumb.connect({
             connector: [ 'StateMachine', { curviness: 20, margin: -1, showLoopback:false } ],
+            paintStyle: { strokeStyle: "#000", lineWidth: 2 },
             source: StartActivity,
             target: EndActivity,
             anchor: 'Continuous',
-            endpoint: [ 'Dot', { hoverClass: 'EndpointHover' } ],
+            endpoints: [
+                "Blank",
+                [ 'Dot', { radius: 7, hoverClass: 'EndpointHover' } ],
+            ],
+            endpointStyle: { fillStyle: '#000' },
             detachable: true,
             reattach: true,
             overlays: [
-                [ "Arrow", { location: 0.25, width: 20, length: 12 } ],
-                [ "Arrow", { location: 0.75, width: 20, length: 12 } ],
+                [ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ],
+                [ "PlainArrow", { location: -15, width: 20, length: 15 } ],
                 [ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: EntityID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.HighlightTransitionLabel(labelOverlay);
@@ -477,6 +471,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Set some jsPlumb defaults
         jsPlumbInstance.importDefaults({
             Connector: [ 'StateMachine', { curviness: 20, margin: -1, showLoopback:false } ],
+            paintStyle: { strokeStyle: "#000", lineWidth: 2 },
             Anchor: 'Continuous'
         });
 
@@ -588,14 +583,16 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Config.Process[ProcessEntityID].StartActivity = Data.targetId;
 
                 // Correct transition arrows
-                Data.connection.addOverlay([ "Arrow", { location: 0.25, width: 20, length: 12 } ]);
-                Data.connection.addOverlay([ "Arrow", { location: 0.75, width: 20, length: 12 } ]);
+                Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
+                Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
+
             }
             // in case the target is the dummy, its a whole new transition
             // and we need to mark it as "to be connected", so the user will
             // see that there is something to do with it
             else if (Data.targetId === 'Dummy') {
                 Data.connection.setPaintStyle({ strokeStyle: "red", lineWidth: 4 });
+                Data.targetEndpoint.setPaintStyle({ fillStyle: "red" });
             }
             else if (Data.targetId === Data.sourceId) {
                 return false;
@@ -632,8 +629,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
                 // Correcting connection: setting parameters and overlays
                 Data.connection.setParameter('TransitionID', TransitionID);
-                Data.connection.addOverlay([ "Arrow", { location: 0.25, width: 20, length: 12 } ]);
-                Data.connection.addOverlay([ "Arrow", { location: 0.75, width: 20, length: 12 } ]);
+                Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
+                Data.connection.addOverlay([ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ]);
+                Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
                 Data.connection.addOverlay([ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: { mouseenter: function(labelOverlay, originalEvent) {
                     TargetNS.HighlightTransitionLabel(labelOverlay);
                 } } } ]);
