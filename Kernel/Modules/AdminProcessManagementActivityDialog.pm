@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.29 2012-11-20 14:42:12 mh Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.30 2012-11-27 08:47:40 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,6 +79,8 @@ sub new {
 
     for my $DynamicFieldName ( values %{$DynamicFieldList} ) {
         next if !$DynamicFieldName;
+        next if $DynamicFieldName eq 'ProcessManagementProcessID';
+        next if $DynamicFieldName eq 'ProcessManagementActivityID';
 
         $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
     }
@@ -809,18 +811,19 @@ sub _ShowEdit {
     # create ArticleType selection
     $Param{ArticleTypeSelection} = $Self->{LayoutObject}->BuildSelection(
         Data => [
+            'note-internal',
+            'note-external',
+            'note-report',
             'phone',
             'fax',
             'sms',
             'webrequest',
-            'note-internal',
-            'note-external',
-            'note-report',
         ],
-        Name        => 'ArticleType',
-        ID          => 'ArticleType',
-        Sort        => 'Alphanumeric',
-        Translation => 1,
+        SelectedValue => 'note-internal',
+        Name          => 'ArticleType',
+        ID            => 'ArticleType',
+        Sort          => 'Alphanumeric',
+        Translation   => 1,
     );
 
     # extract parameters from config
