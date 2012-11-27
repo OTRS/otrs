@@ -2,7 +2,7 @@
 # AgentDashboardCustomerUserList.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardCustomerUserList.dtl,v 1.10 2012-11-20 15:16:51 mh Exp $
+# $Id: AgentDashboardCustomerUserList.dtl,v 1.11 2012-11-27 14:53:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,12 +63,12 @@
             </td>
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
             <td>
-                <a href="$Env{"Baselink"}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" alt="$Text{"New phone ticket for %s", "$QData{"CustomerKey"}"}" title="$Text{"New phone ticket for %s", "$QData{"CustomerKey"}"}">
+                <a href="$Env{"Baselink"}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New phone ticket from %s", "$QData{"CustomerKey"}"}">
                     <span>$Text{"Create"}</span>
                 </a>
             </td>
             <td>
-                <a href="$Env{"Baselink"}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" alt="$Text{"New email ticket for %s", "$QData{"CustomerKey"}"}" title="$Text{"New email ticket for %s", "$QData{"CustomerKey"}"}">
+                <a href="$Env{"Baselink"}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New email ticket to %s", "$QData{"CustomerKey"}"}">
                     <span>$Text{"Create"}</span>
                 </a>
             </td>
