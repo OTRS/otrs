@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.20 $
+ * @version     $Revision: 1.21 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -186,7 +186,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     width: 200px;
     opacity: 0.9;
     position: absolute;
-    z-index: 101;
+    z-index: 999;
 }
 
 #DiagramTooltip h4 {
@@ -296,8 +296,8 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 #Canvas .Activity span {
     display: block;
     text-align: center;
-    margin-top: 32px;
     font-size: 11px;
+    margin: 32px 5px 5px 5px;
 }
 
 #Canvas .Activity .Icon,
@@ -366,10 +366,20 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     -moz-user-select: none;
     -khtml-user-select: none;
     user-select: none;
+    -moz-opacity: 0.5;
+    -webkit-opacity: 0.5;
+    filter: Alpha(opacity=50);
+    opacity: 0.5;
+    max-width: 150px;
+    text-align: center;
 }
 
 #Canvas .TransitionLabel:hover {
     z-index: 104;
+    -moz-opacity: 1.0;
+    -webkit-opacity: 1.0;
+    filter: Alpha(opacity=100);
+    opacity: 1.0;
 }
 
 #Canvas .TransitionLabel.Highlighted {
