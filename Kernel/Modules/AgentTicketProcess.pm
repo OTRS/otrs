@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.23 2012-11-20 14:51:39 mh Exp $
+# $Id: AgentTicketProcess.pm,v 1.24 2012-11-28 13:19:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2467,13 +2467,19 @@ sub _RenderResponsible {
         $ServerError = 'ServerError';
     }
 
+    # look up $SelectedID
+    my $SelectedID = $Self->{UserObject}->UserLookup(
+        UserLogin => $SelectedValue,
+        )
+        if $SelectedValue;
+
     # build Responsible string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
-        Data          => $Responsibles,
-        Name          => 'ResponsibleID',
-        Translation   => 1,
-        SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Data        => $Responsibles,
+        Name        => 'ResponsibleID',
+        Translation => 1,
+        SelectedID  => $SelectedID,
+        Class       => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2588,13 +2594,19 @@ sub _RenderOwner {
         $ServerError = 'ServerError';
     }
 
+    # look up $SelectedID
+    my $SelectedID = $Self->{UserObject}->UserLookup(
+        UserLogin => $SelectedValue,
+        )
+        if $SelectedValue;
+
     # build Owner string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
-        Data          => $Owners,
-        Name          => 'OwnerID',
-        Translation   => 1,
-        SelectedValue => $SelectedValue,
-        Class         => $ServerError,
+        Data        => $Owners,
+        Name        => 'OwnerID',
+        Translation => 1,
+        SelectedID  => $SelectedID,
+        Class       => $ServerError,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -3860,7 +3872,7 @@ sub _StoreActivityDialog {
                 # if there is no title, nothig is needed to be done
                 if (
                     !defined $TicketParam{'Title'}
-                    || ( defined $TicketParam{'Title'} && $TicketParam{'Title'} ne '' )
+                    || ( defined $TicketParam{'Title'} && $TicketParam{'Title'} eq '' )
                     )
                 {
                     $Success = 1;
