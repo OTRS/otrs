@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2556 2012-11-26 09:28:52 mg Exp $
+# $Id: CHANGES,v 1.2557 2012-11-28 19:12:43 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta4 2012-??-??
+ - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.
  - 2012-11-24 Fixed bug#8936 - Ticket close date is empty when ticket is created in closed state.
  - 2012-11-24 Fixed bug#8942 - Dates show UTC offset on systems with Timezone support activated.
  - 2012-11-23 Fixed problem with out of office feature in dashboard module DashboardUserOnline.
