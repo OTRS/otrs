@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.23.2.1 2012-11-14 22:42:33 mh Exp $
+# $Id: Cache.t,v 1.23.2.2 2012-11-28 11:04:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -172,6 +172,8 @@ for my $Module qw(FileStorable FileRaw) {
         "#3 - $Module - CacheGet() - Encode::is_utf8",
     );
 
+    my $TTLTimeStart = $Self->{TimeObject}->SystemTime();
+
     $CacheSet = $CacheObject->Set(
         Type  => 'CacheTest2',
         Key   => 'Test',
@@ -181,7 +183,7 @@ for my $Module qw(FileStorable FileRaw) {
 
     $Self->True(
         $CacheSet,
-        "#4 - $Module - CacheSet(), TTL 2",
+        "#4 - $Module - CacheSet(), TTL 4",
     );
 
     $CacheGet = $CacheObject->Get(
@@ -189,17 +191,23 @@ for my $Module qw(FileStorable FileRaw) {
         Key  => 'Test',
     );
 
-    $Self->Is(
-        $CacheGet || '',
-        '9ßüß-カスタ1234',
-        "#4 - $Module - CacheGet()",
-    );
-    $Self->True(
-        Encode::is_utf8($CacheGet) || '',
-        "#4 - $Module - CacheGet() - Encode::is_utf8",
-    );
+    my $TTLTimeStop = $Self->{TimeObject}->SystemTime();
+    my $TTLTimeDiff = $TTLTimeStop - $TTLTimeStart;
 
-    sleep 5;
+    if ( $TTLTimeDiff <= 4 ) {
+
+        $Self->Is(
+            $CacheGet || '',
+            '9ßüß-カスタ1234',
+            "#4 - $Module - CacheGet()",
+        );
+        $Self->True(
+            Encode::is_utf8($CacheGet) || '',
+            "#4 - $Module - CacheGet() - Encode::is_utf8",
+        );
+    }
+
+    sleep( 6 - $TTLTimeDiff );
 
     $CacheGet = $CacheObject->Get(
         Type => 'CacheTest2',
@@ -208,7 +216,7 @@ for my $Module qw(FileStorable FileRaw) {
 
     $Self->True(
         !$CacheGet || '',
-        "#4 - $Module - CacheGet() - sleep4 - TTL of 2 expired",
+        "#4 - $Module - CacheGet() - sleep 6 - TTL of 4 expired",
     );
 
     $CacheSet = $CacheObject->Set(
