@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SUSE Linux
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.35.2.5 2012-10-15 16:04:41 cr Exp $
+# $Id: suse-rcotrs,v 1.35.2.6 2012-11-28 19:09:57 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@
 # Description:       OTRS Help Desk.
 ### END INIT INFO
 
+sleep 50
 export LANG=POSIX
 PATH="/bin:/usr/bin:/sbin:/usr/sbin"
 
