@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.20 2012-11-20 16:05:16 mh Exp $
+# $Id: AuthSession.t,v 1.21 2012-11-28 10:59:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,25 @@ use Kernel::System::AuthSession;
 # use local Config object because it will be modified
 my $ConfigObject = Kernel::Config->new();
 
-for my $Module (qw(DB FS)) {
+# get home directory
+my $HomeDir = $ConfigObject->Get('Home');
+
+# get all avaliable backend modules
+my @BackendModuleFiles = $Self->{MainObject}->DirectoryRead(
+    Directory => $HomeDir . '/Kernel/System/AuthSession/',
+    Filter    => '*.pm',
+    Silent    => 1,
+);
+
+MODULEFILE:
+for my $ModuleFile (@BackendModuleFiles) {
+
+    next MODULEFILE if !$ModuleFile;
+
+    # extract module name
+    my ($Module) = $ModuleFile =~ m{ \/+ ([a-zA-Z0-9]+) \.pm $ }xms;
+
+    next MODULEFILE if !$Module;
 
     $ConfigObject->Set(
         Key   => 'SessionModule',

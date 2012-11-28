@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.31 2012-11-20 16:05:23 mh Exp $
+# $Id: Cache.t,v 1.32 2012-11-28 10:59:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,28 @@ use Data::Dumper;
 
 use Kernel::System::Cache;
 
+# use local Config object because it will be modified
 my $ConfigObject = Kernel::Config->new();
 
-MODULE:
-for my $Module (qw(FileStorable)) {
+# get home directory
+my $HomeDir = $ConfigObject->Get('Home');
+
+# get all avaliable backend modules
+my @BackendModuleFiles = $Self->{MainObject}->DirectoryRead(
+    Directory => $HomeDir . '/Kernel/System/Cache/',
+    Filter    => '*.pm',
+    Silent    => 1,
+);
+
+MODULEFILE:
+for my $ModuleFile (@BackendModuleFiles) {
+
+    next MODULEFILE if !$ModuleFile;
+
+    # extract module name
+    my ($Module) = $ModuleFile =~ m{ \/+ ([a-zA-Z0-9]+) \.pm $ }xms;
+
+    next MODULEFILE if !$Module;
 
     $ConfigObject->Set(
         Key   => 'Cache::Module',
@@ -41,7 +59,7 @@ for my $Module (qw(FileStorable)) {
             ConfigObject => $ConfigObject,
         );
 
-        next MODULE if !$CacheObject;
+        next MODULEFILE if !$CacheObject;
 
         # flush the cache to have a clear test enviroment
         $CacheObject->CleanUp();
@@ -200,6 +218,8 @@ for my $Module (qw(FileStorable)) {
             "#3 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
 
+        my $TTLTimeStart = $Self->{TimeObject}->SystemTime();
+
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
@@ -209,7 +229,7 @@ for my $Module (qw(FileStorable)) {
 
         $Self->True(
             $CacheSet,
-            "#4 - $Module - $SubdirLevels - CacheSet(), TTL 2",
+            "#4 - $Module - $SubdirLevels - CacheSet(), TTL 4",
         );
 
         $CacheGet = $CacheObject->Get(
@@ -217,17 +237,23 @@ for my $Module (qw(FileStorable)) {
             Key  => 'Test',
         );
 
-        $Self->Is(
-            $CacheGet || '',
-            '9ßüß-カスタ1234',
-            "#4 - $Module - $SubdirLevels - CacheGet()",
-        );
-        $Self->True(
-            Encode::is_utf8($CacheGet) || '',
-            "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
-        );
+        my $TTLTimeStop = $Self->{TimeObject}->SystemTime();
+        my $TTLTimeDiff = $TTLTimeStop - $TTLTimeStart;
 
-        sleep 5;
+        if ( $TTLTimeDiff <= 4 ) {
+
+            $Self->Is(
+                $CacheGet || '',
+                '9ßüß-カスタ1234',
+                "#4 - $Module - $SubdirLevels - CacheGet()",
+            );
+            $Self->True(
+                Encode::is_utf8($CacheGet) || '',
+                "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
+            );
+        }
+
+        sleep( 6 - $TTLTimeDiff );
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
@@ -236,7 +262,7 @@ for my $Module (qw(FileStorable)) {
 
         $Self->True(
             !$CacheGet || '',
-            "#4 - $Module - $SubdirLevels - CacheGet() - sleep4 - TTL of 2 expired",
+            "#4 - $Module - $SubdirLevels - CacheGet() - sleep 6 - TTL of 4 expired",
         );
 
         $CacheSet = $CacheObject->Set(
