@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.108 2012-11-20 20:32:59 mb Exp $
+# $Id: DB.pm,v 1.109 2012-11-29 12:59:54 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,8 @@ sub new {
     # db connection settings, disable Encode utf8 if source db is not utf8
     my %DatabasePreferences;
     if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences{Encode} = 0;
+        $DatabasePreferences{Encode}  = 0;
+        $DatabasePreferences{Connect} = '';
     }
 
     if ( !defined $Self->{SearchPrefix} ) {
