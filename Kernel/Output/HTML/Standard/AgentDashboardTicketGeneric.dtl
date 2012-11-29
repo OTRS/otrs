@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.45 2012-11-20 15:17:19 mh Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.46 2012-11-29 14:07:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Locked').unbind('click').bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked;CustomerID=$QData{"CustomerID"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
@@ -31,7 +31,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Watcher').unbind('click').bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher;CustomerID=$QData{"CustomerID"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
@@ -47,7 +47,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Responsible').unbind('click').bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible;CustomerID=$QData{"CustomerID"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
@@ -65,7 +65,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}MyQueues').unbind('click').bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues;CustomerID=$QData{"CustomerID"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
@@ -73,7 +73,7 @@
     });
     $('#Dashboard$QData{"Name"}All').unbind('click').bind('click', function(){
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All;CustomerID=$QData{"CustomerID"}', function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });

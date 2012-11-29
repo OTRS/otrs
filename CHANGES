@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2559 2012-11-29 12:59:54 jh Exp $
+# $Id: CHANGES,v 1.2560 2012-11-29 14:07:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta4 2012-??-??
+ - 2012-11-29 Fixed bug#8948 - CIC: Dashboard Filters shows error, customer_id will be lost.
  - 2012-11-29 Fixed bug#8763 - Please add charset conversion for customer companies.
  - 2012-11-29 Fixed bug#1970 - Email attachments of type .msg (Outlook-Message) are converted.
  - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.

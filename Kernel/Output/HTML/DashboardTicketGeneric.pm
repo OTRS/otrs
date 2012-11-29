@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.51 2012-11-20 14:58:00 mh Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.52 2012-11-29 14:07:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -275,6 +275,7 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'ContentLargeTicketGenericFilter',
         Data => {
+            %Param,
             %{ $Self->{Config} },
             Name => $Self->{Name},
             %{$Summary},
@@ -286,6 +287,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterWatcher',
             Data => {
+                %Param,
                 %{ $Self->{Config} },
                 Name => $Self->{Name},
                 %{$Summary},
@@ -298,6 +300,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterResponsible',
             Data => {
+                %Param,
                 %{ $Self->{Config} },
                 Name => $Self->{Name},
                 %{$Summary},
@@ -310,6 +313,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterMyQueues',
             Data => {
+                %Param,
                 %{ $Self->{Config} },
                 Name => $Self->{Name},
                 %{$Summary},
