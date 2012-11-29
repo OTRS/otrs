@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.33.2.1 2012-11-28 19:08:05 jb Exp $
+# $Id: suse-rcotrs,v 1.33.2.2 2012-11-29 14:49:12 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,6 @@
 # Description:       Open Ticket Request System
 ### END INIT INFO
 
-sleep 50
 export LANG=POSIX
 PATH="/bin:/usr/bin:/sbin:/usr/sbin"
 
@@ -106,6 +105,8 @@ case "$1" in
     # ------------------------------------------------------
     start)
       echo "Starting $OTRS_PROG"
+      echo "Sleeping for 30 seconds first"
+      sleep 30
 
       # --
       # start webserver
