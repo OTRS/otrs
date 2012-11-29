@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.107 2011-11-21 19:20:34 mb Exp $
+# $Id: EmailParser.pm,v 1.107.2.1 2012-11-29 12:42:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.107.2.1 $) [1];
 
 =head1 NAME
 
@@ -152,6 +152,9 @@ sub new {
         # create MIME::Parser object and get message body or body of first attachment
         my $Parser = MIME::Parser->new();
         $Parser->output_to_core('ALL');
+
+        # Keep nested messages as attachments (see bug#1970).
+        $Parser->extract_nested_messages(0);
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
     }
     else {
@@ -717,12 +720,8 @@ sub PartsAttachments {
         return;
     }
 
-    # check if there is no recommended_filename -> add file-NoFilenamePartCounter
-    if ( !$Part->head()->recommended_filename() ) {
-        $Self->{NoFilenamePartCounter}++;
-        $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
-    }
-    else {
+    # check if there is no recommended_filename or subject -> add file-NoFilenamePartCounter
+    if ( $Part->head()->recommended_filename() ) {
         $PartData{Filename}           = decode_mimewords( $Part->head()->recommended_filename() );
         $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
         if ( $PartData{ContentDisposition} ) {
@@ -753,6 +752,37 @@ sub PartsAttachments {
                 last;
             }
         }
+    }
+
+    # Guess the filename for nested messages (see bug#1970).
+    elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
+        my ($SubjectString) = $Part->as_string =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
+        my $Subject;
+        foreach my $Decoded ( decode_mimewords($SubjectString) ) {
+            if ( $Decoded->[0] ) {
+                $Subject .= $Self->{EncodeObject}->Convert2CharsetInternal(
+                    Text  => $Decoded->[0],
+                    From  => $Decoded->[1] || 'us-ascii',
+                    Check => 1,
+                );
+            }
+        }
+
+        # trim whitespace
+        $Subject =~ s/^\s+|\n|\s+$//;
+        if ( length($Subject) > 246 ) {
+            $Subject = substr( $Subject, 0, 246 );
+        }
+
+        if ( $Subject eq '' ) {
+            $Self->{NoFilenamePartCounter}++;
+            $Subject = "Unbenannt-$Self->{NoFilenamePartCounter}";
+        }
+        $PartData{Filename} = $Subject . '.eml';
+    }
+    else {
+        $Self->{NoFilenamePartCounter}++;
+        $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
     }
 
     # parse/get Content-Id and Content-Location for html email attachments
@@ -931,6 +961,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.107 $ $Date: 2011-11-21 19:20:34 $
+$Revision: 1.107.2.1 $ $Date: 2012-11-29 12:42:28 $
 
 =cut

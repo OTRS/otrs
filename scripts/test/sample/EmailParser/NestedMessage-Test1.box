@@ -1,0 +1,514 @@
+From michiel.beijen@otrs.com  Mon Oct 12 16:49:06 2009
+Return-Path: <michiel.beijen@otrs.com>
+X-Original-To: vo307@vo.otrs.com
+Delivered-To: vo307@vo.otrs.com
+Received: from mail.otrs.com (osser.otrs.com [88.198.17.202])	by vo.otrs.com (Postfix) with ESMTP id 2E38C63406E	for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:49:06 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])	by mail.otrs.com (Postfix) with ESMTP id 7DD2E88CE3	for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:17 +0200 (CEST)
+Received: from mail.otrs.com ([127.0.0.1]) by localhost (osser.otrs.com [127.0.0.1]) (amavisd-new, port 10024) with ESMTP id 26329-06 for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:13 +0200 (CEST)
+Received: from beefreeitlt (53551B1F.cable.casema.nl [83.85.27.31])	(using TLSv1 with cipher AES128-SHA (128/128 bits))	(No client certificate requested)	by mail.otrs.com (Postfix) with ESMTP id C531688CD0	for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:12 +0200 (CEST)
+From: "Michiel Beijen" <michiel.beijen@otrs.com>
+To: <vo307@vo.otrs.com>
+Subject: Test ticket w/attachment for bug 1970
+Date: Mon, 12 Oct 2009 16:41:12 +0200
+Message-ID: <002901ca4b4a$0b918630$22b49290$@beijen@otrs.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_NextPart_000_002A_01CA4B5A.CF1A5630"
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AcpLSgsfraO0g6CETBOujxl2gkBMPg==
+Content-Language: nl
+X-Spam-Status: No, score=-1.403 tagged_above=-900 required=5 tests=[AWL=-1.093, BAYES_00=-2.599, HTML_30_40=0.374, HTML_MESSAGE=0.001, MSGID_MULTIPLE_AT=1.914]
+X-Spam-Score: -1.403
+X-Spam-Level:
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_002A_01CA4B5A.CF1A5630
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_001_002B_01CA4B5A.CF1A5630"
+
+
+------=_NextPart_001_002B_01CA4B5A.CF1A5630
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+hen sending an email attachment of type *.msg (Outlook-Message) to an
+otrs-ticket (creation/follow-up via email - NOT!! from the
+customer-interface)  
+the msg-attachment is converted to a plain text-file and renamed to e.g.
+"file-n".
+this happens with otrs 2.0 and also with 2.2.
+ 
+see also :
+[Ticket#2007060642000226] email attachments of type .msg (Outlook-Message)
+are
+converted at support@otrs.com
+
+ 
+
+
+------=_NextPart_001_002B_01CA4B5A.CF1A5630
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii">
+<meta name=3DGenerator content=3D"Microsoft Word 12 (filtered medium)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:PMingLiU;
+	panose-1:2 2 5 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@PMingLiU";
+	panose-1:2 2 5 0 0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML - vooraf opgemaakt Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.E-mailStijl17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.HTML-voorafopgemaaktChar
+	{mso-style-name:"HTML - vooraf opgemaakt Char";
+	mso-style-priority:99;
+	mso-style-link:"HTML - vooraf opgemaakt";
+	font-family:"Courier New";}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1" />
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DNL link=3Dblue vlink=3Dpurple>
+
+<div class=3DSection1><pre><span lang=3DEN-US>hen sending an email =
+attachment of type *.msg (Outlook-Message) to =
+an<o:p></o:p></span></pre><pre><span
+lang=3DEN-US>otrs-ticket (creation/follow-up via email - NOT!! from the =
+customer-interface)&nbsp; <o:p></o:p></span></pre><pre><span
+lang=3DEN-US>the msg-attachment is converted to a plain text-file and =
+renamed to e.g.<o:p></o:p></span></pre><pre><span
+lang=3DEN-US>&quot;file-n&quot;.<o:p></o:p></span></pre><pre><span =
+lang=3DEN-US>this happens with otrs 2.0 and also with =
+2.2.<o:p></o:p></span></pre><pre><span
+lang=3DEN-US><o:p>&nbsp;</o:p></span></pre><pre><span lang=3DEN-US>see =
+also :<o:p></o:p></span></pre><pre><span
+lang=3DEN-US>[Ticket#2007060642000226] email attachments of type .msg =
+(Outlook-Message) are<o:p></o:p></span></pre><pre>converted at <a
+href=3D"mailto:support@otrs.com">support@otrs.com</a><o:p></o:p></pre>
+
+<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_001_002B_01CA4B5A.CF1A5630--
+
+------=_NextPart_000_002A_01CA4B5A.CF1A5630
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment
+
+Received: from fw.greenpeace.org (fw.greenpeace.org [212.19.215.77])by 
+	mailman.greenpeace.org (Postfix) with ESMTP id D8BDB31C1FFfor 
+	<presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 14:58:33 +0100 (CET)
+Received: from images.greenpeace.org (localhost [127.0.0.1])by 
+	mailman.greenpeace.org (Postfix) with ESMTPid 0A7F531C305; Mon, 18 Dec 2006
+	 14:58:39 +0100 (CET)
+Received: from mailman.greenpeace.org (images.greenpeace.org 
+	[212.19.215.66])by stan.greenpeace.org (Postfix) with ESMTP id 
+	E3A75109C4B;Mon, 18 Dec 2006 14:59:32 +0100 (CET)
+Received: from fw.greenpeace.org (localhost [127.0.0.1])by 
+	localhost.greenpeace.org (TUNIX/Firewall Mail Server) with ESMTP 
+	id122FAAF505 for <presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 
+	14:59:17 +0100 (CET)
+Received: from mail.de.gl3 (mail.de.gl3 [192.168.49.36])by bb2.nli.gl3 
+	(8.12.5/8.13.3) with ESMTP id kBIDxGni019648for 
+	<presse-ger@mailman.greenpeace.org>; Mon, 18 Dec 2006 14:59:16 +0100
+Received: from bb2.nli.gl3 (root@localhost)by bb2.nli.gl3 (8.12.5/8.12.5) 
+	with SMTP id kBIDxHhm019653for <presse-ger@mailman.greenpeace.org>; Mon, 18
+	 Dec 2006 14:59:17 +0100
+Received: by fw.greenpeace.org (TUNIX/Firewall Mail Server) with ESMTPfor 
+	<presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 14:59:17 +0100 (CET)
+Received: from server3a.software-ag.de ([10.22.90.32]) by DAEMSG03.eur.ad.sag with Microsoft SMTPSVC(6.0.3790.1830);
+	 Mon, 18 Dec 2006 14:59:35 +0100
+Received: from server3a.software-ag.de (localhost [127.0.0.1])
+	by localhost.software-ag.de (Postfix) with ESMTP id 594DC5D500
+	for <jorst.gemsjaeger@softwareag.com>; Mon, 18 Dec 2006 14:59:35 +0100 (CET)
+Received: from stan.greenpeace.org (stan.greenpeace.org [212.19.215.80])by 
+	server3a.software-ag.de (Postfix) with ESMTP id 31CCC5D165for 
+	<gej@software-ag.de>; Mon, 18 Dec 2006 14:59:35 +0100 (CET)
+Return-Path: <presse-ger-bounces@mailman.greenpeace.org>
+Reply-To: <presse-ger@mailman.greenpeace.org>
+From: <presse-ger@mailman.greenpeace.org>
+Sender: <presse-ger-bounces@mailman.greenpeace.org>
+To: <presse-ger@mailman.greenpeace.org>
+Subject: [Presse-Greenpeace] Morgen wird Greenpeace-Einspruch gegenEmbryonen-Patent verhandelt - NeueDokumentation ueber Patente auf Leben 
+Date: Mon, 18 Dec 2006 15:59:11 +0200
+Message-ID: <OFDB469813.3ED4D114-ONC1257248.004CB16D-C1257248.004CD532@de.gl3>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0025_01CA4B5A.CF19E100"
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AccirMARP0xygQsRQc2MxWCKdqxjiw==
+Content-Language: en-us
+List-Unsubscribe: <http://mailman.greenpeace.org/mailman/listinfo/presse-ger>, <mailto:presse-ger-request@mailman.greenpeace.org?subject=unsubscribe>
+List-Help: <mailto:presse-ger-request@mailman.greenpeace.org?subject=help>
+List-Subscribe: <http://mailman.greenpeace.org/mailman/listinfo/presse-ger>,<mailto:presse-ger-request@mailman.greenpeace.org?subject=subscribe>
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0025_01CA4B5A.CF19E100
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+
+Presseerklaerung vom 18. Dezember 2006
+
+Ethik wird kaltgestellt: Embryonen auf Eis
+
+Morgen wird Greenpeace-Einspruch gegen Embryonen-Patent verhandelt - =
+Neue
+Dokumentation ueber Patente auf Leben
+
+Muenchen, 18. 12. 2006 - Greenpeace stellt heute eine neue Dokumentation
+ueber Patente auf menschliche Embryonen und Gene, Tiere und Pflanzen =
+vor,
+die das Europaeische Patentamt (EPA) in den Jahren 2005 und 2006 erteilt
+hat. Dabei verstiess die Behoerde oftmals gegen die Patentgesetze. Der
+Anlass fuer die Skandal-Dokumentation: Morgen entscheidet die Grosse
+Beschwerdekammer des EPA ueber ein Patent zur Verwertung menschlicher
+Embryonen, gegen das Greenpeace Einspruch eingelegt hatte.
+
+Das Patent (EP 1121015) von zwei Forscherinnen, die mit dem schwedischen
+Biotechnologieunternehmen Vitrolife kooperieren, umfasst ein Verfahren =
+zum
+Tiefkuehlen menschlicher Embryonen und Keimzellen fuer die kuenstliche
+Befruchtung oder Stammzellforschung. Dabei wurden die Embryonen und
+Keimzellen selbst mitpatentiert. Ein aehnliches Patent des
+Stammzellenforschers Oliver Bruestle zur kommerziellen Verwertung von
+Embryonen hat das Bundespatentgericht am 5. Dezember nach einer Klage =
+von
+Greenpeace in wesentlichen Teilen widerrufen.
+
+"Patente auf Leben haben weniger mit Forschung als mit wirtschaftlichen
+Interessen zu tun", sagt Patentexperte Christoph Then von Greenpeace. =
+"Die
+Kommerzialisierung von menschlichem Leben darf ueber Patente nicht
+gefoerdert werden." =C4hnlich dem Patent von Oliver Bruestle setzt das
+Vitrolife-Patent den menschlichen Embryo mit einer technischen Erfindung
+gleich und bestaetigt einen Monopolanspruch zu seiner wirtschaftlichen
+Nutzung.
+
+Das kommerzielle Interesse an Patenten fuehrt dazu, dass auch ethische =
+und
+rechtliche Grenzen bei Patentvergaben ueberschritten werden. Die
+Greenpeace-Dokumentation zeigt, dass das EPA in den Jahren 2005 und 2006
+auf menschliche Gene 472 Patente, auf Tiere 117 Patente und auf Pflanzen
+241 Patente vergeben hat. Dabei hat das EPA in mehreren Faellen gegen =
+die
+Gesetze verstossen und Patente erteilt, die ethisch nicht vertretbar =
+sind.
+
+Zu diesen Faellen zaehlt das Krebs-Affen-Patent EP 811061. Es umfasst =
+auch
+Schimpansen, die mit menschlichen Krebsgenen manipuliert werden sollen. =
+In
+die Tiere, die von Wissenschaftlern aus Belgien und Deutschland =
+beansprucht
+werden, sollen Gene eingebaut werden, die vielfaeltige Krebskrankheiten =
+wie
+Gebaermutter-, Brust-, Speicheldruesen-, Knochen-, Haut-, und Blutkrebs
+ausloesen koennen. Greenpeace wird auch gegen dieses Patent Einspruch
+einlegen.
+
+Christoph Then: "Das Patent fuer Krebs-Affen zeigt, welche perversen
+Entwicklungen das Patentamt foerdert, weil klare rechtliche Grenzen =
+fehlen.
+Hier wird nicht nur das Recht beansprucht, an Affen zu forschen, sondern
+die kranken Tiere sollen als patentgeschuetztes Produkt gewinnbringend
+gehandelt werden. Es gibt kein wirksames Verbot fuer derartige Patente."
+Greenpeace fordert die Neuverhandlung der EU-Patentrichlinie und ein
+umfassendes Verbot der Patentierung von Lebewesen und ihren Genen.
+
+
+Achtung: Diese E-Mail wurde Ihnen automatisch zugesandt. Um ihre Adresse =
+zu
+aendern oder den Bezug von Presseerklaerungen abzubestellen, klicken Sie
+bitte auf
+http://mailman.greenpeace.org/mailman/listinfo/presse-ger
+Dort haben Sie nach Eingabe Ihrer E-Mail-Adresse unter der Rubrik
+"Austragen / =C4ndern einer Mailadresse" (ganz unten auf der Seite!) die
+Moeglichkeit, die gewuenschten Aenderungen vorzunehmen. Sie erhalten =
+dann
+eine Bestaetigungs-E-Mail (Betreff: confirm...), die wir Sie bitten zu
+beantworten. Nur so koennen wir sicherstellen, dass sich niemand anderes
+unerlaubterweise Ihrer E-Mail-Adresse bedient.
+
+
+
+_______________________________________________
+Presse-ger mailing list
+Presse-ger@mailman.greenpeace.org
+http://mailman.greenpeace.org/mailman/listinfo/presse-ger
+
+------=_NextPart_000_0025_01CA4B5A.CF19E100
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Diso-8859-1">
+<META NAME=3D"Generator" CONTENT=3D"MS Exchange Server version =
+08.00.0681.000">
+<TITLE>[Presse-Greenpeace] Morgen wird Greenpeace-Einspruch =
+gegenEmbryonen-Patent verhandelt - NeueDokumentation ueber Patente auf =
+Leben </TITLE>
+</HEAD>
+<BODY>
+<!-- Converted from text/plain format -->
+<BR>
+
+<P><FONT SIZE=3D2>Presseerklaerung vom 18. Dezember 2006</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Ethik wird kaltgestellt: Embryonen auf Eis</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Morgen wird Greenpeace-Einspruch gegen =
+Embryonen-Patent verhandelt - Neue</FONT>
+
+<BR><FONT SIZE=3D2>Dokumentation ueber Patente auf Leben</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Muenchen, 18. 12. 2006 - Greenpeace stellt heute eine =
+neue Dokumentation</FONT>
+
+<BR><FONT SIZE=3D2>ueber Patente auf menschliche Embryonen und Gene, =
+Tiere und Pflanzen vor,</FONT>
+
+<BR><FONT SIZE=3D2>die das Europaeische Patentamt (EPA) in den Jahren =
+2005 und 2006 erteilt</FONT>
+
+<BR><FONT SIZE=3D2>hat. Dabei verstiess die Behoerde oftmals gegen die =
+Patentgesetze. Der</FONT>
+
+<BR><FONT SIZE=3D2>Anlass fuer die Skandal-Dokumentation: Morgen =
+entscheidet die Grosse</FONT>
+
+<BR><FONT SIZE=3D2>Beschwerdekammer des EPA ueber ein Patent zur =
+Verwertung menschlicher</FONT>
+
+<BR><FONT SIZE=3D2>Embryonen, gegen das Greenpeace Einspruch eingelegt =
+hatte.</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Das Patent (EP 1121015) von zwei Forscherinnen, die =
+mit dem schwedischen</FONT>
+
+<BR><FONT SIZE=3D2>Biotechnologieunternehmen Vitrolife kooperieren, =
+umfasst ein Verfahren zum</FONT>
+
+<BR><FONT SIZE=3D2>Tiefkuehlen menschlicher Embryonen und Keimzellen =
+fuer die kuenstliche</FONT>
+
+<BR><FONT SIZE=3D2>Befruchtung oder Stammzellforschung. Dabei wurden die =
+Embryonen und</FONT>
+
+<BR><FONT SIZE=3D2>Keimzellen selbst mitpatentiert. Ein aehnliches =
+Patent des</FONT>
+
+<BR><FONT SIZE=3D2>Stammzellenforschers Oliver Bruestle zur =
+kommerziellen Verwertung von</FONT>
+
+<BR><FONT SIZE=3D2>Embryonen hat das Bundespatentgericht am 5. Dezember =
+nach einer Klage von</FONT>
+
+<BR><FONT SIZE=3D2>Greenpeace in wesentlichen Teilen widerrufen.</FONT>
+</P>
+
+<P><FONT SIZE=3D2>&quot;Patente auf Leben haben weniger mit Forschung =
+als mit wirtschaftlichen</FONT>
+
+<BR><FONT SIZE=3D2>Interessen zu tun&quot;, sagt Patentexperte Christoph =
+Then von Greenpeace. &quot;Die</FONT>
+
+<BR><FONT SIZE=3D2>Kommerzialisierung von menschlichem Leben darf ueber =
+Patente nicht</FONT>
+
+<BR><FONT SIZE=3D2>gefoerdert werden.&quot; =C4hnlich dem Patent von =
+Oliver Bruestle setzt das</FONT>
+
+<BR><FONT SIZE=3D2>Vitrolife-Patent den menschlichen Embryo mit einer =
+technischen Erfindung</FONT>
+
+<BR><FONT SIZE=3D2>gleich und bestaetigt einen Monopolanspruch zu seiner =
+wirtschaftlichen</FONT>
+
+<BR><FONT SIZE=3D2>Nutzung.</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Das kommerzielle Interesse an Patenten fuehrt dazu, =
+dass auch ethische und</FONT>
+
+<BR><FONT SIZE=3D2>rechtliche Grenzen bei Patentvergaben ueberschritten =
+werden. Die</FONT>
+
+<BR><FONT SIZE=3D2>Greenpeace-Dokumentation zeigt, dass das EPA in den =
+Jahren 2005 und 2006</FONT>
+
+<BR><FONT SIZE=3D2>auf menschliche Gene 472 Patente, auf Tiere 117 =
+Patente und auf Pflanzen</FONT>
+
+<BR><FONT SIZE=3D2>241 Patente vergeben hat. Dabei hat das EPA in =
+mehreren Faellen gegen die</FONT>
+
+<BR><FONT SIZE=3D2>Gesetze verstossen und Patente erteilt, die ethisch =
+nicht vertretbar sind.</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Zu diesen Faellen zaehlt das Krebs-Affen-Patent EP =
+811061. Es umfasst auch</FONT>
+
+<BR><FONT SIZE=3D2>Schimpansen, die mit menschlichen Krebsgenen =
+manipuliert werden sollen. In</FONT>
+
+<BR><FONT SIZE=3D2>die Tiere, die von Wissenschaftlern aus Belgien und =
+Deutschland beansprucht</FONT>
+
+<BR><FONT SIZE=3D2>werden, sollen Gene eingebaut werden, die =
+vielfaeltige Krebskrankheiten wie</FONT>
+
+<BR><FONT SIZE=3D2>Gebaermutter-, Brust-, Speicheldruesen-, Knochen-, =
+Haut-, und Blutkrebs</FONT>
+
+<BR><FONT SIZE=3D2>ausloesen koennen. Greenpeace wird auch gegen dieses =
+Patent Einspruch</FONT>
+
+<BR><FONT SIZE=3D2>einlegen.</FONT>
+</P>
+
+<P><FONT SIZE=3D2>Christoph Then: &quot;Das Patent fuer Krebs-Affen =
+zeigt, welche perversen</FONT>
+
+<BR><FONT SIZE=3D2>Entwicklungen das Patentamt foerdert, weil klare =
+rechtliche Grenzen fehlen.</FONT>
+
+<BR><FONT SIZE=3D2>Hier wird nicht nur das Recht beansprucht, an Affen =
+zu forschen, sondern</FONT>
+
+<BR><FONT SIZE=3D2>die kranken Tiere sollen als patentgeschuetztes =
+Produkt gewinnbringend</FONT>
+
+<BR><FONT SIZE=3D2>gehandelt werden. Es gibt kein wirksames Verbot fuer =
+derartige Patente.&quot;</FONT>
+
+<BR><FONT SIZE=3D2>Greenpeace fordert die Neuverhandlung der =
+EU-Patentrichlinie und ein</FONT>
+
+<BR><FONT SIZE=3D2>umfassendes Verbot der Patentierung von Lebewesen und =
+ihren Genen.</FONT>
+</P>
+<BR>
+
+<P><FONT SIZE=3D2>Achtung: Diese E-Mail wurde Ihnen automatisch =
+zugesandt. Um ihre Adresse zu</FONT>
+
+<BR><FONT SIZE=3D2>aendern oder den Bezug von Presseerklaerungen =
+abzubestellen, klicken Sie</FONT>
+
+<BR><FONT SIZE=3D2>bitte auf</FONT>
+
+<BR><FONT SIZE=3D2><A =
+HREF=3D"http://mailman.greenpeace.org/mailman/listinfo/presse-ger">http:/=
+/mailman.greenpeace.org/mailman/listinfo/presse-ger</A></FONT>
+
+<BR><FONT SIZE=3D2>Dort haben Sie nach Eingabe Ihrer E-Mail-Adresse =
+unter der Rubrik</FONT>
+
+<BR><FONT SIZE=3D2>&quot;Austragen / =C4ndern einer Mailadresse&quot; =
+(ganz unten auf der Seite!) die</FONT>
+
+<BR><FONT SIZE=3D2>Moeglichkeit, die gewuenschten Aenderungen =
+vorzunehmen. Sie erhalten dann</FONT>
+
+<BR><FONT SIZE=3D2>eine Bestaetigungs-E-Mail (Betreff: confirm...), die =
+wir Sie bitten zu</FONT>
+
+<BR><FONT SIZE=3D2>beantworten. Nur so koennen wir sicherstellen, dass =
+sich niemand anderes</FONT>
+
+<BR><FONT SIZE=3D2>unerlaubterweise Ihrer E-Mail-Adresse bedient.</FONT>
+</P>
+<BR>
+<BR>
+
+<P><FONT SIZE=3D2>_______________________________________________</FONT>
+
+<BR><FONT SIZE=3D2>Presse-ger mailing list</FONT>
+
+<BR><FONT SIZE=3D2>Presse-ger@mailman.greenpeace.org</FONT>
+
+<BR><FONT SIZE=3D2><A =
+HREF=3D"http://mailman.greenpeace.org/mailman/listinfo/presse-ger">http:/=
+/mailman.greenpeace.org/mailman/listinfo/presse-ger</A></FONT>
+</P>
+
+</BODY>
+</HTML>
+------=_NextPart_000_0025_01CA4B5A.CF19E100--
+
+------=_NextPart_000_002A_01CA4B5A.CF1A5630--
+
