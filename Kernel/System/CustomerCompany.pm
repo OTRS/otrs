@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.26.2.1 2012-06-15 10:27:22 mb Exp $
+# $Id: CustomerCompany.pm,v 1.26.2.2 2012-11-29 12:57:25 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26.2.1 $) [1];
+$VERSION = qw($Revision: 1.26.2.2 $) [1];
 
 =head1 NAME
 
@@ -118,6 +118,19 @@ sub new {
         $Self->{SearchSuffix} = '*';
     }
 
+    # charset settings
+    my %DatabasePreferences;
+    $Self->{SourceCharset}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{SourceCharset} || '';
+    $Self->{DestCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DestCharset}
+        || '';
+    $Self->{CharsetConvertForce}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CharsetConvertForce} || '';
+    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
+        $DatabasePreferences{Encode}  = 0;
+        $DatabasePreferences{Connect} = '';
+    }
+
     # create new db connect if DSN is given
     if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DSN} ) {
         $Self->{DBObject} = Kernel::System::DB->new(
@@ -129,6 +142,7 @@ sub new {
             DatabaseUser => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{User},
             DatabasePw   => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Password},
             Type         => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Type} || '',
+            %DatabasePreferences,
         ) || die('Can\'t connect to database!');
 
         # remember that we don't have inherited the DBObject from parent call
@@ -218,6 +232,7 @@ sub CustomerCompanyAdd {
     }
     $SQL .= ")";
 
+    $SQL = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Do( SQL => $SQL );
 
     # log notice
@@ -291,6 +306,7 @@ sub CustomerCompanyGet {
     else {
         $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerIDQuoted')";
     }
+    $SQL = $Self->_ConvertTo($SQL);
 
     # get initial data
     $Self->{DBObject}->Prepare( SQL => $SQL );
@@ -302,7 +318,7 @@ sub CustomerCompanyGet {
         my $MapCounter = 0;
 
         for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-            $Data{ $Entry->[0] } = $Row[$MapCounter];
+            $Data{ $Entry->[0] } = $Self->_ConvertFrom( $Row[$MapCounter] );
             $MapCounter++;
         }
 
@@ -369,7 +385,7 @@ sub CustomerCompanyUpdate {
 
     $SQL .= " WHERE $Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
         . $Self->{DBObject}->Quote( $Param{CustomerCompanyID} ) . "')";
-
+    $SQL = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Do( SQL => $SQL );
 
     # log notice
@@ -486,6 +502,7 @@ sub CustomerCompanyList {
     my $CompleteSQL
         = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
+    $SQL = $Self->_ConvertTo($SQL);
 
     # ask database
     $Self->{DBObject}->Prepare(
@@ -506,7 +523,7 @@ sub CustomerCompanyList {
             }
 
             if ( defined $Row[$Position] ) {
-                $Value .= $Row[$Position];
+                $Value .= $Self->_ConvertFrom( $Row[$Position] );
             }
         }
 
@@ -528,6 +545,39 @@ sub DESTROY {
     return 1;
 }
 
+sub _ConvertFrom {
+    my ( $Self, $Text ) = @_;
+
+    return if !defined $Text;
+
+    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
+        return $Text;
+    }
+    return $Self->{EncodeObject}->Convert(
+        Text  => $Text,
+        From  => $Self->{SourceCharset},
+        To    => $Self->{DestCharset},
+        Force => $Self->{CharsetConvertForce},
+    );
+}
+
+sub _ConvertTo {
+    my ( $Self, $Text ) = @_;
+
+    return if !defined $Text;
+
+    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
+        $Self->{EncodeObject}->EncodeInput( \$Text );
+        return $Text;
+    }
+    return $Self->{EncodeObject}->Convert(
+        Text  => $Text,
+        To    => $Self->{SourceCharset},
+        From  => $Self->{DestCharset},
+        Force => $Self->{CharsetConvertForce},
+    );
+}
+
 1;
 
 =back
@@ -544,6 +594,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26.2.1 $ $Date: 2012-06-15 10:27:22 $
+$Revision: 1.26.2.2 $ $Date: 2012-11-29 12:57:25 $
 
 =cut
