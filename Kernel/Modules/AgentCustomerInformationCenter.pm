@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerInformationCenter.pm - customer information
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerInformationCenter.pm,v 1.6 2012-11-20 14:46:01 mh Exp $
+# $Id: AgentCustomerInformationCenter.pm,v 1.7 2012-11-29 14:46:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,9 +83,14 @@ sub Run {
     # check CustomerID presence for all subactions that need it
     if ( $Self->{Subaction} ne 'UpdatePosition' ) {
         if ( !$Self->{CustomerID} ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => 'Need CustomerID!',
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentCustomerInformationCenterBlank',
+                Data         => \%Param,
             );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
 
