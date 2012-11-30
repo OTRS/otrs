@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.427 2012-11-20 14:26:32 mh Exp $
+# $Id: Defaults.pm,v 1.428 2012-11-30 11:17:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use utf8;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.427 $) [1];
+$VERSION = qw($Revision: 1.428 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -114,8 +114,8 @@ sub LoadDefaults {
     # (The database DSN for DBI:ODBC ==> more: "man DBD::ODBC")
     #    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
     # If you use ODBC, no database auto detection is possible,
-    # so set the database type here. Possible: mysq,postgresql,sapdb
-    #    $Self->{'Database::Type'} = 'sapdb';
+    # so set the database type here. Possible: mysq,postgresql,mssql,oracle
+    #    $Self->{'Database::Type'} = 'mssql';
 
 # (The database DSN for Oracle ==> more: "man DBD::oracle")
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=$Self->{Database};host=$Self->{DatabaseHost};port=1521;";
@@ -1303,7 +1303,8 @@ Your OTRS Notification Master
         Params => {
             # if you want to use an external database, add the
             # required settings
-#            DSN => 'DBI:odbc:yourdsn',
+#            DSN  => 'DBI:odbc:yourdsn',
+#            Type => 'mssql', # only for ODBC connections
 #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
 #            User => '',
 #            Password => '',
@@ -1461,7 +1462,8 @@ Your OTRS Notification Master
         Params => {
             # if you want to use an external database, add the
             # required settings
-#            DSN => 'DBI:odbc:yourdsn',
+#            DSN  => 'DBI:odbc:yourdsn',
+#            Type => 'mssql', # only for ODBC connections
 #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
 #            User => '',
 #            Password => '',
@@ -1942,6 +1944,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.427 $ $Date: 2012-11-20 14:26:32 $
+$Revision: 1.428 $ $Date: 2012-11-30 11:17:51 $
 
 =cut
