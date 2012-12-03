@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.26.2.2 2012-11-29 12:57:25 jh Exp $
+# $Id: CustomerCompany.pm,v 1.26.2.3 2012-12-03 10:39:00 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26.2.2 $) [1];
+$VERSION = qw($Revision: 1.26.2.3 $) [1];
 
 =head1 NAME
 
@@ -119,7 +119,7 @@ sub new {
     }
 
     # charset settings
-    my %DatabasePreferences;
+    my $DatabasePreferences = $Self->{ConfigObject}->Get('CustomerCompany')->{Params} || {};
     $Self->{SourceCharset}
         = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{SourceCharset} || '';
     $Self->{DestCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DestCharset}
@@ -127,8 +127,7 @@ sub new {
     $Self->{CharsetConvertForce}
         = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CharsetConvertForce} || '';
     if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences{Encode}  = 0;
-        $DatabasePreferences{Connect} = '';
+        $DatabasePreferences->{Encode} = 0;
     }
 
     # create new db connect if DSN is given
@@ -142,7 +141,9 @@ sub new {
             DatabaseUser => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{User},
             DatabasePw   => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Password},
             Type         => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Type} || '',
-            %DatabasePreferences,
+            %{$DatabasePreferences},
+
+            #            %{ $Self->{CustomerCompanyMap}->{Params} },
         ) || die('Can\'t connect to database!');
 
         # remember that we don't have inherited the DBObject from parent call
@@ -594,6 +595,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26.2.2 $ $Date: 2012-11-29 12:57:25 $
+$Revision: 1.26.2.3 $ $Date: 2012-12-03 10:39:00 $
 
 =cut
