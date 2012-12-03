@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerIDStatus.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerIDStatus.pm,v 1.5 2012-12-03 09:11:00 mg Exp $
+# $Id: DashboardCustomerIDStatus.pm,v 1.6 2012-12-03 10:22:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,6 +140,26 @@ sub Run {
             Count => $Count
         },
     );
+
+    # archived tickets
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+        $Count = $Self->{TicketObject}->TicketSearch(
+            CustomerID   => $CustomerIDSQL,
+            ArchiveFlags => ['y'],
+            Result       => 'COUNT',
+            Permission   => $Self->{Config}->{Permission},
+            UserID       => $Self->{UserID},
+            CacheTTL     => $Self->{Config}->{CacheTTLLocal} * 60,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentSmallCustomerIDStatusArchivedTickets',
+            Data => {
+                %Param,
+                Count => $Count
+            },
+        );
+    }
 
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardCustomerIDStatus',
