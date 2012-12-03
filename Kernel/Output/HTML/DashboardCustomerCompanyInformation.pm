@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerCompanyInformation.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerCompanyInformation.pm,v 1.7 2012-11-27 14:57:44 mg Exp $
+# $Id: DashboardCustomerCompanyInformation.pm,v 1.8 2012-12-03 09:17:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,6 +91,9 @@ sub Run {
     ENTRY:
     for my $Entry ( @{ $CustomerCompanyConfig->{Map} } ) {
         my $Key = $Entry->[0];
+
+        # do not show items if they're not marked as visible
+        next ENTRY if !$Entry->[3];
 
         # do not show empty entries
         next ENTRY if !length( $CustomerCompany{$Key} );

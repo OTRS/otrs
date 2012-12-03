@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2562 2012-11-30 10:36:42 mg Exp $
+# $Id: CHANGES,v 1.2563 2012-12-03 09:17:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,12 @@
 # --
 
 3.2.0.beta4 2012-??-??
+ - 2012-12-03 Fixed bug#8963 - CIC Company attributes not marked as visible are displayed in
+    Company Dashlet.
  - 2012-11-30 Updated Estonian language translation, thanks to Margus Värton!
  - 2012-11-29 Fixed bug#8949 - CIC can't open in a new tab in Firefox 17.
- - 2012-11-29 Fixed bug#8948 - CIC: Dashboard Filters shows error, customer_id will be lost.
- - 2012-11-29 Fixed bug#8763 - Please add charset conversion for customer companies.
+ - 2012-11-29 Fixed bug#8948 - CIC Dashboard Filters shows error, customer_id will be lost.
+ - 2012-11-29 Fixed bug#8763 - Added charset conversion for customer companies.
  - 2012-11-29 Fixed bug#1970 - Email attachments of type .msg (Outlook-Message) are converted.
  - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.
  - 2012-11-24 Fixed bug#8936 - Ticket close date is empty when ticket is created in closed state.
