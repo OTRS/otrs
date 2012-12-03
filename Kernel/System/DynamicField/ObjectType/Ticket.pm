@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.12 2012-11-20 15:47:43 mh Exp $
+# $Id: Ticket.pm,v 1.13 2012-12-03 11:51:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -188,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$$
+$Revision: 1.13 $ $Date: 2012-12-03 11:51:01 $
 
 =cut
