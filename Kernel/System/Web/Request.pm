@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.46 2012-11-20 16:02:16 mh Exp $
+# $Id: Request.pm,v 1.47 2012-12-03 11:38:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,14 +14,16 @@ package Kernel::System::Web::Request;
 use strict;
 use warnings;
 
+use File::Path qw();
+
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
-Kernel::System::Web::Request - global cgi param interface
+Kernel::System::Web::Request - global CGI interface
 
 =head1 SYNOPSIS
 
@@ -282,11 +284,11 @@ sub GetUploadAll {
         # delete upload dir if exists
         my $Path = "/tmp/$$";
         if ( -d $Path ) {
-            File::Path::rmtree( [$Path] );
+            File::Path::remove_tree($Path);
         }
 
         # create upload dir
-        File::Path::mkpath( [$Path], 0, 0700 );
+        File::Path::make_path( $Path, { mode => 0700 } );
 
         $Content = "$Path/$NewFileName";
 
@@ -297,8 +299,7 @@ sub GetUploadAll {
         close $Out;
     }
 
-    # check if content is there, IE is always sending file uploades
-    # without content
+    # Check if content is there, IE is always sending file uploads without content.
     return if !$Content;
 
     my $ContentType = $Self->_GetUploadInfo(
@@ -385,6 +386,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2012-11-20 16:02:16 $
+$Revision: 1.47 $ $Date: 2012-12-03 11:38:40 $
 
 =cut
