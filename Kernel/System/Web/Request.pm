@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.47 2012-12-03 11:38:40 mg Exp $
+# $Id: Request.pm,v 1.48 2012-12-03 14:18:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use File::Path qw();
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -228,26 +228,22 @@ sub GetArray {
 
 =item GetUploadAll()
 
-to get file upload
+gets file upload data.
 
     my %File = $ParamObject->GetUploadAll(
-        Param  => 'FileParam',
-        Source => 'string',
+        Param  => 'FileParam',  # the name of the request parameter containing the file data
+        Source => 'string',     # 'string' or 'file', how the data is stored/returned, see below
     );
 
-    to get file upload without uft-8 encoding
-
-    my %File = $ParamObject->GetUploadAll(
-        Param  => 'FileParam',
-        Source => 'string',
+    returns (
+        Filename    => 'abc.txt',
+        ContentType => 'text/plain',
+        Content     => 'Some text',
     );
 
-    print "Filename: $File{Filename}\n";
-    print "ContentType: $File{ContentType}\n";
-    print "Content: $File{Content}\n";
-
-    If param Source is file, the the content contains the file location
-    in your local file system.
+    If you send Source => 'string', the data will be returned directly in
+    the return value ('Content'). If you send 'file' instead, the data
+    will be stored in a file and 'Content' will just return the file name.
 
 =cut
 
@@ -386,6 +382,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2012-12-03 11:38:40 $
+$Revision: 1.48 $ $Date: 2012-12-03 14:18:02 $
 
 =cut
