@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.26.2.3 2012-12-03 10:39:00 jh Exp $
+# $Id: CustomerCompany.pm,v 1.26.2.4 2012-12-03 11:07:54 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26.2.3 $) [1];
+$VERSION = qw($Revision: 1.26.2.4 $) [1];
 
 =head1 NAME
 
@@ -142,8 +142,6 @@ sub new {
             DatabasePw   => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Password},
             Type         => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Type} || '',
             %{$DatabasePreferences},
-
-            #            %{ $Self->{CustomerCompanyMap}->{Params} },
         ) || die('Can\'t connect to database!');
 
         # remember that we don't have inherited the DBObject from parent call
@@ -595,6 +593,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26.2.3 $ $Date: 2012-12-03 10:39:00 $
+$Revision: 1.26.2.4 $ $Date: 2012-12-03 11:07:54 $
 
 =cut
