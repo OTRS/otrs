@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.167 2012-11-29 12:57:17 jh Exp $
+# $Id: CHANGES,v 1.2260.2.168 2012-12-03 11:42:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.12 2012-??-??
+ - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
  - 2012-11-29 Fixed bug#8763 - Please add charset conversion for customer companies.
  - 2012-11-29 Fixed bug#1970 - Email attachments of type .msg (Outlook-Message) are converted.
  - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.
