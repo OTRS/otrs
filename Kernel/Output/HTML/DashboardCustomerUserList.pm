@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCustomerUserList.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCustomerUserList.pm,v 1.9 2012-11-20 14:57:15 mh Exp $
+# $Id: DashboardCustomerUserList.pm,v 1.10 2012-12-03 09:24:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::System::CustomerUser;
 
@@ -212,6 +212,7 @@ sub Run {
             StateType         => 'Open',
             CustomerUserLogin => $CustomerKeySQL,
             Result            => 'COUNT',
+            Permission        => $Self->{Config}->{Permission},
             UserID            => $Self->{UserID},
             CacheTTL          => $Self->{Config}->{CacheTTLLocal} * 60,
         );
@@ -230,6 +231,7 @@ sub Run {
             StateType         => 'Closed',
             CustomerUserLogin => $CustomerKeySQL,
             Result            => 'COUNT',
+            Permission        => $Self->{Config}->{Permission},
             UserID            => $Self->{UserID},
             CacheTTL          => $Self->{Config}->{CacheTTLLocal} * 60,
         );
