@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.59 2012-11-20 16:24:57 mh Exp $
+# $Id: Multiselect.pm,v 1.60 2012-12-03 11:29:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -1013,6 +1013,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$$
+$Revision: 1.60 $ $Date: 2012-12-03 11:29:12 $
 
 =cut

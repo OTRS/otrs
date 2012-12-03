@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.58 2012-11-20 16:24:57 mh Exp $
+# $Id: Date.pm,v 1.59 2012-12-03 11:29:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -904,6 +904,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$$
+$Revision: 1.59 $ $Date: 2012-12-03 11:29:12 $
 
 =cut
