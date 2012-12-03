@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS/FS.pm - all virtual fs functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.2.6.2 2012-12-03 12:43:36 mg Exp $
+# $Id: FS.pm,v 1.2.6.3 2012-12-03 13:28:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,14 +14,13 @@ package Kernel::System::VirtualFS::FS;
 use strict;
 use warnings;
 
-use File::Path qw();
 use Time::HiRes qw();
 
 # to get it writable for the otrs group (just in case)
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.6.2 $) [1];
+$VERSION = qw($Revision: 1.2.6.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,6 +38,11 @@ sub new {
     $Self->{DataDir}    = $Self->{ConfigObject}->Get('Home') . '/var/virtualfs';
     $Self->{Permission} = '664';
 
+    # create data dir
+    if ( !-d $Self->{DataDir} ) {
+        mkdir $Self->{DataDir} || die $!;
+    }
+
     # Check fs write permissions.
     # Generate a thread-safe article check directory.
     my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
@@ -46,7 +50,7 @@ sub new {
         = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
     my $Path = "$Self->{DataDir}/$PermissionCheckDirectory";
 
-    if ( File::Path::make_path( $Path, { mode => 0755 } ) ) {
+    if ( mkdir( $Path, 0755 ) ) {
         rmdir $Path;
     }
     else {
@@ -56,11 +60,6 @@ sub new {
             Message  => "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
         );
         die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
-    }
-
-    # create data dir
-    if ( !-d $Self->{DataDir} ) {
-        mkdir $Self->{DataDir} || die $!;
     }
 
     # config (not used right now)
