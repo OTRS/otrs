@@ -1,8 +1,8 @@
 # --
 # Kernel/System/VirtualFS/FS.pm - all virtual fs functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.2 2009-12-10 11:59:54 bes Exp $
+# $Id: FS.pm,v 1.2.4.1 2012-12-03 13:29:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,14 +13,14 @@ package Kernel::System::VirtualFS::FS;
 
 use strict;
 use warnings;
-use File::Path;
-use File::Basename;
+
+use Time::HiRes qw();
 
 # to get it writable for the otrs group (just in case)
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.2.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,23 +38,28 @@ sub new {
     $Self->{DataDir}    = $Self->{ConfigObject}->Get('Home') . '/var/virtualfs';
     $Self->{Permission} = '664';
 
-    # check fs write permissions!
-    my $Path = "$Self->{DataDir}/check_permissions.$$";
-    if ( -d $Path ) {
-        File::Path::rmtree( [$Path] ) || die "Can't remove $Path: $!\n";
-    }
-    if ( mkdir( "$Self->{DataDir}/check_permissions_$$", 022 ) ) {
-        if ( !rmdir("$Self->{DataDir}/check_permissions_$$") ) {
-            die "Can't remove $Self->{DataDir}/check_permissions_$$: $!\n";
-        }
-        if ( File::Path::mkpath( [$Path], 0, 0775 ) ) {
-            File::Path::rmtree( [$Path] ) || die "Can't remove $Path: $!\n";
-        }
-    }
-
     # create data dir
     if ( !-d $Self->{DataDir} ) {
         mkdir $Self->{DataDir} || die $!;
+    }
+
+    # Check fs write permissions.
+    # Generate a thread-safe article check directory.
+    my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
+    my $PermissionCheckDirectory
+        = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
+    my $Path = "$Self->{DataDir}/$PermissionCheckDirectory";
+
+    if ( mkdir( $Path, 0755 ) ) {
+        rmdir $Path;
+    }
+    else {
+        my $Error = $!;
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
+        );
+        die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
     # config (not used right now)

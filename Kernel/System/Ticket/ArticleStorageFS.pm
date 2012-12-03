@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.77.2.2 2012-03-20 20:49:11 mb Exp $
+# $Id: ArticleStorageFS.pm,v 1.77.2.3 2012-12-03 13:29:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,15 +13,16 @@ package Kernel::System::Ticket::ArticleStorageFS;
 
 use strict;
 use warnings;
-use File::Path;
-use File::Basename;
-use MIME::Base64;
+
+use File::Path qw();
+use MIME::Base64 qw();
+use Time::HiRes qw();
 
 # to get it writable for the otrs group (just in case)
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77.2.2 $) [1];
+$VERSION = qw($Revision: 1.77.2.3 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -36,26 +37,22 @@ sub ArticleStorageInit {
     );
     $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
 
-    # check fs write permissions!
-    my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissions.$$";
-    if ( -d $Path ) {
-        File::Path::rmtree( [$Path] );
-    }
-    if ( mkdir( "$Self->{ArticleDataDir}/check_permissions_$$", 022 ) ) {
-        rmdir("$Self->{ArticleDataDir}/check_permissions_$$");
-        if ( File::Path::mkpath( [$Path], 0, 0775 ) ) {
-            File::Path::rmtree( [$Path] );
-        }
+    # Check fs write permissions.
+    # Generate a thread-safe article check directory.
+    my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
+    my $PermissionCheckDirectory
+        = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
+    my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/" . $PermissionCheckDirectory;
+    if ( File::Path::make_path( $Path, { mode => 0775 } ) ) {
+        rmdir $Path;
     }
     else {
         my $Error = $!;
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Can't create $Self->{ArticleDataDir}/check_permissions_$$: $Error, "
-                . "Try: \$OTRS_HOME/bin/otrs.SetPermissions.pl !",
+            Message  => "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!",
         );
-        die "Error: Can't create $Self->{ArticleDataDir}/check_permissions_$$: $Error \n\n "
-            . "Try: \$OTRS_HOME/bin/otrs.SetPermissions.pl !!!\n";
+        die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
     return 1;
 }

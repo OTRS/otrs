@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.268 2012-11-28 19:14:16 jb Exp $
+# $Id: CHANGES,v 1.1758.2.269 2012-12-03 13:29:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.18 ???-???-??
+ - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
  - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.
  - 2012-10-23 Fixed bug#8566 - Cannot download attachment if filename has character #.
  - 2012-10-23 Fixed bug#8833 - Article table in TicketZoom does not scroll correctly.
