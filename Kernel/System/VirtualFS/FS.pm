@@ -2,7 +2,7 @@
 # Kernel/System/VirtualFS/FS.pm - all virtual fs functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.5 2012-12-03 11:38:40 mg Exp $
+# $Id: FS.pm,v 1.6 2012-12-03 12:43:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,14 @@ package Kernel::System::VirtualFS::FS;
 use strict;
 use warnings;
 
+use File::Path qw();
 use Time::HiRes qw();
 
 # to get it writable for the otrs group (just in case)
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,7 +46,7 @@ sub new {
         = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
     my $Path = "$Self->{DataDir}/$PermissionCheckDirectory";
 
-    if ( mkdir( $Path, 022 ) ) {
+    if ( File::Path::make_path( $Path, { mode => 0755 } ) ) {
         rmdir $Path;
     }
     else {
