@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.3.2.2 2012-11-13 20:40:56 cr Exp $
+# $Id: Run.t,v 1.3.2.3 2012-12-04 13:35:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,7 +102,7 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
         );
 
         # Wait for slow systems
-        my $SleepTime = 20;
+        my $SleepTime = 120;
         print "Waiting at most $SleepTime s until scheduler stops\n";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $SleepTime ) {
@@ -138,7 +138,7 @@ else {
 }
 
 # Wait for slow systems
-my $SleepTime = 20;
+my $SleepTime = 120;
 print "Waiting at most $SleepTime s until scheduler stops\n";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
@@ -166,10 +166,10 @@ my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 my $PIDObject         = Kernel::System::PID->new( %{$Self} );
 
 # define global wait times (Secs)
-my $TotalWaitToExecute    = 25;
-my $TotalWaitToCheck      = 10;
-my $TotalWaitToStop       = 40;
-my $TotalWaitToReSchedule = 30;
+my $TotalWaitToExecute    = 125;
+my $TotalWaitToCheck      = 110;
+my $TotalWaitToStop       = 140;
+my $TotalWaitToReSchedule = 130;
 
 $Self->Is(
     ref $SchedulerObject,
