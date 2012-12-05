@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.87 2012-12-05 11:11:47 mab Exp $
+# $Id: AdminQueue.pm,v 1.88 2012-12-05 13:34:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -513,7 +513,7 @@ sub _Edit {
     my $ListType = $Self->{ConfigObject}->Get('Ticket::Frontend::ListType');
 
     # get max queue level
-    my $MaxQueueLevel = $Self->{ConfigObject}->Get('Ticket::Frontend::MaxQueueLevel') || 5;
+    my $MaxParentLevel = ( $Self->{ConfigObject}->Get('Ticket::Frontend::MaxQueueLevel') || 5 ) - 1;
 
     # verify if queue list should be a list or a tree
     if ( $ListType eq 'tree' ) {
@@ -521,7 +521,7 @@ sub _Edit {
             Data => { '' => ' -', %CleanHash, },
             Name => 'ParentQueueID',
             Selected       => $ParentQueue,
-            MaxLevel       => $MaxQueueLevel,
+            MaxLevel       => $MaxParentLevel,
             OnChangeSubmit => 0,
         );
     }
@@ -533,7 +533,7 @@ sub _Edit {
             my $QueueName      = $CleanHash{$Key};
             my @QueueNameLevel = split( ::, $QueueName );
             my $QueueLevel     = $#QueueNameLevel + 1;
-            if ( $QueueLevel > $MaxQueueLevel ) {
+            if ( $QueueLevel > $MaxParentLevel ) {
                 delete $CleanHash{$Key};
             }
         }
