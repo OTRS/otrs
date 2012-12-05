@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.52 2012-11-29 14:07:31 mg Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.53 2012-12-05 15:27:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -322,9 +322,12 @@ sub Run {
     }
 
     # add page nav bar
-    my $Total    = $Summary->{ $Self->{Filter} } || 0;
+    my $Total = $Summary->{ $Self->{Filter} } || 0;
     my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';Filter=' . $Self->{Filter} . ';';
-    my %PageNav  = $Self->{LayoutObject}->PageNavBar(
+    if ( $Param{CustomerID} ) {
+        $LinkPage .= "CustomerID=$Param{CustomerID};";
+    }
+    my %PageNav = $Self->{LayoutObject}->PageNavBar(
         StartHit       => $Self->{StartHit},
         PageShown      => $Self->{PageShown},
         AllHits        => $Total || 1,
