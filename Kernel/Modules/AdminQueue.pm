@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.86 2012-11-20 14:42:53 mh Exp $
+# $Id: AdminQueue.pm,v 1.87 2012-12-05 11:11:47 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -512,25 +512,28 @@ sub _Edit {
     # get list type
     my $ListType = $Self->{ConfigObject}->Get('Ticket::Frontend::ListType');
 
+    # get max queue level
+    my $MaxQueueLevel = $Self->{ConfigObject}->Get('Ticket::Frontend::MaxQueueLevel') || 5;
+
     # verify if queue list should be a list or a tree
     if ( $ListType eq 'tree' ) {
         $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
             Data => { '' => ' -', %CleanHash, },
             Name => 'ParentQueueID',
             Selected       => $ParentQueue,
-            MaxLevel       => 3,
+            MaxLevel       => $MaxQueueLevel,
             OnChangeSubmit => 0,
         );
     }
     else {
 
-        # leave only queues with 3 levels, because max allowed level is 4:
-        # new queue + 3 levels of parent queue = 4 levels
+    # leave only queues with $MaxQueueLevel levels, because max allowed level is $MaxQueueLevel + 1:
+    # new queue + $MaxQueueLevel levels of parent queue = $MaxQueueLevel + 1 levels
         for my $Key ( sort keys %CleanHash ) {
             my $QueueName      = $CleanHash{$Key};
             my @QueueNameLevel = split( ::, $QueueName );
             my $QueueLevel     = $#QueueNameLevel + 1;
-            if ( $QueueLevel > 3 ) {
+            if ( $QueueLevel > $MaxQueueLevel ) {
                 delete $CleanHash{$Key};
             }
         }

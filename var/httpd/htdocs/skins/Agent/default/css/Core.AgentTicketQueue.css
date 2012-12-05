@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -36,6 +36,50 @@
 .QueueOverviewList {
     clear: both;
     float: none;
+}
+
+.QueueOverviewList.Level_1 {
+    margin-left: 10px;
+}
+
+.QueueOverviewList.Level_2 {
+    margin-left: 20px;
+}
+
+.QueueOverviewList.Level_3 {
+    margin-left: 30px;
+}
+
+.QueueOverviewList.Level_4 {
+    margin-left: 40px;
+}
+
+.QueueOverviewList.Level_5 {
+    margin-left: 50px;
+}
+
+.QueueOverviewList.Level_6 {
+    margin-left: 50px;
+}
+
+.QueueOverviewList.Level_6 {
+    margin-left: 60px;
+}
+
+.QueueOverviewList.Level_7 {
+    margin-left: 70px;
+}
+
+.QueueOverviewList.Level_8 {
+    margin-left: 80px;
+}
+
+.QueueOverviewList.Level_9 {
+    margin-left: 90px;
+}
+
+.QueueOverviewList.Level_10 {
+    margin-left: 100px;
 }
 
 .QueueOverviewList li {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.83 2012-11-20 14:51:47 mh Exp $
+# $Id: AgentTicketQueue.pm,v 1.84 2012-12-05 11:11:47 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -390,36 +390,27 @@ sub _MaskQueueView {
             $QueueStrg .= 'OlderLevel1';
         }
 
-        # should i highlight this queue
-        if ( $Param{SelectedQueue} =~ /^\Q$QueueName[0]\E/ && $Level - 1 >= $#QueueName ) {
-            if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
-                $QueueStrg .= ' Active';
+        # display the current and all its lower levels in bold
+        my $CheckQueueName;
+        if (
+            $Level > scalar @QueueName
+            && scalar @MetaQueue >= scalar @QueueName
+            && $Param{SelectedQueue} =~ m{ \A \Q$QueueName[0]\E }xms
+            )
+        {
+            my $CheckLevel = 0;
+            CHECKLEVEL:
+            for ( $CheckLevel = 0; $CheckLevel < scalar @QueueName; ++$CheckLevel ) {
+                if ($CheckQueueName) {
+                    $CheckQueueName .= '::';
+                }
+                $CheckQueueName .= $MetaQueue[$CheckLevel];
             }
-            if (
-                $#QueueName == 1
-                && $#MetaQueue >= 1
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/
-                )
-            {
-                $QueueStrg .= ' Active';
-            }
-            if (
-                $#QueueName == 2
-                && $#MetaQueue >= 2
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/
-                )
-            {
-                $QueueStrg .= ' Active';
-            }
-            if (
-                $#QueueName == 3
-                && $#MetaQueue >= 3
-                && $Queue{Queue}
-                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/
-                )
-            {
-                $QueueStrg .= ' Active';
-            }
+        }
+
+        # should i display this queue in bold?
+        if ( $CheckQueueName && $Queue{Queue} =~ m{ \A \Q$CheckQueueName\E \z }xms ) {
+            $QueueStrg .= ' Active';
         }
 
         $QueueStrg .= '">';
@@ -436,47 +427,36 @@ sub _MaskQueueView {
 
         $QueueStrg .= '</a></li>';
 
-        if ( $#QueueName == 0 ) {
-            $Param{QueueStrg1} .= $QueueStrg;
+        if ( scalar @QueueName eq 1 ) {
+            $Param{QueueStrg} .= $QueueStrg;
         }
-        elsif ( $#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^\Q$MetaQueue[0]::\E/ ) {
-            $Param{QueueStrg2} .= $QueueStrg;
-        }
-        elsif (
-            $#QueueName == 2
-            && $Level >= 3
-            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/
-            )
-        {
-            $Param{QueueStrg3} .= $QueueStrg;
-        }
-        elsif (
-            $#QueueName == 3
-            && $Level >= 4
-            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/
-            )
-        {
-            $Param{QueueStrg4} .= $QueueStrg;
-        }
-        elsif (
-            $#QueueName == 4
-            && $Level >= 5
-            && $Queue{Queue}
-            =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]::\E/
-            )
-        {
-            $Param{QueueStrg5} .= $QueueStrg;
+        elsif ( $Level >= scalar @QueueName ) {
+            my $CheckQueueStrgName = '';
+            for ( my $LevelCount = 0; $LevelCount < scalar @QueueName - 1; ++$LevelCount ) {
+                $CheckQueueStrgName .= $MetaQueue[$LevelCount] . '::';
+            }
+            if ( $Queue{Queue} =~ m{ \A \Q$CheckQueueStrgName\E }xms ) {
+
+                $Param{ 'QueueStrg' . scalar @QueueName - 1 } .= $QueueStrg;
+            }
         }
     }
-    for ( 1 .. 5 ) {
-        next if !$Param{ 'QueueStrg' . $_ };
-        $Param{QueueStrg}
-            .= '<ul class="QueueOverviewList">' . $Param{ 'QueueStrg' . $_ } . '</ul>';
+
+    my $Counter = 0;
+    KEYS:
+    for my $Keys ( sort keys %Param ) {
+        if ( $Keys !~ /^QueueStrg/ ) {
+            next KEYS;
+        }
+        $Param{QueueStrgLevel}
+            .= '<ul class="QueueOverviewList Level_' . $Counter . '">' . $Param{$Keys} . '</ul>';
+        $Counter++;
     }
+
     return (
         MainName      => 'Queues',
         SelectedQueue => $Param{SelectedQueue},
-        MainContent   => $Param{QueueStrg},
+        MainContent   => $Param{QueueStrgLevel},
         Total         => $Param{TicketsShown},
     );
 }
