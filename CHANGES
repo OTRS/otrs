@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2565 2012-12-03 11:38:39 mg Exp $
+# $Id: CHANGES,v 1.2566 2012-12-05 13:06:44 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta4 2012-??-??
+ - 2012-12-05 Fixed bug#7697 - Creating queues: sub-queues after level 4 not shown in dropdown box.
  - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
  - 2012-12-03 Various improvements in CustomerInformationCenter and ProcessManagement.
  - 2012-12-03 Fixed bug#8963 - CIC Company attributes not marked as visible are displayed in
