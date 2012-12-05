@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.100 2012-11-20 15:21:00 mh Exp $
+# $Id: AgentTicketForward.dtl,v 1.101 2012-12-05 14:59:49 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field">
+                <div class="Field $QData{"CustomerHiddenContainer"}">
                     <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
                         <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="$QData{"To"}" />
                         <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -119,7 +119,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field">
+                <div class="Field $QData{"CustomerHiddenContainer"}">
                     <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                         <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                         <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -176,7 +176,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field">
+                <div class="Field $QData{"CustomerHiddenContainer"}">
                     <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                         <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                         <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
