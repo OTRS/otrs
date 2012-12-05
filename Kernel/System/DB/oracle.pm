@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.70 2012-12-04 13:15:43 des Exp $
+# $Id: oracle.pm,v 1.71 2012-12-05 11:04:16 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,7 +31,7 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}                = 'rownum';
+    $Self->{'DB::Limit'}                = 0;
     $Self->{'DB::DirectBlob'}           = 0;
     $Self->{'DB::QuoteSingle'}          = '\'';
     $Self->{'DB::QuoteBack'}            = 0;
