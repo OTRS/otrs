@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.84 2012-12-05 11:11:47 mab Exp $
+# $Id: AgentTicketQueue.pm,v 1.85 2012-12-05 13:05:47 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -448,8 +448,13 @@ sub _MaskQueueView {
         if ( $Keys !~ /^QueueStrg/ ) {
             next KEYS;
         }
+        my $Class = $Counter;
+        if ( $Counter > 10 ) {
+            $Class = 'X';
+        }
+
         $Param{QueueStrgLevel}
-            .= '<ul class="QueueOverviewList Level_' . $Counter . '">' . $Param{$Keys} . '</ul>';
+            .= '<ul class="QueueOverviewList Level_' . $Class . '">' . $Param{$Keys} . '</ul>';
         $Counter++;
     }
 
