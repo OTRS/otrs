@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.72 2012-11-22 12:33:57 mg Exp $
+# $Id: es_MX.pm,v 1.73 2012-12-06 08:40:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:30:49
+    # Last translation file sync: 2012-12-06 09:39:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
-        ' (work units)' => ' (unidades de trabajo)',
+        '(work units)' => '',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -1683,6 +1683,7 @@ sub Data {
             '',
         'Transition Action' => '',
         'Transition Action Name' => '',
+        'Transition Action Module' => '',
         'Config Parameters' => '',
         'Remove this Parameter' => '',
         'Add a new Parameter' => '',
@@ -1993,6 +1994,8 @@ sub Data {
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => '',
 
+        # Template: AgentCustomerInformationCenterBlank
+
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'ID del Cliente',
         'Customer User' => 'Cliente',
@@ -2022,8 +2025,8 @@ sub Data {
         'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
-        'New phone ticket for %s' => '',
-        'New email ticket for %s' => '',
+        'New phone ticket from %s' => '',
+        'New email ticket to %s' => '',
 
         # Template: AgentDashboardIFrame
 
@@ -2905,6 +2908,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para la salida html para añadir vínculos a ciertas cadenas. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de imágenes de OTRS. La otra posibilidad es insertar el vínculo a la imagen.',
+        'Define the max depth of queues.' => '',
         'Define the start day of the week for the date picker.' => 'Define el día inicial de la para el selector de fecha.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Define un artículo de cliente que genera un ícono de VinculadoEn, al final de un bloque de información de cliente.',
@@ -4502,6 +4506,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unidades de trabajo)',
 
     };
     # $$STOP$$

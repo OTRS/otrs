@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.178 2012-11-22 12:33:57 mg Exp $
+# $Id: fr.pm,v 1.179 2012-12-06 08:40:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.178 $) [1];
+$VERSION = qw($Revision: 1.179 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:30:53
+    # Last translation file sync: 2012-12-06 09:39:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver tickets sélectionnés',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => ' Unité de travail',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications à l\'opérateur/au client sur changement',
         'CMD' => 'CMD',
@@ -1689,6 +1689,7 @@ sub Data {
             '',
         'Transition Action' => '',
         'Transition Action Name' => '',
+        'Transition Action Module' => '',
         'Config Parameters' => '',
         'Remove this Parameter' => '',
         'Add a new Parameter' => '',
@@ -1999,6 +2000,8 @@ sub Data {
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => '',
 
+        # Template: AgentCustomerInformationCenterBlank
+
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'ID Client',
         'Customer User' => 'Client Utilisateur',
@@ -2028,8 +2031,8 @@ sub Data {
         'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
-        'New phone ticket for %s' => '',
-        'New email ticket for %s' => '',
+        'New phone ticket from %s' => '',
+        'New email ticket to %s' => '',
 
         # Template: AgentDashboardIFrame
 
@@ -2911,6 +2914,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
+        'Define the max depth of queues.' => '',
         'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Défini un élément client qui génère un icone LinkedIn à la fin du bloc d\'information client.',
@@ -4508,6 +4512,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' Unité de travail',
 
     };
     # $$STOP$$

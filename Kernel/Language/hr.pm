@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.32 2012-11-22 12:33:57 mg Exp $
+# $Id: hr.pm,v 1.33 2012-12-06 08:40:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:30:55
+    # Last translation file sync: 2012-12-06 09:39:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1110,7 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
-        ' (work units)' => ' (elementi posla)',
+        '(work units)' => '',
         'Ticket Commands' => 'Komande za karticu',
         'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
         'CMD' => 'CMD',
@@ -1687,6 +1687,7 @@ sub Data {
             '',
         'Transition Action' => '',
         'Transition Action Name' => '',
+        'Transition Action Module' => '',
         'Config Parameters' => '',
         'Remove this Parameter' => '',
         'Add a new Parameter' => '',
@@ -1997,6 +1998,8 @@ sub Data {
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => '',
 
+        # Template: AgentCustomerInformationCenterBlank
+
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'ID korisnika',
         'Customer User' => 'Korisnik',
@@ -2026,8 +2029,8 @@ sub Data {
         'Email ticket' => '',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
-        'New phone ticket for %s' => '',
-        'New email ticket for %s' => '',
+        'New phone ticket from %s' => '',
+        'New email ticket to %s' => '',
 
         # Template: AgentDashboardIFrame
 
@@ -2909,6 +2912,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
+        'Define the max depth of queues.' => '',
         'Define the start day of the week for the date picker.' => 'Definira prvi dan u nedelji za izbor datuma.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Definira korisnikovu stavku, koja generira ikonu LinkedIn na kraju korisnikovog info bloka.',
@@ -4506,6 +4510,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (elementi posla)',
 
     };
     # $$STOP$$

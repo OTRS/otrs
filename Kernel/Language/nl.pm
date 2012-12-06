@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.197 2012-11-22 12:33:58 mg Exp $
+# $Id: nl.pm,v 1.198 2012-12-06 08:40:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.197 $) [1];
+$VERSION = qw($Revision: 1.198 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:31:02
+    # Last translation file sync: 2012-12-06 09:39:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        ' (work units)' => ' (in minuten)',
+        '(work units)' => '',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1689,6 +1689,7 @@ sub Data {
             'Let op: het wijzigen van deze transitie-actie heeft invloed op de volgende processen',
         'Transition Action' => 'Transitie-actie',
         'Transition Action Name' => 'Naam',
+        'Transition Action Module' => '',
         'Config Parameters' => 'Configuratie',
         'Remove this Parameter' => 'Verwijder deze parameter',
         'Add a new Parameter' => 'Nieuwe parameter',
@@ -1999,6 +2000,8 @@ sub Data {
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => 'Klantinformatie overzicht',
 
+        # Template: AgentCustomerInformationCenterBlank
+
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'Klant ID',
         'Customer User' => 'Klant',
@@ -2028,8 +2031,8 @@ sub Data {
         'Email ticket' => 'E-mail-ticket',
         '%s open ticket(s) of %s' => '%s open ticket(s) van %s',
         '%s closed ticket(s) of %s' => '%s gesloten ticket(s) van %s',
-        'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
-        'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
+        'New phone ticket from %s' => '',
+        'New email ticket to %s' => '',
 
         # Template: AgentDashboardIFrame
 
@@ -2911,6 +2914,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
+        'Define the max depth of queues.' => '',
         'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
@@ -4508,6 +4512,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (in minuten)',
+        'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
+        'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
 
     };
     # $$STOP$$

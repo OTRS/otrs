@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.345 2012-11-26 13:17:14 mn Exp $
+# $Id: de.pm,v 1.346 2012-12-06 08:40:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.345 $) [1];
+$VERSION = qw($Revision: 1.346 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-22 13:30:46
+    # Last translation file sync: 2012-12-06 09:39:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        ' (work units)' => ' (Arbeitseinheiten)',
+        '(work units)' => 'Arbeitseinheiten',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -1677,17 +1677,16 @@ sub Data {
         'Remove this Field' => 'Feld entfernen',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
-        'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
             'Achtung: Änderungen an dieser Übergangs-Aktion wirken sich auf folgende Prozesse aus',
         'Transition Action' => 'Übergangs-Aktion',
         'Transition Action Name' => 'Name der Übergangs-Aktion',
+        'Transition Action Module' => 'Übergangs-Aktionsmodul',
         'Config Parameters' => 'Konfigurations-Parameter',
         'Remove this Parameter' => 'Parameter entfernen',
         'Add a new Parameter' => 'Neuen Parameter hinzufügen',
-        'Transition Action Module' => 'Übergangs-Aktionsmodul',
 
         # Template: AdminQueue
         'Manage Queues' => 'Queue-Verwaltung',
@@ -1995,6 +1994,8 @@ sub Data {
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => 'Kunden-Informationszentrum',
 
+        # Template: AgentCustomerInformationCenterBlank
+
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'Kunden-ID',
         'Customer User' => 'Kunden-Benutzer',
@@ -2024,8 +2025,8 @@ sub Data {
         'Email ticket' => 'E-Mail-Ticket',
         '%s open ticket(s) of %s' => '%s offene Tickets von %s',
         '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
-        'New phone ticket for %s' => 'Neues Telefonticket für %s',
-        'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
+        'New phone ticket from %s' => 'Neues Telefonticket von %s',
+        'New email ticket to %s' => 'Neues E-Mail-Ticket an %s',
 
         # Template: AgentDashboardIFrame
 
@@ -2907,6 +2908,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
+        'Define the max depth of queues.' => '',
         'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
@@ -4504,6 +4506,10 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (Arbeitseinheiten)',
+        'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
+        'New phone ticket for %s' => 'Neues Telefonticket für %s',
+        'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
 
     };
     # $$STOP$$
