@@ -2,7 +2,7 @@
 # ActivityDialogACL.t - ActivityDialog ACL testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialogACL.t,v 1.8 2012-11-20 16:10:55 mh Exp $
+# $Id: ActivityDialogACL.t,v 1.9 2012-12-07 19:44:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,7 @@ use Kernel::Config;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::CustomerUser;
+use Kernel::System::Queue;
 use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
@@ -98,6 +99,10 @@ my $BackendObject = Kernel::System::DynamicField::Backend->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # We'd need a CustomerUser and an User configured as Agent
 # in the hashes the ID's and all additional userdata are stored
@@ -109,11 +114,54 @@ my %User = $UserObject->GetUserData(
     User => $UserLogin,
 );
 
+my $RandomID = $HelperObject->GetRandomID();
+
+# create some queues in the system
+my %QueueData1 = (
+    Name            => 'Queue1' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+my %QueueData2 = (
+    Name            => 'Queue2' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+my $QueueID1 = $QueueObject->QueueAdd(%QueueData1);
+
+# sanity check
+$Self->IsNot(
+    $QueueID1,
+    undef,
+    "QueueAdd() - Added queue '$QueueData1{Name}' for ACL check - should not be undef"
+);
+
+my $QueueID2 = $QueueObject->QueueAdd(%QueueData2);
+
+# sanity check
+$Self->IsNot(
+    $QueueID2,
+    undef,
+    "QueueAdd() - Added queue '$QueueData2{Name}' for ACL check - should not be undef"
+);
+
 my %UTConfig;
 
 my $TestData = {
     Title                                    => 'test',
-    QueueID                                  => 2,
+    QueueID                                  => $QueueID1,
     Lock                                     => 'unlock',
     Priority                                 => '3 normal',
     StateID                                  => 1,
@@ -376,12 +424,12 @@ $ACLCounter++;
 $TestACLs{"00$ACLCounter-ACL-Queue"} = {
     Properties => {
         Ticket => {
-            Queue => ['Raw'],
+            Queue => [ $QueueData1{Name} ],
         },
     },
     Possible => {
         Ticket => {
-            Queue => ['Junk'],
+            Queue => [ $QueueData2{Name} ],
         },
         ActivityDialog => [ 'AD5', 'AD6' ],
     },
@@ -551,7 +599,7 @@ my $ProcessConfigSub = sub {
                     Queue => {
                         DescriptionShort => '',
                         DescriptionLong  => '',
-                        DefaultValue     => 'Raw',
+                        DefaultValue     => $QueueData1{Name},
                         Display          => 2,
                     },
                     CustomerID => {
@@ -949,7 +997,7 @@ $Self->IsDeeply(
 );
 
 my %QueueResult = (
-    '3' => 'Junk'
+    $QueueID2 => $QueueData2{Name},
 );
 
 my %Queue = $TicketObject->TicketMoveList(
@@ -1095,6 +1143,31 @@ for my $Type (qw(Positive Negative)) {
         "ServiceUpdate() - Invalidate service for $Type ACL check."
     );
 }
+
+# queue
+my $Success = $QueueObject->QueueUpdate(
+    %QueueData1,
+    QueueID    => $QueueID1,
+    FollowUpID => 1,
+    ValidID    => 2,
+);
+
+$Self->True(
+    $Success,
+    "QueueUpdate() - Invalidate queue '$QueueData1{Name}' for ACL check."
+);
+
+$Success = $QueueObject->QueueUpdate(
+    %QueueData2,
+    QueueID    => $QueueID2,
+    FollowUpID => 1,
+    ValidID    => 2,
+);
+
+$Self->True(
+    $Success,
+    "QueueUpdate() - Invalidate queue '$QueueData2{Name}' for ACL check."
+);
 
 # ticket
 for my $Type (qw(Positive Negative)) {
