@@ -2,7 +2,7 @@
 # Process.t - Process module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.7 2012-11-20 16:11:04 mh Exp $
+# $Id: Process.t,v 1.8 2012-12-07 20:13:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use vars qw($Self);
 
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
+use Kernel::System::Queue;
 use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::TransitionAction;
@@ -25,6 +26,12 @@ use Kernel::System::Ticket;
 use Kernel::System::VariableCheck qw(:all);
 
 # create local objects
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    UnitTestObject => $Self,
+    %{$Self},
+    RestoreSystemConfiguration => 0,
+);
+
 my $ConfigObject = Kernel::Config->new();
 
 my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
@@ -51,10 +58,77 @@ my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
     TransitionObject       => $TransitionObject,
     TransitionActionObject => $TransitionActionObject,
 );
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+my $RandomID = $HelperObject->GetRandomID();
+
+# create some queues in the system
+my %QueueData1 = (
+    Name            => 'Queue1' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+my %QueueData2 = (
+    Name            => 'Queue2' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+my %QueueData3 = (
+    Name            => 'Queue3' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+my $QueueID1 = $QueueObject->QueueAdd(%QueueData1);
+
+# sanity check
+$Self->IsNot(
+    $QueueID1,
+    undef,
+    "QueueAdd() - Added queue '$QueueData1{Name}' for ACL check - should not be undef"
+);
+
+my $QueueID2 = $QueueObject->QueueAdd(%QueueData2);
+
+# sanity check
+$Self->IsNot(
+    $QueueID2,
+    undef,
+    "QueueAdd() - Added queue '$QueueData2{Name}' for ACL check - should not be undef"
+);
+
+my $QueueID3 = $QueueObject->QueueAdd(%QueueData3);
+
+# sanity check
+$Self->IsNot(
+    $QueueID3,
+    undef,
+    "QueueAdd() - Added queue '$QueueData3{Name}' for ACL check - should not be undef"
+);
 
 my $TicketID = $TicketObject->TicketCreate(
     Title    => 'Process Unittest Testticket',
-    Queue    => 'Raw',                           # or QueueID => 123,
+    Queue    => $QueueData3{Name},               # or QueueID => 123,
     Lock     => 'unlock',
     Priority => '3 normal',                      # or PriorityID => 2,
     State    => 'new',                           # or StateID => 5,
@@ -1368,7 +1442,7 @@ my @Tests = (
     },
 
   # Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket
-  # and move it to Queue Misc
+  # and move it to Queue1
     {
         ProcessTransition => {
             Config => {
@@ -1477,7 +1551,7 @@ my @Tests = (
                         Name   => 'Queue Move',
                         Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
                         Config => {
-                            TargetQueue => 'Misc',
+                            TargetQueue => $QueueData1{Name},
                         },
 
                     },
@@ -1485,7 +1559,7 @@ my @Tests = (
                         Name   => 'Queue Move',
                         Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
                         Config => {
-                            TargetQueue => 'Junk',
+                            TargetQueue => $QueueData2{Name},
                         },
 
                     },
@@ -1493,7 +1567,7 @@ my @Tests = (
                         Name   => 'Queue Move',
                         Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
                         Config => {
-                            TargetQueue => 'Raw',
+                            TargetQueue => $QueueData3{Name},
                         },
 
                     },
@@ -1511,7 +1585,7 @@ my @Tests = (
     },
 
 # Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket 1
-# back to A1 and move it back to Raw Queue
+# back to A1 and move it back to Queue3
     {
         ProcessTransition => {
             Config => {
@@ -1638,7 +1712,7 @@ my @Tests = (
                         Name   => 'Queue Move',
                         Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
                         Config => {
-                            TargetQueue => 'Misc',
+                            TargetQueue => $QueueData1{Name},
                         },
 
                     },
@@ -1646,7 +1720,7 @@ my @Tests = (
                         Name   => 'Queue Move',
                         Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
                         Config => {
-                            TargetQueue => 'Junk',
+                            TargetQueue => $QueueData2{Name},
                         },
 
                     },
@@ -1654,7 +1728,7 @@ my @Tests = (
                         Name   => 'Queue Move',
                         Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
                         Config => {
-                            TargetQueue => 'Raw',
+                            TargetQueue => $QueueData3{Name},
                         },
 
                     },
@@ -2088,6 +2162,43 @@ for my $Test (@Tests) {
         }
     }
 }
+
+# queue
+my $Success = $QueueObject->QueueUpdate(
+    %QueueData1,
+    QueueID    => $QueueID1,
+    FollowUpID => 1,
+    ValidID    => 2,
+);
+
+$Self->True(
+    $Success,
+    "QueueUpdate() - Invalidate queue '$QueueData1{Name}' for ACL check."
+);
+
+$Success = $QueueObject->QueueUpdate(
+    %QueueData2,
+    QueueID    => $QueueID2,
+    FollowUpID => 1,
+    ValidID    => 2,
+);
+
+$Self->True(
+    $Success,
+    "QueueUpdate() - Invalidate queue '$QueueData2{Name}' for ACL check."
+);
+
+$Success = $QueueObject->QueueUpdate(
+    %QueueData2,
+    QueueID    => $QueueID2,
+    FollowUpID => 1,
+    ValidID    => 2,
+);
+
+$Self->True(
+    $Success,
+    "QueueUpdate() - Invalidate queue '$QueueData3{Name}' for ACL check."
+);
 
 if ($TicketID) {
     my $Success = $TicketObject->TicketDelete(
