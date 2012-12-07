@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.11 2012-12-04 13:35:23 cr Exp $
+# $Id: Run.t,v 1.12 2012-12-07 16:25:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,7 +195,7 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     $Test = Storable::dclone($Test);
 
-    my $ResultMessage = `$Scheduler -a stop 2>&1`;
+    my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
     $Self->Is(
         $?,
         0,
@@ -622,7 +622,7 @@ for my $Test (@Tests) {
 
 # stop scheduler if it was not already running before this test
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $ResultMessage = `$Scheduler -a stop 2>&1`;
+    my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
     $Self->Is(
         $?,
         0,
