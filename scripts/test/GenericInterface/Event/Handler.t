@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.14 2012-11-20 16:09:12 mh Exp $
+# $Id: Handler.t,v 1.15 2012-12-09 04:29:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@ use URI::Escape();
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::DebugLog;
 use Kernel::System::Ticket;
+use Kernel::System::Scheduler::TaskManager;
 use Kernel::System::UnitTest::Helper;
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
@@ -35,6 +36,10 @@ my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
     ConfigObject => $ConfigObject,
 );
 my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
@@ -263,13 +268,43 @@ if ( !$PreviousSchedulerStatus ) {
 }
 
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $Result = system("$Scheduler -a start -f 1");
+    if ( $PreviousSchedulerStatus =~ m{registered}i ) {
+
+        # force stop
+        `$Scheduler -a stop -f 1`;
+        $Self->True(
+            1,
+            "Force stoping due to bad status...",
+        );
+
+        # Wait for slow systems
+        my $SleepTime = 120;
+        print "Waiting at most $SleepTime s until scheduler stops\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $SleepTime ) {
+            my $SchedulerStatus = `$Scheduler -a status`;
+            if ( $SchedulerStatus !~ m{\A running }msxi ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
+    }
+
+    my $ResultMessage = `$Scheduler -a start 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
         "Scheduler start call returned successfully.",
     );
-    sleep 1;
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage",
+        );
+    }
 }
 else {
     $Self->True(
@@ -278,10 +313,23 @@ else {
     );
 }
 
+# Wait for slow systems
+my $SleepTime = 120;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus =~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
 my $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 $Self->True(
-    $CurrentSchedulerStatus =~ /^running/i,
+    int $CurrentSchedulerStatus =~ /^running/i,
     "Scheduler is running",
 );
 
@@ -338,9 +386,35 @@ for my $Test (@Tests) {
     if ( $Test->{Asynchronous} ) {
         $Self->True(
             1,
-            "Sleeping 15s to let the scheduler process the tasks...",
+            "Sleeping 2s to make sure that asynchronous tasks are registered...",
         );
-        sleep 15;
+        sleep 2;
+
+        my $TotalWaitToExecute = 120;
+
+        # wait for scheduler to execute tasks
+        WAITEXECUTE:
+        for my $Wait ( 1 .. $TotalWaitToExecute ) {
+            print "Waiting for Scheduler to execute tasks, $Wait seconds\n";
+            sleep 1;
+
+            my @List = $TaskManagerObject->TaskList();
+
+            if ( scalar @List eq 0 ) {
+                $Self->True(
+                    1,
+                    "$Test->{Name} - all tasks are dropped from task list",
+                );
+                last WAITEXECUTE;
+            }
+
+            next WAITEXECUTE if $Wait < $TotalWaitToExecute;
+
+            $Self->True(
+                0,
+                "$Test->{Name} - all tasks are not dropped from task list after $TotalWaitToExecute seconds!",
+            );
+        }
     }
 
     my $LogData = $DebugLogObject->LogSearch(
