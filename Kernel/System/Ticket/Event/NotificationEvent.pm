@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.45 2012-11-20 16:01:10 mh Exp $
+# $Id: NotificationEvent.pm,v 1.46 2012-12-10 15:09:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -539,11 +539,6 @@ sub _SendNotification {
         $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
     }
 
-    # prepare customer realname
-    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ && $Recipient{Realname} ) {
-        $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$Recipient{Realname}/g;
-    }
-
     # replace config options
     $Notification{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
@@ -561,6 +556,15 @@ sub _SendNotification {
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
     );
+
+    # prepare customer realname
+    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
+        my $RealName = $Self->{CustomerUserObject}->CustomerName(
+            UserLogin => $Ticket{CustomerUserID}
+        ) || $Recipient{Realname};
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$RealName/g;
+    }
+
     for my $Key ( sort keys %Ticket ) {
         next if !defined $Ticket{$Key};
 

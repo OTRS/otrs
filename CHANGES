@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2569 2012-12-10 15:02:01 mb Exp $
+# $Id: CHANGES,v 1.2570 2012-12-10 15:09:05 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0.beta5 2012-12-??
+ - 2012-12-10 Fixed bug#8974 - Event Based Notification does not populate REALNAME with
+    Customer User data.
  - 2012-12-10 Fixed bug#8928 - Link in Groups and Roles screens shows agent login, not name.
  - 2012-12-10 Upgraded CKEditor to version 4.0.
 
@@ -235,7 +237,15 @@
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
 
-3.1.12 2012-??-??
+3.1.13 20??-??-??
+ - 2012-12-10 Fixed bug#8974 - Event Based Notification does not populate REALNAME with
+    Customer User data.
+
+3.1.12 2012-12-11
+ - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
+ - 2012-11-29 Fixed bug#8763 - Please add charset conversion for customer companies.
+ - 2012-11-29 Fixed bug#1970 - Email attachments of type .msg (Outlook-Message) are converted.
+ - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.
  - 2012-11-24 Fixed bug#8936 - Ticket close date is empty when ticket is created in closed state.
  - 2012-11-19 Fixed bug#8850 - CustomerTicketOverview - MouseOver Age isn't always correct.
  - 2012-11-14 Fixed bug#8868 - Event Based Notification problem saving 'text' Dynamic Fields.
