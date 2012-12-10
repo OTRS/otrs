@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.346 2012-12-06 08:40:25 mg Exp $
+# $Id: de.pm,v 1.347 2012-12-10 16:30:24 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.346 $) [1];
+$VERSION = qw($Revision: 1.347 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1644,6 +1644,8 @@ sub Data {
         'Do you really want to delete this Transition?' => 'Möchten Sie diesen Übergang wirklich löschen?',
         'Do you really want to delete this Transition Action?' => 'Möchten Sie diese Übergangs-Aktion wirklich löschen?',
         'Delete Entity' => 'Entität löschen',
+        'Show EntityIDs' => 'EntityIDs einblenden',
+        'Hide EntityIDs' => 'EntityIDs ausblenden',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Diese Aktivität wird bereits im Prozess verwendet. Sie können sie nicht erneut hinzufügen!',
         'This Activity cannot be deleted because it is the Start Activity.' =>

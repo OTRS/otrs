@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.13 2012-11-27 11:58:08 mn Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.14 2012-12-10 16:32:11 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,7 +81,7 @@
                             <ul class="AllocationList Tablelike W90pc" id="AvailableTransitionActions">
 <!-- dtl:block:AvailableTransitionActionRow -->
                                 <li data-id="$QData{"ID"}" id="$QData{"EntityID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
-                                    $QData{"Name", "55"}
+                                    $QData{"Name", "55"} ($QData{"EntityID"})
                                     <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction">$Text{"Edit"}</a></span>
                                 </li>
 <!-- dtl:block:AvailableTransitionActionRow -->

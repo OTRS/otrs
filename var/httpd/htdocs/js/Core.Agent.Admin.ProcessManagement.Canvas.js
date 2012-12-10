@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.40 2012-12-10 10:28:01 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.41 2012-12-10 16:29:16 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -187,8 +187,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                     SelectedInterface += Value.substr(0,1);
                 });
-
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + " </li>";
+                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + " (" + Value + ") </li>";
             });
         }
         else {
@@ -542,6 +541,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
 
     TargetNS.Redraw = function () {
+
+        $('#ShowEntityIDs').removeClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.ShowEntityIDs);
         $('#Canvas').empty();
         TargetNS.Init();
     };
@@ -650,6 +651,30 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
 
         TargetNS.DrawDiagram();
+    };
+
+    TargetNS.ShowEntityIDs = function () {
+
+        var ActivityEntityID, TransitionEntityID, Connections, Overlays;
+
+        // show EntityIDs of Activities
+        $('.Activity').each(function() {
+            ActivityEntityID = $(this).attr('id');
+            $(this).append('<em class="EntityID">' + ActivityEntityID + '</em>');
+        });
+
+        // show EntityIDs of Transitions
+        Connections = jsPlumb.getConnections();
+        $(Connections).each(function() {
+            TransitionEntityID = this.getParameter('TransitionID');
+            Overlays = this.getOverlays();
+            $(Overlays).each(function() {
+                if (this.type === 'Label') {
+                   $(this.canvas).append('<em class="EntityID">' + TransitionEntityID + '</em>');
+                }
+            });
+        });
+
     };
 
     return TargetNS;
