@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.169 2012-12-06 08:36:39 mg Exp $
+# $Id: CHANGES,v 1.2260.2.170 2012-12-10 15:07:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.13 20??-??-??
+ - 2012-12-10 Fixed bug#8974 - Event Based Notification does not populate REALNAME with
+    Customer User data.
 
 3.1.12 2012-12-11
  - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
