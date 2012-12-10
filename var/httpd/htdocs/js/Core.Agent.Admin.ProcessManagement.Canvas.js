@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.39 2012-11-27 14:46:35 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.40 2012-12-10 10:28:01 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -632,9 +632,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
                 Data.connection.addOverlay([ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ]);
                 Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
-                Data.connection.addOverlay([ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: { mouseenter: function(labelOverlay, originalEvent) {
-                    TargetNS.HighlightTransitionLabel(labelOverlay);
-                } } } ]);
+                Data.connection.addOverlay([ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: {
+                    mouseenter: function(labelOverlay, originalEvent) {
+                        TargetNS.HighlightTransitionLabel(labelOverlay);
+                    },
+                    mouseexit: function(labelOverlay, originalEvent) {
+                        TargetNS.UnHighlightTransitionLabel(labelOverlay);
+                    }
+                } } ]);
             }
         });
 
