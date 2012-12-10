@@ -2,7 +2,7 @@
 # HTMLHead.dtl - provides global HTML head snippet
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLHead.dtl,v 1.17 2012-11-20 15:26:35 mh Exp $
+# $Id: HTMLHead.dtl,v 1.18 2012-12-10 14:31:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,34 +45,34 @@ if (RefreshSeconds) {
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE7 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE7 -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
 <!-- dtl:block:ModuleCSS -->
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
 <!-- dtl:block:ModuleCSS -->
 
 <!-- dtl:block:ModuleCSS_IE7 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE7 -->
 
 <!-- dtl:block:ModuleCSS_IE8 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE8 -->
 
