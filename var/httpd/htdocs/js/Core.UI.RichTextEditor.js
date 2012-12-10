@@ -2,7 +2,7 @@
 // Core.UI.RichTextEditor.js - provides all UI functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.22 2012-08-27 16:28:35 cr Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.23 2012-12-10 09:53:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -44,13 +44,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function initializes the application and executes the needed functions
      */
     TargetNS.Init = function ($EditorArea) {
-        var ToolbarSet = 'Simple',
-            EditorID = '',
+        var EditorID = '',
             Editor,
             Instance;
-        if (CheckFormID().length) {
-            ToolbarSet = 'Full';
-        }
 
         if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
             EditorID = $EditorArea.attr('id');
@@ -67,7 +63,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         CKEDITOR.on('instanceCreated', function (Editor) {
-            Editor.editor.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
+            CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
             // Remove the validation error tooltip if content is added to the editor
             Editor.editor.on('change', function(evt) {
                 Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
@@ -82,9 +78,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             width: Core.Config.Get('RichText.Width', 620),
             resize_minWidth: Core.Config.Get('RichText.Width', 620),
             height: Core.Config.Get('RichText.Height', 320),
-            // disable builtin spellchecker.net pluging "scayt"
-            removePlugins : 'elementspath,scayt,menubutton,contextmenu',
-            skin: 'default',
+            removePlugins : 'elementspath,scayt,menubutton',
             forcePasteAsPlainText: false,
             format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
@@ -92,9 +86,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
             disableNativeSpellChecker: false,
-            toolbar_Full: Core.Config.Get('RichText.ToolbarFull'),
-            toolbar_Simple: Core.Config.Get('RichText.ToolbarSimple'),
-            toolbar: ToolbarSet,
+            toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange' : 'onchange'
         });

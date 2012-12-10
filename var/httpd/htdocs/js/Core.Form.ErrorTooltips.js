@@ -1,8 +1,8 @@
 // --
 // Core.UI.Tooltips.js - provides provides Tooltip functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.ErrorTooltips.js,v 1.7 2011-05-24 11:56:21 mg Exp $
+// $Id: Core.Form.ErrorTooltips.js,v 1.8 2012-12-10 09:53:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -122,7 +122,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      */
 
     function ShowRTETooltip(Event) {
-        ShowTooltip($('#cke_contents_' + Event.listenerData.ElementID), Event.listenerData.Message);
+        ShowTooltip($('#cke_' + Event.listenerData.ElementID + ' .cke_contents'), Event.listenerData.Message);
     }
 
     /**

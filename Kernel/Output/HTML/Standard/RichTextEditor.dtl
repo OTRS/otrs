@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.46 2012-11-20 15:29:14 mh Exp $
+# $Id: RichTextEditor.dtl,v 1.47 2012-12-10 09:53:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,12 +30,12 @@
     Core.Config.Set('RichText.TextDir', '$Env{"TextDirection"}');
     Core.Config.Set('RichText.SpellChecker', '$Env{"BrowserSpellCheckerInline"}');
     Core.Config.Set('RichText.EditingAreaCSS', 'body { $Config{"Frontend::RichText::DefaultCSS"} }');
-    Core.Config.Set('RichText.ToolbarFull', [
+    Core.Config.Set('RichText.Toolbar', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',
         ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
     ]);
-    Core.Config.Set('RichText.ToolbarSimple', [
+    Core.Config.Set('RichText.ToolbarWithoutImage', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',
         ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
