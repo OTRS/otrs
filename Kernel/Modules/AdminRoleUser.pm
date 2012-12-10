@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.35 2012-11-20 14:43:54 mh Exp $
+# $Id: AdminRoleUser.pm,v 1.36 2012-12-10 15:02:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,7 +61,7 @@ sub Run {
             Selected => \%Member,
             Data     => \%RoleData,
             ID       => $UserData{UserID},
-            Name     => $UserData{UserLogin},
+            Name     => "$UserData{UserFirstname} $UserData{UserLastname} ($UserData{UserLogin})",
             Type     => 'User',
         );
         $Output .= $Self->{LayoutObject}->Footer();

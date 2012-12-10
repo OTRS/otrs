@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.28 2012-11-20 14:36:34 mh Exp $
+# $Id: AdminCustomerUserService.pm,v 1.29 2012-12-10 15:02:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,12 +76,19 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        my $CustomerUserName
-            = $Param{CustomerUserLogin} eq '<DEFAULT>' ? q{} : $Param{CustomerUserLogin};
+        if ( $Param{CustomerUserLogin} eq '<DEFAULT>' ) {
+            $Param{Name} = q{};
+        }
+        else {
+            $Param{Name}
+                = $Self->{CustomerUserObject}
+                ->CustomerName( UserLogin => $Param{CustomerUserLogin} )
+                . " ($Param{CustomerUserLogin})";
+        }
 
         $Output .= $Self->_Change(
             ID                 => $Param{CustomerUserLogin},
-            Name               => $CustomerUserName,
+            Name               => $Param{Name},
             Data               => \%ServiceData,
             Selected           => \%ServiceMemberList,
             CustomerUserSearch => $Param{CustomerUserSearch},
