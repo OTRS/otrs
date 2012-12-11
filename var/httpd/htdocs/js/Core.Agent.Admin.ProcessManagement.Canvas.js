@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.41 2012-12-10 16:29:16 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.42 2012-12-11 09:25:18 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -144,6 +144,65 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 left: '10px'
             });
         }
+    };
+
+    TargetNS.ShowTransitionTooltip = function (Connection) {
+        var $tooltip = $('#DiagramTooltip'),
+            $Element = $(Connection.canvas),
+            $TitleElement = $Element.clone(),
+            text,
+            position = { x: 0, y: 0},
+            Transition = Core.Agent.Admin.ProcessManagement.ProcessData.Transition,
+            ElementID = Connection.id,
+            CurrentProcessEntityID = $('#ProcessEntityID').val(),
+            PathInfo = Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
+            AssignedTransitionActions = [];
+
+        $TitleElement.find('a').remove();
+        text = '<h4>' + $TitleElement.text() + '</h4>';
+
+        if (typeof Transition[ElementID] === 'undefined') {
+            return false;
+        }
+
+        if (!$tooltip.length) {
+            $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
+        }
+        else if ($tooltip.is(':visible')) {
+            $tooltip.hide();
+        }
+
+        // calculate tooltip position
+        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
+        position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 30;
+
+        // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
+        position.y = parseInt($Element.css('top'), 10) + 15;
+
+        $.each(PathInfo, function(Activity, Transition) {
+            if ( Transition[ElementID] !== undefined ) {
+                AssignedTransitionActions = Transition[ElementID].TransitionAction;
+                return false;
+            }
+        });
+
+        // Add content to the tooltip
+        text += "<ul>";
+        if (AssignedTransitionActions) {
+            $.each(AssignedTransitionActions, function (Key, Value) {
+                text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name + " (" + Value + ") </li>";
+            });
+        }
+        else {
+            text += '<li class="NoDialogsAssigned">' + Core.Agent.Admin.ProcessManagement.Localization.NoTransitionActionsAssigned + '</li>';
+        }
+        text += "</ul>";
+
+        $tooltip
+            .html(text)
+            .css('top', position.y)
+            .css('left', position.x)
+            .show();
     };
 
     TargetNS.ShowActivityTooltip = function ($Element) {
@@ -441,6 +500,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
         }
 
+        // show tooltip with assigned transition actions
+        TargetNS.ShowTransitionTooltip(Connection);
+
         $(Connection.canvas).unbind('dblclick.Transition').bind('dblclick.Transition', function(Event) {
             Core.Agent.Admin.ProcessManagement.ShowOverlay();
             Core.UI.Popup.OpenPopup(PopupPath, 'Path');
@@ -450,6 +512,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
 
     TargetNS.UnHighlightTransitionLabel = function(Connection) {
+        $('#DiagramTooltip').hide();
         if (TargetNS.DragTransitionAction) {
             $(Connection.canvas).removeClass('ReadyToDrop');
             TargetNS.DragTransitionActionTransition = {};
