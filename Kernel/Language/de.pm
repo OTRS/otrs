@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.347 2012-12-10 16:30:24 mab Exp $
+# $Id: de.pm,v 1.348 2012-12-11 09:32:56 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.347 $) [1];
+$VERSION = qw($Revision: 1.348 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -526,6 +526,9 @@ sub Data {
         'TicketAccountedTime' => 'Ticket-Bearbeitungszeiten',
         'Ticket Create Time' => 'Ticket-Erstellzeit',
         'Ticket Close Time' => 'Ticket-Schließzeit',
+        'State Type Historic' => 'Historischer Status-Typ',
+        'State Historic' => 'Historischer Status',
+        'Historic Time Range' => 'Historischer Zeitraum',
 
         # Template: AAATicket
         'Status View' => 'Ansicht nach Status',
