@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.42 2012-12-11 09:25:18 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.43 2012-12-11 12:26:25 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -527,15 +527,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             Layout = Core.Agent.Admin.ProcessManagement.ProcessLayout,
             ProcessEntityID = $('#ProcessEntityID').val(),
-            StartActivity = Config.Process[ProcessEntityID].StartActivity,
-            jsPlumbInstance = jsPlumb.getInstance();
+            StartActivity = Config.Process[ProcessEntityID].StartActivity;
 
         // Set some jsPlumb defaults
-        jsPlumbInstance.importDefaults({
-            Connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ],
-            paintStyle: { strokeStyle: "#000", lineWidth: 2 },
-            Anchor: 'Continuous'
-        });
+        jsPlumb.Defaults.Connector  = [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ];
+        jsPlumb.Defaults.PaintStyle = { strokeStyle: "#000", lineWidth: 2 };
+        jsPlumb.Defaults.Anchor     = 'Continuous';
 
         // Always start with drawing the start event element
         TargetNS.CreateStartEvent();
