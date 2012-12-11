@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.153 2012-12-11 06:19:42 mb Exp $
+# $Id: DB.pm,v 1.154 2012-12-11 09:28:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.153 $) [1];
+$VERSION = qw($Revision: 1.154 $) [1];
 
 =head1 NAME
 
@@ -558,6 +558,9 @@ sub Prepare {
         }
         if ( $Self->{Backend}->{'DB::Limit'} eq 'limit' ) {
             $SQL .= " LIMIT $Limit";
+        }
+        elsif ( $Self->{Backend}->{'DB::Limit'} eq 'top' ) {
+            $SQL =~ s{ \A SELECT }{SELECT TOP $Limit}xmsi;
         }
         elsif ( $Self->{Backend}->{'DB::Limit'} eq 'top' ) {
             $SQL =~ s/^SELECT/SELECT TOP $Limit/i;
@@ -1479,6 +1482,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.153 $ $Date: 2012-12-11 06:19:42 $
+$Revision: 1.154 $ $Date: 2012-12-11 09:28:56 $
 
 =cut
