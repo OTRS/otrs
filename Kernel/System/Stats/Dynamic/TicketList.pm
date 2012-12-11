@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.26 2012-11-20 15:57:26 mh Exp $
+# $Id: TicketList.pm,v 1.27 2012-12-11 09:27:48 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -203,11 +203,29 @@ sub GetObjectAttributes {
             Values           => \%StateList,
         },
         {
+            Name             => 'State Historic',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'StateIDsHistoric',
+            Block            => 'MultiSelectField',
+            Values           => \%StateList,
+        },
+        {
             Name             => 'State Type',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'StateTypeIDs',
+            Block            => 'MultiSelectField',
+            Values           => \%StateTypeList,
+        },
+        {
+            Name             => 'State Type Historic',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'StateTypeIDsHistoric',
             Block            => 'MultiSelectField',
             Values           => \%StateTypeList,
         },
@@ -337,6 +355,19 @@ sub GetObjectAttributes {
             Values           => {
                 TimeStart => 'TicketCloseTimeNewerDate',
                 TimeStop  => 'TicketCloseTimeOlderDate',
+            },
+        },
+        {
+            Name             => 'Historic Time Range',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'HistoricTimeRange',
+            TimePeriodFormat => 'DateInputFormat',       # 'DateInputFormatLong',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'HistoricTimeRangeTimeNewerDate',
+                TimeStop  => 'HistoricTimeRangeTimeOlderDate',
             },
         },
         {
@@ -692,6 +723,61 @@ sub GetStatTable {
         $Param{Restrictions}{Limit} = 100_000_000;
     }
 
+    # OlderTicketsExclude for historic searches
+    # takes tickets that were closed before the
+    # start of the searched time periode
+    my %OlderTicketsExclude;
+
+    # NewerTicketExclude for historic searches
+    # takes tickets that were created after the
+    # searched time periode
+    my %NewerTicketsExclude;
+    my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
+
+    # UnixTimeStart & End:
+    # The Time periode the historic search is executed
+    # if no time periode has been selected we take
+    # Unixtime 0 as StartTime and SystemTime as EndTime
+    my $UnixTimeStart = 0;
+    my $UnixTimeEnd   = $Self->{TimeObject}->SystemTime();
+
+    if ( $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate} ) {
+
+        # Find tickets that were closed before the start of our
+        # HistoricTimeRangeTimeNewerDate, these have to be excluded.
+        # In order to reduce it quickly we reformat the result array
+        # to a hash.
+        my @OldToExclude = $Self->{TicketObject}->TicketSearch(
+            UserID                   => 1,
+            Result                   => 'ARRAY',
+            Permission               => 'ro',
+            TicketCloseTimeOlderDate => $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate},
+            Limit                    => 100_000_000,
+        );
+        %OlderTicketsExclude = map { $_ => 1 } @OldToExclude;
+        $UnixTimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
+        );
+    }
+    if ( $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate} ) {
+
+        # Find tickets that were closed after the end of our
+        # HistoricTimeRangeTimeOlderDate, these have to be excluded
+        # in order to reduce it quickly we reformat the result array
+        # to a hash.
+        my @NewToExclude = $Self->{TicketObject}->TicketSearch(
+            UserID                    => 1,
+            Result                    => 'ARRAY',
+            Permission                => 'ro',
+            TicketCreateTimeNewerDate => $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate},
+            Limit                     => 100_000_000,
+        );
+        %NewerTicketsExclude = map { $_ => 1 } @NewToExclude;
+        $UnixTimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
+        );
+    }
+
     # get the involved tickets
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         UserID     => 1,
@@ -700,6 +786,185 @@ sub GetStatTable {
         %{ $Param{Restrictions} },
         %DynamicFieldRestrictions,
     );
+
+    # if we had Tickets we need to reduce the found tickets
+    # to those not beeing in %OlderTicketsExclude
+    # as well as not in %NewerTicketsExclude
+    if ( %OlderTicketsExclude || %NewerTicketsExclude ) {
+        @TicketIDs = grep {
+            !defined $OlderTicketsExclude{$_}
+                && !defined $NewerTicketsExclude{$_}
+        } @TicketIDs;
+    }
+
+    # if we have to deal with history states
+    if (
+        $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
+        || $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
+        || (
+            defined $Param{Restrictions}->{StateTypeIDsHistoric}
+            && ref $Param{Restrictions}->{StateTypeIDsHistoric} eq 'ARRAY'
+        )
+        || (
+            defined $Param{Restrictions}->{StateIDsHistoric}
+            && ref $Param{Restrictions}->{StateIDsHistoric} eq 'ARRAY'
+        )
+        )
+    {
+
+        # start building the SQL query from back to front
+        # what's fixed is the history_type_id we have to search for
+        # 1 is ticketcreate
+        # 27 is state update
+        my $SQL = 'history_type_id IN (1,27) ORDER BY ticket_id ASC';
+        if (@TicketIDs) {
+            $SQL = 'ticket_id IN ('
+                . ( join ', ', @TicketIDs ) . ') AND ' . $SQL;
+        }
+        my %StateIDs;
+
+        # if we have certain state types we have to search for
+        # build a hash holding all ticket StateIDs => StateNames
+        # we are searching for
+        if (
+            defined $Param{Restrictions}->{StateTypeIDsHistoric}
+            && ref $Param{Restrictions}->{StateTypeIDsHistoric} eq 'ARRAY'
+            )
+        {
+
+            # getting the StateListType:
+            # my %ListType = (
+            #     1 => "new",
+            #     2 => "open",
+            #     3 => "closed",
+            #     4 => "pending reminder",
+            #     5 => "pending auto",
+            #     6 => "removed",
+            #     7 => "merged",
+            # );
+            my %ListType = $Self->{StateObject}->StateTypeList(
+                UserID => 1,
+            );
+
+            # Takes the Array of StateTypeID's
+            # example: (1, 3, 5, 6, 7)
+            # maps the ID's to the StateTypeNames
+            # results in a Hash containing the StateTypeNames
+            # example:
+            # %StateTypeHash = {
+            #                  'closed' => 1,
+            #                  'removed' => 1,
+            #                  'pending auto' => 1,
+            #                  'merged' => 1,
+            #                  'new' => 1
+            #               };
+            my %StateTypeHash = map { $ListType{$_} => 1 }
+                @{ $Param{Restrictions}->{StateTypeIDsHistoric} };
+
+            # And now get the StatesByType
+            # Result is a Hash {ID => StateName,}
+            my @StateTypes = keys %StateTypeHash;
+            %StateIDs = $Self->{StateObject}->StateGetStatesByType(
+                StateType => [ keys %StateTypeHash ],
+                Result    => 'HASH',
+            );
+        }
+
+        # if we had certain states selected, add them to the
+        # StateIDs Hash
+        if (
+            defined $Param{Restrictions}->{StateIDsHistoric}
+            && ref $Param{Restrictions}->{StateIDsHistoric} eq 'ARRAY'
+            )
+        {
+
+            # Validate the StateIDsHistoric list by
+            # checking if they are in the %StateList hash
+            # then taking all ValidState ID's and return a hash
+            # holding { StateID => Name }
+            my %tmp = map { $_ => $StateList{$_} }
+                grep { $StateList{$_} } @{ $Param{Restrictions}->{StateIDsHistoric} };
+            %StateIDs = ( %StateIDs, %tmp );
+        }
+
+        $SQL = 'SELECT ticket_id, state_id, create_time FROM ticket_history WHERE ' . $SQL;
+
+        $Self->{DBObject}->Prepare( SQL => $SQL );
+
+        # Structure:
+        # Stores the last TicketState:
+        # TicketID => [StateID, CreateTime]
+        my %FoundTickets;
+
+        # fetch the result
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            if ( $Row[0] ) {
+                my $TicketID    = $Row[0];
+                my $StateID     = $Row[1];
+                my $RowTime     = $Row[2];
+                my $RowTimeUnix = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Row[2],
+                );
+
+                # Entries before StartTime
+                if ( $RowTimeUnix < $UnixTimeStart ) {
+
+                    # if the ticket was already stored
+                    if ( $FoundTickets{$TicketID} ) {
+
+                        # if the current state is in the searched states
+                        # update the record
+                        if ( $StateIDs{$StateID} ) {
+                            $FoundTickets{$TicketID} = [ $StateID, $RowTimeUnix ];
+                        }
+
+                        # if it is not in the searched states
+                        # a state change happend ->
+                        # delete the record
+                        else {
+                            delete $FoundTickets{$TicketID};
+                        }
+                    }
+
+                    # if the ticket was NOT already stored
+                    # and the state is in the searched states
+                    # store the record
+                    elsif ( $StateIDs{$StateID} ) {
+                        $FoundTickets{$TicketID} = [ $StateID, $RowTimeUnix ];
+                    }
+                }
+
+                # Entries between Start and EndTime
+                if (
+                    $RowTimeUnix >= $UnixTimeStart
+                    && $RowTimeUnix <= $UnixTimeEnd
+                    )
+                {
+
+                    # if we found a record
+                    # with the searched states
+                    # add it to the FoundTickets
+                    if ( $StateIDs{$StateID} ) {
+                        $FoundTickets{$TicketID} = [ $StateID, $RowTimeUnix ];
+                    }
+                }
+            }
+        }
+
+        # if we had tickets that matched our query
+        # use them to get the details for the statistic
+        if (%FoundTickets) {
+            @TicketIDs = sort { $a <=> $b } keys %FoundTickets;
+        }
+
+        # if no Tickets were remaining,
+        # after reducing the total amount by the ones
+        # that had none of the searched states,
+        # empty @TicketIDs
+        else {
+            @TicketIDs = ();
+        }
+    }
 
     # find out if the extended version of TicketGet is needed,
     my $Extended = $Self->_ExtendedAttributesCheck(
