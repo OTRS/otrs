@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.9 2010-10-28 11:13:28 mg Exp $
+# $Id: otrs.CheckSum.pl,v 1.9.4.1 2012-12-11 16:25:49 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,12 +30,13 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.9.4.1 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
 
-my $Start   = $RealBin . '/../';
+my $Start = $RealBin;
+$Start =~ s{/bin}{/}smx;
 my $Archive = '';
 my $Action  = 'compare';
 my %Compare;
@@ -45,7 +46,7 @@ my %Opts;
 getopt( 'habd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
     print "otrs.CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
@@ -99,6 +100,9 @@ sub R {
         # clean up directory name
         $File =~ s/\/\//\//g;
 
+        # always stay in OTRS directory
+        next FILE if $File !~ /^\Q$Start\E/;
+
         # ignote cvs directories
         next if $File =~ /Entries|Repository|Root|CVS|ARCHIVE/;
 
@@ -109,6 +113,9 @@ sub R {
 
             # print "Directory: $File\n";
         }
+
+        # ignore all non-regular files as links, pipes, sockets etc.
+        next FILE if ( !-f $File );
 
         # if it's a file
         my $OrigFile = $File;
