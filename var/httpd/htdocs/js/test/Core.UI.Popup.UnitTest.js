@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Popup.UnitTest.js,v 1.2 2012-12-11 09:05:42 mn Exp $
+// $Id: Core.UI.Popup.UnitTest.js,v 1.3 2012-12-11 12:37:17 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,13 @@ Core.UI.Popup = (function (Namespace) {
         test('PopupProfiles', 2, function(){
 
             var ExpectedProfiles = {
-                    'Default': "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
+                'Default': {
+                    WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
+                    Left:            100,
+                    Top:             100,
+                    Width:           1000,
+                    Height:          700
+                }
             };
 
             deepEqual(Core.UI.Popup.ProfileList(), ExpectedProfiles, 'Default profile list');
