@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2574 2012-12-11 09:05:42 mn Exp $
+# $Id: CHANGES,v 1.2575 2012-12-11 09:35:53 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta5 2012-12-??
+ - 2012-12-11 Added TicketList statistic option for historic states and historic state types.
  - 2012-12-11 Updated QUnit to version 1.10.0.
  - 2012-12-11 Updated StacktraceJS to version 0.4.
  - 2012-12-11 Updated jQuery Validate to version 1.10.
