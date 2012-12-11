@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.108.2.1 2012-10-11 08:48:01 mg Exp $
+# $Id: auto_build.sh,v 1.108.2.2 2012-12-11 17:05:28 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -17,11 +17,11 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.108.2.1 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.108.2.2 $>"
 echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -94,18 +94,17 @@ rm -rf $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm
 # --
 rm -rf $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR
-mkdir $PACKAGE_DEST_DIR/RPMS
-mkdir $PACKAGE_DEST_DIR/RPMS/suse
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/10.0
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/11.0
-mkdir $PACKAGE_DEST_DIR/RPMS/fedora
-mkdir $PACKAGE_DEST_DIR/RPMS/fedora/4
-mkdir $PACKAGE_DEST_DIR/SRPMS
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/10.0
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/11.0
-mkdir $PACKAGE_DEST_DIR/SRPMS/fedora
-mkdir $PACKAGE_DEST_DIR/SRPMS/fedora/4
+mkdir -p $PACKAGE_DEST_DIR/RPMS/fedora/4
+mkdir -p $PACKAGE_DEST_DIR/RPMS/rhel/5
+mkdir -p $PACKAGE_DEST_DIR/RPMS/rhel/6
+mkdir -p $PACKAGE_DEST_DIR/RPMS/suse/10.0
+mkdir -p $PACKAGE_DEST_DIR/RPMS/suse/11.0
+
+mkdir -p $PACKAGE_DEST_DIR/SRPMS/fedora/4
+mkdir -p $PACKAGE_DEST_DIR/SRPMS/rhel/5
+mkdir -p $PACKAGE_DEST_DIR/SRPMS/rhel/6
+mkdir -p $PACKAGE_DEST_DIR/SRPMS/suse/10.0
+mkdir -p $PACKAGE_DEST_DIR/SRPMS/suse/11.0
 
 # --
 # build
@@ -264,6 +263,42 @@ rm ~/.rpmmacros || exit 1;
 
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/fedora/4/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/fedora/4/
+
+# --
+# build RHEL5 rpm
+# --
+echo "Building RHEL5 rpm..."
+cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
+specfile=$PACKAGE_TMP_SPEC
+cat $ARCHIVE_DIR/scripts/rhel5-otrs.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+# replace sourced files
+perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
+# replace package description
+perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
+$RPM_BUILD -ba --clean $specfile || exit 1;
+rm $specfile || exit 1;
+rm ~/.rpmmacros || exit 1;
+
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/rhel/5/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/rhel/5/
+
+# --
+# build RHEL6 rpm
+# --
+echo "Building RHEL6 rpm..."
+cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
+specfile=$PACKAGE_TMP_SPEC
+cat $ARCHIVE_DIR/scripts/rhel6-otrs.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+# replace sourced files
+perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
+# replace package description
+perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
+$RPM_BUILD -ba --clean $specfile || exit 1;
+rm $specfile || exit 1;
+rm ~/.rpmmacros || exit 1;
+
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/rhel/6/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/rhel/6/
 
 # --
 # stats
