@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.36 2012-04-03 18:09:01 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.36.2.1 2012-12-11 16:04:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -388,6 +388,11 @@ my @NeededModules = (
                 Comment  => 'Recommended for faster CSV handling.',
             },
         ],
+    },
+    {
+        Module   => 'Time::HiRes',
+        Required => 1,
+        Comment  => 'Required for high resolution timestamps.',
     },
     {
         Module   => 'XML::Parser',
