@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -159,6 +159,10 @@ div.Headline .Flag {
 
 .ControlRow .ArticleFilter.Icons a span {
     background: url(../img/articlefilter.png) no-repeat;
+}
+
+.ControlRow .ArticleFilter.Icons a#ResetArticleFilter span {
+    background: url(../img/icons/undo.png) no-repeat;
 }
 
 .ControlRow .ArticleFilter.Icons .Active span {
