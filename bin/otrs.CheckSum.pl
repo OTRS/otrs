@@ -3,7 +3,7 @@
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.14 2012-11-20 16:03:06 mh Exp $
+# $Id: otrs.CheckSum.pl,v 1.15 2012-12-11 16:25:56 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,12 +31,13 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
 
-my $Start   = $RealBin . '/../';
+my $Start = $RealBin;
+$Start =~ s{/bin}{/}smx;
 my $Archive = '';
 my $Action  = 'compare';
 my %Compare;
@@ -100,6 +101,9 @@ sub R {
         # clean up directory name
         $File =~ s/\/\//\//g;
 
+        # always stay in OTRS directory
+        next FILE if $File !~ /^\Q$Start\E/;
+
         # ignote cvs directories
         next if $File =~ /Entries|Repository|Root|CVS|ARCHIVE/;
 
@@ -110,6 +114,9 @@ sub R {
 
             # print "Directory: $File\n";
         }
+
+        # ignore all non-regular files as links, pipes, sockets etc.
+        next FILE if ( !-f $File );
 
         # if it's a file
         my $OrigFile = $File;
