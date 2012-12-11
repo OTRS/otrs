@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.114 2012-12-11 16:44:51 mg Exp $
+# $Id: auto_build.sh,v 1.115 2012-12-11 16:48:43 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.114 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.115 $>"
 echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -95,8 +95,8 @@ rm -rf $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm
 rm -rf $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR
 mkdir -p $PACKAGE_DEST_DIR/RPMS/fedora/4
-mkdir -p $PACKAGE DEST_DIR/RPMS/rhel/5
-mkdir -p $PACKAGE DEST_DIR/RPMS/rhel/6
+mkdir -p $PACKAGE_DEST_DIR/RPMS/rhel/5
+mkdir -p $PACKAGE_DEST_DIR/RPMS/rhel/6
 mkdir -p $PACKAGE_DEST_DIR/RPMS/suse/10.0
 mkdir -p $PACKAGE_DEST_DIR/RPMS/suse/11.0
 
