@@ -1,8 +1,8 @@
 // --
 // Core.UI.Accessibility.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.UI.Accessibility.UnitTest.js,v 1.3 2010-12-20 09:22:03 mg Exp $
+// $Id: Core.UI.Accessibility.UnitTest.js,v 1.4 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,21 +40,21 @@ Core.UI.Accessibility = (function (Namespace) {
              */
             Core.UI.Accessibility.Init();
 
-            equals($('.ARIARoleBanner')
+            equal($('.ARIARoleBanner')
                 .attr('role'), 'banner', 'Role banner');
-            equals($('.ARIARoleNavigation')
+            equal($('.ARIARoleNavigation')
                 .attr('role'), 'navigation', 'Role navigation');
-            equals($('.ARIARoleSearch')
+            equal($('.ARIARoleSearch')
                 .attr('role'), 'search', 'Role search');
-            equals($('.ARIARoleMain')
+            equal($('.ARIARoleMain')
                 .attr('role'), 'main', 'Role main');
-            equals($('.ARIARoleContentinfo')
+            equal($('.ARIARoleContentinfo')
                 .attr('role'), 'contentinfo', 'Role contentinfo');
-            equals($('.ARIAHasPopup')
+            equal($('.ARIAHasPopup')
                 .attr('aria-haspopup'), 'true', 'HasPopup attribute');
-            equals($('.Validate_Required')
+            equal($('.Validate_Required')
                 .attr('aria-required'), 'true', 'ARIA required attribute');
-            equals($('.Validate_DependingRequiredAND')
+            equal($('.Validate_DependingRequiredAND')
                 .attr('aria-required'), 'true', 'ARIA required attribute');
 
 

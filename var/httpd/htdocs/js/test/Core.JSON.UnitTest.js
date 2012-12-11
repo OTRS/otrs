@@ -1,8 +1,8 @@
 // --
 // Core.UI.Accessibility.UnitTest.js - UnitTests
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.JSON.UnitTest.js,v 1.2 2011-05-10 11:22:49 mg Exp $
+// $Id: Core.JSON.UnitTest.js,v 1.3 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,9 +28,9 @@ Core.JSON = (function (Namespace) {
             var ObjectOne = Core.JSON.Parse(StringOne);
             var ReturnOne = Core.JSON.Stringify(ObjectOne);
 
-            equals(StringOne, ReturnOne, 'okay');
-            equals(ObjectOne.ItemOne, '1234', 'okay');
-            equals(ObjectOne.ItemTwo, ValueTwo, 'okay');
+            equal(StringOne, ReturnOne, 'okay');
+            equal(ObjectOne.ItemOne, '1234', 'okay');
+            equal(ObjectOne.ItemTwo, ValueTwo, 'okay');
 
 
             /* Round 2*/
@@ -50,11 +50,11 @@ Core.JSON = (function (Namespace) {
             var ObjectThree = Core.JSON.Parse(ReturnTwo);
             var ReturnThree = Core.JSON.Stringify(ObjectThree);
 
-            equals(ObjectTwo.Consulting[0].Address, ObjectThree.Consulting[0].Address, 'okay');
-            equals(ObjectTwo.Sales[0].LastUpdate, ObjectThree.Sales[0].LastUpdate, 'okay');
-            equals(ReturnTwo, ReturnThree, 'okay');
+            equal(ObjectTwo.Consulting[0].Address, ObjectThree.Consulting[0].Address, 'okay');
+            equal(ObjectTwo.Sales[0].LastUpdate, ObjectThree.Sales[0].LastUpdate, 'okay');
+            equal(ReturnTwo, ReturnThree, 'okay');
             var ResultCompare1 = Core.Data.CompareObject(ObjectTwo, ObjectThree);
-            equals(ResultCompare1, true, 'okay');
+            equal(ResultCompare1, true, 'okay');
 
             // Delete a element and compare
             ObjectTwo.Sales[0].LastUpdate = '10/12/2010';
@@ -96,12 +96,12 @@ Core.JSON = (function (Namespace) {
             ObjectFour.CompanyThree.Areas = ObjectTwo;
 
             var ReturnCompanyTwo   = Core.JSON.Stringify(ObjectFive.Areas);
-            equals(StringCompanyTwo, ReturnCompanyTwo, 'okay');
+            equal(StringCompanyTwo, ReturnCompanyTwo, 'okay');
             var ResultCompare3 = Core.Data.CompareObject(ObjectFour.CompanyTwo.Areas, ObjectSix);
-            equals(ResultCompare3, true, 'okay');
+            equal(ResultCompare3, true, 'okay');
 
             var ReturnCompanyTwoAreas   = Core.JSON.Stringify(ObjectFour.CompanyTwo.Areas);
-            equals(ReturnCompanyTwoAreas, StringCompanyTwo, 'okay');
+            equal(ReturnCompanyTwoAreas, StringCompanyTwo, 'okay');
 
 
             var ResultCompare4 = Core.Data.CompareObject(ObjectFour.CompanyTwo, ObjectFour.CompanyThree);
@@ -110,7 +110,7 @@ Core.JSON = (function (Namespace) {
             var ReturnFour      = Core.JSON.Stringify(ObjectFour);
             var ObjectFourParse = Core.JSON.Parse(ReturnFour);
             var ResultCompare5  = Core.Data.CompareObject(ObjectFourParse, ObjectFour);
-            equals(ResultCompare5, true, 'okay');
+            equal(ResultCompare5, true, 'okay');
 
 
             /* Round 4*/
@@ -122,7 +122,7 @@ Core.JSON = (function (Namespace) {
             var ReturnSeven      = Core.JSON.Stringify(ObjectSeven);
             var ObjectSevenParse = Core.JSON.Parse(ReturnSeven);
             var ResultCompare6   = Core.Data.CompareObject(ObjectSeven, ObjectSevenParse);
-            equals(ResultCompare6, true, 'okay');
+            equal(ResultCompare6, true, 'okay');
 
             ObjectSeven.five     = ObjectTwo;
             var ResultCompare7   = Core.Data.CompareObject(ObjectSevenParse, ObjectSeven);

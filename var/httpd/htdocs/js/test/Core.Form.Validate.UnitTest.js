@@ -2,7 +2,7 @@
 // Core.Form.Validate.UnitTest.js - UnitTests
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.UnitTest.js,v 1.5 2012-01-09 12:21:52 mn Exp $
+// $Id: Core.Form.Validate.UnitTest.js,v 1.6 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@ Core.Form.Validate = (function (Namespace) {
                 // only focus and leave field again, the same as a validation
                 Core.Form.Validate.ValidateElement($(this));
 
-                equals($(this).hasClass('Error'), true);
+                equal($(this).hasClass('Error'), true);
 
                 // now focus field, change something and leave again
                 if ($(this).is('input:text, input:password, input:hidden, textarea, select')) {
@@ -65,7 +65,7 @@ Core.Form.Validate = (function (Namespace) {
 
                 Core.Form.Validate.ValidateElement($(this));
 
-                equals($(this).hasClass('Error'), false);
+                equal($(this).hasClass('Error'), false);
             });
 
             /*
@@ -158,12 +158,12 @@ Core.Form.Validate = (function (Namespace) {
                 $('#ObjectOne').val(Object.Content1);
                 Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-                equals($('#ObjectOne').hasClass('Error'), true, Object.Method + ': ' + Object.Desc1);
+                equal($('#ObjectOne').hasClass('Error'), true, Object.Method + ': ' + Object.Desc1);
 
                 $('#ObjectOne').val(Object.Content2);
                 Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-                equals($('#ObjectOne').hasClass('Error'), false, Object.Method + ': ' + Object.Desc2);
+                equal($('#ObjectOne').hasClass('Error'), false, Object.Method + ': ' + Object.Desc2);
                 $('#ObjectOne').removeClass(Object.Method);
             });
 
@@ -199,18 +199,18 @@ Core.Form.Validate = (function (Namespace) {
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DateDay: 30.2.2011');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DateDay: 30.2.2011');
 
             $('#ObjectOne').val('28');
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DateDay: 28.2.2011');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DateDay: 28.2.2011');
 
             $('#ObjectOne').val('15');
             $('#ObjectTwo').val('2011');
             $('#ObjectThree').val('13');
 
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DateDay: 15.13.2011');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DateDay: 15.13.2011');
 
             $('#ObjectOne').removeClass('Validate_DateDay Validate_DateYear_ObjectTwo Validate_DateMonth_ObjectThree');
 
@@ -227,7 +227,7 @@ Core.Form.Validate = (function (Namespace) {
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DateInFuture: today - 2 days');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DateInFuture: today - 2 days');
 
             NewDate = new Date();
             NewDate.setDate(NewDate.getDate() + 2);
@@ -238,7 +238,7 @@ Core.Form.Validate = (function (Namespace) {
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DateInFuture: today + 2 days');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DateInFuture: today + 2 days');
 
             $('#ObjectOne').removeClass('Validate_DateDay Validate_DateYear_ObjectTwo Validate_DateMonth_ObjectThree Validate_DateInFuture');
 
@@ -249,23 +249,23 @@ Core.Form.Validate = (function (Namespace) {
             $('#ObjectTwo').val('def');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_Equal: two fields are not equal');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_Equal: two fields are not equal');
 
             $('#ObjectTwo').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_Equal: two fields are equal');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_Equal: two fields are equal');
 
             $('#ObjectOne').addClass('Validate_Equal_ObjectThree');
             $('#ObjectThree').val('def');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_Equal: three fields are not equal (2 are, 1 not)');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_Equal: three fields are not equal (2 are, 1 not)');
 
             $('#ObjectThree').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_Equal: three fields are equal');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_Equal: three fields are equal');
 
             $('#ObjectOne').removeClass('Validate_Equal Validate_Equal_ObjectTwo Validate_Equal_ObjectThree');
 
@@ -276,33 +276,33 @@ Core.Form.Validate = (function (Namespace) {
             $('#ObjectTwo').val('def');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredAND: field is empty, depending field not');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredAND: field is empty, depending field not');
 
             $('#ObjectOne').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredAND: both fields are not empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredAND: both fields are not empty');
 
             $('#ObjectTwo').val('');
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredAND: field is not empty, but depending field is empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredAND: field is not empty, but depending field is empty');
 
             $('#ObjectOne').addClass('Validate_Depending_ObjectThree');
             $('#ObjectOne').val('');
             $('#ObjectThree').val('def');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredAND: field is empty, one depending field is not empty');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredAND: field is empty, one depending field is not empty');
 
             $('#ObjectTwo').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredAND: field is empty, both depending fields are not empty');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredAND: field is empty, both depending fields are not empty');
 
             $('#ObjectOne').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredAND: field is not empty, both depending fields are not empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredAND: field is not empty, both depending fields are not empty');
 
             $('#ObjectOne').removeClass('Validate_DependingRequiredAND Validate_Depending_ObjectTwo Validate_Depending_ObjectThree');
 
@@ -313,23 +313,23 @@ Core.Form.Validate = (function (Namespace) {
             $('#ObjectTwo').val('');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredOR: both fields empty');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredOR: both fields empty');
 
             $('#ObjectTwo').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: first empty, second not');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: first empty, second not');
 
             $('#ObjectOne').val('abc');
             $('#ObjectTwo').val('');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: second empty, first not');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: second empty, first not');
 
             $('#ObjectTwo').val('def');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: both not empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: both not empty');
 
             $('#ObjectOne').addClass('Validate_Depending_ObjectThree');
             $('#ObjectOne').val('');
@@ -337,46 +337,46 @@ Core.Form.Validate = (function (Namespace) {
             $('#ObjectThree').val('');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredOR: three fields empty');
+            equal($('#ObjectOne').hasClass('Error'), true, 'Validate_DependingRequiredOR: three fields empty');
 
             $('#ObjectOne').val('abc');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 filled. 2+3 empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 filled. 2+3 empty');
 
             $('#ObjectOne').val('');
             $('#ObjectTwo').val('def');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 empty. 2 filled. 3 empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 empty. 2 filled. 3 empty');
 
             $('#ObjectOne').val('');
             $('#ObjectTwo').val('');
             $('#ObjectThree').val('xyz');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 + 2 empty. 3 filled');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 + 2 empty. 3 filled');
 
             $('#ObjectOne').val('abc');
             $('#ObjectTwo').val('def');
             $('#ObjectThree').val('');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 + 2 filled. 3 empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 + 2 filled. 3 empty');
 
             $('#ObjectOne').val('');
             $('#ObjectTwo').val('def');
             $('#ObjectThree').val('xyz');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 empty. 2 + 3 filled');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: 1 empty. 2 + 3 filled');
 
             $('#ObjectOne').val('abc');
             $('#ObjectTwo').val('def');
             $('#ObjectThree').val('xyz');
 
             Core.Form.Validate.ValidateElement($('#ObjectOne'));
-            equals($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: three fields not empty');
+            equal($('#ObjectOne').hasClass('Error'), false, 'Validate_DependingRequiredOR: three fields not empty');
 
             // Cleanup div container and contents
             $('#TestForm').remove();

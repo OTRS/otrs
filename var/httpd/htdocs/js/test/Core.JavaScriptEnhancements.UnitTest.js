@@ -1,8 +1,8 @@
 // --
 // Core.JavaScriptEnhancements.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.JavaScriptEnhancements.UnitTest.js,v 1.2 2010-11-05 10:12:10 mg Exp $
+// $Id: Core.JavaScriptEnhancements.UnitTest.js,v 1.3 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,11 +21,11 @@ Core.JavaScriptEnhancements.RunUnitTests = function(){
     test('isJQueryObject()', function(){
         expect(6);
 
-        equals(isJQueryObject($([])), true, 'empty jQuery object');
-        equals(isJQueryObject($('body')), true, 'simple jQuery object');
-        equals(isJQueryObject({}), false, 'plain object');
-        equals(isJQueryObject(undefined), false, 'undefined');
-        equals(isJQueryObject($([]), $([])), true, 'multiple');
-        equals(isJQueryObject($([]), $([]), {}), false, 'multiple, one plain object');
+        equal(isJQueryObject($([])), true, 'empty jQuery object');
+        equal(isJQueryObject($('body')), true, 'simple jQuery object');
+        equal(isJQueryObject({}), false, 'plain object');
+        equal(isJQueryObject(undefined), false, 'undefined');
+        equal(isJQueryObject($([]), $([])), true, 'multiple');
+        equal(isJQueryObject($([]), $([]), {}), false, 'multiple, one plain object');
     });
 };

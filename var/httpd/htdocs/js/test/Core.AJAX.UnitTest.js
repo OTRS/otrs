@@ -1,8 +1,8 @@
 // --
 // Core.AJAX.UnitTest.js - UnitTests
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.10 2011-10-28 08:24:16 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.11 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -176,7 +176,7 @@ Core.AJAX = (function (Namespace) {
                 var Test = this;
 
                 $('#CORE_AJAX_SerializeFormTest').empty().append(Test.HTML);
-                equals(Core.AJAX.SerializeForm($('#CORE_AJAX_SerializeFormTest'), Test.Ignore), Test.Result, Test.Name);
+                equal(Core.AJAX.SerializeForm($('#CORE_AJAX_SerializeFormTest'), Test.Ignore), Test.Result, Test.Name);
 
             });
 
@@ -195,8 +195,8 @@ Core.AJAX = (function (Namespace) {
                  Name: 'Core.AJAX.ContentUpdate() simple select',
                  URL: 'sample/Core.AJAX.ContentUpdate1.html',
                  ResultCheck: function() {
-                     equals($('#Core_AJAX_ContentUpdateTest_Element').val(), 2, 'Simple select');
-                     equals($('#CORE_AJAX_ContentUpdateTest').children().length, 1, 'Number of form children');
+                     equal($('#Core_AJAX_ContentUpdateTest_Element').val(), 2, 'Simple select');
+                     equal($('#CORE_AJAX_ContentUpdateTest').children().length, 1, 'Number of form children');
                  }
              }
         ];
@@ -221,7 +221,7 @@ Core.AJAX = (function (Namespace) {
                     });
                 }
                 catch (Error) {
-                    equals(true, false, 'Exception was thrown');
+                    equal(true, false, 'Exception was thrown');
                     start();
                 }
             });
@@ -238,7 +238,7 @@ Core.AJAX = (function (Namespace) {
                  Name: 'Core.AJAX.FunctionCall() simple select',
                  URL: 'sample/Core.AJAX.FunctionCall1.html',
                  Callback: function(Result) {
-                     equals(Result, "1\n2\n3\n-", 'Function call with simple data');
+                     equal(Result, "1\n2\n3\n-", 'Function call with simple data');
                      start();
                  }
              }
@@ -252,7 +252,7 @@ Core.AJAX = (function (Namespace) {
                     Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback, 'text');
                 }
                 catch (Error) {
-                    equals(true, false, 'Exception was thrown');
+                    equal(true, false, 'Exception was thrown');
                     start();
                 }
             }, 'text');
@@ -265,7 +265,7 @@ Core.AJAX = (function (Namespace) {
         function ChangeErrorHandlingForTest() {
             ErrorHandlingFunc = Core.Exception.HandleFinalError;
             Core.Exception.HandleFinalError = function (Exception) {
-                equals(Exception.GetType(), 'CommunicationError', 'Error handling called');
+                equal(Exception.GetType(), 'CommunicationError', 'Error handling called');
                 start();
                 RestoreOrignal();
             };
@@ -303,13 +303,13 @@ Core.AJAX = (function (Namespace) {
                 Core.Config.Set('Baselink', Test.URL);
                 try {
                     Core.AJAX.FormUpdate($('#FormUpdateErrorHandlingForm'), 'Subaction', 'Test1', ['Test2'], function () {
-                        equals(true, false, 'Error handling was not called');
+                        equal(true, false, 'Error handling was not called');
                         start();
                         RestoreOrignal();
                     });
                 }
                 catch (Error) {
-                    equals(true, false, 'Error caught, Exception was thrown');
+                    equal(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -346,7 +346,7 @@ Core.AJAX = (function (Namespace) {
                     });
                 }
                 catch (Error) {
-                    equals(true, false, 'Error caught, Exception was thrown');
+                    equal(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -363,7 +363,7 @@ Core.AJAX = (function (Namespace) {
                  Name: 'FunctionCall error handling - wrong url',
                  URL: 'sample/Core.AJAX.FunctionCall-InvalidURL',
                  Callback: function () {
-                     equals(true, false, 'Error handling was not called');
+                     equal(true, false, 'Error handling was not called');
                      RestoreOrignal();
                  }
             }
@@ -378,7 +378,7 @@ Core.AJAX = (function (Namespace) {
                     Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback);
                 }
                 catch (Error) {
-                    equals(true, false, 'Error caught, Exception was thrown');
+                    equal(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -413,7 +413,7 @@ Core.AJAX = (function (Namespace) {
                     Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback);
                 }
                 catch (Error) {
-                    equals(true, false, 'Error caught, Exception was thrown');
+                    equal(true, false, 'Error caught, Exception was thrown');
                     start();
                     RestoreOrignal();
                 }
@@ -430,7 +430,7 @@ Core.AJAX = (function (Namespace) {
             Core.Exception.HandleFinalError = function (ErrorObject, Trace) {
                 var ErrorShownToUser = HandleFinalErrorOriginal(ErrorObject, Trace);
 
-                equals(ErrorShownToUser, false, 'AJAX errors should be suppressed when leaving the page (custom error handler called)');
+                equal(ErrorShownToUser, false, 'AJAX errors should be suppressed when leaving the page (custom error handler called)');
                 start();
 
                 Core.Exception.HandleFinalError = HandleFinalErrorOriginal;
@@ -440,12 +440,12 @@ Core.AJAX = (function (Namespace) {
             //ChangeErrorHandlingForTest();
             try {
                 Core.AJAX.FunctionCall('nonexisting.url', {}, function () {
-                    equals(true, false, 'Callback on nonexisting URL');
+                    equal(true, false, 'Callback on nonexisting URL');
                     start();
                 });
             }
             catch (Error) {
-                equals(true, false, 'Error caught, unexpected Exception was thrown');
+                equal(true, false, 'Error caught, unexpected Exception was thrown');
                 start();
             }
         });

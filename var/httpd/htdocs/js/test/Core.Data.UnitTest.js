@@ -1,8 +1,8 @@
 // --
 // Core.UI.Accessibility.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Data.UnitTest.js,v 1.2 2010-10-28 12:19:10 mg Exp $
+// $Id: Core.Data.UnitTest.js,v 1.3 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,10 +37,10 @@ Core.Data = (function (Namespace) {
             var ObjectTwo = $('#ElementTwo');
 
             var ResultOneEmpty = Core.Data.Get(ObjectOne,'One');
-            same(ResultOneEmpty, {}, 'information not yet stored');
+            deepEqual(ResultOneEmpty, {}, 'information not yet stored');
 
             var NonexistingResuult = Core.Data.Get($('#nonexisting_selector'),'One');
-            same(NonexistingResuult, {}, 'nonexisting element');
+            deepEqual(NonexistingResuult, {}, 'nonexisting element');
 
             Core.Data.Set(ObjectOne,'One',Sign);
             Core.Data.Set(ObjectTwo,'Two',Sign);
@@ -48,9 +48,9 @@ Core.Data = (function (Namespace) {
             var ResultOne = Core.Data.Get(ObjectOne,'One');
             var ResultTwo = Core.Data.Get(ObjectTwo,'Two');
 
-            equals(ResultOne, Sign, 'okay');
-            equals(ResultTwo, Sign, 'okay');
-            equals(ResultOne, ResultTwo, 'okay');
+            equal(ResultOne, Sign, 'okay');
+            equal(ResultTwo, Sign, 'okay');
+            equal(ResultOne, ResultTwo, 'okay');
 
              /*
              * Cleanup div container and contents

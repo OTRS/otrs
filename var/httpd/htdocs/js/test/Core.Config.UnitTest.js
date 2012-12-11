@@ -1,8 +1,8 @@
 // --
 // Core.Config.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Config.UnitTest.js,v 1.3 2010-11-24 11:05:24 mn Exp $
+// $Id: Core.Config.UnitTest.js,v 1.4 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,19 +22,19 @@ Core.Config = (function (Namespace) {
 
             var ConfigTest = 'Test value';
             Core.Config.Set('Test', ConfigTest);
-            same(Core.Config.Get('Test'), ConfigTest);
+            deepEqual(Core.Config.Get('Test'), ConfigTest);
 
             Core.Config.Set('RichText.Test', ConfigTest);
-            same(Core.Config.Get('RichText.Test'), ConfigTest);
+            deepEqual(Core.Config.Get('RichText.Test'), ConfigTest);
 
             Core.Config.Set('RichText.Test2', ConfigTest);
-            same(Core.Config.Get('RichText.Test2'), ConfigTest);
+            deepEqual(Core.Config.Get('RichText.Test2'), ConfigTest);
 
-            same(Core.Config.Get('non.existing.dummy.ns'), undefined);
+            deepEqual(Core.Config.Get('non.existing.dummy.ns'), undefined);
 
-            same(Core.Config.Get('EasyName', 42), 42, "Test for default value");
+            deepEqual(Core.Config.Get('EasyName', 42), 42, "Test for default value");
 
-            same(Core.Config.Get('non.existing.dummy.ns', 'DefaultValueTest'), 'DefaultValueTest', "Test for default value 2");
+            deepEqual(Core.Config.Get('non.existing.dummy.ns', 'DefaultValueTest'), 'DefaultValueTest', "Test for default value 2");
         });
 
         test('Core.Config.AddConfig()', function(){
@@ -46,15 +46,15 @@ Core.Config = (function (Namespace) {
                 Name: 'Test'
             };
             Core.Config.AddConfig(ConfigTest, 'RichText');
-            same(Core.Config.Get('RichText'), ConfigTest);
+            deepEqual(Core.Config.Get('RichText'), ConfigTest);
 
             Core.Config.AddConfig(ConfigTest, 'RichText.Details');
-            same(Core.Config.Get('RichText.Details'), ConfigTest);
+            deepEqual(Core.Config.Get('RichText.Details'), ConfigTest);
 
             var ConfigTest = '{"Width":"600","Height":"400","Name":"Test"}';
 
             Core.Config.AddConfig(ConfigTest,'RichText.JSONStuff');
-            same(Core.Config.Get('RichText.JSONStuff'), ConfigTest);
+            deepEqual(Core.Config.Get('RichText.JSONStuff'), ConfigTest);
         });
     };
 

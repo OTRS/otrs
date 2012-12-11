@@ -1,8 +1,8 @@
 // --
 // Core.UI.Accessibility.UnitTest.js - UnitTests
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.UnitTest.js,v 1.5 2011-10-28 09:02:18 mg Exp $
+// $Id: Core.Form.UnitTest.js,v 1.6 2012-12-11 09:05:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.DisableForm($('#TestForm'));
 
-            equals($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled' );
+            equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled' );
 
             $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
 
@@ -58,14 +58,14 @@ Core.Form = (function (Namespace) {
                 var disabledValue = $(this).attr('disabled');
 
                 if (tagnameValue == "BUTTON") {
-                    equals(disabledValue, 'disabled', 'disabledValue for BUTTON' );
+                    equal(disabledValue, 'disabled', 'disabledValue for BUTTON' );
                 }
                 else {
                     if (typeValue == "hidden") {
-                        equals(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
+                        equal(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
                     }
                     else {
-                        equals(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue  );
+                        equal(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue  );
                     }
                 }
             });
@@ -76,7 +76,7 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.EnableForm($('#TestForm'));
 
-            equals($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled' );
+            equal($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled' );
 
             $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
 
@@ -89,14 +89,14 @@ Core.Form = (function (Namespace) {
 
 
                 if (tagnameValue == "BUTTON") {
-                    equals(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON' );
+                    equal(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON' );
                 }
                 else {
                     if (typeValue == "hidden") {
-                        equals(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
+                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
                     }
                     else {
-                        equals(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
+                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
                     }
                 }
             });
