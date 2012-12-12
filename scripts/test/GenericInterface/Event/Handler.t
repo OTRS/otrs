@@ -2,7 +2,7 @@
 # Handler.t - GenericInterface event handler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.t,v 1.15 2012-12-09 04:29:17 cr Exp $
+# $Id: Handler.t,v 1.16 2012-12-12 05:34:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -473,7 +473,7 @@ for my $Test (@Tests) {
 
 # stop scheduler if it was not already running before this test
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $Result = system("$Scheduler -a stop");
+    my $Result = system("$Scheduler -a stop -f 1");
     $Self->Is(
         $Result,
         0,
