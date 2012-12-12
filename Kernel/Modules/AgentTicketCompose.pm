@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.174 2012-11-20 14:48:15 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.175 2012-12-12 13:47:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.174 $) [1];
+$VERSION = qw($Revision: 1.175 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1406,6 +1406,34 @@ $QData{"Signature"}
         # build references if exist
         my $References = ( $Data{MessageID} || '' ) . ( $Data{References} || '' );
 
+        # run compose modules
+        if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' )
+        {
+            my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+            for my $Job ( sort keys %Jobs ) {
+
+                # load module
+                if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
+                    return $Self->{LayoutObject}->FatalError();
+                }
+                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug} );
+
+                # get params
+                for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                    $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+                }
+
+                # run module
+                $Object->Run( %GetParam, Config => $Jobs{$Job} );
+
+                # get errors
+                %Error = (
+                    %Error,
+                    $Object->Error( %GetParam, Config => $Jobs{$Job} ),
+                );
+            }
+        }
+
         # build view ...
         $Output .= $Self->_Mask(
             TicketID   => $Self->{TicketID},
@@ -1676,38 +1704,6 @@ sub _Mask {
             %Param,
         },
     );
-
-    # run compose modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
-        my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
-        for my $Job ( sort keys %Jobs ) {
-
-            # load module
-            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                return $Self->{LayoutObject}->FatalError();
-            }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
-
-            # get params
-            for ( sort keys %{ $Param{GetParam} } ) {
-                if ( !$Param{GetParam}->{$_} && $Param{$_} ) {
-                    $Param{GetParam}->{$_} = $Param{$_};
-                }
-            }
-            for ( $Object->Option( %Param, %{ $Param{GetParam} }, Config => $Jobs{$Job} ) ) {
-                $Param{GetParam}->{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-            }
-
-            # run module
-            $Object->Run( %Param, %{ $Param{GetParam} }, Config => $Jobs{$Job} );
-
-            # get errors
-            %{ $Param{Errors} } = (
-                %{ $Param{Errors} },
-                $Object->Error( %{ $Param{GetParam} }, Config => $Jobs{$Job} )
-            );
-        }
-    }
 
     # Dynamic fields
     # cycle trough the activated Dynamic Fields for this screen

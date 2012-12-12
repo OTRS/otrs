@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2578 2012-12-12 12:40:25 mg Exp $
+# $Id: CHANGES,v 1.2579 2012-12-12 13:47:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta5 2012-12-??
+ - 2012-12-12 Fixed bug#8950 - "Sign" and "crypt" are displayed two times in AgentTicketCompose.
  - 2012-12-12 Fixed bug#8977 - ArticleStorageFS fails after upgrade beta3 >> beta4.
  - 2012-12-11 Fixed bug#5644 - In Article Zoom, Article Filter: Reset Icon is not showing "reset" action. Search for better icon.
  - 2012-12-11 Updated json2.js.
