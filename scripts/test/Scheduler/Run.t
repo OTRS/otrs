@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.14 2012-12-12 05:41:45 cr Exp $
+# $Id: Run.t,v 1.15 2012-12-12 06:36:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -465,6 +465,46 @@ for my $Test (@Tests) {
         SystemTime => ( $Self->{TimeObject}->SystemTime() + 9 ),
     );
 
+    # stop scheduler to prevent the early execution of tasks
+    my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
+    $Self->Is(
+        $?,
+        0,
+        "Scheduler stop before register re-schedule tasks.",
+    );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler stop DETECTED $ResultMessage"
+        );
+    }
+
+    # wait for scheduler to stop
+    WAITSTOP:
+    for my $Wait ( 1 .. $TotalWaitToStop ) {
+        print "Waiting for Scheduler to stop, $Wait seconds\n";
+        sleep 1;
+
+        my $SchedulerStatus = `$Scheduler -a status`;
+
+        if ( $SchedulerStatus =~ m{\ANot}i ) {
+            $Self->True(
+                1,
+                "$Test->{Name} - Scheduler is stoped",
+            );
+            last WAITSTOP;
+        }
+
+        next WAITSTOP if $Wait < $TotalWaitToExecute;
+
+        $Self->True(
+            0,
+            "$Test->{Name} - Scheduler didn't stop after $TotalWaitToExecute seconds!",
+        );
+    }
+
     # register tasks
     my ( @RescheduleFileRemember, @FileRemember );
 
@@ -520,6 +560,22 @@ for my $Test (@Tests) {
         $TaskCount,
         "$Test->{Name} - re-schedule - Tasks registered",
     );
+
+    # start scheduler again to execute tasks
+    $ResultMessage = `$Scheduler -a start 2>&1`;
+    $Self->Is(
+        $?,
+        0,
+        "Scheduler start after register re-schedule tasks.",
+    );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage"
+        );
+    }
 
     # wait for scheduler to execute and reschedule the tasks
     WAITRESCHEDULE:
