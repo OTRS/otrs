@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.48 2012-12-10 13:24:15 mab Exp $
+# $Id: RichTextEditor.dtl,v 1.49 2012-12-12 14:35:59 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,6 +39,12 @@
             ['Image', 'HorizontalRule', 'PasteText', 'PasteFromWord', '-', '-', 'Find', 'Replace', 'SpellCheck', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'ShowBlocks', 'Source'],
             ['Format', 'Font', 'FontSize' ]
         ]);
+        Core.Config.Set('RichText.ToolbarWithoutImage', [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'NumberedList', 'BulletedList', 'Table', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', 'Undo', 'Redo', 'SelectAll' ],
+            '/',
+            ['HorizontalRule', 'PasteText', 'PasteFromWord', '-', '-', 'Find', 'Replace', 'SpellCheck', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'ShowBlocks', 'Source'],
+            ['Format', 'Font', 'FontSize' ]
+        ]);
     }
     else {
         Core.Config.Set('RichText.Toolbar', [
@@ -46,12 +52,12 @@
             '/',
             ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
         ]);
+        Core.Config.Set('RichText.ToolbarWithoutImage', [
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
+            '/',
+            ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
+        ]);
     }
-    Core.Config.Set('RichText.ToolbarWithoutImage', [
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
-        '/',
-        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source']
-    ]);
     Core.Config.Set('RichText.PictureUploadAction', "$QData{"RichTextPictureUploadAction"}");
 
     Core.UI.RichTextEditor.InitAll();
