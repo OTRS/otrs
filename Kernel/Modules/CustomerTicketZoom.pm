@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.106 2012-11-20 14:54:36 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.107 2012-12-12 09:10:15 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1362,7 +1362,6 @@ sub _Mask {
     if ( !@ArticleBox ) {
         $Self->{LayoutObject}->Block(
             Name => 'NoArticles',
-            Data => {},
         );
     }
 
@@ -1404,163 +1403,163 @@ sub _Mask {
                 Content     => $Article{Body},
             );
         }
+    }
 
-        # check follow up permissions
-        my $FollowUpPossible
-            = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
-        my %State = $Self->{StateObject}->StateGet(
-            ID => $Article{StateID},
+    # check follow up permissions
+    my $FollowUpPossible
+        = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
+    my %State = $Self->{StateObject}->StateGet(
+        ID => $Article{StateID},
+    );
+    if (
+        $Self->{TicketObject}->TicketCustomerPermission(
+            Type     => 'update',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID}
+        )
+        && (
+            ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
+            || $State{TypeName} !~ /^close/i
+        )
+        )
+    {
+
+        my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+            OnlyDynamicFields => 1,
         );
-        if (
-            $Self->{TicketObject}->TicketCustomerPermission(
-                Type     => 'update',
-                TicketID => $Self->{TicketID},
-                UserID   => $Self->{UserID}
-            )
-            && (
-                ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
-                || $State{TypeName} !~ /^close/i
-            )
-            )
-        {
 
-            my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
-                OnlyDynamicFields => 1,
-            );
-
-            # create a string with the quoted dynamic field names separated by a commas
-            if ( IsArrayRefWithData($DynamicFieldNames) ) {
-                my $FirstItem = 1;
-                FIELD:
-                for my $Field ( @{$DynamicFieldNames} ) {
-                    if ($FirstItem) {
-                        $FirstItem = 0;
-                    }
-                    else {
-                        $Param{DynamicFieldNamesStrg} .= ', ';
-                    }
-                    $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+        # create a string with the quoted dynamic field names separated by a commas
+        if ( IsArrayRefWithData($DynamicFieldNames) ) {
+            my $FirstItem = 1;
+            FIELD:
+            for my $Field ( @{$DynamicFieldNames} ) {
+                if ($FirstItem) {
+                    $FirstItem = 0;
                 }
+                else {
+                    $Param{DynamicFieldNamesStrg} .= ', ';
+                }
+                $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
             }
+        }
 
-            # check subject
-            if ( !$Param{Subject} ) {
-                $Param{Subject} = "Re: $Param{Title}";
-            }
+        # check subject
+        if ( !$Param{Subject} ) {
+            $Param{Subject} = "Re: $Param{Title}";
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'FollowUp',
+            Data => \%Param,
+        );
+
+        # add rich text editor
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+            # use height/width defined for this screen
+            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
             $Self->{LayoutObject}->Block(
-                Name => 'FollowUp',
+                Name => 'RichText',
                 Data => \%Param,
             );
+        }
 
-            # add rich text editor
-            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-
-                # use height/width defined for this screen
-                $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-                $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'RichText',
-                    Data => \%Param,
-                );
-            }
-
-            # build next states string
-            if ( $Self->{Config}->{State} ) {
-                my %NextStates = $Self->{TicketObject}->TicketStateList(
-                    TicketID       => $Self->{TicketID},
-                    Action         => $Self->{Action},
-                    CustomerUserID => $Self->{UserID},
-                );
-                my %StateSelected;
-                if ( $Param{StateID} ) {
-                    $StateSelected{SelectedID} = $Param{StateID};
-                }
-                else {
-                    $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
-                }
-                $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-                    Data => \%NextStates,
-                    Name => 'StateID',
-                    %StateSelected,
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'FollowUpState',
-                    Data => \%Param,
-                );
-            }
-
-            # get priority
-            if ( $Self->{Config}->{Priority} ) {
-                my %Priorities = $Self->{TicketObject}->TicketPriorityList(
-                    CustomerUserID => $Self->{UserID},
-                    Action         => $Self->{Action},
-                );
-                my %PrioritySelected;
-                if ( $Param{PriorityID} ) {
-                    $PrioritySelected{SelectedID} = $Param{PriorityID};
-                }
-                else {
-                    $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault}
-                        || '3 normal';
-                }
-                $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
-                    Data => \%Priorities,
-                    Name => 'PriorityID',
-                    %PrioritySelected,
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'FollowUpPriority',
-                    Data => \%Param,
-                );
-            }
-
-            # Dynamic fields
-            # cycle trough the activated Dynamic Fields for this screen
-            DYNAMICFIELD:
-            for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
-                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-                # skip fields that HTML could not be retrieved
-                next DYNAMICFIELD if !IsHashRefWithData(
-                    $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
-                );
-
-                # get the html strings form $Param
-                my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'FollowUpDynamicField',
-                    Data => {
-                        Name  => $DynamicFieldConfig->{Name},
-                        Label => $DynamicFieldHTML->{Label},
-                        Field => $DynamicFieldHTML->{Field},
-                    },
-                );
-
-                # example of dynamic fields order customization
-                $Self->{LayoutObject}->Block(
-                    Name => 'FollowUpDynamicField_' . $DynamicFieldConfig->{Name},
-                    Data => {
-                        Name  => $DynamicFieldConfig->{Name},
-                        Label => $DynamicFieldHTML->{Label},
-                        Field => $DynamicFieldHTML->{Field},
-                    },
-                );
-            }
-
-            # show attachments
-            # get all attachments meta data
-            my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
-                FormID => $Self->{FormID},
+        # build next states string
+        if ( $Self->{Config}->{State} ) {
+            my %NextStates = $Self->{TicketObject}->TicketStateList(
+                TicketID       => $Self->{TicketID},
+                Action         => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
             );
-            for my $Attachment (@Attachments) {
-                next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
-                $Self->{LayoutObject}->Block(
-                    Name => 'FollowUpAttachment',
-                    Data => $Attachment,
-                );
+            my %StateSelected;
+            if ( $Param{StateID} ) {
+                $StateSelected{SelectedID} = $Param{StateID};
             }
+            else {
+                $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
+            }
+            $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data => \%NextStates,
+                Name => 'StateID',
+                %StateSelected,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'FollowUpState',
+                Data => \%Param,
+            );
+        }
+
+        # get priority
+        if ( $Self->{Config}->{Priority} ) {
+            my %Priorities = $Self->{TicketObject}->TicketPriorityList(
+                CustomerUserID => $Self->{UserID},
+                Action         => $Self->{Action},
+            );
+            my %PrioritySelected;
+            if ( $Param{PriorityID} ) {
+                $PrioritySelected{SelectedID} = $Param{PriorityID};
+            }
+            else {
+                $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault}
+                    || '3 normal';
+            }
+            $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data => \%Priorities,
+                Name => 'PriorityID',
+                %PrioritySelected,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'FollowUpPriority',
+                Data => \%Param,
+            );
+        }
+
+        # Dynamic fields
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # skip fields that HTML could not be retrieved
+            next DYNAMICFIELD if !IsHashRefWithData(
+                $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
+            );
+
+            # get the html strings form $Param
+            my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
+
+            $Self->{LayoutObject}->Block(
+                Name => 'FollowUpDynamicField',
+                Data => {
+                    Name  => $DynamicFieldConfig->{Name},
+                    Label => $DynamicFieldHTML->{Label},
+                    Field => $DynamicFieldHTML->{Field},
+                },
+            );
+
+            # example of dynamic fields order customization
+            $Self->{LayoutObject}->Block(
+                Name => 'FollowUpDynamicField_' . $DynamicFieldConfig->{Name},
+                Data => {
+                    Name  => $DynamicFieldConfig->{Name},
+                    Label => $DynamicFieldHTML->{Label},
+                    Field => $DynamicFieldHTML->{Field},
+                },
+            );
+        }
+
+        # show attachments
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
+        for my $Attachment (@Attachments) {
+            next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+            $Self->{LayoutObject}->Block(
+                Name => 'FollowUpAttachment',
+                Data => $Attachment,
+            );
         }
     }
 
