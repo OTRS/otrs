@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.3.2.4 2012-12-07 16:25:14 cr Exp $
+# $Id: Run.t,v 1.3.2.5 2012-12-12 05:38:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -329,7 +329,7 @@ for my $Test (@Tests) {
 
         # Wait for slow systems
         $SleepTime = 20;
-        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        print "Waiting at most $TotalWaitToCheck s until task executes\n";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $TotalWaitToCheck ) {
             if ( -e $FileToCheck ) {
@@ -437,7 +437,7 @@ for my $Test (@Tests) {
     for my $FileToCheck (@FileRemember) {
 
         # Wait for slow systems
-        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        print "Waiting at most $TotalWaitToCheck s until task executes\n";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $TotalWaitToCheck ) {
             if ( -e $FileToCheck ) {
@@ -549,7 +549,7 @@ for my $Test (@Tests) {
     for my $FileToCheck (@FileRemember) {
 
         # Wait for slow systems
-        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        print "Waiting at most $TotalWaitToCheck s until task executes\n";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $TotalWaitToCheck ) {
             if ( -e $FileToCheck ) {
@@ -602,7 +602,7 @@ for my $Test (@Tests) {
     for my $FileToCheck (@RescheduleFileRemember) {
 
         # Wait for slow systems
-        print "Waiting at most $TotalWaitToCheck s until scheduler stops\n";
+        print "Waiting at most $TotalWaitToCheck s until task executes\n";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $TotalWaitToCheck ) {
             if ( -e $FileToCheck ) {
