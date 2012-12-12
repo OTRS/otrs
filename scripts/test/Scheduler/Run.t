@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.3.2.5 2012-12-12 05:38:23 cr Exp $
+# $Id: Run.t,v 1.3.2.6 2012-12-12 05:41:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,7 +139,7 @@ else {
 
 # Wait for slow systems
 my $SleepTime = 120;
-print "Waiting at most $SleepTime s until scheduler stops\n";
+print "Waiting at most $SleepTime s until scheduler starts\n";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
     my $SchedulerStatus = `$Scheduler -a status`;
