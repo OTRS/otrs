@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.57 2012-11-20 16:04:47 mh Exp $
+# $Id: apache2-perl-startup.pl,v 1.58 2012-12-13 14:23:11 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -27,10 +27,17 @@ use warnings;
 # make sure we are in a sane environment.
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
-# switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
-# see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
 BEGIN {
+    # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
+    # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
+
     $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
+
+    # set $0 to index.pl because this is broken in mod_perl context;
+    # apart from that, on Fedora, $0 is not a path which would break OTRS.
+    # see bug # 8533
+
+    $0 = '/opt/otrs/bin/cgi-bin/index.pl';
 }
 
 use ModPerl::Util;
