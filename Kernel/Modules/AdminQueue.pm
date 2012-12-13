@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.82 2011-09-08 20:51:33 en Exp $
+# $Id: AdminQueue.pm,v 1.82.2.1 2012-12-13 13:14:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.82.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -537,12 +537,15 @@ sub _Edit {
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Data => {
+            $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ),
+        },
         Translation => 0,
         Name        => 'SystemAddressID',
         SelectedID  => $Param{SystemAddressID},
-        Max         => 200,
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
+        PossibleNone => 1,     # to avoid automatic assignments if the current SA is invalid
+        Max          => 200,
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();
