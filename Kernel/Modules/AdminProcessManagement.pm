@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.41 2012-11-20 14:41:47 mh Exp $
+# $Id: AdminProcessManagement.pm,v 1.42 2012-12-13 15:54:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -526,6 +526,95 @@ sub Run {
             Filename    => 'Export_ProcessEntityID_' . $Process->{EntityID} . '.yml',
             NoCache     => 1,
         );
+    }
+
+    # ------------------------------------------------------------ #
+    # ProcessCopy
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ProcessCopy' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        # get Process data
+        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+            ID     => $ProcessID,
+            UserID => $Self->{UserID},
+        );
+        if ( !$ProcessData ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Unknown Process $ProcessID!",
+            );
+        }
+
+        # create new process name
+        my $ProcessName =
+            $ProcessData->{Name}
+            . ' ('
+            . $Self->{LayoutObject}->{LanguageObject}->Get('Copy')
+            . ')';
+
+        # generate entity ID
+        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+            EntityType => 'Process',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't generate a new EntityID
+        if ( !$EntityID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error generating a new EntityID for this Process",
+            );
+        }
+
+        # check if Inactive state estity exists
+        my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+        my %StateLookup = reverse %{$StateList};
+
+        my $StateEntityID = $StateLookup{'Inactive'};
+
+        # show error if  StateEntityID for Inactive does not exist
+        if ( !$EntityID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "The StateEntityID for for state Inactive does not exists",
+            );
+        }
+
+        # otherwise save configuration and return to overview screen
+        my $ProcessID = $Self->{ProcessObject}->ProcessAdd(
+            Name          => $ProcessName,
+            EntityID      => $EntityID,
+            StateEntityID => $StateEntityID,
+            Layout        => $ProcessData->{Layout},
+            Config        => $ProcessData->{Config},
+            UserID        => $Self->{UserID},
+        );
+
+        # show error if can't create
+        if ( !$ProcessID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error creating the Process",
+            );
+        }
+
+        # set entitty sync state
+        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'Process',
+            EntityID   => $EntityID,
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for Process "
+                    . "entity:$EntityID",
+            );
+        }
+
+        # return to overview
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
