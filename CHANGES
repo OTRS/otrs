@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.170 2012-12-10 15:07:40 mb Exp $
+# $Id: CHANGES,v 1.2260.2.171 2012-12-13 14:24:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2012-12-13 Fixed bug#8533 - Apache will not start if you use mod_perl on Fedora 16 or 17.
  - 2012-12-10 Fixed bug#8974 - Event Based Notification does not populate REALNAME with
     Customer User data.
 
