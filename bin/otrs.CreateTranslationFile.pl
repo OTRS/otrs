@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.35 2012-11-22 12:33:58 mg Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.36 2012-12-13 14:08:45 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 use Getopt::Std qw();
 
@@ -125,12 +125,26 @@ my $BreakLineAfterChars = 60;
 
     print "Starting...\n\n";
 
+    # Gather some statistics
+    my %Stats;
+
     for my $Language (@Languages) {
         HandleLanguage(
             Language      => $Language,
             Module        => $Opts{m},
             PurgeObsolete => exists $Opts{p} ? 1 : 0,
+            Stats         => \%Stats,
         );
+    }
+
+    print "\n\nTranslation statistics:\n";
+    for my $Language ( sort keys %Stats ) {
+        my $Strings = scalar keys %{ $Stats{$Language} };
+        my $Translations = scalar grep {$_} values %{ $Stats{$Language} };
+        print "\t" . sprintf( "%7s", $Language ) . ": ";
+        print sprintf( "%02d", int( ( $Translations / $Strings ) * 100 ) );
+        print "% ($Translations/$Strings)\n";
+
     }
 
     print "\n\nFinished.\n";
@@ -279,6 +293,9 @@ sub HandleLanguage {
                     $Translation =~ s/'/\\'/g;
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
+
+                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
                         if (length($Key) < $BreakLineAfterChars) {
                             $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
@@ -301,6 +318,9 @@ sub HandleLanguage {
                     $UsedWords{$Word} = $LanguageCoreObject->{Translation}->{$Word};
                     my $Translation = $UsedWords{$Word} || '';
                     $Translation =~ s/'/\\'/g;
+
+                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
@@ -348,6 +368,9 @@ sub HandleLanguage {
 
         my $Translation = $UsedWords{$String} || '';
         $Translation =~ s/'/\\'/g;
+
+        $Param{Stats}->{ $Param{Language} }->{$String} = $Translation;
+
         my $Key = $String;
         $Key =~ s/'/\\'/g;
         if ($IsSubTranslation) {
