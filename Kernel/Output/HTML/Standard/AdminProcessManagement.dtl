@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.16 2012-12-13 15:54:00 cr Exp $
+# $Id: AdminProcessManagement.dtl,v 1.17 2012-12-14 08:49:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@
                     $Text{"To create a new Process you can either import a Process that was exported from another system or create a complete new one."}
                 </p>
                 <p class="FieldExplanation">
-                    $Text{"Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration."}
+                    $Text{"Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration."}
                 </p>
 
             </div>
