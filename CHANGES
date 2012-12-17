@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2582 2012-12-17 12:02:14 mn Exp $
+# $Id: CHANGES,v 1.2583 2012-12-17 12:30:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta5 2012-12-??
+ - 2012-12-17 Fixed bug#8457 - Error if accessing AgentTicketSearch from AgentTicketPhone in IE8.
  - 2012-12-17 Fixed bug#8589 - Bulk-Action not possible for single ticket.
  - 2012-12-17 Fixed bug#8695 - Table head of Customer Ticket History does not resize on window resize.
  - 2012-12-13 Fixed bug#8533 - Apache will not start if you use mod_perl on Fedora 16 or 17.

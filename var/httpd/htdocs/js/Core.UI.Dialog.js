@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.35 2012-02-14 14:24:46 ep Exp $
+// $Id: Core.UI.Dialog.js,v 1.36 2012-12-17 12:30:14 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -507,13 +507,6 @@ Core.UI.Dialog = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
-        function ResetRTE(Editor) {
-            CKEDITOR.instances[Editor].setMode('source');
-            window.setTimeout(function () {
-                CKEDITOR.instances[Editor].setMode('wysiwyg');
-            }, 100);
-        }
-
         var $Dialog, DialogCopy, DialogCopySelector, BackupHTML, Editor;
         $Dialog = $(Object).closest('.Dialog:visible');
 
@@ -548,22 +541,6 @@ Core.UI.Dialog = (function (TargetNS) {
             // write the new DialogCopy back
             Core.Data.Set($('body'), 'DialogCopy', DialogCopy);
         }
-
-        // Repair all existing rich text editors
-        // in Firefox/Linux and IE/Win the editor is not usable anymore after a OTRS dialog was opened
-        // This workaround fixes this, because opening the wysiwyg again reloads the editor.
-        if (typeof CKEDITOR !== 'undefined') {
-            for (Editor in CKEDITOR.instances) {
-                if (typeof CKEDITOR.instances[Editor].setMode === 'function') {
-                    window.setTimeout(ResetRTE, 0, Editor);
-                }
-            }
-        }
-
-        // Workaround for bug#6060 - In IE7, input elements can't get focus anymore after opening dialog
-        // giving focus automatically solves the problem
-        $('input:text:first').focus().blur();
-
     };
 
     return TargetNS;
