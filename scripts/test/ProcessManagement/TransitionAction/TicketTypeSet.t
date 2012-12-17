@@ -2,7 +2,7 @@
 # TicketType.t - TicketTypeSet testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketTypeSet.t,v 1.1 2012-12-17 14:41:07 cr Exp $
+# $Id: TicketTypeSet.t,v 1.2 2012-12-17 17:38:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,12 +39,12 @@ $ConfigObject->Set(
 
 # set TicketDynamicFieldDefault as no Transation mode to avoid error messages at the end of the
 # test (regarding missing TicketIDs)
-my $EventSetting = $ConfigObject->Get('Ticket::EventModulePost')->{TicketDynamicFieldDefault};
 $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###TicketDynamicFieldDefault',
     Value => {
-        %{$EventSetting},
+        Module      => 'Kernel::System::Ticket::Event::NotificationEvent',
         Transaction => 0,
+        Event       => '',
     },
 );
 
