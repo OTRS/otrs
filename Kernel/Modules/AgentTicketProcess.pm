@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.24 2012-11-28 13:19:43 sb Exp $
+# $Id: AgentTicketProcess.pm,v 1.25 2012-12-17 12:50:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -330,9 +330,9 @@ sub Run {
 
         return $Self->_StoreActivityDialog(
             %Param,
+            ProcessName     => $ProcessList->{$ProcessEntityID},
             ProcessEntityID => $ProcessEntityID,
             GetParam        => $GetParam,
-
         );
     }
     if ( $Self->{Subaction} eq 'DisplayActivityDialog' && $ProcessEntityID ) {
@@ -3591,6 +3591,15 @@ sub _StoreActivityDialog {
             $TicketParam{UserID} = $Self->{UserID};
             $TicketParam{OwnerID} = $Param{GetParam}{OwnerID} || 1;
 
+            # if StartActivityDialog does not provide a ticket title set a default value
+            if ( !$TicketParam{Title} ) {
+
+                # get the current server Timestamp
+                my $CurrentTimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+                $TicketParam{Title} = "$Param{ProcessName} - $CurrentTimeStamp";
+            }
+
+            # create a new ticket
             $TicketID = $Self->{TicketObject}->TicketCreate(%TicketParam);
 
             if ( !$TicketID ) {
