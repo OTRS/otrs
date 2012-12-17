@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.349 2012-12-17 14:39:45 mg Exp $
+# $Id: de.pm,v 1.350 2012-12-17 14:53:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.349 $) [1];
+$VERSION = qw($Revision: 1.350 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1151,43 +1151,43 @@ sub Data {
         'Clear debug log' => 'Debug-Log leeren',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add new Invoker to Web Service %s' => '',
-        'Change Invoker %s of Web Service %s' => '',
-        'Add new invoker' => '',
-        'Change invoker %s' => '',
-        'Do you really want to delete this invoker?' => '',
-        'All configuration data will be lost.' => '',
-        'Invoker Details' => '',
+        'Add new Invoker to Web Service %s' => 'Neuen Invoker zum Webservice %s hinzufügen',
+        'Change Invoker %s of Web Service %s' => 'Invoker von Webservice %s ändern',
+        'Add new invoker' => 'Neuen Invoker hinzufügen',
+        'Change invoker %s' => 'Invoker %s ändern',
+        'Do you really want to delete this invoker?' => 'Wollen Sie diesen Invoker wirklich löschen?',
+        'All configuration data will be lost.' => 'Die Konfigurationsdaten gehen verloren.',
+        'Invoker Details' => 'Invoker-Details',
         'The name is typically used to call up an operation of a remote web service.' =>
-            '',
-        'Please provide a unique name for this web service invoker.' => '',
-        'The name you entered already exists.' => '',
-        'Invoker backend' => '',
+            'Der Name wird typischerweise genutzt, um eine Operation eines entfernten Webservice aufzurufen.',
+        'Please provide a unique name for this web service invoker.' => 'Bitte geben sie einen eindeutigen Namen für diesen Webservice-Invoker an.',
+        'The name you entered already exists.' => 'Der eingegebene Name existiert bereits',
+        'Invoker backend' => 'Invoker-Backend',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
-            '',
-        'Mapping for outgoing request data' => '',
-        'Configure' => '',
+            'Dieses Invoker-Backend-Modul wird aufgerufen, um die Daten zum Versand an das entfernte System sowie die zurückgelieferten Daten aufzubereiten.',
+        'Mapping for outgoing request data' => 'Mapping für ausgehende Anfragedaten',
+        'Configure' => 'Konfigurieren',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            '',
-        'Mapping for incoming response data' => '',
+            'Die Daten des Invokers von OTRS werden von diesem Mapping verarbeitet, um sie so umzuformen, wie das entfernte System die Daten benötigt.',
+        'Mapping for incoming response data' => 'Mapping für eingehende Antwortdaten',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
-            '',
-        'Event Triggers' => '',
-        'Asynchronous' => '',
-        'Delete this event' => '',
-        'This invoker will be triggered by the configured events.' => '',
-        'Do you really want to delete this event trigger?' => '',
-        'Add Event Trigger' => '',
+            'Die Antwort-Daten des entfernten Systems werden von diesem Mapping verarbeitet, um sie so umzuformen, wie der Invoker von OTRS sie benötigt.',
+        'Event Triggers' => 'Event-Trigger',
+        'Asynchronous' => 'Asynchron',
+        'Delete this event' => 'Diesen Event löschen',
+        'This invoker will be triggered by the configured events.' => 'Dieser Invoker wird von den konfigurierten Events ausgelöst.',
+        'Do you really want to delete this event trigger?' => 'Wollen Sie diesen Event-Trigger wirklich löschen?',
+        'Add Event Trigger' => 'Event-Trigger hinzufügen',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            '',
+            'Um einen neuen Event hinzuzufügen, wählen Sie bitte das Objekt und den Eventnamen und klicken Sie auf den "+"-Knopf',
         'Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).' =>
-            '',
+            'Asynchrone Event-Trigger werden vom OTRS-Scheduler im Hintergrund verarbeitet (empfohlen).',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            '',
-        'Save and continue' => '',
-        'Save and finish' => '',
-        'Delete this Invoker' => '',
-        'Delete this Event Trigger' => '',
+            'Synchrone Event-Trigger werden direkt während des laufenden Web-Requests verarbeitet.',
+        'Save and continue' => 'Speichern und weiter',
+        'Save and finish' => 'Speichern und abschließen',
+        'Delete this Invoker' => 'Diesen Invoker löschen',
+        'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
