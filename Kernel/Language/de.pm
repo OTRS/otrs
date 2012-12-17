@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.350 2012-12-17 14:53:35 mg Exp $
+# $Id: de.pm,v 1.351 2012-12-17 15:11:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.350 $) [1];
+$VERSION = qw($Revision: 1.351 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1152,7 +1152,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Neuen Invoker zum Webservice %s hinzufügen',
-        'Change Invoker %s of Web Service %s' => 'Invoker von Webservice %s ändern',
+        'Change Invoker %s of Web Service %s' => 'Invoker %s von Webservice %s ändern',
         'Add new invoker' => 'Neuen Invoker hinzufügen',
         'Change invoker %s' => 'Invoker %s ändern',
         'Do you really want to delete this invoker?' => 'Wollen Sie diesen Invoker wirklich löschen?',
@@ -1190,50 +1190,50 @@ sub Data {
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
 
         # Template: AdminGenericInterfaceMappingSimple
-        'GenericInterface Mapping Simple for Web Service %s' => '',
-        'Go back to' => '',
-        'Mapping Simple' => '',
-        'Default rule for unmapped keys' => '',
-        'This rule will apply for all keys with no mapping rule.' => '',
-        'Default rule for unmapped values' => '',
-        'This rule will apply for all values with no mapping rule.' => '',
-        'New key map' => '',
-        'Add key mapping' => '',
-        'Mapping for Key ' => '',
-        'Remove key mapping' => '',
-        'Key mapping' => '',
-        'Map key' => '',
-        'matching the' => '',
-        'to new key' => '',
-        'Value mapping' => '',
-        'Map value' => '',
-        'to new value' => '',
-        'Remove value mapping' => '',
-        'New value map' => '',
-        'Add value mapping' => '',
-        'Do you really want to delete this key mapping?' => '',
-        'Delete this Key Mapping' => '',
+        'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Simple mapping für Webservice %s',
+        'Go back to' => 'Zurück zu',
+        'Mapping Simple' => 'Simple mapping',
+        'Default rule for unmapped keys' => 'Standardregel für nicht gemappte Schlüssel',
+        'This rule will apply for all keys with no mapping rule.' => 'Diese Regel wird für alle Schlüssel ohne passende Regel angewendet.',
+        'Default rule for unmapped values' => 'Standardregel für nicht gemappte Werte',
+        'This rule will apply for all values with no mapping rule.' => 'Diese Regel wird für alle Werte ohne passende Regel angewendet.',
+        'New key map' => 'Neues Schlüssel-Mapping',
+        'Add key mapping' => 'Schlüssel-Mapping hinzufügen',
+        'Mapping for Key ' => 'Mapping für Schlüssel',
+        'Remove key mapping' => 'Schlüssel-Mapping entfernen',
+        'Key mapping' => 'Schlüssel-Mapping',
+        'Map key' => 'Schlüssel',
+        'matching the' => 'übereinstimmend mit',
+        'to new key' => 'auf neuen Schlüssel mappen',
+        'Value mapping' => 'Wert-Mapping',
+        'Map value' => 'Wert',
+        'to new value' => 'auf neuen Wert mappen',
+        'Remove value mapping' => 'Wert-Mapping entfernen',
+        'New value map' => 'Neues Wert-Mapping',
+        'Add value mapping' => 'Wert-Mapping hinzufügen',
+        'Do you really want to delete this key mapping?' => 'Wollen Sie dieses Schlüssel-Mapping wirklich löschen?',
+        'Delete this Key Mapping' => 'Schlüssel-Mapping löschen',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add new Operation to Web Service %s' => '',
-        'Change Operation %s of Web Service %s' => '',
-        'Add new operation' => '',
-        'Change operation %s' => '',
-        'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Add new Operation to Web Service %s' => 'Neue Operation zu Webservice %s hinzufügen',
+        'Change Operation %s of Web Service %s' => 'Operation %s von Webservice %s ändern',
+        'Add new operation' => 'Neue Operation hinzufügen',
+        'Change operation %s' => 'Operation %s ändern',
+        'Do you really want to delete this operation?' => 'Wollen Sie diese Operation wirklich löschen?',
+        'Operation Details' => 'Operation-Details',
         'The name is typically used to call up this web service operation from a remote system.' =>
-            '',
-        'Please provide a unique name for this web service.' => '',
-        'Mapping for incoming request data' => '',
+            'Der Name wird typischerweise benutzt, um die Webservice-Operation von einem entfernten System aus aufzurufen.',
+        'Please provide a unique name for this web service.' => 'Bitte geben Sie einen eindeutigen Namen für diesen Webservice an.',
+        'Mapping for incoming request data' => 'Mapping für eingehende Anfragedaten',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            '',
-        'Operation backend' => '',
+            'Die Daten der eingehenden Anfrage werden von diesem Mapping verarbeitet, um sie so umzuformen, wie die OTRS-Operation sie benötigt.',
+        'Operation backend' => 'Operation-Backend',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
-            '',
-        'Mapping for outgoing response data' => '',
+            'Das Operation-Backend-Modul wird intern aufgerufen um die Anfrage zu verarbeiten, und erzeugt dabei Antwortdaten.',
+        'Mapping for outgoing response data' => 'Mapping für ausgehende Antwortdaten',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            '',
-        'Delete this Operation' => '',
+            'Die Antwortdaten werden von diesem Mapping verarbeitet, um sie so umzuformen, wie das entfernte System die Daten benötigt.',
+        'Delete this Operation' => 'Diese Operation löschen',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
