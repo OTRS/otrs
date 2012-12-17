@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.35 2012-02-14 14:24:46 ep Exp $
+// $Id: Core.UI.Dialog.js,v 1.35.2.1 2012-12-17 12:30:23 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -555,7 +555,9 @@ Core.UI.Dialog = (function (TargetNS) {
         if (typeof CKEDITOR !== 'undefined') {
             for (Editor in CKEDITOR.instances) {
                 if (typeof CKEDITOR.instances[Editor].setMode === 'function') {
-                    window.setTimeout(ResetRTE, 0, Editor);
+                    window.setTimeout(function () {
+                        ResetRTE(Editor);
+                    }, 0);
                 }
             }
         }
