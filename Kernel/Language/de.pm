@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.348 2012-12-11 09:32:56 jh Exp $
+# $Id: de.pm,v 1.349 2012-12-17 14:39:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.348 $) [1];
+$VERSION = qw($Revision: 1.349 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-12-06 09:39:08
+    # Last translation file sync: 2012-12-17 15:40:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -526,9 +526,6 @@ sub Data {
         'TicketAccountedTime' => 'Ticket-Bearbeitungszeiten',
         'Ticket Create Time' => 'Ticket-Erstellzeit',
         'Ticket Close Time' => 'Ticket-Schließzeit',
-        'State Type Historic' => 'Historischer Status-Typ',
-        'State Historic' => 'Historischer Status',
-        'Historic Time Range' => 'Historischer Zeitraum',
 
         # Template: AAATicket
         'Status View' => 'Ansicht nach Status',
@@ -1549,11 +1546,13 @@ sub Data {
         'Import process configuration' => 'Prozesskonfiguration importieren',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Um einen neuen Prozess zu erstellen können Sie entweder einen Prozess aus einem anderen System importieren oder einen ganz neuen erstellen.',
-        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+        'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Processes' => 'Prozesse',
         'Process name' => 'Prozessname',
+        'Copy' => 'Kopieren',
         'Export Process Configuration' => 'Prozesskonfiguration exportieren',
+        'Copy Process' => 'Prozess kopieren',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Abbrechen und Fenster schließen',
@@ -1638,6 +1637,7 @@ sub Data {
         'Edit Process Information' => 'Prozess-Informationen bearbeiten',
         'The selected state does not exist.' => 'Der ausgewählte Status existiert nicht.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitäts-Dialoge und Übergänge hinzufügen und bearbeiten',
+        'Show EntityIDs' => 'EntityIDs einblenden',
         'Extend the width of the Canvas' => 'Die Breite der Zeichenfläche vergrößern',
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
@@ -1646,9 +1646,8 @@ sub Data {
         'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
         'Do you really want to delete this Transition?' => 'Möchten Sie diesen Übergang wirklich löschen?',
         'Do you really want to delete this Transition Action?' => 'Möchten Sie diese Übergangs-Aktion wirklich löschen?',
-        'Delete Entity' => 'Entität löschen',
-        'Show EntityIDs' => 'EntityIDs einblenden',
         'Hide EntityIDs' => 'EntityIDs ausblenden',
+        'Delete Entity' => 'Entität löschen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Diese Aktivität wird bereits im Prozess verwendet. Sie können sie nicht erneut hinzufügen!',
         'This Activity cannot be deleted because it is the Start Activity.' =>
@@ -2990,6 +2989,8 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -4512,8 +4513,13 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (Arbeitseinheiten)',
+        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+            'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
+        'Historic Time Range' => 'Historischer Zeitraum',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
+        'State Historic' => 'Historischer Status',
+        'State Type Historic' => 'Historischer Status-Typ',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
 
     };
