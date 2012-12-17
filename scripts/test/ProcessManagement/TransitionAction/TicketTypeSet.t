@@ -2,7 +2,7 @@
 # TicketType.t - TicketTypeSet testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketTypeSet.t,v 1.2 2012-12-17 17:38:32 cr Exp $
+# $Id: TicketTypeSet.t,v 1.3 2012-12-17 17:46:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,9 +42,8 @@ $ConfigObject->Set(
 $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###TicketDynamicFieldDefault',
     Value => {
-        Module      => 'Kernel::System::Ticket::Event::NotificationEvent',
+        Module      => 'Kernel::System::Ticket::Event::TicketDynamicFieldDefault',
         Transaction => 0,
-        Event       => '',
     },
 );
 
