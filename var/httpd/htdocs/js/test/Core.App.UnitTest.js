@@ -2,7 +2,7 @@
 // Core.App.UnitTest.js - UnitTests
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.App.UnitTest.js,v 1.3 2012-12-11 09:05:42 mn Exp $
+// $Id: Core.App.UnitTest.js,v 1.4 2012-12-17 10:46:20 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -52,6 +52,45 @@ Core.App = (function (Namespace) {
             Value = $('#testcase').find('label[for=' + Core.App.EscapeSelector(Id) + ']').text();
             equal(Value, 'Elementlabeltext');
             $('#testcase').remove();
+        });
+
+        test('Core.App.Publish()/Subscribe()', function () {
+            expect(4);
+            var Counter = 0, Handle;
+
+            // Subscribe to channel
+            Handle = Core.App.Subscribe('UNITTEST1', function () {
+                Counter++;
+            })
+
+            // publish channel
+            Core.App.Publish('UNITTEST1');
+
+            equal(Counter, 1);
+
+            // unsubscribe from channel
+            Core.App.Unsubscribe(Handle);
+
+            // publish again
+            Core.App.Publish('UNITTEST1');
+
+            // counter may not have changed
+            equal(Counter, 1);
+
+            Handle = Core.App.Subscribe('UNITTEST2', function (Count) {
+                Counter = Count;
+            });
+
+            // publish with arguments
+            Core.App.Publish('UNITTEST2', [5]);
+
+            equal(Counter, 5);
+
+            Core.App.Unsubscribe(Handle);
+
+            Core.App.Publish('UNITTEST2', [10]);
+
+            equal(Counter, 5);
         });
     };
 

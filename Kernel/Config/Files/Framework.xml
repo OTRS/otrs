@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.513 2012-12-11 08:38:10 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.514 2012-12-17 10:49:05 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5728,6 +5728,7 @@ M
                 <Item>thirdparty/jquery-ui-1.8.21/jquery-ui.js</Item>
                 <Item>thirdparty/jquery-validate-1.10/jquery.validate.js</Item>
                 <Item>thirdparty/stacktrace-0.4/stacktrace.js</Item>
+                <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
@@ -5806,6 +5807,7 @@ M
                 <Item>thirdparty/jquery-validate-1.10/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-ui-1.8.21/jquery-ui.js</Item>
                 <Item>thirdparty/stacktrace-0.4/stacktrace.js</Item>
+                <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Exception.js</Item>

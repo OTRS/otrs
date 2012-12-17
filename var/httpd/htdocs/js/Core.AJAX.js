@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the functionality for AJAX calls
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.34 2012-03-28 06:24:51 ep Exp $
+// $Id: Core.AJAX.js,v 1.35 2012-12-17 10:46:20 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -247,6 +247,7 @@ Core.AJAX = (function (TargetNS) {
                     if (typeof SuccessCallback === 'function') {
                         SuccessCallback();
                     }
+                    Core.App.Publish('Event.AJAX.FormUpdate.Callback', [Response]);
                 }
             },
             complete: function () {
@@ -304,6 +305,7 @@ Core.AJAX = (function (TargetNS) {
                 if ($.isFunction(Callback)) {
                     Callback();
                 }
+                Core.App.Publish('Event.AJAX.ContentUpdate.Callback', [Response]);
             },
             error: function () {
                 // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
@@ -339,6 +341,8 @@ Core.AJAX = (function (TargetNS) {
                 // call the callback
                 if ($.isFunction(Callback)) {
                     Callback(Response);
+                    // publish to event channel
+                    Core.App.Publish('Event.AJAX.FunctionCall.Callback', [Response]);
                 }
                 else {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.

@@ -2,7 +2,7 @@
 // Core.App.js - provides the application functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.App.js,v 1.11 2012-11-26 11:12:26 mn Exp $
+// $Id: Core.App.js,v 1.12 2012-12-17 10:46:20 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -108,6 +108,41 @@ Core.App = (function (TargetNS) {
     TargetNS.EscapeSelector = function (Selector) {
         return Selector.replace(/(:|\.|\[|\])/g,'\\$1');
     };
+
+    /**
+     * @function
+     *  Publish some data on a named topic
+     * @param {String} Topic The channel to publish on
+     * @param {Array} Args  The data to publish.
+     *                      Each array item is converted into an ordered
+     *                      arguments on the subscribed functions.
+     */
+    TargetNS.Publish = function (Topic, Args) {
+        $.publish(Topic, Args);
+    }
+
+    /**
+     * @function
+     *  Register a callback on a named topic
+     * @param {String} Topic The channel to subscribe to
+     * @param {Function} Callback  The handler event.
+     *                             Anytime something is published on a
+     *                             subscribed channel, the callback will be called with the
+     *                             published array as ordered arguments.
+     * @return {Array} A handle which can be used to unsubscribe this particular subscription
+     */
+    TargetNS.Subscribe = function (Topic, Callback) {
+        return $.subscribe(Topic, Callback);
+    }
+
+    /**
+     * @function
+     *  Disconnect a subscribed function for a topic
+     * @param {Array} Handle The return value from a $.subscribe call
+     */
+    TargetNS.Unsubscribe = function (Handle) {
+        $.unsubscribe(Handle);
+    }
 
     return TargetNS;
 }(Core.App || {}));
