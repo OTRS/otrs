@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.46 2012-10-25 12:15:00 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.47 2012-12-17 11:41:14 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -89,6 +89,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
          *      This function replace and show customer ticket links
          */
         function ReplaceCustomerTicketLinks() {
+            var ResizeTimeoutWindow;
+
             $('#CustomerTickets').find('.AriaRoleMain').removeAttr('role').removeClass('AriaRoleMain');
 
             // Replace overview mode links (S, M, L view), pagination links with AJAX
@@ -117,6 +119,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 Core.UI.InitTableHead($('#FixedTable thead'), $('#FixedTable tbody'));
                 Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
                 Core.UI.Table.InitCSSPseudoClasses();
+
+                $(window).bind('resize', function () {
+                    window.clearTimeout(ResizeTimeoutWindow);
+                    ResizeTimeoutWindow = window.setTimeout(function () {
+                        Core.UI.AdjustTableHead($('#FixedTable thead'), $('#FixedTable tbody'), 0);
+                    }, 500);
+                });
             }
 
             if ( Core.Config.Get('Action') === 'AgentTicketCustomer' ) {
