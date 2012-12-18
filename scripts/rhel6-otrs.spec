@@ -2,7 +2,7 @@
 # RPM spec file for RHEL6 of the OTRS package
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: rhel6-otrs.spec,v 1.1.2.2 2012-12-11 17:07:07 mb Exp $
+# $Id: rhel6-otrs.spec,v 1.1.2.3 2012-12-18 09:21:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl cronie perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(Time::HiRes) perl(XML::Parser)
+Requires:     perl perl-core cronie perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
@@ -151,5 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 <FILES>
 
 %changelog
+* Tue Dec 18 2012 - mb@otrs.com
+- Removed dependency on Time::HiRes in favor of perl-core package.
 * Tue Dec 12 2012 - mb@otrs.com
 - spec for RHEL6 created.
