@@ -1,8 +1,8 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.55 2011-11-14 09:33:27 mab Exp $
+# $Id: Installer.dtl,v 1.55.2.1 2012-12-18 11:44:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,7 +70,7 @@
                     <p>OTRS Inc.</p>
                     <p>19925 Stevens Creek Blvd.</p>
                     <p>Cupertino, CA 95014-2358</p>
-                    <p>$Text{"Phone"}: +1 (408) 725 7501</p>
+                    <p>$Text{"Phone"}: +1 (415) 3660178</p>
                 </div>
                 <div class="Size1of2">
                     <h4>Germany</h4>
