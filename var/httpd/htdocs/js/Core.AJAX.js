@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the functionality for AJAX calls
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.35 2012-12-17 10:46:20 mn Exp $
+// $Id: Core.AJAX.js,v 1.36 2012-12-18 09:12:59 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -275,7 +275,7 @@ Core.AJAX = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.ContentUpdate = function ($ElementToUpdate, URL, Callback) {
-        var QueryString, QueryIndex = URL.indexOf("?");
+        var QueryString, QueryIndex = URL.indexOf("?"), GlobalResponse;
 
         if (QueryIndex >= 0) {
             QueryString = URL.substr(QueryIndex + 1);
@@ -294,6 +294,7 @@ Core.AJAX = (function (TargetNS) {
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
                 }
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
+                    GlobalResponse = Response;
                     $ElementToUpdate.html(Response);
                 }
                 else {
@@ -305,7 +306,7 @@ Core.AJAX = (function (TargetNS) {
                 if ($.isFunction(Callback)) {
                     Callback();
                 }
-                Core.App.Publish('Event.AJAX.ContentUpdate.Callback', [Response]);
+                Core.App.Publish('Event.AJAX.ContentUpdate.Callback', [GlobalResponse]);
             },
             error: function () {
                 // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
