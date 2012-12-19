@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.34 2012-11-20 15:54:17 mh Exp $
+# $Id: Process.pm,v 1.35 2012-12-19 10:10:27 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -563,7 +563,8 @@ sub ProcessGet {
                 my $TransitionPath = $Data{Config}->{Path}->{$ActivityEntityID};
                 for my $TransitionEntityID ( sort keys %{$TransitionPath} ) {
 
-                    my $TransitionActionPath = $TransitionPath->{$TransitionEntityID}->{Action};
+                    my $TransitionActionPath
+                        = $TransitionPath->{$TransitionEntityID}->{TransitionAction};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
                         for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
                             push @TransitionActions, $TransitionActionEntityID;
@@ -1419,6 +1420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2012-11-20 15:54:17 $
+$Revision: 1.35 $ $Date: 2012-12-19 10:10:27 $
 
 =cut
