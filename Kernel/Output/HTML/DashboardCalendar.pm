@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.26 2012-11-20 14:56:51 mh Exp $
+# $Id: DashboardCalendar.pm,v 1.27 2012-12-19 08:15:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -142,7 +142,7 @@ sub Run {
             }
 
             # remember attributes for content table
-            $Date{$TimeStamp} = {
+            $Date{ $TimeStamp . '::' . $TicketID } = {
                 Type         => $Type,
                 Text         => $Map{$Type}->[0],
                 Object       => 'Ticket',
@@ -171,7 +171,7 @@ sub Run {
         );
     }
 
-    # fillup if not content exists
+    # fillup if no content exists
     if ( !$Count ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallCalendarOverviewNone',
