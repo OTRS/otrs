@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.60 2012-12-03 11:29:12 mg Exp $
+# $Id: Multiselect.pm,v 1.61 2012-12-20 16:01:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -108,8 +108,13 @@ sub ValueSet {
     }
 
     my @ValueText;
-    for my $Item (@Values) {
-        push @ValueText, { ValueText => $Item };
+    if ( IsArrayRefWithData( \@Values ) ) {
+        for my $Item (@Values) {
+            push @ValueText, { ValueText => $Item };
+        }
+    }
+    else {
+        push @ValueText, { ValueText => '' };
     }
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
@@ -1013,6 +1018,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2012-12-03 11:29:12 $
+$Revision: 1.61 $ $Date: 2012-12-20 16:01:44 $
 
 =cut
