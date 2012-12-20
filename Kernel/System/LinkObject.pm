@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.66 2012-11-20 15:35:39 mh Exp $
+# $Id: LinkObject.pm,v 1.67 2012-12-20 12:24:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -434,11 +434,12 @@ sub LinkAdd {
         UserID  => $Param{UserID},
     );
 
-    # check if wanted link type is allowed
+    # check if wanted link type is possible
     if ( !$PossibleTypesList{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Not allowed to link $Param{SourceObject} with $Param{TargetObject}!",
+            Message =>
+                "Not possible to create a '$Param{Type}' link between $Param{SourceObject} and $Param{TargetObject}!",
         );
         return;
     }
@@ -2405,6 +2406,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-11-20 15:35:39 $
+$Revision: 1.67 $ $Date: 2012-12-20 12:24:53 $
 
 =cut
