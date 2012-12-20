@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.72 2012-12-03 11:29:12 mg Exp $
+# $Id: Dropdown.pm,v 1.73 2012-12-20 16:07:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -314,25 +314,6 @@ EOF
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
         Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
-EOF
-    }
-
-    if ( $Param{SubmitOnChange} ) {
-
-        my $FieldSelector = '#' . $FieldName;
-
-        #add js to disable validation and do submit()
-        $HTMLString .= <<"EOF";
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    \$('$FieldSelector').bind('change', function (Event) {
-        // make sure the ticket is not yet created on queue change
-        \$('input#Expand').val(1);
-        Core.Form.Validate.DisableValidation(\$(this).closest('form'));
-        \$(this).closest('form').submit();
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -879,6 +860,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2012-12-03 11:29:12 $
+$Revision: 1.73 $ $Date: 2012-12-20 16:07:23 $
 
 =cut
