@@ -2,7 +2,7 @@
 // Core.Agent.CustomerInformationCenterSearch.js - provides the special module functions for the CIC search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.8 2012-11-15 08:42:19 mb Exp $
+// $Id: Core.Agent.CustomerInformationCenterSearch.js,v 1.9 2012-12-27 12:32:44 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
      * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
      * @return nothing
      */
-    TargetNS.InitAutocomplete = function ( $Input, Subaction ) {
+    TargetNS.InitAutocomplete = function ($Input, Subaction) {
         $Input.autocomplete({
             minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
             delay: Core.Config.Get('Autocomplete.QueryDelay'),
@@ -62,9 +62,18 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                     Term: Request.term,
                     MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
                 };
-                Core.AJAX.FunctionCall(URL, Data, function (Result) {
 
+                // if an old ajax request is already running, stop the old request and start the new one
+                if ($Input.data('AutoCompleteXHR')) {
+                    $Input.data('AutoCompleteXHR').abort();
+                    $Input.removeData('AutoCompleteXHR');
+                    // run the response function to hide the request animation
+                    Response({});
+                }
+
+                $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
                     var Data = [];
+                    $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
                         Data.push({
                             label: this.Label,
@@ -72,7 +81,7 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                         });
                     });
                     Response(Data);
-                });
+                }));
             },
             select: function (Event, UI) {
                 Redirect(UI.item.value, Event);

@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the functionality for AJAX calls
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.36 2012-12-18 09:12:59 mn Exp $
+// $Id: Core.AJAX.js,v 1.37 2012-12-27 12:28:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -215,7 +215,7 @@ Core.AJAX = (function (TargetNS) {
      *                      This used to be the names of the fields that should be updated with the server answer,
      *                      but is not needed any more and will be removed in a future version of OTRS.
      * @param {Function} [SuccessCallback] Callback function to be executed on AJAX success (optional).
-     * @return nothing
+     * @return {Object} jqXHR object
      */
     TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate, SuccessCallback) {
         var URL = Core.Config.Get('Baselink'),
@@ -232,7 +232,7 @@ Core.AJAX = (function (TargetNS) {
             });
         }
 
-        $.ajax({
+        return $.ajax({
             type: 'POST',
             url: URL,
             data: QueryString,
@@ -257,13 +257,13 @@ Core.AJAX = (function (TargetNS) {
                     });
                 }
             },
-            error: function () {
-                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-                Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
+            error: function (XHRObject, Status, Error) {
+                if (Status !== 'abort') {
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'CommunicationError'));
+                }
             }
         });
-
-        return false;
     };
 
     /**
@@ -272,7 +272,7 @@ Core.AJAX = (function (TargetNS) {
      * @param {jQueryObject} $ElementToUpdate The jQuery object of the element(s) which should be updated
      * @param {String} URL The URL which is called via Ajax
      * @param {Function} Callback The additional callback function which is called after the request returned from the server
-     * @return nothing
+     * @return {Object} jqXHR object
      */
     TargetNS.ContentUpdate = function ($ElementToUpdate, URL, Callback) {
         var QueryString, QueryIndex = URL.indexOf("?"), GlobalResponse;
@@ -283,7 +283,7 @@ Core.AJAX = (function (TargetNS) {
         }
         QueryString += SerializeData(GetSessionInformation());
 
-        $.ajax({
+        return $.ajax({
             type: 'POST',
             url: URL,
             data: QueryString,
@@ -308,13 +308,13 @@ Core.AJAX = (function (TargetNS) {
                 }
                 Core.App.Publish('Event.AJAX.ContentUpdate.Callback', [GlobalResponse]);
             },
-            error: function () {
-                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-                Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
+            error: function (XHRObject, Status, Error) {
+                if (Status !== 'abort') {
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'CommunicationError'));
+                }
             }
         });
-
-        return false;
     };
 
     /**
@@ -324,7 +324,7 @@ Core.AJAX = (function (TargetNS) {
      * @param {Object} Data The data hash or data query string
      * @param {Function} Callback The callback function which is called after the request returned from the server
      * @param {String} DataType Optional, defines the datatype, default 'json', could also be 'html'
-     * @return nothing
+     * @return {Object} jqXHR object
      */
     TargetNS.FunctionCall = function (URL, Data, Callback, DataType) {
         if (typeof Data === 'string') {
@@ -333,12 +333,12 @@ Core.AJAX = (function (TargetNS) {
             Data = $.extend(Data, GetSessionInformation());
         }
 
-        $.ajax({
+        return $.ajax({
             type: 'POST',
             url: URL,
             data: Data,
             dataType: (typeof DataType === 'undefined') ? 'json' : DataType,
-            success: function (Response) {
+            success: function (Response, Status, XHRObject) {
                 // call the callback
                 if ($.isFunction(Callback)) {
                     Callback(Response);
@@ -350,9 +350,12 @@ Core.AJAX = (function (TargetNS) {
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid callback method: " + ((typeof Callback === 'undefined') ? 'undefined' : Callback.toString())));
                 }
             },
-            error: function () {
-                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
-                Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
+            error: function (XHRObject, Status, Error) {
+                // We sometimes manually abort an ajax request (e.g. in autocompletion). This should not throw a global error message
+                if (Status !== 'abort') {
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'CommunicationError'));
+                }
             }
         });
     };

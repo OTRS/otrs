@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.47 2012-12-17 11:41:14 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.48 2012-12-27 12:28:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -218,13 +218,24 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 minLength: ActiveAutoComplete ? Core.Config.Get('Autocomplete.MinQueryLength') : 500,
                 delay: Core.Config.Get('Autocomplete.QueryDelay'),
                 source: function (Request, Response) {
-                    var URL = Core.Config.Get('Baselink'), Data = {
-                        Action: 'AgentCustomerSearch',
-                        Term: Request.term,
-                        MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
-                    };
-                    Core.AJAX.FunctionCall(URL, Data, function (Result) {
+                    var URL = Core.Config.Get('Baselink'),
+                        Data = {
+                            Action: 'AgentCustomerSearch',
+                            Term: Request.term,
+                            MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
+                        };
+
+                    // if an old ajax request is already running, stop the old request and start the new one
+                    if ($Element.data('AutoCompleteXHR')) {
+                        $Element.data('AutoCompleteXHR').abort();
+                        $Element.removeData('AutoCompleteXHR');
+                        // run the response function to hide the request animation
+                        Response({});
+                    }
+
+                    $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
                         var Data = [];
+                        $Element.removeData('AutoCompleteXHR');
                         $.each(Result, function () {
                             Data.push({
                                 label: this.CustomerValue + " (" + this.CustomerKey + ")",
@@ -235,7 +246,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                             });
                         });
                         Response(Data);
-                    });
+                    }));
                 },
                 select: function (Event, UI) {
                     var CustomerKey = UI.item.key,

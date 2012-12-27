@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2585 2012-12-20 16:01:44 cr Exp $
+# $Id: CHANGES,v 1.2586 2012-12-27 12:28:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.beta5 2012-12-??
+ - 2012-12-27 Fixed bug#8990 - Autocompletion returns stale requests.
  - 2012-12-20 Fixed bug#9009 - Empty Multiselect Dynamic Fields provokes an error.
  - 2012-12-19 Fixed bug#8999 - Upcoming event with duplicate dates not displayed in Dashboard.
  - 2012-12-17 Fixed bug#8457 - Error if accessing AgentTicketSearch from AgentTicketPhone in IE8.
