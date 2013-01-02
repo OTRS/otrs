@@ -1,8 +1,8 @@
 // --
 // Core.UI.Dialog.js - Dialogs
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.35.2.1 2012-12-17 12:30:23 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.35.2.2 2013-01-02 12:57:22 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -42,14 +42,22 @@ Core.UI.Dialog = (function (TargetNS) {
         // Check window height and adjust the scrollable height of InnerContent
         // Calculation:
         // Window height
-        // - top margin of dialog twice (for top and bottom)
+        // - top margin of dialog twice (for top and bottom) - only use this for big dialog windows
         // - some static pixels for Header and Footer of dialog
         var ContentScrollHeight = 0,
             WindowHeight = $(window).height(),
             WindowScrollTop = $(window).scrollTop(),
-            DialogTopMargin = $('.Dialog:visible').offset().top;
+            DialogTopMargin = $('.Dialog:visible').offset().top,
+            DialogHeight = $('.Dialog:visible').height();
 
-        ContentScrollHeight = WindowHeight - ((DialogTopMargin - WindowScrollTop) * 2) - 100;
+        // if dialog height is more than 300px recalculate width of InnerContent to make it scrollable
+        // if dialog is smaller than 300px this is not necessary
+        if (DialogHeight > 300) {
+            ContentScrollHeight = WindowHeight - ((DialogTopMargin - WindowScrollTop) * 2) - 100;
+        }
+        else {
+            ContentScrollHeight = 200;
+        }
         $('.Dialog:visible .Content .InnerContent').css('max-height', ContentScrollHeight);
     }
 
