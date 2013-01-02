@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.63 2012-11-20 15:34:08 mh Exp $
+# $Id: DynamicField.pm,v 1.64 2013-01-02 12:35:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -241,17 +241,17 @@ get Dynamic Field attributes
 Returns:
 
     $DynamicField = {
-        ID          => 123,
+        ID            => 123,
         InternalField => 0,
-        Name        => 'NameForField',
-        Label       => 'The label to show',
-        FieldOrder  => 123,
-        FieldType   => 'Text',
-        ObjectType  => 'Article',
-        Config      => $ConfigHashRef,
-        ValidID     => 1,
-        CreateTime  => '2011-02-08 15:08:00',
-        ChangeTime  => '2011-06-11 17:22:00',
+        Name          => 'NameForField',
+        Label         => 'The label to show',
+        FieldOrder    => 123,
+        FieldType     => 'Text',
+        ObjectType    => 'Article',
+        Config        => $ConfigHashRef,
+        ValidID       => 1,
+        CreateTime    => '2011-02-08 15:08:00',
+        ChangeTime    => '2011-06-11 17:22:00',
     };
 
 =cut
@@ -828,16 +828,16 @@ Returns:
             ChangeTime  => '2011-06-11 17:22:00',
         },
         {
-            ID          => 321,
+            ID            => 321,
             InternalField => 0,
-            Name        => 'fieldname',
-            Label       => 'It is not a label',
-            FieldType   => 'Text',
-            ObjectType  => 'Ticket',
-            Config      => $ConfigHashRef,
-            ValidID     => 1,
-            CreateTime  => '2010-09-11 10:08:00',
-            ChangeTime  => '2011-01-01 01:01:01',
+            Name          => 'fieldname',
+            Label         => 'It is not a label',
+            FieldType     => 'Text',
+            ObjectType    => 'Ticket',
+            Config        => $ConfigHashRef,
+            ValidID       => 1,
+            CreateTime    => '2010-09-11 10:08:00',
+            ChangeTime    => '2011-01-01 01:01:01',
         },
         ...
     );
@@ -1309,6 +1309,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2012-11-20 15:34:08 $
+$Revision: 1.64 $ $Date: 2013-01-02 12:35:59 $
 
 =cut
