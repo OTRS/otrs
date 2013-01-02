@@ -1,8 +1,8 @@
 # --
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.228 2012-12-20 15:19:18 mb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.229 2013-01-02 13:02:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,6 +80,8 @@
             $Data{"Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
         </h1>
     </div>
+
+    <iframe src="about:blank" width="0" height="0" name="AttachmentWindow" id="AttachmentWindow"></iframe>
 
     <div class="LayoutFixedSidebar SidebarLast">
         <div class="SidebarColumn">
