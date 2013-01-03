@@ -6,9 +6,9 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.198 2012-12-06 08:40:26 mg Exp $
+# $Id: nl.pm,v 1.199 2013-01-03 10:35:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.198 $) [1];
+$VERSION = qw($Revision: 1.199 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-12-06 09:39:25
+    # Last translation file sync: 2013-01-03 11:41:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1552,11 +1552,13 @@ sub Data {
         'Import process configuration' => 'Importeer procesconfiguratie',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Om een nieuw proces aan te maken kunt u een bestand importeren, aangemaakt op een ander systeem, of een compleet nieuw proces aanmaken.',
-        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
-            'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
+        'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+            '',
         'Processes' => 'Processen',
         'Process name' => 'Naam',
+        'Copy' => '',
         'Export Process Configuration' => 'Exporteer procesconfiguratie',
+        'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Annuleren en scherm sluiten',
@@ -1641,6 +1643,7 @@ sub Data {
         'Edit Process Information' => 'Bewerk proces-informatie',
         'The selected state does not exist.' => 'De geselecteerde status bestaat niet.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Beheren activiteiten, dialogen en transities',
+        'Show EntityIDs' => '',
         'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
@@ -1649,6 +1652,7 @@ sub Data {
         'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
         'Do you really want to delete this Transition?' => 'Wilt u deze transitie verwijderen?',
         'Do you really want to delete this Transition Action?' => 'Wilt u deze transitie-actie verwijderen?',
+        'Hide EntityIDs' => '',
         'Delete Entity' => 'Verwijderen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
@@ -2991,6 +2995,8 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -4513,6 +4519,8 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (in minuten)',
+        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+            'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
 

@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/sr_Cyrl.pm - provides Serbian language Cyrillic translation
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.44 2012-12-06 08:40:26 mg Exp $
+# $Id: sr_Cyrl.pm,v 1.45 2013-01-03 10:35:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-12-06 09:39:32
+    # Last translation file sync: 2013-01-03 11:42:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1546,11 +1546,13 @@ sub Data {
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
-        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+        'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
         'Processes' => '',
         'Process name' => '',
+        'Copy' => '',
         'Export Process Configuration' => '',
+        'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Поништи & затвори прозор',
@@ -1635,6 +1637,7 @@ sub Data {
         'Edit Process Information' => '',
         'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
+        'Show EntityIDs' => '',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
@@ -1643,6 +1646,7 @@ sub Data {
         'Do you really want to delete this Activity Dialog?' => '',
         'Do you really want to delete this Transition?' => '',
         'Do you really want to delete this Transition Action?' => '',
+        'Hide EntityIDs' => '',
         'Delete Entity' => '',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             '',
@@ -2986,6 +2990,8 @@ sub Data {
             '',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Одређује да ли порукама написаним у интерфејсу оператера треба урадити проверу правописа.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             'Одређује да ли је обрачун времена обавезан у интерфејсу оператера.',
         'Defines if time accounting must be set to all tickets in bulk action.' =>

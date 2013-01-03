@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # Copyright (C) 2012 Andreas Berger" <andreas.berger at hagfors.se>
 # --
-# $Id: sv.pm,v 1.125 2012-12-06 08:40:24 mg Exp $
+# $Id: sv.pm,v 1.126 2013-01-03 10:35:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-12-06 09:39:34
+    # Last translation file sync: 2013-01-03 11:42:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1548,11 +1548,13 @@ sub Data {
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
-        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+        'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
         'Processes' => '',
         'Process name' => '',
+        'Copy' => '',
         'Export Process Configuration' => '',
+        'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Ångra & stäng fönster',
@@ -1637,6 +1639,7 @@ sub Data {
         'Edit Process Information' => '',
         'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
+        'Show EntityIDs' => '',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
@@ -1645,6 +1648,7 @@ sub Data {
         'Do you really want to delete this Activity Dialog?' => '',
         'Do you really want to delete this Transition?' => '',
         'Do you really want to delete this Transition Action?' => '',
+        'Hide EntityIDs' => '',
         'Delete Entity' => '',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             '',
@@ -2987,6 +2991,8 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
