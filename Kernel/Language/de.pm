@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.353 2013-01-03 10:35:17 mg Exp $
+# $Id: de.pm,v 1.354 2013-01-03 10:39:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.353 $) [1];
+$VERSION = qw($Revision: 1.354 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1575,7 +1575,7 @@ sub Data {
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
-            '',
+            'Veränderungen an diesem ActivityDialog werden sich auf folgende Activities auswirken',
         'Activity Dialog' => 'Aktivitäts-Dialog',
         'Activity dialog Name' => 'Name des Aktivitäts-Dialogs',
         'Available in' => 'Verfügbar in',
