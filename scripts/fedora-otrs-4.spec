@@ -1,8 +1,8 @@
 # --
 # RPM spec file for Fedora of the OTRS package
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.21 2012-12-18 08:04:17 mb Exp $
+# $Id: fedora-otrs-4.spec,v 1.22 2013-01-03 10:51:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@ install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
 
 # register apache
-systemctl enable httpd.service
+#systemctl enable httpd.service
 
 # set permission
 export OTRSUSER=otrs
