@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketUpdate.pm,v 1.10 2012-11-20 14:29:48 mh Exp $
+# $Id: TicketUpdate.pm,v 1.11 2013-01-03 00:32:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -1122,7 +1122,7 @@ sub _CheckAttachment {
         };
     }
 
-    # check DynamicField itm internally
+    # check attachment item internally
     for my $Needed (qw(Content ContentType Filename)) {
         if ( !$Attachment->{$Needed} ) {
             return {
@@ -1146,7 +1146,7 @@ sub _CheckAttachment {
             $Charset =~ s/(.+?);.*/$1/g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+        if ( $Charset && !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Attahcment->ContentType is invalid!",
@@ -2021,6 +2021,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2012-11-20 14:29:48 $
+$Revision: 1.11 $ $Date: 2013-01-03 00:32:02 $
 
 =cut
