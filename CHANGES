@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2588 2013-01-03 00:32:02 cr Exp $
+# $Id: CHANGES,v 1.2589 2013-01-03 10:42:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.2.0.beta5 2012-12-??
+3.2.0.beta5 2013-01-08
  - 2013-01-02 Fixed bug#9020 - Generic Ticket Connector does not support attachments with
     ContentType without charset.
  - 2013-01-02 Fixed bug#8545 - Attachment download not possible if pop up of another action is open.
