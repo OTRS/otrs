@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2595 2013-01-04 19:50:35 mb Exp $
+# $Id: CHANGES,v 1.2596 2013-01-04 19:53:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -263,9 +263,17 @@
     NotificationEvent definitions.
 
 3.1.13 20??-??-??
+ - 2012-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
+    Changed dependency on 'anacron' to 'vixie-cron' on RHEL5.
  - 2013-01-02 Fixed bug#9020 - Generic Ticket Connector does not support attachments with
     ContentType without charset.
+ - 2013-01-02 Fixed bug#8545 - Attachment download not possible if pop up of another action is open.
  - 2012-12-20 Fixed bug#9009 - Empty Multiselect Dynamic Fields provokes an error.
+ - 2012-12-17 Fixed bug#8589 - Bulk-Action not possible for single ticket.
+ - 2012-12-17 Fixed bug#7198 - Broken repository selection width in Package Manager.
+ - 2012-12-17 Fixed bug#8457 - Error if accessing AgentTicketSearch from AgentTicketPhone in IE8.
+ - 2012-12-17 Fixed bug#8695 - Table head of Customer Ticket History does not resize on window resize.
+ - 2012-12-13 Fixed bug#8533 - Apache will not start if you use mod_perl on Fedora 16 or 17.
  - 2012-12-10 Fixed bug#8974 - Event Based Notification does not populate REALNAME with
     Customer User data.
 
