@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.58 2012-12-13 14:23:11 mb Exp $
+# $Id: apache2-perl-startup.pl,v 1.59 2013-01-04 13:16:27 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,33 +24,28 @@
 use strict;
 use warnings;
 
-# make sure we are in a sane environment.
+# Make sure we are in a sane environment.
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
+
+use Apache2::RequestRec;
+use ModPerl::Util;
 
 BEGIN {
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
-
     $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
 
     # set $0 to index.pl because this is broken in mod_perl context;
     # apart from that, on Fedora, $0 is not a path which would break OTRS.
     # see bug # 8533
-
     $0 = '/opt/otrs/bin/cgi-bin/index.pl';
 }
 
-use ModPerl::Util;
-
-# set otrs lib path!
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";
 use lib "/opt/otrs/Custom";
 
-# pull in things we will use in most requests so it is read and compiled
-# exactly once
-
-#use CGI (); CGI->compile(':all');
+# Preload frequently used modules to speed up client spawning.
 use CGI ();
 CGI->compile(':cgi');
 use CGI::Carp ();
