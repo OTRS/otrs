@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2030";
+our $VERSION = "1.2034";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -35,6 +35,11 @@ sub new {
     unless( $opts{shutup_about_v6ssl} ) {
         carp "use_ssl with IPv6 is not yet supported"
             if $opts{use_v6} and $opts{use_ssl};
+    }
+
+    if( $opts{ssl_version} ) {
+        $self->{ssl_version} = $opts{ssl_version};
+        $opts{use_ssl} = 1;
     }
 
     if( $opts{use_ssl} ) {
@@ -146,18 +151,22 @@ sub _connect {
     my $sock;
 
     if( $self->{cmd} ) {
+        $self->_debug( caller, __LINE__, '_connect', "popping open a pipesocket for command: $self->{cmd}" ) if $self->{debug};
         $sock = Net::IMAP::Simple::PipeSocket->new(cmd=>$self->{cmd});
 
     } else {
+        $self->_debug( caller, __LINE__, '_connect', "connecting to $self->{server}:$self->{port}" ) if $self->{debug};
         $sock = $self->_sock_from->new(
             PeerAddr => $self->{server},
             PeerPort => $self->{port},
             Timeout  => $self->{timeout},
             Proto    => 'tcp',
-            ( $self->{bindaddr} ? ( LocalAddr => $self->{bindaddr} ) : () )
+            ( $self->{bindaddr} ? ( LocalAddr => $self->{bindaddr} ) : () ),
+            ( $_[0]->{ssl_version} ? (SSL_version => $self->{ssl_version}) : ()),
         );
     }
 
+    $self->_debug( caller, __LINE__, '_connect', "connected, returning socket" ) if $self->{debug};
     return $sock;
 }
 
@@ -188,7 +197,7 @@ sub starttls {
 
             my $startres = IO::Socket::SSL->start_SSL(
                 $self->{sock},
-                SSL_version        => "SSLv3 TLSv1",
+                SSL_version        => $self->{ssl_version} || "SSLv3 TLSv1",
                 SSL_startHandshake => 0,
             );
 
@@ -207,8 +216,10 @@ sub starttls {
 sub login {
     my ( $self, $user, $pass ) = @_;
 
+    $pass = _escape($pass);
+
     return $self->_process_cmd(
-        cmd     => [ LOGIN => qq[$user "$pass"] ],
+        cmd     => [ LOGIN => qq[$user $pass] ],
         final   => sub { 1 },
         process => sub { },
     );
@@ -642,16 +653,16 @@ sub get {
 
             # NOTE: There is not supposed to be an error if you ask for a
             # message that's not there, but this is a rather confusing
-            # notion â€¦ so we generate an error here.
+            # notion É so we generate an error here.
 
             $self->{_errstr} = "message not found";
             return;
         },
         process => sub {
-            if ( $_[0] =~ /^\*\s+\d+\s+FETCH\s+\(.+?\{(\d+)\}\E/ ) {
+            if ( $_[0] =~ /^\*\s+\d+\s+FETCH\s+\(.+?\{(\d+)\}/ ) {
                 $fetching = $1;
 
-            } elsif( $_[0] =~ /^\*\s+\d+\s+FETCH\s+\(.+?\"(.*)\"\s*\)\E/ ) {
+            } elsif( $_[0] =~ /^\*\s+\d+\s+FETCH\s+\(.+?\"(.*)\"\s*\)/ ) {
                 # XXX: this is not tested because Net::IMAP::Server doesn't do
                 # this type of string result (that I know of) for this it might
                 # work, ... frog knows.  Not likely to come up very often, if
