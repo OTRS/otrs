@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.179 2013-01-04 13:57:01 mb Exp $
+# $Id: CHANGES,v 1.2260.2.180 2013-01-04 19:51:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.13 20??-??-??
+ - 2012-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
+    Changed dependency on 'anacron' to 'vixie-cron' on RHEL5.
  - 2013-01-02 Fixed bug#9020 - Generic Ticket Connector does not support attachments with
     ContentType without charset.
  - 2013-01-02 Fixed bug#8545 - Attachment download not possible if pop up of another action is open.

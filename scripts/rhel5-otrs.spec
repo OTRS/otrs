@@ -1,8 +1,8 @@
 # --
 # RPM spec file for RHEL5 of the OTRS package
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: rhel5-otrs.spec,v 1.1.2.2 2012-12-11 17:07:07 mb Exp $
+# $Id: rhel5-otrs.spec,v 1.1.2.3 2013-01-04 19:51:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl anacron perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
+Requires:     perl vixie-cron perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
