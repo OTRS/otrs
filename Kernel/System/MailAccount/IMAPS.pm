@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount/IMAPS.pm - lib for imap accounts
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAPS.pm,v 1.14 2012-11-20 15:50:06 mh Exp $
+# $Id: IMAPS.pm,v 1.15 2013-01-04 19:15:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,11 @@ package Kernel::System::MailAccount::IMAPS;
 
 use strict;
 use warnings;
-use Net::IMAP::Simple::SSL;
+use Net::IMAP::Simple;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,8 +46,9 @@ sub Connect {
     }
 
     # connect to host
-    my $IMAPObject = Net::IMAP::Simple::SSL->new(
+    my $IMAPObject = Net::IMAP::Simple->new(
         $Param{Host},
+        use_ssl => 1,
         timeout => $Param{Timeout},
         debug   => $Param{Debug},
     );
@@ -55,7 +56,7 @@ sub Connect {
         return ( Successful => 0, Message => "IMAPS: Can't connect to $Param{Host}" );
     }
 
-    # authentcation
+    # authentication
     my $Auth = $IMAPObject->login( $Param{Login}, $Param{Password} );
     if ( !defined $Auth ) {
         $IMAPObject->quit();

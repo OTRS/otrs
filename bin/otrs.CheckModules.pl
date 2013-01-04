@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.43 2012-12-11 16:04:40 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.44 2013-01-04 19:15:37 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,8 +30,10 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use ExtUtils::MakeMaker;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 # config
 my @NeededModules = (
@@ -262,9 +264,9 @@ my @NeededModules = (
         Required => 0,
         Depends  => [
             {
-                Module   => 'Net::IMAP::Simple::SSL',
+                Module   => 'IO::Socket::SSL',
                 Required => 0,
-                Comment  => 'Required for SSL connections.',
+                Comment  => 'Required for IMAP SSL connections.',
             },
         ],
     },
@@ -471,7 +473,7 @@ if ( $^O eq "MSWin32" ) {
     push @NeededModules, @WindowsModules;
 }
 
-# try to load modules
+# try to determine module version number
 my $Depends = 0;
 for my $Module (@NeededModules) {
     _Check( $Module, $Depends );
@@ -490,15 +492,14 @@ sub _Check {
     for ( $Length .. 32 ) {
         print ".";
     }
-    if ( eval "require $Module->{Module}" ) {
 
-        # some strange CPAN module do not export VERSION
-        my $Version = eval "\$$Module->{Module}::Version::VERSION";
+    # use internal EU:MM sub to determine if given module is installed
+    # just as in Module::Version
+    my $File = MM->_installed_file_for_module( $Module->{Module} );
+    if ($File) {
 
-        # ask for CPAN module VERSION
-        if ( !$Version ) {
-            $Version = eval "\$$Module->{Module}::VERSION";
-        }
+        # determine version number
+        my $Version = version->parse( MM->parse_version($File) );
 
         # cleanup version number
         my $CleanedVersion = _VersionClean(
