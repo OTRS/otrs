@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.59 2013-01-04 13:16:27 mg Exp $
+# $Id: apache2-perl-startup.pl,v 1.60 2013-01-04 13:43:32 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -27,9 +27,6 @@ use warnings;
 # Make sure we are in a sane environment.
 $ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
-use Apache2::RequestRec;
-use ModPerl::Util;
-
 BEGIN {
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
@@ -40,6 +37,9 @@ BEGIN {
     # see bug # 8533
     $0 = '/opt/otrs/bin/cgi-bin/index.pl';
 }
+
+use Apache2::RequestRec;
+use ModPerl::Util;
 
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";
