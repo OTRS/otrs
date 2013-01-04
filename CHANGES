@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2590 2013-01-04 11:05:18 mb Exp $
+# $Id: CHANGES,v 1.2591 2013-01-04 11:06:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 3.2.0.beta5 2013-01-08
- - 2013-01-04 Activated mod_deflate by default in bundled Apache configuration file.
+ - 2013-01-04 Configured mod_deflate in bundled Apache configuration file.
  - 2013-01-02 Fixed bug#9020 - Generic Ticket Connector does not support attachments with
     ContentType without charset.
  - 2013-01-02 Fixed bug#8545 - Attachment download not possible if pop up of another action is open.
