@@ -1,8 +1,8 @@
 # --
 # StateSet.t - StateSet testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: StateSet.t,v 1.5 2012-11-20 16:12:03 mh Exp $
+# $Id: StateSet.t,v 1.6 2013-01-04 17:03:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,6 @@ use vars qw($Self);
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
-use Kernel::System::DynamicField;
 use Kernel::System::ProcessManagement::TransitionAction::StateSet;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -33,14 +32,6 @@ my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $BackendObject = Kernel::System::DynamicField::Backend->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::StateSet->new(
     %{$Self},
@@ -52,49 +43,6 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::StateSet
 my $UserID     = 1;
 my $ModuleName = 'StateSet';
 my $RandomID   = $HelperObject->GetRandomID();
-
-my $NumericRandomID = int rand 1000_000;
-my $DFName1         = 'Test1' . $NumericRandomID;
-my $DFValue1        = 'Test1';
-
-# ----------------------------------------
-# Create the dynamic fields for testing
-# ----------------------------------------
-
-my @NewDynamicFieldConfig = (
-    {
-        Name       => $DFName1,
-        Label      => $DFName1,
-        FieldType  => 'Text',
-        ObjectType => 'Ticket',
-        Config     => {
-            DefaultValue => '',
-        },
-    },
-);
-
-my @AddedDynamicFields;
-for my $DynamicFieldConfig (@NewDynamicFieldConfig) {
-
-    # add the new dynamic field
-    my $ID = $DynamicFieldObject->DynamicFieldAdd(
-        %{$DynamicFieldConfig},
-        FieldOrder => 99999,
-        ValidID    => 1,
-        UserID     => 1,
-    );
-
-    push @AddedDynamicFields, $ID;
-
-    # sanity check
-    $Self->True(
-        $ID,
-        "DynamicFieldAdd() - DynamicField: $ID for DynamicFieldSet"
-            . " checks with True",
-    );
-}
-
-# ----------------------------------------
 
 # ----------------------------------------
 # Create a test ticket
@@ -130,33 +78,6 @@ my %Ticket = $TicketObject->TicketGet(
 $Self->True(
     IsHashRefWithData( \%Ticket ),
     "TicketGet() - Get Ticket with ID $TicketID.",
-);
-
-# set dynamic field
-my $Success = $BackendObject->ValueSet(
-    DynamicFieldConfig => {
-        %{ $NewDynamicFieldConfig[0] },
-        ID => $AddedDynamicFields[0],
-    },
-
-    ObjectID => $TicketID,
-    Value    => $DFValue1,
-    UserID   => $UserID,
-);
-
-$Self->True(
-    $Success,
-    "DynamicFieldSet() - Set DynamicFIeld_" . $DFName1 . " to $DFValue1",
-);
-
-%Ticket = $TicketObject->TicketGet(
-    TicketID      => $TicketID,
-    DynamicFields => 1,
-    UserID        => $UserID,
-);
-$Self->True(
-    IsHashRefWithData( \%Ticket ),
-    "TicketGet() - Get Ticket (Inc. Dynamic Fields) with ID $TicketID.",
 );
 
 # ----------------------------------------
@@ -253,112 +174,7 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Missing DynamicFieldMapping',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField => $DFName1,
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Missing DynamicField',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => undef,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        State => 'Open',
-                    },
-                },
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong DynamicFieldMapping format',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => $DFName1,
-                DynamicFieldMapping => 1,
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong State in DynamicField',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        State => 'NotExisiting' . $RandomID,
-                    },
-                },
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong StateID in DynamicField',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        StateID => 'NotExisiting' . $RandomID,
-                    },
-                },
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong DynamicFieldMapping',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        Other => 'closed successful',
-                    },
-                },
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong DynamicField (Should Success)',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => 'Notexisting' . $NumericRandomID,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        State => 'closed successful',
-                    },
-                },
-
-            },
-        },
-        Success  => 1,
-        NewValue => 0,
-    },
-    {
-        Name   => 'Correct State',
+        Name   => 'Correct State open',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
@@ -366,88 +182,40 @@ my @Tests = (
                 State => 'open',
             },
         },
-        Success  => 1,
-        NewValue => 1,
+        Success => 1,
     },
     {
-        Name   => 'Correct StateID',
+        Name   => 'Correct State closed successful',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                StateID => 5,
+                State => 'closed successful',
             },
         },
-        Success  => 1,
-        NewValue => 1,
+        Success => 1,
     },
     {
-        Name   => 'Correct State in DynamicFieldMapping',
+        Name   => 'Correct StateID open',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                DynamicField        => $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        State => 'pending reminder',
-                    },
-                },
+                StateID => 4,
             },
         },
-        Success  => 1,
-        NewValue => 1,
+        Success => 1,
     },
     {
-        Name   => 'Correct StateID in DynamicFieldMapping',
+        Name   => 'Correct StateID closed successful',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                DynamicField        => $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        StateID => 7,
-                    },
-                },
+                StateID => 2,
             },
         },
-        Success  => 1,
-        NewValue => 1,
-    },
-    {
-        Name   => 'Correct State in DynamicFieldMapping Full DF Name',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => 'DynamicField_' . $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        State => 'pending reminder',
-                    },
-                },
-            },
-        },
-        Success  => 1,
-        NewValue => 1,
-    },
-    {
-        Name   => 'Correct StateID in DynamicFieldMapping Full DF Name',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                DynamicField        => 'DynamicField_' . $DFName1,
-                DynamicFieldMapping => {
-                    $DFValue1 => {
-                        StateID => 7,
-                    },
-                },
-            },
-        },
-        Success  => 1,
-        NewValue => 1,
+        Success => 1,
     },
 );
 
@@ -463,62 +231,25 @@ for my $Test (@Tests) {
 
         # get ticket
         %Ticket = $TicketObject->TicketGet(
-            TicketID      => $TicketID,
-            DynamicFields => 1,
-            UserID        => 1,
+            TicketID => $TicketID,
+            UserID   => 1,
         );
 
-        if ( $Test->{Config}->{Config}->{State} || $Test->{Config}->{Config}->{StateID} ) {
+        ATTRIBUTE:
+        for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
-            ATTRIBUTE:
-            for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
+            $Self->True(
+                $Ticket{$Attribute},
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
+                    . " $TicketID exists with True",
+            );
 
-                $Self->True(
-                    $Ticket{$Attribute},
-                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
-                        . " $TicketID exists with True",
-                );
-
-                $Self->Is(
-                    $Ticket{$Attribute},
-                    $Test->{Config}->{Config}->{$Attribute},
-                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
-                        . " $TicketID match expected value",
-                );
-            }
-        }
-        else {
-
-            ATTRIBUTE:
-            for my $Attribute (
-                sort keys %{ $Test->{Config}->{Config}->{DynamicFieldMapping}->{$DFValue1} }
-                )
-            {
-
-                $Self->True(
-                    $Ticket{$Attribute},
-                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $DFValue1 -> $Attribute for"
-                        . " TicketID: $TicketID exists with True",
-                );
-
-                if ( $Test->{NewValue} ) {
-                    $Self->Is(
-                        $Ticket{$Attribute},
-                        $Test->{Config}->{Config}->{DynamicFieldMapping}->{$DFValue1}->{$Attribute},
-                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $DFValue1 -> $Attribute"
-                            . " for TicketID: $TicketID match expected value",
-                    );
-                }
-                else {
-                    $Self->IsNot(
-                        $Test->{Config}->{Config}->{DynamicFieldMapping}->{$DFValue1}->{$Attribute},
-                        $Ticket{$Attribute},
-                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $DFValue1 -> $Attribute"
-                            . " for TicketID: $TicketID differs from expected value: "
-                            . "'$Ticket{$Attribute}'",
-                    );
-                }
-            }
+            $Self->Is(
+                $Ticket{$Attribute},
+                $Test->{Config}->{Config}->{$Attribute},
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
+                    . " $TicketID match expected value",
+            );
         }
     }
     else {
@@ -542,20 +273,6 @@ $Self->True(
     $Delete,
     "TicketDelete() - $TicketID",
 );
-
-# DynamicFields
-for my $ID (@AddedDynamicFields) {
-    my $Success = $DynamicFieldObject->DynamicFieldDelete(
-        ID      => $ID,
-        UserID  => 1,
-        Reorder => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "DynamicFieldDelete() - Remove DynamicField $ID from the system with True"
-    );
-}
 
 # ----------------------------------------
 

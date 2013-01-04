@@ -1,8 +1,8 @@
 # --
 # Kernel/System/ProcessManagement/TransitionAction/StateSet.pm - A Module to set the ticket state
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: StateSet.pm,v 1.4 2012-11-20 15:55:45 mh Exp $
+# $Id: StateSet.pm,v 1.5 2013-01-04 17:03:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use utf8;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -129,18 +129,6 @@ sub new {
             State  => 'open',
             # or
             StateID => 3,
-
-            #OR (DynamicField state mapping)
-            DynamicField        => 'MasterSlave', # or DynamicField_MasterSlave
-            DynamicFieldMapping => {
-                Master           => {
-                    State => 'open'
-                }
-                # or
-                Master           => {
-                    StateID => 3
-                }
-            },
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -184,19 +172,10 @@ sub Run {
         return;
     }
 
-    if (
-        !$Param{Config}->{StateID}
-        && !$Param{Config}->{State}
-        &&
-        (
-            !$Param{Config}->{DynamicField}
-            && !IsHashRefWithData( $Param{Config}->{DynamicFieldMapping} )
-        )
-        )
-    {
+    if ( !$Param{Config}->{StateID} && !$Param{Config}->{State} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No StateID/State or DynamicField and DynamicFieldMapping configured!",
+            Message  => "No State or StateID configured!",
         );
         return;
     }
@@ -270,146 +249,6 @@ sub Run {
             );
         }
     }
-    elsif (
-        defined $Param{Config}->{DynamicField}
-        && IsHashRefWithData( $Param{Config}->{DynamicFieldMapping} )
-        )
-    {
-
-        # check if the configured DynamicField is defined/has a value
-        my $DynamicFieldValue = $Param{Ticket}->{ 'DynamicField_' . $Param{Config}->{DynamicField} }
-            || $Param{Ticket}->{ $Param{Config}->{DynamicField} }
-            || undef;
-
-        # if the DynamicFieldValue is missing we got nothing to do
-        if ( !$DynamicFieldValue ) {
-            return 1;
-        }
-
-        # if the DynamicFieldValue isn't in our mapping we got nothing to do
-        if ( !$Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue} ) {
-            return 1;
-        }
-
-        # If we have the DynamicFieldValue in our Config but the the Value of that key isn't a hash
-        # or doesn't contain StateID or State as hashkeys
-        # we have a defective config and have to alert
-        if (
-            !IsHashRefWithData( $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue} )
-            || (
-                !$Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{StateID}
-                && !$Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{State}
-            )
-            )
-        {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Config error in StateSet ActionConfig: ' .
-                    'Need Hash as Value inside DynamicFieldMappings->DynamicFieldValue: ' .
-                    $DynamicFieldValue .
-                    ' and State or StateID as Hashkeys inside that hash!',
-            );
-            return;
-        }
-
-        # If Ticket's State is already the same as the value we should set it to,
-        # or StateID is already the same as the value we should set it to,
-        # we got nothing to do and return success
-        if (
-            (
-                $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{State}
-                &&
-                $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{State} eq
-                $Param{Ticket}->{State}
-            )
-            ||
-            (
-                $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{StateID}
-                &&
-                $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{StateID} eq
-                $Param{Ticket}->{StateID}
-            )
-            )
-        {
-            return 1;
-        }
-
-        if ( $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{State} ) {
-
-            my %State = $Self->{StateObject}->StateGet(
-                Name => $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{State}
-            );
-
-            if (%State) {
-                $Success = $Self->{TicketObject}->TicketStateSet(
-                    TicketID => $Param{Ticket}->{TicketID},
-                    StateID  => $State{ID},
-                    UserID   => $Param{UserID},
-                );
-
-                if ($Success) {
-                    return 1;
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => 'Ticket State '
-                            . $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{State}
-                            . ' could not be updated for Ticket: '
-                            . $Param{Ticket}->{TicketID} . '!',
-                    );
-                    return;
-                }
-            }
-
-            # if we didn't find the state return 0
-            # State object will error out that it didn't find what we were looking for
-            else {
-                return;
-            }
-        }
-        elsif ( $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{StateID} ) {
-
-            my %State = $Self->{StateObject}->StateGet(
-                ID => $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{StateID}
-            );
-
-            if (%State) {
-                $Success = $Self->{TicketObject}->TicketStateSet(
-                    TicketID => $Param{Ticket}->{TicketID},
-                    StateID  => $State{ID},
-                    UserID   => $Param{UserID},
-                );
-
-                if ($Success) {
-                    return 1;
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => 'Ticket StateID '
-                            . $Param{Config}->{DynamicFieldMapping}->{$DynamicFieldValue}->{StateID}
-                            . ' could not be updated for Ticket: '
-                            . $Param{Ticket}->{TicketID} . '!',
-                    );
-                    return;
-                }
-            }
-
-            # if we didn't find the state return 0
-            # State object will error out that it didn't find what we were looking for
-            else {
-                return;
-            }
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Couldn't update Ticket State - can't find valid State parameter!",
-            );
-            return;
-        }
-    }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -435,6 +274,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-11-20 15:55:45 $
+$Revision: 1.5 $ $Date: 2013-01-04 17:03:54 $
 
 =cut
