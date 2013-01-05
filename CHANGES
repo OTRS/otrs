@@ -2,20 +2,23 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2596 2013-01-04 19:53:37 mb Exp $
+# $Id: CHANGES,v 1.2597 2013-01-05 11:16:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.2.0.beta5 2013-01-08
+3.2.0.rc1 2013-01-??
+ - 2012-01-04 otrs.CheckModules.pl reports module as not installed if prerequisite is missing.
  - 2012-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
     Changed dependency on 'anacron' to 'vixie-cron' on RHEL5.
  - 2012-01-04 Removed CPAN module Net::IMAP::Simple::SSL, this can be handled by
     Net::IMAP::Simple now.
  - 2012-01-04 Updated CPAN module Net::IMAP::Simple to version 1.2034.
  - 2013-01-04 Configured mod_deflate in bundled Apache configuration file.
+
+3.2.0.beta5 2013-01-08
  - 2013-01-02 Fixed bug#9020 - Generic Ticket Connector does not support attachments with
     ContentType without charset.
  - 2013-01-02 Fixed bug#8545 - Attachment download not possible if pop up of another action is open.
