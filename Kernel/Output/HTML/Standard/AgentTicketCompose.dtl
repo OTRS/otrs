@@ -1,8 +1,8 @@
 # --
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.110 2012-11-20 15:20:37 mh Exp $
+# $Id: AgentTicketCompose.dtl,v 1.111 2013-01-07 12:24:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@ $Include{"AgentCustomerSearch"}
                             <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CcCustomerQueue" id="CcCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                            <input class="CcCustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="CcRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
                         </div>
 
@@ -143,7 +143,7 @@ $Include{"AgentCustomerSearch"}
                             <div class="SpacingTopSmall ">
                                 <input name="CcCustomerKey_$QData{"Count"}" id="CcCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input name="CcCustomerQueue_$QData{"Count"}" id="CcCustomerQueue_$QData{"Count"}" class="CustomerQueue" type="hidden" value="$QData{"CustomerQueue"}"/>
-                                <input class="CcCustomerTicketText W75pc $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="CcRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
 
 <!-- dtl:block:CcCustomerErrorExplantion -->
@@ -201,7 +201,7 @@ $Include{"AgentCustomerSearch"}
                             <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="BccCustomerQueue" id="BccCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                            <input class="BccCustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="BccRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
                         </div>
 
@@ -210,7 +210,7 @@ $Include{"AgentCustomerSearch"}
                             <div class="SpacingTopSmall ">
                                 <input name="BccCustomerKey_$QData{"Count"}" id="BccCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input name="BccCustomerQueue_$QData{"Count"}" id="BccCustomerQueue_$QData{"Count"}" class="CustomerQueue" type="hidden" value="$QData{"CustomerQueue"}"/>
-                                <input class="BccCustomerTicketText W75pc $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="BccRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
 
 <!-- dtl:block:BccCustomerErrorExplantion -->
