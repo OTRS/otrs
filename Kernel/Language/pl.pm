@@ -2,9 +2,9 @@
 # Kernel/Language/pl.pm - provides Polish language translation
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
-# Copyright (C) 2011-2012 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
+# Copyright (C) 2011-2013 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.128.2.3 2012-11-22 06:58:52 mb Exp $
+# $Id: pl.pm,v 1.128.2.4 2013-01-07 10:16:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,20 +17,20 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128.2.3 $) [1];
+$VERSION = qw($Revision: 1.128.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:41
+    # Last translation file sync: 2013-01-07 11:22:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%Y-%M-%D %T';
     $Self->{DateFormatLong}      = '%A %Y-%M-%D %T';
-    $Self->{DateFormatShort}     = '%Y%-M-%D';
+    $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
 
@@ -495,7 +495,7 @@ sub Data {
         'extended' => 'rozszerzony',
         'Agent/Owner' => 'Agent/Właściciel',
         'Created by Agent/Owner' => 'Utworzony przez Agenta/Właściciela',
-        'Created Priority' => 'Utworzony prirytet',
+        'Created Priority' => 'Utworzony priorytet',
         'Created State' => 'Utworzony status',
         'Create Time' => 'Czas utworzenia',
         'CustomerUserLogin' => 'Login klienta',
@@ -2213,7 +2213,7 @@ sub Data {
         'Your User Name' => 'Nazwa użytkownika',
         'A new password will be sent to your email address.' => 'Nowe hasło będzie wysłane na twój adres e-mail',
         'Create Account' => 'Utwórz konto',
-        'Please fill out this form to receive login credentials.' => '',
+        'Please fill out this form to receive login credentials.' => 'Wypełnij ten formularz aby otrzymać dane logowania.',
         'How we should address you' => 'Jak powinniśmy cię tytułować',
         'Your First Name' => 'Twoje imię',
         'Please supply a first name' => 'Podaj imię',
@@ -4294,6 +4294,7 @@ sub Data {
         'Allocate CustomerUser to service' => 'Przypisz klienta do usługi',
         'Allocate services to CustomerUser' => 'Przypisz usługi do klienta',
         'Answer' => 'Odpowiedź',
+        'Approved' => 'Zatwierdzone',
         'Article Create Times' => 'Czasy utworzenia wiadomości',
         'Article created' => 'Wiadomość utworzona',
         'Article created between' => 'Wiadomość utworzona pomiędzy',
@@ -4595,10 +4596,13 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Uprawnienia do zmiany właściciela zgłoszenia w tej grupie/kolejce',
         'PhoneView' => 'Nowy telefon',
         'Phone{CustomerUser}' => 'Telefon',
+        'Please change the owner first.' => 'Zmień najpierw właściciela zgłoszenia.',
         'Please contact your admin' => 'Skontaktuj się z Administratorem',
         'Please enter subject.' => 'Proszę podać tytuł',
         'Please fill out this form to recieve login credentials.' => 'Wypełnij ten formularz by otrzymać dane logowania.',
         'Please provide a name.' => 'Proszę podać nazwę',
+        'Postponed' => 'Odłożone',
+        'Pre-approved' => 'Wstępnie zatwierdzone',
         'Print this ticket!' => 'Wydrukuj zgłoszenie!',
         'Prio' => 'Priorytet',
         'Problem' => 'Problem',
@@ -4611,6 +4615,7 @@ sub Data {
         'Realname' => 'Prawdziwe Imię i Nazwisko',
         'Rebuild' => 'Przebuduj',
         'Recipients' => 'Adresaci',
+        'Rejected' => 'Odrzucone',
         'Reminder' => 'Przypomnienie',
         'Reminder messages' => 'Tekst przypomnienia',
         'Required Field' => 'Pole wymagane',
@@ -4664,6 +4669,7 @@ sub Data {
         'Set this ticket to pending!' => 'Ustaw zgłoszenie jako oczekujące!',
         'Show' => 'Pokaż',
         'Shows the ticket history!' => 'Pokaż historię zgłoszenia!',
+        'Sign Warning' => 'Ostrzeżenie',
         'Site' => 'Witryna',
         'Solution' => 'Rozwiązanie',
         'Sort by' => 'Sortuj według',
