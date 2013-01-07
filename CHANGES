@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2598 2013-01-05 11:18:15 mb Exp $
+# $Id: CHANGES,v 1.2599 2013-01-07 10:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0.rc1 2013-01-??
+ - 2012-01-07 Updated Polish translation, thanks to Pawel @ ib.pl!
  - 2012-01-04 Fixed bug#9015 - otrs.CheckModules.pl reports module as not installed
     if prerequisite is missing.
  - 2012-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.

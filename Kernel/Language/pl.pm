@@ -2,9 +2,9 @@
 # Kernel/Language/pl.pm - provides Polish language translation
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
-# Copyright (C) 2011-2012 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
+# Copyright (C) 2011-2013 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.142 2013-01-03 10:35:21 mg Exp $
+# $Id: pl.pm,v 1.143 2013-01-07 10:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,20 +17,20 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-03 11:41:59
+    # Last translation file sync: 2013-01-07 11:22:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%Y-%M-%D %T';
     $Self->{DateFormatLong}      = '%A %Y-%M-%D %T';
-    $Self->{DateFormatShort}     = '%Y%-M-%D';
+    $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
 
@@ -499,7 +499,7 @@ sub Data {
         'extended' => 'rozszerzony',
         'Agent/Owner' => 'Agent/Właściciel',
         'Created by Agent/Owner' => 'Utworzony przez Agenta/Właściciela',
-        'Created Priority' => 'Utworzony prirytet',
+        'Created Priority' => 'Utworzony priorytet',
         'Created State' => 'Utworzony status',
         'Create Time' => 'Czas utworzenia',
         'CustomerUserLogin' => 'Login klienta',
@@ -2432,7 +2432,7 @@ sub Data {
         'Your User Name' => 'Nazwa użytkownika',
         'A new password will be sent to your email address.' => 'Nowe hasło będzie wysłane na twój adres e-mail',
         'Create Account' => 'Utwórz konto',
-        'Please fill out this form to receive login credentials.' => '',
+        'Please fill out this form to receive login credentials.' => 'Wypełnij ten formularz aby otrzymać dane logowania.',
         'How we should address you' => 'Jak powinniśmy cię tytułować',
         'Your First Name' => 'Twoje imię',
         'Please supply a first name' => 'Podaj imię',
