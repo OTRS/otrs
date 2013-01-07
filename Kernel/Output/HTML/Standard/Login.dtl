@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.73 2012-11-20 15:27:58 mh Exp $
+# $Id: Login.dtl,v 1.74 2013-01-07 10:18:49 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 # http headers
 Content-Type: text/html; charset=utf-8;
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+X-OTRS-Login: $Env{"Baselink"}
 
 <!DOCTYPE html>
 <html>
