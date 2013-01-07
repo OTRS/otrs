@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.229 2013-01-02 13:02:29 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.230 2013-01-07 10:24:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,6 +81,11 @@
         </h1>
     </div>
 
+    # Iframe used for fixing bug#8545: Attachment download not possible if pop up of another action is open
+    # All downloads (e.g. attachments) have this iframe as target. This prevents the browser from sending
+    # an http request to the TicketZoom window. It sends the download request to this iframe instead.
+    # Sending the download request to the main window would lead to an alert message about leaving the page
+    # if at the same time a popup window (e.g. for a ticket answer) is opened.
     <iframe src="about:blank" width="0" height="0" name="AttachmentWindow" id="AttachmentWindow"></iframe>
 
     <div class="LayoutFixedSidebar SidebarLast">
