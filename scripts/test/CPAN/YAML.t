@@ -1,8 +1,8 @@
 # --
-# Valid.t - valid module tests
+# YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.2 2013-01-08 12:29:58 mg Exp $
+# $Id: YAML.t,v 1.3 2013-01-08 12:40:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
