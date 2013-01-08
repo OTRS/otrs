@@ -2,7 +2,7 @@
 # Valid.t - valid module tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.1 2013-01-08 12:22:41 mg Exp $
+# $Id: YAML.t,v 1.2 2013-01-08 12:29:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ my @Tests = (
         Data => 'Teststring <tag> äß@ø',
     },
 #    {
-#        Name => 'Very long string',
+#        Name => 'Very long string', # see https://bugzilla.redhat.com/show_bug.cgi?id=192400
 #        Data => 'a ' x 40_000,
 #    },
 );
