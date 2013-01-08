@@ -2,7 +2,7 @@
 # YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.5 2013-01-08 13:07:47 mg Exp $
+# $Id: YAML.t,v 1.6 2013-01-08 13:09:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,9 +28,11 @@ my @Tests = (
             Value => [
                 {
                     Subkey => 'Value',
+                    Subkey2 => undef,
                 },
                 1234,
                 0,
+                undef,
                 'Teststring <tag> äß@ø " \\" \' \'\'',
             ], 
         },
