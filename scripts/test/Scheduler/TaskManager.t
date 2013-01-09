@@ -1,8 +1,8 @@
 # --
 # TaskManager.t - TaskManager tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.t,v 1.11 2011-04-28 15:44:00 cr Exp $
+# $Id: TaskManager.t,v 1.11.2.1 2013-01-09 18:23:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -152,6 +152,18 @@ my @Tests = (
         Type    => 'SomeType',
         DueTime => undef,
     },
+    {
+        Name    => 'test 9 (too large task)',
+        Success => 0,
+        Data    => {
+            Name        => 'Nagios',
+            Description => 'Connector to send and receive date from Nagios 2.'
+                . "\nasdkaosdkoa\tsada\n",
+            LargeContent => "abcdefghij\n" x 10_000,
+        },
+        Type => 'SomeType',
+    },
+
 );
 
 my @TaskIDs;
