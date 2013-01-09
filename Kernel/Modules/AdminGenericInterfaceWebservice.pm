@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.34 2012-01-09 09:50:53 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.34.2.1 2013-01-09 18:25:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.34.2.1 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -497,7 +497,7 @@ sub Run {
         my $ImportedConfig;
 
         # read configuration from a YAML structure
-        # if there is an errro in YAML it returns a had error eval is needed to handle the error
+        # if there is an error in YAML it returns a had error eval is needed to handle the error
         eval {
             $ImportedConfig = YAML::Load( $ConfigFile{Content} );
         };
