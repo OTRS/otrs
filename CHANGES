@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.182 2013-01-07 14:59:17 mn Exp $
+# $Id: CHANGES,v 1.2260.2.183 2013-01-09 18:21:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2012-01-09 Fixed bug#9030 - Wrong handling of Invalid YAML in Scheduler Tasks.
  - 2012-01-07 Updated CKEditor to version 3.6.6.
  - 2012-01-07 Updated Polish translation, thanks to Pawel @ ib.pl!
  - 2012-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.

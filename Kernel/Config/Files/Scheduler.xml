@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Scheduler.xml,v 1.5 2011-07-15 21:05:54 cg Exp $</CVS>
+    <CVS>$Id: Scheduler.xml,v 1.5.2.1 2013-01-09 18:21:30 cr Exp $</CVS>
     <ConfigItem Name="Scheduler::LogPath" Required="1" Valid="1">
         <Description Translatable="1">Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).</Description>
         <Group>Scheduler</Group>
@@ -77,6 +77,14 @@
             <Array>
                 <Item>Core.Agent.Admin.Scheduler.js</Item>
             </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Scheduler::TaskDataLength" Required="1" Valid="1">
+        <Description Translatable="1">Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for 'task_data' filed from 'scheduler_data_list' table.</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="[1-9]\d*">8000</String><!-- default 8000 -->
         </Setting>
     </ConfigItem>
 

@@ -1,8 +1,8 @@
 # --
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.20 2012-03-29 07:28:47 mg Exp $
+# $Id: Scheduler.pm,v 1.20.2.1 2013-01-09 18:21:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Scheduler::TaskHandler;
 use Kernel::System::PID;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.20.2.1 $) [1];
 
 =head1 NAME
 
@@ -181,6 +181,17 @@ sub Run {
             next TASKITEM;
         }
 
+        if ( !IsHashRefWithData( $TaskData{Data} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Got invalid data inside task data!',
+            );
+            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+
+            # skip if cant get task data -> data
+            next TASKITEM;
+        }
+
         # create task handler object
         my $TaskHandlerObject = eval {
             Kernel::Scheduler::TaskHandler->new(
@@ -270,7 +281,7 @@ sub TaskRegister {
             Message  => 'Got no Task Type with content!',
         );
 
-        # retrun failure if no task type is sent
+        # return failure if no task type is sent
         return;
     }
 
@@ -281,7 +292,7 @@ sub TaskRegister {
             Message  => 'Got undefined Task data!',
         );
 
-        # retrun error if task data is undefined
+        # return error if task data is undefined
         return;
     }
 
@@ -297,7 +308,7 @@ sub TaskRegister {
             Message  => 'Task could not be registered',
         );
 
-        # retrun failure if task registration fails
+        # return failure if task registration fails
         return;
     }
 
@@ -365,6 +376,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2012-03-29 07:28:47 $
+$Revision: 1.20.2.1 $ $Date: 2013-01-09 18:21:30 $
 
 =cut
