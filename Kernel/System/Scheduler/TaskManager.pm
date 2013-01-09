@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.17 2012-11-20 15:56:21 mh Exp $
+# $Id: TaskManager.pm,v 1.18 2013-01-09 18:21:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -134,8 +134,34 @@ sub TaskAdd {
         $Param{DueTime} = $Self->{TimeObject}->CurrentTimestamp();
     }
 
-    # dump config as string
-    my $Data = YAML::Dump( $Param{Data} );
+    my $Data;
+
+    # eval if data can be converted to YAML
+    eval {
+
+        # dump data as string
+        $Data = YAML::Dump( $Param{Data} );
+    };
+
+    # display any YAML error message as a normal otrs error message and return
+    if ($@) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => $@,
+        );
+        return;
+    }
+
+    # check if Data fits in the database
+    my $MaxDataLength = $Self->{ConfigObject}->Get('Scheduler::TaskDataLength') || 8_000;
+
+    if ( length $Data > $MaxDataLength ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Task data is too large for the current Database.',
+        );
+        return;
+    }
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -200,11 +226,32 @@ sub TaskGet {
     );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $DataParam = YAML::Load( $Data[0] );
+
+        my $DataParam;
+
+        # eval if YAML content can be readed
+        eval {
+            $DataParam = YAML::Load( $Data[0] );
+        };
+
+        # display any YAML error message as a normal otrs error message
+        if ($@) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => $@,
+            );
+        }
+
+        if ( !$DataParam ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Task data is not in a correct YAML format! ' . $Data[0],
+            );
+        }
 
         %Data = (
             ID         => $Param{ID},
-            Data       => $DataParam,
+            Data       => $DataParam || '',
             Type       => $Data[1],
             DueTime    => $Data[2],
             CreateTime => $Data[3],
@@ -308,6 +355,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2012-11-20 15:56:21 $
+$Revision: 1.18 $ $Date: 2013-01-09 18:21:51 $
 
 =cut
