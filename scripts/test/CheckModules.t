@@ -1,8 +1,8 @@
 # --
-# CheckModules.t - GenericInterface CheckModules tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# CheckModules.t - CheckModules tests
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckModules.t,v 1.4 2012-11-20 16:05:28 mh Exp $
+# $Id: CheckModules.t,v 1.5 2013-01-10 09:46:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,9 @@ my $ErrorMessage = "Unable to check Perl modules.";
 my $Home         = $Self->{ConfigObject}->Get('Home');
 my $TmpSumString;
 
-if ( open( $TmpSumString, "perl $Home/bin/otrs.CheckModules.pl |" ) ) {
+if ( open( $TmpSumString, "$^X $Home/bin/otrs.CheckModules.pl |" ) ) {
 
-    open( $TmpSumString, "perl $Home/bin/otrs.CheckModules.pl |" );
+    open( $TmpSumString, "$^X $Home/bin/otrs.CheckModules.pl |" );
 
     while (<$TmpSumString>) {
         my $TmpLine = $_;
