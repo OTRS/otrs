@@ -2,14 +2,15 @@
 # CustomerLogin.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.67 2013-01-07 10:18:49 mn Exp $
+# $Id: CustomerLogin.dtl,v 1.68 2013-01-10 13:13:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 #
-# http headers
+# HTTP headers
+# With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
 X-OTRS-Login: $Env{"Baselink"}
 $Include{"CustomerHeader"}
 

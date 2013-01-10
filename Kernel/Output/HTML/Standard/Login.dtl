@@ -2,16 +2,17 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.74 2013-01-07 10:18:49 mn Exp $
+# $Id: Login.dtl,v 1.75 2013-01-10 13:13:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 #
-# http headers
+# HTTP headers
 Content-Type: text/html; charset=utf-8;
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+# With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
 X-OTRS-Login: $Env{"Baselink"}
 
 <!DOCTYPE html>
