@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.156 2012-11-20 14:52:13 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.157 2013-01-10 15:50:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.156 $) [1];
+$VERSION = qw($Revision: 1.157 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -252,7 +252,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # extract the dynamic field value form the web request
+            # extract the dynamic field value from the web request
             my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
                 DynamicFieldConfig     => $DynamicFieldConfig,
                 ParamObject            => $Self->{ParamObject},
@@ -816,7 +816,7 @@ sub Run {
             next DYNAMICFIELD
                 if !$AttributeLookup{ 'LabelSearch_DynamicField_' . $DynamicFieldConfig->{Name} };
 
-            # extract the dynamic field value form the profile
+            # extract the dynamic field value from the profile
             my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Profile            => \%GetParam,
@@ -1478,7 +1478,7 @@ sub Run {
 
         my $DynamicFieldSeparator = 1;
 
-        # create dynamic fields seaarch options for attribute select
+        # create dynamic fields search options for attribute select
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
@@ -1503,7 +1503,7 @@ sub Run {
                 {
                     Key   => 'Search_DynamicField_' . $DynamicFieldConfig->{Name},
                     Value => $Self->{LayoutObject}->{LanguageObject}->Get(
-                        $DynamicFieldConfig->{Label}
+                        $DynamicFieldConfig->{Label},
                     ),
                 },
             );
