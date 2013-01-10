@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.22 2012-11-20 14:29:34 mh Exp $
+# $Id: TicketSearch.pm,v 1.23 2013-01-10 15:20:08 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -159,8 +159,8 @@ perform TicketSearch Operation. This will return a Ticket ID list.
             Like              => 'value*',                # "equals" operator with wildcard support
             GreaterThan       => '2001-01-01 01:01:01',
             GreaterThanEquals => '2001-01-01 01:01:01',
-            LowerThan         => '2002-02-02 02:02:02',
-            LowerThanEquals   => '2002-02-02 02:02:02',
+            SmallerThan       => '2002-02-02 02:02:02',
+            SmallerThanEquals => '2002-02-02 02:02:02',
         }
 
         # article stuff (optional)
@@ -761,6 +761,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2012-11-20 14:29:34 $
+$Revision: 1.23 $ $Date: 2013-01-10 15:20:08 $
 
 =cut

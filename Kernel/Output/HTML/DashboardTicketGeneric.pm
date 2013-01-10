@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.53 2012-12-05 15:27:28 mg Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.54 2013-01-10 15:20:08 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,8 +150,8 @@ sub Run {
         #   DynamicField_NameX_Like=value*;
         #   DynamicField_NameX_GreaterThan=2001-01-01 01:01:01;
         #   DynamicField_NameX_GreaterThanEquals=2001-01-01 01:01:01;
-        #   DynamicField_NameX_LowerThan=2002-02-02 02:02:02;
-        #   DynamicField_NameX_LowerThanEquals=2002-02-02 02:02:02;
+        #   DynamicField_NameX_SmallerThan=2002-02-02 02:02:02;
+        #   DynamicField_NameX_SmallerThanEquals=2002-02-02 02:02:02;
         elsif ( $Key =~ m{\A (DynamicField_.+?) _ (.+?) \z}sxm ) {
             $DynamicFieldsParameters{$1}->{$2} = $Value;
         }
