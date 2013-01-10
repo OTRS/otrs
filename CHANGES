@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2603 2013-01-09 21:24:12 cr Exp $
+# $Id: CHANGES,v 1.2604 2013-01-10 11:48:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0.rc1 2013-01-??
+ - 2012-01-10 Fixed bug#9029 - Switching on Queue in AgentTicketActionCommon will always result in
+    a move.
  - 2012-01-09 Fixed bug#9031 - ProcessManagement Transition condition with regexp fails.
  - 2012-01-09 Fixed bug#9030 - Wrong handling of Invalid YAML in Scheduler Tasks.
  - 2012-01-07 Fixed bug#8966 - Cc and Bcc lists are hidden if one entry is deleted.
