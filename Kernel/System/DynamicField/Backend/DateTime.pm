@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.71 2012-12-03 11:29:12 mg Exp $
+# $Id: DateTime.pm,v 1.72 2013-01-10 20:48:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -311,7 +311,6 @@ sub EditFieldValueGet {
 
     # check if there is a Template and retreive the dinalic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
-
         for my $Type (qw(Used Year Month Day Hour Minute)) {
             $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type };
         }
@@ -350,7 +349,7 @@ sub EditFieldValueGet {
         return \%DynamicFieldValues;
     }
 
-    # check if return value structure is nedded
+    # check if return template structure is nedded
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
         return \%DynamicFieldValues;
     }
@@ -492,7 +491,7 @@ sub SearchFieldRender {
         $Value = \%DefaultValue;
     }
 
-    # get the field value, this fuction is always called after the profile is loaded
+    # get the field value, this function is always called after the profile is loaded
     my $FieldValues = $Self->SearchFieldValueGet(
         %Param,
     );
@@ -553,7 +552,7 @@ EOF
 
     my $AdditionalText;
     if ( $Param{UseLabelHints} ) {
-        $AdditionalText = 'Between';
+        $AdditionalText = 'between';
     }
 
     # call EditLabelRender on the common backend
@@ -866,6 +865,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2012-12-03 11:29:12 $
+$Revision: 1.72 $ $Date: 2013-01-10 20:48:22 $
 
 =cut
