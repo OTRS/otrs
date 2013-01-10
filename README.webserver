@@ -1,14 +1,3 @@
-# --
-# README.web server - web server configuration for OTRS
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: README.webserver,v 1.26 2012-11-20 14:25:55 mh Exp $
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --
-
 Which web server is needed?
 ===========================
 We recommend the apache web server (http://httpd.apache.org).

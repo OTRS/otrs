@@ -1,14 +1,3 @@
-# --
-# INSTALL description of OTRS
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: INSTALL,v 1.64 2012-11-20 14:25:25 mh Exp $
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --
-
 Software requirements:
 ======================
 
@@ -213,16 +202,16 @@ directory is /opt/otrs. You can adapt these values as needed.
       Stopping the cronjobs (useful for maintenance):
 
       shell> /opt/otrs/bin/Cron.sh stop
-      
+
 12) OTRS Scheduler Service:
     ---------------------------
-   This step is optional. OTRS comes with a scheduler service. You'll only need 
+   This step is optional. OTRS comes with a scheduler service. You'll only need
    to set up the scheduler service if you're using the Generic Interface with
    web services that need polling (OTRS as a consumer) or with web services
    where requests are sent asynchronously.
-   
+
    The OTRS RPMs will set up the Scheduler Service automatically.
-   If you install from source, you can install the service by copying the 
+   If you install from source, you can install the service by copying the
    scripts/otrs-scheduler-linux file to /etc/init.d and give it the appropriate
    permissions. This will make sure the scheduler service starts when the system
    starts up.
