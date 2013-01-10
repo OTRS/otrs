@@ -1,8 +1,8 @@
 # --
 # Kernel/System/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.13.2.4 2012-10-09 07:36:30 mg Exp $
+# $Id: TicketSearch.pm,v 1.13.2.5 2013-01-10 15:43:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13.2.4 $) [1];
+$VERSION = qw($Revision: 1.13.2.5 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -119,8 +119,8 @@ To find tickets in your system.
             Like              => 'value*',                # "equals" operator with wildcard support
             GreaterThan       => '2001-01-01 01:01:01',
             GreaterThanEquals => '2001-01-01 01:01:01',
-            LowerThan         => '2002-02-02 02:02:02',
-            LowerThanEquals   => '2002-02-02 02:02:02',
+            SmallerThan         => '2002-02-02 02:02:02',
+            SmallerThanEquals   => '2002-02-02 02:02:02',
         }
 
         # search for ticket flags
@@ -1733,6 +1733,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13.2.4 $ $Date: 2012-10-09 07:36:30 $
+$Revision: 1.13.2.5 $ $Date: 2013-01-10 15:43:33 $
 
 =cut

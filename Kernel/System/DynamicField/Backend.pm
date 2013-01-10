@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.71 2012-04-18 19:47:39 cr Exp $
+# $Id: Backend.pm,v 1.71.2.1 2013-01-10 15:43:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.71.2.1 $) [1];
 
 =head1 NAME
 
@@ -1360,8 +1360,8 @@ build the search parameters to be passed to the search engine.
                                                         #   Like              => 'value*',
                                                         #   GreaterThan       => '2001-01-01 01:01:01',
                                                         #   GreaterThanEquals => '2001-01-01 01:01:01',
-                                                        #   LowerThan         => '2002-02-02 02:02:02',
-                                                        #   LowerThanEquals   => '2002-02-02 02:02:02',
+                                                        #   SmallerThan         => '2002-02-02 02:02:02',
+                                                        #   SmallerThanEquals   => '2002-02-02 02:02:02',
         },
         Display => $DisplayValue,                       # the value to be displayed in the search terms section
     };
@@ -1499,8 +1499,8 @@ build the search parameters to be passed to the search engine within the stats m
                                                         #   Like              => 'value*',
                                                         #   GreaterThan       => '2001-01-01 01:01:01',
                                                         #   GreaterThanEquals => '2001-01-01 01:01:01',
-                                                        #   LowerThan         => '2002-02-02 02:02:02',
-                                                        #   LowerThanEquals   => '2002-02-02 02:02:02',
+                                                        #   SmallerThan         => '2002-02-02 02:02:02',
+                                                        #   SmallerThanEquals   => '2002-02-02 02:02:02',
         },
     };
 =cut
@@ -2151,6 +2151,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2012-04-18 19:47:39 $
+$Revision: 1.71.2.1 $ $Date: 2013-01-10 15:43:33 $
 
 =cut
