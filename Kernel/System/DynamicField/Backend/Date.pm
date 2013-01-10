@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.59 2012-12-03 11:29:12 mg Exp $
+# $Id: Date.pm,v 1.60 2013-01-10 16:21:09 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -521,7 +521,7 @@ sub SearchFieldRender {
         $Value = \%DefaultValue;
     }
 
-    # get the field value, this fuction is always called after the profile is loaded
+    # get the field value, this function is always called after the profile is loaded
     my $FieldValues = $Self->SearchFieldValueGet(
         %Param,
     );
@@ -904,6 +904,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2012-12-03 11:29:12 $
+$Revision: 1.60 $ $Date: 2013-01-10 16:21:09 $
 
 =cut
