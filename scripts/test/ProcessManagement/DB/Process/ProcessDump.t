@@ -2,7 +2,7 @@
 # ProcessDump.t - ProcessManagement DB ProcessDump tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ProcessDump.t,v 1.6 2013-01-11 04:40:55 cr Exp $
+# $Id: ProcessDump.t,v 1.7 2013-01-11 16:01:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -216,7 +216,7 @@ my $TransitionID = $TransitionObject->TransitionAdd(
                     },
                     DynamicField_Regex2 => {
                         Type  => 'Regexp',
-                        Match => qr{.*}msx,
+                        Match => '.*',
                     },
                     DynamicField_String => {
                         Type  => 'String',
@@ -227,28 +227,6 @@ my $TransitionID = $TransitionObject->TransitionAdd(
             Cond2 => {
                 DynamicField_Marke         => ['2'],
                 DynamicField_PeugeotModell => ['1'],
-            },
-            Cond3 => {
-                Type   => 'and',
-                Fields => {
-                    DynamicField_Marke => {
-                        Type  => 'String',
-                        Match => 'Teststring',
-                    },
-                    DynamicField_VWModell => ['1'],
-                    DynamicField_Regex    => {
-                        Type  => 'Regexp',
-                        Match => '.*',
-                    },
-                    DynamicField_Regex2 => {
-                        Type  => 'Regexp',
-                        Match => qr{.*}msx,
-                    },
-                    DynamicField_String => {
-                        Type  => 'String',
-                        Match => 'Teststring',
-                    },
-                },
             },
         },
     },
@@ -297,11 +275,11 @@ $ExpectedResult->{Transition} = {
                     DynamicField_VWModell => ['1'],
                     DynamicField_Regex    => {
                         Type  => 'Regexp',
-                        Match => '(?msx-i:My[ ]Regexp)',
+                        Match => 'My[ ]Regexp',
                     },
                     DynamicField_Regex2 => {
                         Type  => 'Regexp',
-                        Match => qr{.*}msx,
+                        Match => '.*',
                     },
                     DynamicField_String => {
                         Type  => 'String',
@@ -313,37 +291,14 @@ $ExpectedResult->{Transition} = {
                 DynamicField_Marke         => ['2'],
                 DynamicField_PeugeotModell => ['1'],
             },
-            Cond3 => {
-                Type   => 'and',
-                Fields => {
-                    DynamicField_Marke => {
-                        Type  => 'String',
-                        Match => 'Teststring',
-                    },
-                    DynamicField_VWModell => ['1'],
-                    DynamicField_Regex    => {
-                        Type  => 'Regexp',
-                        Match => '(?msx-i:.*)',
-                    },
-                    DynamicField_Regex2 => {
-                        Type  => 'Regexp',
-                        Match => qr{.*}msx,
-                    },
-                    DynamicField_String => {
-                        Type  => 'String',
-                        Match => 'Teststring',
-                    },
-                },
-            },
         },
     },
 };
 
 # actual tests
 my $ConfigHash = $ProcessObject->ProcessDump(
-    ResultType  => 'HASH',
-    QuoteRegexp => 1,
-    UserID      => 1,
+    ResultType => 'HASH',
+    UserID     => 1,
 );
 
 $Self->Is(
@@ -362,10 +317,7 @@ $Self->IsDeeply(
     "ProcessDump() HASH | Transition Expected result",
 );
 
-my $Output = $ProcessObject->ProcessDump(
-    QuoteRegexp => 1,
-    UserID      => $UserID,
-);
+my $Output = $ProcessObject->ProcessDump( UserID => $UserID );
 
 $Self->IsNot(
     length $Output,
