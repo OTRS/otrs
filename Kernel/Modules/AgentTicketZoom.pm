@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.196 2013-01-11 21:33:20 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.197 2013-01-11 23:50:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.196 $) [1];
+$VERSION = qw($Revision: 1.197 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2042,106 +2042,6 @@ sub _ArticleItem {
                     Data => { %Ticket, %Article, %AclAction },
                 );
             }
-        }
-    }
-
-    # check if phone link (outbound) should be shown
-    if (
-        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
-        && (
-            !defined $AclAction{AgentTicketPhoneOutbound}
-            || $AclAction{AgentTicketPhoneOutbound}
-        )
-        )
-    {
-        my $Access = 1;
-        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketPhoneOutbound');
-        if ( $Config->{Permission} ) {
-            my $OK = $Self->{TicketObject}->TicketPermission(
-                Type     => $Config->{Permission},
-                TicketID => $Ticket{TicketID},
-                UserID   => $Self->{UserID},
-                LogNo    => 1,
-            );
-            if ( !$OK ) {
-                $Access = 0;
-            }
-        }
-        if ( $Config->{RequiredLock} ) {
-            my $Locked = $Self->{TicketObject}->TicketLockGet(
-                TicketID => $Ticket{TicketID}
-            );
-            if ($Locked) {
-                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                    TicketID => $Ticket{TicketID},
-                    OwnerID  => $Self->{UserID},
-                );
-                if ( !$AccessOk ) {
-                    $Access = 0;
-                }
-            }
-        }
-        if ($Access) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleMenu',
-                Data => {
-                    %Ticket, %Article, %AclAction,
-                    Description => 'Phone Call Outbound',
-                    Name        => 'Phone Call Outbound',
-                    Class       => 'AsPopup PopupType_TicketAction',
-                    Link        => 'Action=AgentTicketPhoneOutbound;TicketID=$Data{"TicketID"}'
-                },
-            );
-        }
-    }
-
-    # check if phone link (inbound) should be shown
-    if (
-        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneInbound}
-        && (
-            !defined $AclAction{AgentTicketPhoneInbound}
-            || $AclAction{AgentTicketPhoneInbound}
-        )
-        )
-    {
-        my $Access = 1;
-        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketPhoneInbound');
-        if ( $Config->{Permission} ) {
-            my $OK = $Self->{TicketObject}->TicketPermission(
-                Type     => $Config->{Permission},
-                TicketID => $Ticket{TicketID},
-                UserID   => $Self->{UserID},
-                LogNo    => 1,
-            );
-            if ( !$OK ) {
-                $Access = 0;
-            }
-        }
-        if ( $Config->{RequiredLock} ) {
-            my $Locked = $Self->{TicketObject}->TicketLockGet(
-                TicketID => $Ticket{TicketID}
-            );
-            if ($Locked) {
-                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                    TicketID => $Ticket{TicketID},
-                    OwnerID  => $Self->{UserID},
-                );
-                if ( !$AccessOk ) {
-                    $Access = 0;
-                }
-            }
-        }
-        if ($Access) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleMenu',
-                Data => {
-                    %Ticket, %Article, %AclAction,
-                    Description => 'Phone Call Inbound',
-                    Name        => 'Phone Call Inbound',
-                    Class       => 'AsPopup PopupType_TicketAction',
-                    Link        => 'Action=AgentTicketPhoneInbound;TicketID=$Data{"TicketID"}'
-                },
-            );
         }
     }
 
