@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.100 2012-11-20 14:47:57 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.101 2013-01-11 10:48:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1008,6 +1008,9 @@ sub _Mask {
     if ( $Param{TicketsWereLocked} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ParentReload',
+            Data => {
+                URL => $Self->{LastScreenOverview},
+                }
         );
     }
 

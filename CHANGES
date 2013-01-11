@@ -1,4 +1,6 @@
 3.2.0.rc1 2013-01-??
+ - 2012-01-11 Fixed bug#8923 - Alert message shown, if parent window is reloaded while
+     bulk action popup is open.
  - 2012-01-11 Fixed bug#9037 - TransitionAction TicketQueueSet parameters does not follow same name
     convention as others.
  - 2012-01-11 Fixed bug#9032 - TransitionAction module name notation.
