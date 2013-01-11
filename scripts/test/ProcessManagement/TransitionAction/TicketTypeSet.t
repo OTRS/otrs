@@ -1,8 +1,8 @@
 # --
 # TicketType.t - TicketTypeSet testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketTypeSet.t,v 1.3 2012-12-17 17:46:32 cr Exp $
+# $Id: TicketTypeSet.t,v 1.4 2013-01-11 21:53:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -191,7 +191,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                TicketType => $Type2ID,
+                Type => $Type2ID,
             },
         },
         Success => 0,
@@ -206,67 +206,67 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Wrong TicketType',
+        Name   => 'Wrong Type',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TicketType => 'NotExisting' . $RandomID,
+                Type => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
     },
     {
-        Name   => 'Wrong TicketTypeID',
+        Name   => 'Wrong TypeID',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TicketTypeID => 'NotExisting' . $RandomID,
+                TypeID => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
     },
     {
-        Name   => "Correct TicketType $Type2Name",
+        Name   => "Correct Type $Type2Name",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TicketType => $Type2Name,
+                Type => $Type2Name,
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct TicketType $Type3Name",
+        Name   => "Correct Type $Type3Name",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TicketType => $Type3Name,
+                Type => $Type3Name,
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct TicketTypeID $Type2Name",
+        Name   => "Correct TypeID $Type2Name",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TicketTypeID => $Type2ID,
+                TypeID => $Type2ID,
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct TicketTypeID $Type3Name',
+        Name   => 'Correct TypeID $Type3Name',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TicketTypeID => $Type3ID,
+                TypeID => $Type3ID,
             },
         },
         Success => 1,
@@ -291,10 +291,6 @@ for my $Test (@Tests) {
 
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
-
-            # set attributes to easy compare
-            $Ticket{TicketType}   = $Ticket{Type}   || undef;
-            $Ticket{TicketTypeID} = $Ticket{TypeID} || undef;
 
             $Self->True(
                 $Ticket{$Attribute},

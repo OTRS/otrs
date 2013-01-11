@@ -1,8 +1,8 @@
 # --
 # Kernel/System/ProcessManagement/TransitionAction/TicketTypeSet.pm - A Module to set the type of a process ticket
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketTypeSet.pm,v 1.1 2012-12-17 14:41:07 cr Exp $
+# $Id: TicketTypeSet.pm,v 1.2 2013-01-11 21:53:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -118,9 +118,9 @@ sub new {
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            TicketType => 'Default',
+            Type => 'Default',
             # or
-            TicketTypeID => 1,
+            TypeID => 1,
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -128,8 +128,6 @@ sub new {
     Returns:
 
     $TicketTypeSetResult = 1; # 0
-
-    );
 
 =cut
 
@@ -164,10 +162,10 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Config}->{TicketTypeID} && !$Param{Config}->{TicketType} ) {
+    if ( !$Param{Config}->{TypeID} && !$Param{Config}->{Type} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No TicketType or TicketTypeID configured!",
+            Message  => "No Type or TypeID configured!",
         );
         return;
     }
@@ -182,23 +180,23 @@ sub Run {
 
     my $Success;
     if (
-        defined $Param{Config}->{TicketType}
-        && $Param{Config}->{TicketType} ne $Param{Ticket}->{Type}
+        defined $Param{Config}->{Type}
+        && $Param{Config}->{Type} ne $Param{Ticket}->{Type}
         )
     {
         $Success = $Self->{TicketObject}->TicketTypeSet(
-            Type     => $Param{Config}->{TicketType},
+            Type     => $Param{Config}->{Type},
             TicketID => $Param{Ticket}->{TicketID},
             UserID   => $Param{UserID},
         );
     }
     elsif (
-        defined $Param{Config}->{TicketTypeID}
-        && $Param{Config}->{TicketTypeID} ne $Param{Ticket}->{TypeID}
+        defined $Param{Config}->{TypeID}
+        && $Param{Config}->{TypeID} ne $Param{Ticket}->{TypeID}
         )
     {
         $Success = $Self->{TicketObject}->TicketTypeSet(
-            TypeID   => $Param{Config}->{TicketTypeID},
+            TypeID   => $Param{Config}->{TypeID},
             TicketID => $Param{Ticket}->{TicketID},
             UserID   => $Param{UserID},
         );
@@ -234,6 +232,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-12-17 14:41:07 $
+$Revision: 1.2 $ $Date: 2013-01-11 21:53:23 $
 
 =cut

@@ -2,7 +2,7 @@
  - 2013-01-11 Fixed bug#9036 - Process# hook does not register an incoming email to the process.
  - 2013-01-11 The names of the TransitionActions were changed to make them more consistent.
     Please check your processes if you have already defined some which use TransitionActions.
-    Also, the parameter names of the TransitionAction TicketQueueSet were changed.
+    Also, the parameter names of the TransitionAction TicketQueueSet and TicketTypeSet were changed.
  - 2013-01-11 Fixed bug#4513 - Password and Username are added automatically by the browser
     in AdminUser dialog.
  - 2013-01-11 Fixed bug#8923 - Alert message shown, if parent window is reloaded while
