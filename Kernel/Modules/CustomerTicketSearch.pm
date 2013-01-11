@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.90 2012-11-20 14:54:25 mh Exp $
+# $Id: CustomerTicketSearch.pm,v 1.91 2013-01-11 10:11:09 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,7 +169,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # extract the dynamic field value form the web request
+            # extract the dynamic field value from the web request
             my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
                 DynamicFieldConfig     => $DynamicFieldConfig,
                 ParamObject            => $Self->{ParamObject},
@@ -177,7 +177,7 @@ sub Run {
                 LayoutObject           => $Self->{LayoutObject},
             );
 
-            # set the comple value structure in GetParam to store it later in the search profile
+            # set the complete value structure in GetParam to store it later in the search profile
             if ( IsHashRefWithData($DynamicFieldValue) ) {
                 %GetParam = ( %GetParam, %{$DynamicFieldValue} );
             }
@@ -391,7 +391,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # extract the dynamic field value form the web request
+            # extract the dynamic field value from the web request
             my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Profile            => \%GetParam,
@@ -1120,8 +1120,8 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $Self->{BackendObject}->SearchFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
+                = $Self->{BackendObject}->SearchFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 Profile              => \%GetParam,
                 PossibleValuesFilter => $PossibleValuesFilter,
