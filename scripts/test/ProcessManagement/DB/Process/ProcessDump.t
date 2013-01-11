@@ -1,8 +1,8 @@
 # --
 # ProcessDump.t - ProcessManagement DB ProcessDump tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ProcessDump.t,v 1.5 2012-11-20 16:11:48 mh Exp $
+# $Id: ProcessDump.t,v 1.6 2013-01-11 04:40:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -210,11 +210,45 @@ my $TransitionID = $TransitionObject->TransitionAdd(
                         Match => 'Teststring',
                     },
                     DynamicField_VWModell => ['1'],
+                    DynamicField_Regex    => {
+                        Type  => 'Regexp',
+                        Match => 'My[ ]Regexp',
+                    },
+                    DynamicField_Regex2 => {
+                        Type  => 'Regexp',
+                        Match => qr{.*}msx,
+                    },
+                    DynamicField_String => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
                 },
             },
             Cond2 => {
                 DynamicField_Marke         => ['2'],
                 DynamicField_PeugeotModell => ['1'],
+            },
+            Cond3 => {
+                Type   => 'and',
+                Fields => {
+                    DynamicField_Marke => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                    DynamicField_VWModell => ['1'],
+                    DynamicField_Regex    => {
+                        Type  => 'Regexp',
+                        Match => '.*',
+                    },
+                    DynamicField_Regex2 => {
+                        Type  => 'Regexp',
+                        Match => qr{.*}msx,
+                    },
+                    DynamicField_String => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                },
             },
         },
     },
@@ -246,25 +280,125 @@ $Self->IsNot(
     "TransitionActionADD() | TransitionActionID is not undef",
 );
 
+my $ExpectedResult;
+
+$ExpectedResult->{Transition} = {
+    'T-Test1' => {
+        Name      => 'Transition 1',
+        Condition => {
+            Type  => 'and',
+            Cond1 => {
+                Type   => 'and',
+                Fields => {
+                    DynamicField_Marke => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                    DynamicField_VWModell => ['1'],
+                    DynamicField_Regex    => {
+                        Type  => 'Regexp',
+                        Match => '(?msx-i:My[ ]Regexp)',
+                    },
+                    DynamicField_Regex2 => {
+                        Type  => 'Regexp',
+                        Match => qr{.*}msx,
+                    },
+                    DynamicField_String => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                },
+            },
+            Cond2 => {
+                DynamicField_Marke         => ['2'],
+                DynamicField_PeugeotModell => ['1'],
+            },
+            Cond3 => {
+                Type   => 'and',
+                Fields => {
+                    DynamicField_Marke => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                    DynamicField_VWModell => ['1'],
+                    DynamicField_Regex    => {
+                        Type  => 'Regexp',
+                        Match => '(?msx-i:.*)',
+                    },
+                    DynamicField_Regex2 => {
+                        Type  => 'Regexp',
+                        Match => qr{.*}msx,
+                    },
+                    DynamicField_String => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                },
+            },
+        },
+    },
+};
+
 # actual tests
 my $ConfigHash = $ProcessObject->ProcessDump(
-    ResultType => 'HASH',
-    UserID     => 1
+    ResultType  => 'HASH',
+    QuoteRegexp => 1,
+    UserID      => 1,
 );
 
-$Self->IsNotDeeply(
-    $ConfigHash,
-    {},
-    "ProcessDump() | Output is not emtpy hash",
+$Self->Is(
+    ref $ConfigHash,
+    'HASH',
+    "ProcessDump() HASH | Output is a hash",
 );
 
-my $Output = $ProcessObject->ProcessDump( UserID => $UserID );
+# remove elements for easy compare
+delete $ConfigHash->{Transition}->{'T-Test1'}->{CreateTime};
+delete $ConfigHash->{Transition}->{'T-Test1'}->{ChangeTime};
+
+$Self->IsDeeply(
+    $ConfigHash->{Transition}->{'T-Test1'},
+    $ExpectedResult->{Transition}->{'T-Test1'},
+    "ProcessDump() HASH | Transition Expected result",
+);
+
+my $Output = $ProcessObject->ProcessDump(
+    QuoteRegexp => 1,
+    UserID      => $UserID,
+);
 
 $Self->IsNot(
-    $Output,
-    undef,
-    "ProcessDump() | Output is not undef",
+    length $Output,
+    0,
+    "ProcessDump() STRING | Output lenght",
 );
+
+for my $Part (
+    qw(
+    Process Process::Activity Process::ActivityDialog Process::Transition Process::TransitionAction
+    )
+    )
+{
+    my $Success;
+    if ( $Output =~ m{ \$Self->\{ '$Part' \} \s+?  = \s+? \{ }msx ) {
+        $Success = 1;
+    }
+    $Self->True(
+        $Success,
+        "ProcessDump() STRING | contains \$Self->{$Part} = { with True",
+    );
+}
+
+for my $Entity (qw(P-Test1 A-Test1 AD-Test1 T-Test1 TA-Test1)) {
+    my $Success;
+    if ( $Output =~ m{'$Entity' \s+? =\> \s+? \{ }msx ) {
+        $Success = 1;
+    }
+    $Self->True(
+        $Success,
+        "ProcessDump() STRING | contains $Entity => { with True",
+    );
+}
 
 # clean the system
 my $Success = $ProcessObject->ProcessDelete(
