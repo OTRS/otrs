@@ -1,8 +1,8 @@
 # --
 # TicketQueueSet.t - TicketQueueSet testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketQueueSet.t,v 1.1 2013-01-11 06:09:05 cr Exp $
+# $Id: TicketQueueSet.t,v 1.2 2013-01-11 06:18:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -137,7 +137,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                TargetQueue => 'Raw',
+                Queue => 'Raw',
             },
         },
         Success => 0,
@@ -157,7 +157,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueue => 'NotExisting' . $RandomID,
+                Queue => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
@@ -168,7 +168,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueueID => 'NotExisting' . $RandomID,
+                QueueID => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
@@ -179,7 +179,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueue => 'Raw',
+                Queue => 'Raw',
             },
         },
         Success => 1,
@@ -190,7 +190,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueue => 'Junk',
+                Queue => 'Junk',
             },
         },
         Success => 1,
@@ -201,7 +201,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueueID => 2,
+                QueueID => 2,
             },
         },
         Success => 1,
@@ -212,7 +212,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueueID => 3,
+                QueueID => 3,
             },
         },
         Success => 1,
@@ -239,8 +239,8 @@ for my $Test (@Tests) {
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
             # set attributes to easy compare
-            $Ticket{TargetQueue}   = $Ticket{Queue}   || undef;
-            $Ticket{TargetQueueID} = $Ticket{QueueID} || undef;
+            $Ticket{Queue}   = $Ticket{Queue}   || undef;
+            $Ticket{QueueID} = $Ticket{QueueID} || undef;
 
             $Self->True(
                 $Ticket{$Attribute},

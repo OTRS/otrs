@@ -1,4 +1,6 @@
 3.2.0.rc1 2013-01-??
+ - 2012-01-11 Fixed bug#9037 - TransitionAction TicketQueueSet parameters does not follow same name
+    convention as others.
  - 2012-01-11 Fixed bug#9032 - TransitionAction module name notation.
  - 2012-01-10 Fixed bug#9029 - Switching on Queue in AgentTicketActionCommon will always result in
     a move.
