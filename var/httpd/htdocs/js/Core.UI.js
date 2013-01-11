@@ -1,8 +1,8 @@
 // --
 // Core.UI.js - provides all UI functions
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.js,v 1.20 2012-11-05 14:38:15 mn Exp $
+// $Id: Core.UI.js,v 1.21 2013-01-11 12:35:20 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -214,17 +214,6 @@ Core.UI = (function (TargetNS) {
                 $(this).parent().remove();
                 Event.preventDefault();
             });
-    };
-
-    /**
-     * @function
-     * @description
-     *      This function adds special not valid attributes to HTML via javascript
-     * @return nothing
-     */
-    TargetNS.ProcessTagAttributeClasses = function () {
-        $('.AutocompleteOff')
-            .attr('autocomplete', 'off');
     };
 
     /**

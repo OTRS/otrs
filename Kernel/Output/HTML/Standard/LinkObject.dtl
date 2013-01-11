@@ -1,8 +1,8 @@
 # --
 # LinkObject.dtl - provides HTML elements for link object lists
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.35 2012-11-20 15:27:48 mh Exp $
+# $Id: LinkObject.dtl,v 1.36 2013-01-11 12:35:19 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@ $Text{"none"}
 <!-- dtl:block:TableComplexBlockActionRowBulk -->
             <li class="Bulk">
                 <span>
-                    <input type="checkbox" class="AutocompleteOff SelectAll" title="$Text{"Select all"}" id="SelectAllLinks$Text{"$Data{"TableNumber"}"}" />
+                    <input type="checkbox" class="SelectAll" title="$Text{"Select all"}" id="SelectAllLinks$Text{"$Data{"TableNumber"}"}" autocomplete="off" />
                     <label class="InvisibleText" for="SelectAllLinks$Text{"$Data{"TableNumber"}"}">$Text{"Select all"}</label>
                 </span>
             </li>

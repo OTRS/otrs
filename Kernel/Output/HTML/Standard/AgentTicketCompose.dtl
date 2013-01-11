@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.111 2013-01-07 12:24:28 mn Exp $
+# $Id: AgentTicketCompose.dtl,v 1.112 2013-01-11 12:35:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,7 +109,7 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"To"}:</label>
                     <div class="Field">
-                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"ToInvalid"}"/>
+                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc $QData{"ToInvalid"}" autocomplete="off" />
 
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 <!-- dtl:block:ToServerErrorMsg -->
@@ -182,7 +182,7 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="CcCustomer">$Text{"Cc"}:</label>
                     <div class="Field">
-                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"CcInvalid"}"/>
+                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc $QData{"CcInvalid"}" autocomplete="off" />
                     </div>
                     <div class="Clear"></div>
 
@@ -249,7 +249,7 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="BccCustomer">$Text{"Bcc"}:</label>
                     <div class="Field">
-                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"BccInvalid"}"/>
+                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc $QData{"BccInvalid"}" autocomplete="off" />
                     </div>
                     <div class="Clear"></div>
 

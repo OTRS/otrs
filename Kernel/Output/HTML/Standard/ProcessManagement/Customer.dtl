@@ -1,8 +1,8 @@
 # --
 # Customer.dtl - provides Customer HTML for the AgentTicketProcess.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Customer.dtl,v 1.7 2012-11-20 15:29:59 mh Exp $
+# $Id: Customer.dtl,v 1.8 2013-01-11 12:35:18 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ $Include{"AgentCustomerSearch"}
     $QData{"LabelCustomerUser"}:
 </label>
 <div class="Field">
-    <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDServerError"}"/>
+    <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc Validate_Required $QData{"CustomerUserIDServerError"}" autocomplete="off" />
     <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
     <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 </div>
