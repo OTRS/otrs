@@ -1,4 +1,6 @@
 3.2.0.rc1 2013-01-??
+ - 2012-01-11 The names of the TransitionActions were changed to make them more consistent.
+    Please check your processes if you have already defined some which use TransitionActions.
  - 2012-01-11 Fixed bug#4513 - Password and Username are added automatically by the browser
     in AdminUser dialog.
  - 2012-01-11 Fixed bug#8923 - Alert message shown, if parent window is reloaded while
