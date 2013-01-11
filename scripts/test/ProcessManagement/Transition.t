@@ -2,7 +2,7 @@
 # Transition.t - Transition module testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.t,v 1.4 2013-01-11 17:29:15 cr Exp $
+# $Id: Transition.t,v 1.5 2013-01-11 18:16:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -986,6 +986,46 @@ my @Tests = (
             TransitionEntityID => 'T2' . $RandomID,
             Message            => 'TransitionCheck() (Regexp fail check with plain text Regexp)',
             TestType           => 'False',
+        },
+    },
+
+    # Check: Regexp test for fail (with plain text invalid Regexp)
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Type  => 'and',
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Regexp',
+                                    Match => '^(#)?([\w-\*]+))',
+                                },
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                },
+            },
+            Data => {
+                Queue                => ['Raw'],
+                DynamicField_Make    => 'oVoWo',
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message  => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
+            TestType => 'False',
         },
     },
 
