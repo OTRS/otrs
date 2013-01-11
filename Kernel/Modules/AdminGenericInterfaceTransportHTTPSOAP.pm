@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.13 2012-11-20 14:38:37 mh Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.14 2013-01-11 15:58:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -257,6 +257,10 @@ sub Run {
             OP => $RedirectURL,
         );
     }
+
+    return $Self->{LayoutObject}->ErrorScreen(
+        Message => "Need Subaction!",
+    );
 }
 
 sub _ShowEdit {
