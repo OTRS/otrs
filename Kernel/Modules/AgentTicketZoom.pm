@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.195 2013-01-02 13:02:29 mn Exp $
+# $Id: AgentTicketZoom.pm,v 1.196 2013-01-11 21:33:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.195 $) [1];
+$VERSION = qw($Revision: 1.196 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -591,7 +591,6 @@ sub MaskAgentZoom {
     # overwrite display options for process ticket
     if ($IsProcessTicket) {
         $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
-        $Param{Hook} = $Self->{DisplaySettings}->{ProcessDisplay}->{Hook} || 'Process#';
     }
 
     # only show article tree if articles are present

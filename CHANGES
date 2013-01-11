@@ -1,4 +1,5 @@
 3.2.0.rc1 2013-01-??
+ - 2013-01-11 Fixed bug#9036 - Process# hook does not register an incoming email to the process.
  - 2013-01-11 The names of the TransitionActions were changed to make them more consistent.
     Please check your processes if you have already defined some which use TransitionActions.
     Also, the parameter names of the TransitionAction TicketQueueSet were changed.
