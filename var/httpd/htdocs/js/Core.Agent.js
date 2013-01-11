@@ -1,8 +1,8 @@
 // --
 // Core.Agent.js - provides the application functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.js,v 1.19 2011-10-20 09:59:43 mn Exp $
+// $Id: Core.Agent.js,v 1.20 2013-01-11 12:17:04 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,6 @@ var Core = Core || {};
  */
 Core.Agent = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI', 'Core.UI')) {
-        return;
-    }
-    if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.IE7Fixes', 'Core.UI.IE7Fixes')) {
         return;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.Form', 'Core.Form')) {
@@ -158,21 +155,17 @@ Core.Agent = (function (TargetNS) {
      *      This function initializes the application and executes the needed functions
      */
     TargetNS.Init = function () {
+        Core.UI.ProcessTagAttributeClasses();
         InitNavigation();
         Core.Exception.Init();
         Core.UI.Table.InitCSSPseudoClasses();
         Core.UI.Table.InitFixedHeader();
         Core.UI.InitWidgetActionToggle();
         Core.UI.InitMessageBoxClose();
-        Core.UI.ProcessTagAttributeClasses();
         Core.Form.Validate.Init();
         Core.UI.Popup.Init();
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
-        // init IE7 compat code (will only run on IE7)
-        Core.UI.IE7Fixes.InitIE7InputFocus('Focus');
-        Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
-        Core.UI.IE7Fixes.InitIE7TableCellspacing('NoCellspacing');
     };
 
     /**
