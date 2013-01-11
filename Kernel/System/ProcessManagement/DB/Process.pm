@@ -1,8 +1,8 @@
 # --
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.35 2012-12-19 10:10:27 mab Exp $
+# $Id: Process.pm,v 1.36 2013-01-11 04:40:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -920,6 +920,10 @@ ActivityDialogs, Transitions and TransitionActions
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
         Location    => '/opt/otrs/var/myfile.txt'   # mandatry for ResultType = 'FILE'
+        QuoteRegexp => 1,                           # or 0, default 1. converts regular expresions
+                                                    #   in Transition Conditions from scalar to
+                                                    #   to regular expresion objects
+                                                    #   (e.g. from 'Regexp' to qr{Regexp}msx)
         UserID      => 1,
     );
 
@@ -1258,6 +1262,55 @@ sub ProcessDump {
 
         next TRANSITION if !IsHashRefWithData($TransitionData);
 
+        my $ConditionConfig = $TransitionData->{Config}->{Condition} || {};
+
+        # check if regular expressions needs to be quoted
+        # regular expressions are sotred as plain text in the Database, but the cache file needs
+        # that regular epresiones to be quoted as from 'Regexp' to qr{Regexp}msx
+        # or qr/(?msx-i:Regexp)/ see bug# 9031
+        if ( $Param{QuoteRegexp} ) {
+
+            # check if conditions contains regular expressions
+            CONDITION:
+            for my $Condition ( sort keys %{$ConditionConfig} ) {
+
+                # skip invalids
+                next CONDITION if !$Condition;
+
+                # skype the Condition Type
+                next CONDITION if $Condition eq 'Type';
+
+                # skip invalids
+                next CONDITION if ref $ConditionConfig->{$Condition} ne 'HASH';
+
+                # skip conditions without fields
+                next CONDITION if !IsHashRefWithData( $ConditionConfig->{$Condition}->{Fields} );
+
+                my $FieldConfig = $ConditionConfig->{$Condition}->{Fields};
+                FIELD:
+                for my $Field ( sort keys %{$FieldConfig} ) {
+
+                    # skip invalids
+                    next FIELD if !$Field;
+                    next FIELD if !IsHashRefWithData( $FieldConfig->{$Field} );
+
+                    # skip non regular expresion match fields
+                    next FIELD if !IsStringWithData( $FieldConfig->{$Field}->{Type} );
+                    next FIELD if $FieldConfig->{$Field}->{Type} ne 'Regexp';
+
+                    # skip fields that it's valis is already a regular expression
+                    next FIELD if ref $FieldConfig->{$Field}->{Match} eq 'Regexp';
+
+                    # convert value to Regexp
+                    my $Match
+                        = $TransitionData->{Config}->{Condition}->{$Condition}->{Fields}->{$Field}
+                        ->{Match};
+                    $TransitionData->{Config}->{Condition}->{$Condition}->{Fields}->{$Field}
+                        ->{Match} = qr{$Match}msx;
+                }
+            }
+        }
+
         $TransitionDump{ $TransitionData->{EntityID} } = {
             Name       => $TransitionData->{Name},
             CreateTime => $TransitionData->{CreateTime},
@@ -1397,6 +1450,7 @@ sub _ProcessItemOutput {
 
     my $Output = $Self->{MainObject}->Dump(
         $Param{Value},
+        'ascii',
     );
 
     my $Key = "\$Self->{'$Param{Key}'}";
@@ -1420,6 +1474,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-12-19 10:10:27 $
+$Revision: 1.36 $ $Date: 2013-01-11 04:40:24 $
 
 =cut
