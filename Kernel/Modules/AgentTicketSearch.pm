@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.157 2013-01-10 15:50:15 ub Exp $
+# $Id: AgentTicketSearch.pm,v 1.158 2013-01-11 11:14:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,12 +37,12 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
+    for my $Needed (
         qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject MainObject EncodeObject)
         )
     {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
     $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
@@ -181,7 +181,7 @@ sub Run {
 
     # get search string params (get submitted params)
     else {
-        for (
+        for my $Key (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType EscalationTimeSearchType
             UseSubQueues
@@ -222,17 +222,17 @@ sub Run {
         {
 
             # get search string params (get submitted params)
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
 
             # remove white space on the start and end
-            if ( $GetParam{$_} ) {
-                $GetParam{$_} =~ s/\s+$//g;
-                $GetParam{$_} =~ s/^\s+//g;
+            if ( $GetParam{$Key} ) {
+                $GetParam{$Key} =~ s/\s+$//g;
+                $GetParam{$Key} =~ s/^\s+//g;
             }
         }
 
         # get array params
-        for (
+        for my $Key (
             qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
             CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
             TypeIDs ServiceIDs SLAIDs LockIDs)
@@ -240,9 +240,9 @@ sub Run {
         {
 
             # get search array params (get submitted params)
-            my @Array = $Self->{ParamObject}->GetArray( Param => $_ );
+            my @Array = $Self->{ParamObject}->GetArray( Param => $Key );
             if (@Array) {
-                $GetParam{$_} = \@Array;
+                $GetParam{$Key} = \@Array;
             }
         }
 
@@ -260,7 +260,7 @@ sub Run {
                 LayoutObject           => $Self->{LayoutObject},
             );
 
-            # set the comple value structure in GetParam to store it later in the search profile
+            # set the complete value structure in GetParam to store it later in the search profile
             if ( IsHashRefWithData($DynamicFieldValue) ) {
                 %GetParam = ( %GetParam, %{$DynamicFieldValue} );
             }
@@ -387,13 +387,11 @@ sub Run {
             # do nothing with time stuff
         }
         elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                $GetParam{"ArticleCreateTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStart$_"} );
-            }
-            for (qw(Month Day)) {
-                $GetParam{"ArticleCreateTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStop$_"} );
+            for my $Key (qw(Month Day)) {
+                $GetParam{"ArticleCreateTimeStart$Key"}
+                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStart$Key"} );
+                $GetParam{"ArticleCreateTimeStop$Key"}
+                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStop$Key"} );
             }
             if (
                 $GetParam{ArticleCreateTimeStartDay}
@@ -461,13 +459,11 @@ sub Run {
             # do nothing with time stuff
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                $GetParam{"TicketCreateTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCreateTimeStart$_"} );
-            }
-            for (qw(Month Day)) {
-                $GetParam{"TicketCreateTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCreateTimeStop$_"} );
+            for my $Key (qw(Month Day)) {
+                $GetParam{"TicketCreateTimeStart$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketCreateTimeStart$Key"} );
+                $GetParam{"TicketCreateTimeStop$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketCreateTimeStop$Key"} );
             }
             if (
                 $GetParam{TicketCreateTimeStartDay}
@@ -535,13 +531,11 @@ sub Run {
             # do nothing on time stuff
         }
         elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                $GetParam{"TicketChangeTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketChangeTimeStart$_"} );
-            }
-            for (qw(Month Day)) {
-                $GetParam{"TicketChangeTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketChangeTimeStop$_"} );
+            for my $Key (qw(Month Day)) {
+                $GetParam{"TicketChangeTimeStart$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketChangeTimeStart$Key"} );
+                $GetParam{"TicketChangeTimeStop$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketChangeTimeStop$Key"} );
             }
             if (
                 $GetParam{TicketChangeTimeStartDay}
@@ -609,13 +603,11 @@ sub Run {
             # do nothing on time stuff
         }
         elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                $GetParam{"TicketCloseTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
-            }
-            for (qw(Month Day)) {
-                $GetParam{"TicketCloseTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
+            for my $Key (qw(Month Day)) {
+                $GetParam{"TicketCloseTimeStart$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$Key"} );
+                $GetParam{"TicketCloseTimeStop$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$Key"} );
             }
             if (
                 $GetParam{TicketCloseTimeStartDay}
@@ -683,13 +675,11 @@ sub Run {
             # do nothing on time stuff
         }
         elsif ( $GetParam{EscalationTimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                $GetParam{"TicketEscalationTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketEscalationTimeStart$_"} );
-            }
-            for (qw(Month Day)) {
-                $GetParam{"TicketEscalationTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketEscalationTimeStop$_"} );
+            for my $Key (qw(Month Day)) {
+                $GetParam{"TicketEscalationTimeStart$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketEscalationTimeStart$Key"} );
+                $GetParam{"TicketEscalationTimeStop$Key"}
+                    = sprintf( "%02d", $GetParam{"TicketEscalationTimeStop$Key"} );
             }
             if (
                 $GetParam{TicketEscalationTimeStartDay}
@@ -779,8 +769,8 @@ sub Run {
         # prepare full text search
         if ( $GetParam{Fulltext} ) {
             $GetParam{ContentSearch} = 'OR';
-            for (qw(From To Cc Subject Body)) {
-                $GetParam{$_} = $GetParam{Fulltext};
+            for my $Key (qw(From To Cc Subject Body)) {
+                $GetParam{$Key} = $GetParam{Fulltext};
             }
         }
 
@@ -852,11 +842,11 @@ sub Run {
             my @CSVHead;
             my @CSVData;
 
-            for (@ViewableTicketIDs) {
+            for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
                 my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(
-                    TicketID      => $_,
+                    TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 1,
                 );
@@ -870,7 +860,7 @@ sub Run {
                 # get whole article (if configured!)
                 if ( $Self->{Config}->{SearchArticleCSVTree} ) {
                     my @Article = $Self->{TicketObjectSearch}->ArticleGet(
-                        TicketID      => $_,
+                        TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
                     for my $Articles (@Article) {
@@ -901,7 +891,8 @@ sub Run {
                     %Data,
                     %UserInfo,
                     AccountedTime =>
-                        $Self->{TicketObjectSearch}->TicketAccountedTimeGet( TicketID => $_ ),
+                        $Self->{TicketObjectSearch}
+                        ->TicketAccountedTimeGet( TicketID => $TicketID ),
                 );
 
                 # csv quote
@@ -919,11 +910,11 @@ sub Run {
                     }
                 }
                 my @Data;
-                for (@CSVHead) {
+                for my $Header (@CSVHead) {
 
                     # check if header is a dynamic field and get the value from dynamic field
                     # backend
-                    if ( $_ =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+                    if ( $Header =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
                         # loop over the dynamic fields configured for CSV output
                         DYNAMICFIELD:
@@ -935,10 +926,10 @@ sub Run {
                             # with out the 'DynamicField_' prefix
                             next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-                            # get the value as for print (to corretly display)
+                            # get the value as for print (to correctly display)
                             my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                                 DynamicFieldConfig => $DynamicFieldConfig,
-                                Value              => $Info{$_},
+                                Value              => $Info{$Header},
                                 HTMLOutput         => 0,
                                 LayoutObject       => $Self->{LayoutObject},
                             );
@@ -951,7 +942,7 @@ sub Run {
 
                     # otherwise retreive data from article
                     else {
-                        push @Data, $Info{$_};
+                        push @Data, $Info{$Header};
                     }
                 }
                 push @CSVData, \@Data;
@@ -1001,11 +992,11 @@ sub Run {
             $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
 
             my @PDFData;
-            for (@ViewableTicketIDs) {
+            for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
                 my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(
-                    TicketID      => $_,
+                    TicketID      => $TicketID,
                     DynamicFields => 1,
                 );
 
@@ -1183,17 +1174,21 @@ sub Run {
 
                 # start table output
                 $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' 1', );
-                for ( 2 .. $MaxPages ) {
+                PAGE:
+                for my $PageNumber ( 2 .. $MaxPages ) {
 
                     # output table (or a fragment of it)
-                    %TableParam = $Self->{PDFObject}->Table( %TableParam, );
+                    %TableParam = $Self->{PDFObject}->Table(%TableParam);
 
                     # stop output or another page
                     if ( $TableParam{State} ) {
-                        last;
+                        last PAGE;
                     }
                     else {
-                        $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $_, );
+                        $Self->{PDFObject}->PageNew(
+                            %PageParam,
+                            FooterRight => $Page . ' ' . $PageNumber,
+                        );
                     }
                 }
 
