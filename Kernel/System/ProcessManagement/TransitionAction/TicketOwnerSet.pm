@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/TicketUnlock.pm - A Module to unlock a ticket
+# Kernel/System/ProcessManagement/TransitionAction/TicketOwnerSet.pm - A Module to set the ticket owner
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketUnlock.pm,v 1.3 2012-11-20 15:55:52 mh Exp $
+# $Id: TicketOwnerSet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::TicketUnlock;
+package Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet;
 
 use strict;
 use warnings;
@@ -18,15 +18,15 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::TicketUnlock - A module to unlock a ticket
+Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet - A module to set a new ticket owner
 
 =head1 SYNOPSIS
 
-All TicketUnlock functions.
+All TicketOwnerSet functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -45,7 +45,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketUnlock;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -78,7 +78,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $TicketUnlockActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketUnlock->new(
+    my $TicketOwnerSetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -114,13 +114,20 @@ sub new {
 
     Run Data
 
-    my $TicketUnlockResult = $TicketUnlockActionObject->Run(
+    my $TicketOwnerSetResult = $TicketOwnerSetActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
+        Config      => {
+            Owner => 'root@localhost',
+            # or
+            OwnerID => 1,
+        }
     );
     Ticket contains the result of TicketGet including DynamicFields
+    Config is the Config Hash stored in a Process::TransitionAction's  Config key
+    Returns:
 
-    $TicketUnlockResult = 1; # 0
+    $TicketOwnerSetResult = 1; # 0
 
     );
 
@@ -129,7 +136,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(UserID Ticket)) {
+    for my $Needed (qw(UserID Ticket Config)) {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -148,11 +155,60 @@ sub Run {
         return;
     }
 
-    return $Self->{TicketObject}->TicketLockSet(
-        Lock     => 'unlock',
-        TicketID => $Param{Ticket}->{TicketID},
-        UserID   => $Param{UserID},
-    );
+    # Check if we have a ConfigHash
+    if ( !IsHashRefWithData( $Param{Config} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config has no values!",
+        );
+        return;
+    }
+
+    if ( !$Param{Config}->{OwnerID} && !$Param{Config}->{Owner} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No Owner or OwnerID configured!",
+        );
+        return;
+    }
+    my $Success;
+    if (
+        defined $Param{Config}->{Owner}
+        && $Param{Config}->{Owner} ne $Param{Ticket}->{Owner}
+        )
+    {
+        $Success = $Self->{TicketObject}->TicketOwnerSet(
+            TicketID => $Param{Ticket}->{TicketID},
+            NewUser  => $Param{Config}->{Owner},
+            UserID   => $Param{UserID},
+        );
+    }
+    elsif (
+        defined $Param{Config}->{OwnerID}
+        && $Param{Config}->{OwnerID} ne $Param{Ticket}->{OwnerID}
+        )
+    {
+        $Success = $Self->{TicketObject}->TicketOwnerSet(
+            TicketID  => $Param{Ticket}->{TicketID},
+            NewUserID => $Param{Config}->{OwnerID},
+            UserID    => $Param{UserID},
+        );
+    }
+    else {
+
+        # data is the same as in ticket nothing to do
+        $Success = 1;
+    }
+
+    if ( !$Success ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Ticket owner could not be updated for Ticket: '
+                . $Param{Ticket}->{TicketID} . '!',
+        );
+        return;
+    }
+    return 1;
 }
 
 1;
@@ -169,6 +225,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-11-20 15:55:52 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut

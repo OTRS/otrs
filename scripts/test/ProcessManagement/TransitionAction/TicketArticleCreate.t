@@ -1,8 +1,8 @@
 # --
-# ArticleCreate.t - ArticleCreate testscript
+# TicketArticleCreate.t - TicketArticleCreate testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCreate.t,v 1.5 2012-11-20 16:11:52 mh Exp $
+# $Id: TicketArticleCreate.t,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use vars qw($Self);
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
-use Kernel::System::ProcessManagement::TransitionAction::ArticleCreate;
+use Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -33,7 +33,7 @@ my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::ArticleCreate->new(
+my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate->new(
     %{$Self},
     ConfigObject => $ConfigObject,
     TicketObject => $TicketObject,
@@ -41,7 +41,7 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::ArticleC
 
 # define variables
 my $UserID     = 1;
-my $ModuleName = 'ArticleCreate';
+my $ModuleName = 'TicketArticleCreate';
 
 # ----------------------------------------
 # Create a test ticket

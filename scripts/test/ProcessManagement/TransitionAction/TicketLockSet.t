@@ -1,8 +1,8 @@
 # --
-# StateSet.t - StateSet testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# TicketLockSet.t - TicketLockSet testscript
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StateSet.t,v 1.6 2013-01-04 17:03:55 cr Exp $
+# $Id: TicketLockSet.t,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use vars qw($Self);
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
-use Kernel::System::ProcessManagement::TransitionAction::StateSet;
+use Kernel::System::ProcessManagement::TransitionAction::TicketLockSet;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -33,7 +33,7 @@ my $TicketObject = Kernel::System::Ticket->new(
     ConfigObject => $ConfigObject,
 );
 
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::StateSet->new(
+my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketLockSet->new(
     %{$Self},
     ConfigObject => $ConfigObject,
     TicketObject => $TicketObject,
@@ -41,7 +41,7 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::StateSet
 
 # define variables
 my $UserID     = 1;
-my $ModuleName = 'StateSet';
+my $ModuleName = 'TicketLockSet';
 my $RandomID   = $HelperObject->GetRandomID();
 
 # ----------------------------------------
@@ -51,7 +51,7 @@ my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => 'test',
     QueueID       => 1,
-    Lock          => 'unlock',
+    Lock          => 'lock',       # This value is specially important for this test
     Priority      => '3 normal',
     StateID       => 1,
     TypeID        => 1,
@@ -137,7 +137,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                State => 'open',
+                Lock => 'lock',
             },
         },
         Success => 0,
@@ -152,67 +152,67 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Wrong State',
+        Name   => 'Wrong Lock',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                State => 'NotExisting' . $RandomID,
+                Lock => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
     },
     {
-        Name   => 'Wrong StateID',
+        Name   => 'Wrong LockID',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                StateID => 'NotExisting' . $RandomID,
+                LockID => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
     },
     {
-        Name   => 'Correct State open',
+        Name   => 'Correct Lock unlock',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                State => 'open',
+                Lock => 'unlock',
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct State closed successful',
+        Name   => 'Correct Lock lock',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                State => 'closed successful',
+                Lock => 'lock',
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct StateID open',
+        Name   => 'Correct LockID unlock',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                StateID => 4,
+                LockID => 1,
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct StateID closed successful',
+        Name   => 'Correct LockID lock',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                StateID => 2,
+                LockID => 2,
             },
         },
         Success => 1,

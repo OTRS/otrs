@@ -1,8 +1,8 @@
 # --
-# OwnerSet.t - OwnerSet testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# TicketResponsibleSet.t - TicketResponsibleSet testscript
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: OwnerSet.t,v 1.5 2012-11-20 16:11:58 mh Exp $
+# $Id: TicketResponsibleSet.t,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
 use Kernel::System::User;
-use Kernel::System::ProcessManagement::TransitionAction::OwnerSet;
+use Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -37,7 +37,7 @@ my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::OwnerSet->new(
+my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet->new(
     %{$Self},
     ConfigObject => $ConfigObject,
     TicketObject => $TicketObject,
@@ -45,7 +45,7 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::OwnerSet
 
 # define variables
 my $UserID     = 1;
-my $ModuleName = 'OwnerSet';
+my $ModuleName = 'TicketResponsibleSet';
 my $RandomID   = $HelperObject->GetRandomID();
 
 # set user details
@@ -145,7 +145,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                Owner => $TestUserLogin,
+                Responsible => $TestUserLogin,
             },
         },
         Success => 0,
@@ -161,69 +161,69 @@ my @Tests = (
     },
 
     # This tests are disabled since MySQL is more tolerant to NULL
-    # TicketOwnerSet should verify if the NewUserID has a value to set
+    # TicketResponsibleSet should verify if the NewUserID has a value to set
     #    {
-    #        Name   => 'Wrong Owner',
+    #        Name   => 'Wrong Responsible',
     #        Config => {
     #            UserID => $UserID,
     #            Ticket => \%Ticket,
     #            Config => {
-    #                Owner => 'NotExisting' . $RandomID,
+    #                Responsible => 'NotExisting' . $RandomID,
     #            },
     #        },
     #        Success => 0,
     #    },
     #    {
-    #        Name   => 'Wrong OwnerID',
+    #        Name   => 'Wrong ResponsibleID',
     #        Config => {
     #            UserID => $UserID,
     #            Ticket => \%Ticket,
     #            Config => {
-    #                OwnerID => 'NotExisting' . $RandomID,
+    #                ResponsibleID => 'NotExisting' . $RandomID,
     #            },
     #        },
     #        Success => 0,
     #    },
     {
-        Name   => 'Correct Owner TestUser',
+        Name   => 'Correct Responsible TestUser',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Owner => $TestUserLogin,
+                Responsible => $TestUserLogin,
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct Owner root@localhost',
+        Name   => 'Correct Responsible root@localhost',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Owner => 'root@localhost',
+                Responsible => 'root@localhost',
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct OwnerID TestUser',
+        Name   => 'Correct ResponsibleID TestUser',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                OwnerID => $TestUserID,
+                ResponsibleID => $TestUserID,
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct OwnerID root@localhost',
+        Name   => 'Correct ResponsibleID root@localhost',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                OwnerID => 1,
+                ResponsibleID => 1,
             },
         },
         Success => 1,

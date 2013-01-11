@@ -1,33 +1,33 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/SLASet.pm - A Module to set the ticket service
+# Kernel/System/ProcessManagement/TransitionAction/TicketStateSet.pm - A Module to set the ticket state
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SLASet.pm,v 1.1 2013-01-04 22:49:38 cr Exp $
+# $Id: TicketStateSet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::SLASet;
+package Kernel::System::ProcessManagement::TransitionAction::TicketStateSet;
 
 use strict;
 use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use utf8;
-use Kernel::System::SLA;
+use Kernel::System::State;
 
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::SLASet - A module to set the ticket SLA
+Kernel::System::ProcessManagement::TransitionAction::TicketStateSet - A module to set the ticket state
 
 =head1 SYNOPSIS
 
-All SLASet functions.
+All TicketStateSet functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -46,7 +46,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::SLASet;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketStateSet;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -79,7 +79,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $SLASetActionObject = Kernel::System::ProcessManagement::TransitionAction::SLASet->new(
+    my $TicketStateSetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketStateSet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -108,7 +108,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{SLAObject} = Kernel::System::SLA->new(
+    $Self->{StateObject} = Kernel::System::State->new(
         %Param,
         DBObject   => $Self->{DBObject},
         MainObject => $Self->{MainObject},
@@ -122,20 +122,20 @@ sub new {
 
     Run Data
 
-    my $SLASetResult = $SLASetActionObject->Run(
+    my $TicketStateSetResult = $TicketStateSetActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            SLA => 'MySLA',
+            State  => 'open',
             # or
-            SLAID => 123,
+            StateID => 3,
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
     Returns:
 
-    $SLASetResult = 1; # 0
+    $TicketStateSetResult = 1; # 0
 
 =cut
 
@@ -170,148 +170,78 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Config}->{SLAID} && !$Param{Config}->{SLA} ) {
+    if ( !$Param{Config}->{StateID} && !$Param{Config}->{State} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No SLA or SLAID configured!",
-        );
-        return;
-    }
-
-    if ( !$Param{Ticket}->{ServiceID} && !$Param{Ticket}->{Service} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "To set a SLA the ticket requires a service!",
+            Message  => "No State or StateID configured!",
         );
         return;
     }
 
     my $Success;
 
-    # If Ticket's SLAID is already the same as the Value we
+    # If Ticket's StateID is already the same as the Value we
     # should set it to, we got nothing to do and return success
     if (
-        defined $Param{Config}->{SLAID}
-        && defined $Param{Ticket}->{SLAID}
-        && $Param{Config}->{SLAID} eq $Param{Ticket}->{SLAID}
+        defined $Param{Config}->{StateID}
+        && $Param{Config}->{StateID} eq $Param{Ticket}->{StateID}
         )
     {
         return 1;
     }
 
-    # If Ticket's SLAID is not the same as the Value we
-    # should set it to, set the SLAID
+    # If Ticket's StateID is not the same as the Value we
+    # should set it to, set the StateID
     elsif (
-        (
-            defined $Param{Config}->{SLAID}
-            && defined $Param{Ticket}->{SLAID}
-            && $Param{Config}->{SLAID} ne $Param{Ticket}->{SLAID}
-        )
-        || !defined $Param{Ticket}->{SLAID}
+        defined $Param{Config}->{StateID}
+        && $Param{Config}->{StateID} ne $Param{Ticket}->{StateID}
         )
     {
-
-        # check if serivce is assigned to Service otherwise return
-        $Success = $Self->_CheckSLA(
-            ServiceID => $Param{Ticket}->{ServiceID},
-            SLAID     => $Param{Config}->{SLAID},
-        );
-
-        if ( !$Success ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'SLAID '
-                    . $Param{Config}->{SLAID}
-                    . ' is not assigned to Service '
-                    . $Param{Ticket}->{Service}
-            );
-            return;
-        }
-
-        # set ticket SLA
-        $Success = $Self->{TicketObject}->TicketSLASet(
+        $Success = $Self->{TicketObject}->TicketStateSet(
             TicketID => $Param{Ticket}->{TicketID},
-            SLAID    => $Param{Config}->{SLAID},
+            StateID  => $Param{Config}->{StateID},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket SLAID '
-                    . $Param{Config}->{SLAID}
+                Message  => 'Ticket StateID '
+                    . $Param{Config}->{StateID}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
         }
     }
 
-    # If Ticket's SLA is already the same as the Value we
+    # If Ticket's State is already the same as the Value we
     # should set it to, we got nothing to do and return success
     elsif (
-        defined $Param{Config}->{SLA}
-        && defined $Param{Ticket}->{SLA}
-        && $Param{Config}->{SLA} eq $Param{Ticket}->{SLA}
+        defined $Param{Config}->{State}
+        && $Param{Config}->{State} eq $Param{Ticket}->{State}
         )
     {
         return 1;
     }
 
-    # If Ticket's SLA is not the same as the Value we
-    # should set it to, set the SLA
+    # If Ticket's State is not the same as the Value we
+    # should set it to, set the State
     elsif (
-        (
-            defined $Param{Config}->{SLA}
-            && defined $Param{Ticket}->{SLA}
-            && $Param{Config}->{SLA} ne $Param{Ticket}->{SLA}
-        )
-        || !defined $Param{Ticket}->{SLA}
+        defined $Param{Config}->{State}
+        && $Param{Config}->{State} ne $Param{Ticket}->{State}
         )
     {
-
-        my $SLAID = $Self->{SLAObject}->SLALookup(
-            Name => $Param{Config}->{SLA},
-        );
-
-        if ( !$SLAID ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'SLA '
-                    . $Param{Config}->{SLA}
-                    . ' is invalid!'
-            );
-            return;
-        }
-
-        # check if SLA is assigned to Service, otherwise return
-        $Success = $Self->_CheckSLA(
-            ServiceID => $Param{Ticket}->{ServiceID},
-            SLAID     => $SLAID,
-        );
-
-        if ( !$Success ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'SLA '
-                    . $Param{Config}->{SLA}
-                    . ' is not assigned to Service '
-                    . $Param{Ticket}->{Service}
-            );
-            return;
-        }
-
-        # set ticket SLA
-        $Success = $Self->{TicketObject}->TicketSLASet(
+        $Success = $Self->{TicketObject}->TicketStateSet(
             TicketID => $Param{Ticket}->{TicketID},
-            SLA      => $Param{Config}->{SLA},
+            State    => $Param{Config}->{State},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket SLA '
-                    . $Param{Config}->{SLA}
+                Message  => 'Ticket State '
+                    . $Param{Config}->{State}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
@@ -320,7 +250,7 @@ sub Run {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't update Ticket SLA - can't find valid SLA parameter!",
+            Message  => "Couldn't update Ticket State - can't find valid State parameter!",
         );
         return;
     }
@@ -328,38 +258,6 @@ sub Run {
     return $Success;
 }
 
-=item _CheckSLA()
-
-checks if a SLA is assigned to a Service
-
-    my $Success = _CheckSLA(
-        ServiceID => 123,
-        SLAID     => 123,
-    );
-
-    Returns:
-
-    $Success = 1;       # or undef
-=cut
-
-sub _CheckSLA {
-    my ( $Self, %Param ) = @_;
-
-    # get a list of assigned SLAs to the Service
-    my %SLAs = $Self->{SLAObject}->SLAList(
-        ServiceID => $Param{ServiceID},
-        UserID    => 1,
-    );
-
-    # return failure if there are no assigned SLAs for this Service
-    return if !IsHashRefWithData( \%SLAs );
-
-    # return failure if the the SLA is not assigned to the Service
-    return if !$SLAs{ $Param{SLAID} };
-
-    # otherwise return success
-    return 1;
-}
 1;
 
 =back
@@ -374,6 +272,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2013-01-04 22:49:38 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut

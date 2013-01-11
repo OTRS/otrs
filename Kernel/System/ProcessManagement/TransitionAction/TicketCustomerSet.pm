@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/ResponsibleSet.pm - A Module to set the ticket responsible
+# Kernel/System/ProcessManagement/TransitionAction/TicketCustomerSet.pm - A Module to set the ticket customer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ResponsibleSet.pm,v 1.1 2012-11-24 20:38:09 cr Exp $
+# $Id: TicketCustomerSet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::ResponsibleSet;
+package Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet;
 
 use strict;
 use warnings;
@@ -22,12 +22,11 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::ResponsibleSet - A module to set a new ticket
-responsible
+Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet - A module to set a new ticket customer
 
 =head1 SYNOPSIS
 
-All ResponsibleSet functions.
+All TicketCustomerSet functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -46,7 +45,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::ResponsibleSet;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -79,8 +78,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $ResponsibleSetActionObject
-        = Kernel::System::ProcessManagement::TransitionAction::ResponsibleSet->new(
+    my $TicketCustomerSetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -116,20 +114,25 @@ sub new {
 
     Run Data
 
-    my $ResponsibleSetResult = $ResponsibleSetActionObject->Run(
+    my $TicketCustomerSetResult = $TicketCustomerSetActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            Responsible => 'root@localhost',
+            CustomerID     => 'client123',
             # or
-            ResponsibleID => 1,
+            CustomerUserID => 'client-user-123',
+
+            #OR (Framework wording)
+            No             => 'client123',
+            # or
+            User           => 'client-user-123',
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
     Returns:
 
-    $ResponsibleSetResult = 1; # 0
+    $TicketCustomerSetResult = 1; # 0
 
     );
 
@@ -166,50 +169,77 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Config}->{ResponsibleID} && !$Param{Config}->{Responsible} ) {
+    if (
+        !$Param{Config}->{CustomerID}
+        && !$Param{Config}->{No}
+        && !$Param{Config}->{CustomerUserID}
+        && !$Param{Config}->{User}
+        )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Responsible or ResponsibleID configured!",
+            Message  => "No CustomerID/No or CustomerUserID/User configured!",
         );
         return;
     }
-    my $Success;
+
+    if ( !$Param{Config}->{CustomerID} && $Param{Config}->{No} ) {
+        $Param{Config}->{CustomerID} = $Param{Config}->{No};
+    }
+    if ( !$Param{Config}->{CustomerUserID} && $Param{Config}->{User} ) {
+        $Param{Config}->{CustomerUserID} = $Param{Config}->{User};
+    }
+
     if (
-        defined $Param{Config}->{Responsible}
-        && $Param{Config}->{Responsible} ne $Param{Ticket}->{Responsible}
+        defined $Param{Config}->{CustomerID}
+        &&
+        (
+            !defined $Param{Ticket}->{CustomerID}
+            || $Param{Config}->{CustomerID} ne $Param{Ticket}->{CustomerID}
+        )
         )
     {
-        $Success = $Self->{TicketObject}->TicketResponsibleSet(
+        my $Success = $Self->{TicketObject}->TicketCustomerSet(
             TicketID => $Param{Ticket}->{TicketID},
-            NewUser  => $Param{Config}->{Responsible},
+            No       => $Param{Config}->{CustomerID},
             UserID   => $Param{UserID},
         );
+
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Ticket CustomerID could not be updated for Ticket: '
+                    . $Param{Ticket}->{TicketID} . '!',
+            );
+            return;
+        }
     }
-    elsif (
-        defined $Param{Config}->{ResponsibleID}
-        && $Param{Config}->{ResponsibleID} ne $Param{Ticket}->{ResponsibleID}
+
+    if (
+        defined $Param{Config}->{CustomerUserID}
+        &&
+        (
+            !defined $Param{Ticket}->{CustomerUserID}
+            || $Param{Config}->{CustomerUserID} ne $Param{Ticket}->{CustomerUserID}
+        )
         )
     {
-        $Success = $Self->{TicketObject}->TicketResponsibleSet(
-            TicketID  => $Param{Ticket}->{TicketID},
-            NewUserID => $Param{Config}->{ResponsibleID},
-            UserID    => $Param{UserID},
+        my $Success = $Self->{TicketObject}->TicketCustomerSet(
+            TicketID => $Param{Ticket}->{TicketID},
+            User     => $Param{Config}->{CustomerUserID},
+            UserID   => $Param{UserID},
         );
-    }
-    else {
 
-        # data is the same as in ticket nothing to do
-        $Success = 1;
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Ticket CustomerID could not be updated for Ticket: '
+                    . $Param{Ticket}->{TicketID} . '!',
+            );
+            return;
+        }
     }
 
-    if ( !$Success ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Ticket responsible could not be updated for Ticket: '
-                . $Param{Ticket}->{TicketID} . '!',
-        );
-        return;
-    }
     return 1;
 }
 
@@ -227,6 +257,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-11-24 20:38:09 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut

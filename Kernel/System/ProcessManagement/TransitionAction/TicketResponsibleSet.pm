@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/QueueMove.pm - A Module to move a Ticket from to a new queue
+# Kernel/System/ProcessManagement/TransitionAction/TicketResponsibleSet.pm - A Module to set the ticket responsible
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: QueueMove.pm,v 1.3 2012-11-20 15:55:29 mh Exp $
+# $Id: TicketResponsibleSet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::QueueMove;
+package Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet;
 
 use strict;
 use warnings;
@@ -18,15 +18,16 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::QueueMove - A Module to move a Ticket from to a new queue
+Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet - A module to set a new ticket
+responsible
 
 =head1 SYNOPSIS
 
-All QueueMove functions.
+All TicketResponsibleSet functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -45,7 +46,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::QueueMove;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -78,7 +79,8 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $QueueMoveActionObject = Kernel::System::ProcessManagement::TransitionAction::QueueMove->new(
+    my $TicketResponsibleSetActionObject
+        = Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -114,20 +116,20 @@ sub new {
 
     Run Data
 
-    my $QueueMoveResult = $QueueMoveActionObject->Run(
+    my $TicketResponsibleSetResult = $TicketResponsibleSetActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            TargetQueue => 'Misc',
+            Responsible => 'root@localhost',
             # or
-            TargetQueueID => 1,
+            ResponsibleID => 1,
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
     Returns:
 
-    $QueueMoveResult = 1; # 0
+    $TicketResponsibleSetResult = 1; # 0
 
     );
 
@@ -164,34 +166,34 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Config}->{TargetQueueID} && !$Param{Config}->{TargetQueue} ) {
+    if ( !$Param{Config}->{ResponsibleID} && !$Param{Config}->{Responsible} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No TargetQueue or TargetQueueID configured!",
+            Message  => "No Responsible or ResponsibleID configured!",
         );
         return;
     }
     my $Success;
     if (
-        defined $Param{Config}->{TargetQueue}
-        && $Param{Config}->{TargetQueue} ne $Param{Ticket}->{Queue}
+        defined $Param{Config}->{Responsible}
+        && $Param{Config}->{Responsible} ne $Param{Ticket}->{Responsible}
         )
     {
-        $Success = $Self->{TicketObject}->TicketQueueSet(
-            Queue    => $Param{Config}->{TargetQueue},
+        $Success = $Self->{TicketObject}->TicketResponsibleSet(
             TicketID => $Param{Ticket}->{TicketID},
+            NewUser  => $Param{Config}->{Responsible},
             UserID   => $Param{UserID},
         );
     }
     elsif (
-        defined $Param{Config}->{TargetQueueID}
-        && $Param{Config}->{TargetQueueID} ne $Param{Ticket}->{QueueID}
+        defined $Param{Config}->{ResponsibleID}
+        && $Param{Config}->{ResponsibleID} ne $Param{Ticket}->{ResponsibleID}
         )
     {
-        $Success = $Self->{TicketObject}->TicketQueueSet(
-            QueueID  => $Param{Config}->{TargetQueueID},
-            TicketID => $Param{Ticket}->{TicketID},
-            UserID   => $Param{UserID},
+        $Success = $Self->{TicketObject}->TicketResponsibleSet(
+            TicketID  => $Param{Ticket}->{TicketID},
+            NewUserID => $Param{Config}->{ResponsibleID},
+            UserID    => $Param{UserID},
         );
     }
     else {
@@ -203,7 +205,7 @@ sub Run {
     if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Ticket queue could not be updated for Ticket: '
+            Message  => 'Ticket responsible could not be updated for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;
@@ -225,6 +227,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-11-20 15:55:29 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut

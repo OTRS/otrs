@@ -1,8 +1,8 @@
 # --
-# SLASet.t - SLASet testscript
+# TicketServiceSet.t - TicketServiceSet testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SLASet.t,v 1.1 2013-01-04 22:49:38 cr Exp $
+# $Id: TicketServiceSet.t,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,8 +18,7 @@ use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
 use Kernel::System::Service;
-use Kernel::System::SLA;
-use Kernel::System::ProcessManagement::TransitionAction::SLASet;
+use Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -38,12 +37,8 @@ my $ServiceObject = Kernel::System::Service->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $SLAObject = Kernel::System::SLA->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::SLASet->new(
+my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet->new(
     %{$Self},
     ConfigObject => $ConfigObject,
     TicketObject => $TicketObject,
@@ -51,7 +46,7 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::SLASet->
 
 # define variables
 my $UserID     = 1;
-my $ModuleName = 'SLASet';
+my $ModuleName = 'TicketServiceSet';
 my $RandomID   = $HelperObject->GetRandomID();
 
 # add a customer user
@@ -63,6 +58,16 @@ my $TestUserLogin = $HelperObject->TestCustomerUserCreate();
 my @Services = (
     {
         Name    => 'Service0' . $RandomID,
+        ValidID => 1,
+        UserID  => 1,
+    },
+    {
+        Name    => 'Service1' . $RandomID,
+        ValidID => 1,
+        UserID  => 1,
+    },
+    {
+        Name    => 'Service2' . $RandomID,
         ValidID => 1,
         UserID  => 1,
     },
@@ -80,44 +85,6 @@ for my $ServiceData (@Services) {
 
     # store the ServiceID
     $ServiceData->{ServiceID} = $ServiceID;
-}
-
-# ----------------------------------------
-# Create new SLAs
-# ----------------------------------------
-my @SLAs = (
-    {
-        Name       => 'SLA0' . $RandomID,
-        ServiceIDs => [ $Services[0]->{ServiceID} ],
-        ValidID    => 1,
-        UserID     => 1,
-    },
-    {
-        Name       => 'SLA1' . $RandomID,
-        ServiceIDs => [ $Services[0]->{ServiceID} ],
-        ValidID    => 1,
-        UserID     => 1,
-    },
-    {
-        Name       => 'SLA2' . $RandomID,
-        ServiceIDs => [],
-        ValidID    => 1,
-        UserID     => 1,
-    },
-);
-
-for my $SLAData (@SLAs) {
-    my $SLAID = $SLAObject->SLAAdd( %{$SLAData} );
-
-    # sanity test
-    $Self->IsNot(
-        $SLAID,
-        undef,
-        "SLAADD() for $SLAData->{Name}, SLAID should not be undef",
-    );
-
-    # store the SLAID
-    $SLAData->{SLAID} = $SLAID;
 }
 
 # ----------------------------------------
@@ -139,6 +106,20 @@ $Self->True(
         . " with true",
 );
 
+$Success = $ServiceObject->CustomerUserServiceMemberAdd(
+    CustomerUserLogin => $TestUserLogin,
+    ServiceID         => $Services[1]->{ServiceID},
+    Active            => 1,
+    UserID            => 1,
+);
+
+# sanity test
+$Self->True(
+    $Success,
+    "CustomerUserServiceMemberAdd() for user $TestUserLogin, and Service $Services[1]->{Name}"
+        . " with true",
+);
+
 # ----------------------------------------
 
 # ----------------------------------------
@@ -152,7 +133,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
     Priority      => '3 normal',
     StateID       => 1,
     TypeID        => 1,
-    Service       => $Services[0]->{Name},
+    Service       => undef,
     SLA           => undef,
     CustomerID    => undef,
     CustomerUser  => $TestUserLogin,
@@ -267,7 +248,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                SLA => 'open',
+                Service => 'open',
             },
         },
         Success => 0,
@@ -282,111 +263,111 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Wrong SLA',
+        Name   => 'Wrong Service',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLA => 'NotExisting' . $RandomID,
+                Service => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
     },
     {
-        Name   => 'Wrong SLAID',
+        Name   => 'Wrong ServiceID',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLAID => 'NotExisting' . $RandomID,
+                ServiceID => 'NotExisting' . $RandomID,
             },
         },
         Success => 0,
     },
     {
-        Name   => 'Not assigned SLA',
+        Name   => 'Not assigned Service',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLA => $SLAs[2]->{Name},
+                Service => $Services[2]->{Name},
             },
         },
         Success => 0,
     },
     {
-        Name   => 'Not Assigned SLAID',
+        Name   => 'Not Assigned ServiceID',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLAID => $SLAs[2]->{SLAID},
+                ServiceID => $Services[2]->{ServiceID},
             },
         },
         Success => 0,
     },
     {
-        Name   => "Ticket without service with SLA $SLAs[0]->{Name}",
+        Name   => "Ticket without customer with Service $Services[0]->{Name}",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket2,
             Config => {
-                SLAID => $SLAs[0]->{Name},
+                ServiceID => $Services[0]->{Name},
             },
         },
         Success => 0,
     },
     {
-        Name   => "Ticket without service with SLAID $SLAs[1]->{Name}",
+        Name   => "Ticket without customer with ServiceID $Services[1]->{Name}",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket2,
             Config => {
-                SLAID => $SLAs[0]->{SLAID},
+                ServiceID => $Services[0]->{ServiceID},
             },
         },
         Success => 0,
     },
     {
-        Name   => "Correct SLA $SLAs[0]->{Name}",
+        Name   => "Correct Service $Services[0]->{Name}",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLA => $SLAs[0]->{Name},
+                Service => $Services[0]->{Name},
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct SLA $SLAs[1]->{Name}",
+        Name   => "Correct Service $Services[1]->{Name}",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLA => $SLAs[1]->{Name},
+                Service => $Services[1]->{Name},
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct SLAID $SLAs[0]->{Name}",
+        Name   => "Correct ServiceID $Services[0]->{Name}",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLAID => $SLAs[0]->{SLAID},
+                ServiceID => $Services[0]->{ServiceID},
             },
         },
         Success => 1,
     },
     {
-        Name   => "Correct SLAID $SLAs[1]->{Name}",
+        Name   => "Correct ServiceID $Services[1]->{Name}",
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                SLAID => $SLAs[0]->{SLAID},
+                ServiceID => $Services[0]->{ServiceID},
             },
         },
         Success => 1,
@@ -460,20 +441,6 @@ $Self->True(
     $Delete,
     "TicketDelete() - $TicketID2",
 );
-
-# SLA
-for my $SLAData (@SLAs) {
-    my $Success = $SLAObject->SLAUpdate(
-        %{$SLAData},
-        ValidID => 2,
-    );
-
-    # sanity test
-    $Self->True(
-        $Success,
-        "SLAUpdate() for $SLAData->{Name}, Set SLA to invalid with true",
-    );
-}
 
 # Services
 for my $ServiceData (@Services) {

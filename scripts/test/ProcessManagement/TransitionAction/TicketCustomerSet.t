@@ -1,8 +1,8 @@
 # --
-# QueueMove.t - QueueMove testscript
+# TicketCustomerSet.t - TicketCustomerSet testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: QueueMove.t,v 1.5 2012-11-20 16:12:00 mh Exp $
+# $Id: TicketCustomerSet.t,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,7 @@ use vars qw($Self);
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
-use Kernel::System::User;
-use Kernel::System::ProcessManagement::TransitionAction::QueueMove;
+use Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -33,7 +32,7 @@ my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::QueueMove->new(
+my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet->new(
     %{$Self},
     ConfigObject => $ConfigObject,
     TicketObject => $TicketObject,
@@ -41,8 +40,7 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::QueueMov
 
 # define variables
 my $UserID     = 1;
-my $ModuleName = 'QueueMove';
-my $RandomID   = $HelperObject->GetRandomID();
+my $ModuleName = 'TicketCustomerSet';
 
 # ----------------------------------------
 # Create a test ticket
@@ -137,7 +135,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => 1,
             Config => {
-                TargetQueue => 'Raw',
+                CustomerID => 'test',
             },
         },
         Success => 0,
@@ -152,67 +150,69 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Wrong Queue',
+        Name   => 'Correct ASCII CustomerID',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueue => 'NotExisting' . $RandomID,
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong QueueID',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                TargetQueueID => 'NotExisting' . $RandomID,
-            },
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Correct Queue Raw',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                TargetQueue => 'Raw',
+                CustomerID => 'test',
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct Queue Junk',
+        Name   => 'Correct ASCII CustomerUserID',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueue => 'Junk',
+                CustomerID => 'test',
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct QueueID Raw',
+        Name   => 'Correct ASCII No',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueueID => 2,
+                No => 'test',
             },
         },
         Success => 1,
     },
     {
-        Name   => 'Correct QueueID Junk',
+        Name   => 'Correct ASCII User',
         Config => {
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                TargetQueueID => 3,
+                User => '#',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct UTF8 CustomerID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                CustomerID =>
+                    'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct UTF8 CustomerUserID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                CustomerUserID =>
+                    'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
             },
         },
         Success => 1,
@@ -230,17 +230,17 @@ for my $Test (@Tests) {
         );
 
         # get ticket
-        %Ticket = $TicketObject->TicketGet(
+        my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
             UserID   => 1,
         );
 
+        # set Attributes No as CustomerID and User as CustomerUserID
+        $Ticket{No}   = $Ticket{CustomerID}     || '';
+        $Ticket{User} = $Ticket{CustomerUserID} || '';
+
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
-
-            # set attributes to easy compare
-            $Ticket{TargetQueue}   = $Ticket{Queue}   || undef;
-            $Ticket{TargetQueueID} = $Ticket{QueueID} || undef;
 
             $Self->True(
                 $Ticket{$Attribute},

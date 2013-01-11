@@ -1,33 +1,33 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/ServiceSet.pm - A Module to set the ticket service
+# Kernel/System/ProcessManagement/TransitionAction/TicketSLASet.pm - A Module to set the ticket service
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ServiceSet.pm,v 1.1 2013-01-04 22:49:38 cr Exp $
+# $Id: TicketSLASet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::ServiceSet;
+package Kernel::System::ProcessManagement::TransitionAction::TicketSLASet;
 
 use strict;
 use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use utf8;
-use Kernel::System::Service;
+use Kernel::System::SLA;
 
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::ServiceSet - A module to set the ticket Service
+Kernel::System::ProcessManagement::TransitionAction::TicketSLASet - A module to set the ticket SLA
 
 =head1 SYNOPSIS
 
-All ServiceSet functions.
+All TicketSLASet functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -46,7 +46,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::ServiceSet;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketSLASet;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -79,8 +79,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $ServiceSetActionObject
-        = Kernel::System::ProcessManagement::TransitionAction::ServiceSet->new(
+    my $TicketSLASetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketSLASet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -109,7 +108,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{ServiceObject} = Kernel::System::Service->new(
+    $Self->{SLAObject} = Kernel::System::SLA->new(
         %Param,
         DBObject   => $Self->{DBObject},
         MainObject => $Self->{MainObject},
@@ -123,20 +122,20 @@ sub new {
 
     Run Data
 
-    my $ServiceSetResult = $ServiceSetActionObject->Run(
+    my $TicketSLASetResult = $TicketSLASetActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            Service => 'MyService::Subservice',
+            SLA => 'MySLA',
             # or
-            ServiceID => 123,
+            SLAID => 123,
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
     Returns:
 
-    $ServiceSetResult = 1; # 0
+    $TicketSLASetResult = 1; # 0
 
 =cut
 
@@ -171,149 +170,148 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Config}->{ServiceID} && !$Param{Config}->{Service} ) {
+    if ( !$Param{Config}->{SLAID} && !$Param{Config}->{SLA} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Service or ServiceID configured!",
+            Message  => "No SLA or SLAID configured!",
         );
         return;
     }
 
-    if ( !$Param{Ticket}->{CustomerUserID} ) {
+    if ( !$Param{Ticket}->{ServiceID} && !$Param{Ticket}->{Service} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "To set a service the ticket requires a customer!",
+            Message  => "To set a SLA the ticket requires a service!",
         );
         return;
     }
 
     my $Success;
 
-    # If Ticket's ServiceID is already the same as the Value we
+    # If Ticket's SLAID is already the same as the Value we
     # should set it to, we got nothing to do and return success
     if (
-        defined $Param{Config}->{ServiceID}
-        && defined $Param{Ticket}->{ServiceID}
-        && $Param{Config}->{ServiceID} eq $Param{Ticket}->{ServiceID}
+        defined $Param{Config}->{SLAID}
+        && defined $Param{Ticket}->{SLAID}
+        && $Param{Config}->{SLAID} eq $Param{Ticket}->{SLAID}
         )
     {
         return 1;
     }
 
-    # If Ticket's ServiceID is not the same as the Value we
-    # should set it to, set the ServiceID
+    # If Ticket's SLAID is not the same as the Value we
+    # should set it to, set the SLAID
     elsif (
         (
-            defined $Param{Config}->{ServiceID}
-            && defined $Param{Ticket}->{ServiceID}
-            && $Param{Config}->{ServiceID} ne $Param{Ticket}->{ServiceID}
+            defined $Param{Config}->{SLAID}
+            && defined $Param{Ticket}->{SLAID}
+            && $Param{Config}->{SLAID} ne $Param{Ticket}->{SLAID}
         )
-        || !defined $Param{Ticket}->{ServiceID}
+        || !defined $Param{Ticket}->{SLAID}
         )
     {
 
-        # check if serivce is assigned to Customer User otherwise return
-        $Success = $Self->_CheckService(
-            UserLogin => $Param{Ticket}->{CustomerUserID},
-            ServiceID => $Param{Config}->{ServiceID}
+        # check if serivce is assigned to Service otherwise return
+        $Success = $Self->_CheckSLA(
+            ServiceID => $Param{Ticket}->{ServiceID},
+            SLAID     => $Param{Config}->{SLAID},
         );
 
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'ServiceID '
-                    . $Param{Config}->{ServiceID}
-                    . ' is not assigned to Customer User '
-                    . $Param{Ticket}->{CustomerUserID}
+                Message  => 'SLAID '
+                    . $Param{Config}->{SLAID}
+                    . ' is not assigned to Service '
+                    . $Param{Ticket}->{Service}
             );
             return;
         }
 
-        # set ticket service
-        $Success = $Self->{TicketObject}->TicketServiceSet(
-            TicketID  => $Param{Ticket}->{TicketID},
-            ServiceID => $Param{Config}->{ServiceID},
-            UserID    => $Param{UserID},
-        );
-
-        if ( !$Success ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Ticket ServiceID '
-                    . $Param{Config}->{ServiceID}
-                    . ' could not be updated for Ticket: '
-                    . $Param{Ticket}->{TicketID} . '!',
-            );
-        }
-    }
-
-    # If Ticket's Service is already the same as the Value we
-    # should set it to, we got nothing to do and return success
-    elsif (
-        defined $Param{Config}->{Service}
-        && defined $Param{Ticket}->{Service}
-        && $Param{Config}->{Service} eq $Param{Ticket}->{Service}
-        )
-    {
-        return 1;
-    }
-
-    # If Ticket's Service is not the same as the Value we
-    # should set it to, set the Service
-    elsif (
-        (
-            defined $Param{Config}->{Service}
-            && defined $Param{Ticket}->{Service}
-            && $Param{Config}->{Service} ne $Param{Ticket}->{Service}
-        )
-        || !defined $Param{Ticket}->{Service}
-
-        )
-    {
-
-        my $ServiceID = $Self->{ServiceObject}->ServiceLookup(
-            Name => $Param{Config}->{Service},
-        );
-
-        if ( !$ServiceID ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Service '
-                    . $Param{Config}->{Service}
-                    . ' is invalid!'
-            );
-            return;
-        }
-
-        # check if service is assigned to Customer User, otherwise return
-        $Success = $Self->_CheckService(
-            UserLogin => $Param{Ticket}->{CustomerUserID},
-            ServiceID => $ServiceID,
-        );
-
-        if ( !$Success ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Service '
-                    . $Param{Config}->{Service}
-                    . ' is not assigned to Customer User '
-                    . $Param{Ticket}->{CustomerUserID}
-            );
-            return;
-        }
-
-        # set ticket service
-        $Success = $Self->{TicketObject}->TicketServiceSet(
+        # set ticket SLA
+        $Success = $Self->{TicketObject}->TicketSLASet(
             TicketID => $Param{Ticket}->{TicketID},
-            Service  => $Param{Config}->{Service},
+            SLAID    => $Param{Config}->{SLAID},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket Service '
-                    . $Param{Config}->{Service}
+                Message  => 'Ticket SLAID '
+                    . $Param{Config}->{SLAID}
+                    . ' could not be updated for Ticket: '
+                    . $Param{Ticket}->{TicketID} . '!',
+            );
+        }
+    }
+
+    # If Ticket's SLA is already the same as the Value we
+    # should set it to, we got nothing to do and return success
+    elsif (
+        defined $Param{Config}->{SLA}
+        && defined $Param{Ticket}->{SLA}
+        && $Param{Config}->{SLA} eq $Param{Ticket}->{SLA}
+        )
+    {
+        return 1;
+    }
+
+    # If Ticket's SLA is not the same as the Value we
+    # should set it to, set the SLA
+    elsif (
+        (
+            defined $Param{Config}->{SLA}
+            && defined $Param{Ticket}->{SLA}
+            && $Param{Config}->{SLA} ne $Param{Ticket}->{SLA}
+        )
+        || !defined $Param{Ticket}->{SLA}
+        )
+    {
+
+        my $SLAID = $Self->{SLAObject}->SLALookup(
+            Name => $Param{Config}->{SLA},
+        );
+
+        if ( !$SLAID ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'SLA '
+                    . $Param{Config}->{SLA}
+                    . ' is invalid!'
+            );
+            return;
+        }
+
+        # check if SLA is assigned to Service, otherwise return
+        $Success = $Self->_CheckSLA(
+            ServiceID => $Param{Ticket}->{ServiceID},
+            SLAID     => $SLAID,
+        );
+
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'SLA '
+                    . $Param{Config}->{SLA}
+                    . ' is not assigned to Service '
+                    . $Param{Ticket}->{Service}
+            );
+            return;
+        }
+
+        # set ticket SLA
+        $Success = $Self->{TicketObject}->TicketSLASet(
+            TicketID => $Param{Ticket}->{TicketID},
+            SLA      => $Param{Config}->{SLA},
+            UserID   => $Param{UserID},
+        );
+
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Ticket SLA '
+                    . $Param{Config}->{SLA}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
@@ -322,7 +320,7 @@ sub Run {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't update Ticket Service - can't find valid Service parameter!",
+            Message  => "Couldn't update Ticket SLA - can't find valid SLA parameter!",
         );
         return;
     }
@@ -330,13 +328,13 @@ sub Run {
     return $Success;
 }
 
-=item _CheckService()
+=item _CheckSLA()
 
-checks if a service is assigned to a customer user
+checks if a SLA is assigned to a Service
 
-    my $Success = _CheckService(
-        UserLogin => 'some user',
+    my $Success = _CheckSLA(
         ServiceID => 123,
+        SLAID     => 123,
     );
 
     Returns:
@@ -344,21 +342,20 @@ checks if a service is assigned to a customer user
     $Success = 1;       # or undef
 =cut
 
-sub _CheckService {
+sub _CheckSLA {
     my ( $Self, %Param ) = @_;
 
-    # get a list of assigned services to the customer user
-    my %Services = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-        CustomerUserLogin => $Param{UserLogin},
-        Result            => 'HASH',
-        DefaultServices   => 1,
+    # get a list of assigned SLAs to the Service
+    my %SLAs = $Self->{SLAObject}->SLAList(
+        ServiceID => $Param{ServiceID},
+        UserID    => 1,
     );
 
-    # return failure if there are no assigned services for this customer user
-    return if !IsHashRefWithData( \%Services );
+    # return failure if there are no assigned SLAs for this Service
+    return if !IsHashRefWithData( \%SLAs );
 
-    # return failure if the the service is not assigned to the customer
-    return if !$Services{ $Param{ServiceID} };
+    # return failure if the the SLA is not assigned to the Service
+    return if !$SLAs{ $Param{SLAID} };
 
     # otherwise return success
     return 1;
@@ -377,6 +374,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2013-01-04 22:49:38 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut

@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/OwnerSet.pm - A Module to set the ticket owner
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Kernel/System/ProcessManagement/TransitionAction/TicketArticleCreate.pm - A Module to create an article
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: OwnerSet.pm,v 1.3 2012-11-20 15:55:15 mh Exp $
+# $Id: TicketArticleCreate.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::OwnerSet;
+package Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate;
 
 use strict;
 use warnings;
@@ -18,15 +18,15 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::OwnerSet - A module to set a new ticket owner
+Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate - A module to create an article
 
 =head1 SYNOPSIS
 
-All OwnerSet functions.
+All TicketArticleCreate functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -45,7 +45,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::OwnerSet;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -78,7 +78,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $OwnerSetActionObject = Kernel::System::ProcessManagement::TransitionAction::OwnerSet->new(
+    my $TicketArticleCreateActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -114,20 +114,44 @@ sub new {
 
     Run Data
 
-    my $OwnerSetResult = $OwnerSetActionObject->Run(
+    my $TicketArticleCreateResult = $TicketArticleCreateActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            Owner => 'root@localhost',
-            # or
-            OwnerID => 1,
+            # required:
+            ArticleType      => 'note-internal',                        # email-external|email-internal|phone|fax|...
+            SenderType       => 'agent',                                # agent|system|customer
+            ContentType      => 'text/plain; charset=ISO-8859-15',      # or optional Charset & MimeType
+            Subject          => 'some short description',               # required
+            Body             => 'the message text',                     # required
+            HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+            HistoryComment   => 'Some free text!',
+
+            # optional:
+            From             => 'Some Agent <email@example.com>',       # not required but useful
+            To               => 'Some Customer A <customer-a@example.com>', # not required but useful
+            Cc               => 'Some Customer B <customer-b@example.com>', # not required but useful
+            ReplyTo          => 'Some Customer B <customer-b@example.com>', # not required
+            MessageID        => '<asdasdasd.123@example.com>',          # not required but useful
+            InReplyTo        => '<asdasdasd.12@example.com>',           # not required but useful
+            References       => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
+            NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
+            AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto reply/new ticket|auto remove
+
+            ForceNotificationToUserID   => [ 1, 43, 56 ],               # if you want to force somebody
+            ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notfications,
+                                                                        # will also be removed in To: line of article,
+                                                                        # higher prio as ForceNotificationToUserID
+            ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
+                                                                        # sending gets muted, agent will still shown in To:
+                                                                        # line of article
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
     Returns:
 
-    $OwnerSetResult = 1; # 0
+    $TicketArticleCreateResult = 1; # 0
 
     );
 
@@ -164,46 +188,16 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Config}->{OwnerID} && !$Param{Config}->{Owner} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "No Owner or OwnerID configured!",
-        );
-        return;
-    }
-    my $Success;
-    if (
-        defined $Param{Config}->{Owner}
-        && $Param{Config}->{Owner} ne $Param{Ticket}->{Owner}
-        )
-    {
-        $Success = $Self->{TicketObject}->TicketOwnerSet(
-            TicketID => $Param{Ticket}->{TicketID},
-            NewUser  => $Param{Config}->{Owner},
-            UserID   => $Param{UserID},
-        );
-    }
-    elsif (
-        defined $Param{Config}->{OwnerID}
-        && $Param{Config}->{OwnerID} ne $Param{Ticket}->{OwnerID}
-        )
-    {
-        $Success = $Self->{TicketObject}->TicketOwnerSet(
-            TicketID  => $Param{Ticket}->{TicketID},
-            NewUserID => $Param{Config}->{OwnerID},
-            UserID    => $Param{UserID},
-        );
-    }
-    else {
-
-        # data is the same as in ticket nothing to do
-        $Success = 1;
-    }
+    my $Success = $Self->{TicketObject}->ArticleCreate(
+        %{ $Param{Config} },
+        TicketID => $Param{Ticket}->{TicketID},
+        UserID   => $Param{UserID},
+    );
 
     if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Ticket owner could not be updated for Ticket: '
+            Message  => "Couldn't create article for Ticket: "
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;
@@ -225,6 +219,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-11-20 15:55:15 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut

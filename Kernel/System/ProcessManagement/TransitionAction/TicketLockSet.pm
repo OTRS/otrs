@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/CustomerSet.pm - A Module to set the ticket customer
+# Kernel/System/ProcessManagement/TransitionAction/TicketLockSet.pm - A Module to unlock a ticket
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSet.pm,v 1.3 2012-11-20 15:55:03 mh Exp $
+# $Id: TicketLockSet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::TransitionAction::CustomerSet;
+package Kernel::System::ProcessManagement::TransitionAction::TicketLockSet;
 
 use strict;
 use warnings;
@@ -18,15 +18,15 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::CustomerSet - A module to set a new ticket customer
+Kernel::System::ProcessManagement::TransitionAction::TicketLockSet - A module to unlock a ticket
 
 =head1 SYNOPSIS
 
-All CustomerSet functions.
+All TicketLockSet functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -45,7 +45,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::CustomerSet;
+    use Kernel::System::ProcessManagement::TransitionAction::TicketLockSet;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -78,7 +78,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $CustomerSetActionObject = Kernel::System::ProcessManagement::TransitionAction::CustomerSet->new(
+    my $TicketLockSetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketLockSet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,
@@ -107,6 +107,13 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    $Self->{LockObject} = Kernel::System::Lock->new(
+        %Param,
+        DBObject   => $Self->{DBObject},
+        MainObject => $Self->{MainObject},
+        TimeObject => $Self->{TimeObject},
+    );
+
     return $Self;
 }
 
@@ -114,27 +121,20 @@ sub new {
 
     Run Data
 
-    my $CustomerSetResult = $CustomerSetActionObject->Run(
+    my $TicketLockSetResult = $TicketLockSetActionObject->Run(
         UserID      => 123,
         Ticket      => \%Ticket, # required
         Config      => {
-            CustomerID     => 'client123',
+            Lock  => 'lock',
             # or
-            CustomerUserID => 'client-user-123',
-
-            #OR (Framework wording)
-            No             => 'client123',
-            # or
-            User           => 'client-user-123',
+            LockID => 1,
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
     Returns:
 
-    $CustomerSetResult = 1; # 0
-
-    );
+    $TicketLockSetResult = 1; # 0
 
 =cut
 
@@ -169,78 +169,92 @@ sub Run {
         return;
     }
 
-    if (
-        !$Param{Config}->{CustomerID}
-        && !$Param{Config}->{No}
-        && !$Param{Config}->{CustomerUserID}
-        && !$Param{Config}->{User}
-        )
-    {
+    if ( !$Param{Config}->{LockID} && !$Param{Config}->{Lock} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No CustomerID/No or CustomerUserID/User configured!",
+            Message  => "No Lock or LockID configured!",
         );
         return;
     }
 
-    if ( !$Param{Config}->{CustomerID} && $Param{Config}->{No} ) {
-        $Param{Config}->{CustomerID} = $Param{Config}->{No};
-    }
-    if ( !$Param{Config}->{CustomerUserID} && $Param{Config}->{User} ) {
-        $Param{Config}->{CustomerUserID} = $Param{Config}->{User};
-    }
+    my $Success;
 
+    # If Ticket's LockID is already the same as the Value we
+    # should set it to, we got nothing to do and return success
     if (
-        defined $Param{Config}->{CustomerID}
-        &&
-        (
-            !defined $Param{Ticket}->{CustomerID}
-            || $Param{Config}->{CustomerID} ne $Param{Ticket}->{CustomerID}
-        )
+        defined $Param{Config}->{LoclID}
+        && $Param{Config}->{LockID} eq $Param{Ticket}->{LockID}
         )
     {
-        my $Success = $Self->{TicketObject}->TicketCustomerSet(
+        return 1;
+    }
+
+    # If Ticket's LockID is not the same as the Value we
+    # should set it to, set the LockID
+    elsif (
+        defined $Param{Config}->{LockID}
+        && $Param{Config}->{LockID} ne $Param{Ticket}->{LockID}
+        )
+    {
+        $Success = $Self->{TicketObject}->TicketLockSet(
             TicketID => $Param{Ticket}->{TicketID},
-            No       => $Param{Config}->{CustomerID},
+            LockID   => $Param{Config}->{LockID},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket CustomerID could not be updated for Ticket: '
+                Message  => 'Ticket LockID '
+                    . $Param{Config}->{LockID}
+                    . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
-            return;
         }
     }
 
-    if (
-        defined $Param{Config}->{CustomerUserID}
-        &&
-        (
-            !defined $Param{Ticket}->{CustomerUserID}
-            || $Param{Config}->{CustomerUserID} ne $Param{Ticket}->{CustomerUserID}
-        )
+    # If Ticket's Lock is already the same as the Value we
+    # should set it to, we got nothing to do and return success
+    elsif (
+        defined $Param{Config}->{Lock}
+        && $Param{Config}->{Lock} eq $Param{Ticket}->{Lock}
         )
     {
-        my $Success = $Self->{TicketObject}->TicketCustomerSet(
+        return 1;
+    }
+
+    # If Ticket's Lock is not the same as the Value we
+    # should set it to, set the Lock
+    elsif (
+        defined $Param{Config}->{Lock}
+        && $Param{Config}->{Lock} ne $Param{Ticket}->{Lock}
+        )
+    {
+        $Success = $Self->{TicketObject}->TicketLockSet(
             TicketID => $Param{Ticket}->{TicketID},
-            User     => $Param{Config}->{CustomerUserID},
+            Lock     => $Param{Config}->{Lock},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket CustomerID could not be updated for Ticket: '
+                Message  => 'Ticket Lock '
+                    . $Param{Config}->{Lock}
+                    . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
-            return;
         }
     }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Couldn't update Ticket Lock - can't find valid Lock parameter!",
+        );
+        return;
+    }
 
-    return 1;
+    return $Success;
 }
 
 1;
@@ -257,6 +271,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-11-20 15:55:03 $
+$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
 
 =cut
