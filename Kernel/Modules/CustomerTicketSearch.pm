@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.91 2013-01-11 10:11:09 ub Exp $
+# $Id: CustomerTicketSearch.pm,v 1.92 2013-01-11 15:46:20 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -379,8 +379,6 @@ sub Run {
         else {
             $GetParam{ArchiveFlags} = [ 'y', 'n' ];
         }
-
-        my %AttributeLookup;
 
         # dynamic fields search parameters for ticket search
         my %DynamicFieldSearchParameters;
