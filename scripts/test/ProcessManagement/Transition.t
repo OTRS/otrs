@@ -1,8 +1,8 @@
 # --
 # Transition.t - Transition module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.t,v 1.3 2012-11-20 16:11:11 mh Exp $
+# $Id: Transition.t,v 1.4 2013-01-11 17:29:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -869,6 +869,46 @@ my @Tests = (
         },
     },
 
+    # Check: Regexp test for true (with plain text Regexp)
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Type  => 'and',
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Regexp',
+                                    Match => '^VW$',
+                                },
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                },
+            },
+            Data => {
+                Queue                => ['Raw'],
+                DynamicField_Make    => 'VW',
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Regexp check with plain text Regexp)',
+            TestType           => 'True',
+        },
+    },
+
     # Check: Regexp test for fail
     {
         Check => {
@@ -905,6 +945,46 @@ my @Tests = (
             },
             TransitionEntityID => 'T2' . $RandomID,
             Message            => 'TransitionCheck() (Regexp fail check)',
+            TestType           => 'False',
+        },
+    },
+
+    # Check: Regexp test for fail (with plain text Regexp)
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Type  => 'and',
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Regexp',
+                                    Match => '^VW$',
+                                },
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                },
+            },
+            Data => {
+                Queue                => ['Raw'],
+                DynamicField_Make    => 'oVoWo',
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Regexp fail check with plain text Regexp)',
             TestType           => 'False',
         },
     },
