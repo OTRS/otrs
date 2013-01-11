@@ -1,8 +1,8 @@
 # --
 # Process.t - Process module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.8 2012-12-07 20:13:52 cr Exp $
+# $Id: Process.t,v 1.9 2013-01-11 13:39:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1548,26 +1548,29 @@ my @Tests = (
                 },
                 'Process::TransitionAction' => {
                     'TA1' => {
-                        Name   => 'Queue Move',
-                        Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
+                        Name => 'Queue Move',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet',
                         Config => {
-                            TargetQueue => $QueueData1{Name},
+                            Queue => $QueueData1{Name},
                         },
 
                     },
                     'TA2' => {
-                        Name   => 'Queue Move',
-                        Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
+                        Name => 'Queue Move',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet',
                         Config => {
-                            TargetQueue => $QueueData2{Name},
+                            Queue => $QueueData2{Name},
                         },
 
                     },
                     'TA3' => {
-                        Name   => 'Queue Move',
-                        Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
+                        Name => 'Queue Move',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet',
                         Config => {
-                            TargetQueue => $QueueData3{Name},
+                            Queue => $QueueData3{Name},
                         },
 
                     },
@@ -1709,26 +1712,29 @@ my @Tests = (
                 },
                 'Process::TransitionAction' => {
                     'TA1' => {
-                        Name   => 'Queue Move',
-                        Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
+                        Name => 'Queue Move',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet',
                         Config => {
-                            TargetQueue => $QueueData1{Name},
+                            Queue => $QueueData1{Name},
                         },
 
                     },
                     'TA2' => {
-                        Name   => 'Queue Move',
-                        Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
+                        Name => 'Queue Move',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet',
                         Config => {
-                            TargetQueue => $QueueData2{Name},
+                            Queue => $QueueData2{Name},
                         },
 
                     },
                     'TA3' => {
-                        Name   => 'Queue Move',
-                        Module => 'Kernel::System::ProcessManagement::TransitionAction::QueueMove',
+                        Name => 'Queue Move',
+                        Module =>
+                            'Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet',
                         Config => {
-                            TargetQueue => $QueueData3{Name},
+                            Queue => $QueueData3{Name},
                         },
 
                     },
