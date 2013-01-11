@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Transition.pm - all ticket functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.pm,v 1.6 2013-01-10 13:22:13 cr Exp $
+# $Id: Transition.pm,v 1.7 2013-01-11 17:28:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -504,7 +504,11 @@ sub TransitionCheck {
                     # if our Check contains anything else then a string we can't check
                     if (
                         !$ActualCondition->{Fields}{$Field}{Match}
-                        || ref $ActualCondition->{Fields}{$Field}{Match} ne 'Regexp'
+                        ||
+                        (
+                            ref $ActualCondition->{Fields}{$Field}{Match} ne 'Regexp'
+                            && ref $ActualCondition->{Fields}{$Field}{Match} ne ''
+                        )
                         )
                     {
                         $Self->{LogObject}->Log(
@@ -694,6 +698,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2013-01-10 13:22:13 $
+$Revision: 1.7 $ $Date: 2013-01-11 17:28:08 $
 
 =cut
