@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.44 2013-01-04 19:15:37 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.45 2013-01-14 16:26:36 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,7 +33,7 @@ use lib dirname($RealBin) . '/Custom';
 use ExtUtils::MakeMaker;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 # config
 my @NeededModules = (
@@ -488,10 +488,8 @@ sub _Check {
         print "   ";
     }
     print "o $Module->{Module}";
-    my $Length = length( $Module->{Module} ) + ( $Depends * 3 );
-    for ( $Length .. 32 ) {
-        print ".";
-    }
+    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 3 ) );
+    print '.' x $Length;
 
     # use internal EU:MM sub to determine if given module is installed
     # just as in Module::Version
@@ -505,6 +503,13 @@ sub _Check {
         my $CleanedVersion = _VersionClean(
             Version => $Version,
         );
+
+        # test if all module dependencies are installed by requiring the module
+        my $MissingDependencies;
+        if ( !eval "require $Module->{Module}" ) {
+            print "failed!!! Not all prerequisites installed. ";
+            $MissingDependencies = 1;
+        }
 
         if ( $Module->{NotSupported} ) {
 
@@ -543,6 +548,9 @@ sub _Check {
                 print
                     "failed!!! Version $Version installed but $Module->{Version} or higher is required!\n";
             }
+        }
+        elsif ($MissingDependencies) {
+            print "(v$Version)\n";
         }
         else {
             print "ok (v$Version)\n";
