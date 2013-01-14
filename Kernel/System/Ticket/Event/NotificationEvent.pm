@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.46 2012-12-10 15:09:06 mb Exp $
+# $Id: NotificationEvent.pm,v 1.47 2013-01-14 15:15:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -819,7 +819,16 @@ sub _SendNotification {
         );
     }
     else {
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
+        my %Address;
+
+        # set "From" address from Article if exist, otherwise use ticket information, see bug# 9035
+        if ( IsHashRefWithData( \%Article ) ) {
+            %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
+        }
+        else {
+            %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
+        }
+
         my $ArticleType = $Recipient{NotificationArticleType} || 'email-notification-ext';
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
             ArticleType    => $ArticleType,
