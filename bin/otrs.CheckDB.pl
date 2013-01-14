@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckDB.pl - to check the db access
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckDB.pl,v 1.9 2012-11-20 16:03:01 mh Exp $
+# $Id: otrs.CheckDB.pl,v 1.10 2013-01-14 08:44:49 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,9 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
-
-use Getopt::Std;
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -52,14 +50,6 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 
-# get options
-my %Opts = ();
-getopt( 's', \%Opts );
-my $End = "\n";
-if ( $Opts{'s'} ) {
-    $End = '';
-}
-
 # print database information
 my $DatabaseDSN  = $CommonObject{ConfigObject}->{DatabaseDSN};
 my $DatabaseUser = $CommonObject{ConfigObject}->{DatabaseUser};
@@ -75,15 +65,15 @@ if ( $CommonObject{DBObject} ) {
         $Check++;
     }
     if ( !$Check ) {
-        print "No initial inserts found!$End";
+        print "Connection succesful, no initial inserts found.\n";
         exit(1);
     }
     else {
-        print "It looks Ok!$End";
+        print "Connected.\n";
         exit(0);
     }
 }
 else {
-    print "No database connect!$End";
+    print "Connection failed.\n";
     exit(1);
 }
