@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.185 2013-01-11 14:32:57 mg Exp $
+# $Id: CHANGES,v 1.2260.2.186 2013-01-14 12:18:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-01-14 Fixed bug#9047 - HistoryTicketGet caches info on disk directly.
  - 2013-01-11 Fixed bug#8923 - Alert message shown, if parent window is reloaded while
     bulk action popup is open.
  - 2013-01-09 Fixed bug#9030 - Wrong handling of Invalid YAML in Scheduler Tasks.
