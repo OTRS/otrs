@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.165 2013-01-11 12:35:18 mn Exp $
+# $Id: AgentTicketEmail.dtl,v 1.166 2013-01-14 13:25:58 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,18 +88,20 @@ $('#Dest').bind('change', function (Event) {
 
                     <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
+                            <span class="MultipleRecipientInfo">$Text{"To"}</span>
                             <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText W70pc" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
                         </div>
 
                         <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
 <!-- dtl:block:MultipleCustomer -->
                             <div class="SpacingTopSmall ">
+                                <span class="MultipleRecipientInfo">$Text{"To"}</span>
                                 <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
                                 <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText W70pc $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
 
 <!-- dtl:block:CustomerErrorExplantion -->
@@ -176,16 +178,18 @@ $('#Dest').bind('change', function (Event) {
 
                     <div class="Field $QData{"CcCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
+                            <span class="MultipleRecipientInfo">$Text{"Cc"}</span>
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText W70pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="CcRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
                         </div>
 
                         <div id="TicketCustomerContentCcCustomer">
 <!-- dtl:block:CcMultipleCustomer -->
                             <div class="SpacingTopSmall ">
+                                <span class="MultipleRecipientInfo">$Text{"Cc"}</span>
                                 <input name="CcCustomerKey_$QData{"Count"}" id="CcCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText W70pc $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="CcRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
 
 <!-- dtl:block:CcCustomerErrorExplantion -->
@@ -230,16 +234,18 @@ $('#Dest').bind('change', function (Event) {
 
                     <div class="Field $QData{"BccCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
+                            <span class="MultipleRecipientInfo">$Text{"Bcc"}</span>
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText W70pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="BccRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
                         </div>
 
                         <div id="TicketCustomerContentBccCustomer">
 <!-- dtl:block:BccMultipleCustomer -->
-                            <div class="SpacingTopSmall ">
+                            <div class="SpacingTopSmall">
+                                <span class="MultipleRecipientInfo">$Text{"Bcc"}</span>
                                 <input name="BccCustomerKey_$QData{"Count"}" id="BccCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText W70pc $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="BccRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
 
 <!-- dtl:block:BccCustomerErrorExplantion -->
