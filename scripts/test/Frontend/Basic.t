@@ -2,7 +2,7 @@
 # Basic.t - Basic Frontend Tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Basic.t,v 1.1 2013-01-11 11:09:12 mg Exp $
+# $Id: Basic.t,v 1.2 2013-01-14 08:05:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,9 @@ my $TestUserLogin = $HelperObject->TestUserCreate(
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
-$BaseURL .= $ConfigObject->Get('FQDN') . '/';
+
+#$BaseURL .= $ConfigObject->Get('FQDN') . '/';
+$BaseURL .= 'localhost/';
 $BaseURL .= $ConfigObject->Get('ScriptAlias');
 
 my $AgentBaseURL    = $BaseURL . 'index.pl?';
