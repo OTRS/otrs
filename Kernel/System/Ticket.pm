@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.585 2012-11-24 13:23:56 mb Exp $
+# $Id: Ticket.pm,v 1.586 2013-01-14 12:18:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.585 $) [1];
+$VERSION = qw($Revision: 1.586 $) [1];
 
 =head1 NAME
 
@@ -4695,14 +4695,15 @@ sub HistoryTicketStatusGet {
 
 =item HistoryTicketGet()
 
-returns a hash of the ticket history info at this time.
+returns a hash of some of the ticket data
+calculated based on ticket history info at the given date.
 
     my %HistoryData = $TicketObject->HistoryTicketGet(
         StopYear  => 2003,
         StopMonth => 12,
         StopDay   => 24,
         TicketID  => 123,
-        Force     => 0,
+        Force     => 0,     # 1: don't use cache
     );
 
 returns
@@ -4751,44 +4752,31 @@ sub HistoryTicketGet {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    # check cache
-    my $Path = $Self->{ConfigObject}->Get('Home')
-        . "/var/tmp/TicketHistoryCache/$Param{StopYear}/$Param{StopMonth}/";
-    my $File = $Self->{MainObject}->FilenameCleanUp(
-        Filename =>
-            "TicketHistoryCache-$Param{TicketID}-$Param{StopYear}-$Param{StopMonth}-$Param{StopDay}.cache",
-        Type => 'local',
-    );
-
-    # write cache
-    my %Ticket;
-    if ( !$Param{Force} && -f "$Path/$File" ) {
-        my $ContentARRAYRef = $Self->{MainObject}->FileRead(
-            Directory => $Path,
-            Filename  => $File,
-            Result    => 'ARRAY',    # optional - SCALAR|ARRAY
-        );
-        if ($ContentARRAYRef) {
-            for my $Line ( @{$ContentARRAYRef} ) {
-                if ( $Line =~ /^(.+?):(.+?)$/ ) {
-                    $Ticket{$1} = $2;
-                }
-            }
-            return %Ticket;
-        }
+    my $CacheKey = 'Cache::HistoryTicketGet';
+    for my $ParamName ( sort keys %Param ) {
+        $CacheKey .= '::' . $Param{$ParamName};
     }
 
-    # db access
+    my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    if ( ref $Cached eq 'HASH' && !$Param{Force} ) {
+        return %{$Cached};
+    }
+
     my $Time = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59";
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, '
-            . 'th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id, th.type_id '
-            . ' FROM ticket_history th, ticket_history_type tht WHERE '
-            . 'th.history_type_id = tht.id AND th.ticket_id = ? AND th.create_time <= ? '
-            . 'ORDER BY th.create_time, th.id ASC',
+        SQL => '
+            SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id,
+                th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id, th.type_id
+            FROM ticket_history th, ticket_history_type tht
+            WHERE th.history_type_id = tht.id
+                AND th.ticket_id = ?
+                AND th.create_time <= ?
+            ORDER BY th.create_time, th.id ASC',
         Bind => [ \$Param{TicketID}, \$Time ],
         Limit => 3000,
     );
+
+    my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         if ( $Row[1] eq 'NewTicket' ) {
@@ -4940,27 +4928,10 @@ sub HistoryTicketGet {
     );
 
     # if the request is for the last month or older, cache it
-    if ( $Year <= $Param{StopYear} && $Month > $Param{StopMonth} ) {
-
-        # create sub directory if needed
-        if ( !-e $Path && !File::Path::mkpath( [$Path], 0, 0775 ) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't create directory: $Path: $!",
-            );
-        }
-
-        # write cache file
-        my $Content = '';
-        for my $Key ( sort keys %Ticket ) {
-            $Content .= "$Key:$Ticket{$Key}\n";
-        }
-        $Self->{MainObject}->FileWrite(
-            Directory => $Path,
-            Filename  => $File,
-            Content   => \$Content,
-        );
+    if ( "$Year-$Month" gt "$Param{StopYear}-$Param{StopMonth}" ) {
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Ticket );
     }
+
     return %Ticket;
 }
 
@@ -8002,6 +7973,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.585 $ $Date: 2012-11-24 13:23:56 $
+$Revision: 1.586 $ $Date: 2013-01-14 12:18:08 $
 
 =cut

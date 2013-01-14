@@ -1,8 +1,8 @@
 # --
 # TicketHistory.t - ticket module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketHistory.t,v 1.5 2012-11-20 16:13:18 mh Exp $
+# $Id: TicketHistory.t,v 1.6 2013-01-14 12:18:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,8 @@ my $StateObject = Kernel::System::State->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+
+$TicketObject->{CacheInternalObject}->CleanUp();
 
 my @Tests = (
     {
@@ -154,6 +156,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{CreateData} ) {
         for my $CreateData ( @{ $Test->{CreateData} } ) {
+
             if ( $CreateData->{TicketCreate} ) {
                 $HistoryCreateTicketID = $TicketObject->TicketCreate(
                     %{ $CreateData->{TicketCreate} },
@@ -167,6 +170,7 @@ for my $Test (@Tests) {
                     push @HistoryCreateTicketIDs, $HistoryCreateTicketID;
                 }
             }
+
             if ( $CreateData->{ArticleCreate} ) {
                 my $HistoryCreateArticleID = $TicketObject->ArticleCreate(
                     TicketID => $HistoryCreateTicketID,
@@ -180,13 +184,71 @@ for my $Test (@Tests) {
                     push @HistoryCreateArticleIDs, $HistoryCreateArticleID;
                 }
             }
+
+            if ( $CreateData->{TicketCreate} ) {
+                my %ComputedTicketState = $TicketObject->HistoryTicketGet(
+                    StopDay   => 1,
+                    StopMonth => 1,
+                    StopYear  => 1990,
+                    TicketID  => $HistoryCreateTicketID,
+                );
+
+                $Self->False(
+                    %ComputedTicketState ? 1 : 0,
+                    "HistoryTicketGet() - state before ticket was created",
+                );
+
+                my %ComputedTicketStateCached = $TicketObject->HistoryTicketGet(
+                    StopDay   => 1,
+                    StopMonth => 1,
+                    StopYear  => 1990,
+                    TicketID  => $HistoryCreateTicketID,
+                );
+
+                $Self->IsDeeply(
+                    \%ComputedTicketStateCached,
+                    \%ComputedTicketState,
+                    "HistoryTicketGet() - cached ticket data before ticket was created",
+                );
+
+                %ComputedTicketState = $TicketObject->HistoryTicketGet(
+                    StopDay   => 1,
+                    StopMonth => 1,
+                    StopYear  => 2990,
+                    TicketID  => $HistoryCreateTicketID,
+                );
+
+                for my $Key (qw(OwnerID PriorityID Queue State)) {
+
+                    $Self->Is(
+                        $ComputedTicketState{$Key},
+                        $CreateData->{TicketCreate}->{$Key},
+                        "HistoryTicketGet() - uncached value $Key",
+                    );
+                }
+
+                %ComputedTicketStateCached = $TicketObject->HistoryTicketGet(
+                    StopDay   => 1,
+                    StopMonth => 1,
+                    StopYear  => 2990,
+                    TicketID  => $HistoryCreateTicketID,
+                );
+
+                $Self->IsDeeply(
+                    \%ComputedTicketStateCached,
+                    \%ComputedTicketState,
+                    "HistoryTicketGet() - cached ticket data",
+                );
+            }
         }
+
     }
 
     if ( $Test->{ReferenceData} ) {
 
         REFERENCEDATA:
         for my $ReferenceData ( @{ $Test->{ReferenceData} } ) {
+
             $HistoryCreateTicketID = $HistoryCreateTicketIDs[ $ReferenceData->{TicketIndex} ];
 
             next REFERENCEDATA if !$ReferenceData->{HistoryGet};
