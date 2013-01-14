@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.92 2013-01-11 15:46:20 ub Exp $
+# $Id: CustomerTicketSearch.pm,v 1.93 2013-01-14 18:32:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -867,42 +867,42 @@ sub Run {
             StateIDs => {
                 Name        => 'State',
                 Object      => 'StateObject',
-                Methode     => 'StateLookup',
+                Method      => 'StateLookup',
                 Key         => 'StateID',
                 Translation => 1,
             },
             StateTypeIDs => {
                 Name        => 'StateType',
                 Object      => 'StateObject',
-                Methode     => 'StateTypeLookup',
+                Method      => 'StateTypeLookup',
                 Key         => 'StateTypeID',
                 Translation => 1,
             },
             PriorityIDs => {
                 Name        => 'Priority',
                 Object      => 'PriorityObject',
-                Methode     => 'PriorityLookup',
+                Method      => 'PriorityLookup',
                 Key         => 'PriorityID',
                 Translation => 1,
             },
             QueueIDs => {
                 Name        => 'Queue',
                 Object      => 'QueueObject',
-                Methode     => 'QueueLookup',
+                Method      => 'QueueLookup',
                 Key         => 'QueueID',
                 Translation => 0,
             },
             OwnerIDs => {
                 Name        => 'Owner',
                 Object      => 'UserObject',
-                Methode     => 'UserLookup',
+                Method      => 'UserLookup',
                 Key         => 'UserID',
                 Translation => 0,
             },
             ResponsibleIDs => {
                 Name        => 'Responsible',
                 Object      => 'UserObject',
-                Methode     => 'UserLookup',
+                Method      => 'UserLookup',
                 Key         => 'UserID',
                 Translation => 0,
             },
@@ -916,7 +916,7 @@ sub Run {
             next if !$GetParam{$Key};
             my $Attribute = $IDMap{$Key}->{Name}   || $Key;
             my $Object    = $IDMap{$Key}->{Object} || '';
-            my $Method    = $IDMap{$Key}->{Methode};
+            my $Method    = $IDMap{$Key}->{Method};
             my $MethodKey = $IDMap{$Key}->{Key};
             my $Translation = $IDMap{$Key}->{Translation};
             my $Value;
