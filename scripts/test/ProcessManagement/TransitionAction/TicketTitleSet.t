@@ -2,7 +2,7 @@
 # TicketTitleSet.t - TicketTitleSet testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketTitleSet.t,v 1.1 2013-01-11 18:53:34 cr Exp $
+# $Id: TicketTitleSet.t,v 1.2 2013-01-14 13:32:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -225,12 +225,28 @@ for my $Test (@Tests) {
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
-            $Self->Is(
-                $Ticket{$Attribute},
-                $Test->{Config}->{Config}->{$Attribute},
-                "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
-                    . " $TicketID match expected value",
-            );
+            # workaround for oracle
+            # oracle databases can't determine the difference between NULL and ''
+            if (
+                defined $Test->{Config}->{Config}->{$Attribute}
+                && $Test->{Config}->{Config}->{$Attribute} eq ''
+                )
+            {
+                $Self->False(
+                    $Ticket{$Attribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
+                        . " $TicketID match expected value (Special case for '' value)",
+                );
+
+            }
+            else {
+                $Self->Is(
+                    $Ticket{$Attribute},
+                    $Test->{Config}->{Config}->{$Attribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
+                        . " $TicketID match expected value",
+                );
+            }
         }
     }
     else {
