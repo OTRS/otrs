@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CacheInternal.pm - all cache functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.13 2012-11-20 15:33:03 mh Exp $
+# $Id: CacheInternal.pm,v 1.14 2013-01-14 13:24:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -27,9 +27,9 @@ Kernel::System::CacheInternal - cache lib
 All cache functions for internal cache management.
 
 Notice:
-This module is storing the cache information in memory and also permanently (e. g. in file system).
-So you need to take care, that you have not several instances of the CacheInternalObject at one
-runtime, because the in memory cache will fail then.
+This module is storing the cache information in memory and also permanently (e. g. on a file system).
+So you need to take care, that there is only one instance of the CacheInternalObject at a
+time, because otherwise the in-memory cache will fail.
 
 =head1 PUBLIC INTERFACE
 
@@ -90,6 +90,9 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # create additional objects
+    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+
     # Enforce cache type restriction to make sure it works properly on all file systems.
     if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {
         $Self->{LogObject}->Log(
@@ -102,20 +105,12 @@ sub new {
 
     $Self->{Type} = 'CacheInternal' . $Self->{Type};
 
-    my $CachePermanent = 1;
-
-    #    $CachePermanent = 0;
-
-    if ($CachePermanent) {
-        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
-    }
-
     return $Self;
 }
 
 =item Set()
 
-set a new cache
+add a new item to cache
 
     $CacheInternalObject->Set(
         Key   => 'SomeKey',
@@ -139,21 +134,19 @@ sub Set {
     $Self->{Cache}->{ $Param{Key} } = $Param{Value};
 
     # set permanent cache
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Set(
-            Type  => $Self->{Type},
-            Key   => $Param{Key},
-            Value => $Param{Value},
-            TTL   => $Self->{TTL},
-        );
-    }
+    $Self->{CacheObject}->Set(
+        Type  => $Self->{Type},
+        Key   => $Param{Key},
+        Value => $Param{Value},
+        TTL   => $Self->{TTL},
+    );
 
     return 1;
 }
 
 =item Get()
 
-return a cache
+return a cached item
 
     my $Value = $CacheInternalObject->Get(
         Key  => 'SomeKey',
@@ -176,13 +169,10 @@ sub Get {
     return $Self->{Cache}->{ $Param{Key} } if exists $Self->{Cache}->{ $Param{Key} };
 
     # check permanent cache
-    my $Cache;
-    if ( $Self->{CacheObject} ) {
-        $Cache = $Self->{CacheObject}->Get(
-            Type => $Self->{Type},
-            Key  => $Param{Key},
-        );
-    }
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => $Self->{Type},
+        Key  => $Param{Key},
+    );
     return if !defined $Cache;
 
     # set runtime cache
@@ -193,7 +183,7 @@ sub Get {
 
 =item Delete()
 
-delete a cache
+delete an item from cache
 
     $CacheInternalObject->Delete(
         Key  => 'SomeKey',
@@ -215,20 +205,18 @@ sub Delete {
     # delete runtime cache
     delete $Self->{Cache}->{ $Param{Key} };
 
-    # check permanent cache
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Delete(
-            Type => $Self->{Type},
-            Key  => $Param{Key},
-        );
-    }
+    # delete permanent cache
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{Type},
+        Key  => $Param{Key},
+    );
 
     return 1;
 }
 
 =item CleanUp()
 
-delete all caches
+delete all cached items
 
     $CacheInternalObject->CleanUp();
 
@@ -255,18 +243,15 @@ sub CleanUp {
     $Self->{Cache} = undef;
 
     # delete permanent cache
-    if ( $Self->{CacheObject} ) {
-
-        if ( $Param{OtherType} ) {
-            return if !$Self->{CacheObject}->CleanUp(
-                Type => 'CacheInternal' . $Param{OtherType}
-            );
-        }
-        else {
-            return if !$Self->{CacheObject}->CleanUp(
-                Type => $Self->{Type}
-            );
-        }
+    if ( $Param{OtherType} ) {
+        return if !$Self->{CacheObject}->CleanUp(
+            Type => 'CacheInternal' . $Param{OtherType}
+        );
+    }
+    else {
+        return if !$Self->{CacheObject}->CleanUp(
+            Type => $Self->{Type}
+        );
     }
 
     return 1;
@@ -288,6 +273,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2012-11-20 15:33:03 $
+$Revision: 1.14 $ $Date: 2013-01-14 13:24:57 $
 
 =cut
