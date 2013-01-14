@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.27 2012-12-11 09:27:48 jh Exp $
+# $Id: TicketList.pm,v 1.28 2013-01-14 13:29:42 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -799,16 +799,19 @@ sub GetStatTable {
 
     # if we have to deal with history states
     if (
-        $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
-        || $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
-        || (
-            defined $Param{Restrictions}->{StateTypeIDsHistoric}
-            && ref $Param{Restrictions}->{StateTypeIDsHistoric} eq 'ARRAY'
+        (
+            $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
+            || $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
+            || (
+                defined $Param{Restrictions}->{StateTypeIDsHistoric}
+                && ref $Param{Restrictions}->{StateTypeIDsHistoric} eq 'ARRAY'
+            )
+            || (
+                defined $Param{Restrictions}->{StateIDsHistoric}
+                && ref $Param{Restrictions}->{StateIDsHistoric} eq 'ARRAY'
+            )
         )
-        || (
-            defined $Param{Restrictions}->{StateIDsHistoric}
-            && ref $Param{Restrictions}->{StateIDsHistoric} eq 'ARRAY'
-        )
+        && @TicketIDs
         )
     {
 
@@ -817,10 +820,10 @@ sub GetStatTable {
         # 1 is ticketcreate
         # 27 is state update
         my $SQL = 'history_type_id IN (1,27) ORDER BY ticket_id ASC';
-        if (@TicketIDs) {
-            $SQL = 'ticket_id IN ('
-                . ( join ', ', @TicketIDs ) . ') AND ' . $SQL;
-        }
+
+        $SQL = 'ticket_id IN ('
+            . ( join ', ', @TicketIDs ) . ') AND ' . $SQL;
+
         my %StateIDs;
 
         # if we have certain state types we have to search for
