@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.43 2012-12-11 12:26:25 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.44 2013-01-14 16:40:10 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -601,7 +601,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
 
     TargetNS.Redraw = function () {
-
         $('#ShowEntityIDs').removeClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.ShowEntityIDs);
         $('#Canvas').empty();
         TargetNS.Init();
@@ -632,6 +631,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Init JsPlumb in Canvas mode (because of bugs with SVG in jQ1.6 in IE9)
         jsPlumb.setRenderMode(jsPlumb.CANVAS);
 
+        // reset, because at this point (initial draw or redraw), there cannot be a saved connection
+        TargetNS.LatestConnectionTransitionID = undefined;
+
         // init binding to connection changes
         jsPlumb.bind('jsPlumbConnection', function(Data) {
             var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
@@ -661,11 +663,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             // otherwise, an existing transition has been (re)connected
             else {
                 // get TransitionID and TransitionName
-                TransitionID = TargetNS.LatestConnectionTransitionID;
+                TransitionID = Data.connection.getParameter('TransitionID');
 
-                // Fallback: try to get the ID from the connection
+                // Fallback: try to get the ID from the earlier saved variable, if it cannot be retrieved from the connection
                 if (typeof TransitionID === 'undefined') {
-                    TransitionID = Data.connection.getParameter('TransitionID');
+                    TransitionID = TargetNS.LatestConnectionTransitionID;
                 }
 
                 if (Config.Transition && Config.Transition[TransitionID]) {
