@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.47 2013-01-14 15:15:27 cr Exp $
+# $Id: NotificationEvent.pm,v 1.48 2013-01-14 18:30:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -631,8 +631,14 @@ sub _SendNotification {
     $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
+    my $OwnerID = $Article{OwnerID};
+
+    # get owner from ticket if there are no articles
+    if ( !$OwnerID ) {
+        $OwnerID = $Ticket{OwnerID};
+    }
     my %OwnerPreferences = $Self->{UserObject}->GetUserData(
-        UserID        => $Article{OwnerID},
+        UserID        => $OwnerID,
         NoOutOfOffice => 1,
     );
     for ( sort keys %OwnerPreferences ) {
@@ -646,8 +652,15 @@ sub _SendNotification {
     $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
+    my $ResponsibleID = $Article{ResponsibleID};
+
+    # get responsible from ticket if there are no articles
+    if ( !$ResponsibleID ) {
+        $ResponsibleID = $Ticket{ResponsibleID};
+    }
+
     my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
-        UserID        => $Article{ResponsibleID},
+        UserID        => $ResponsibleID,
         NoOutOfOffice => 1,
     );
     for ( sort keys %ResponsiblePreferences ) {
