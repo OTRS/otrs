@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.62 2012-12-10 16:29:16 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.63 2013-01-14 14:40:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -661,6 +661,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // get process layout and store it into a hidden field as JSON string
             $('input[name=ProcessLayout]').val(Core.JSON.Stringify(TargetNS.ProcessLayout));
+
+            // check if there are "open" transitions, e.g. transitions that have only a startpoint but no defined endpoint
+            // these open transitions must be deleted before saving
+            $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (Activity, ActivityData) {
+                $.each(ActivityData, function (Transition, TransitionData) {
+                    if (typeof TransitionData['ActivityEntityID'] === 'undefined') {
+                        delete ActivityData[Transition];
+                    }
+                });
+            });
 
             // get process path and store it into a hidden field as JSON string
             $('input[name=Path]').val(Core.JSON.Stringify(TargetNS.ProcessData.Process[ProcessEntityID].Path));
