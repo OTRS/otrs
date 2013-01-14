@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.586 2013-01-14 12:18:08 mg Exp $
+# $Id: Ticket.pm,v 1.587 2013-01-14 12:28:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.586 $) [1];
+$VERSION = qw($Revision: 1.587 $) [1];
 
 =head1 NAME
 
@@ -4752,10 +4752,7 @@ sub HistoryTicketGet {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    my $CacheKey = 'Cache::HistoryTicketGet';
-    for my $ParamName ( sort keys %Param ) {
-        $CacheKey .= '::' . $Param{$ParamName};
-    }
+    my $CacheKey = 'HistoryTicketGet::' . join( '::', sort keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ( ref $Cached eq 'HASH' && !$Param{Force} ) {
@@ -7973,6 +7970,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.586 $ $Date: 2013-01-14 12:18:08 $
+$Revision: 1.587 $ $Date: 2013-01-14 12:28:01 $
 
 =cut
