@@ -1,5 +1,4 @@
 3.2.0.rc1 2013-01-??
- - 2013-01-14 Improved form design of multiple recipient feature.
  - 2013-01-14 Fixed bug#9042 - Add X-Spam-Score to Ticket.xml.
  - 2013-01-14 Fixed bug#9047 - HistoryTicketGet caches info on disk directly.
  - 2013-01-11 The Phone Call Outbound and Inbound buttons where moved from the Article menu to
