@@ -1,8 +1,8 @@
 # --
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.22 2012-11-20 15:27:03 mh Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.23 2013-01-14 08:25:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@
                 <fieldset class="TableLike Hidden" id="InfoSMTPAuth">
                     <label for="SMTPAuthUser">$Text{"SMTP auth user"}:</label>
                     <div class="Field">
-                        <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="$QData{"SMTPAuthUser"}" disabled="disabled" class="W33pc"/>
+                        <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="$QData{"SMTPAuthUser"}" disabled="disabled" class="W33pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"Username for SMTP auth."}
                         </p>
@@ -110,7 +110,7 @@
 
                     <label for="SMTPAuthPassword">$Text{"SMTP auth password"}:</label>
                     <div class="Field">
-                        <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="$QData{"SMTPAuthPassword"}" disabled="disabled" class="W33pc"/>
+                        <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="$QData{"SMTPAuthPassword"}" disabled="disabled" class="W33pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"Password for SMTP auth."}
                         </p>
@@ -144,7 +144,7 @@
 
                     <label for="InboundUser">$Text{"Inbound mail user"}:</label>
                     <div class="Field">
-                        <input type="text" id="InboundUser" name="InboundUser" value="$QData{"InboundUser"}" class="W33pc"/>
+                        <input type="text" id="InboundUser" name="InboundUser" value="$QData{"InboundUser"}" class="W33pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"User for inbound mail."}
                         </p>
@@ -153,7 +153,7 @@
 
                     <label for="InboundPassword">$Text{"Inbound mail password"}:</label>
                     <div class="Field">
-                        <input type="password" id="InboundPassword" name="InboundPassword" value="$QData{"InboundPassword"}" class="W33pc"/>
+                        <input type="password" id="InboundPassword" name="InboundPassword" value="$QData{"InboundPassword"}" class="W33pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"Password for inbound mail."}
                         </p>

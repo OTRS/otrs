@@ -1,8 +1,8 @@
 # --
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.18 2012-11-20 15:27:14 mh Exp $
+# $Id: InstallerDBStart.dtl,v 1.19 2013-01-14 08:25:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,7 +54,7 @@
                 <fieldset class="TableLike">
                     <label for="DBUser">$Text{"User"}:</label>
                     <div class="Field">
-                        <input type="text" id="DBUser" name="DBUser" value="root" class="W25pc"/>
+                        <input type="text" id="DBUser" name="DBUser" value="root" class="W25pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation."}
                         </p>
@@ -63,7 +63,7 @@
 
                     <label for="DBPassword">$Text{"Password"}:</label>
                     <div class="Field">
-                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc"/>
+                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc" autocomplete="off"/>
                     </div>
                     <div class="Clear"></div>
 
@@ -91,7 +91,7 @@
 
                     <label for="OTRSDBUser">$Text{"User"}:</label>
                     <div class="Field">
-                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc"/>
+                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"A new database user with limited rights will be created for this OTRS system."}
                         </p>
@@ -100,7 +100,7 @@
 
                     <label for="OTRSDBPassword">$Text{"Password"}:</label>
                     <div class="Field">
-                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="hot" class="W25pc"/>
+                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="hot" class="W25pc" autocomplete="off"/>
                         <p class="FieldExplanation">
                             $Text{"default 'hot'"}
                         </p>
