@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.42 $
+ * @version     $Revision: 1.43 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -427,21 +427,6 @@ input[type=text].ArticleFreeText {
 input[type=text].TicketFreeKey,
 input[type=text].ArticleFreeKey {
     width: 50%;
-}
-
-/**
- * @subsection multiple recipient
- */
-
-span.MultipleRecipientInfo {
-    display: block;
-    text-align: center;
-    padding: 3px 6px 2px 6px;
-    background-color:#BFBFBF;
-    float: left;
-    width: 20px;
-    line-height: 18px;
-    margin: 2px 5px 0px 0px;
 }
 
 } /* end @media */
