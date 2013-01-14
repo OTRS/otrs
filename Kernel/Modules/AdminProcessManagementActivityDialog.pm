@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.31 2012-11-27 12:43:43 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.32 2013-01-14 14:07:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -691,7 +691,9 @@ sub _ShowEdit {
         }
 
         # display used fields
-        for my $Field ( sort keys %AssignedFields ) {
+        ASSIGNEDFIELD:
+        for my $Field ( @{ $ActivityDialogData->{Config}->{FieldOrder} } ) {
+            next ASSIGNEDFIELD if !$AssignedFields{$Field};
 
             my $FieldConfig = $ActivityDialogData->{Config}->{Fields}->{$Field};
 
