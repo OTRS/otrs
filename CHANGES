@@ -4,8 +4,6 @@
  - 2013-01-15 Updated CPAN module Locale::Codes to version 3.24.
  - 2013-01-15 Updated CPAN module Digest::SHA::PurePerl to version 5.81.
  - 2013-01-15 Updated CPAN module Authen::SASL to version 2.16.
- - 2013-01-15 Patched the module YAML::Loader to work around an open bug with parsing errors
-    on large strings.
  - 2013-01-14 Fixed bug#9044 - ProcessManagement: Transition is duplicated on redraw.
  - 2013-01-14 Fixed bug#9035 - Event Based mails, triggered by a process ticket, have no sender.
  - 2013-01-14 Fixed bug#9043 - ProcessManagement: Transitions without EndActivity are not correctly removed.
