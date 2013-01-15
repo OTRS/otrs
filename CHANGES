@@ -1,4 +1,6 @@
 3.2.0.rc1 2013-01-??
+ - 2013-01-15 Patched the module YAML::Loader to work around an open bug with parsing errors
+    on large strings.
  - 2013-01-14 Fixed bug#9044 - ProcessManagement: Transition is duplicated on redraw.
  - 2013-01-14 Fixed bug#9035 - Event Based mails, triggered by a process ticket, have no sender.
  - 2013-01-14 Fixed bug#9043 - ProcessManagement: Transitions without EndActivity are not correctly removed.
