@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.11 2013-01-15 17:43:27 mg Exp $
+# $Id: WebserviceConfig.t,v 1.12 2013-01-15 23:25:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -220,6 +220,7 @@ for my $Test (@Tests) {
     # compare result with original file
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Test->{FileAdd},
+        Mode     => 'utf8',
     );
 
     my $OriginalContent = eval { Kernel::System::YAML::Load( ${$Content} ) };
@@ -266,14 +267,13 @@ for my $Test (@Tests) {
     $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsRead} $WebserviceID`;
     $Content                = $Self->{MainObject}->FileRead(
         Location => $Test->{FileUpdate},
+        Mode     => 'utf8'
     );
     $OriginalContent = eval { Kernel::System::YAML::Load( ${$Content} ) };
     $ResultContent   = eval { Kernel::System::YAML::Load($WebserviceConfigResult) };
-    $OriginalContent = Kernel::System::YAML::Dump($OriginalContent);
-    $ResultContent   = Kernel::System::YAML::Dump($ResultContent);
     $Self->Is(
-        $OriginalContent,
         $ResultContent,
+        $OriginalContent,
         "$Test->{Name} - Compare update file with result",
     );
 
