@@ -8,7 +8,7 @@ use Fcntl;
 use integer;
 use FileHandle;
 
-$VERSION = '5.72';
+$VERSION = '5.81';
 
 require Exporter;
 @ISA = qw(Exporter);
@@ -583,11 +583,20 @@ sub _shawrite {
 	return(_shabits  ($bitstr, $bitcnt, $self));
 }
 
+sub _downgrade {
+	eval { utf8::downgrade($_[0]) };
+	if ($@ && $@ =~ /Wide character/) {
+		require Carp;
+		Carp::croak('Wide character in subroutine entry');
+	}
+}
+
 my $MWS = 16384;
 
 sub _shaWrite {
 	my($bytestr_r, $bytecnt, $self) = @_;
 	return(0) unless $bytecnt > 0;
+	{ no integer; _downgrade($$bytestr_r) unless $] < 5.008 }
 	return(_shawrite($$bytestr_r, $bytecnt<<3, $self)) if $bytecnt <= $MWS;
 	my $offset = 0;
 	while ($bytecnt > $MWS) {
@@ -749,6 +758,7 @@ sub _hmacopen {
 	my($self);
 	$self->{isha} = _shaopen($alg) or return;
 	$self->{osha} = _shaopen($alg) or return;
+	{ no integer; _downgrade($key) unless $] < 5.008 }
 	if (length($key) > $self->{osha}->{blocksize} >> 3) {
 		$self->{ksha} = _shaopen($alg) or return;
 		_shawrite($key, length($key) << 3, $self->{ksha});
@@ -958,15 +968,18 @@ sub _Addfile {
 
 sub dump {
 	my $self = shift;
-	my $file = shift || "";
+	my $file = shift;
 
+	$file = "" unless defined $file;
 	_shadump($file, $self) or return;
 	return($self);
 }
 
 sub load {
 	my $class = shift;
-	my $file = shift || "";
+	my $file = shift;
+
+	$file = "" unless defined $file;
 	if (ref($class)) {	# instance method
 		my $self = _shaload($file) or return;
 		return(_shacpy($class, $self));
