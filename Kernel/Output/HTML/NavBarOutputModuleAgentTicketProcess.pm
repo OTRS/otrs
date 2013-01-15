@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarOutputModuleAgentTicketProcess.pm - to show or hide AgentTicketProcess menu item
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarOutputModuleAgentTicketProcess.pm,v 1.4 2013-01-15 18:36:41 cr Exp $
+# $Id: NavBarOutputModuleAgentTicketProcess.pm,v 1.5 2013-01-15 23:02:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,7 +110,10 @@ sub Run {
         if ( IsHashRefWithData($Processes) ) {
 
             # get process list
-            my $ProcessList = $Self->{ProcessObject}->ProcessList( ProcessState => ['Active'] );
+            my $ProcessList = $Self->{ProcessObject}->ProcessList(
+                ProcessState => ['Active'],
+                Interface    => ['AgentInterface'],
+            );
 
             # set the value to show or hide the menu item (based in process list)
             if ( IsHashRefWithData($ProcessList) ) {

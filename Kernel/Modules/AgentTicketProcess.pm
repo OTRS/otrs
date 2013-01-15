@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.26 2013-01-15 18:36:41 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.27 2013-01-15 23:02:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -263,7 +263,10 @@ sub Run {
         }
     }
 
-    my $ProcessList = $Self->{ProcessObject}->ProcessList( ProcessState => ['Active'] );
+    my $ProcessList = $Self->{ProcessObject}->ProcessList(
+        ProcessState => ['Active'],
+        Interface    => ['AgentInterface'],
+    );
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
 
     if ( !IsHashRefWithData($ProcessList) ) {

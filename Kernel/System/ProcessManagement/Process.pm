@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - all ticket functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.10 2013-01-15 18:36:41 cr Exp $
+# $Id: Process.pm,v 1.11 2013-01-15 23:02:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -229,7 +229,8 @@ sub ProcessGet {
     Get a list of all Processes
 
     my $ProcessList = $ProcessObject->ProcessList(
-        ProcessState => ['Active'] # Active, FadeAway, Inactive
+        ProcessState => ['Active'],           # Active, FadeAway, Inactive
+        Interface    => ['AgentInterface'],   # optional, ['AgentInterface'] or ['CustomerInterface'] or ['AgentInterface', 'CustomerInterface'] or 'all'
     );
 
     Returns:
@@ -279,7 +280,43 @@ sub ProcessList {
             $ProcessList{$ProcessEntityID} = $Processes->{$ProcessEntityID}{Name} || '';
         }
     }
-    return \%ProcessList;
+
+    # set Interface parameter to 'all' by default if parameter was not set
+    if ( !defined $Param{Interface} ) {
+        $Param{Interface} = 'all';
+    }
+
+    # if Interface is 'all' return all processes without interface restrictions
+    if ( $Param{Interface} eq 'all' ) {
+        return \%ProcessList;
+    }
+
+    # otherwise return only processes where the initial activity dialog matches given interface
+    my %ReducedProcessList;
+    PROCESS:
+    for my $ProcessEntityID ( sort keys %ProcessList ) {
+
+        # get process start point for each process we already got
+        my $Start = $Self->ProcessStartpointGet( ProcessEntityID => $ProcessEntityID );
+
+        # skip processes if they does not have a valid start point
+        next PROCESS if !IsHashRefWithData($Start);
+        next PROCESS if !IsStringWithData( $Start->{ActivityDialog} );
+
+        # try to get the start ActivityDialog for the given interface
+        my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+            ActivityDialogEntityID => $Start->{ActivityDialog},
+            Interface              => $Param{Interface},
+            Silent                 => 1,
+        );
+
+        # skip process if first activity dialog could not be got for the given interface
+        next PROCESS if !IsHashRefWithData($ActivityDialog);
+
+        $ReducedProcessList{$ProcessEntityID} = $ProcessList{$ProcessEntityID};
+    }
+
+    return \%ReducedProcessList;
 }
 
 =item ProcessStartpointGet()
@@ -821,6 +858,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2013-01-15 18:36:41 $
+$Revision: 1.11 $ $Date: 2013-01-15 23:02:44 $
 
 =cut

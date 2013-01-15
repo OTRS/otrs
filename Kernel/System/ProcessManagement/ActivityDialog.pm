@@ -1,8 +1,8 @@
 # --
 # Kernel/System/ProcessManagement/ActivityDialog.pm - all activity dialog functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.5 2012-11-20 15:52:41 mh Exp $
+# $Id: ActivityDialog.pm,v 1.6 2013-01-15 23:02:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -81,6 +81,7 @@ sub new {
     my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
         ActivityDialogEntityID => 'AD1',
         Interface              => ['AgentInterface'],   # ['AgentInterface'] or ['CustomerInterface'] or ['AgentInterface', 'CustomerInterface'] or 'all'
+        Silent                 => 1,    # 1 or 0, default 0, if set to 1, will not log errors about not matching interfaces
     );
 
     Returns:
@@ -188,13 +189,15 @@ sub ActivityDialogGet {
         }
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Not permitted Interface(s) '"
-                    . join( '\', \'', @{ $Param{Interface} } )
-                    . "' for ActivityDialog '$Param{ActivityDialogEntityID}'!"
-            );
+            if ( !$Param{Silent} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Not permitted Interface(s) '"
+                        . join( '\', \'', @{ $Param{Interface} } )
+                        . "' for ActivityDialog '$Param{ActivityDialogEntityID}'!"
+                );
+            }
             return;
         }
     }
@@ -291,6 +294,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-11-20 15:52:41 $
+$Revision: 1.6 $ $Date: 2013-01-15 23:02:44 $
 
 =cut

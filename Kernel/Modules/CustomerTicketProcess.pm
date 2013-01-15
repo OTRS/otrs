@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketProcess.pm,v 1.13 2013-01-15 18:36:41 cr Exp $
+# $Id: CustomerTicketProcess.pm,v 1.14 2013-01-15 23:02:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,14 @@ sub Run {
         = $Self->{ParamObject}->GetParam( Param => 'ActivityDialogEntityID' );
     my $ActivityDialogHashRef;
 
-    my $ProcessList = $Self->{ProcessObject}->ProcessList( ProcessState => ['Active'] );
+    # get all processes even those that can not be started in the Customer Interface
+    # currently there is no option to start a process from Customer Interface
+    # this list is used later (if is restricted then valid customer activity dialogs it will not be
+    # possible to access valid customer activity dialogs)
+    my $ProcessList = $Self->{ProcessObject}->ProcessList(
+        ProcessState => ['Active'],
+        Interface    => 'all',
+    );
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
 
     if ( !IsHashRefWithData($ProcessList) ) {

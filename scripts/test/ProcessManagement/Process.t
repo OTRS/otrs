@@ -2,7 +2,7 @@
 # Process.t - Process module testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.10 2013-01-15 18:36:41 cr Exp $
+# $Id: Process.t,v 1.11 2013-01-15 23:02:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -493,6 +493,136 @@ my @Tests = (
             Message         => 'ProcessList() (valid Config, wrong ProcessState)',
             TestType        => 'Result',
             Result          => {},
+        },
+    },
+
+    # List on valid Config, wrong interface
+    {
+        ProcessList => {
+            Config => {
+                'Process' => {
+                    'P1' => {
+                        Name                => 'Book Orders',
+                        CreateTime          => '16-02-2012 13:37:00',
+                        CreateBy            => '1',
+                        ChangeTime          => '17-02-2012 13:37:00',
+                        ChangeBy            => '1',
+                        State               => 'Active',
+                        StartActivity       => 'A1',
+                        StartActivityDialog => 'AD1',
+                        Path                => {
+                            'A1' => {
+                                'T1' => {
+                                    ActivityEntityID => 'A2',
+                                },
+                                'T2' => {
+                                    ActivityEntityID => 'A3',
+                                },
+                            },
+                            'A2' => {
+                                'T3' => {
+                                    ActivityEntityID => 'A4',
+                                },
+                            },
+                        },
+                    },
+                },
+                'Process::ActivityDialog' => {
+                    'AD1' => {
+                        Interface        => ['CustomerInterface'],
+                        Name             => 'Activity Dialog 1',
+                        DescriptionShort => 'AD1 Process Short',
+                        DescriptionLong  => 'AD1 Process Long description',
+                        CreateTime       => '07-02-2012 13:37:00',
+                        CreateBy         => '2',
+                        ChangeTime       => '08-02-2012 13:37:00',
+                        ChangeBy         => '3',
+                        Fields           => {
+                            DynamicField_Make => {
+                                Display          => 2,
+                                DescriptionLong  => 'Make Long',
+                                DescriptionShort => 'Make Short',
+                            },
+                        },
+                        FieldOrder => [
+                            'DynamicField_Make',
+                        ],
+                        SubmitAdviceText => 'NOTE: If you submit the form ...',
+                        SubmitButtonText => 'Make an inquiry',
+                    },
+                    }
+            },
+            ProcessEntityID => 'P1',
+            ProcessState    => ['Active'],
+            Interface       => ['AgentInterface'],
+            Message         => 'ProcessList() (valid Config, wrong Interface)',
+            TestType        => 'Result',
+            Result          => {},
+        },
+    },
+
+    # List on valid Config, right interface
+    {
+        ProcessList => {
+            Config => {
+                'Process' => {
+                    'P1' => {
+                        Name                => 'Book Orders',
+                        CreateTime          => '16-02-2012 13:37:00',
+                        CreateBy            => '1',
+                        ChangeTime          => '17-02-2012 13:37:00',
+                        ChangeBy            => '1',
+                        State               => 'Active',
+                        StartActivity       => 'A1',
+                        StartActivityDialog => 'AD1',
+                        Path                => {
+                            'A1' => {
+                                'T1' => {
+                                    ActivityEntityID => 'A2',
+                                },
+                                'T2' => {
+                                    ActivityEntityID => 'A3',
+                                },
+                            },
+                            'A2' => {
+                                'T3' => {
+                                    ActivityEntityID => 'A4',
+                                },
+                            },
+                        },
+                    },
+                },
+                'Process::ActivityDialog' => {
+                    'AD1' => {
+                        Interface        => ['AgentInterface'],
+                        Name             => 'Activity Dialog 1',
+                        DescriptionShort => 'AD1 Process Short',
+                        DescriptionLong  => 'AD1 Process Long description',
+                        CreateTime       => '07-02-2012 13:37:00',
+                        CreateBy         => '2',
+                        ChangeTime       => '08-02-2012 13:37:00',
+                        ChangeBy         => '3',
+                        Fields           => {
+                            DynamicField_Make => {
+                                Display          => 2,
+                                DescriptionLong  => 'Make Long',
+                                DescriptionShort => 'Make Short',
+                            },
+                        },
+                        FieldOrder => [
+                            'DynamicField_Make',
+                        ],
+                        SubmitAdviceText => 'NOTE: If you submit the form ...',
+                        SubmitButtonText => 'Make an inquiry',
+                    },
+                    }
+            },
+            ProcessEntityID => 'P1',
+            ProcessState    => ['Active'],
+            Interface       => ['AgentInterface'],
+            Message         => 'ProcessList() (valid Config, right Interface)',
+            TestType        => 'Result',
+            Result          => { 'P1' => 'Book Orders' },
         },
     },
 
@@ -1807,7 +1937,7 @@ for my $Test (@Tests) {
         elsif ( $Test->{ProcessTransition}{TestType} eq 'Result' ) {
             my $ExpectedResult = $Test->{ProcessTransition}{Result};
 
-            # ProcessList - Check given and expected result
+            # ProcessTransition - Check given and expected result
             $Self->IsDeeply(
                 $Result,
                 $ExpectedResult,
