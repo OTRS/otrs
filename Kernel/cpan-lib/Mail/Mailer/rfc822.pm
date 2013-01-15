@@ -6,7 +6,7 @@ use strict;
 
 package Mail::Mailer::rfc822;
 use vars '$VERSION';
-$VERSION = '2.11';
+$VERSION = '2.12';
 
 use base 'Mail::Mailer';
 
