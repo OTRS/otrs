@@ -1,8 +1,8 @@
 # --
 # WebserviceConfig.t - WebserviceConfig tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.10 2012-11-20 16:09:03 mh Exp $
+# $Id: WebserviceConfig.t,v 1.11 2013-01-15 17:43:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use utf8;
 use vars (qw($Self));
 use Kernel::System::GenericInterface::Webservice;
 
-use YAML;
+use Kernel::System::YAML;
 
 my $Home = $Self->{ConfigObject}->Get('Home');
 my $PathToTest =
@@ -221,10 +221,11 @@ for my $Test (@Tests) {
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Test->{FileAdd},
     );
-    my $OriginalContent = eval { YAML::Load( ${$Content} ) };
-    my $ResultContent   = eval { YAML::Load($WebserviceConfigResult) };
-    $OriginalContent = YAML::Dump($OriginalContent);
-    $ResultContent   = YAML::Dump($ResultContent);
+
+    my $OriginalContent = eval { Kernel::System::YAML::Load( ${$Content} ) };
+    my $ResultContent   = eval { Kernel::System::YAML::Load($WebserviceConfigResult) };
+    $OriginalContent = Kernel::System::YAML::Dump($OriginalContent);
+    $ResultContent   = Kernel::System::YAML::Dump($ResultContent);
     $Self->Is(
         $OriginalContent,
         $ResultContent,
@@ -266,10 +267,10 @@ for my $Test (@Tests) {
     $Content                = $Self->{MainObject}->FileRead(
         Location => $Test->{FileUpdate},
     );
-    $OriginalContent = eval { YAML::Load( ${$Content} ) };
-    $ResultContent   = eval { YAML::Load($WebserviceConfigResult) };
-    $OriginalContent = YAML::Dump($OriginalContent);
-    $ResultContent   = YAML::Dump($ResultContent);
+    $OriginalContent = eval { Kernel::System::YAML::Load( ${$Content} ) };
+    $ResultContent   = eval { Kernel::System::YAML::Load($WebserviceConfigResult) };
+    $OriginalContent = Kernel::System::YAML::Dump($OriginalContent);
+    $ResultContent   = Kernel::System::YAML::Dump($ResultContent);
     $Self->Is(
         $OriginalContent,
         $ResultContent,

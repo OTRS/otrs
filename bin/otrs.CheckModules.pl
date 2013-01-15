@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.46 2013-01-15 10:04:18 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.47 2013-01-15 17:43:26 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -34,7 +34,7 @@ use ExtUtils::MakeMaker;
 use Term::ANSIColor;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 # config
 my @NeededModules = (
@@ -453,6 +453,10 @@ my @NeededModules = (
     },
     {
         Module   => 'Scalar::Util',
+        Required => 1,
+    },
+    {
+        Module   => 'YAML::XS',
         Required => 1,
     },
 );

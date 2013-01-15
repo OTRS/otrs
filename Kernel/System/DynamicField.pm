@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.64 2013-01-02 12:35:59 cr Exp $
+# $Id: DynamicField.pm,v 1.65 2013-01-15 17:43:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,14 +14,14 @@ package Kernel::System::DynamicField;
 use strict;
 use warnings;
 
-use YAML;
+use Kernel::System::YAML;
 
 use Kernel::System::Cache;
 use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -184,7 +184,7 @@ sub DynamicFieldAdd {
     }
 
     # dump config as string
-    my $Config = YAML::Dump( $Param{Config} );
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -304,7 +304,7 @@ sub DynamicFieldGet {
 
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[7] ) || {};
+        my $Config = Kernel::System::YAML::Load( $Data[7] ) || {};
 
         %Data = (
             ID            => $Data[0],
@@ -372,7 +372,7 @@ sub DynamicFieldUpdate {
     }
 
     # dump config as string
-    my $Config = YAML::Dump( $Param{Config} );
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #    part of the data already had it.
@@ -1309,6 +1309,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2013-01-02 12:35:59 $
+$Revision: 1.65 $ $Date: 2013-01-15 17:43:26 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.39 2013-01-09 18:25:19 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.40 2013-01-15 17:43:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,12 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::Valid;
-use YAML;
+use Kernel::System::YAML;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -354,7 +354,7 @@ sub Run {
         }
 
         # dump configuration into a YAML structure
-        my $YAMLContent = YAML::Dump( $WebserviceData->{Config} );
+        my $YAMLContent = Kernel::System::YAML::Dump( $WebserviceData->{Config} );
 
         # return yaml to download
         my $YAMLFile = $WebserviceData->{Name};
@@ -497,7 +497,7 @@ sub Run {
         # read configuration from a YAML structure
         # if there is an error in YAML it returns a had error eval is needed to handle the error
         eval {
-            $ImportedConfig = YAML::Load( $ConfigFile{Content} );
+            $ImportedConfig = Kernel::System::YAML::Load( $ConfigFile{Content} );
         };
 
         # display any YAML error message as a normal otrs error message

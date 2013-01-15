@@ -1,8 +1,8 @@
 # --
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.18 2012-11-20 16:10:03 mh Exp $
+# $Id: TicketCreate.t,v 1.19 2013-01-15 17:43:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,6 @@ use utf8;
 use vars (qw($Self));
 
 use Socket;
-use YAML;
 use MIME::Base64;
 use Kernel::System::Ticket;
 use Kernel::GenericInterface::Debugger;

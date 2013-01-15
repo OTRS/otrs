@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.44 2013-01-11 16:29:22 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.45 2013-01-15 17:43:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminProcessManagement;
 use strict;
 use warnings;
 
-use YAML;
+use Kernel::System::YAML;
 
 use Kernel::System::JSON;
 use Kernel::System::DynamicField;
@@ -29,7 +29,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub Run {
             Source => 'string',
         );
 
-        my $ProcessData = YAML::Load( $UploadStuff{Content} );
+        my $ProcessData = Kernel::System::YAML::Load( $UploadStuff{Content} );
         if ( ref $ProcessData ne 'HASH' ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message =>
@@ -294,9 +294,11 @@ sub Run {
             );
 
             # search and replace ocurrences of old ActivityDialog ids by the new ones
-            my $Config = YAML::Dump( $ProcessData->{Activities}->{$ActivityEntityID}->{Config} );
+            my $Config = Kernel::System::YAML::Dump(
+                $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
+            );
             $Config =~ s{(AD\d+)}{$ActivityDialogMapping{$1}}xmsg;
-            $Config = YAML::Load($Config);
+            $Config = Kernel::System::YAML::Load($Config);
 
             my $ID = $Self->{ActivityObject}->ActivityAdd(
                 EntityID => $EntityID,
@@ -324,17 +326,17 @@ sub Run {
         );
 
         # layout: search and replace ocurrences of old Activity ids by the new ones
-        my $Layout = YAML::Dump( $ProcessData->{Process}->{Layout} );
+        my $Layout = Kernel::System::YAML::Dump( $ProcessData->{Process}->{Layout} );
         $Layout =~ s{(\s+)(A\d+)}{$1$ActivityMapping{$2}}xmsg;
-        $Layout = YAML::Load($Layout);
+        $Layout = Kernel::System::YAML::Load($Layout);
 
         # config: search and replace ocurrences of old object ids by the new ones
-        my $Config = YAML::Dump( $ProcessData->{Process}->{Config} );
+        my $Config = Kernel::System::YAML::Dump( $ProcessData->{Process}->{Config} );
         $Config =~ s{(\s+)(A\d+)}{$1$ActivityMapping{$2}}xmsg;
         $Config =~ s{(\s+)(AD\d+)}{$1$ActivityDialogMapping{$2}}xmsg;
         $Config =~ s{(\s+)(T\d+)}{$1$TransitionMapping{$2}}xmsg;
         $Config =~ s{(\s+)(TA\d+)}{$1$TransitionActionMapping{$2}}xmsg;
-        $Config = YAML::Load($Config);
+        $Config = Kernel::System::YAML::Load($Config);
 
         # now add the process
         my $ID = $Self->{ProcessObject}->ProcessAdd(
@@ -516,7 +518,7 @@ sub Run {
         }
 
         # convert the processdata hash to string
-        my $ProcessData = YAML::Dump( \%ProcessData );
+        my $ProcessData = Kernel::System::YAML::Dump( \%ProcessData );
 
         # send the result to the browser
         return $Self->{LayoutObject}->Attachment(

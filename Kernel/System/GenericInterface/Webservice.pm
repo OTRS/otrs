@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.38 2012-11-20 15:49:18 mh Exp $
+# $Id: Webservice.pm,v 1.39 2013-01-15 17:43:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericInterface::Webservice;
 use strict;
 use warnings;
 
-use YAML;
+use Kernel::System::YAML;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::DebugLog;
 use Kernel::System::GenericInterface::WebserviceHistory;
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -150,11 +150,7 @@ sub WebserviceAdd {
     }
 
     # dump config as string
-    my $Config = YAML::Dump( $Param{Config} );
-
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #   part of the data already had it.
-    utf8::upgrade($Config);
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -264,7 +260,8 @@ sub WebserviceGet {
 
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[2] );
+
+        my $Config = Kernel::System::YAML::Load( $Data[2] );
 
         %Data = (
             ID         => $Data[0],
@@ -324,11 +321,7 @@ sub WebserviceUpdate {
     }
 
     # dump config as string
-    my $Config = YAML::Dump( $Param{Config} );
-
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #   part of the data already had it.
-    utf8::upgrade($Config);
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -511,6 +504,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2012-11-20 15:49:18 $
+$Revision: 1.39 $ $Date: 2013-01-15 17:43:27 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # SessionCreate.t - GenericInterface SessionCreate tests for SessionConnector backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionCreate.t,v 1.6 2012-11-20 16:09:50 mh Exp $
+# $Id: SessionCreate.t,v 1.7 2013-01-15 17:43:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@ use warnings;
 use vars (qw($Self));
 
 use Socket;
-use YAML;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;

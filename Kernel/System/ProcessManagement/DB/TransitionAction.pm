@@ -1,8 +1,8 @@
 # --
 # Kernel/System/ProcessManagement/TransitionAction.pm - Process Management DB TransitionAction backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TransitionAction.pm,v 1.7 2012-11-20 15:54:35 mh Exp $
+# $Id: TransitionAction.pm,v 1.8 2013-01-15 17:43:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ package Kernel::System::ProcessManagement::DB::TransitionAction;
 use strict;
 use warnings;
 
-use YAML;
+use Kernel::System::YAML;
 
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -203,7 +203,7 @@ sub TransitionActionAdd {
     }
 
     # dump layout and config as string
-    my $Config = YAML::Dump( $Param{Config} );
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -365,7 +365,7 @@ sub TransitionActionGet {
     my %Data;
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[3] );
+        my $Config = Kernel::System::YAML::Load( $Data[3] );
 
         %Data = (
             ID         => $Data[0],
@@ -477,7 +477,7 @@ sub TransitionActionUpdate {
     }
 
     # dump layout and config as string
-    my $Config = YAML::Dump( $Param{Config} );
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -707,6 +707,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-11-20 15:54:35 $
+$Revision: 1.8 $ $Date: 2013-01-15 17:43:27 $
 
 =cut

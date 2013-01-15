@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.WebserviceConfig.pl,v 1.9 2012-11-20 16:04:25 mh Exp $
+# $Id: otrs.WebserviceConfig.pl,v 1.10 2013-01-15 17:43:26 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,14 +42,14 @@ use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::GenericInterface::Webservice;
 
-use YAML;
+use Kernel::System::YAML;
 
 # get options
 my %Opts;
 getopt( 'hiafn', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.WebserviceConfig.pl <Revision $VERSION> - read/write/list webservice config\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.WebserviceConfig.pl -a read  -i \$ID                         (read config, print to STDOUT)\n";
     print
@@ -120,7 +120,7 @@ if ( lc( $Opts{a} ) eq 'write' ) {
         print STDERR "ERROR: No content in file (-f '$Opts{f}')!\n";
         exit 1;
     }
-    my $Config = eval { YAML::Load( ${$Content} ) };
+    my $Config = eval { Kernel::System::YAML::Load( ${$Content} ) };
 
     if ( !$Config ) {
         print STDERR "ERROR: Unable to read config file: $! (-f '$Opts{f}')!\n";
@@ -195,7 +195,7 @@ if ( lc( $Opts{a} ) eq 'read' ) {
     }
 
     # dump config as string
-    my $Config = YAML::Dump( $Webservice->{Config} );
+    my $Config = Kernel::System::YAML::Dump( $Webservice->{Config} );
     print "$Config\n";
     exit 0;
 }

@@ -1,4 +1,5 @@
 3.2.0.rc1 2013-01-??
+ - 2013-01-15 Fixed problems with YAML parsing long lines. Added new module dependency YAML::XS.
  - 2013-01-15 Updated CPAN module Mozilla::CA to version 20130114.
  - 2013-01-15 Updated CPAN module MailTools to version 2.12.
  - 2013-01-15 Updated CPAN module Locale::Codes to version 3.24.

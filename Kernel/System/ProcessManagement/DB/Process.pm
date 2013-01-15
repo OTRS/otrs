@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.37 2013-01-11 16:29:22 cr Exp $
+# $Id: Process.pm,v 1.38 2013-01-15 17:43:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::ProcessManagement::DB::Process;
 use strict;
 use warnings;
 
-use YAML;
+use Kernel::System::YAML;
 
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -203,8 +203,8 @@ sub ProcessAdd {
     }
 
     # dump layout and config as string
-    my $Layout = YAML::Dump( $Param{Layout} );
-    my $Config = YAML::Dump( $Param{Config} );
+    my $Layout = Kernel::System::YAML::Dump( $Param{Layout} );
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -437,8 +437,8 @@ sub ProcessGet {
     my %Data;
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Layout = YAML::Load( $Data[4] );
-        my $Config = YAML::Load( $Data[5] );
+        my $Layout = Kernel::System::YAML::Load( $Data[4] );
+        my $Config = Kernel::System::YAML::Load( $Data[5] );
 
         %Data = (
             ID            => $Data[0],
@@ -663,8 +663,8 @@ sub ProcessUpdate {
     }
 
     # dump layout and config as string
-    my $Layout = YAML::Dump( $Param{Layout} );
-    my $Config = YAML::Dump( $Param{Config} );
+    my $Layout = Kernel::System::YAML::Dump( $Param{Layout} );
+    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -1420,6 +1420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2013-01-11 16:29:22 $
+$Revision: 1.38 $ $Date: 2013-01-15 17:43:27 $
 
 =cut
