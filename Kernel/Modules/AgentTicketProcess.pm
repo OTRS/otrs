@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.25 2012-12-17 12:50:59 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.26 2013-01-15 18:36:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,8 +71,9 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{ProcessObject}      = Kernel::System::ProcessManagement::Process->new(
-        TransitionObject       => $Self->{TransitionObject},
         ActivityObject         => $Self->{ActivityObject},
+        ActivityDialogObject   => $Self->{ActivityDialogObject},
+        TransitionObject       => $Self->{TransitionObject},
         TransitionActionObject => $Self->{TransitionActionObject},
         %Param,
     );

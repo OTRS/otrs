@@ -1,8 +1,8 @@
 # --
 # Kernel/System/ProcessManagement/Process.pm - all ticket functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.9 2012-11-20 15:53:06 mh Exp $
+# $Id: Process.pm,v 1.10 2013-01-15 18:36:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -45,6 +45,7 @@ create an object
     use Kernel::System::DB;
     use Kernel::System::Main;
     use Kernel::System::ProcessManagement::Activity;
+    use Kernel::System::ProcessManagement::ActivityDialog;
     use Kernel::System::ProcessManagement::Transition;
     use Kernel::System::ProcessManagement::TransitionAction;
     use Kernel::System::ProcessManagement::Process;
@@ -64,6 +65,10 @@ create an object
         LogObject    => $LogObject,
     );
     my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $ActivityDialogObject = Kernel::System::ProcessManagement::ActivityDialog->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
@@ -103,6 +108,7 @@ create an object
         LogObject              => $LogObject,
         TicketObject           => $TicketObject,
         ActivityObject         => $ActivityObject,
+        ActivityDialogObject   => $ActivityDialogObject,
         TransitionObject       => $TransitionObject,
         TransitionActionObject => $TransitionActionObject,
         EncodeObject           => $EncodeObject,
@@ -126,8 +132,8 @@ sub new {
     # get needed objects
     for my $Needed (
         qw(
-        ConfigObject LogObject TicketObject TransitionObject ActivityObject TransitionActionObject
-        EncodeObject MainObject DBObject TimeObject
+        ConfigObject LogObject TicketObject TransitionObject ActivityObject ActivityDialogObject
+        TransitionActionObject EncodeObject MainObject DBObject TimeObject
         )
         )
     {
@@ -815,6 +821,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2012-11-20 15:53:06 $
+$Revision: 1.10 $ $Date: 2013-01-15 18:36:41 $
 
 =cut

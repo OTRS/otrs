@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NavBarOutputModuleAgentTicketProcess.pm - to show or hide AgentTicketProcess menu item
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarOutputModuleAgentTicketProcess.pm,v 1.3 2012-11-20 15:00:32 mh Exp $
+# $Id: NavBarOutputModuleAgentTicketProcess.pm,v 1.4 2013-01-15 18:36:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use warnings;
 
 use Kernel::System::Cache;
 use Kernel::System::ProcessManagement::Activity;
+use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::Transition;
 use Kernel::System::ProcessManagement::TransitionAction;
@@ -23,7 +24,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,13 +90,16 @@ sub Run {
 
         # create objects (only create objects if no cache, to increse performance)
         $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+        $Self->{ActivityDialogObject}
+            = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
         $Self->{TransitionActionObject}
             = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
         $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
         $Self->{ProcessObject}    = Kernel::System::ProcessManagement::Process->new(
             %{$Self},
-            TransitionObject       => $Self->{TransitionObject},
             ActivityObject         => $Self->{ActivityObject},
+            ActivityDialogObject   => $Self->{ActivityDialogObject},
+            TransitionObject       => $Self->{TransitionObject},
             TransitionActionObject => $Self->{TransitionActionObject},
         );
 

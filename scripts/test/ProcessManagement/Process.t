@@ -2,7 +2,7 @@
 # Process.t - Process module testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.9 2013-01-11 13:39:38 cr Exp $
+# $Id: Process.t,v 1.10 2013-01-15 18:36:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@ use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::Queue;
 use Kernel::System::ProcessManagement::Activity;
+use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::ProcessManagement::Transition;
@@ -34,29 +35,33 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $ConfigObject = Kernel::Config->new();
 
-my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
+my %CommonObject;
+
+$CommonObject{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $TransitionActionObject = Kernel::System::ProcessManagement::TransitionAction->new(
+$CommonObject{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $TransitionObject = Kernel::System::ProcessManagement::Transition->new(
+$CommonObject{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $TicketObject = Kernel::System::Ticket->new(
+$CommonObject{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
 my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
     %{$Self},
-    ConfigObject           => $ConfigObject,
-    TicketObject           => $TicketObject,
-    ActivityObject         => $ActivityObject,
-    TransitionObject       => $TransitionObject,
-    TransitionActionObject => $TransitionActionObject,
+    %CommonObject,
+    ConfigObject => $ConfigObject,
 );
 my $QueueObject = Kernel::System::Queue->new(
     %{$Self},
@@ -126,7 +131,7 @@ $Self->IsNot(
     "QueueAdd() - Added queue '$QueueData3{Name}' for ACL check - should not be undef"
 );
 
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketID = $CommonObject{TicketObject}->TicketCreate(
     Title    => 'Process Unittest Testticket',
     Queue    => $QueueData3{Name},               # or QueueID => 123,
     Lock     => 'unlock',
@@ -1774,12 +1779,9 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
-                Debug                  => $Test->{ProcessTransition}{Debug},
+                %CommonObject,
+                ConfigObject => $ConfigObject,
+                Debug        => $Test->{ProcessTransition}{Debug},
             );
         }
 
@@ -1818,11 +1820,8 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
+                %CommonObject,
+                ConfigObject => $ConfigObject,
             );
         }
     }
@@ -1848,12 +1847,9 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
-                Debug                  => $Test->{ProcessTicketProcessSet}{Debug},
+                %CommonObject,
+                ConfigObject => $ConfigObject,
+                Debug        => $Test->{ProcessTicketProcessSet}{Debug},
             );
         }
 
@@ -1883,11 +1879,8 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
+                %CommonObject,
+                ConfigObject => $ConfigObject,
             );
         }
     }
@@ -1913,12 +1906,9 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
-                Debug                  => $Test->{ProcessTicketActivitySet}{Debug},
+                %CommonObject,
+                ConfigObject => $ConfigObject,
+                Debug        => $Test->{ProcessTicketActivitySet}{Debug},
             );
         }
 
@@ -1948,11 +1938,8 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
+                %CommonObject,
+                ConfigObject => $ConfigObject,
             );
         }
     }
@@ -1978,12 +1965,9 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
-                Debug                  => $Test->{ProcessList}{Debug},
+                %CommonObject,
+                ConfigObject => $ConfigObject,
+                Debug        => $Test->{ProcessList}{Debug},
             );
         }
 
@@ -2022,11 +2006,8 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
+                %CommonObject,
+                ConfigObject => $ConfigObject,
             );
         }
     }
@@ -2052,12 +2033,9 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
-                Debug                  => $Test->{ProcessGet}{Debug},
+                %CommonObject,
+                ConfigObject => $ConfigObject,
+                Debug        => $Test->{ProcessGet}{Debug},
             );
         }
 
@@ -2096,11 +2074,8 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
+                %CommonObject,
+                ConfigObject => $ConfigObject,
             );
         }
     }
@@ -2126,11 +2101,9 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionActionObject => $TransitionActionObject,
-                Debug                  => $Test->{ProcessStartpointGet}{Debug},
+                %CommonObject,
+                ConfigObject => $ConfigObject,
+                Debug        => $Test->{ProcessStartpointGet}{Debug},
             );
         }
 
@@ -2159,11 +2132,8 @@ for my $Test (@Tests) {
             $ProcessObject = undef;
             $ProcessObject = Kernel::System::ProcessManagement::Process->new(
                 %{$Self},
-                ConfigObject           => $ConfigObject,
-                TicketObject           => $TicketObject,
-                ActivityObject         => $ActivityObject,
-                TransitionObject       => $TransitionObject,
-                TransitionActionObject => $TransitionActionObject,
+                %CommonObject,
+                ConfigObject => $ConfigObject,
             );
         }
     }
@@ -2207,7 +2177,7 @@ $Self->True(
 );
 
 if ($TicketID) {
-    my $Success = $TicketObject->TicketDelete(
+    my $Success = $CommonObject{TicketObject}->TicketDelete(
         TicketID => $TicketID,
         UserID   => 1,
     );

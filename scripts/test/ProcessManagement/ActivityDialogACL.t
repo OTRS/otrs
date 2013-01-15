@@ -1,8 +1,8 @@
 # --
 # ActivityDialogACL.t - ActivityDialog ACL testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialogACL.t,v 1.9 2012-12-07 19:44:15 cr Exp $
+# $Id: ActivityDialogACL.t,v 1.10 2013-01-15 18:36:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,10 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::ProcessManagement::Activity;
+use Kernel::System::ProcessManagement::ActivityDialog;
+use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::ProcessManagement::Transition;
-use Kernel::System::ProcessManagement::Process;
 use Kernel::System::Ticket;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::User;
@@ -71,6 +72,10 @@ my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $ActivityDialogObject = Kernel::System::ProcessManagement::ActivityDialog->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 my $TransitionObject = Kernel::System::ProcessManagement::Transition->new(
     %{$Self},
     ConfigObject => $ConfigObject,
@@ -88,6 +93,7 @@ my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
     ConfigObject           => $ConfigObject,
     TicketObject           => $TicketObject,
     ActivityObject         => $ActivityObject,
+    ActivityDialogObject   => $ActivityDialogObject,
     TransitionObject       => $TransitionObject,
     TransitionActionObject => $TransitionActionObject,
 );
