@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.47 2013-01-15 17:43:26 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.48 2013-01-15 20:22:39 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,12 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use ExtUtils::MakeMaker;
+use File::Path;
+use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 # config
 my @NeededModules = (
@@ -494,13 +496,11 @@ sub _Check {
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
-    # use internal EU:MM sub to determine if given module is installed
-    # just as in Module::Version
-    my $File = MM->_installed_file_for_module( $Module->{Module} );
+    my $File = _InstalledFileForModule( $Module->{Module} );
     if ($File) {
 
-        # determine version number
-        my $Version = version->parse( MM->parse_version($File) );
+        # determine version number by means of ExtUtils::MakeMaker
+        my $Version = MM->parse_version($File);
 
         # cleanup version number
         my $CleanedVersion = _VersionClean(
@@ -577,6 +577,28 @@ sub _Check {
     }
 
     return 1;
+}
+
+sub _InstalledFileForModule {
+
+    # copied from ExtUtils::MakeMaker; it is not available on the
+    # old EU_MM versions that ship with Perl 5.8.
+    my $Prereq = shift;
+    my $File   = "$Prereq.pm";
+    $File =~ s{::}{/}g;
+
+    # traverse @INC to see if the current module is installed in
+    # one of these locations
+    my $Path;
+    PATH:
+    for my $Dir (@INC) {
+        my $PossibleLocation = File::Spec->catfile( $Dir, $File );
+        if ( -r $PossibleLocation ) {
+            $Path = $PossibleLocation;
+            last PATH;
+        }
+    }
+    return $Path;
 }
 
 sub _VersionClean {
