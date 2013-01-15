@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.48 2013-01-15 20:22:39 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.49 2013-01-15 21:06:58 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,7 +36,7 @@ use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 # config
 my @NeededModules = (
@@ -480,16 +480,22 @@ if ( $^O eq "MSWin32" ) {
     push @NeededModules, @WindowsModules;
 }
 
+my $Options = shift || '';
+my $NoColors;
+if ( $Options =~ m{\A nocolors}msxi ) {
+    $NoColors = 1;
+}
+
 # try to determine module version number
 my $Depends = 0;
 for my $Module (@NeededModules) {
-    _Check( $Module, $Depends );
+    _Check( $Module, $Depends, $NoColors );
 }
 
 exit;
 
 sub _Check {
-    my ( $Module, $Depends ) = @_;
+    my ( $Module, $Depends, $NoColors ) = @_;
 
     print "  " x ( $Depends + 1 );
     print "o $Module->{Module}";
@@ -550,10 +556,20 @@ sub _Check {
         }
 
         if ($ErrorMessage) {
-            print color('red') . "FAILED!" . color('reset') . " $ErrorMessage\n";
+            if ($NoColors) {
+                print "FAILED! $ErrorMessage\n";
+            }
+            else {
+                print color('red') . "FAILED!" . color('reset') . " $ErrorMessage\n";
+            }
         }
         else {
-            print color('green') . "ok" . color('reset') . " (v$Version)\n";
+            if ($NoColors) {
+                print "ok (v$Version)\n";
+            }
+            else {
+                print color('green') . "ok" . color('reset') . " (v$Version)\n";
+            }
         }
     }
     else {
@@ -567,12 +583,17 @@ sub _Check {
         else {
             $Required = 'optional';
         }
-        print color($Color) . "Not installed!" . color('reset') . " ($Required - $Comment)\n";
+        if ($NoColors) {
+            print "Not installed! ($Required - $Comment)\n";
+        }
+        else {
+            print color($Color) . "Not installed!" . color('reset') . " ($Required - $Comment)\n";
+        }
     }
 
     if ( $Module->{Depends} ) {
         for my $ModuleSub ( @{ $Module->{Depends} } ) {
-            _Check( $ModuleSub, $Depends + 1 );
+            _Check( $ModuleSub, $Depends + 1, $NoColors );
         }
     }
 
