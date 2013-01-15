@@ -2,7 +2,7 @@
 # CheckModules.t - CheckModules tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckModules.t,v 1.5 2013-01-10 09:46:32 mb Exp $
+# $Id: CheckModules.t,v 1.6 2013-01-15 10:04:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,32 +14,24 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-my $ErrorMessage = "Unable to check Perl modules.";
-my $Home         = $Self->{ConfigObject}->Get('Home');
+my $Home = $Self->{ConfigObject}->Get('Home');
 my $TmpSumString;
 
 if ( open( $TmpSumString, "$^X $Home/bin/otrs.CheckModules.pl |" ) ) {
 
-    open( $TmpSumString, "$^X $Home/bin/otrs.CheckModules.pl |" );
-
     while (<$TmpSumString>) {
         my $TmpLine = $_;
         $TmpLine =~ s/\n//g;
-        if (
-            $TmpLine    =~ m{Not \s installed! (.+?) \(Required}smx
-            || $TmpLine =~ m{Not \s supported}smx
-            || $TmpLine =~ m{failed!}smx
-            )
-        {
-            $Self->False(
-                $TmpLine,
-                "Error in your installed perl modules: $TmpLine",
-            );
-        }
-        else {
+        if ( $TmpLine =~ m{ok|optional}ismx ) {
             $Self->True(
                 $TmpLine,
                 "$TmpLine",
+            );
+        }
+        else {
+            $Self->False(
+                $TmpLine,
+                "Error in your installed perl modules: $TmpLine",
             );
         }
     }
@@ -48,8 +40,8 @@ if ( open( $TmpSumString, "$^X $Home/bin/otrs.CheckModules.pl |" ) ) {
 }
 else {
     $Self->False(
-        $ErrorMessage,
-        $ErrorMessage,
+        1,
+        'Unable to check Perl modules',
     );
 }
 

@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.45 2013-01-14 16:26:36 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.46 2013-01-15 10:04:18 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,9 +31,10 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use ExtUtils::MakeMaker;
+use Term::ANSIColor;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 # config
 my @NeededModules = (
@@ -484,11 +485,9 @@ exit;
 sub _Check {
     my ( $Module, $Depends ) = @_;
 
-    for ( 0 .. $Depends ) {
-        print "   ";
-    }
+    print "  " x ( $Depends + 1 );
     print "o $Module->{Module}";
-    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 3 ) );
+    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
     # use internal EU:MM sub to determine if given module is installed
@@ -504,11 +503,11 @@ sub _Check {
             Version => $Version,
         );
 
+        my $ErrorMessage;
+
         # test if all module dependencies are installed by requiring the module
-        my $MissingDependencies;
         if ( !eval "require $Module->{Module}" ) {
-            print "failed!!! Not all prerequisites installed. ";
-            $MissingDependencies = 1;
+            $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
         if ( $Module->{NotSupported} ) {
@@ -529,43 +528,42 @@ sub _Check {
             }
 
             if ($NotSupported) {
-                print "failed!!! Version $Version not supported! $NotSupported\n";
-                return;
+                $ErrorMessage .= "Version $Version not supported! $NotSupported ";
             }
         }
 
         if ( $Module->{Version} ) {
 
             # cleanup item version number
-            my $ModuleVersion = _VersionClean(
+            my $RequiredModuleVersion = _VersionClean(
                 Version => $Module->{Version},
             );
 
-            if ( $CleanedVersion >= $ModuleVersion ) {
-                print "ok (v$Version)\n";
-            }
-            else {
-                print
-                    "failed!!! Version $Version installed but $Module->{Version} or higher is required!\n";
+            if ( $CleanedVersion < $RequiredModuleVersion ) {
+                $ErrorMessage
+                    .= "Version $Version installed but $Module->{Version} or higher is required! ";
             }
         }
-        elsif ($MissingDependencies) {
-            print "(v$Version)\n";
+
+        if ($ErrorMessage) {
+            print color('red') . "FAILED!" . color('reset') . " $ErrorMessage\n";
         }
         else {
-            print "ok (v$Version)\n";
+            print color('green') . "ok" . color('reset') . " (v$Version)\n";
         }
     }
     else {
-        my $Comment = $Module->{Comment} || '';
+        my $Comment  = $Module->{Comment} || '';
         my $Required = $Module->{Required};
+        my $Color    = 'yellow';
         if ($Required) {
-            $Required = 'Required - use "perl -MCPAN -e shell;"';
+            $Required = 'required - use "perl -MCPAN -e shell;"';
+            $Color    = 'red';
         }
         else {
-            $Required = 'Optional';
+            $Required = 'optional';
         }
-        print "Not installed! ($Required - $Comment)\n";
+        print color($Color) . "Not installed!" . color('reset') . " ($Required - $Comment)\n";
     }
 
     if ( $Module->{Depends} ) {
