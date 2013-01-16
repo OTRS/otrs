@@ -2,7 +2,7 @@
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TaskManager.pm,v 1.19 2013-01-15 17:43:27 mg Exp $
+# $Id: TaskManager.pm,v 1.20 2013-01-16 22:56:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -226,20 +226,7 @@ sub TaskGet {
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $DataParam;
-
-        # eval if YAML content can be readed
-        eval {
-            $DataParam = Kernel::System::YAML::Load( $Data[0] );
-        };
-
-        # display any YAML error message as a normal otrs error message
-        if ($@) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => $@,
-            );
-        }
+        my $DataParam = Kernel::System::YAML::Load( $Data[0] );
 
         if ( !$DataParam ) {
             $Self->{LogObject}->Log(
@@ -354,6 +341,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2013-01-15 17:43:27 $
+$Revision: 1.20 $ $Date: 2013-01-16 22:56:44 $
 
 =cut
