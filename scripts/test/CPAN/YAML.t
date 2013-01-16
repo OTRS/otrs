@@ -2,7 +2,7 @@
 # YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.15 2013-01-16 16:58:35 cr Exp $
+# $Id: YAML.t,v 1.16 2013-01-16 20:47:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,9 @@ my @Tests = (
 
 ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
-    @YAML::Any::_TEST_ORDER = ($Engine);
+    
+    # locally override the internal engine of YAML::Any to force testing
+    local @YAML::Any::_TEST_ORDER = ($Engine);
     
     TEST:
     for my $Test (@Tests) {
@@ -84,8 +86,5 @@ for my $Engine (qw(YAML::XS YAML)) {
         );
     }
 }
-
-# reset _TEST_ORDER to use YAML::XS by default, otherwise it uses last engine
-@YAML::Any::_TEST_ORDER = ();
 
 1;
