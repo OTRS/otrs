@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.54 2013-01-10 15:20:08 ub Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.55 2013-01-16 02:48:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -356,6 +356,13 @@ sub Run {
             UserID        => $Self->{UserID},
             DynamicFields => 0,
         );
+
+        # set a default title if ticket has no title
+        if ( !$Ticket{Title} ) {
+            $Ticket{Title} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                'This ticket has no title or subject'
+            );
+        }
 
         # create human age
         if ( $Self->{Config}->{Time} ne 'Age' ) {

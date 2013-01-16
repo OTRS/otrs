@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewMedium.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.56 2012-11-20 15:04:54 mh Exp $
+# $Id: TicketOverviewMedium.pm,v 1.57 2013-01-16 02:48:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,6 +256,15 @@ sub _Show {
             TicketID      => $Param{TicketID},
             DynamicFields => 0,
         );
+        if ( !$Article{Title} ) {
+            $Article{Title} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                'This ticket has no title or subject'
+            );
+        }
+        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
+        $Article{Subject}      = $Article{Title};
+        $Article{From}         = '$Address{RealName} <$Address{Email}>';
+        $Article{FromRealname} = $Address{RealName};
     }
 
     # user info
