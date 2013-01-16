@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.431 2012-12-17 10:49:06 mn Exp $
+# $Id: Defaults.pm,v 1.432 2013-01-16 12:37:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use utf8;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.431 $) [1];
+$VERSION = qw($Revision: 1.432 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -1336,8 +1336,8 @@ Your OTRS Notification Master
         CustomerUserSearchSuffix           => '*',
         CustomerUserSearchListLimit        => 250,
         CustomerUserPostMasterSearchFields => ['email'],
-        CustomerUserNameFields     => [ 'title', 'first_name', 'last_name' ],
-        CustomerUserEmailUniqCheck => 1,
+        CustomerUserNameFields             => [ 'title', 'first_name', 'last_name' ],
+        CustomerUserEmailUniqCheck         => 1,
 
 #        # show now own tickets in customer panel, CompanyTickets
 #        CustomerUserExcludePrimaryCustomerID => 0,
@@ -1363,10 +1363,8 @@ Your OTRS Notification Master
             [ 'UserLogin',      'Username',   'login',      1, 1, 'var', '', 0 ],
             [ 'UserPassword',   'Password',   'pw',         0, 0, 'var', '', 0 ],
             [ 'UserEmail',      'Email',      'email',      1, 1, 'var', '', 0 ],
-
 #            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose;ResponseID=1;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-
 #            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
             [ 'UserPhone',        'Phone',       'phone',        1, 0, 'var', '', 0 ],
             [ 'UserFax',          'Fax',         'fax',          1, 0, 'var', '', 0 ],
@@ -1474,27 +1472,27 @@ Your OTRS Notification Master
         },
 
         # company unique id
-        CustomerCompanyKey          => 'customer_id',
-        CustomerCompanyValid        => 'valid_id',
-        CustomerCompanyListFields   => [ 'customer_id', 'name' ],
-        CustomerCompanySearchFields => ['customer_id', 'name'],
-        CustomerCompanySearchPrefix => '',
-        CustomerCompanySearchSuffix => '*',
+        CustomerCompanyKey             => 'customer_id',
+        CustomerCompanyValid           => 'valid_id',
+        CustomerCompanyListFields      => [ 'customer_id', 'name' ],
+        CustomerCompanySearchFields    => ['customer_id', 'name'],
+        CustomerCompanySearchPrefix    => '',
+        CustomerCompanySearchSuffix    => '*',
         CustomerCompanySearchListLimit => 250,
-        CacheTTL                    => 60 * 60 * 24, # use 0 to turn off cache
+        CacheTTL                       => 60 * 60 * 24, # use 0 to turn off cache
 
-        Map                       => [
+        Map => [
 
 # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-            [ 'CustomerCompanyName',    'Company',       'name',        1, 1, 'var', '', 0 ],
+            [ 'CustomerCompanyName',    'Company',    'name',        1, 1, 'var', '', 0 ],
             [ 'CustomerCompanyStreet',  'Street',     'street',      1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyZIP',     'Zip',        'zip',         1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCity',    'City',       'city',        1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCountry', 'Country',    'country',     1, 0, 'var', '', 0 ],
-            [ 'CustomerCompanyURL', 'URL', 'url', 1, 0, 'var', '$Data{"CustomerCompanyURL"}', 0 ],
-            [ 'CustomerCompanyComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
-            [ 'ValidID',                'Valid',   'valid_id', 0, 1, 'int', '', 0 ],
+            [ 'CustomerCompanyURL',     'URL',        'url',         1, 0, 'var', '$Data{"CustomerCompanyURL"}', 0 ],
+            [ 'CustomerCompanyComment', 'Comment',    'comments',    1, 0, 'var', '', 0 ],
+            [ 'ValidID',                'Valid',      'valid_id',    0, 1, 'int', '', 0 ],
         ],
     };
 
@@ -1946,6 +1944,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.431 $ $Date: 2012-12-17 10:49:06 $
+$Revision: 1.432 $ $Date: 2013-01-16 12:37:03 $
 
 =cut
