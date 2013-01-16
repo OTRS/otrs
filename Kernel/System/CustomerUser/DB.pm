@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.110 2012-12-03 10:37:10 jh Exp $
+# $Id: DB.pm,v 1.111 2013-01-16 15:47:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -615,7 +615,7 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
@@ -745,7 +745,7 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
@@ -874,7 +874,7 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
@@ -988,7 +988,6 @@ sub SetPassword {
                 $SQL .= "LOWER($Param{LoginCol}) = LOWER('"
                     . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
             }
-
         }
 
         return if !$Self->{DBObject}->Do( SQL => $SQL );
@@ -1011,7 +1010,7 @@ sub SetPassword {
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # Generated passwords are eight characters long by default.
+    # generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
 
     # The list of characters that can appear in a randomly generated password.
@@ -1019,16 +1018,15 @@ sub GenerateRandomPassword {
     my @PwChars
         = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
-    # The number of characters in the list.
+    # number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);
 
-    # Generate the password.
+    # generate the password.
     my $Password = '';
     for ( my $i = 0; $i < $Size; $i++ ) {
-        $Password .= $PwChars[ rand($PwCharsLen) ];
+        $Password .= $PwChars[ rand $PwCharsLen ];
     }
 
-    # Return the password.
     return $Password;
 }
 
@@ -1072,6 +1070,7 @@ sub _ConvertFrom {
     if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
         return $Text;
     }
+
     return $Self->{EncodeObject}->Convert(
         Text  => $Text,
         From  => $Self->{SourceCharset},
@@ -1089,6 +1088,7 @@ sub _ConvertTo {
         $Self->{EncodeObject}->EncodeInput( \$Text );
         return $Text;
     }
+
     return $Self->{EncodeObject}->Convert(
         Text  => $Text,
         To    => $Self->{SourceCharset},
@@ -1116,7 +1116,7 @@ sub _CustomerUserCacheClear {
         Key  => "CustomerName::$Param{UserLogin}",
     );
 
-    # delete all search chache entries
+    # delete all search cache entries
     $Self->{CacheObject}->CleanUp(
         Type => $Self->{CacheType} . '_CustomerIDList',
     );
@@ -1130,9 +1130,10 @@ sub _CustomerUserCacheClear {
                 Type => $Self->{CacheType},
                 Key  => "${Function}::${Valid}",
             );
-
         }
     }
+
+    return 1;
 }
 
 sub DESTROY {
@@ -1144,6 +1145,7 @@ sub DESTROY {
             $Self->{DBObject}->Disconnect();
         }
     }
+
     return 1;
 }
 

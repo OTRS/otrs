@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.72 2012-11-20 15:44:51 mh Exp $
+# $Id: LDAP.pm,v 1.73 2013-01-16 15:47:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,8 +57,7 @@ sub new {
     elsif ( $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Params' . $Param{Count} ) ) {
         $Self->{Params} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Params' . $Param{Count} );
     }
-    else
-    {
+    else {
         $Self->{Params} = {};
     }
 
@@ -174,6 +173,7 @@ sub _Connect {
 
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     $Self->{LDAP} = Net::LDAP->new( $Self->{Host}, %{ $Self->{Params} } );
+
     if ( !$Self->{LDAP} ) {
         if ( $Self->{Die} ) {
             die "Can't connect to $Self->{Host}: $@";
@@ -186,6 +186,7 @@ sub _Connect {
             return;
         }
     }
+
     my $Result;
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
         $Result = $Self->{LDAP}->bind(
@@ -196,6 +197,7 @@ sub _Connect {
     else {
         $Result = $Self->{LDAP}->bind();
     }
+
     if ( $Result->code ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -204,6 +206,7 @@ sub _Connect {
         $Self->{LDAP}->disconnect;
         return;
     }
+
     return 1;
 }
 
@@ -245,6 +248,7 @@ sub CustomerName {
         sizelimit => $Self->{UserSearchListLimit},
         attrs     => $Self->{CustomerUserMap}->{CustomerUserNameFields},
     );
+
     if ( $Result->code ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -252,9 +256,13 @@ sub CustomerName {
         );
         return;
     }
+
     for my $Entry ( $Result->all_entries ) {
+
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
+
             if ( defined $Entry->get_value($Field) ) {
+
                 if ( !$Name ) {
                     $Name = $Self->_ConvertFrom( $Entry->get_value($Field) );
                 }
@@ -274,6 +282,7 @@ sub CustomerName {
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
+
     return $Name;
 }
 
@@ -293,9 +302,11 @@ sub CustomerSearch {
     # build filter
     my $Filter = '';
     if ( $Param{Search} ) {
+
         my $Count = 0;
         my @Parts = split( /\+/, $Param{Search}, 6 );
         for my $Part (@Parts) {
+
             $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
             $Part =~ s/(\%+)/\%/g;
             $Part =~ s/(\*+)\*/*/g;
@@ -312,11 +323,13 @@ sub CustomerSearch {
                 $Filter .= "($Self->{CustomerKey}=$Part)";
             }
         }
+
         if ( $Count > 1 ) {
             $Filter = "(&$Filter)";
         }
     }
     elsif ( $Param{PostMasterSearch} ) {
+
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
             $Filter = '(|';
             for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
@@ -373,11 +386,16 @@ sub CustomerSearch {
             Message  => $Result->error,
         );
     }
+
     my %Users;
     for my $entry ( $Result->all_entries ) {
+
         my $CustomerString = '';
+
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
+
             my $Value = $Self->_ConvertFrom( $entry->get_value($Field) );
+
             if ($Value) {
                 if ( $Field =~ /^targetaddress$/i ) {
                     $Value =~ s/SMTP:(.*)/$1/;
@@ -385,7 +403,9 @@ sub CustomerSearch {
                 $CustomerString .= $Value . ' ';
             }
         }
+
         $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+
         if ( defined $entry->get_value( $Self->{CustomerKey} ) ) {
             $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
                 = $CustomerString;
@@ -394,7 +414,9 @@ sub CustomerSearch {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
+
         for my $Filter2 ( sort keys %Users ) {
+
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
@@ -402,6 +424,7 @@ sub CustomerSearch {
                 sizelimit => $Self->{UserSearchListLimit},
                 attrs     => ['1.1'],
             );
+
             if ( !$Result2->all_entries ) {
                 delete $Users{$Filter2};
             }
@@ -417,6 +440,7 @@ sub CustomerSearch {
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
+
     return %Users;
 }
 
@@ -488,7 +512,9 @@ sub CustomerUserList {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
+
         for my $Filter2 ( sort keys %Users ) {
+
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
@@ -496,6 +522,7 @@ sub CustomerUserList {
                 sizelimit => $Self->{UserSearchListLimit},
                 attrs     => ['1.1'],
             );
+
             if ( !$Result2->all_entries ) {
                 delete $Users{$Filter2};
             }
@@ -616,6 +643,7 @@ sub CustomerIDList {
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
+
     return @Result;
 }
 
@@ -645,19 +673,21 @@ sub CustomerIDs {
     if ( $Data{UserCustomerIDs} ) {
 
         # used seperators
-        for my $Split ( ';', ',', '|' ) {
+        SEPERATOR:
+        for my $Seperator ( ';', ',', '|' ) {
 
-            # next if seperator is not there
-            next if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
+            next SEPERATOR if $Data{UserCustomerIDs} !~ /\Q$Seperator\E/;
 
             # split it
-            my @IDs = split /\Q$Split\E/, $Data{UserCustomerIDs};
+            my @IDs = split /\Q$Seperator\E/, $Data{UserCustomerIDs};
+
             for my $ID (@IDs) {
                 $ID =~ s/^\s+//g;
                 $ID =~ s/\s+$//g;
                 push @CustomerIDs, $ID;
             }
-            last;
+
+            last SEPERATOR;
         }
 
         # fallback if no seperator got found
@@ -682,13 +712,12 @@ sub CustomerIDs {
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
+
     return @CustomerIDs;
 }
 
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
-
-    my %Data;
 
     # check needed stuff
     if ( !$Param{User} ) {
@@ -744,15 +773,18 @@ sub CustomerUserDataGet {
     }
 
     # get customer user info
+    my %Data;
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+
         my $Value = $Self->_ConvertFrom( $Result2->get_value( $Entry->[2] ) ) || '';
+
         if ( $Value && $Entry->[2] =~ /^targetaddress$/i ) {
             $Value =~ s/SMTP:(.*)/$1/;
         }
+
         $Data{ $Entry->[0] } = $Value;
     }
 
-    # check data
     return if !$Data{UserLogin};
 
     # compat!
@@ -778,7 +810,6 @@ sub CustomerUserDataGet {
         );
     }
 
-    # return data
     return ( %Data, %Preferences );
 }
 
@@ -787,10 +818,12 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
+
     $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+
     return;
 }
 
@@ -799,10 +832,12 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
+
     $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+
     return;
 }
 
@@ -813,17 +848,19 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
+
     $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+
     return;
 }
 
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # Generated passwords are eight characters long by default.
+    # generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
 
     # The list of characters that can appear in a randomly generated password.
@@ -831,16 +868,15 @@ sub GenerateRandomPassword {
     my @PwChars
         = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
-    # The number of characters in the list.
+    # number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);
 
-    # Generate the password.
+    # generate the password.
     my $Password = '';
     for ( my $i = 0; $i < $Size; $i++ ) {
-        $Password .= $PwChars[ rand($PwCharsLen) ];
+        $Password .= $PwChars[ rand $PwCharsLen ];
     }
 
-    # Return the password.
     return $Password;
 }
 
@@ -921,6 +957,7 @@ sub DESTROY {
     if ( $Self->{LDAP} ) {
         $Self->{LDAP}->unbind;
     }
+
     return 1;
 }
 
