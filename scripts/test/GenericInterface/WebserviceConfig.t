@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.14 2013-01-16 13:19:48 cr Exp $
+# $Id: WebserviceConfig.t,v 1.15 2013-01-16 21:44:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -221,8 +221,8 @@ for my $Test (@Tests) {
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Test->{FileAdd},
     );
-    my $OriginalContent = eval { Kernel::System::YAML::Load( ${$Content} ) };
-    my $ResultContent   = eval { Kernel::System::YAML::Load($WebserviceConfigResult) };
+    my $OriginalContent = Kernel::System::YAML::Load( ${$Content} );
+    my $ResultContent   = Kernel::System::YAML::Load($WebserviceConfigResult);
 
     $Self->IsDeeply(
         $ResultContent,
@@ -265,8 +265,8 @@ for my $Test (@Tests) {
     $Content                = $Self->{MainObject}->FileRead(
         Location => $Test->{FileUpdate},
     );
-    $OriginalContent = eval { Kernel::System::YAML::Load( ${$Content} ) };
-    $ResultContent   = eval { Kernel::System::YAML::Load($WebserviceConfigResult) };
+    $OriginalContent = Kernel::System::YAML::Load( ${$Content} );
+    $ResultContent   = Kernel::System::YAML::Load($WebserviceConfigResult);
 
     $Self->IsDeeply(
         $ResultContent,
