@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.187 2013-01-14 13:20:53 mg Exp $
+# $Id: CHANGES,v 1.2260.2.188 2013-01-16 09:15:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-01-16 Fixed bug#9057 - Generating a PDF with bin/otrs.GenerateStats.pl produces lots
+    of warnings.
  - 2013-01-14 Fixed bug#9042 - Add X-Spam-Score to Ticket.xml.
  - 2013-01-14 Fixed bug#9047 - HistoryTicketGet caches info on disk directly.
  - 2013-01-11 Fixed bug#8923 - Alert message shown, if parent window is reloaded while

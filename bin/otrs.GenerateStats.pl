@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.8.2.2 2012-09-18 07:09:42 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.8.2.3 2013-01-16 09:15:14 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8.2.2 $) [1];
+$VERSION = qw($Revision: 1.8.2.3 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -88,7 +88,7 @@ GetOptions(
 
 if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-F <FILENAME> [-R]\n";
     print
@@ -215,7 +215,7 @@ my @StatArray = @{
         StatID   => $StatID,
         GetParam => \%GetParam,
         )
-    };
+};
 
 # generate output
 my $TitleArrayRef  = shift(@StatArray);
