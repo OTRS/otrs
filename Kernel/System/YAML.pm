@@ -2,7 +2,7 @@
 # Kernel/System/YAML.pm - YAML wrapper
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.pm,v 1.1 2013-01-15 17:43:26 mg Exp $
+# $Id: YAML.pm,v 1.2 2013-01-16 07:41:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use YAML::Any qw();
+use Encode qw();
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -34,15 +35,17 @@ Call this module directly without instantiating.
 sub Dump {
     my $Result = YAML::Any::Dump(@_);
 
-    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
-    #   part of the data already had it.
-    utf8::upgrade($Result);
+    # Make sure the resulting string has the UTF-8 flag.
+    Encode::_utf8_on($Result);
 
     return $Result;
 }
 
 sub Load {
     my $Result = eval {
+        if ( Encode::is_utf8( $_[0] ) ) {
+            Encode::_utf8_off( $_[0] );
+        }
         YAML::Any::Load(@_);
     };
 
@@ -67,6 +70,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2013-01-15 17:43:26 $
+$Revision: 1.2 $ $Date: 2013-01-16 07:41:26 $
 
 =cut

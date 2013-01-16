@@ -2,7 +2,7 @@
 # YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.11 2013-01-15 17:43:26 mg Exp $
+# $Id: YAML.t,v 1.12 2013-01-16 07:41:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,12 +34,30 @@ my @Tests = (
                 0,
                 undef,
                 'Teststring <tag> äß@ø " \\" \' \'\'',
-            ], 
+            ],
         },
     },
     {
         Name => 'Special YAML chars',
         Data => ' a " a " a \'\' a \'\' a',
+    },
+    {
+        Name => 'UTF8 string',
+        Data => 'kéy',
+    },
+    {
+        Name => 'UTF8 string, loader',
+        Data => 'kéy',
+        YAMLString => '--- kéy' . "\n",
+    },
+    {
+        Name => 'UTF8 string without UTF8-Flag',
+        Data => 'k\x{e9}y',
+    },
+    {
+        Name => 'UTF8 string without UTF8-Flag, loader',
+        Data => 'k\x{e9}y',
+        YAMLString => '--- k\x{e9}y' . "\n",
     },
     {
         Name => 'Very long string', # see https://bugzilla.redhat.com/show_bug.cgi?id=19240_0000
@@ -50,7 +68,7 @@ my @Tests = (
 for my $Test (@Tests) {
     my $YAMLString = $Test->{YAMLString} || Kernel::System::YAML::Dump( $Test->{Data} );
     my $YAMLData   = Kernel::System::YAML::Load( $YAMLString );
-    
+
     $Self->IsDeeply(
         $YAMLData,
         $Test->{Data},
