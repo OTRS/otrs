@@ -2,7 +2,7 @@
 # YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.12 2013-01-16 07:41:25 mg Exp $
+# $Id: YAML.t,v 1.13 2013-01-16 09:02:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,15 +65,21 @@ my @Tests = (
     },
 );
 
-for my $Test (@Tests) {
-    my $YAMLString = $Test->{YAMLString} || Kernel::System::YAML::Dump( $Test->{Data} );
-    my $YAMLData   = Kernel::System::YAML::Load( $YAMLString );
-
-    $Self->IsDeeply(
-        $YAMLData,
-        $Test->{Data},
-        $Test->{Name},
-    );
+for my $Engine (qw(YAML::XS YAML)) {
+    @YAML::Any::_TEST_ORDER = ($Engine);
+    
+    print YAML::Any::implementation();
+    
+    for my $Test (@Tests) {
+        my $YAMLString = $Test->{YAMLString} || Kernel::System::YAML::Dump( $Test->{Data} );
+        my $YAMLData   = Kernel::System::YAML::Load( $YAMLString );
+    
+        $Self->IsDeeply(
+            $YAMLData,
+            $Test->{Data},
+            "Engine $Engine - $Test->{Name}",
+        );
+    }
 }
 
 1;
