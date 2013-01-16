@@ -2,7 +2,7 @@
 # YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.13 2013-01-16 09:02:28 mg Exp $
+# $Id: YAML.t,v 1.14 2013-01-16 09:11:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,17 +60,20 @@ my @Tests = (
         YAMLString => '--- k\x{e9}y' . "\n",
     },
     {
-        Name => 'Very long string', # see https://bugzilla.redhat.com/show_bug.cgi?id=19240_0000
-        Data => 'äø<>"\'' x 40_000,
+        Name => 'Very long string', # see https://bugzilla.redhat.com/show_bug.cgi?id=192400
+        Data => ' äø<>"\'' x 40_000,
+        SkipEngine => 'YAML',       # This test does not run with plain YAML, see the bug above
     },
 );
 
+ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
     @YAML::Any::_TEST_ORDER = ($Engine);
     
-    print YAML::Any::implementation();
-    
+    TEST:
     for my $Test (@Tests) {
+        next TEST if $Engine eq $Test->{SkipEngine};
+        
         my $YAMLString = $Test->{YAMLString} || Kernel::System::YAML::Dump( $Test->{Data} );
         my $YAMLData   = Kernel::System::YAML::Load( $YAMLString );
     
