@@ -1,8 +1,8 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.40 2012-11-20 16:07:27 mh Exp $
+# $Id: PostMaster.t,v 1.41 2013-01-16 14:35:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -226,7 +226,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             # get rand sender address
             my $UserRand1 = 'example-user' . int rand 1000000 . '@example.com';
 
-            for my $File (qw(1 2 3 5 6 11 17 18)) {
+            for my $File (qw(1 2 3 5 6 11 17 18 21)) {
 
                 my $NamePrefix = "#$NumberModule $StorageModule $TicketSubjectConfig $File ";
 
