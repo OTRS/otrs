@@ -1,4 +1,6 @@
 3.2.0.rc1 2013-01-??
+ - 2013-01-16 Fixed bug#8929 - Fix problems with empty ticket search results while
+    Ticket::Frontend::AgentTicketSearch###ExtendedSearchCondition is inactive.
  - 2013-01-16 Fixed bug#9057 - Generating a PDF with bin/otrs.GenerateStats.pl produces lots
     of warnings.
  - 2013-01-15 Fixed bug#9050 - Process Management: ticket title disappears.
