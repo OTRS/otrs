@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.89 2012-11-20 15:51:24 mh Exp $
+# $Id: NewTicket.pm,v 1.90 2013-01-17 15:55:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,11 +30,11 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get all objects
-    for (
+    for my $Object (
         qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject PriorityObject)
         )
     {
-        $Self->{$_} = $Param{$_} || die 'Got no $_';
+        $Self->{$Object} = $Param{$Object} || die 'Got no $Object';
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -46,9 +46,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(InmailUserID GetParam)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(InmailUserID GetParam)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -94,8 +94,10 @@ sub Run {
 
     # get sender email
     my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
-    for (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
+    for my $Address (@EmailAddresses) {
+        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
+            Email => $Address,
+        );
     }
 
     # get customer id (sender email) if there is no customer id given
@@ -117,17 +119,17 @@ sub Run {
             my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
                 Line => $GetParam{From},
             );
-            for (@EmailAddresses) {
-                $GetParam{EmailForm} = $Self->{ParserObject}->GetEmailAddress(
-                    Email => $_,
+            for my $Address (@EmailAddresses) {
+                $GetParam{EmailFrom} = $Self->{ParserObject}->GetEmailAddress(
+                    Email => $Address,
                 );
             }
             my %List = $Self->{CustomerUserObject}->CustomerSearch(
-                PostMasterSearch => lc( $GetParam{EmailForm} ),
+                PostMasterSearch => lc( $GetParam{EmailFrom} ),
             );
-            for ( sort keys %List ) {
+            for my $UserLogin ( sort keys %List ) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $_,
+                    User => $UserLogin,
                 );
             }
         }
@@ -140,7 +142,7 @@ sub Run {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Take UserLogin ($CustomerData{UserLogin}) from "
-                    . "customer source backend based on ($GetParam{'EmailForm'}).",
+                    . "customer source backend based on ($GetParam{'EmailFrom'}).",
             );
         }
         if ( $CustomerData{UserCustomerID} && !$GetParam{'X-OTRS-CustomerNo'} ) {
@@ -150,7 +152,7 @@ sub Run {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Take UserCustomerID ($CustomerData{UserCustomerID})"
-                    . " from customer source backend based on ($GetParam{'EmailForm'}).",
+                    . " from customer source backend based on ($GetParam{'EmailFrom'}).",
             );
         }
     }
@@ -196,10 +198,10 @@ sub Run {
         print "State: $State\n";
         print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
         print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
-        for (qw(Type Service SLA Lock)) {
+        for my $Value (qw(Type Service SLA Lock)) {
 
-            if ( $GetParam{ 'X-OTRS-' . $_ } ) {
-                print "Type: " . $GetParam{ 'X-OTRS-' . $_ } . "\n";
+            if ( $GetParam{ 'X-OTRS-' . $Value } ) {
+                print "Type: " . $GetParam{ 'X-OTRS-' . $Value } . "\n";
             }
         }
     }
