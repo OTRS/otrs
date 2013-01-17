@@ -1,8 +1,8 @@
 # --
-# scripts/test/YAML.t - YAML module testscript
+# scripts/test/Load.t - YAML module testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.1 2013-01-17 03:40:14 cr Exp $
+# $Id: Load.t,v 1.1 2013-01-17 09:13:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,6 @@ use vars qw( $Self %Param );
 
 my $YAMLObject = Kernel::System::YAML->new( %{$Self} );
 
-# Tests for YAML encode method
 my @Tests = (
     {
         Input  => undef,

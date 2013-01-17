@@ -1,8 +1,8 @@
 # --
 # YAML.t - tests for the YAML parser
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.17 2013-01-17 03:39:21 cr Exp $
+# $Id: YAML.t,v 1.1 2013-01-17 09:13:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,10 +31,10 @@ my @Tests = (
     {
         Name => 'Complex data',
         Data => {
-            Key => 'Teststring <tag> äß@ø " \\" \' \'\'',
+            Key   => 'Teststring <tag> äß@ø " \\" \' \'\'',
             Value => [
                 {
-                    Subkey => 'Value',
+                    Subkey  => 'Value',
                     Subkey2 => undef,
                 },
                 1234,
@@ -53,8 +53,8 @@ my @Tests = (
         Data => 'kéy',
     },
     {
-        Name => 'UTF8 string, loader',
-        Data => 'kéy',
+        Name       => 'UTF8 string, loader',
+        Data       => 'kéy',
         YAMLString => '--- kéy' . "\n",
     },
     {
@@ -62,14 +62,14 @@ my @Tests = (
         Data => 'k\x{e9}y',
     },
     {
-        Name => 'UTF8 string without UTF8-Flag, loader',
-        Data => 'k\x{e9}y',
+        Name       => 'UTF8 string without UTF8-Flag, loader',
+        Data       => 'k\x{e9}y',
         YAMLString => '--- k\x{e9}y' . "\n",
     },
     {
-        Name => 'Very long string', # see https://bugzilla.redhat.com/show_bug.cgi?id=192400
+        Name => 'Very long string',      # see https://bugzilla.redhat.com/show_bug.cgi?id=192400
         Data => ' äø<>"\'' x 40_000,
-        SkipEngine => 'YAML',       # This test does not run with plain YAML, see the bug above
+        SkipEngine => 'YAML',            # This test does not run with plain YAML, see the bug above
     },
 );
 
@@ -84,7 +84,7 @@ for my $Engine (qw(YAML::XS YAML)) {
         next TEST if defined $Test->{SkipEngine} && $Engine eq $Test->{SkipEngine};
 
         my $YAMLString = $Test->{YAMLString} || $YAMLObject->Dump( Data => $Test->{Data} );
-        my $YAMLData   = $YAMLObject->Load( Data => $YAMLString );
+        my $YAMLData = $YAMLObject->Load( Data => $YAMLString );
 
         $Self->IsDeeply(
             $YAMLData,
