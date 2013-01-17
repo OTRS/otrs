@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.111 2013-01-16 15:47:15 mh Exp $
+# $Id: DB.pm,v 1.112 2013-01-17 07:28:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -469,10 +469,10 @@ sub CustomerIDs {
     my @CustomerIDs;
     if ( $Data{UserCustomerIDs} ) {
 
-        # used seperators
+        # used separators
         for my $Split ( ';', ',', '|' ) {
 
-            # next if seperator is not there
+            # next if separator is not there
             next if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
 
             # split it
@@ -485,7 +485,7 @@ sub CustomerIDs {
             last;
         }
 
-        # fallback if no seperator got found
+        # fallback if no separator got found
         if ( !@CustomerIDs ) {
             $Data{UserCustomerIDs} =~ s/^\s+//g;
             $Data{UserCustomerIDs} =~ s/\s+$//g;
