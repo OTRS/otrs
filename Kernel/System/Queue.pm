@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.142 2012-11-20 15:37:27 mh Exp $
+# $Id: Queue.pm,v 1.143 2013-01-17 15:18:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 =head1 NAME
 
@@ -624,7 +624,7 @@ add queue with attributes
         SolutionTime        => 580,         # (optional)
         SolutionNotify      => 80,          # (optional, notify agent if solution escalation is 80% reached)
         UnlockTimeout       => 480,         # (optional)
-        FollowUpId          => 3,           # possible (1), reject (2) or new ticket (3) (optional, default 0)
+        FollowUpID          => 3,           # possible (1), reject (2) or new ticket (3) (optional, default 0)
         FollowUpLock        => 0,           # yes (1) or no (0) (optional, default 0)
         DefaultSignKey      => 'key name',  # (optional)
         SystemAddressID     => 1,
@@ -1177,6 +1177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.142 $ $Date: 2012-11-20 15:37:27 $
+$Revision: 1.143 $ $Date: 2013-01-17 15:18:33 $
 
 =cut
