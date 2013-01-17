@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.73 2013-01-16 15:47:15 mh Exp $
+# $Id: LDAP.pm,v 1.74 2013-01-17 07:22:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -672,14 +672,14 @@ sub CustomerIDs {
     my @CustomerIDs;
     if ( $Data{UserCustomerIDs} ) {
 
-        # used seperators
-        SEPERATOR:
-        for my $Seperator ( ';', ',', '|' ) {
+        # used separators
+        separator:
+        for my $separator ( ';', ',', '|' ) {
 
-            next SEPERATOR if $Data{UserCustomerIDs} !~ /\Q$Seperator\E/;
+            next separator if $Data{UserCustomerIDs} !~ /\Q$separator\E/;
 
             # split it
-            my @IDs = split /\Q$Seperator\E/, $Data{UserCustomerIDs};
+            my @IDs = split /\Q$separator\E/, $Data{UserCustomerIDs};
 
             for my $ID (@IDs) {
                 $ID =~ s/^\s+//g;
@@ -687,10 +687,10 @@ sub CustomerIDs {
                 push @CustomerIDs, $ID;
             }
 
-            last SEPERATOR;
+            last separator;
         }
 
-        # fallback if no seperator got found
+        # fallback if no separator got found
         if ( !@CustomerIDs ) {
             $Data{UserCustomerIDs} =~ s/^\s+//g;
             $Data{UserCustomerIDs} =~ s/\s+$//g;
