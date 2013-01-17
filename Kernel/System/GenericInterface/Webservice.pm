@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.39 2013-01-15 17:43:27 mg Exp $
+# $Id: Webservice.pm,v 1.40 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -106,6 +106,7 @@ sub new {
         = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
     $Self->{ObjectLockStateObject}
         = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
+    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
@@ -150,7 +151,7 @@ sub WebserviceAdd {
     }
 
     # dump config as string
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -261,7 +262,7 @@ sub WebserviceGet {
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $Config = Kernel::System::YAML::Load( $Data[2] );
+        my $Config = $Self->{YAMLObject}->Load( Data => $Data[2] );
 
         %Data = (
             ID         => $Data[0],
@@ -321,7 +322,7 @@ sub WebserviceUpdate {
     }
 
     # dump config as string
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -504,6 +505,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2013-01-15 17:43:27 $
+$Revision: 1.40 $ $Date: 2013-01-17 03:39:21 $
 
 =cut

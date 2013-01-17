@@ -2,7 +2,7 @@
 # YAML.t - tests for the YAML parser
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.t,v 1.16 2013-01-16 20:47:01 mg Exp $
+# $Id: YAML.t,v 1.17 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,13 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::System::YAML;
+
+# create needed objects
+my $ConfigObject = Kernel::Config->new();
+my $YAMLObject   = Kernel::System::YAML->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 my @Tests = (
     {
@@ -68,17 +75,17 @@ my @Tests = (
 
 ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
-    
+
     # locally override the internal engine of YAML::Any to force testing
     local @YAML::Any::_TEST_ORDER = ($Engine);
-    
+
     TEST:
     for my $Test (@Tests) {
-        next TEST if $Engine eq $Test->{SkipEngine};
-        
-        my $YAMLString = $Test->{YAMLString} || Kernel::System::YAML::Dump( $Test->{Data} );
-        my $YAMLData   = Kernel::System::YAML::Load( $YAMLString );
-    
+        next TEST if defined $Test->{SkipEngine} && $Engine eq $Test->{SkipEngine};
+
+        my $YAMLString = $Test->{YAMLString} || $YAMLObject->Dump( Data => $Test->{Data} );
+        my $YAMLData   = $YAMLObject->Load( Data => $YAMLString );
+
         $Self->IsDeeply(
             $YAMLData,
             $Test->{Data},

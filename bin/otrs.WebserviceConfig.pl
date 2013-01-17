@@ -3,7 +3,7 @@
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.WebserviceConfig.pl,v 1.10 2013-01-15 17:43:26 mg Exp $
+# $Id: otrs.WebserviceConfig.pl,v 1.11 2013-01-17 03:39:20 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -78,6 +78,7 @@ $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 
 # create needed objects
 $CommonObject{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new(%CommonObject);
+$CommonObject{YAMLObject}       = Kernel::System::YAML->new(%CommonObject);
 
 # validate -a param
 if ( !$Opts{a} ) {
@@ -120,7 +121,7 @@ if ( lc( $Opts{a} ) eq 'write' ) {
         print STDERR "ERROR: No content in file (-f '$Opts{f}')!\n";
         exit 1;
     }
-    my $Config = eval { Kernel::System::YAML::Load( ${$Content} ) };
+    my $Config = $CommonObject{YAMLObject}->Load( Data => ${$Content} );
 
     if ( !$Config ) {
         print STDERR "ERROR: Unable to read config file: $! (-f '$Opts{f}')!\n";
@@ -195,7 +196,7 @@ if ( lc( $Opts{a} ) eq 'read' ) {
     }
 
     # dump config as string
-    my $Config = Kernel::System::YAML::Dump( $Webservice->{Config} );
+    my $Config = $CommonObject{YAMLObject}->Dump( Data => $Webservice->{Config} );
     print "$Config\n";
     exit 0;
 }

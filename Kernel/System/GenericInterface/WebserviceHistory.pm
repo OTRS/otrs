@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceHistory.pm,v 1.14 2013-01-15 17:43:27 mg Exp $
+# $Id: WebserviceHistory.pm,v 1.15 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::YAML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -92,6 +92,8 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
+    # create additional objects
+    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
     return $Self;
 }
 
@@ -121,7 +123,7 @@ sub WebserviceHistoryAdd {
     }
 
     # dump config as string
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -190,7 +192,7 @@ sub WebserviceHistoryGet {
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $Config = Kernel::System::YAML::Load( $Data[1] );
+        my $Config = $Self->{YAMLObject}->Load( Data => $Data[1] );
 
         %Data = (
             ID           => $Param{ID},
@@ -228,7 +230,7 @@ sub WebserviceHistoryUpdate {
     }
 
     # dump config as string
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # md5 of content
     my $MD5 = $Self->{MainObject}->MD5sum(
@@ -330,6 +332,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2013-01-15 17:43:27 $
+$Revision: 1.15 $ $Date: 2013-01-17 03:39:21 $
 
 =cut

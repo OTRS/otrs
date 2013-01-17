@@ -2,7 +2,7 @@
 # WebserviceConfig.t - WebserviceConfig tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.15 2013-01-16 21:44:50 cr Exp $
+# $Id: WebserviceConfig.t,v 1.16 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,11 @@ my $WebserviceConfig =
 if ( $^O =~ /^mswin/i ) {
     $WebserviceConfig = "\"$^X\" " . $Home . '/bin/otrs.WebserviceConfig.pl';
 }
+my $ConfigObject = Kernel::Config->new();
+my $YAMLObject   = Kernel::System::YAML->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 my $RandomNumber = int( rand(1000000) );
 
@@ -221,8 +226,8 @@ for my $Test (@Tests) {
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Test->{FileAdd},
     );
-    my $OriginalContent = Kernel::System::YAML::Load( ${$Content} );
-    my $ResultContent   = Kernel::System::YAML::Load($WebserviceConfigResult);
+    my $OriginalContent = $YAMLObject->Load( Data => ${$Content} );
+    my $ResultContent   = $YAMLObject->Load( Data => $WebserviceConfigResult );
 
     $Self->IsDeeply(
         $ResultContent,
@@ -265,8 +270,8 @@ for my $Test (@Tests) {
     $Content                = $Self->{MainObject}->FileRead(
         Location => $Test->{FileUpdate},
     );
-    $OriginalContent = Kernel::System::YAML::Load( ${$Content} );
-    $ResultContent   = Kernel::System::YAML::Load($WebserviceConfigResult);
+    $OriginalContent = $YAMLObject->Load( Data => ${$Content} );
+    $ResultContent   = $YAMLObject->Load( Data => $WebserviceConfigResult );
 
     $Self->IsDeeply(
         $ResultContent,

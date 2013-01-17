@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.12 2013-01-15 17:43:26 mg Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.13 2013-01-17 03:39:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
@@ -35,6 +35,9 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+
+    # create additional objects
+    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
 
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
     $Self->{WebserviceHistoryObject}
@@ -195,7 +198,7 @@ sub _GetWebserviceHistoryDetails {
     }
 
     # dump config
-    $LogData->{Config} = Kernel::System::YAML::Dump( $LogData->{Config} );
+    $LogData->{Config} = $Self->{YAMLObject}->Dump( Data => $LogData->{Config} );
 
     # build JSON output
     my $JSON = $Self->{LayoutObject}->JSONEncode(
@@ -234,7 +237,7 @@ sub _ExportWebserviceHistory {
     }
 
     # dump configuration into a YAML structure
-    my $YAMLContent = Kernel::System::YAML::Dump( $WebserviceHistoryData->{Config} );
+    my $YAMLContent = $Self->{YAMLObject}->Dump( Data => $WebserviceHistoryData->{Config} );
 
     # return yaml to download
     my $YAMLFile = $Param{WebserviceData}->{Name} || 'yamlfile';

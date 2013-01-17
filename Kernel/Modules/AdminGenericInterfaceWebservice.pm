@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.40 2013-01-15 17:43:26 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.41 2013-01-17 03:39:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -37,6 +37,7 @@ sub new {
     # create addtional objects
     $Self->{ValidObject}      = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{YAMLObject}       = Kernel::System::YAML->new( %{$Self} );
 
     # get configurations
     # get configured transports
@@ -354,7 +355,7 @@ sub Run {
         }
 
         # dump configuration into a YAML structure
-        my $YAMLContent = Kernel::System::YAML::Dump( $WebserviceData->{Config} );
+        my $YAMLContent = $Self->{YAMLObject}->Dump( Data => $WebserviceData->{Config} );
 
         # return yaml to download
         my $YAMLFile = $WebserviceData->{Name};
@@ -495,15 +496,13 @@ sub Run {
         my $ImportedConfig;
 
         # read configuration from a YAML structure
-        # if there is an error in YAML it returns a had error eval is needed to handle the error
-        eval {
-            $ImportedConfig = Kernel::System::YAML::Load( $ConfigFile{Content} );
-        };
+        $ImportedConfig = $Self->{YAMLObject}->Load( Data => $ConfigFile{Content} );
 
         # display any YAML error message as a normal otrs error message
-        if ($@) {
+        if ( !IsHashRefWithData($ImportedConfig) ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => $@,
+                Message => 'The imported file has not valid YAML content!'
+                    . ' Please check OTRS log for details',
             );
         }
 

@@ -2,7 +2,7 @@
 # Kernel/System/YAML.pm - YAML wrapper
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.pm,v 1.3 2013-01-16 09:02:28 mg Exp $
+# $Id: YAML.pm,v 1.4 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,8 @@ use warnings;
 use YAML::Any qw();
 use Encode qw();
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -26,14 +26,76 @@ Kernel::System::YAML - YAML wrapper functions
 
 =head1 SYNOPSIS
 
-Call this module directly without instantiating.
+Functions for encoding perl data structures to YAML.
 
 =over 4
 
 =cut
 
+=item new()
+
+create a YAML object
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::YAML;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+
+    my $YAMLObject = Kernel::System::YAML->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+
+=cut
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
+
+    # check needed objects
+    for my $Object (qw(ConfigObject EncodeObject LogObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
+    }
+
+    return $Self;
+}
+
+=item Dump()
+
+Dump a perl data structure to a YAML string.
+
+    my $YAMLString = $YAMLObject->Dump(
+        Data     => $Data,
+    );
+
+=cut
+
 sub Dump {
-    my $Result = YAML::Any::Dump(@_);
+    my ( $Self, %Param ) = @_;
+
+    # check for needed data
+    if ( !defined $Param{Data} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!',
+        );
+        return;
+    }
+
+    my $Result = YAML::Any::Dump( $Param{Data} ) || "--- ''\n";
 
     # Make sure the resulting string has the UTF-8 flag.
     Encode::_utf8_on($Result);
@@ -41,13 +103,35 @@ sub Dump {
     return $Result;
 }
 
+=item Load()
+
+Load a YAML string to a perl data structure.
+
+    my $PerlStructureScalar = $YAMLObject->Load(
+        Data => $YAMLString,
+    );
+
+=cut
+
 sub Load {
-    my $Result = eval {
-        if ( Encode::is_utf8( $_[0] ) ) {
-            Encode::_utf8_off( $_[0] );
-        }
-        YAML::Any::Load(@_);
-    };
+    my ( $Self, %Param ) = @_;
+
+    # check for needed data
+    return if !defined $Param{Data};
+
+    if ( Encode::is_utf8( $Param{Data} ) ) {
+        Encode::_utf8_off( $Param{Data} );
+    }
+
+    my $Result;
+
+    if ( !eval { $Result = YAML::Any::Load( $Param{Data} ) } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Loading the YAML string failed: ' . $@,
+        );
+        return;
+    }
 
     _AddUTF8Flag( \$Result ) if defined $Result;
 
@@ -120,6 +204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2013-01-16 09:02:28 $
+$Revision: 1.4 $ $Date: 2013-01-17 03:39:21 $
 
 =cut

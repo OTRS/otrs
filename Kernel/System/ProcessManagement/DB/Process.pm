@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.38 2013-01-15 17:43:27 mg Exp $
+# $Id: Process.pm,v 1.39 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -104,6 +104,7 @@ sub new {
 
     # create additional objects
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{YAMLObject}  = Kernel::System::YAML->new( %{$Self} );
 
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
@@ -203,8 +204,8 @@ sub ProcessAdd {
     }
 
     # dump layout and config as string
-    my $Layout = Kernel::System::YAML::Dump( $Param{Layout} );
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Layout = $Self->{YAMLObject}->Dump( Data => $Param{Layout} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -437,8 +438,8 @@ sub ProcessGet {
     my %Data;
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Layout = Kernel::System::YAML::Load( $Data[4] );
-        my $Config = Kernel::System::YAML::Load( $Data[5] );
+        my $Layout = $Self->{YAMLObject}->Load( Data => $Data[4] );
+        my $Config = $Self->{YAMLObject}->Load( Data => $Data[5] );
 
         %Data = (
             ID            => $Data[0],
@@ -663,8 +664,8 @@ sub ProcessUpdate {
     }
 
     # dump layout and config as string
-    my $Layout = Kernel::System::YAML::Dump( $Param{Layout} );
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Layout = $Self->{YAMLObject}->Dump( Data => $Param{Layout} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -1420,6 +1421,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2013-01-15 17:43:27 $
+$Revision: 1.39 $ $Date: 2013-01-17 03:39:21 $
 
 =cut

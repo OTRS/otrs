@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Transition.pm - Process Management DB Transition backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.pm,v 1.8 2013-01-15 17:43:27 mg Exp $
+# $Id: Transition.pm,v 1.9 2013-01-17 03:39:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -97,6 +97,7 @@ sub new {
 
     # create additional objects
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{YAMLObject}  = Kernel::System::YAML->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
@@ -197,7 +198,7 @@ sub TransitionAdd {
     }
 
     # dump layout and config as string
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -359,7 +360,7 @@ sub TransitionGet {
     my %Data;
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = Kernel::System::YAML::Load( $Data[3] );
+        my $Config = $Self->{YAMLObject}->Load( Data => $Data[3] );
 
         %Data = (
             ID         => $Data[0],
@@ -464,7 +465,7 @@ sub TransitionUpdate {
     }
 
     # dump layout and config as string
-    my $Config = Kernel::System::YAML::Dump( $Param{Config} );
+    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
 
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
@@ -694,6 +695,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2013-01-15 17:43:27 $
+$Revision: 1.9 $ $Date: 2013-01-17 03:39:21 $
 
 =cut
