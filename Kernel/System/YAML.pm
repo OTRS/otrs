@@ -2,7 +2,7 @@
 # Kernel/System/YAML.pm - YAML wrapper
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.pm,v 1.4 2013-01-17 03:39:21 cr Exp $
+# $Id: YAML.pm,v 1.5 2013-01-17 09:47:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use YAML::Any qw();
 use Encode qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -26,7 +26,7 @@ Kernel::System::YAML - YAML wrapper functions
 
 =head1 SYNOPSIS
 
-Functions for encoding perl data structures to YAML.
+Functions for YAML serialization / deserialization.
 
 =over 4
 
@@ -106,6 +106,7 @@ sub Dump {
 =item Load()
 
 Load a YAML string to a perl data structure.
+This string must be a encoded in UTF8.
 
     my $PerlStructureScalar = $YAMLObject->Load(
         Data => $YAMLString,
@@ -133,10 +134,14 @@ sub Load {
         return;
     }
 
+    # YAML does not set the UTF8 flag on strings that need it,
+    #   do that manually now.
     _AddUTF8Flag( \$Result ) if defined $Result;
 
     return $Result;
 }
+
+=begin Internal:
 
 =item _AddUTF8Flag()
 
@@ -204,6 +209,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2013-01-17 03:39:21 $
+$Revision: 1.5 $ $Date: 2013-01-17 09:47:23 $
 
 =cut
