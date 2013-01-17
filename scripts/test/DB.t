@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.99 2012-11-20 16:05:58 mh Exp $
+# $Id: DB.t,v 1.100 2013-01-17 07:13:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -313,6 +313,20 @@ $Self->True(
     ref( $DBObject->FetchrowArray() ) eq '' &&
         ref( $DBObject->FetchrowArray() ) eq '',
     '#1 FetchrowArray () SELECT',
+);
+
+$Self->True(
+    $DBObject->Prepare(
+        SQL   => 'SELECT DISTINCT * FROM test_aa WHERE name_a = \'Some\'',
+        Limit => 1,
+    ),
+    '#1 Prepare() SELECT DISTINCT - Limit - Prepare',
+);
+
+$Self->True(
+    ref( $DBObject->FetchrowArray() ) eq '' &&
+        ref( $DBObject->FetchrowArray() ) eq '',
+    '#1 FetchrowArray () SELECT DISTINCT - Limit',
 );
 
 $Self->True(
