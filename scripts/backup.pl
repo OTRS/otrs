@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # scripts/backup.pl - the backup script
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.31 2012-11-20 16:04:52 mh Exp $
+# $Id: backup.pl,v 1.32 2013-01-18 14:53:06 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -52,7 +52,7 @@ my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;
@@ -213,7 +213,8 @@ else {
 # backup application
 if ($FullBackup) {
     print "Backup $Directory/Application.tar.gz ... ";
-    if ( !system("tar -czf $Directory/Application.tar.gz .") ) {
+    my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache ";
+    if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
         print "done\n";
     }
     else {
