@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.189 2013-01-16 13:38:04 marb Exp $
+# $Id: CHANGES,v 1.2260.2.190 2013-01-18 14:52:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-01-18 Fixed bug#8944 - do not backup the cache.
  - 2013-01-16 Fixed bug#9057 - Generating a PDF with bin/otrs.GenerateStats.pl produces lots
     of warnings.
  - 2013-01-15 Fixed bug#8929 - Fix problems with empty ticket search results while
