@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.355 2013-01-17 09:03:44 mg Exp $
+# $Id: de.pm,v 1.356 2013-01-21 08:48:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.355 $) [1];
+$VERSION = qw($Revision: 1.356 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3868,7 +3868,7 @@ sub Data {
         'NameX' => '',
         'New email ticket' => 'Neues E-Mail-Ticket',
         'New phone ticket' => 'Neues Telefon-Ticket',
-        'New process ticket' => '',
+        'New process ticket' => 'Neues Prozess-Ticket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
