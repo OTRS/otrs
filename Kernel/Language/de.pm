@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.356 2013-01-21 08:48:03 mg Exp $
+# $Id: de.pm,v 1.357 2013-01-21 10:32:05 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.356 $) [1];
+$VERSION = qw($Revision: 1.357 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1656,6 +1656,7 @@ sub Data {
             'Dieser Übergang wird bereits für diese Aktiviät verwendet. Sie können ihn nicht erneut hinzufügen!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Diese Übergangsaktion wird bereits in diesem Pfad verwendet. Sie können sie nicht erneut hinzufügen!',
+        'No TransitionActions assigned.' => 'Keine Übergangsaktionen zugewiesen.',
         'The Start Event cannot loose the Start Transition!' => 'Das Startereignis kann den Start-Übergang nicht verlieren.',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Möchten Sie diese Aktivität wirklich von der Zeichenfläche entfernen? Das kann nur rückgängig gemacht werden, wenn Sie dieses Fenster ohne speichern verlassen.',

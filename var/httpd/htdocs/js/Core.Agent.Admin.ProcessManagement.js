@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.63 2013-01-14 14:40:16 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.64 2013-01-21 10:32:04 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -1066,6 +1066,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     TargetNS.InitPathEdit = function () {
         var CurrentProcessEntityID = Core.Config.Get('Config.ProcessEntityID'),
             CurrentTransitionEntityID = Core.Config.Get('Config.TransitionEntityID'),
+            StartActivityID = Core.Config.Get('Config.StartActivityID'),
             ActivityInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             PathInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
             StartActivityEntityID = '', EndActivityEntityID = '',
@@ -1079,8 +1080,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // set current start and end activity (just for information purposes, not changeable)
         $.each(PathInfo, function(Activity, Transition) {
-           if ( Transition[CurrentTransitionEntityID] !== undefined ) {
-
+            if (Activity === StartActivityID && typeof Transition[CurrentTransitionEntityID] !== 'undefined') {
                 $('#StartActivity').text(ActivityInfo[Activity].Name);
                 $('#EndActivity').text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
 
@@ -1089,7 +1089,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 AssignedTransitionActions = Transition[CurrentTransitionEntityID].TransitionAction;
 
                 return false;
-           }
+            }
         });
 
         // Set chosen Startactivity, Endactivity and Transition

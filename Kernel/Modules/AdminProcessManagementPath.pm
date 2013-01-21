@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminProcessManagementPath.pm - process management path
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.8 2012-11-20 14:42:19 mh Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.9 2013-01-21 10:32:05 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,6 +90,7 @@ sub Run {
 
         $PathData->{ProcessEntityID}    = $GetParam->{ProcessEntityID}    || $GetParam->{ID};
         $PathData->{TransitionEntityID} = $GetParam->{TransitionEntityID} || $GetParam->{EntityID};
+        $PathData->{StartActivityID}    = $GetParam->{StartActivityID};
 
         return $Self->_ShowEdit(
             %Param,
@@ -324,7 +325,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( ID EntityID ProcessData TransitionInfo ProcessEntityID TransitionEntityID )
+        qw( ID EntityID ProcessData TransitionInfo ProcessEntityID StartActivityID TransitionEntityID )
         )
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';

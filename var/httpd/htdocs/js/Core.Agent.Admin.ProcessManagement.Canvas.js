@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.44 2013-01-14 16:40:10 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.45 2013-01-21 10:32:04 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -146,7 +146,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
-    TargetNS.ShowTransitionTooltip = function (Connection) {
+    TargetNS.ShowTransitionTooltip = function (Connection, StartActivity, EndActivity) {
         var $tooltip = $('#DiagramTooltip'),
             $Element = $(Connection.canvas),
             $TitleElement = $Element.clone(),
@@ -180,7 +180,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         position.y = parseInt($Element.css('top'), 10) + 15;
 
         $.each(PathInfo, function(Activity, Transition) {
-            if ( Transition[ElementID] !== undefined ) {
+            if (Activity === StartActivity && typeof Transition[ElementID] !== 'undefined' && typeof Transition[ElementID].TransitionAction !== 'undefined') {
                 AssignedTransitionActions = Transition[ElementID].TransitionAction;
                 return false;
             }
@@ -188,7 +188,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         // Add content to the tooltip
         text += "<ul>";
-        if (AssignedTransitionActions) {
+        if (AssignedTransitionActions.length) {
             $.each(AssignedTransitionActions, function (Key, Value) {
                 text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name + " (" + Value + ") </li>";
             });
@@ -453,7 +453,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 [ "PlainArrow", { location: -15, width: 20, length: 15 } ],
                 [ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: EntityID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
-                        TargetNS.HighlightTransitionLabel(labelOverlay);
+                        TargetNS.HighlightTransitionLabel(labelOverlay, StartElement, EndElement);
                         originalEvent.stopPropagation();
                         return false;
                     },
@@ -470,14 +470,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
 
-    TargetNS.HighlightTransitionLabel = function(Connection) {
+    TargetNS.HighlightTransitionLabel = function(Connection, StartActivity, EndActivity) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             ProcessEntityID = $('#ProcessEntityID').val(),
             Path = Config.Process[ProcessEntityID].Path,
             TransitionEntityID = Connection.id,
-            PopupPath = Core.Config.Get('Config.PopupPathPath') + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + TransitionEntityID,
             StartActivityID = Connection.component.sourceId,
+            PopupPath = Core.Config.Get('Config.PopupPathPath') + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + TransitionEntityID + ";StartActivityID=" + StartActivityID,
             Transition;
 
         if (TargetNS.DragTransitionAction) {
@@ -501,11 +501,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
 
         // show tooltip with assigned transition actions
-        TargetNS.ShowTransitionTooltip(Connection);
+        TargetNS.ShowTransitionTooltip(Connection, StartActivity, EndActivity);
 
         $(Connection.canvas).unbind('dblclick.Transition').bind('dblclick.Transition', function(Event) {
-            Core.Agent.Admin.ProcessManagement.ShowOverlay();
-            Core.UI.Popup.OpenPopup(PopupPath, 'Path');
+            if (EndActivity !== 'Dummy') {
+                Core.Agent.Admin.ProcessManagement.ShowOverlay();
+                Core.UI.Popup.OpenPopup(PopupPath, 'Path');
+            }
             Event.stopPropagation();
             return false;
         });
@@ -697,7 +699,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
                 Data.connection.addOverlay([ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
-                        TargetNS.HighlightTransitionLabel(labelOverlay);
+                        TargetNS.HighlightTransitionLabel(labelOverlay, Data.sourceId, Data.targetId);
                     },
                     mouseexit: function(labelOverlay, originalEvent) {
                         TargetNS.UnHighlightTransitionLabel(labelOverlay);
