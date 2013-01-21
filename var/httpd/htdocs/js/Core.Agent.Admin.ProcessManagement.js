@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.64 2013-01-21 10:32:04 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.65 2013-01-21 11:36:07 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -525,7 +525,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         var Data = {
                 Action: 'AdminProcessManagement',
                 Subaction: 'UpdateAccordion'
-            };
+            },
+            ActiveElement;
+
+        // get active accordion element to open the same element again after updating
+        ActiveElement = $('ul#ProcessElements > li.Active').index();
 
         // Call the ajax function
         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
@@ -533,6 +537,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // Initialize Accordion in the sidebar
             Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
+
+            // open accordion element again, which was active before the update
+            $('ul#ProcessElements > li:nth-child(' + (parseInt(ActiveElement,10) + 1) + ') h2 a').trigger('click');
 
             // Initialize filters
             Core.UI.Table.InitTableFilter($('#ActivityFilter'), $('#Activities'));
