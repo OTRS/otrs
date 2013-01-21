@@ -1,8 +1,8 @@
 # --
 # LinkObject.t - link object module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.23 2012-11-20 16:06:48 mh Exp $
+# $Id: LinkObject.t,v 1.24 2013-01-21 15:04:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1807,6 +1807,26 @@ continue {
             Object2 => $ObjectNames[2],
             Type    => $TypeNames[99],
         },
+        10013 => {
+            Object1 => $ObjectNames[41],
+            Object2 => $ObjectNames[42],
+            Type    => $TypeNames[6],
+        },
+        10014 => {
+            Object1 => $ObjectNames[42],
+            Object2 => $ObjectNames[41],
+            Type    => $TypeNames[6],
+        },
+        10015 => {
+            Object1 => $ObjectNames[41],
+            Object2 => $ObjectNames[42],
+            Type    => $TypeNames[7],
+        },
+        10016 => {
+            Object1 => $ObjectNames[42],
+            Object2 => $ObjectNames[41],
+            Type    => $TypeNames[7],
+        },
     };
 
     # create above config settings for later tests
@@ -2637,6 +2657,90 @@ my $LinkData = [
             LinkListReference => {},
         },
     },
+
+    # add 2 links between the same objects but 2 different link types
+    {
+        SourceData => [
+            {
+                Action       => 'LinkAdd',
+                SourceObject => $ObjectNames[41],
+                SourceKey    => '4100',
+                TargetObject => $ObjectNames[42],
+                TargetKey    => '4200',
+                Type         => $TypeNames[6],
+                State        => 'Valid',
+                UserID       => 1,
+            },
+            {
+                Action       => 'LinkAdd',
+                SourceObject => $ObjectNames[41],
+                SourceKey    => '4100',
+                TargetObject => $ObjectNames[42],
+                TargetKey    => '4200',
+                Type         => $TypeNames[7],
+                State        => 'Valid',
+                UserID       => 1,
+            },
+        ],
+        ReferenceData => {
+            LinkList => {
+                Object => $ObjectNames[41],
+                Key    => '4100',
+                Type   => '',
+                State  => 'Valid',
+                UserID => 1,
+            },
+            LinkListReference => {
+                $ObjectNames[42] => {
+                    $TypeNames[6] => {
+                        Target => {
+                            4100 => 1,
+                        },
+                    },
+                    $TypeNames[7] => {
+                        Target => {
+                            4100 => 1,
+                        },
+                    },
+                },
+            },
+        },
+    },
+
+    # delete one of the links from the test before and check that the other link still exists
+    {
+        SourceData => [
+            {
+                Action  => 'LinkDelete',
+                Object1 => $ObjectNames[41],
+                Key1    => '4100',
+                Object2 => $ObjectNames[42],
+                Key2    => '4200',
+                Type    => $TypeNames[6],
+                State   => 'Valid',
+                UserID  => 1,
+            },
+        ],
+        ReferenceData => {
+            LinkList => {
+                Object => $ObjectNames[41],
+                Key    => '4100',
+                Type   => $TypeNames[7],
+                State  => 'Valid',
+                UserID => 1,
+            },
+            LinkListReference => {
+                $ObjectNames[42] => {
+                    $TypeNames[7] => {
+                        Target => {
+                            4100 => 1,
+                        },
+                    },
+                },
+            },
+        },
+    },
+
 ];
 
 # ------------------------------------------------------------ #
@@ -2817,13 +2921,13 @@ $Self->True(
 );
 
 # ------------------------------------------------------------ #
-# run link tests
+# clean up link tests
 # ------------------------------------------------------------ #
 
-# create needed random object names
+# remove random object names
 for my $Name (@ObjectNames) {
 
-    # create the backend file
+    # delete the backend file
     $Self->{MainObject}->FileDelete(
         Directory       => $BackendLocation,
         Filename        => $Name . '.pm',

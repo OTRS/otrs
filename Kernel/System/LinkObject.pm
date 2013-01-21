@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.67 2012-12-20 12:24:53 mb Exp $
+# $Id: LinkObject.pm,v 1.68 2013-01-21 15:04:09 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -746,10 +746,10 @@ sub LinkDelete {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT source_object_id, source_key, target_object_id, target_key, state_id '
             . 'FROM link_relation '
-            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'WHERE ((source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
             . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'AND target_object_id = ? AND target_key = ? )) '
             . 'AND type_id = ? ',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
@@ -839,10 +839,10 @@ sub LinkDelete {
     # delete the link
     return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
-            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'WHERE (( source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
             . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'AND target_object_id = ? AND target_key = ? )) '
             . 'AND type_id = ? ',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
@@ -1715,7 +1715,7 @@ sub TypeLookup {
             );
         }
 
-        # check the state id
+        # check the type id
         if ( !$TypeID ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -2406,6 +2406,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-12-20 12:24:53 $
+$Revision: 1.68 $ $Date: 2013-01-21 15:04:09 $
 
 =cut
