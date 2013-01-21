@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.53 2012-11-20 14:45:00 mh Exp $
+# $Id: AdminSignature.pm,v 1.54 2013-01-21 14:03:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -72,7 +72,6 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Text Comment ValidID)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
@@ -159,7 +158,6 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Text Comment ValidID)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
