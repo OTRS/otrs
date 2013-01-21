@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.68 2013-01-21 15:04:09 ub Exp $
+# $Id: LinkObject.pm,v 1.69 2013-01-21 16:14:26 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -458,13 +458,17 @@ sub LinkAdd {
 
     # check if link already exists in database
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT source_object_id, source_key, state_id '
-            . 'FROM link_relation '
-            . 'WHERE ( ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
-            . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) ) '
-            . 'AND type_id = ? ',
+        SQL => '
+            SELECT source_object_id, source_key, state_id
+            FROM link_relation
+            WHERE (
+                    ( source_object_id = ? AND source_key = ?
+                    AND target_object_id = ? AND target_key = ? )
+                OR
+                    ( source_object_id = ? AND source_key = ?
+                    AND target_object_id = ? AND target_key = ? )
+                )
+                AND type_id = ?',
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
@@ -595,10 +599,11 @@ sub LinkAdd {
     );
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO link_relation '
-            . '(source_object_id, source_key, target_object_id, target_key, '
-            . 'type_id, state_id, create_time, create_by) '
-            . 'VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?)',
+        SQL => '
+            INSERT INTO link_relation
+            (source_object_id, source_key, target_object_id, target_key,
+            type_id, state_id, create_time, create_by)
+            VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?)',
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
@@ -675,8 +680,10 @@ sub LinkCleanup {
 
     # delete the link
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM link_relation '
-            . 'WHERE state_id = ? AND create_time < ?',
+        SQL => '
+            DELETE FROM link_relation
+            WHERE state_id = ?
+            AND create_time < ?',
         Bind => [
             \$StateID, \$DeleteTime,
         ],
@@ -744,13 +751,17 @@ sub LinkDelete {
 
     # get the existing link
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT source_object_id, source_key, target_object_id, target_key, state_id '
-            . 'FROM link_relation '
-            . 'WHERE ((source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
-            . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? )) '
-            . 'AND type_id = ? ',
+        SQL => '
+            SELECT source_object_id, source_key, target_object_id, target_key, state_id
+            FROM link_relation
+            WHERE (
+                    (source_object_id = ? AND source_key = ?
+                    AND target_object_id = ? AND target_key = ? )
+                OR
+                    ( source_object_id = ? AND source_key = ?
+                    AND target_object_id = ? AND target_key = ? )
+                )
+                AND type_id = ?',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
             \$Param{Object2ID}, \$Param{Key2},
@@ -838,12 +849,16 @@ sub LinkDelete {
 
     # delete the link
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM link_relation '
-            . 'WHERE (( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
-            . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? )) '
-            . 'AND type_id = ? ',
+        SQL => '
+            DELETE FROM link_relation
+            WHERE (
+                    ( source_object_id = ? AND source_key = ?
+                    AND target_object_id = ? AND target_key = ? )
+                OR
+                    ( source_object_id = ? AND source_key = ?
+                    AND target_object_id = ? AND target_key = ? )
+                )
+                AND type_id = ?',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
             \$Param{Object2ID}, \$Param{Key2},
@@ -1049,11 +1064,12 @@ sub LinkList {
 
     # get links where the given object is the source
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT target_object_id, target_key, type_id '
-            . 'FROM link_relation '
-            . 'WHERE source_object_id = ? '
-            . 'AND source_key = ? '
-            . 'AND state_id = ? '
+        SQL => '
+            SELECT target_object_id, target_key, type_id
+            FROM link_relation
+            WHERE source_object_id = ?
+                AND source_key = ?
+                AND state_id = ? '
             . $TypeSQL,
         Bind => \@Bind,
     );
@@ -1093,12 +1109,12 @@ sub LinkList {
 
     # get links where the given object is the target
     return if !$Self->{DBObject}->Prepare(
-        SQL =>
-            'SELECT source_object_id, source_key, type_id '
-            . 'FROM link_relation '
-            . 'WHERE target_object_id = ? '
-            . 'AND target_key = ?  '
-            . 'AND state_id = ? '
+        SQL => '
+            SELECT source_object_id, source_key, type_id
+            FROM link_relation
+            WHERE target_object_id = ?
+                AND target_key = ?
+                AND state_id = ? '
             . $TypeSQL,
         Bind => \@Bind,
     );
@@ -1506,7 +1522,10 @@ sub ObjectLookup {
 
         # ask the database
         return if !$Self->{DBObject}->Prepare(
-            SQL   => 'SELECT name FROM link_object WHERE id = ?',
+            SQL => '
+                SELECT name
+                FROM link_object
+                WHERE id = ?',
             Bind  => [ \$Param{ObjectID} ],
             Limit => 1,
         );
@@ -1548,7 +1567,10 @@ sub ObjectLookup {
 
             # ask the database
             return if !$Self->{DBObject}->Prepare(
-                SQL   => 'SELECT id FROM link_object WHERE name = ?',
+                SQL => '
+                    SELECT id
+                    FROM link_object
+                    WHERE name = ?',
                 Bind  => [ \$Param{Name} ],
                 Limit => 1,
             );
@@ -1708,9 +1730,10 @@ sub TypeLookup {
 
             # insert the new type
             return if !$Self->{DBObject}->Do(
-                SQL => 'INSERT INTO link_type '
-                    . '(name, valid_id, create_time, create_by, change_time, change_by) '
-                    . 'VALUES (?, 1, current_timestamp, ?, current_timestamp, ?)',
+                SQL => '
+                    INSERT INTO link_type
+                    (name, valid_id, create_time, create_by, change_time, change_by)
+                    VALUES (?, 1, current_timestamp, ?, current_timestamp, ?)',
                 Bind => [ \$Param{Name}, \$Param{UserID}, \$Param{UserID} ],
             );
         }
@@ -1776,8 +1799,10 @@ sub TypeGet {
 
     # ask the database
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, name, create_time, create_by, change_time, change_by '
-            . 'FROM link_type WHERE id = ?',
+        SQL => '
+            SELECT id, name, create_time, create_by, change_time, change_by
+            FROM link_type
+            WHERE id = ?',
         Bind  => [ \$Param{TypeID} ],
         Limit => 1,
     );
@@ -2097,7 +2122,10 @@ sub StateLookup {
 
         # ask the database
         return if !$Self->{DBObject}->Prepare(
-            SQL   => 'SELECT name FROM link_state WHERE id = ?',
+            SQL => '
+                SELECT name
+                FROM link_state
+                WHERE id = ?',
             Bind  => [ \$Param{StateID} ],
             Limit => 1,
         );
@@ -2134,7 +2162,10 @@ sub StateLookup {
 
         # ask the database
         return if !$Self->{DBObject}->Prepare(
-            SQL   => 'SELECT id FROM link_state WHERE name = ?',
+            SQL => '
+                SELECT id
+                FROM link_state
+                WHERE name = ?',
             Bind  => [ \$Param{Name} ],
             Limit => 1,
         );
@@ -2406,6 +2437,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2013-01-21 15:04:09 $
+$Revision: 1.69 $ $Date: 2013-01-21 16:14:26 $
 
 =cut
