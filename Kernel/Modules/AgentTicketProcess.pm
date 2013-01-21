@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.28 2013-01-21 09:58:41 mg Exp $
+# $Id: AgentTicketProcess.pm,v 1.29 2013-01-21 10:48:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -393,11 +393,11 @@ sub _RenderAjax {
             Message => "Got no ActivityDialogEntityID in _RenderAjax!"
         );
     }
-    my $ActivityDialog
-        = $Self->{ActivityDialogObject}->ActivityDialogGet(
+    my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
         ActivityDialogEntityID => $ActivityDialogEntityID,
         Interface              => 'AgentInterface',
-        );
+    );
+
     if ( !IsHashRefWithData($ActivityDialog) ) {
         $Self->{LayoutObject}->FatalError(
             Message => "No ActivityDialog configured for $ActivityDialogEntityID in _RenderAjax!"
@@ -693,10 +693,11 @@ sub _GetParam {
     }
     my %GetParam;
     my %Ticket;
-    my $ProcessEntityID = $Param{ProcessEntityID};
-    my $TicketID = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
-    my $ActivityDialogEntityID
-        = $Self->{ParamObject}->GetParam( Param => 'ActivityDialogEntityID' );
+    my $ProcessEntityID        = $Param{ProcessEntityID};
+    my $TicketID               = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
+    my $ActivityDialogEntityID = $Self->{ParamObject}->GetParam(
+        Param => 'ActivityDialogEntityID',
+    );
     my $ActivityEntityID;
     my %ValuesGotten;
     my $Value;
@@ -704,8 +705,9 @@ sub _GetParam {
     # If we got no ActivityDialogEntityID and no TicketID
     # we have to get the Processes' Startpoint
     if ( !$ActivityDialogEntityID && !$TicketID ) {
-        my $ActivityActivityDialog
-            = $Self->{ProcessObject}->ProcessStartpointGet( ProcessEntityID => $ProcessEntityID );
+        my $ActivityActivityDialog = $Self->{ProcessObject}->ProcessStartpointGet(
+            ProcessEntityID => $ProcessEntityID,
+        );
         if (
             !$ActivityActivityDialog->{ActivityDialog}
             || !$ActivityActivityDialog->{Activity}
@@ -720,21 +722,19 @@ sub _GetParam {
                     Message => $Message,
                 );
             }
-            else {
-                $Self->{LayoutObject}->FatalError(
-                    Message => $Message,
-                );
-            }
+
+            $Self->{LayoutObject}->FatalError(
+                Message => $Message,
+            );
         }
         $ActivityDialogEntityID = $ActivityActivityDialog->{ActivityDialog};
         $ActivityEntityID       = $ActivityActivityDialog->{Activity};
     }
 
-    my $ActivityDialog
-        = $Self->{ActivityDialogObject}->ActivityDialogGet(
+    my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
         ActivityDialogEntityID => $ActivityDialogEntityID,
         Interface              => 'AgentInterface',
-        );
+    );
 
     if ( !IsHashRefWithData($ActivityDialog) ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -800,11 +800,10 @@ sub _GetParam {
                         Message => $Message,
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Message,
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Message,
+                );
             }
 
             # Get DynamicField Values
@@ -858,17 +857,17 @@ sub _GetParam {
 
             $GetParam{Subject} = $Self->{ParamObject}->GetParam( Param => 'Subject' );
             $GetParam{Body}    = $Self->{ParamObject}->GetParam( Param => 'Body' );
-            @{ $GetParam{InformUserID} }
-                = $Self->{ParamObject}->GetArray( Param => 'InformUserID' );
+            @{ $GetParam{InformUserID} } = $Self->{ParamObject}->GetArray(
+                Param => 'InformUserID',
+            );
 
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
         }
 
         if ( $CurrentField eq 'CustomerID' ) {
-            $GetParam{Customer}
-                = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
-            $GetParam{CustomerUserID}
-                = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
+            $GetParam{CustomerUserID} = $Self->{ParamObject}->GetParam(
+                Param => 'SelectedCustomerUser',
+            ) || '';
         }
 
         if ( $CurrentField eq 'PendingTime' ) {
@@ -979,11 +978,10 @@ sub _GetParam {
                         Message => $Message,
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Message,
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Message,
+                );
             }
             $GetParam{$CurrentField} = $Value;
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
@@ -1014,11 +1012,10 @@ sub _OutputActivityDialog {
                 Message => $Message,
             );
         }
-        else {
-            $Self->{LayoutObject}->FatalError(
-                Message => $Message,
-            );
-        }
+
+        $Self->{LayoutObject}->FatalError(
+            Message => $Message,
+        );
     }
 
     my $ActivityActivityDialog;
@@ -1029,10 +1026,9 @@ sub _OutputActivityDialog {
     %Error = %{ $Param{Error} } if ( IsHashRefWithData( $Param{Error} ) );
 
     if ( !$TicketID ) {
-        $ActivityActivityDialog
-            = $Self->{ProcessObject}->ProcessStartpointGet(
-            ProcessEntityID => $Param{ProcessEntityID}
-            );
+        $ActivityActivityDialog = $Self->{ProcessObject}->ProcessStartpointGet(
+            ProcessEntityID => $Param{ProcessEntityID},
+        );
 
         if ( !IsHashRefWithData($ActivityActivityDialog) ) {
             my $Message = "Can't get StartActivityDialog and StartActivityDialog for the"
@@ -1044,11 +1040,10 @@ sub _OutputActivityDialog {
                     Message => $Message,
                 );
             }
-            else {
-                $Self->{LayoutObject}->FatalError(
-                    Message => $Message,
-                );
-            }
+
+            $Self->{LayoutObject}->FatalError(
+                Message => $Message,
+            );
         }
     }
     else {
@@ -1070,9 +1065,7 @@ sub _OutputActivityDialog {
             . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
         my $DynamicFieldActivityID
             = 'DynamicField_'
-            . $Self->{ConfigObject}->Get(
-            'Process::DynamicFieldProcessManagementActivityID'
-            );
+            . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementActivityID');
 
         if ( !$Ticket{$DynamicFieldProcessID} || !$Ticket{$DynamicFieldActivityID} ) {
             $Self->{LayoutObject}->FatalError(
@@ -1101,11 +1094,10 @@ sub _OutputActivityDialog {
                 Message => $Message,
             );
         }
-        else {
-            $Self->{LayoutObject}->FatalError(
-                Message => $Message,
-            );
-        }
+
+        $Self->{LayoutObject}->FatalError(
+            Message => $Message,
+        );
     }
 
     my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
@@ -1122,11 +1114,10 @@ sub _OutputActivityDialog {
                 Message => $Message,
             );
         }
-        else {
-            $Self->{LayoutObject}->FatalError(
-                Message => $Message,
-            );
-        }
+
+        $Self->{LayoutObject}->FatalError(
+            Message => $Message,
+        );
     }
 
     # grep out Overwrites if defined on the Activity
@@ -1320,11 +1311,10 @@ sub _OutputActivityDialog {
                     Message => $Message,
                 );
             }
-            else {
-                $Self->{LayoutObject}->FatalError(
-                    Message => $Message,
-                );
-            }
+
+            $Self->{LayoutObject}->FatalError(
+                Message => $Message,
+            );
         }
 
         my %FieldData = %{ $ActivityDialog->{Fields}{$CurrentField} };
@@ -1354,11 +1344,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1394,11 +1383,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1430,11 +1418,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1466,11 +1453,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1502,11 +1488,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1538,11 +1523,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1574,11 +1558,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1610,11 +1593,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1646,11 +1628,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1682,11 +1663,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1709,11 +1689,10 @@ sub _OutputActivityDialog {
                         Message => $Message,
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Message,
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Message,
+                );
             }
 
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
@@ -1736,11 +1715,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1770,11 +1748,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1808,11 +1785,10 @@ sub _OutputActivityDialog {
                         Message => $Response->{Message},
                     );
                 }
-                else {
-                    $Self->{LayoutObject}->FatalError(
-                        Message => $Response->{Message},
-                    );
-                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
             }
 
             $Output .= $Response->{HTML};
@@ -1834,7 +1810,9 @@ sub _OutputActivityDialog {
         # AgentTicketProcess.dtl
         $Self->{LayoutObject}->Block(
             Name => 'FooterJS',
-            Data => { Bindings => $Self->{LayoutObject}->{EnvRef}->{JSOnDocumentComplete} },
+            Data => {
+                Bindings => $Self->{LayoutObject}->{EnvRef}->{JSOnDocumentComplete},
+            },
         );
 
         $FooterCSSClass = 'Centered';
@@ -2442,28 +2420,33 @@ sub _RenderResponsible {
         if ( $Param{FieldName} eq 'Responsible' ) {
 
             # Fetch DefaultValue from Config
-            $SelectedValue = $Self->{UserObject}->UserLookup(
-                User => $Param{ActivityDialogField}->{DefaultValue} || ''
-                )
-                if !$SelectedValue;
-            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-                if $SelectedValue;
+            if ( !$SelectedValue ) {
+                $SelectedValue = $Self->{UserObject}->UserLookup(
+                    User => $Param{ActivityDialogField}->{DefaultValue} || '',
+                );
+            }
+            if ($SelectedValue) {
+                $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+            }
         }
         else {
-            $SelectedValue = $Self->{UserObject}->UserLookup(
-                UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
-                )
-                if !$SelectedValue;
+            if ( !$SelectedValue ) {
+                $SelectedValue = $Self->{UserObject}->UserLookup(
+                    UserID => $Param{ActivityDialogField}->{DefaultValue} || ''
+                );
+            }
         }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{Responsible}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Responsible};
+    }
 
     # use the current user
-    $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} )
-        if ( !$SelectedValue );
+    if ( !$SelectedValue ) {
+        $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} );
+    }
 
     # set server errors
     my $ServerError;
@@ -2472,10 +2455,12 @@ sub _RenderResponsible {
     }
 
     # look up $SelectedID
-    my $SelectedID = $Self->{UserObject}->UserLookup(
-        UserLogin => $SelectedValue,
-        )
-        if $SelectedValue;
+    my $SelectedID;
+    if ($SelectedValue) {
+        $SelectedID = $Self->{UserObject}->UserLookup(
+            UserLogin => $SelectedValue,
+        );
+    }
 
     # build Responsible string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
@@ -2560,37 +2545,46 @@ sub _RenderOwner {
     my $SelectedValue;
 
     my $OwnerIDParam = $Param{GetParam}{OwnerID};
-    $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $OwnerIDParam )
-        if $OwnerIDParam;
+    if ($OwnerIDParam) {
+        $SelectedValue = $Self->{UserObject}->UserLookup(
+            UserID => $OwnerIDParam,
+        );
+    }
 
     if ( $Param{ActivityDialogField}->{DefaultValue} ) {
 
         if ( $Param{FieldName} eq 'Owner' ) {
 
-            # Fetch DefaultValue from Config
-            $SelectedValue = $Self->{UserObject}->UserLookup(
-                User => $Param{ActivityDialogField}->{DefaultValue}
-                )
-                if !$SelectedValue;
+            if ( !$SelectedValue ) {
 
-            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-                if $SelectedValue;
+                # Fetch DefaultValue from Config
+                $SelectedValue = $Self->{UserObject}->UserLookup(
+                    User => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
+
+            if ($SelectedValue) {
+                $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+            }
         }
         else {
-            $SelectedValue = $Self->{UserObject}->UserLookup(
-                UserID => $Param{ActivityDialogField}->{DefaultValue}
-                )
-                if !$SelectedValue;
+            if ( !$SelectedValue ) {
+                $SelectedValue = $Self->{UserObject}->UserLookup(
+                    UserID => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
         }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{Owner}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Owner};
+    }
 
     # use the current user
-    $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} )
-        if ( !$SelectedValue );
+    if ( !$SelectedValue ) {
+        $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} );
+    }
 
     # set server errors
     my $ServerError;
@@ -2599,10 +2593,12 @@ sub _RenderOwner {
     }
 
     # look up $SelectedID
-    my $SelectedID = $Self->{UserObject}->UserLookup(
-        UserLogin => $SelectedValue,
-        )
-        if $SelectedValue;
+    my $SelectedID;
+    if ($SelectedValue) {
+        $SelectedID = $Self->{UserObject}->UserLookup(
+            UserLogin => $SelectedValue,
+        );
+    }
 
     # build Owner string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
@@ -2696,24 +2692,29 @@ sub _RenderSLA {
 
     if ( $Param{FieldName} eq 'SLA' ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{SLAObject}->SLALookup(
-            SLA => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
+        if ( !$SelectedValue ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{SLAObject}->SLALookup(
+                SLA => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
+        if ($SelectedValue) {
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+        }
     }
     else {
-        $SelectedValue = $Self->{SLAObject}->SLALookup(
-            SLAID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( !$SelectedValue ) {
+            $SelectedValue = $Self->{SLAObject}->SLALookup(
+                SLAID => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{SLA}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{SLA};
+    }
 
     # set server errors
     my $ServerError;
@@ -2804,29 +2805,37 @@ sub _RenderService {
     my $SelectedValue;
 
     my $ServiceIDParam = $Param{GetParam}{ServiceID};
-    $SelectedValue = $Self->{ServiceObject}->ServiceLookup( ServiceID => $ServiceIDParam )
-        if $ServiceIDParam;
+    if ($ServiceIDParam) {
+        $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
+            ServiceID => $ServiceIDParam,
+        );
+    }
 
     if ( $Param{FieldName} eq 'Service' ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
-            Service => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
+        if ( !$SelectedValue ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
+                Service => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
+        if ($SelectedValue) {
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+        }
     }
     else {
-        $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
-            ServiceID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( !$SelectedValue ) {
+            $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
+                ServiceID => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{Service}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Service};
+    }
 
     # set server errors
     my $ServerError;
@@ -2926,13 +2935,16 @@ sub _RenderLock {
 
     if ( $Param{FieldName} eq 'Lock' ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{LockObject}->LockLookup(
-            Lock => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
+        if ( !$SelectedValue ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{LockObject}->LockLookup(
+                Lock => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
+        if ($SelectedValue) {
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+        }
     }
     else {
         $SelectedValue = $Self->{LockObject}->LockLookup(
@@ -2942,8 +2954,9 @@ sub _RenderLock {
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{Lock}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Lock};
+    }
 
     # set server errors
     my $ServerError;
@@ -3034,29 +3047,37 @@ sub _RenderPriority {
     my $SelectedValue;
 
     my $PriorityIDParam = $Param{GetParam}{PriorityID};
-    $SelectedValue = $Self->{PriorityObject}->PriorityLookup( PriorityID => $PriorityIDParam )
-        if ($PriorityIDParam);
+    if ($PriorityIDParam) {
+        $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
+            PriorityID => $PriorityIDParam,
+        );
+    }
 
     if ( $Param{FieldName} eq 'Priority' ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
-            Priority => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
+        if ( !$SelectedValue ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
+                Priority => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
+        if ($SelectedValue) {
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+        }
     }
     else {
-        $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
-            PriorityID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( !$SelectedValue ) {
+            $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
+                PriorityID => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{Priority}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Priority};
+    }
 
     # set server errors
     my $ServerError;
@@ -3147,29 +3168,37 @@ sub _RenderQueue {
 
     # if we got QueueID as Param from the GUI
     my $QueueIDParam = $Param{GetParam}{QueueID};
-    $SelectedValue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueIDParam )
-        if ($QueueIDParam);
+    if ($QueueIDParam) {
+        $SelectedValue = $Self->{QueueObject}->QueueLookup(
+            QueueID => $QueueIDParam,
+        );
+    }
 
     if ( $Param{FieldName} eq 'Queue' ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{QueueObject}->QueueLookup(
-            Queue => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
+        if ( !$SelectedValue ) {
+
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{QueueObject}->QueueLookup(
+                Queue => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
+        if ($SelectedValue) {
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+        }
     }
     else {
-        $SelectedValue = $Self->{QueueObject}->QueueLookup(
-            QueueID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( !$SelectedValue ) {
+            $SelectedValue = $Self->{QueueObject}->QueueLookup(
+                QueueID => $Param{ActivityDialogField}->{DefaultValue} || '',
+                )
+        }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{Queue}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Queue};
+    }
 
     # set server errors
     my $ServerError;
@@ -3256,30 +3285,36 @@ sub _RenderState {
     my $SelectedValue;
 
     my $StateIDParam = $Param{GetParam}{StateID};
-    $SelectedValue = $Self->{StateObject}->StateLookup( StateID => $StateIDParam )
-        if ($StateIDParam);
+    if ($StateIDParam) {
+        $SelectedValue = $Self->{StateObject}->StateLookup( StateID => $StateIDParam );
+    }
 
     if ( $Param{FieldName} eq 'State' ) {
 
-        # Fetch DefaultValue from Config
-        $SelectedValue = $Self->{StateObject}->StateLookup(
-            State => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( !$SelectedValue ) {
 
-        $SelectedValue = $Param{ActivityDialogField}->{DefaultValue}
-            if $SelectedValue;
+            # Fetch DefaultValue from Config
+            $SelectedValue = $Self->{StateObject}->StateLookup(
+                State => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
+
+        if ($SelectedValue) {
+            $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+        }
     }
     else {
-        $SelectedValue = $Self->{StateObject}->StateLookup(
-            StateID => $Param{ActivityDialogField}->{DefaultValue} || ''
-            )
-            if !$SelectedValue;
+        if ( !$SelectedValue ) {
+            $SelectedValue = $Self->{StateObject}->StateLookup(
+                StateID => $Param{ActivityDialogField}->{DefaultValue} || '',
+            );
+        }
     }
 
     # Get TicketValue
-    $SelectedValue = $Param{Ticket}->{State}
-        if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue );
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{State};
+    }
 
     # set server errors
     my $ServerError;
@@ -3349,11 +3384,11 @@ sub _StoreActivityDialog {
         );
     }
 
-    my $ActivityDialog
-        = $Self->{ActivityDialogObject}->ActivityDialogGet(
+    my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
         ActivityDialogEntityID => $ActivityDialogEntityID,
         Interface              => 'AgentInterface',
-        );
+    );
+
     if ( !IsHashRefWithData($ActivityDialog) ) {
         $Self->{LayoutObject}->FatalError(
             Message => "Couldn't get Config for ActivityDialogEntityID '$ActivityDialogEntityID'!",
@@ -3549,10 +3584,9 @@ sub _StoreActivityDialog {
             );
         }
 
-        $ProcessStartpoint
-            = $Self->{ProcessObject}->ProcessStartpointGet(
-            ProcessEntityID => $Param{ProcessEntityID}
-            );
+        $ProcessStartpoint = $Self->{ProcessObject}->ProcessStartpointGet(
+            ProcessEntityID => $Param{ProcessEntityID},
+        );
 
         if (
             !$ProcessStartpoint
@@ -3855,9 +3889,10 @@ sub _StoreActivityDialog {
                         $Param{GetParam}{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                         # ignore attachment if not linked in body
-                        next ATTACHMENT
-                            if $Param{GetParam}{Body}
-                            !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                        if ( $Param{GetParam}{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i )
+                        {
+                            next ATTACHMENT;
+                        }
                     }
 
                     # write existing file to backend
@@ -4023,7 +4058,7 @@ sub _DisplayProcessList {
         TemplateFile => 'AgentTicketProcess',
         Data         => {
             %Param,
-            }
+        },
     );
 
     # workaround when activity dialog is loaded by AJAX as first activity dialog, if there is
@@ -4257,12 +4292,10 @@ sub _LookupValue {
         return;
     }
 
-    if ( !$Value ) {
-        return;
-    }
+    return if ( !$Value );
 
     # return the given ID value if the *Lookup result was a string
-    elsif ( $Param{Field} ne $FieldWithoutID ) {
+    if ( $Param{Field} ne $FieldWithoutID ) {
         return $Param{Value};
     }
 
