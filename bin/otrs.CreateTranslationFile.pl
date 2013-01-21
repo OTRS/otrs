@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CreateTranslationFile.pl - create new translation file
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.36 2012-12-13 14:08:45 mg Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.37 2013-01-21 17:16:26 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 use Getopt::Std qw();
 
@@ -157,6 +157,8 @@ sub HandleLanguage {
     my $Module        = $Param{Module};
     my $PurgeObsolete = $Param{PurgeObsolete};
 
+    warn $Module;
+
     my $ModuleDirectory = $Module;
     my $LanguageFile;
     my $TargetFile;
@@ -168,13 +170,14 @@ sub HandleLanguage {
     if ( !$Module ) {
         $LanguageFile = "$Home/Kernel/Language/$Language.pm";
         $TargetFile   = "$Home/Kernel/Language/$Language.pm";
+        warn "HOME is $Home\n, LAN = $Language";
     }
     else {
         $IsSubTranslation = 1;
         $Indent           = ' ' x 4;    # 4 spaces for module files
 
         # extract module name from module path
-        $Module =~ s{ \A .* / (.+) /? \z }{$1}xms;
+        $Module = basename $Module;
 
         # remove underscores and/or version numbers and following from module name
         # i.e. FAQ_2_0 or FAQ20
@@ -456,7 +459,7 @@ sub HandleLanguage {
         $NewOut = <<"EOF";
 $Separator
 # Kernel/Language/${Language}_$Module.pm - translation file
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 $Separator
 # \$Id\$
 $Separator
