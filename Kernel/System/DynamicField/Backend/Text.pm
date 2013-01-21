@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.71 2012-12-03 11:29:12 mg Exp $
+# $Id: Text.pm,v 1.72 2013-01-21 17:09:20 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -266,7 +266,7 @@ sub EditFieldValueGet {
 
     my $Value;
 
-    # check if there is a Template and retreive the dinalic field value from there
+    # check if there is a Template and retreive the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
         $Value = $Param{Template}->{$FieldName};
     }
@@ -643,6 +643,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2012-12-03 11:29:12 $
+$Revision: 1.72 $ $Date: 2013-01-21 17:09:20 $
 
 =cut
