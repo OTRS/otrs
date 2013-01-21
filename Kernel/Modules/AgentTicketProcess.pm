@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.27 2013-01-15 23:02:44 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.28 2013-01-21 09:58:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -3237,10 +3237,7 @@ sub _RenderState {
         };
     }
 
-    my $States = $Self->_GetStates(
-        QueueID  => $Param{Ticket}->{QueueID}  || 1,
-        TicketID => $Param{Ticket}->{TicketID} || '',
-    );
+    my $States = $Self->_GetStates( %{ $Param{Ticket} } );
 
     my %Data = (
         Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Next ticket state"),
@@ -4673,20 +4670,22 @@ sub _GetQueues {
 sub _GetStates {
     my ( $Self, %Param ) = @_;
 
-    my %States;
-    if ( $Param{QueueID} || $Param{TicketID} ) {
-        %States = $Self->{TicketObject}->TicketStateList(
-            %Param,
+    my %States = $Self->{TicketObject}->TicketStateList(
+        %Param,
 
-            # remove type, since if Ticket::Type is active in sysconfig, the Type parameter will
-            # be sent and the TicketStateList will send the parameter as State Type
-            Type => undef,
+        # Set default values for new process ticket
+        QueueID  => $Param{QueueID}  || 1,
+        TicketID => $Param{TicketID} || '',
 
-            #   Action may come in later if there's a reduced State list in config
-            #    Action => $Self->{Action},
-            UserID => $Self->{UserID},
-        );
-    }
+        # remove type, since if Ticket::Type is active in sysconfig, the Type parameter will
+        # be sent and the TicketStateList will send the parameter as State Type
+        Type => undef,
+
+        #   Action may come in later if there's a reduced State list in config
+        #    Action => $Self->{Action},
+        UserID => $Self->{UserID},
+    );
+
     return \%States;
 }
 
