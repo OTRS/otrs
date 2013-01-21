@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.58.4.1 2012-07-01 23:09:45 mh Exp $
+# $Id: LinkObject.pm,v 1.58.4.2 2013-01-21 15:06:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58.4.1 $) [1];
+$VERSION = qw($Revision: 1.58.4.2 $) [1];
 
 =head1 NAME
 
@@ -504,7 +504,7 @@ sub LinkAdd {
 
         return 1 if !$TypeData{Pointed};
         return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
-                && $Existing{SourceKey} eq $Param{SourceKey};
+            && $Existing{SourceKey} eq $Param{SourceKey};
 
         # log error
         $Self->{LogObject}->Log(
@@ -745,10 +745,10 @@ sub LinkDelete {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT source_object_id, source_key, target_object_id, target_key, state_id '
             . 'FROM link_relation '
-            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'WHERE ((source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
             . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'AND target_object_id = ? AND target_key = ? )) '
             . 'AND type_id = ? ',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
@@ -838,10 +838,10 @@ sub LinkDelete {
     # delete the link
     return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
-            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'WHERE (( source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
             . 'OR ( source_object_id = ? AND source_key = ? '
-            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'AND target_object_id = ? AND target_key = ? )) '
             . 'AND type_id = ? ',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
@@ -1714,7 +1714,7 @@ sub TypeLookup {
             );
         }
 
-        # check the state id
+        # check the type id
         if ( !$TypeID ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -2405,6 +2405,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58.4.1 $ $Date: 2012-07-01 23:09:45 $
+$Revision: 1.58.4.2 $ $Date: 2013-01-21 15:06:02 $
 
 =cut
