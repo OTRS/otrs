@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.66 2013-01-22 08:56:29 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.67 2013-01-22 09:46:00 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,6 +40,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         $('a.AsPopup_Redirect').bind('click', function (Event) {
+            var $Form = $(this).closest('form');
+
             $('#PopupRedirect').val(1);
             $('#PopupRedirectAction').val($(this).data('action'));
             $('#PopupRedirectSubaction').val($(this).data('subaction'));
@@ -48,14 +50,18 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             if ($(this).hasClass('Edit_Confirm')) {
                 if (window.confirm(Core.Agent.Admin.ProcessManagement.Localization.EditConfirm)) {
-                    // Remove onbeforeunload event (which is only needed if you close the popup via the window "X")
-                    $(window).unbind("beforeunload.PMPopup");
+                    // Remove onbeforeunload event only if there is no validation pending on form submit
+                    if (!($Form.hasClass("Validate"))) {
+                        $(window).unbind("beforeunload.PMPopup");
+                    }
                     $(this).closest('form').submit();
                 }
             }
             else {
-                // Remove onbeforeunload event (which is only needed if you close the popup via the window "X")
-                $(window).unbind("beforeunload.PMPopup");
+                // Remove onbeforeunload event only if there is no validation pending on form submit
+                if (!($Form.hasClass("Validate"))) {
+                    $(window).unbind("beforeunload.PMPopup");
+                }
                 $(this).closest('form').submit();
             }
             return false;
