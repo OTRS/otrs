@@ -1,8 +1,8 @@
 // --
 // Core.UI.js - provides all UI functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Accordion.js,v 1.2 2011-02-17 21:30:59 en Exp $
+// $Id: Core.UI.Accordion.js,v 1.3 2013-01-22 08:56:29 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,8 @@ Core.UI.Accordion = (function (TargetNS) {
         AccordionAnimationRunning = false;
     };
 
+    TargetNS.ContentSelector = undefined;
+
     /**
      * @function
      * @description
@@ -75,38 +77,53 @@ Core.UI.Accordion = (function (TargetNS) {
             return false;
         }
 
+        TargetNS.ContentSelector = ContentSelector;
+
         // Bind click function to link selector elements
         $LinkSelectors.click(function () {
-            var $ListElement = $(this).closest('li'),
-                $AllListElements,
-                $ActiveListElement;
+            var $ListElement = $(this).closest('li');
 
-            // if clicked element is already active, do nothing
-            if ($ListElement.hasClass('Active')) {
-                return false;
-            }
-
-            // if another accordion animation is currently running, so nothing
-            if (TargetNS.AnimationIsRunning()) {
-                return false;
-            }
-
-            TargetNS.StartAnimation();
-
-            $AllListElements = $ListElement.parent('ul').find('li');
-            $ActiveListElement = $AllListElements.filter('.Active');
-
-            $AllListElements.find('div.Content div').css('overflow', 'hidden');
-
-            $ActiveListElement.find(ContentSelector).add($ListElement.find(ContentSelector)).slideToggle("slow", function () {
-                $AllListElements.find('div.Content div').css('overflow', 'scroll');
-                $(this).closest('li').toggleClass('Active');
-                TargetNS.StopAnimation();
-            });
+            TargetNS.OpenElement($ListElement, true);
 
             // always return false, because otherwise the url in the clicked link would be loaded
             return false;
         });
+    };
+
+    TargetNS.OpenElement = function ($ListElement, WithAnimation) {
+        var $AllListElements,
+            $ActiveListElement;
+
+        // if clicked element is already active, do nothing
+        if ($ListElement.hasClass('Active')) {
+            return false;
+        }
+
+        // if another accordion animation is currently running, do nothing
+        if (TargetNS.AnimationIsRunning()) {
+            return false;
+        }
+
+        $AllListElements = $ListElement.parent('ul').find('li');
+        $ActiveListElement = $AllListElements.filter('.Active');
+
+        if (WithAnimation) {
+            TargetNS.StartAnimation();
+
+            $AllListElements.find('div.Content div').css('overflow', 'hidden');
+
+            $ActiveListElement.find(TargetNS.ContentSelector).add($ListElement.find(TargetNS.ContentSelector)).slideToggle("slow", function () {
+                $AllListElements.find('div.Content div').css('overflow', 'scroll');
+                $ListElement.addClass('Active');
+                $ActiveListElement.removeClass('Active');
+                TargetNS.StopAnimation();
+            });
+        }
+        else {
+            $ActiveListElement.find(TargetNS.ContentSelector).add($ListElement.find(TargetNS.ContentSelector)).toggle();
+            $ListElement.addClass('Active');
+            $ActiveListElement.removeClass('Active');
+        }
     };
 
     return TargetNS;
