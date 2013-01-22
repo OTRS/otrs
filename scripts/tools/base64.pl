@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # scripts/tools/base64.pl - mime base 64 encode/decode
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: base64.pl,v 1.8 2012-11-20 16:13:22 mh Exp $
+# $Id: base64.pl,v 1.9 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by

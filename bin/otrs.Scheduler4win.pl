@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.27 2012-11-20 16:04:14 mh Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.28 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std;
 
@@ -276,7 +276,7 @@ else {
 # Internal
 sub _help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
 }
 

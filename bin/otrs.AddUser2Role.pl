@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.AddUser2Role.pl - Assign users to Roles from CLI
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddUser2Role.pl,v 1.10 2012-11-20 16:02:58 mh Exp $
+# $Id: otrs.AddUser2Role.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ my %Opts;
 getopt( 'ur', \%Opts );
 if ( !$Opts{r} || !$Opts{u} ) {
     print "$0 <Revision $VERSION> - assign Users to Roles\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;
 }

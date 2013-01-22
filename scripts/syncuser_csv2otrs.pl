@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # syncuser_csv2otrs.pl - sync csv user list or otrs
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.16 2012-11-20 16:05:07 mh Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.17 2013-01-22 10:14:10 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by

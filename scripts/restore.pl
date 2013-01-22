@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.17 2012-11-20 16:05:01 mh Exp $
+# $Id: restore.pl,v 1.18 2013-01-22 10:14:10 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Getopt::Std;
 
@@ -42,7 +42,7 @@ my $DBDump = '';
 getopt( 'hbd', \%Opts );
 if ( exists $Opts{h} ) {
     print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
 }

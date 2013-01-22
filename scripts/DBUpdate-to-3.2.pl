@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.2.pl,v 1.12 2012-11-20 16:04:42 mh Exp $
+# $Id: DBUpdate-to-3.2.pl,v 1.13 2013-01-22 10:14:10 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;

@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.10 2012-11-20 16:03:32 mh Exp $
+# $Id: otrs.ExportStatsToOPM.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 
@@ -49,7 +49,7 @@ use Kernel::System::CSV;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -84,7 +84,7 @@ getopt( 'dhvn', \%Opts );
 if ( $Opts{'h'} ) {
     print
         "otrs.ExportStatsToOPM.pl <Revision $VERSION> - export all stats of a system and create a package for the package manager\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.ExportStatsToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print
         "       [-d 'yes' for delete existing stats if the opm will be installed] [-h for help]\n";

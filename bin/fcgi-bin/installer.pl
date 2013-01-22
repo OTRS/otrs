@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/fcgi-bin/installer.pl - the global FastCGI handle for installer
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.7 2012-11-20 16:04:38 mh Exp $
+# $Id: installer.pl,v 1.8 2013-01-22 10:14:10 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 # Imports the library; required line
 use CGI::Fast;

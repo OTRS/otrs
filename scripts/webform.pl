@@ -1,10 +1,10 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # webform.pl - a simple web form script to generate email with
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.17 2012-11-20 16:05:10 mh Exp $
+# $Id: webform.pl,v 1.18 2013-01-22 10:14:10 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = qw($Revision: 1.17 $) [1];
+my $VERSION = qw($Revision: 1.18 $) [1];
 
 # --------------------------
 # web form options

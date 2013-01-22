@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.GetTicketThread.pl - to print the whole ticket thread to STDOUT
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GetTicketThread.pl,v 1.11 2012-11-20 16:03:47 mh Exp $
+# $Id: otrs.GetTicketThread.pl,v 1.12 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 
@@ -49,7 +49,7 @@ getopt( 'htl', \%Opts );
 if ( $Opts{h} || !$Opts{t} ) {
     print
         "otrs.GetTicketThread.pl <Revision $VERSION> - Prints out a ticket with all its articles.\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.GetTicketThread.pl -t <TicketID> [-l article limit]\n";
     exit 1;
 }

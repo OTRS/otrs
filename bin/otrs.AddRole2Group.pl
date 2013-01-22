@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.AddRole2Group.pl - Assign Roles to Groups from CLI
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddRole2Group.pl,v 1.9 2012-11-20 16:02:42 mh Exp $
+# $Id: otrs.AddRole2Group.pl,v 1.10 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,7 +48,7 @@ my %Opts = ();
 getopts( 'hg:r:R:M:C:N:O:P:W:', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.AddRole2Group.pl <Revision $VERSION> - assign Roles to Groups\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.AddRole2Group.pl -g <GROUP> -r <ROLE> [-R<READ> -M<MOVE_INTO> -C<CREATE> -N<NOTE> -O<OWNER> -P<PRIORITY> -W<RW>] \n";
     print "For Options: R,M,C,N,O,P,W setting to 0 or 1 is expected \n";

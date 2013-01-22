@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CryptPassword.pl,v 1.10 2012-11-20 16:03:23 mh Exp $
+# $Id: otrs.CryptPassword.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -54,7 +54,7 @@ $CommonObject{DBObject} = Kernel::System::DB->new( %CommonObject, AutoConnectNo 
 my $Password = shift;
 print
     "bin/otrs.CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
-print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
 
 if ( !$Password ) {
     print STDERR "Usage: bin/otrs.CryptPassword.pl NEWPW\n";
