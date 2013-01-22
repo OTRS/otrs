@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.20 2012-11-20 14:42:03 mh Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.21 2013-01-22 08:17:59 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -843,12 +843,32 @@ sub _ShowEdit {
 
             my $ActivityDialogData = $AvailableActivityDialogsLookup{$EntityID};
 
+            my $AvailableIn       = '';
+            my $ConfigAvailableIn = $ActivityDialogData->{Config}->{Interface};
+
+            if ( defined $ConfigAvailableIn ) {
+                my $InterfaceLength = scalar @{$ConfigAvailableIn};
+                if ( $InterfaceLength == 2 ) {
+                    $AvailableIn = 'A, C';
+                }
+                elsif ( $InterfaceLength == 1 ) {
+                    $AvailableIn = substr( $ConfigAvailableIn->[0], 0, 1 );
+                }
+                else {
+                    $AvailableIn = 'A';
+                }
+            }
+            else {
+                $AvailableIn = 'A';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableActivityDialogRow',
                 Data => {
-                    ID       => $ActivityDialogData->{ID},
-                    EntityID => $ActivityDialogData->{EntityID},
-                    Name     => $ActivityDialogData->{Name},
+                    ID          => $ActivityDialogData->{ID},
+                    EntityID    => $ActivityDialogData->{EntityID},
+                    Name        => $ActivityDialogData->{Name},
+                    AvailableIn => $AvailableIn,
                 },
             );
         }
