@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementPath.pm - process management path
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.9 2013-01-21 10:32:05 mn Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.10 2013-01-22 11:50:17 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -158,9 +158,10 @@ sub Run {
         if ( $Redirect && $Redirect eq '1' ) {
 
             $Self->_PushSessionScreen(
-                ID        => $TransferData->{ProcessEntityID},      # abuse!
-                EntityID  => $TransferData->{TransitionEntityID},
-                Subaction => 'PathEdit'                             # always use edit screen
+                ID              => $TransferData->{ProcessEntityID},      # abuse!
+                EntityID        => $TransferData->{TransitionEntityID},
+                StartActivityID => $GetParam->{StartActivityID},
+                Subaction       => 'PathEdit'                             # always use edit screen
             );
 
             my $RedirectAction
@@ -375,9 +376,10 @@ sub _PushSessionScreen {
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
         Action => $Self->{Action} || '',
-        Subaction => $Param{Subaction},
-        ID        => $Param{ID},
-        EntityID  => $Param{EntityID},
+        Subaction       => $Param{Subaction},
+        ID              => $Param{ID},
+        EntityID        => $Param{EntityID},
+        StartActivityID => $Param{StartActivityID},
     };
 
     # convert screens path to string (JSON)

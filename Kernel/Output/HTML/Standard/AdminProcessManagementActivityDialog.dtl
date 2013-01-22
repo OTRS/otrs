@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.18 2013-01-22 08:35:55 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.19 2013-01-22 11:50:17 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
 <!-- dtl:block:ClosePopup -->
 <!-- dtl:block:GoBack -->
         <p>
-            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}">&lt;- $Text{"Go Back"}</a>
+            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}">$Text{"Go Back"}</a>
         </p>
 <!-- dtl:block:GoBack -->
     </div>

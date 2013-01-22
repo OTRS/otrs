@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.16 2013-01-22 08:35:55 mn Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.17 2013-01-22 11:50:17 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
 <!-- dtl:block:ClosePopup -->
 <!-- dtl:block:GoBack -->
         <p>
-            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}">&lt;- $Text{"Go Back"}</a>
+            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}">$Text{"Go Back"}</a>
         </p>
 <!-- dtl:block:GoBack -->
     </div>
@@ -30,6 +30,7 @@
                 <input type="hidden" name="Subaction" value="Path$QData{"Action"}Action"/>
                 <input type="hidden" name="ProcessEntityID" value="$Data{"ProcessEntityID"}" id="ProcessEntityID"/>
                 <input type="hidden" name="TransitionEntityID" value="$Data{"TransitionEntityID"}" id="TransitionEntityID"/>
+                <input type="hidden" name="StartActivityID" value="$Data{"StartActivityID"}" id="StartActivityID"/>
                 <input type="hidden" name="ProcessData" value="" id="ProcessData"/>
                 <input type="hidden" name="TransitionInfo" value="" id="TransitionInfo"/>
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
@@ -37,6 +38,7 @@
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+                <input type="hidden" name="PopupRedirectStartActivityID" value="" id="PopupRedirectStartActivityID"/>
 
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
