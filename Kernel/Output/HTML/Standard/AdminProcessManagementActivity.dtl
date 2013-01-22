@@ -1,8 +1,8 @@
 # --
 # AdminProcessManagementActivity.dtl - provides HTML for AdminProcessManagement
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.dtl,v 1.15 2012-11-27 11:58:08 mn Exp $
+# $Id: AdminProcessManagementActivity.dtl,v 1.16 2013-01-22 08:35:55 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,7 +94,7 @@
                                     $QData{"Name", "55"}
                                     <span class="Functions">
                                         <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
-                                        <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog">$Text{"Edit"}</a>
+                                        <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon Icon_Edit" title="$Text{"Edit"}"></a>
                                     </span>
                                 </li>
 <!-- dtl:block:AvailableActivityDialogRow -->
@@ -119,7 +119,7 @@
                                     $QData{"Name", "55"}
                                     <span class="Functions">
                                         <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
-                                        <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect PopupType_ActivityDialog">$Text{"Edit"}</a>
+                                        <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon Icon_Edit" title="$Text{"Edit"}"></a>
                                     </span>
                                 </li>
 <!-- dtl:block:AssignedActivityDialogRow -->
