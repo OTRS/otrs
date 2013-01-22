@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.19 2013-01-22 11:50:17 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.20 2013-01-22 11:58:01 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,7 +147,9 @@
 <!-- dtl:block:AvailableFieldRow -->
                                 <li title="Name: $QData{"Field"}" data-id="$QData{"Field"}" data-config="">
                                     $QData{"Field", "55"}
-                                    <span class="Functions ShowOnAssignedList"><a href="#" class="FieldDetailsOverlay" data-id="$QData{"Field"}" data-entity="$QData{"Field"}">$Text{"Edit"}</a></span>
+                                    <span class="Functions ShowOnAssignedList">
+                                        <a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" class="FieldDetailsOverlay Icon Icon_Edit" title="$Text{"Edit"}"></a>
+                                    </span>
                                 </li>
 <!-- dtl:block:AvailableFieldRow -->
                             </ul>
