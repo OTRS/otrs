@@ -97,6 +97,16 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     MySQL:
      shell> cat scripts/DBUpdate-to-3.2.mysql.sql | mysql -p -f -u root otrs
 
+     Note: new tables created in the MySQL UPGRADING process will be created with the
+     default table storage engine set in your MySQL server.
+     In MySQL 5.5 the new default type is InnoDB.
+     If existing tables, e.g. "users", have the table storage engine e.g. MyISAM,
+     then an error will be displayed when creating the foreign key constraints.
+
+     You have two options: you can change the default storage engine of MySQL back to MyISAM
+     so that new tables will have the same engine as the existing tables,
+     or change the existing tables to use InnoDB as storage engine.
+
     PostgreSQL 8.2+:
      shell> cat scripts/DBUpdate-to-3.2.postgresql.sql | psql otrs
 
