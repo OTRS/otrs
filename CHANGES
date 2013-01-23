@@ -1,5 +1,5 @@
 3.2.1 2013-01-??
- - 2013-01-23 Fixed bug#9082 - Process Management: Wrong popoup redirect handling to Process Path
+ - 2013-01-23 Fixed bug#9082 - Process Management: Wrong popup redirect handling to Process Path
     from Transition Action.
  - 2013-01-22 Fixed bug#9065 - Process Management: Service and SLA fields are always shown in ActivityDialogs.
  - 2013-01-21 Fixed bug#9054 - Link Object deletes all links under certain conditions.
