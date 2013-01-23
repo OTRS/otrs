@@ -5,7 +5,6 @@
  - 2013-01-21 Fixed bug#9066 - ProcessManagement: edit links not displayed in popups.
  - 2013-01-21 Fixed an issue where default values would be used erroneously for ActivityDialog
     fields where a value was already present.
- - 2013-01-21 Fixed bug#9067 - New process ticket: state selection empty after AJAX reload.
  - 2013-01-21 Fixed bug#9052 - Accordion is reset after submitting a popup.
  - 2013-01-21 Fixed bug#9067 - New process ticket: state selection empty after AJAX reload.
 
