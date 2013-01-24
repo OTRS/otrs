@@ -3,7 +3,7 @@
 # bin/otrs.CheckDB.pl - to check the db access
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckDB.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
+# $Id: otrs.CheckDB.pl,v 1.12 2013-01-24 07:27:36 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -70,6 +70,36 @@ if ( $CommonObject{DBObject} ) {
     }
     else {
         print "Connected.\n";
+
+        # check for common MySQL issue where default storage engine is different
+        # from initial OTRS table; this can happen when MySQL is upgraded from
+        # 5.1 > 5.5.
+        if ( $CommonObject{DBObject}->{'DB::Type'} eq 'mysql' ) {
+            $CommonObject{DBObject}->Prepare(
+                SQL => "SHOW VARIABLES WHERE variable_name = 'storage_engine'",
+            );
+            my $StorageEngine;
+            while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+                $StorageEngine = $Row[1];
+            }
+            $CommonObject{DBObject}->Prepare(
+                SQL  => "SHOW TABLE STATUS WHERE engine != ?",
+                Bind => [ \$StorageEngine ],
+            );
+            my @Tables;
+            while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+                push @Tables, $Row[0];
+            }
+            if (@Tables) {
+                print "Your storage engine is $StorageEngine.\n";
+                print "These tables use a different storage engine:\n\n";
+                print join( "\n", sort @Tables );
+                print "\n\n *** Please correct these problems! *** \n\n";
+
+                exit(1);
+            }
+        }
+
         exit(0);
     }
 }
