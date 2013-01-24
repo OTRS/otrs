@@ -13,7 +13,7 @@ is needed!
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
 3.2.4. If you need to do such a "patch level upgrade", you should skip steps
-8, 12, 14 and 15.
+9, 13, 15, 16 and 17.
 
 
 1) Stop all relevant services
@@ -85,7 +85,16 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
    with the permissions needed for your system setup.
 
 
-8) Apply the database changes
+8) Check needed Perl modules
+   -------------------------
+
+   Verify that all needed perl modules are installed on your system and install
+   any modules that might be missing.
+
+     shell> /opt/otrs/bin/otrs.CheckModules.pl
+
+
+9) Apply the database changes
    --------------------------
 
      shell> cd /opt/otrs/
@@ -107,9 +116,9 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
      so that new tables will have the same engine as the existing tables,
      or change the existing tables to use InnoDB as storage engine.
 
-     Any problems with regards to the storage engine will be reported by the 
+     Any problems with regards to the storage engine will be reported by the
      otrs.CheckDB.pl script, so please run it to check for possible issues.
-     
+
      shell> bin/otrs.CheckDB.pl
 
      shell> cat scripts/DBUpdate-to-3.2.mysql.sql | mysql -p -f -u root otrs
@@ -138,8 +147,8 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     Otherwise data loss may occur.
 
 
-9) Database Upgrade During Beta Phase
-   ----------------------------------
+10) Database Upgrade During Beta Phase
+    ----------------------------------
 
     This step is ONLY needed if you upgrade from 3.2.0.beta1!
 
@@ -156,7 +165,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
 
 
 
-10) Refresh the configuration cache and delete caches
+11) Refresh the configuration cache and delete caches
     -------------------------------------------------
 
     Please run:
@@ -165,7 +174,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     shell> bin/otrs.DeleteCache.pl
 
 
-11) Restart your services
+12) Restart your services
     ---------------------
 
     e. g. (depends on used services):
@@ -177,7 +186,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     Now you can log into your system.
 
 
-12) Check 'Cache::Module' setting
+13) Check 'Cache::Module' setting
     -----------------------------
 
     The file cache backend 'FileRaw' was removed in favor of the faster 'FileStorable'.
@@ -187,14 +196,14 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     'Kernel::System::Cache::FileStorable'.
 
 
-13) Check installed packages
+14) Check installed packages
     ------------------------
 
     In the package manager, check if all packages are still marked as
     correctly installed or if any require reinstallation or even a package upgrade.
 
 
-14) Cleanup metadata of archived tickets
+15) Cleanup metadata of archived tickets
     ------------------------------------
 
     Note: This step only applies if you use the ticket archiving feature of OTRS.
@@ -216,7 +225,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     Ticket::ArchiveSystem::RemoveTicketWatchers
 
 
-15) Review (Modify) ACLs for Dynamic Fields
+16) Review (Modify) ACLs for Dynamic Fields
     ------------------------------------
     Note: This step only applies if you use ACLs to limit Dynamic Fields Dropdown or Multiselect
     possible values.
@@ -273,7 +282,7 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     };
 
 
-16) Adapt custom event handler modules
+17) Adapt custom event handler modules
     ----------------------------------
 
     Note: this only applies if you have any custom developed event handler modules.
@@ -298,5 +307,5 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     );
 
 
-17) Well done!
+18) Well done!
     ----------
