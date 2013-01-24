@@ -1,9 +1,9 @@
-3.2.1 2013-01-??
+3.2.1 2013-01-29
  - 2013-01-24 Updated Dutch translation.
  - 2013-01-24 Added test to check if there are problems with the MySQL storage engine used
     in OTRS tables to bin/otrs.CheckModules.pl.
  - 2013-01-23 Fixed bug#9082 - Process Management: Wrong popup redirect handling to Process Path
-    from Transition Action.
+    from TransitionAction.
  - 2013-01-22 Fixed bug#9065 - Process Management: Service and SLA fields are always shown in ActivityDialogs.
  - 2013-01-21 Fixed bug#9054 - Link Object deletes all links under certain conditions.
  - 2013-01-21 Fixed bug#9059 - Process Management: transition actions module field too short.
