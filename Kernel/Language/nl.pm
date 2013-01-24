@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.200 2013-01-17 09:03:49 mg Exp $
+# $Id: nl.pm,v 1.201 2013-01-24 07:39:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.200 $) [1];
+$VERSION = qw($Revision: 1.201 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-17 10:12:48
+    # Last translation file sync: 2013-01-24 08:47:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        '(work units)' => '',
+        '(work units)' => '(in minuten)',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1553,12 +1553,12 @@ sub Data {
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Om een nieuw proces aan te maken kunt u een bestand importeren, aangemaakt op een ander systeem, of een compleet nieuw proces aanmaken.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
-            '',
+            'Wijzigingen aan de processen hebben alleen invloed op het systeem als u de proces-data synchroniseert. Door het synchroniseren van de processen worden de wijzigingen weggeschreven naar de configuratie.',
         'Processes' => 'Processen',
         'Process name' => 'Naam',
-        'Copy' => '',
+        'Copy' => 'Kopiëer',
         'Export Process Configuration' => 'Exporteer procesconfiguratie',
-        'Copy Process' => '',
+        'Copy Process' => 'Kopiëer proces',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Annuleren en scherm sluiten',
@@ -1643,7 +1643,7 @@ sub Data {
         'Edit Process Information' => 'Bewerk proces-informatie',
         'The selected state does not exist.' => 'De geselecteerde status bestaat niet.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Beheren activiteiten, dialogen en transities',
-        'Show EntityIDs' => '',
+        'Show EntityIDs' => 'Toon ID\'s',
         'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
@@ -1652,7 +1652,7 @@ sub Data {
         'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
         'Do you really want to delete this Transition?' => 'Wilt u deze transitie verwijderen?',
         'Do you really want to delete this Transition Action?' => 'Wilt u deze transitie-actie verwijderen?',
-        'Hide EntityIDs' => '',
+        'Hide EntityIDs' => 'Verberg ID\'s',
         'Delete Entity' => 'Verwijderen',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
@@ -1662,6 +1662,7 @@ sub Data {
             'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
+        'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
         'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
@@ -1693,7 +1694,7 @@ sub Data {
             'Let op: het wijzigen van deze transitie-actie heeft invloed op de volgende processen',
         'Transition Action' => 'Transitie-actie',
         'Transition Action Name' => 'Naam',
-        'Transition Action Module' => '',
+        'Transition Action Module' => 'Transitie-actiemodule',
         'Config Parameters' => 'Configuratie',
         'Remove this Parameter' => 'Verwijder deze parameter',
         'Add a new Parameter' => 'Nieuwe parameter',
@@ -2035,8 +2036,8 @@ sub Data {
         'Email ticket' => 'E-mail-ticket',
         '%s open ticket(s) of %s' => '%s open ticket(s) van %s',
         '%s closed ticket(s) of %s' => '%s gesloten ticket(s) van %s',
-        'New phone ticket from %s' => '',
-        'New email ticket to %s' => '',
+        'New phone ticket from %s' => 'Nieuw telefoonticket van %s',
+        'New email ticket to %s' => 'Nieuw emailticket aan %s',
 
         # Template: AgentDashboardIFrame
 
@@ -2793,7 +2794,7 @@ sub Data {
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -3512,7 +3513,7 @@ sub Data {
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -4520,7 +4521,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (in minuten)',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
