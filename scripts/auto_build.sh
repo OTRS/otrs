@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.108.2.2 2012-12-11 17:05:28 mb Exp $
+# $Id: auto_build.sh,v 1.108.2.3 2013-01-24 11:18:23 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,8 +21,8 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.108.2.2 $>"
-echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.108.2.3 $>"
+echo "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
@@ -326,8 +326,8 @@ cd $PACKAGE_DEST_DIR
 find . -name "*$PACKAGE*" | xargs ls -lo
 echo "-----------------------------------------------------------------";
 if which md5sum >> /dev/null; then
-    echo "MD5 message digest (128-bit) checksums";
-    find . -name "*$PACKAGE*" | xargs md5sum
+    echo "MD5 message digest (128-bit) checksums in wiki table format";
+    find . -name "*$PACKAGE*" | xargs md5sum | sed -e "s/^/| /" -e "s/\.\//| http:\/\/ftp.otrs.org\/pub\/otrs\//" -e "s/$/ |/"
 else
     echo "No md5sum found in \$PATH!"
 fi
