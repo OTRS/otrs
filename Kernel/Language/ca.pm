@@ -2,7 +2,7 @@
 # Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2012 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ca.pm,v 1.22 2013-01-17 09:03:47 mg Exp $
+# $Id: ca.pm,v 1.23 2013-01-24 07:40:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-17 10:12:30
+    # Last translation file sync: 2013-01-24 08:46:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        '(work units)' => '',
+        ' (work units)' => ' (unitats de treball)',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -1656,6 +1656,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
@@ -2787,8 +2788,8 @@ sub Data {
             'Permet la definició de nous tipus de tiquet (si la funció tipus de tiquet està activada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Permet la definició de serveis i SLAs de tiquets (per exemple, correu electrònic, escriptori, xarxa, ...), i atributs d\'escalat dels SLA (si la funció servei/SLA de tiquet està activada)',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície del client. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -3506,7 +3507,7 @@ sub Data {
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -4514,7 +4515,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unitats de treball)',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
 
     };
     # $$STOP$$

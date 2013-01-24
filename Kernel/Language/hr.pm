@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.35 2013-01-17 09:03:42 mg Exp $
+# $Id: hr.pm,v 1.36 2013-01-24 07:47:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-17 10:12:41
+    # Last translation file sync: 2013-01-24 08:47:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1110,7 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
-        '(work units)' => '',
+        ' (work units)' => ' (elementi posla)',
         'Ticket Commands' => 'Komande za karticu',
         'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
         'CMD' => 'CMD',
@@ -1660,6 +1660,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
@@ -2791,7 +2792,7 @@ sub Data {
             'Dozvoljava definiranje novog tipa kartice (ako je opcije tipa kartice aktivirana).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -3510,7 +3511,7 @@ sub Data {
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -4518,7 +4519,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (elementi posla)',
 
     };
     # $$STOP$$
