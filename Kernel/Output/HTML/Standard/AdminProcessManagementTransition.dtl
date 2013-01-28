@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.16 2013-01-22 11:50:17 mn Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.17 2013-01-28 13:54:39 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,6 +167,8 @@
                         </fieldset>
                     </div>
                 </div>
+<!-- Invisible submit button to allow form submit on pressing enter/return without javascript -->
+                <input type="image" width="0" height="0" />
             </form>
             <div id="ConditionContainer" style="display:none;">
                 <label for="Condition[_INDEX_]">$Text{"Condition"} _INDEX_:</label>

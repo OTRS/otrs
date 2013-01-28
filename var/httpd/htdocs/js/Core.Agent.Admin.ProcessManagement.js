@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.71 2013-01-28 12:12:33 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.72 2013-01-28 13:54:39 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -813,8 +813,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableFields'), $('#AvailableFields'));
 
-        // Initialize form submit
-        $('#Submit').bind('click', function (Event) {
+        $('#Submit').bind('click', function() {
+            $('#ActivityDialogForm').submit();
+            return false;
+        });
+
+        Core.Form.Validate.SetSubmitFunction($('#ActivityDialogForm'), function (Form) {
             var FieldConfig = Core.UI.AllocationList.GetResult('#AssignedFields', 'id'),
                 FieldDetails = {};
 
@@ -841,8 +845,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // not needed for normal submit
             $(window).unbind("beforeunload.PMPopup");
 
-            $('#ActivityDialogForm').submit();
-            return false;
+            Form.submit();
         });
 
         // Init Fields modal overlay
@@ -1018,15 +1021,19 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        $('#Submit').bind('click', function (Event) {
+        $('#Submit').bind('click', function() {
+            $('#TransitionForm').submit();
+            return false;
+        });
+
+        Core.Form.Validate.SetSubmitFunction($('#TransitionForm'), function (Form) {
             var ConditionConfig = TargetNS.GetConditionConfig($('#PresentConditionsContainer').find('.ConditionField'));
             $('input[name=ConditionConfig]').val(Core.JSON.Stringify(ConditionConfig));
 
             // not needed for normal submit
             $(window).unbind("beforeunload.PMPopup");
 
-            $('#TransitionForm').submit();
-            return false;
+            Form.submit();
         });
 
         // Init handling of closing popup with the OS functionality ("X")
@@ -1070,12 +1077,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        $('#Submit').bind('click', function (Event) {
+        $('#Submit').bind('click', function() {
+            $('#TransitionForm').submit();
+            return false;
+        });
+
+        Core.Form.Validate.SetSubmitFunction($('#TransitionForm'), function (Form) {
             // not needed for normal submit
             $(window).unbind("beforeunload.PMPopup");
 
-            $('#TransitionForm').submit();
-            return false;
+            Form.submit();
         });
 
         InitProcessPopups();
@@ -1101,6 +1112,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // Initialize Allocation List
         Core.UI.AllocationList.Init("#AvailableTransitionActions, #AssignedTransitionActions", ".AllocationList");
+
+        // Initialize list filter
+        Core.UI.Table.InitTableFilter($('#FilterAvailableTransitionActions'), $('#AvailableTransitionActions'));
 
         // store process data to hidden field for later merging
         $('#ProcessData').val(Core.JSON.Stringify(window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process));
@@ -1131,10 +1145,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         }
 
         $('#Submit').bind('click', function() {
-            // not needed for normal submit
-            $(window).unbind("beforeunload.PMPopup");
-
             $('#PathForm').submit();
+            return false;
         });
 
         // init submit
