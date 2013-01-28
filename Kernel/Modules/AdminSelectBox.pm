@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.40 2012-11-20 14:44:36 mh Exp $
+# $Id: AdminSelectBox.pm,v 1.41 2013-01-28 12:54:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,6 +38,11 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # secure mode message (don't allow this action until secure mode is enabled)
+    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
+        $Self->{LayoutObject}->SecureMode();
+    }
 
     $Param{ResultFormatStrg} = $Self->{LayoutObject}->BuildSelection(
         Name => 'ResultFormat',

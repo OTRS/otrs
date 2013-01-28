@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.434 2013-01-28 09:32:35 mg Exp $
+# $Id: Defaults.pm,v 1.435 2013-01-28 12:54:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use utf8;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.434 $) [1];
+$VERSION = qw($Revision: 1.435 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -47,10 +47,8 @@ sub LoadDefaults {
     # system data                                         #
     # --------------------------------------------------- #
     # SecureMode
-    # Disables the use of web-installer (installer.pl). If not
-    # active, the GenericAgent, PackageManager and SQL Box, since it's possible
-    # to use it for destructive write queries such as DROP DATABASE, and also to
-    # steal user passwords.
+    # Disables the use of web-installer (installer.pl).
+    # GenericAgent, PackageManager and SQL Box can only be used if SecureMode is enabled.
     $Self->{SecureMode} = 0;
 
     # SystemID
@@ -1944,6 +1942,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.434 $ $Date: 2013-01-28 09:32:35 $
+$Revision: 1.435 $ $Date: 2013-01-28 12:54:42 $
 
 =cut
