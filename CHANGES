@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-01-28 Fixed bug#8470 - otrs.GenericAgent.pl reports: Can't open
+    '/opt/otrs/otrs_vemco/var/tmp/CacheFileStorable/DynamicField/f3b7e10730fb6c9cab5ae0e7f7e034f3'.
  - 2013-01-28 Fixed bug#7678 - SecureMode does not do what it should.
  - 2013-01-28 Fixed bug#5158 - Unsafe UTF8 handling in Encode module.
  - 2013-01-28 Fixed bug#8959 - AgentTicketResponsible Responsible Changed not checked/forced.

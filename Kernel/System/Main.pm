@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.67 2012-11-20 15:36:14 mh Exp $
+# $Id: Main.pm,v 1.68 2013-01-28 13:46:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -334,19 +334,23 @@ sub FileRead {
 
     # return if file can not open
     if ( !open $FH, $Mode, $Param{Location} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't open '$Param{Location}': $!",
-        );
+        if ( !$Param{DisableWarnings} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't open '$Param{Location}': $!",
+            );
+        }
         return;
     }
 
     # lock file (Shared Lock)
     if ( !flock $FH, 1 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't lock '$Param{Location}': $!",
-        );
+        if ( !$Param{DisableWarnings} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't lock '$Param{Location}': $!",
+            );
+        }
     }
 
     # enable binmode
@@ -979,6 +983,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-11-20 15:36:14 $
+$Revision: 1.68 $ $Date: 2013-01-28 13:46:47 $
 
 =cut
