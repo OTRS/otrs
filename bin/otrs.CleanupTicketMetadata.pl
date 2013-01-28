@@ -3,7 +3,7 @@
 # bin/otrs.CleanupTicketMetadata.pl - remove unneeded ticket meta data
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanupTicketMetadata.pl,v 1.9 2013-01-22 10:14:09 mg Exp $
+# $Id: otrs.CleanupTicketMetadata.pl,v 1.10 2013-01-28 14:07:55 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Long;
 
@@ -113,7 +113,7 @@ sub CleanupArchived {
     my $CommonObjectRefresh = 50;
 
     if ( !$CommonObject->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
-        print 'Ticket::ArchiveSystem is not enabled!\n';
+        print "Ticket::ArchiveSystem is not enabled!\n";
         return;
     }
 
