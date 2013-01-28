@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.46 2013-01-28 09:43:43 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.47 2013-01-28 13:21:31 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             ProcessEntityID = $('#ProcessEntityID').val();
 
         $('#Canvas')
-            .append('<div class="Activity" id="' + EntityID + '"><span>' + EscapeHTML(EntityName) + '</span><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
+            .append('<div class="Activity" id="' + EscapeHTML(EntityID) + '"><span>' + EscapeHTML(EntityName) + '</span><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
             .find('#' + EntityID)
             .css({
                 'top' : PosY + 'px',
@@ -199,7 +199,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         text += "<ul>";
         if (AssignedTransitionActions.length) {
             $.each(AssignedTransitionActions, function (Key, Value) {
-                text += "<li>" + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + " (" + Value + ") </li>";
+                text += "<li>" + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + " (" + EscapeHTML(Value) + ") </li>";
             });
         }
         else {
@@ -255,7 +255,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                     SelectedInterface += Value.substr(0,1);
                 });
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + Value + ") </li>";
+                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + EscapeHTML(Value) + ") </li>";
             });
         }
         else {
