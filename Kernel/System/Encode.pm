@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.52 2012-11-20 15:34:38 mh Exp $
+# $Id: Encode.pm,v 1.53 2013-01-28 12:36:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -300,7 +300,9 @@ sub SetIO {
         next ROW if ref $Row ne 'GLOB';
 
         # set binmode
-        binmode( $Row, ':utf8' );
+        # http://www.perlmonks.org/?node_id=644786
+        # http://bugs.otrs.org/show_bug.cgi?id=5158
+        binmode( $Row, ':encoding(utf8)' );
     }
 
     return;
@@ -352,6 +354,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2012-11-20 15:34:38 $
+$Revision: 1.53 $ $Date: 2013-01-28 12:36:04 $
 
 =cut
