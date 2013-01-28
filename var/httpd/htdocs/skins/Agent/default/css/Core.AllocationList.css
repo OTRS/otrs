@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.3 $
+ * @version     $Revision: 1.4 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -18,7 +18,7 @@
 ul.AllocationList {
     min-height: 25px;
     max-height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 ul.AllocationList li {
