@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.69 2013-01-23 15:44:26 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.70 2013-01-28 10:25:10 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -1046,9 +1046,19 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get the index for the newly to be added element
             // therefore, we search the preceding fieldset and the first
             // label in it to get its "for"-attribute which contains the index
-            var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''), 10),
-                // get current index
-                ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
+            var $PreviousField = $(this).prev('fieldset'),
+                LastKnownFieldIndex,
+                ConfigParamHTML;
+
+            if ($PreviousField.length) {
+                LastKnownFieldIndex = parseInt($PreviousField.find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''), 10);
+            }
+            else {
+                LastKnownFieldIndex = 0;
+            }
+
+            // get current index
+            ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
 
             $(ConfigParamHTML).insertBefore($('#ConfigAdd'));
             return false;

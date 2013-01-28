@@ -2,7 +2,7 @@
 # AdminProcessManagementTransitionAction.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.dtl,v 1.13 2013-01-22 11:50:17 mn Exp $
+# $Id: AdminProcessManagementTransitionAction.dtl,v 1.14 2013-01-28 10:25:10 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,7 +91,7 @@
                                     <input type="text" value="$QData{"Key"}" name="ConfigKey[$QData{"Index"}]" id="ConfigKey[$QData{"Index"}]" />
                                     <label for="ConfigValue[$QData{"Index"}]">$Text{"Value"}:</label>
                                     <input type="text" value="$QData{"Value"}" name="ConfigValue[$QData{"Index"}]" id="ConfigValue[$QData{"Index"}]" />
-                                    <button class="Remove" title="$Text{"Remove this Parameter"}">
+                                    <button class="Remove" type="button" title="$Text{"Remove this Parameter"}">
                                         $Text{"Remove this Parameter"}
                                     </button>
                                 </fieldset>
