@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.43 $
+ * @version     $Revision: 1.44 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -19,6 +19,7 @@
 
 input[type=text],
 input[type=password],
+input[type=email],
 textarea,
 select[multiple=multiple] {
     border: 1px solid #C9C9C9;
@@ -33,6 +34,7 @@ select[multiple=multiple] {
 
 input[type=text],
 input[type=password],
+input[type=email],
 textarea {
     padding: 3px;
     font-size: 12px;
@@ -41,6 +43,7 @@ textarea {
 
 input[type=text]:focus,
 input[type=password]:focus,
+input[type=email]:focus,
 textarea:focus {
     border-color: #F92;
 }
@@ -59,6 +62,7 @@ textarea {
  */
 input[type=text][readonly],
 input[type=password][readonly],
+input[type=email][readonly],
 textarea[readonly] {
     background-color: #DDD;
 }
