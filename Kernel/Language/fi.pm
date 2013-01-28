@@ -2,9 +2,9 @@
 # Kernel/Language/fi.pm - provides Finnish language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
-# Copyright (C) 2012 Niklas Lampén <Niklas.Lampen@aava.eu>
+# Copyright (C) 2012-2013 Niklas Lampén <Niklas.Lampen@aava.eu>
 # --
-# $Id: fi.pm,v 1.151 2013-01-24 07:40:47 mb Exp $
+# $Id: fi.pm,v 1.152 2013-01-28 09:18:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.151 $) [1];
+$VERSION = qw($Revision: 1.152 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:08
+    # Last translation file sync: 2013-01-17 10:12:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -98,12 +98,12 @@ sub Data {
         'Settings' => 'Asetukset',
         'Example' => 'Esimerkki',
         'Examples' => 'Esimerkit',
-        'valid' => 'Kelvollinen',
+        'valid' => 'Käytössä',
         'Valid' => 'Käytössä',
-        'invalid' => 'virheellinen',
-        'Invalid' => 'Virheellinen',
-        '* invalid' => '* virheellinen',
-        'invalid-temporarily' => 'virheellinen-välikaikaisesti',
+        'invalid' => 'Poistettu käytöstä',
+        'Invalid' => 'Poistettu käytöstä',
+        '* invalid' => '* Poistettu käytöstä',
+        'invalid-temporarily' => 'Poistettu käytöstä välikaikaisesti',
         ' 2 minutes' => ' 2 Minuuttia',
         ' 5 minutes' => ' 5 Minuuttia',
         ' 7 minutes' => ' 7 Minuuttia',
@@ -212,7 +212,7 @@ sub Data {
         'Small' => 'Pieni',
         'Medium' => 'Keskikokoinen',
         'Large' => 'Suuri',
-        'Date picker' => '',
+        'Date picker' => 'Valitse päivä',
         'New message' => 'Uusi viesti',
         'New message!' => 'Uusi viesti!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -390,15 +390,15 @@ sub Data {
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Uudenvuodenpäivä',
-        'International Workers\' Day' => '',
+        'International Workers\' Day' => 'Vappu',
         'Christmas Eve' => 'Jouluaatto',
         'First Christmas Day' => 'Ensimmäinen joulupäivä',
         'Second Christmas Day' => 'Toinen joulupäivä',
         'New Year\'s Eve' => 'Uudenvuodenaatto',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
+        'OTRS as requester' => 'OTRS pyytää tietoja',
+        'OTRS as provider' => 'OTRS antaa tietoja',
         'Webservice "%s" created!' => '',
         'Webservice "%s" updated!' => '',
 
@@ -590,7 +590,7 @@ sub Data {
         'This is a HTML email. Click here to show it.' => 'Tämä viesti on HTML-muodossa. Avaa klikkaamalla tästä.',
         'Free Fields' => 'Vapaakentät',
         'Merge' => 'Liitä',
-        'merged' => 'liitetty',
+        'merged' => 'Liitetty',
         'closed successful' => 'Valmistui - Sulje',
         'closed unsuccessful' => 'Keskeneräinen - Sulje',
         'Locked Tickets Total' => 'Lukittuja tikettejä yhteensä',
@@ -612,18 +612,18 @@ sub Data {
         'End message' => '',
         'Forwarded message from' => '',
         'End forwarded message' => '',
-        'new' => 'uusi',
-        'open' => 'avoin',
+        'new' => 'Uusi',
+        'open' => 'Avoin',
         'Open' => 'Avoin',
         'Open tickets' => 'Avoimet tiketit',
-        'closed' => 'suljettu',
+        'closed' => 'Suljettu',
         'Closed' => 'Suljettu',
         'Closed tickets' => 'Suljetut tiketit',
-        'removed' => 'poistettu',
+        'removed' => 'Poistettu',
         'pending reminder' => 'Muistutus',
-        'pending auto' => 'odottava autom.',
-        'pending auto close+' => 'Automaattisulkeminen+',
-        'pending auto close-' => 'Automaattisulkeminen-',
+        'pending auto' => 'Odottava autom.',
+        'pending auto close+' => 'Odottaa autom. sulkemista +',
+        'pending auto close-' => 'Odottaa autom. sulkemista -',
         'email-external' => 'Sähköposti - ulkoinen',
         'email-internal' => 'Sähköposti - sisäinen',
         'note-external' => 'Huomautus - ulkoinen',
@@ -632,8 +632,8 @@ sub Data {
         'phone' => 'puhelimitse',
         'sms' => 'tekstiviesti',
         'webrequest' => 'web-pyyntö',
-        'lock' => 'lukittu',
-        'unlock' => 'poista lukitus',
+        'lock' => 'Lukittu',
+        'unlock' => 'Ei lukittu',
         'very low' => 'Erittäin alhainen',
         'low' => 'Alhainen',
         'normal' => 'Normaali',
@@ -644,10 +644,10 @@ sub Data {
         '3 normal' => '3 Normaali',
         '4 high' => '4 Kiireellinen',
         '5 very high' => '5 Erittäin kiireellinen',
-        'auto follow up' => 'automaattinen seuranta',
-        'auto reject' => 'automaattinen hylkäys',
-        'auto remove' => 'automaattinen poisto',
-        'auto reply' => 'automaattinen vastaus',
+        'auto follow up' => 'Automaattinen seuranta',
+        'auto reject' => 'Automaattinen hylkäys',
+        'auto remove' => 'Automaattinen poisto',
+        'auto reply' => 'Automaattinen vastaus',
         'auto reply/new ticket' => 'automaattinen vastaus/uusi tiketti',
         'Ticket "%s" created!' => 'Tiketti "%s" luotu!',
         'Ticket Number' => 'Tiketin numero',
@@ -1108,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
-        ' (work units)' => ' (esim. minuutteina)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1658,7 +1658,6 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
-        'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
@@ -2790,7 +2789,7 @@ sub Data {
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -3509,7 +3508,7 @@ sub Data {
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -4517,6 +4516,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (esim. minuutteina)',
 
     };
     # $$STOP$$

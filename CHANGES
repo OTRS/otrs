@@ -1,3 +1,6 @@
+3.2.2 2013-02-??
+ - 2013-01-28 Updated Finnish translation, thank to Niklas Lampén!
+
 3.2.1 2013-01-29
  - 2013-01-24 Updated Dutch translation.
  - 2013-01-24 Added test to check if there are problems with the MySQL storage engine used
