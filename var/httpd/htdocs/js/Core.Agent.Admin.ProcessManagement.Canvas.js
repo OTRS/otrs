@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.45 2013-01-21 10:32:04 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.46 2013-01-28 09:43:43 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,15 @@ Core.Agent.Admin.ProcessManagement = Core.Agent.Admin.ProcessManagement || {};
 Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     var Elements = {};
+
+    function EscapeHTML(Content) {
+        return Content
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
 
     function GetCanvasSize($Element) {
         var MinWidth = 500,
@@ -97,7 +106,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             ProcessEntityID = $('#ProcessEntityID').val();
 
         $('#Canvas')
-            .append('<div class="Activity" id="' + EntityID + '"><span>' + EntityName + '</span><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
+            .append('<div class="Activity" id="' + EntityID + '"><span>' + EscapeHTML(EntityName) + '</span><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
             .find('#' + EntityID)
             .css({
                 'top' : PosY + 'px',
@@ -159,7 +168,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             AssignedTransitionActions = [];
 
         $TitleElement.find('a').remove();
-        text = '<h4>' + $TitleElement.text() + '</h4>';
+        text = '<h4>' + EscapeHTML($TitleElement.text()) + '</h4>';
 
         if (typeof Transition[ElementID] === 'undefined') {
             return false;
@@ -190,7 +199,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         text += "<ul>";
         if (AssignedTransitionActions.length) {
             $.each(AssignedTransitionActions, function (Key, Value) {
-                text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name + " (" + Value + ") </li>";
+                text += "<li>" + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + " (" + Value + ") </li>";
             });
         }
         else {
@@ -207,7 +216,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     TargetNS.ShowActivityTooltip = function ($Element) {
         var $tooltip = $('#DiagramTooltip'),
-            text = '<h4>' + $Element.find('span').text() + '</h4>',
+            text = '<h4>' + EscapeHTML($Element.find('span').text()) + '</h4>',
             position = { x: 0, y: 0},
             Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             ActivityDialogs,
@@ -246,7 +255,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                     SelectedInterface += Value.substr(0,1);
                 });
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + " (" + Value + ") </li>";
+                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + Value + ") </li>";
             });
         }
         else {
@@ -451,7 +460,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             overlays: [
                 [ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ],
                 [ "PlainArrow", { location: -15, width: 20, length: 15 } ],
-                [ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: EntityID, events: {
+                [ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: EntityID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.HighlightTransitionLabel(labelOverlay, StartElement, EndElement);
                         originalEvent.stopPropagation();
@@ -697,7 +706,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
                 Data.connection.addOverlay([ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ]);
                 Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
-                Data.connection.addOverlay([ "Label", { label: TransitionName, location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: {
+                Data.connection.addOverlay([ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.HighlightTransitionLabel(labelOverlay, Data.sourceId, Data.targetId);
                     },

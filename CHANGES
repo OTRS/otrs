@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-01-28 Fixed bug#9089 - Activities and transitions with HTML special characters are
+    not displayed correctly.
  - 2013-01-28 Added new translation for Spanish (Colombia), thanks to John Edisson Ortiz Roman!
  - 2013-01-28 Updated Finnish translation, thanks to Niklas Lampén!
 
