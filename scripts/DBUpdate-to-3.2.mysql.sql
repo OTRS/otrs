@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-11-07 17:20:55
+#  driver: mysql, generated: 2013-01-29 10:07:15
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -22,8 +22,12 @@ DROP INDEX ticket_answered ON ticket;
 #  alter table ticket
 # ----------------------------------------------------------
 ALTER TABLE ticket DROP ticket_answered;
+ALTER TABLE article_flag DROP FOREIGN KEY FK_article_flag_article_id_id;
+ALTER TABLE article_flag DROP FOREIGN KEY FK_article_flag_create_by_id;
 DROP INDEX article_flag_create_by ON article_flag;
 DROP INDEX article_flag_article_id_article_key ON article_flag;
+ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
+ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 DROP INDEX ticket_queue_view ON ticket;
 # ----------------------------------------------------------
 #  alter table ticket

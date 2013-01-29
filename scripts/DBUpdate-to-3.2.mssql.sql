@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-11-07 17:20:55
+--  driver: mssql, generated: 2013-01-29 10:07:15
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -132,8 +132,12 @@ DROP INDEX ticket.ticket_answered;
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN ticket_answered;
+ALTER TABLE article_flag DROP CONSTRAINT FK_article_flag_article_id_id;
+ALTER TABLE article_flag DROP CONSTRAINT FK_article_flag_create_by_id;
 DROP INDEX article_flag.article_flag_create_by;
 DROP INDEX article_flag.article_flag_article_id_article_key;
+ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
+ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 DROP INDEX ticket.ticket_queue_view;
                 DECLARE @defnameticketgroup_id VARCHAR(200), @cmdticketgroup_id VARCHAR(2000)
                 SET @defnameticketgroup_id = (
