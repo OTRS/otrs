@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.46 2013-01-17 03:39:20 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.47 2013-01-29 15:59:02 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,7 @@ package Kernel::Modules::AdminProcessManagement;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use Kernel::System::YAML;
 
@@ -29,7 +30,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -464,71 +465,238 @@ sub Run {
             );
         }
 
-        my %ProcessData;
-
-        # get process data
-        my $Process = $Self->{ProcessObject}->ProcessGet(
-            ID     => $ProcessID,
-            UserID => $Self->{UserID},
+        my $ProcessData = $Self->_GetProcessData(
+            ID => $ProcessID
         );
-        if ( !$Process ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Unknown Process $ProcessID!",
-            );
-        }
-        $ProcessData{Process} = $Process;
-
-        # get all used activities
-        for my $ActivityEntityID ( @{ $Process->{Activities} } ) {
-
-            my $Activity = $Self->{ActivityObject}->ActivityGet(
-                EntityID => $ActivityEntityID,
-                UserID   => $Self->{UserID},
-            );
-            $ProcessData{Activities}->{$ActivityEntityID} = $Activity;
-
-            # get all used activity dialogs
-            for my $ActivityDialogEntityID ( @{ $Activity->{ActivityDialogs} } ) {
-
-                my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
-                    EntityID => $ActivityDialogEntityID,
-                    UserID   => $Self->{UserID},
-                );
-                $ProcessData{ActivityDialogs}->{$ActivityDialogEntityID} = $ActivityDialog;
-            }
-        }
-
-        # get all used transitions
-        for my $TransitionEntityID ( @{ $Process->{Transitions} } ) {
-
-            my $Transition = $Self->{TransitionObject}->TransitionGet(
-                EntityID => $TransitionEntityID,
-                UserID   => $Self->{UserID},
-            );
-            $ProcessData{Transitions}->{$TransitionEntityID} = $Transition;
-        }
-
-        # get all used transition actions
-        for my $TransitionActionEntityID ( @{ $Process->{TransitionActions} } ) {
-
-            my $TransitionAction = $Self->{TransitionActionObject}->TransitionActionGet(
-                EntityID => $TransitionActionEntityID,
-                UserID   => $Self->{UserID},
-            );
-            $ProcessData{TransitionActions}->{$TransitionActionEntityID} = $TransitionAction;
-        }
 
         # convert the processdata hash to string
-        my $ProcessData = $Self->{YAMLObject}->Dump( Data => \%ProcessData );
+        my $ProcessDataYAML = $Self->{YAMLObject}->Dump( Data => $ProcessData );
 
         # send the result to the browser
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $ProcessData,
+            Content     => $ProcessDataYAML,
             Type        => 'attachment',
-            Filename    => 'Export_ProcessEntityID_' . $Process->{EntityID} . '.yml',
+            Filename    => 'Export_ProcessEntityID_' . $ProcessData->{Process}->{EntityID} . '.yml',
             NoCache     => 1,
         );
+    }
+
+    # ------------------------------------------------------------ #
+    # ProcessPrint
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ProcessPrint' ) {
+
+        # check for ProcessID
+        my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        if ( !$ProcessID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need ProcessID!",
+            );
+        }
+
+        my $ProcessData = $Self->_GetProcessData(
+            ID => $ProcessID
+        );
+
+        my $Output = $Self->{LayoutObject}->Header(
+            Value => $Param{Title},
+            Type  => 'Small',
+        );
+
+        # print all activities
+        if ( $ProcessData->{Activities} && %{ $ProcessData->{Activities} } ) {
+
+            for my $ActivityEntityID ( sort keys %{ $ProcessData->{Activities} } ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ActivityRow',
+                    Data => {
+                        %{ $ProcessData->{Activities}->{$ActivityEntityID} },
+                        DialogCount =>
+                            scalar
+                            @{ $ProcessData->{Activities}->{$ActivityEntityID}->{ActivityDialogs} },
+                    },
+                );
+
+                # list all assigned dialogs
+                my $AssignedDialogs
+                    = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
+                if ( $AssignedDialogs && %{$AssignedDialogs} ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AssignedDialogs',
+                    );
+
+                    for my $AssignedDialog ( sort keys %{$AssignedDialogs} ) {
+
+                        my $AssignedDialogEntityID
+                            = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
+                            ->{ActivityDialog}->{$AssignedDialog};
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'AssignedDialogsRow',
+                            Data => {
+                                Name => $ProcessData->{ActivityDialogs}->{$AssignedDialogEntityID}
+                                    ->{Name},
+                                EntityID => $AssignedDialogEntityID,
+                            },
+                        );
+                    }
+                }
+            }
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ActivityRowEmpty',
+            );
+        }
+
+        # print all activity dialogs
+        if ( $ProcessData->{ActivityDialogs} && %{ $ProcessData->{ActivityDialogs} } ) {
+
+            for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ActivityDialogRow',
+                    Data => {
+                        ShownIn => join(
+                            ', ',
+                            @{
+                                $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}
+                                    ->{Config}->{Interface}
+                                }
+                        ),
+                        %{ $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID} },
+                    },
+                );
+
+                # list all assigned fields
+                my $AssignedFields
+                    = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
+                    ->{FieldOrder};
+                if ( $AssignedFields && @{$AssignedFields} ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AssignedFields',
+                    );
+
+                    for my $AssignedField ( @{$AssignedFields} ) {
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'AssignedFieldsRow',
+                            Data => {
+                                Name => $AssignedField,
+                            },
+                        );
+                    }
+                }
+            }
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ActivityDialogRowEmpty',
+            );
+        }
+
+        # print all transitions
+        if ( $ProcessData->{Transitions} && %{ $ProcessData->{Transitions} } ) {
+
+            for my $TransitionEntityID ( sort keys %{ $ProcessData->{Transitions} } ) {
+
+                my $Indent = $Data::Dumper::Indent;
+                $Data::Dumper::Indent = 1;
+                my $Config = Dumper( $ProcessData->{Transitions}->{$TransitionEntityID}->{Config} );
+                $Data::Dumper::Indent = $Indent;
+
+                $Config =~ s{ \s* \$VAR1 \s* =}{}xms;
+                $Config =~ s{\s+\{}{\{}xms;
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'TransitionRow',
+                    Data => {
+                        %{ $ProcessData->{Transitions}->{$TransitionEntityID} },
+                        Config => $Config,
+                    },
+                );
+            }
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TransitionRowEmpty',
+            );
+        }
+
+        # print all transition actions
+        if ( $ProcessData->{TransitionActions} && %{ $ProcessData->{TransitionActions} } ) {
+
+            for my $TransitionActionEntityID ( sort keys %{ $ProcessData->{TransitionActions} } ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'TransitionActionRow',
+                    Data => {
+                        Module => $ProcessData->{TransitionActions}->{$TransitionActionEntityID}
+                            ->{Config}->{Module},
+                        %{ $ProcessData->{TransitionActions}->{$TransitionActionEntityID} },
+                    },
+                );
+
+                # list config
+                my $Config
+                    = $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config}
+                    ->{Config};
+                if ( $Config && %{$Config} ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Config',
+                    );
+
+                    for my $ConfigItem ( keys %{$Config} ) {
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ConfigRow',
+                            Data => {
+                                Name  => $ConfigItem,
+                                Value => $Config->{$ConfigItem},
+                            },
+                        );
+                    }
+                }
+
+            }
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TransitionActionRowEmpty',
+            );
+        }
+
+        # get logo
+        my $Logo = $Self->{ConfigObject}->Get('AgentLogo');
+        if ( $Logo && %{$Logo} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Logo',
+                Data => {
+                    LogoURL => $Param{LogoURL}
+                        = $Self->{ConfigObject}->Get('Frontend::WebPath') . $Logo->{URL},
+                },
+            );
+        }
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => "AdminProcessManagementProcessPrint",
+            Data         => {
+                Name => $ProcessData->{Process}->{Name} . ' ('
+                    . $ProcessData->{Process}->{EntityID} . ')',
+                State => $ProcessData->{Process}->{State} . ' ('
+                    . $ProcessData->{Process}->{StateEntityID} . ')',
+                %Param,
+            },
+        );
+
+        $Output .= $Self->{LayoutObject}->Footer();
+
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -1773,6 +1941,67 @@ sub _PushSessionScreen {
 sub _GetFullProcessConfig {
     my ( $Self, %Param )
 
+}
+
+sub _GetProcessData {
+
+    my ( $Self, %Param ) = @_;
+
+    my %ProcessData;
+
+    # get process data
+    my $Process = $Self->{ProcessObject}->ProcessGet(
+        ID     => $Param{ID},
+        UserID => $Self->{UserID},
+    );
+    if ( !$Process ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Unknown Process $Param{ID}!",
+        );
+    }
+    $ProcessData{Process} = $Process;
+
+    # get all used activities
+    for my $ActivityEntityID ( @{ $Process->{Activities} } ) {
+
+        my $Activity = $Self->{ActivityObject}->ActivityGet(
+            EntityID => $ActivityEntityID,
+            UserID   => $Self->{UserID},
+        );
+        $ProcessData{Activities}->{$ActivityEntityID} = $Activity;
+
+        # get all used activity dialogs
+        for my $ActivityDialogEntityID ( @{ $Activity->{ActivityDialogs} } ) {
+
+            my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                EntityID => $ActivityDialogEntityID,
+                UserID   => $Self->{UserID},
+            );
+            $ProcessData{ActivityDialogs}->{$ActivityDialogEntityID} = $ActivityDialog;
+        }
+    }
+
+    # get all used transitions
+    for my $TransitionEntityID ( @{ $Process->{Transitions} } ) {
+
+        my $Transition = $Self->{TransitionObject}->TransitionGet(
+            EntityID => $TransitionEntityID,
+            UserID   => $Self->{UserID},
+        );
+        $ProcessData{Transitions}->{$TransitionEntityID} = $Transition;
+    }
+
+    # get all used transition actions
+    for my $TransitionActionEntityID ( @{ $Process->{TransitionActions} } ) {
+
+        my $TransitionAction = $Self->{TransitionActionObject}->TransitionActionGet(
+            EntityID => $TransitionActionEntityID,
+            UserID   => $Self->{UserID},
+        );
+        $ProcessData{TransitionActions}->{$TransitionActionEntityID} = $TransitionAction;
+    }
+
+    return \%ProcessData;
 }
 
 1;

@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.72 2013-01-28 13:54:39 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.73 2013-01-29 15:59:58 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 PopupType = Matches[1];
             }
 
-            TargetNS.ShowOverlay();
+            if (PopupType !== 'ProcessOverview') {
+                TargetNS.ShowOverlay();
+            }
 
             Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
             return false;
@@ -625,6 +627,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
         // remove overlay
         Core.Agent.Admin.ProcessManagement.HideOverlay();
+    };
+
+    TargetNS.InitProcessOverview = function() {
+
+        InitProcessPopups();
+
+        Core.UI.Table.InitTableFilter($('#Filter'), $('#Processes'), 0);
     };
 
     TargetNS.InitProcessEdit = function () {

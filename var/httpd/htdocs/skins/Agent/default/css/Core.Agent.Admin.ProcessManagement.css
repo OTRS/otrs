@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.26 $
+ * @version     $Revision: 1.27 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,10 +16,12 @@
 /**
  * @subsubsection     Icon Definition
  */
+
 a.Export {
     background: url("../img/database_export.png") no-repeat left center;
     padding-left: 24px;
 }
+
 a.Copy {
     background: url(../img/icons/reports.png) no-repeat left center;
     padding-left: 24px;
@@ -532,6 +534,85 @@ div.AJAXWaiting {
 
 #AssignedFields .ShowOnAssignedList {
     display: inline;
+}
+
+/**
+ * @subsubsection     Popup Print
+ */
+
+.PrintContainer .Logo {
+    float: right;
+    height: 55px;
+}
+
+.PrintContainer {
+    padding: 15px;
+    font-size: 14px;
+}
+
+.PrintContainer h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.PrintContainer h2 {
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    margin-top: 0px;
+    padding-bottom: 15px;
+}
+
+.PrintContainer h3 {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.PrintContainer h3 + ul {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.PrintContainer h4 {
+    font-size: 15px;
+    line-height: 140%;
+    background-color: #eee;
+    padding: 5px 8px;
+}
+
+.PrintContainer h4 span {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.PrintContainer h4 + strong {
+    display: block;
+    padding: 0px 5px;
+    margin-top: 10px;
+}
+
+.PrintContainer h4 ~ ul,
+.PrintContainer h4 ~ ol {
+    margin: 5px 0px 15px 10px;
+}
+
+.PrintContainer h4 ~ ul li,
+.PrintContainer h4 ~ ol li {
+    line-height: 150%;
+}
+
+.PrintContainer h4 ~ ol {
+    list-style-type: decimal;
+    padding-left: 15px;
+}
+
+.PrintContainer pre {
+    margin: 10px;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 130%;
 }
 
 }/* end @media */

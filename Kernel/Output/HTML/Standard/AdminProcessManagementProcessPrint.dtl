@@ -1,0 +1,110 @@
+# --
+# AdminProcessManagementProcessPrint.dtl - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminProcessManagementProcessPrint.dtl,v 1.1 2013-01-29 15:59:02 mab Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="PrintContainer">
+
+<!-- dtl:block:Logo -->
+    <img src="$QData{"LogoURL"}" class="Logo" />
+<!-- dtl:block:Logo -->
+    <h1>$QData{"Name"}</h1>
+    <h2>$Text{"State"}: $QData{"State"}</h2>
+
+    <h3>$Text{"Activities"}</h3>
+    <ul class="ItemData">
+<!-- dtl:block:ActivityRow -->
+        <li>
+            <h4>
+                $QData{"Name"} ($QData{"EntityID"})
+                <span>$Text{"Contains"} $QData{"DialogCount"} $Text{"dialog(s)"}</span>
+            </h4>
+<!-- dtl:block:AssignedDialogs -->
+            <strong>$Text{"Assigned dialogs"}:</strong>
+            <ol>
+<!-- dtl:block:AssignedDialogsRow -->
+                <li>$QData{"Name"} ($QData{"EntityID"})</li>
+<!-- dtl:block:AssignedDialogsRow -->
+            </ol>
+<!-- dtl:block:AssignedDialogs -->
+        </li>
+<!-- dtl:block:ActivityRow -->
+<!-- dtl:block:ActivityRowEmpty -->
+        <li>
+            $Text{"Activities are not being used in this process."}
+        </li>
+<!-- dtl:block:ActivityRowEmpty -->
+    </ul>
+
+    <h3>$Text{"Activity dialogs"}</h3>
+    <ul class="ItemData">
+<!-- dtl:block:ActivityDialogRow -->
+        <li>
+            <h4>
+                $QData{"Name"} ($QData{"EntityID"})
+                <span>$Text{"Available in"} $QData{"ShownIn"}</span>
+            </h4>
+<!-- dtl:block:AssignedFields -->
+            <strong>$Text{"Assigned fields"}:</strong>
+            <ol>
+<!-- dtl:block:AssignedFieldsRow -->
+                <li>$QData{"Name"}</li>
+<!-- dtl:block:AssignedFieldsRow -->
+            </ol>
+<!-- dtl:block:AssignedFields -->
+        </li>
+<!-- dtl:block:ActivityDialogRow -->
+<!-- dtl:block:ActivityDialogRowEmpty -->
+        <li>
+            $Text{"Activity dialogs are not being used in this process."}
+        </li>
+<!-- dtl:block:ActivityDialogRowEmpty -->
+    </ul>
+
+    <h3>$Text{"Transitions"}</h3>
+    <ul class="ItemData">
+<!-- dtl:block:TransitionRow -->
+        <li>
+            <h4>$QData{"Name"} ($QData{"EntityID"})</h4>
+            <pre>$QData{"Config"}</pre>
+        </li>
+<!-- dtl:block:TransitionRow -->
+<!-- dtl:block:TransitionRowEmpty -->
+        <li>
+            $Text{"Transitions are not being used in this process."}
+        </li>
+<!-- dtl:block:TransitionRowEmpty -->
+    </ul>
+
+    <h3>$Text{"Transition actions"}</h3>
+    <ul class="ItemData">
+<!-- dtl:block:TransitionActionRow -->
+        <li>
+            <h4>
+                $QData{"Name"} ($QData{"EntityID"})
+                <span>$Text{"Module name"}: $QData{"Module"}</span>
+            </h4>
+<!-- dtl:block:Config -->
+            <strong>$Text{"Configuration"}:</strong>
+            <ol>
+<!-- dtl:block:ConfigRow -->
+                <li>$QData{"Name"}: $QData{"Value"}</li>
+<!-- dtl:block:ConfigRow -->
+            </ol>
+<!-- dtl:block:Config -->
+        </li>
+<!-- dtl:block:TransitionActionRow -->
+<!-- dtl:block:TransitionActionRowEmpty -->
+        <li>
+            $Text{"Transition actions are not being used in this process."}
+        </li>
+<!-- dtl:block:TransitionActionRowEmpty -->
+    </ul>
+
+</div>
