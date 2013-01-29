@@ -1,0 +1,240 @@
+# --
+# Quoting.t - database tests
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# --
+# $Id: Quoting.t,v 1.1 2013-01-29 10:46:24 mg Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+use strict;
+use warnings;
+use vars qw($Self);
+
+use Kernel::System::XML;
+
+my $XMLObject = Kernel::System::XML->new( %{$Self} );
+my $DBObject  = Kernel::System::DB->new( %{$Self} );
+
+# ------------------------------------------------------------ #
+# quoting tests
+# ------------------------------------------------------------ #
+$Self->Is(
+    $DBObject->Quote( 0, 'Integer' ),
+    0,
+    'Quote() Integer - 0',
+);
+$Self->Is(
+    $DBObject->Quote( 1, 'Integer' ),
+    1,
+    'Quote() Integer - 1',
+);
+$Self->Is(
+    $DBObject->Quote( 123, 'Integer' ),
+    123,
+    'Quote() Integer - 123',
+);
+$Self->Is(
+    $DBObject->Quote( 61712, 'Integer' ),
+    61712,
+    'Quote() Integer - 61712',
+);
+$Self->Is(
+    $DBObject->Quote( -61712, 'Integer' ),
+    -61712,
+    'Quote() Integer - -61712',
+);
+$Self->Is(
+    $DBObject->Quote( '+61712', 'Integer' ),
+    '+61712',
+    'Quote() Integer - +61712',
+);
+$Self->Is(
+    $DBObject->Quote( '02', 'Integer' ),
+    '02',
+    'Quote() Integer - 02',
+);
+$Self->Is(
+    $DBObject->Quote( '0000123', 'Integer' ),
+    '0000123',
+    'Quote() Integer - 0000123',
+);
+
+$Self->Is(
+    $DBObject->Quote( 123.23, 'Number' ),
+    123.23,
+    'Quote() Number - 123.23',
+);
+$Self->Is(
+    $DBObject->Quote( 0.23, 'Number' ),
+    0.23,
+    'Quote() Number - 0.23',
+);
+$Self->Is(
+    $DBObject->Quote( '+123.23', 'Number' ),
+    '+123.23',
+    'Quote() Number - +123.23',
+);
+$Self->Is(
+    $DBObject->Quote( '+0.23132', 'Number' ),
+    '+0.23132',
+    'Quote() Number - +0.23132',
+);
+$Self->Is(
+    $DBObject->Quote( '+12323', 'Number' ),
+    '+12323',
+    'Quote() Number - +12323',
+);
+$Self->Is(
+    $DBObject->Quote( -123.23, 'Number' ),
+    -123.23,
+    'Quote() Number - -123.23',
+);
+$Self->Is(
+    $DBObject->Quote( -123, 'Number' ),
+    -123,
+    'Quote() Number - -123',
+);
+$Self->Is(
+    $DBObject->Quote( -0.23, 'Number' ),
+    -0.23,
+    'Quote() Number - -0.23',
+);
+
+if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql_before_8_2' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l\\;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'mssql' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[[]12]Block[[]12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'db2' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'ingres' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+else {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\\\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\\\'l\\;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+
+1;
