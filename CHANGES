@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-01-29 Fixed bug#9088 - ProcessManagement: Service field is not displayed in
+    AgentTicketProcess.
  - 2013-01-29 Updated CPAN module MIME::Tools to version 5.503, keeping an OTRS patch in MIME::Words.
  - 2013-01-29 Fixed bug#9092 - Problem running DBUpdate-to-3.2.mysql.sql on InnoDB.
  - 2013-01-28 Fixed bug#9078 - Fields of type "email" loosing style format.

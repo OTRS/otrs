@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.32 2013-01-21 13:11:04 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.33 2013-01-29 22:24:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -104,7 +104,7 @@ sub new {
         TypeID         => 'TypeID',
         SLA            => 'SLAID',
         SLAID          => 'SLAID',
-        Service        => 'Service',
+        Service        => 'ServiceID',
         ServiceID      => 'ServiceID',
         Responsible    => 'ResponsibleID',
         ResponsibleID  => 'ResponsibleID',
@@ -989,6 +989,22 @@ sub _GetParam {
             $GetParam{$CurrentField} = $Value;
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
         }
+    }
+
+    # get also the IDs for the Required files (if they are not present)
+    if ( $GetParam{Queue} && !$GetParam{QueueID} ) {
+        $GetParam{QueueID} = $Self->{QueueObject}->QueueLookup( Queue => $GetParam{Queue} );
+    }
+    if ( $GetParam{State} && !$GetParam{StateID} ) {
+        $GetParam{StateID} = $Self->{StateObject}->StateLookup( State => $GetParam{State} );
+    }
+    if ( $GetParam{Lock} && !$GetParam{LockID} ) {
+        $GetParam{LockID} = $Self->{LockObject}->LockLookup( Lock => $GetParam{Lock} );
+    }
+    if ( $GetParam{Priority} && !$GetParam{PriorityID} ) {
+        $GetParam{PrioriyID} = $Self->{PriorityObject}->PriorityLookup(
+            Priority => $GetParam{Priority},
+        );
     }
 
     # and finally we'll have the special parameters:
@@ -2689,17 +2705,25 @@ sub _RenderSLA {
     my $SelectedValue;
 
     my $SLAIDParam = $Param{GetParam}{SLAID};
-    $SelectedValue = $Self->{SLAObject}->SLALookup( SLAID => $SLAIDParam )
-        if ($SLAIDParam);
+    if ($SLAIDParam) {
+        $SelectedValue = $Self->{SLAObject}->SLALookup( SLAID => $SLAIDParam );
+    }
 
     if ( $Param{FieldName} eq 'SLA' ) {
 
         if ( !$SelectedValue ) {
 
             # Fetch DefaultValue from Config
-            $SelectedValue = $Self->{SLAObject}->SLALookup(
-                SLA => $Param{ActivityDialogField}->{DefaultValue} || '',
-            );
+            if (
+                defined $Param{ActivityDialogField}->{DefaultValue}
+                && $Param{ActivityDialogField}->{DefaultValue} ne ''
+                )
+            {
+                $SelectedValue = $Self->{SLAObject}->SLALookup(
+                    SLA => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
+
             if ($SelectedValue) {
                 $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
             }
@@ -2707,9 +2731,15 @@ sub _RenderSLA {
     }
     else {
         if ( !$SelectedValue ) {
-            $SelectedValue = $Self->{SLAObject}->SLALookup(
-                SLAID => $Param{ActivityDialogField}->{DefaultValue} || '',
-            );
+            if (
+                defined $Param{ActivityDialogField}->{DefaultValue}
+                && $Param{ActivityDialogField}->{DefaultValue} ne ''
+                )
+            {
+                $SelectedValue = $Self->{SLAObject}->SLALookup(
+                    SLA => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
         }
     }
 
@@ -2818,9 +2848,15 @@ sub _RenderService {
         if ( !$SelectedValue ) {
 
             # Fetch DefaultValue from Config
-            $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
-                Service => $Param{ActivityDialogField}->{DefaultValue} || '',
-            );
+            if (
+                defined $Param{ActivityDialogField}->{DefaultValue}
+                && $Param{ActivityDialogField}->{DefaultValue} ne ''
+                )
+            {
+                $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
+                    Service => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
             if ($SelectedValue) {
                 $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
             }
@@ -2828,9 +2864,15 @@ sub _RenderService {
     }
     else {
         if ( !$SelectedValue ) {
-            $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
-                ServiceID => $Param{ActivityDialogField}->{DefaultValue} || '',
-            );
+            if (
+                defined $Param{ActivityDialogField}->{DefaultValue}
+                && $Param{ActivityDialogField}->{DefaultValue} ne ''
+                )
+            {
+                $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
+                    Service => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
         }
     }
 
