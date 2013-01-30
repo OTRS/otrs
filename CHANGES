@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-01-30 Fixed bug#9097 - ProcessManagement: Uninitialized value after Ticket is created if
+    notification event is triggered.
  - 2013-01-30 Fixed bug#9101 - Not possible to create dropdown with autocomplete attribute.
  - 2013-01-29 Fixed bug#9095 - ProcessManagement: Service field does not show default services.
  - 2013-01-29 Fixed bug#9096 - All services list is shown instead of only default services.

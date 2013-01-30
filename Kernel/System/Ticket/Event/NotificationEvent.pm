@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.48 2013-01-14 18:30:02 cr Exp $
+# $Id: NotificationEvent.pm,v 1.49 2013-01-30 17:23:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -547,15 +547,21 @@ sub _SendNotification {
     $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
     $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
-    # COMPAT
-    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
-    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
-
     # ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
     );
+
+    # COMPAT
+    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
+    my $TicketNumber = $Article{TicketNumber};
+
+    # use Ticket information as a fallbak (if ticket has no Articles)
+    if ( !$TicketNumber ) {
+        $TicketNumber = $Ticket{TicketNumber};
+    }
+    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$TicketNumber/gi;
 
     # prepare customer realname
     if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
