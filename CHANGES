@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.194 2013-01-30 00:00:07 cr Exp $
+# $Id: CHANGES,v 1.2260.2.195 2013-01-30 14:28:56 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-01-30 Fixed bug#9101 - Not possible to create dropdown with autocomplete attribute.
  - 2013-01-29 Fixed bug#9096 - All services list is shown instead of only default services.
  - 2013-01-28 Fixed bug#8470 - otrs.GenericAgent.pl reports: Can't open
     '/opt/otrs/otrs_vemco/var/tmp/CacheFileStorable/DynamicField/f3b7e10730fb6c9cab5ae0e7f7e034f3'.
