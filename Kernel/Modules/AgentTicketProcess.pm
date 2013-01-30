@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.33 2013-01-29 22:24:34 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.34 2013-01-30 00:16:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2758,9 +2758,12 @@ sub _RenderSLA {
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $SLAs,
         Name          => 'SLAID',
-        Translation   => 1,
         SelectedValue => $SelectedValue,
+        PossibleNone  => 1,
+        Sort          => 'AlphanumericValue',
+        Translation   => 0,
         Class         => $ServerError,
+        Max           => 200,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2887,13 +2890,23 @@ sub _RenderService {
         $ServerError = 'ServerError';
     }
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     # build Service string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
-        Translation   => 1,
-        SelectedValue => $SelectedValue,
         Class         => $ServerError,
+        SelectedValue => $SelectedValue,
+        PossibleNone  => 1,
+        TreeView      => $TreeView,
+        Sort          => 'TreeView',
+        Translation   => 0,
+        Max           => 200,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -4525,14 +4538,6 @@ sub _GetOwners {
 sub _GetSLAs {
     my ( $Self, %Param ) = @_;
 
-    my %Services;
-    SERVICE:
-    for my $Service ( @{ $Param{Services} } ) {
-        next SERVICE if !$Service;
-        $Services{ $Service->{Key} } = $Service->{Value};
-    }
-    $Param{Services} = \%Services;
-
     # get sla
     my %SLA;
     if ( $Param{ServiceID} && $Param{Services} && %{ $Param{Services} } ) {
@@ -4552,98 +4557,30 @@ sub _GetServices {
 
     # get service
     my %Service;
-    my @ServiceList;
-    if ( ( $Param{QueueID} || $Param{TicketID} ) && $Param{CustomerUserID} ) {
+
+    # check needed
+    return \%Service if !$Param{QueueID} && !$Param{TicketID};
+
+    # get options for default services for unknown customers
+    my $DefaultServiceUnknownCustomer
+        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+
+    # check if no CustomerUserID is selected
+    # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
+    # if $DefaultServiceUnknownCustomer = 1 set CustomerUserID to get default services
+    if ( !$Param{CustomerUserID} && $DefaultServiceUnknownCustomer ) {
+        $Param{CustomerUserID} = '<DEFAULT>';
+    }
+
+    # get service list
+    if ( $Param{CustomerUserID} ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
         );
-
-        my %OrigService = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-            Result            => 'HASH',
-            CustomerUserLogin => $Param{CustomerUserID},
-            UserID            => 1,
-        );
-
-        # get all services
-        my $ServiceList = $Self->{ServiceObject}->ServiceListGet(
-            Valid  => 0,
-            UserID => 1,
-        );
-
-        # get a service lookup table
-        my %ServiceLoockup;
-        SERVICE:
-        for my $ServiceData ( @{$ServiceList} ) {
-            next SERVICE if !$ServiceData;
-            next SERVICE if !IsHashRefWithData($ServiceData);
-            next SERVICE if !$ServiceData->{ServiceID};
-
-            $ServiceLoockup{ $ServiceData->{ServiceID} } = $ServiceData;
-        }
-
-        # to store already printed ServiceIDs
-        my %AddedServices;
-
-        for my $ServiceKey ( sort { $OrigService{$a} cmp $OrigService{$b} } keys %OrigService ) {
-
-            # get the service parent
-            my $ServiceParentID = $ServiceLoockup{$ServiceKey}->{ParentID} || 0;
-
-            # check if direct parent is not listed as printed
-            if ( $ServiceParentID && !defined $AddedServices{$ServiceParentID} ) {
-
-                # get all parent IDs
-                my $ServiceParents = $Self->{ServiceObject}->ServiceParentsGet(
-                    ServiceID => $ServiceKey,
-                    UserID    => $Self->{UserID},
-                );
-
-                SERVICEID:
-                for my $ServiceID ( @{$ServiceParents} ) {
-                    next SERVICEID if !$ServiceID;
-                    next SERVICEID if $AddedServices{$ServiceID};
-
-                    my $ServiceParent = $ServiceLoockup{$ServiceID};
-                    next SERVICEID if !IsHashRefWithData($ServiceParent);
-
-                    # create a new register for each parent as disabled
-                    my %ParentServiceRegister = (
-                        Key      => $ServiceID,
-                        Value    => $ServiceParent->{Name},
-                        Selected => 0,
-                        Disabled => 1,
-                    );
-                    push @ServiceList, \%ParentServiceRegister;
-
-                    # set service as printed
-                    $AddedServices{$ServiceID} = 1;
-                }
-            }
-
-            # set default service structure
-            my %ServiceRegister = (
-                Key   => $ServiceKey,
-                Value => $OrigService{$ServiceKey},
-            );
-
-            # check if service is selected
-            if ( $Param{ServiceID} && $Param{ServiceID} eq $ServiceKey ) {
-                $ServiceRegister{Selected} = 1;
-            }
-
-            # check if service is disabled
-            if ( !$Service{$ServiceKey} ) {
-                $ServiceRegister{Disabled} = 1;
-            }
-            push @ServiceList, \%ServiceRegister;
-
-            # set service as printed
-            $AddedServices{$ServiceKey} = 1;
-        }
     }
-    return \@ServiceList;
+    return \%Service;
 }
 
 sub _GetLocks {
