@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.418 2012-11-22 09:24:02 mg Exp $
+# $Id: Layout.pm,v 1.419 2013-01-30 14:24:33 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.418 $) [1];
+$VERSION = qw($Revision: 1.419 $) [1];
 
 =head1 NAME
 
@@ -2151,15 +2151,16 @@ sub CustomerAge {
 build a html option element based on given data
 
     my $HTML = $LayoutObject->BuildSelection(
-        Data       => $ArrayRef,             # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
-        Name       => 'TheName',             # name of element
-        ID         => 'HTMLID',              # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
-        Multiple   => 0,                     # (optional) default 0 (0|1)
-        Size       => 1,                     # (optional) default 1 element size
-        Class      => 'class',               # (optional) a css class
-        Disabled   => 0,                     # (optional) default 0 (0|1) disable the element
-        OnChange   => 'javascript',          # (optional)
-        OnClick    => 'javascript',          # (optional)
+        Data            => $ArrayRef,             # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+        Name            => 'TheName',             # name of element
+        ID              => 'HTMLID',              # (optional) the HTML ID for this element, if not provided, the name will be used as ID as well
+        Multiple        => 0,                     # (optional) default 0 (0|1)
+        Size            => 1,                     # (optional) default 1 element size
+        Class           => 'class',               # (optional) a css class
+        Disabled        => 0,                     # (optional) default 0 (0|1) disable the element
+        AutoComplete    => 'off',                 # (optional)
+        OnChange        => 'javascript',          # (optional)
+        OnClick         => 'javascript',          # (optional)
 
         SelectedID     => 1,                 # (optional) use integer or arrayref (unable to use with ArrayHashRef)
         SelectedID     => [1, 5, 3],         # (optional) use integer or arrayref (unable to use with ArrayHashRef)
@@ -4696,7 +4697,7 @@ sub _BuildSelectionAttributeRefCreate {
     my $AttributeRef = {};
 
     # check params with key and value
-    for (qw(Name ID Size Class OnChange OnClick)) {
+    for (qw(Name ID Size Class OnChange OnClick AutoComplete)) {
         if ( $Param{$_} ) {
             $AttributeRef->{ lc($_) } = $Param{$_};
         }
@@ -5235,6 +5236,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.418 $ $Date: 2012-11-22 09:24:02 $
+$Revision: 1.419 $ $Date: 2013-01-30 14:24:33 $
 
 =cut

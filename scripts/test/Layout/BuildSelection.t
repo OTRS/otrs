@@ -1,8 +1,8 @@
 # --
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.14 2012-11-22 09:24:02 mg Exp $
+# $Id: BuildSelection.t,v 1.15 2013-01-30 14:25:31 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -96,6 +96,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => 2,
@@ -138,6 +139,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => 2,
@@ -224,6 +226,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => 2,
@@ -337,6 +340,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => 2,
@@ -448,6 +452,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => 2,
@@ -547,6 +552,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => undef,
@@ -659,6 +665,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => undef,
@@ -771,6 +778,7 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
+            AutoComplete   => undef,
             OnChange       => undef,
             OnClick        => undef,
             SelectedID     => undef,
