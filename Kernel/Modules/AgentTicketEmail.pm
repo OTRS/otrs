@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.206.2.8 2012-10-17 20:20:40 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.206.2.9 2013-01-30 00:00:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.206.2.8 $) [1];
+$VERSION = qw($Revision: 1.206.2.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1705,8 +1705,15 @@ sub _GetServices {
     my $DefaultServiceUnknownCustomer
         = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
+    # check if no CustomerUserID is selected
+    # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
+    # if $DefaultServiceUnknownCustomer = 1 set CustomerUserID to get default services
+    if ( !$Param{CustomerUserID} && $DefaultServiceUnknownCustomer ) {
+        $Param{CustomerUserID} = '<DEFAULT>';
+    }
+
     # get service list
-    if ( $Param{CustomerUserID} || $DefaultServiceUnknownCustomer ) {
+    if ( $Param{CustomerUserID} ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
