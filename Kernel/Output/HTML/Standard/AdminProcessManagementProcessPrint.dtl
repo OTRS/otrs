@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessPrint.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessPrint.dtl,v 1.1 2013-01-29 15:59:02 mab Exp $
+# $Id: AdminProcessManagementProcessPrint.dtl,v 1.2 2013-01-30 12:24:02 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@
         <li>
             <h4>
                 $QData{"Name"} ($QData{"EntityID"})
-                <span>$Text{"Contains"} $QData{"DialogCount"} $Text{"dialog(s)"}</span>
+                <span>$Text{"Contains %s dialog(s)", "$QData{"DialogCount"}"}</span>
             </h4>
 <!-- dtl:block:AssignedDialogs -->
             <strong>$Text{"Assigned dialogs"}:</strong>
