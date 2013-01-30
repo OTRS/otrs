@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.104 2013-01-28 10:06:42 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.105 2013-01-30 00:00:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1788,12 +1788,15 @@ sub _GetServices {
     my $DefaultServiceUnknownCustomer
         = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
+    # check if no CustomerUserID is selected
+    # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
+    # if $DefaultServiceUnknownCustomer = 1 set CustomerUserID to get default services
+    if ( !$Param{CustomerUserID} && $DefaultServiceUnknownCustomer ) {
+        $Param{CustomerUserID} = '<DEFAULT>';
+    }
+
     # get service list
-    if (
-        ( defined $Param{CustomerUserID} && $Param{CustomerUserID} )
-        || $DefaultServiceUnknownCustomer
-        )
-    {
+    if ( $Param{CustomerUserID} ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
