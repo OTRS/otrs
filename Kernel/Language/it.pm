@@ -7,9 +7,9 @@
 # Copyright (C) 2009 Emiliano Coletti <e.coletti at gmail.com>
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
-# Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
+# Copyright (C) 2012,2013 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.150 2013-01-24 07:45:13 mb Exp $
+# $Id: it.pm,v 1.151 2013-01-31 12:26:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
+$VERSION = qw($Revision: 1.151 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -90,7 +90,7 @@ sub Data {
         'second' => 'secondo',
         's' => '',
         'wrote' => 'ha scritto',
-        'Message' => 'Messaggio',
+        'Message' => 'interazione',
         'Error' => 'Errore',
         'Bug Report' => 'Segnala anomalie',
         'Attention' => 'Attenzione',
@@ -218,11 +218,11 @@ sub Data {
         'Medium' => 'Medio',
         'Large' => 'Grande',
         'Date picker' => 'Selezione data',
-        'New message' => 'Nuovo messaggio',
-        'New message!' => 'Nuovo messaggio!',
+        'New message' => 'Nuovo interazione',
+        'New message!' => 'Nuovo interazione!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
             'Per favore rispondi a queste richieste prima di tornare alla lista!',
-        'You have %s new message(s)!' => 'Hai %s nuovi messaggi!',
+        'You have %s new message(s)!' => 'Hai %s nuovle interazioni!',
         'You have %s reminder ticket(s)!' => 'Hai %s Promemoria memorizzati',
         'The recommended charset for your language is %s!' => 'Il set di caratteri consigliato per la tua lingua è %s!',
         'Change your password.' => 'Cambia la tua password.',
@@ -266,17 +266,17 @@ sub Data {
         'Dispatching by email To: field.' => 'Smistamento in base al campo A:.',
         'Dispatching by selected Queue.' => 'Smistamento in base alla coda selezionata.',
         'No entry found!' => 'Vuoto!',
-        'Session invalid. Please log in again.' => '',
-        'Session has timed out. Please log in again.' => 'Sessione scaduta. Per favore, effettua di nuovo l\'accesso.',
-        'Session limit reached! Please try again later.' => '',
+        'Session invalid. Please log in again.' => 'Sessione non valida. Per favore, effettua di nuovo l\'accesso.',
+        'Session has timed out. Please log in again.' => 'Sessione scaduta per inattività. Per favore, effettua di nuovo l\'accesso.',
+        'Session limit reached! Please try again later.' => 'Numero massimo di sessioni raggiunto. Per favore, riprova più tardi.',
         'No Permission!' => 'Permessi insufficienti',
-        '(Click here to add)' => '(clicca per aggiungere)',
+        '(Click here to add)' => '(Clicca per aggiungere)',
         'Preview' => 'Anteprima',
         'Package not correctly deployed! Please reinstall the package.' =>
             'Estensione non installata correttamente! Reinstallare!',
         '%s is not writable!' => '%s non è scrivibile!',
         'Cannot create %s!' => 'Impossibile creare %s!',
-        'Check to activate this date' => '',
+        'Check to activate this date' => 'Seleziona per attivare questa data',
         'You have Out of Office enabled, would you like to disable it?' =>
             'Risposta Automatica abilitata. Vuoi disabilitarla?',
         'Customer %s added' => 'Cliente %s aggiunto',
@@ -361,13 +361,13 @@ sub Data {
         'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Collapse' => 'Collassa',
         'Shown' => 'Visualizzati',
-        'Shown customer users' => '',
+        'Shown customer users' => 'Clienti visualizzati',
         'News' => 'Notizie',
         'Product News' => 'Notizie Prodotto',
         'OTRS News' => 'Notizie OTRS',
-        '7 Day Stats' => 'Statistiche 7 Giorni',
+        '7 Day Stats' => 'Statistiche ultimi 7 Giorni',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            '',
+            'Le informazioni di Process Management del database non sono sincronizzate con la configurazione, per cortesia effettuare la sincronizzazione',
         'Bold' => 'Grassetto',
         'Italic' => 'Corsivo',
         'Underline' => 'Sottolinea',
@@ -512,7 +512,7 @@ sub Data {
         'TicketAccumulation' => 'Accumulo Ticket',
         'Attributes to be printed' => 'Attributi sa stampare',
         'Sort sequence' => 'Sequeza di ordinamento',
-        'Order by' => 'Ordinati per ',
+        'Order by' => 'Ordina per ',
         'Limit' => 'Limite',
         'Ticketlist' => 'Lista Tickets',
         'ascending' => 'Crescente',
@@ -588,7 +588,7 @@ sub Data {
         'Attachment' => 'Allegato',
         'Attachments' => 'Allegati',
         'This message was written in a character set other than your own.' =>
-            'Questo messaggio è stato scritto in un set di caratteri diverso dal tuo.',
+            'Questo interazione è stato scritto in un set di caratteri diverso dal tuo.',
         'If it is not displayed correctly,' => 'Se non è visualizzato correttamente,',
         'This is a' => 'Questo è un',
         'to open it in a new window.' => 'per aprire in una nuova finestra.',
@@ -613,10 +613,10 @@ sub Data {
         'last-search' => 'Ultima Ricerca',
         'QueueView' => 'Lista Richieste',
         'Ticket Escalation View' => 'Vista gestione Ticket',
-        'Message from' => 'Messaggio da',
-        'End message' => 'Fine Messaggio',
-        'Forwarded message from' => 'Messaggio inoltrato da',
-        'End forwarded message' => 'Fine messaggio inoltrato',
+        'Message from' => 'interazione da',
+        'End message' => 'Fine interazione',
+        'Forwarded message from' => 'interazione inoltrato da',
+        'End forwarded message' => 'Fine interazione inoltrato',
         'new' => 'nuovo',
         'open' => 'aperto',
         'Open' => 'aperto',
@@ -697,7 +697,7 @@ sub Data {
         'Show the ticket history' => 'storico del ticket',
         'Print this ticket' => 'Stampa questo ticket',
         'Print this article' => 'Sampa questo articolo',
-        'Split this article' => 'Separa questo articolo',
+        'Split this article' => 'Duplica questo articolo',
         'Forward article via mail' => 'Inoltra l\'articolo via email',
         'Change the ticket priority' => 'Cambia priorità al ticket',
         'Change the ticket free fields!' => 'Cambia i campi liberi della richiesta',
@@ -866,9 +866,9 @@ sub Data {
         'Ticket responsible options' => 'Operazione responsabile ticket',
         'Options of the current user who requested this action' => 'Opzioni dell\'utente corrente che ha richiesto questa azione',
         'Options of the ticket data' => 'Opzioni dei dati del ticket',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Opzioni per i valori dei campi dinamici a livello di ticket',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Opzioni per i valori dei campi dinamici a livello di ticket, utili per i campi Tendina e Multiselezione',
         'Config options' => 'Opzioni di configurazione',
         'Example response' => 'Risposta di esempio',
 
@@ -889,7 +889,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Inserire una chiave di ricerca per i clienti.',
         'Last Login' => 'Ultimo accesso',
         'Login as' => 'Cambia login',
-        'Switch to customer' => '',
+        'Switch to customer' => 'Impersona il cliente',
         'Add Customer' => 'Aggiungi cliente',
         'Edit Customer' => 'Modifica cliente',
         'This field is required and needs to be a valid email address.' =>
@@ -977,8 +977,8 @@ sub Data {
             'Questo è l\'ordine con cui il campo sarà mostrato sulle pagine quando è attivo.',
         'Field type' => 'Tipo di Campo',
         'Object type' => 'Tipo di Oggetto',
-        'Internal field' => '',
-        'This field is protected and can\'t be deleted.' => '',
+        'Internal field' => 'Campo interno',
+        'This field is protected and can\'t be deleted.' => 'Questo campo è protetto e non può essere cancellato.',
         'Field Settings' => 'Impostazioni del campo',
         'Default value' => 'Valore di default',
         'This is the default value for this field.' => 'Questo è il valore di default per il campo',
@@ -1029,13 +1029,13 @@ sub Data {
         # Template: AdminEmail
         'Admin Notification' => 'Notifiche Amministrative',
         'With this module, administrators can send messages to agents, group or role members.' =>
-            'Con questo modulo, gli amministratori possono mandare messaggi ad Operatori, Gruppi o appartenenti ad un ruolo.',
-        'Create Administrative Message' => 'Creazione Messaggio Amministrativo',
-        'Your message was sent to' => 'Il messaggio è stato inviato a',
-        'Send message to users' => 'Invia messaggio agli utenti',
-        'Send message to group members' => 'Invia messaggio ai membri del gruppo',
+            'Con questo modulo, gli amministratori possono mandare Interazioni ad Operatori, Gruppi o appartenenti ad un ruolo.',
+        'Create Administrative Message' => 'Creazione interazione Amministrativo',
+        'Your message was sent to' => 'Il interazione è stato inviato a',
+        'Send message to users' => 'Invia interazione agli utenti',
+        'Send message to group members' => 'Invia interazione ai membri del gruppo',
         'Group members need to have permission' => 'I membri del gruppo necessitano del permesso',
-        'Send message to role members' => 'Invia messaggio ai membri del ruolo',
+        'Send message to role members' => 'Invia interazione ai membri del ruolo',
         'Also send to customers in groups' => 'Invia anche ai clienti nei gruppi',
         'Body' => 'Testo',
         'Send' => 'Invia',
@@ -1254,12 +1254,12 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI per indicare ai metodi SOAP il contesto, per ridurre le ambiguità',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'es. rn:otrs-com:soap:functions o http://www.otrs.com/GenericInterface/actions',
-        'Maximum message length' => 'Lunghezza massima del messaggio',
+        'Maximum message length' => 'Lunghezza massima del interazione',
         'This field should be an integer number.' => 'Questo campo deve essere un numero intero.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
-            'Specificare il la dimensione massima in in bytes del messaggio SOAP che OTRS processerà',
+            'Specificare il la dimensione massima in in bytes del interazione SOAP che OTRS processerà',
         'Encoding' => '',
-        'The character encoding for the SOAP message contents.' => 'L\'encoding del contenuto del messaggio',
+        'The character encoding for the SOAP message contents.' => 'L\'encoding del contenuto del interazione',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'es. utf-8, latin1, iso-8859-1, cp1250, Etc.',
         'SOAPAction' => '',
         'Set to "Yes" to send a filled SOAPAction header.' => '"Sì" per inviare un header SOAPAction compilato',
@@ -1375,14 +1375,14 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Log di sistema',
         'Here you will find log information about your system.' => 'Qui si troveranno informazioni di log sul sistema.',
-        'Hide this message' => 'Nascondi questo messaggio',
-        'Recent Log Entries' => 'Messaggi recenti',
+        'Hide this message' => 'Nascondi questo interazione',
+        'Recent Log Entries' => 'Interazioni recenti',
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Gestione Credenziali Mail ',
         'Add mail account' => 'Aggiungi account di posta',
         'All incoming emails with one account will be dispatched in the selected queue!' =>
-            'Tutti i messaggi in arrivo saranno smistati nella coda selezionata!',
+            'Tutti le interazioni in arrivo saranno smistati nella coda selezionata!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
             'Se il tuo account è fidato (trusted), verrà utilizzato l\'header X-OTRS dell\'istante di arrivo (priorità, ...)! Il filtro di ingresso verrà utilizzato in ogni caso.',
         'Host' => '',
@@ -1424,7 +1424,7 @@ sub Data {
         'Recipient email addresses' => 'Indirizzi email destinatari',
         'Article type' => 'Tipo articolo',
         'Only for ArticleCreate event' => 'Solo per l\'evento ArticleCreate',
-        'Article sender type' => '',
+        'Article sender type' => 'Tipologia del mittente dell\'articolo',
         'Subject match' => 'Match nell\' oggetto mail',
         'Body match' => 'Match nel corpo mail ',
         'Include attachments to notification' => 'Includi allegati nella notifica',
@@ -1478,7 +1478,7 @@ sub Data {
         'Feature Add-Ons' => '',
         'Download package' => 'Scarica pacchetto',
         'Rebuild package' => 'Ricostruisci pacchetto',
-        'Metadata' => '',
+        'Metadata' => 'Metadati',
         'Change Log' => 'Storia delle Modifiche',
         'Date' => 'Data',
         'List of Files' => 'Lista dei file',
@@ -1541,164 +1541,164 @@ sub Data {
 
         # Template: AdminProcessManagement
         'Process Management' => '',
-        'Filter for Processes' => '',
+        'Filter for Processes' => 'Filtra per Processo',
         'Filter' => 'Filtro',
-        'Process Name' => '',
-        'Create New Process' => '',
-        'Synchronize All Processes' => '',
-        'Configuration import' => '',
+        'Process Name' => 'Nome del Processo',
+        'Create New Process' => 'Crea Nuovo Processo',
+        'Synchronize All Processes' => 'Sincronizza tutti i Processi',
+        'Configuration import' => 'Importa Configurazione',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+            'Qui è possibile importare un file di configurazione per importare un processo a sistema. Il file deve essere in formato .yml come esportato dal modulo di export della gestione processi',
+        'Upload process configuration' => 'Carica la configurazione di processo',
+        'Import process configuration' => 'Importa la configurazione di processo',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
-            '',
+            'Per creare un nuovo processo puoi importare un processo esportato da un altro sistema o crearne uno completamente nuovo.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
-            '',
-        'Processes' => '',
-        'Process name' => '',
-        'Copy' => '',
-        'Export Process Configuration' => '',
-        'Copy Process' => '',
+            'I cambiamenti al processo sono riportati a sistema solo se effettuate la sincronizzazione. Con la sincronizzazione le modifiche sono scritte nella configurazione.',
+        'Processes' => 'Processi',
+        'Process name' => 'Nome del processo',
+        'Copy' => 'Copia',
+        'Export Process Configuration' => 'Esporta la configurazione del processo',
+        'Copy Process' => 'Copia il Processo',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Annulla e chiudi finestra',
-        'Go Back' => '',
+        'Go Back' => 'Indietro',
         'Please note, that changing this activity will affect the following processes' =>
-            '',
-        'Activity' => '',
-        'Activity Name' => '',
-        'Activity Dialogs' => '',
+            'Attenzione, i cambiamenti a questa attività influenzano i seguenti processi',
+        'Activity' => 'Attività',
+        'Activity Name' => 'Nome dell\'attività',
+        'Activity Dialogs' => 'Interazione dell\'attività',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Puoi assegnare le interazioni dell\'attività trascinando gli elementi con il mouse dalla lista di sinistra a quella di destra.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
-            '',
-        'Filter available Activity Dialogs' => '',
-        'Available Activity Dialogs' => '',
-        'Create New Activity Dialog' => '',
-        'Assigned Activity Dialogs' => '',
+            'Potete ordinare gli elementi della lista anche attraverso il trascinamento.',
+        'Filter available Activity Dialogs' => 'Metti un filtro ale interazioni dell\'attività disponibili.',
+        'Available Activity Dialogs' => 'Interazioni dell\'attività disponibili',
+        'Create New Activity Dialog' => 'Crea nuovle interazioni per l\'attività',
+        'Assigned Activity Dialogs' => 'Interazioni per l\'attività assegnati',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            '',
+            'Non appena utilizzi il pulsante o ilcollegamento, abbandi questa schermata e lo stato corrente sarà salvato in automatico. Vuoi continuare ?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
-            '',
-        'Activity Dialog' => '',
-        'Activity dialog Name' => '',
-        'Available in' => '',
-        'Description (short)' => '',
-        'Description (long)' => '',
-        'The selected permission does not exist.' => '',
-        'Required Lock' => '',
-        'The selected required lock does not exist.' => '',
-        'Submit Advice Text' => '',
-        'Submit Button Text' => '',
-        'Fields' => '',
+            'Attenzione, i cambiamenti a questo interazione delle attività influenzano le seguenti attività',
+        'Activity Dialog' => 'interazione dell\'attività',
+        'Activity dialog Name' => 'Nome per interazione dell\'attività',
+        'Available in' => 'Disponibile in',
+        'Description (short)' => 'Descrizione (breve)',
+        'Description (long)' => 'Descrizione (estesa)',
+        'The selected permission does not exist.' => 'Il permesso selezionato non esiste.',
+        'Required Lock' => 'Richiede il lock',
+        'The selected required lock does not exist.' => 'Il lock richiesto e selezionato non esiste.',
+        'Submit Advice Text' => 'Testo per i suggerimenti di invio',
+        'Submit Button Text' => 'Testo per il bottone di invio',
+        'Fields' => 'Campi',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available fields' => '',
-        'Available Fields' => '',
-        'Assigned Fields' => '',
-        'Edit Details for Field' => '',
-        'ArticleType' => '',
-        'Display' => '',
-        'Edit Field Details' => '',
+            'Puoi assegnare campi a questo interazione di attività trascinando gli elementi con il mouse dalla lista di sinistra a quella di destra.',
+        'Filter available fields' => 'Filtro sui campi disponibili',
+        'Available Fields' => 'Campi disponibili',
+        'Assigned Fields' => 'Campi assegnati',
+        'Edit Details for Field' => 'Modifica i dettagli per il campo',
+        'ArticleType' => 'Tipologia Articolo',
+        'Display' => 'Mostra',
+        'Edit Field Details' => 'Modifica i dettagli per il campo',
 
         # Template: AdminProcessManagementPath
-        'Path' => '',
-        'Transition Actions' => '',
+        'Path' => 'percorso',
+        'Transition Actions' => 'Azioni di transizione',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available Transition Actions' => '',
-        'Available Transition Actions' => '',
-        'Create New Transition Action' => '',
-        'Assigned Transition Actions' => '',
+            'Puoi assegnare azioni di transizione a questo transizione trascinando gli elementi con il mouse dalla lista di sinistra a quella di destra.',
+        'Filter available Transition Actions' => 'Filtra sulle azioni di transizioni disponibili',
+        'Available Transition Actions' => 'Azoni di transizione disponibili',
+        'Create New Transition Action' => 'Crea nuova azione di transizione',
+        'Assigned Transition Actions' => 'Azione di transizione assegnate',
 
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
-        'Activities' => '',
-        'Filter Activities...' => '',
-        'Create New Activity' => '',
-        'Filter Activity Dialogs...' => '',
-        'Transitions' => '',
-        'Filter Transitions...' => '',
-        'Create New Transition' => '',
-        'Filter Transition Actions...' => '',
+        'Activities' => 'Attività',
+        'Filter Activities...' => 'Filtra attività...',
+        'Create New Activity' => 'Crea nuova attività...',
+        'Filter Activity Dialogs...' => 'Filtra le interazioni dell\'attività',
+        'Transitions' => 'Transizioni',
+        'Filter Transitions...' => 'Filtra sulle transizioni...',
+        'Create New Transition' => 'Crea Nuova Transizione',
+        'Filter Transition Actions...' => 'Filtra sulle azioni di transizione',
 
         # Template: AdminProcessManagementProcessEdit
-        'Edit Process' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
-        'Available Process Elements' => '',
+        'Edit Process' => 'Modifica Processo',
+        'Delete Process' => 'Cancella Processo',
+        'Delete Inactive Process' => 'Cancella Processo inattivo',
+        'Available Process Elements' => 'Elementi di Processo disponibili',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
-            '',
+            'Gli elementi presenti sopra questa barra possono essere spostati nel riquadro a destra trascinandoli.',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
-            '',
+            'Puoi immettere Attività nel riquadro per assegnare l\'Attività al Processo',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
-            '',
+            'Per assegnare un interazione di attività ad una attività trascinare il interazione dalla barra sopra l\'attività nel riquadro.',
         'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '',
+            'Puoi effettuare una connessione tra le attività trascinando gli elementi di transizione sulla attività iniziale. Successiamente puoi spostare l\'estremità libera sulla attività finale.',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
-            '',
-        'Edit Process Information' => '',
-        'The selected state does not exist.' => '',
-        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
-        'Show EntityIDs' => '',
-        'Extend the width of the Canvas' => '',
-        'Extend the height of the Canvas' => '',
-        'Remove the Activity from this Process' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
-        'Do you really want to delete this Transition Action?' => '',
-        'Hide EntityIDs' => '',
-        'Delete Entity' => '',
+            'Le azioni possono essere assegnate ad una transizione trascinando l\'elemento sulla descrizione della trascrizione.',
+        'Edit Process Information' => 'Modifica le informazioni del Processo',
+        'The selected state does not exist.' => 'Lo stato selezionato non esiste.',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => 'Aggiungi e modifica le attività, le interazioni delle attività e le transizioni',
+        'Show EntityIDs' => 'Mostra gli identificativi EntityID',
+        'Extend the width of the Canvas' => 'Aumenta la larghezza del riquadro',
+        'Extend the height of the Canvas' => 'Aumenta l\'altezza del riquadro',
+        'Remove the Activity from this Process' => 'Rimuovi l\'attività dal Processo',
+        'Do you really want to delete this Process?' => 'Vuoi veramente cancellare questo Processo ?',
+        'Do you really want to delete this Activity?' => 'Vuoi veramente cancellare questa Attività ?',
+        'Do you really want to delete this Activity Dialog?' => 'Vuoi veramente cancellare questo interazione dell\'attività ',
+        'Do you really want to delete this Transition?' => 'Vuoi veramente cancellare questa Transizione ?',
+        'Do you really want to delete this Transition Action?' => 'Vuoi veramente cancellare questa azione di Transizione',
+        'Hide EntityIDs' => 'Nasconti gli identificativi EntityID',
+        'Delete Entity' => 'Cancella l\'entità',
         'This Activity is already used in the Process. You cannot add it twice!' =>
-            '',
+            'Questa attività è già in uso nel Processo. Non puoi aggiungerla due volte!.',
         'This Activity cannot be deleted because it is the Start Activity.' =>
-            '',
+            'Questa attività non può essere cancellata perché è l\'attività iniziale.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '',
+            'Questa Transizione è già utilizzata per questa Attività. Non puoi aggiungerla due volte!.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '',
-        'No TransitionActions assigned.' => '',
-        'The Start Event cannot loose the Start Transition!' => '',
+            'Questa Azione di Transizione è già in uso in questo percorso. Non puoi usarla due volte!.',
+        'No TransitionActions assigned.' => 'Non ci sono Azioni di Transizione Assegnate.',
+        'The Start Event cannot loose the Start Transition!' => 'L\'evento di inizio non può perdere la Transizione d\'inizio!',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Vuoi veramente rimuovere questa attività dal riquadro ? Questo può essere annullato solo uscendo dalla schermata senza salvare.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Vuoi veramente rimuovere questa transizione dal riquadro ? Questo può essere annullato solo uscendo dalla schermata senza salvare.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '',
+            'Non ci sono interazioni assegnate. Selezionana una interazione dalla lista sulla sinistra e trascinala qui.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
-            '',
+            'In questa schermata potete creare un nuovo processo. per rendere il nuovo processo disponibile agli utenti, occorre mettere lo stato in \'Attivo\' ed effettuare la sincronizzazione al termine del lavoro.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
-            '',
-        'Transition' => '',
-        'Transition Name' => '',
-        'Conditions' => '',
-        'Type of Linking between Conditions' => '',
-        'Condition' => '',
-        'Remove this Condition' => '',
-        'Type of Linking' => '',
-        'Remove this Field' => '',
-        'Add a new Field' => '',
-        'Add New Condition' => '',
+            'Attenzione, i cambiamenti a questa transizione impattano sui seguenti processi',
+        'Transition' => 'Transizione',
+        'Transition Name' => 'Nome della Transizione',
+        'Conditions' => 'Condizioni',
+        'Type of Linking between Conditions' => 'Tipo del collegamento tra le Condizioni',
+        'Condition' => 'Condizione',
+        'Remove this Condition' => 'Rimuovi questa Condizione',
+        'Type of Linking' => 'Tipo di Collegamento',
+        'Remove this Field' => 'Rimuovi questo campo',
+        'Add a new Field' => 'Aggiungi un nuovo campo',
+        'Add New Condition' => 'Aggiungi nuova condizione',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
-            '',
-        'Transition Action' => '',
-        'Transition Action Name' => '',
-        'Transition Action Module' => '',
-        'Config Parameters' => '',
-        'Remove this Parameter' => '',
-        'Add a new Parameter' => '',
+            'Attenzione, i cambiamenti a questa azione di transizione impattano sui seguenti processi',
+        'Transition Action' => 'Azione di Transizione',
+        'Transition Action Name' => 'Nome dell\'azione di transizione',
+        'Transition Action Module' => 'Modulo per l\'azione di transizione',
+        'Config Parameters' => 'parametri di configurazione',
+        'Remove this Parameter' => 'Rimuovi questo parametro',
+        'Add a new Parameter' => 'Aggiungi un nuovo parametro',
 
         # Template: AdminQueue
         'Manage Queues' => 'Gestione code',
@@ -1712,11 +1712,11 @@ sub Data {
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             'Se un agente prende in carico un ticket e non lo chiude prima dello sblocco automatico, il ticket viene sbloccato e diventa disponibile per altri agenti.',
         'Notify by' => 'Notificato da',
-        '0 = no escalation' => '0 = nessuno scalo',
+        '0 = no escalation' => '0 = nessuna escalation',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
-            'Se non c\'è un contatto aggiunto con il cliente, sia per email che per telefono per un ticket nuovo, prima che il tempo qui definito scada, il ticket viene scalato',
+            'Se non c\'è un nuovo contatto con il cliente, sia per email che per telefono per un ticket nuovo, prima che il tempo qui definito scada, il ticket viene scalato',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'Se c\'è un articolo aggiunto, come un floow-up o il portale cliente, il tempo di aggiornamento di scalo viene azzerato. Se non c\'è un contatto con il cliente, sia per posta che per telefono, aggiunto al ticket prima che scada il tempo definito qui, il ticket viene scalato.',
+            'Se c\'è un articolo aggiunto, come un follow-up o il portale cliente, il tempo di aggiornamento di scalo viene azzerato. Se non c\'è un contatto con il cliente, sia per posta che per telefono, aggiunto al ticket prima che scada il tempo definito qui, il ticket viene scalato.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'Se il ticket non viene impostato a chiuso prima che scada il tempo qui definito, il ticket viene scalato.',
         'Follow up Option' => 'Opzioni per i follow-up',
@@ -1750,8 +1750,8 @@ sub Data {
         'Manage Responses' => 'Gestione risposte',
         'Add response' => 'Aggiungi risposta',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
-            '',
-        'Don\'t forget to add new responses to queues.' => '',
+            'Una risposta è costituita dal testo standard per facilitare gli agenti nella risposta ai clienti.',
+        'Don\'t forget to add new responses to queues.' => 'Non dimentare di aggiungere nuove risposte standard alle code',
         'Delete this entry' => 'Elimina',
         'Add Response' => 'Aggiungi risposta',
         'Edit Response' => 'Modifica risposta',
@@ -1822,7 +1822,7 @@ sub Data {
         'Hash' => '',
         'Create' => 'Crea',
         'Handle related certificates' => 'Gestisci i certificati collegati',
-        'Read certificate' => '',
+        'Read certificate' => 'leggi il certificato',
         'Delete this certificate' => 'Elimina questo certificato',
         'Add Certificate' => 'Aggiungi certificato',
         'Add Private Key' => 'Aggiunti chiave privata',
@@ -1833,7 +1833,7 @@ sub Data {
         'Relate this certificate' => 'Collegati a questo certificato',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => '',
+        'SMIME Certificate' => 'Certificato SMIME',
         'Close window' => 'Chiudi finestra',
 
         # Template: AdminSalutation
@@ -1846,7 +1846,7 @@ sub Data {
         # Template: AdminScheduler
         'This option will force Scheduler to start even if the process is still registered in the database' =>
             'Questa opzione forza lo start dello Scheduler, anche se il processo è ancora registrato nel database',
-        'Start scheduler' => '',
+        'Start scheduler' => 'Fai partire lo schedulatore',
         'Scheduler could not be started. Check if scheduler is not running and try it again with Force Start option' =>
             'Lo Scheduler non è partito. Controllare che lo Scheduler non sia attivo e usare l\'opzione "Force Start"',
 
@@ -1981,7 +1981,7 @@ sub Data {
         'Edit Agent' => 'Modifica agente',
         'Firstname' => 'Nome',
         'Lastname' => 'Cognome',
-        'Password is required.' => '',
+        'Password is required.' => 'La password è obbligatoria',
         'Start' => 'Inizio',
         'End' => 'Fine',
 
@@ -1989,7 +1989,7 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestisci relazioni Agente-Gruppo',
         'Change Group Relations for Agent' => 'Cambia relazioni di gruppo per l\'agente',
         'Change Agent Relations for Group' => 'Cambia relazioni di agente per il gruppo',
-        'note' => '',
+        'note' => 'Annotazioni',
         'Permissions to add notes to tickets in this group/queue.' => 'Permesso di aggiungere note ai ticket in questo gruppo/coda.',
         'owner' => 'gestore',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2004,7 +2004,7 @@ sub Data {
         'Apply' => 'Applica',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'Centro Informazioni Cliente',
 
         # Template: AgentCustomerInformationCenterBlank
 
@@ -2016,7 +2016,7 @@ sub Data {
         'Search Customer' => 'Ricerca cliente',
         'Duplicated entry' => 'Voce duplicata',
         'This address already exists on the address list.' => 'Questo indirizzo esiste già nell\'elenco.',
-        'It is going to be deleted from the field, please try again.' => '',
+        'It is going to be deleted from the field, please try again.' => 'Sta per essere cancellato dal campo, per cortesia riprovare.',
 
         # Template: AgentCustomerTableView
 
@@ -2032,13 +2032,13 @@ sub Data {
         'Escalated tickets' => '',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer information' => '',
-        'Phone ticket' => '',
-        'Email ticket' => '',
-        '%s open ticket(s) of %s' => '',
-        '%s closed ticket(s) of %s' => '',
-        'New phone ticket from %s' => '',
-        'New email ticket to %s' => '',
+        'Customer information' => 'Informazioni sul Cliente',
+        'Phone ticket' => 'Ticket da Telefonata',
+        'Email ticket' => 'Ticket da Email',
+        '%s open ticket(s) of %s' => '%s Ticket aperti su %s',
+        '%s closed ticket(s) of %s' => '%s Ticket chiusi su %s',
+        'New phone ticket from %s' => 'Nuovo Ticket telefonico da %s',
+        'New email ticket to %s' => 'Nuovo Ticket via email da %s',
 
         # Template: AgentDashboardIFrame
 
@@ -2051,7 +2051,7 @@ sub Data {
         'Level' => 'Livello',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => 'Inviato il %s .',
+        'Posted %s ago.' => 'Inviato %s giorni fa.',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Ticket assegnati a me',
@@ -2062,10 +2062,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'Fuori Ufficio',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'Fino a',
 
         # Template: AgentHTMLReferenceForms
 
@@ -2114,7 +2114,7 @@ sub Data {
             'Se cancelli "Fisso" ,durante la generazione delle stat sono possibili cambiamenti per gli attributi del corrispondente elemento. ',
         'Fixed' => 'Fisso',
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            'Seleziona solo un elemento e togli  \'Fisso\' . ',
+            'Seleziona solo un elemento e togli  \'Fisso\'. ',
         'Absolute Period' => 'Periodo assoluto',
         'Between' => 'fra',
         'Relative Period' => 'Periodo relativo',
@@ -2166,7 +2166,7 @@ sub Data {
 
         # Template: AgentStatsPrint
         'Print' => 'Stampa',
-        'No Element selected.' => 'nessun elemento selezionato',
+        'No Element selected.' => 'Nessun elemento selezionato',
 
         # Template: AgentStatsView
         'Export config' => 'Esporta configurazione',
@@ -2215,7 +2215,7 @@ sub Data {
             'E\' necessario un indirizzo email valido o non usare un indirizzo email locale.',
         'Next ticket state' => 'Stato successivo della richiesta',
         'Inform sender' => 'Informa il mittente',
-        'Send mail!' => 'Invia messaggio!',
+        'Send mail!' => 'Invia interazione!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Azioni  Multiple',
@@ -2231,7 +2231,7 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Componi la risposta alla richiesta',
-        'Remove Ticket Customer' => '',
+        'Remove Ticket Customer' => 'Rimuovi il Ticket del cliente',
         'Please remove this entry and enter a new one with the correct value.' =>
             'Rimuovere i valori ed immetterne di validi',
         'Please include at least one recipient' => 'Includere almeno un destinatario',
@@ -2324,8 +2324,8 @@ sub Data {
         # Template: AgentTicketPriority
 
         # Template: AgentTicketProcess
-        'Create New Process Ticket' => '',
-        'Process' => '',
+        'Create New Process Ticket' => 'Crea Nuovo Ticket con Processo',
+        'Process' => 'Processo',
 
         # Template: AgentTicketProcessNavigationBar
 
@@ -2337,7 +2337,7 @@ sub Data {
         'Search template' => 'Modello di ricerca',
         'Create Template' => 'Crea template',
         'Create New' => 'Crea nuovo',
-        'Profile link' => '',
+        'Profile link' => 'Collegamento a profilo',
         'Save changes in template' => 'Salva modifiche al template',
         'Add another attribute' => 'Aggiungi un altro attributo',
         'Output' => 'Tipo di risultato',
@@ -2371,13 +2371,13 @@ sub Data {
         'Article Type' => 'Tipo Articolo',
         'Sender Type' => 'Tipo di Mittente',
         'Save filter settings as default' => 'Salva config filtri come default',
-        'Archive' => '',
-        'This ticket is archived.' => '',
+        'Archive' => 'Archivio',
+        'This ticket is archived.' => 'Questo Ticket è stato archiviato.',
         'Linked Objects' => 'Oggetti collegati',
         'Article(s)' => 'Articoli',
         'Change Queue' => 'Cambia coda',
-        'There are currently no steps available for this process.' => '',
-        'This item has no articles yet.' => '',
+        'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
+        'This item has no articles yet.' => 'Questo oggetto non ha ancora articoli',
         'Article Filter' => 'Filtro articoli',
         'Add Filter' => 'Aggiungi filtro',
         'Set' => 'Impostazione',
@@ -2387,13 +2387,13 @@ sub Data {
         'Unread articles' => 'Articoli non letti',
         'No.' => '',
         'Unread Article!' => 'Articolo non letto!',
-        'Incoming message' => 'Messaggio in entrata',
-        'Outgoing message' => 'Messaggio in uscita',
-        'Internal message' => 'Messaggio interno',
+        'Incoming message' => 'interazione in entrata',
+        'Outgoing message' => 'interazione in uscita',
+        'Internal message' => 'interazione interno',
         'Resize' => 'Ridimensiona',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => '',
+        'To protect your privacy, remote content was blocked.' => 'per proteggere la vstra privacy, il contenuto remoto è stato rimosso.',
         'Load blocked content.' => 'Carica contenuto bloccato.',
 
         # Template: Copyright
@@ -2449,7 +2449,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Modifica impostazioni personali',
-        'Logout %s' => '',
+        'Logout %s' => 'Disconnessione %s',
 
         # Template: CustomerPreferences
 
@@ -2468,10 +2468,10 @@ sub Data {
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profilo',
-        'e. g. 10*5155 or 105658*' => '',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Ricerca a testo nei ticket (e. g. "John*n" or "Will*")',
+        'e. g. 10*5155 or 105658*' => 'es 10*5155 or 105658*',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Ricerca a testo nei ticket (es "John*n" or "Will*")',
         'Recipient' => 'Destinatario',
-        'Carbon Copy' => 'Copia Carbone',
+        'Carbon Copy' => 'Copia',
         'Time restrictions' => 'Restrizioni di tempo',
         'No time settings' => 'Nessuna impostazione per il tempo',
         'Only tickets created' => 'Solo ticket creati',
@@ -2494,11 +2494,11 @@ sub Data {
         'Search Results for' => 'Risultati di ricerca per',
 
         # Template: CustomerTicketZoom
-        'Show  article' => '',
+        'Show  article' => 'Mostra Articolo',
         'Expand article' => 'Espandi l\'articolo',
-        'Information' => '',
-        'Next Steps' => '',
-        'There are no further steps in this process' => '',
+        'Information' => 'Informazione',
+        'Next Steps' => 'Prossime attività',
+        'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
         'Reply' => 'Risposta',
 
         # Template: CustomerWarning
@@ -2524,7 +2524,7 @@ sub Data {
 
         # Template: Error
         'Oops! An Error occurred.' => 'Oops! Si è verificato un errore.',
-        'Error Message' => 'Messaggio di errore',
+        'Error Message' => 'interazione di errore',
         'You can' => 'Si può',
         'Send a bugreport' => 'Inviare un bug report',
         'go back to the previous page' => 'tornare alla pagina precedente',
@@ -2548,9 +2548,9 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
+        'Fulltext search' => 'Ricerca testo libero',
+        'CustomerID Search' => 'Ricerca per Identificativo Cliente',
+        'CustomerUser Search' => 'Ricerca per Cliente',
         'You are logged in as' => 'Si è effettuato l\'accesso come',
 
         # Template: HeaderSmall
@@ -2664,7 +2664,7 @@ sub Data {
         'Back to login' => 'Torna all\'accesso',
 
         # Template: Motd
-        'Message of the Day' => 'Messaggio del giorno',
+        'Message of the Day' => 'Motto del giorno',
 
         # Template: NoPermission
         'Insufficient Rights' => 'Permessi insufficienti',
@@ -2720,7 +2720,7 @@ sub Data {
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' =>
             'Attiva i temi disponibili sul sistema. Il valore 1 significa attivi, 0 significa inattivi.',
         'Activates the ticket archive system search in the customer interface.' =>
-            '',
+            'Attiva la ricerca nei ticket archiviati nell\'interfaccia cliente',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Attiva il sistema di archivio dei ticket per avere un sistema più veloce spostando alcuni ticket fuori dallo scopo giornaliero. Per cercare questi ticket, la flag archivio deve essere abilitata nella ricerca dei ticket.',
         'Activates time accounting.' => 'Attiva Rendicontazione Tempo.',
@@ -2729,11 +2729,11 @@ sub Data {
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            '',
+            'Aggiunge i giorni di vacanza singoli per il calendario indicato. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Aggiunge i giorni di vacanza singoli. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
+            'Aggiunge i giorni di vacanza eccezionali. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            '',
+            'Aggiunge i giorni ricorrenti di vacanza . Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Aggiunge i giorni di vacanza permanenti. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Agent Notifications' => 'Notifiche degli agenti',
@@ -2788,15 +2788,15 @@ sub Data {
         'Allows customers to set the ticket service in the customer interface.' =>
             'Permette ai clienti di impostare il servizio dei ticket nell\'interfaccia cliente.',
         'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
-            '',
+            'Permette ai clienti di impostare la tipologia di ticket nell\'interfaccia. Se impostato a \'No\', TicketTypeDefault deve essere configurato.',
         'Allows default services to be selected also for non existing customers.' =>
-            '',
+            'permette \'inserimento di servizi di default per clienti non registrati.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'Permette di definire nuovi tipi di ticket (se è abilitata la funzione ticket type)',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Permette di definire servizi e SLA per i ticket (e.g. email, desktop, network, ...), e attributi di scalo per gli SLA (se è abilitata la funzione servizio/SLA)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            '',
+            'Permette l\'utilizzo di criteri di ricerca estesi nell\'interfaccia agente.',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia dei clienti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -2804,7 +2804,7 @@ sub Data {
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permette di avere il formato piccolo nella visualizzazione dei ticket (CustomerInfo =>1 - mostra anche le informazioni del cliente)',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
-            '',
+            'Permette agli amministratori di effettuare la login come altri clienti attraverso il pannello di amministrazione clienti.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Permette agli amministratori di effettuare l\'accesso come altri utenti, tramite il pannelo di amministrazione.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
@@ -2847,11 +2847,11 @@ sub Data {
             'Controlla il SystemID nel rilevamento del numero di ticket per i follow-up (usare "No" se il SystemID è stato cambiato dopo aver usato il sistema).',
         'Closed tickets of customer' => 'Richieste completate per il cliente',
         'Comment for new history entries in the customer interface.' => 'Commento per nuove entry nello storico dell\'interfaccia cliente.',
-        'Company Status' => '',
+        'Company Status' => 'Stato Società',
         'Company Tickets' => 'Ticket della Società',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
-            '',
-        'Configure Processes.' => '',
+            'Nome società per interfaccia web. Viene incluso nelle email come X-Header.',
+        'Configure Processes.' => 'Processi Configurati.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -2863,7 +2863,7 @@ sub Data {
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
-        'Converts HTML mails into text messages.' => 'Converte la posta in HTML in messaggi di testo.',
+        'Converts HTML mails into text messages.' => 'Converte la posta in HTML in Interazioni di testo.',
         'Create New process ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Crea e gestisce gli SLA',
         'Create and manage agents.' => 'Crea e gestisce gli agenti',
@@ -2888,10 +2888,10 @@ sub Data {
         'Create new phone ticket (inbound)' => 'Crea un nuovo ticket telefonico (internamente)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
-        'Customer User Administration' => '',
-        'Customer Users' => 'Utenti Clienti',
+        'Customer Company Administration' => 'Amministrazione società cliente',
+        'Customer Company Information' => 'Informazioni società cliente',
+        'Customer User Administration' => 'Amministrazione utenti cliente',
+        'Customer Users' => 'Utenti Cliente',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -2899,12 +2899,12 @@ sub Data {
         'Customers <-> Groups' => 'Clienti <-> Gruppi',
         'Customers <-> Services' => 'Clienti <-> Servizi',
         'Data used to export the search result in CSV format.' => 'Dati usati per esportare i risultati di ricerca in formato CSV',
-        'Date / Time' => '',
+        'Date / Time' => 'Data / Ora',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'Debug del set di traduzione. Se questo è impostato a "Sì" tutte le stringhe (testo) non tradotte sono scritte su STDERR. Può essere utile quando si crea un nuovo file di traduzione. Altrimenti, questa opzione dovrebbe rimanere impostata su "No".',
         'Default ACL values for ticket actions.' => 'ACL di default per le azioni sui ticket.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
-            '',
+            'Prefisso standard per le entità di Process Management generate automaticamente.',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -2997,7 +2997,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Definisce se una presa in carico è necessaria per un cambio di cliente di un ticket dell\'interfaccia degli agenti (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'agente viene automaticamente impostato come proprietario).',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
-            'Definisce se i messaggi composti devono essere controllati ortograficamente nell\'interfaccia degli agenti.',
+            'Definisce se le interazioni composti devono essere controllati ortograficamente nell\'interfaccia degli agenti.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
