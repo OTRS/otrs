@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-01-31 Added bin/otrs.ExecuteDatabaseXML.pl to directly execute Database DDL XML files on
+    the OTRS database.
  - 2013-01-30 Fixed bug#9097 - ProcessManagement: Uninitialized value after Ticket is created if
     notification event is triggered.
  - 2013-01-30 Fixed bug#9101 - Not possible to create dropdown with autocomplete attribute.
