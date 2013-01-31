@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.33 2013-01-22 08:04:55 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.34 2013-01-31 13:45:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,6 +74,10 @@ sub new {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
         $Self->{AvailableFields}->{Service} = 'ServiceID';
         $Self->{AvailableFields}->{SLA}     = 'SLAID';
+    }
+
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
+        $Self->{AvailableFields}->{Type} = 'TypeID';
     }
 
     my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.34 2013-01-30 00:16:29 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.35 2013-01-31 13:45:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,10 +30,11 @@ use Kernel::System::Group;
 use Kernel::System::Lock;
 use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
+use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,6 +79,7 @@ sub new {
         %Param,
     );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
     $Self->{DynamicField}       = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => 'Ticket',
@@ -1814,6 +1816,44 @@ sub _OutputActivityDialog {
 
             $RenderedFields{$CurrentField} = 1;
         }
+
+        # render Type
+        elsif ( $Self->{NameToID}->{$CurrentField} eq 'TypeID' )
+        {
+
+            # We don't render Fields twice,
+            # if there was already a Config without ID, skip this field
+            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+
+            my $Response = $Self->_RenderType(
+                ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
+                FieldName           => $CurrentField,
+                DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                Ticket              => \%Ticket || {},
+                Error               => \%Error || {},
+                FormID              => $Self->{FormID},
+                GetParam            => $Param{GetParam},
+                AJAXUpdatableFields => $AJAXUpdatableFields,
+            );
+
+            if ( !$Response->{Success} ) {
+
+                # does not show header and footer again
+                if ( $Self->{AJAXDialog} ) {
+                    return $Self->{LayoutObject}->Error(
+                        Message => $Response->{Message},
+                    );
+                }
+
+                $Self->{LayoutObject}->FatalError(
+                    Message => $Response->{Message},
+                );
+            }
+
+            $Output .= $Response->{HTML};
+
+            $RenderedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
+        }
     }
 
     my $FooterCSSClass = 'Footer';
@@ -3421,6 +3461,142 @@ sub _RenderState {
     };
 }
 
+sub _RenderType {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(FormID)) {
+        if ( !$Param{$Needed} ) {
+            return {
+                Success => 0,
+                Message => "Got no $Needed in _RenderType!",
+            };
+        }
+    }
+    if ( !IsHashRefWithData( $Param{ActivityDialogField} ) ) {
+        return {
+            Success => 0,
+            Message => "Got no ActivityDialogField in _RenderType!"
+        };
+    }
+
+    my $Types = $Self->_GetTypes(
+        %{ $Param{GetParam} },
+    );
+
+    my %Data = (
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Type"),
+        FieldID          => 'TypeID',
+        FormID           => $Param{FormID},
+        MandatoryClass   => '',
+        ValidateRequired => '',
+    );
+
+    # If field is required put in the necessary variables for
+    # ValidateRequired class input field, Mandatory class for the label
+    if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
+        $Data{ValidateRequired} = 'Validate_Required';
+        $Data{MandatoryClass}   = 'Mandatory';
+    }
+
+    my $SelectedValue;
+
+    my $TypeIDParam = $Param{GetParam}{TypeID};
+    if ($TypeIDParam) {
+        $SelectedValue = $Self->{TypeObject}->TypeLookup(
+            TypeID => $TypeIDParam,
+        );
+    }
+
+    if ( $Param{FieldName} eq 'Type' ) {
+
+        if ( !$SelectedValue ) {
+
+            # Fetch DefaultValue from Config
+            if (
+                defined $Param{ActivityDialogField}->{DefaultValue}
+                && $Param{ActivityDialogField}->{DefaultValue} ne ''
+                )
+            {
+                $SelectedValue = $Self->{TypeObject}->TypeLookup(
+                    Type => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
+            if ($SelectedValue) {
+                $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
+            }
+        }
+    }
+    else {
+        if ( !$SelectedValue ) {
+            if (
+                defined $Param{ActivityDialogField}->{DefaultValue}
+                && $Param{ActivityDialogField}->{DefaultValue} ne ''
+                )
+            {
+                $SelectedValue = $Self->{TypeObject}->TypeLookup(
+                    Type => $Param{ActivityDialogField}->{DefaultValue},
+                );
+            }
+        }
+    }
+
+    # Get TicketValue
+    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+        $SelectedValue = $Param{Ticket}->{Type};
+    }
+
+    # set server errors
+    my $ServerError;
+    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TypeID'} ) {
+        $ServerError = 'ServerError';
+    }
+
+    # build Service string
+    $Data{Content} = $Self->{LayoutObject}->BuildSelection(
+        Data          => $Types,
+        Name          => 'TypeID',
+        Class         => $ServerError,
+        SelectedValue => $SelectedValue,
+        PossibleNone  => 1,
+        Sort          => 'AlphanumericValue',
+        Translation   => 0,
+        Max           => 200,
+    );
+
+    # set fields that will get an AJAX loader icon when this field changes
+    $Data{FieldsToUpdate} = $Self->_GetFieldsToUpdateStrg(
+        TriggerField        => 'TypeID',
+        AJAXUpdatableFields => $Param{AJAXUpdatableFields},
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Type',
+        Data => \%Data,
+    );
+
+    # set mandatory label marker
+    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'LabelSpan',
+            Data => {},
+        );
+    }
+
+    if ( $Param{DescriptionShort} ) {
+        $Self->{LayoutObject}->Block(
+            Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Type:DescriptionShort',
+            Data => {
+                DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    return {
+        Success => 1,
+        HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Type' ),
+    };
+}
+
 sub _StoreActivityDialog {
     my ( $Self, %Param ) = @_;
 
@@ -4700,6 +4876,21 @@ sub _GetStates {
     );
 
     return \%States;
+}
+
+sub _GetTypes {
+    my ( $Self, %Param ) = @_;
+
+    # get type
+    my %Type;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Type;
 }
 
 sub _GetAJAXUpdatableFields {

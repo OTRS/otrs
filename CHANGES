@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-01-31 Fixed bug#9077 - Process Management: TicketType not available as field for activity
+    dialogs.
  - 2013-01-31 Updated Finnish, thanks to Niklas Lampén!
  - 2013-01-31 Updated Italian translation, thanks to Massimo Bianchi!
  - 2013-01-31 Updated Portugese (Brazilian) translation, thanks to Alexandre!

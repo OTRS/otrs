@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.73 2013-01-29 15:59:58 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.74 2013-01-31 13:45:55 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -784,7 +784,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     };
 
     TargetNS.InitActivityDialogEdit = function () {
-        var MandatoryFields = ['Queue', 'State', 'Lock', 'Priority'],
+        var MandatoryFields = ['Queue', 'State', 'Lock', 'Priority', 'Type'],
             FieldsWithoutDefaultValue = ['CustomerID', 'Article'];
 
         function UpdateFields(Event, UI) {
