@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.35 2013-01-31 13:45:54 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.36 2013-01-31 21:47:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -4214,11 +4214,48 @@ sub _StoreActivityDialog {
                         $UpdateFieldName = $Self->{NameToID}{$CurrentField};
                     }
 
-                    $Success = $Self->{TicketObject}->$TicketFieldSetSub(
-                        $UpdateFieldName => $TicketParam{ $Self->{NameToID}{$CurrentField} },
-                        TicketID         => $TicketID,
-                        UserID           => $Self->{UserID},
-                    );
+                    # to store if the field needs to be updated
+                    my $FieldUpdate;
+
+                    # only Service and SLA fields accepts empty values if the hash key is not
+                    # defined set it to empty so the Ticket*Set function call will get the empty
+                    # value
+                    if (
+                        ( $UpdateFieldName eq 'ServiceID' || $UpdateFieldName eq 'SLAID' )
+                        && !defined $TicketParam{ $Self->{NameToID}{$CurrentField} }
+                        )
+                    {
+                        $TicketParam{ $Self->{NameToID}{$CurrentField} } = '';
+                        $FieldUpdate = 1;
+                    }
+
+                    # update Service an SLA fields if they have a defined value (even empty)
+                    elsif ( $UpdateFieldName eq 'ServiceID' || $UpdateFieldName eq 'SLAID' )
+                    {
+                        $FieldUpdate = 1;
+                    }
+
+                    # update any other field that its value is defiend and not emoty
+                    elsif (
+                        $UpdateFieldName ne 'ServiceID'
+                        && $UpdateFieldName ne 'SLAID'
+                        && defined $TicketParam{ $Self->{NameToID}{$CurrentField} }
+                        && $TicketParam{ $Self->{NameToID}{$CurrentField} } ne ''
+                        )
+                    {
+                        $FieldUpdate = 1;
+                    }
+
+                    $Success = 1;
+
+                    # check if field needs to be updated
+                    if ($FieldUpdate) {
+                        $Success = $Self->{TicketObject}->$TicketFieldSetSub(
+                            $UpdateFieldName => $TicketParam{ $Self->{NameToID}{$CurrentField} },
+                            TicketID         => $TicketID,
+                            UserID           => $Self->{UserID},
+                        );
+                    }
                 }
             }
             if ( !$Success ) {
