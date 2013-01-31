@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessPrint.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessPrint.dtl,v 1.2 2013-01-30 12:24:02 mab Exp $
+# $Id: AdminProcessManagementProcessPrint.dtl,v 1.3 2013-01-31 07:53:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,7 +42,7 @@
 <!-- dtl:block:ActivityRowEmpty -->
     </ul>
 
-    <h3>$Text{"Activity dialogs"}</h3>
+    <h3>$Text{"Activity Dialogs"}</h3>
     <ul class="ItemData">
 <!-- dtl:block:ActivityDialogRow -->
         <li>
@@ -82,7 +82,7 @@
 <!-- dtl:block:TransitionRowEmpty -->
     </ul>
 
-    <h3>$Text{"Transition actions"}</h3>
+    <h3>$Text{"Transition Actions"}</h3>
     <ul class="ItemData">
 <!-- dtl:block:TransitionActionRow -->
         <li>
