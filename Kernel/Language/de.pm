@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.359 2013-01-24 07:41:23 mb Exp $
+# $Id: de.pm,v 1.360 2013-01-31 07:28:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.359 $) [1];
+$VERSION = qw($Revision: 1.360 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1561,7 +1561,7 @@ sub Data {
             'Achtung: Änderungen an dieser Aktivität werden sich auf folgende Prozesse auswirken',
         'Activity' => 'Aktivität',
         'Activity Name' => 'Name der Aktivität',
-        'Activity Dialogs' => 'Aktivitäts-Dialog',
+        'Activity Dialogs' => 'Aktivitäts-Dialoge',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             'Sie können Aktivitäts-Dialoge dieser Aktivität zuweisen, indem Sie die Elemente mit der Maus aus der linken Liste in die rechte Liste verschieben.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
