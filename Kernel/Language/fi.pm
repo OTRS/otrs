@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # Copyright (C) 2012-2013 Niklas Lampén <Niklas.Lampen@aava.eu>
 # --
-# $Id: fi.pm,v 1.152 2013-01-28 09:18:46 mg Exp $
+# $Id: fi.pm,v 1.153 2013-01-31 12:28:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -605,7 +605,7 @@ sub Data {
         'All tickets' => 'Tikettejä yhteensä',
         'Available tickets' => 'Vapaat tiketit',
         'Escalation' => 'Eskaloituu',
-        'last-search' => '',
+        'last-search' => 'Viimeisin haku',
         'QueueView' => 'Jonotuslistanäkymä',
         'Ticket Escalation View' => 'Tiketin eskaloitumisnäkymä',
         'Message from' => '',
@@ -833,7 +833,7 @@ sub Data {
         'Go to overview' => 'Mene yleisnäkymään',
         'Add attachment' => 'Lisää liite',
         'List' => 'Listaa',
-        'Validity' => '',
+        'Validity' => 'Kelpoisuus',
         'No data found.' => 'Tietoa ei löytynyt.',
         'Download file' => 'Lataa tiedosto',
         'Delete this attachment' => '',
@@ -991,7 +991,7 @@ sub Data {
         'Years in the past to display (default: 5 years).' => '',
         'Years in the future' => '',
         'Years in the future to display (default: 5 years).' => '',
-        'Show link' => '',
+        'Show link' => 'Näytä linkki',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
 
@@ -1535,34 +1535,34 @@ sub Data {
         'Edit Priority' => 'Muokkaa Prioriteettia',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
-        'Filter for Processes' => '',
+        'Process Management' => 'Prosessien hallinta',
+        'Filter for Processes' => 'Suodata prosessit',
         'Filter' => 'Suodatin',
-        'Process Name' => '',
-        'Create New Process' => '',
-        'Synchronize All Processes' => '',
-        'Configuration import' => '',
+        'Process Name' => 'Prosessin nimi',
+        'Create New Process' => 'Luo uusi prosessi',
+        'Synchronize All Processes' => 'Sykronoi prosessit',
+        'Configuration import' => 'Asetusten tuonti',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+            'Voit lähettää asetustiedoston prosessin tuomiseksi järjestelmään. Tiedoston tulee olla .yml-muotoinen, kuten prosessin hallinnasta viety tieto on.',
+        'Upload process configuration' => 'Päivitä prosessin asetukset',
+        'Import process configuration' => 'Tuo prosessin asetukset',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
-        'Processes' => '',
-        'Process name' => '',
-        'Copy' => '',
-        'Export Process Configuration' => '',
-        'Copy Process' => '',
+        'Processes' => 'Prosessi',
+        'Process name' => 'Prosessin nimi',
+        'Copy' => 'Kopioi',
+        'Export Process Configuration' => 'Vie prosessin asetukset',
+        'Copy Process' => 'Kopioi prosessi',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close window' => '',
-        'Go Back' => '',
+        'Cancel & close window' => 'Peruuta ja sulje ikkuna',
+        'Go Back' => 'Takaisin',
         'Please note, that changing this activity will affect the following processes' =>
             '',
-        'Activity' => '',
-        'Activity Name' => '',
+        'Activity' => 'Aktivitetti',
+        'Activity Name' => 'Aktiviteetin nimi',
         'Activity Dialogs' => '',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             '',
@@ -1600,7 +1600,7 @@ sub Data {
         'Edit Field Details' => '',
 
         # Template: AdminProcessManagementPath
-        'Path' => '',
+        'Path' => 'Polku',
         'Transition Actions' => '',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             '',
@@ -1856,13 +1856,13 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'SQL laatikko',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Suorita SQL-kyselyitä ohjelmiston tietokannassa.',
         'The syntax of your SQL query has a mistake. Please check it.' =>
-            '',
+            'SQL-kyselyn syntaksi on virheellinen. Tarkista kysely.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             '',
-        'Result format' => '',
-        'Run Query' => '',
+        'Result format' => 'Tulosten muoto',
+        'Run Query' => 'Suorita kysely',
 
         # Template: AdminService
         'Service Management' => 'Palveluhallinta',
@@ -1874,15 +1874,15 @@ sub Data {
         # Template: AdminSession
         'Session Management' => 'Istuntojen hallinta',
         'All sessions' => 'Kaikki istunnot',
-        'Agent sessions' => '',
-        'Customer sessions' => '',
-        'Unique agents' => '',
-        'Unique customers' => '',
+        'Agent sessions' => 'Agenttien istunnot',
+        'Customer sessions' => 'Asiakkaiden istunnot',
+        'Unique agents' => 'Yksilöllisiä agentteja',
+        'Unique customers' => 'Yksilöllisiä asiakkaita',
         'Kill all sessions' => 'Lopeta kaikki istunnot',
-        'Kill this session' => '',
+        'Kill this session' => 'Lopeta tämä istunto',
         'Session' => 'Istunto',
-        'Kill' => '',
-        'Detail View for SessionID' => '',
+        'Kill' => 'Lopeta',
+        'Detail View for SessionID' => 'Istunnon yksityiskohdat',
 
         # Template: AdminSignature
         'Signature Management' => 'Allekirjoitusten hallinta',
@@ -2075,12 +2075,12 @@ sub Data {
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'Linkitä objekti: %s',
-        'go to link delete screen' => '',
+        'go to link delete screen' => 'siirry purkamaan linkityksiä',
         'Select Target Object' => 'Valitse kohde',
         'Link Object' => 'Liitoskohde',
         'with' => 'kanssa',
         'Unlink Object: %s' => 'Pura linkki objektiin: %s',
-        'go to link add screen' => '',
+        'go to link add screen' => 'siirry luomaan linkityksiä',
 
         # Template: AgentNavigationBar
 
@@ -2402,7 +2402,7 @@ sub Data {
         'One or more errors occurred!' => 'Tapahtui yksi tai useampi virhe!',
         'Close this dialog' => 'Sulje tämä ruutu',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
-            'Popup ikkunan avaaminen ei onnistunut. Poista popup esti tältä sivustolta.',
+            'Ponnahdusikkunan avaaminen ei onnistunut. Poista ponnahdusikkunoiden esto muokkaamalla selaimen asetuksia ja yritä uudelleen.',
 
         # Template: CustomerFooterSmall
 
@@ -2542,9 +2542,9 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
+        'Fulltext search' => 'Tekstihaku',
         'CustomerID Search' => 'AsiakasID haku',
-        'CustomerUser Search' => '',
+        'CustomerUser Search' => 'Hae asiakkaista',
         'You are logged in as' => 'Olet kirjautunut käyttäjänä',
 
         # Template: HeaderSmall
@@ -2562,32 +2562,32 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Määritä lähtevä posti',
-        'Outbound mail type' => '',
-        'Select outbound mail type.' => '',
-        'Outbound mail port' => '',
-        'Select outbound mail port.' => '',
+        'Outbound mail type' => 'Lähtevän postin tyyppi',
+        'Select outbound mail type.' => 'Valitse lähtevän postin tyyppi',
+        'Outbound mail port' => 'Lähtevän postin portti',
+        'Select outbound mail port.' => 'Valitse lähtevän postin portti',
         'SMTP host' => 'SMTP palvelin',
         'SMTP host.' => 'SMTP palvelin.',
         'SMTP authentication' => 'SMTP tunnistautuminen',
-        'Does your SMTP host need authentication?' => '',
-        'SMTP auth user' => '',
-        'Username for SMTP auth.' => '',
-        'SMTP auth password' => '',
-        'Password for SMTP auth.' => '',
-        'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
-        'Select inbound mail type.' => '',
-        'Inbound mail host' => '',
-        'Inbound mail host.' => '',
-        'Inbound mail user' => '',
-        'User for inbound mail.' => '',
-        'Inbound mail password' => '',
-        'Password for inbound mail.' => '',
-        'Result of mail configuration check' => '',
-        'Check mail configuration' => '',
-        'Skip this step' => '',
+        'Does your SMTP host need authentication?' => 'Vaatiiko SMTP-palvelin tunnistautumisen?',
+        'SMTP auth user' => 'SMTP:n käyttäjätunnus',
+        'Username for SMTP auth.' => 'Käyttäjätunnus SMTP:n tunnistautumista varten.',
+        'SMTP auth password' => 'SMTP:n salasana',
+        'Password for SMTP auth.' => 'Salasana SMTP:n tunnistautumista varten.',
+        'Configure Inbound Mail' => 'Määritä saapuvan postin asetukset',
+        'Inbound mail type' => 'Saapuvan postin tyyppi',
+        'Select inbound mail type.' => 'Valitse saapuvan postin tyyppi',
+        'Inbound mail host' => 'Saapuvan postin palvelin',
+        'Inbound mail host.' => 'Saapuvan postin palvelin.',
+        'Inbound mail user' => 'Saapuvan postin käyttäjätunnus',
+        'User for inbound mail.' => 'Saapuvan postin käyttäjätunnus.',
+        'Inbound mail password' => 'Saapuvan postin salasana',
+        'Password for inbound mail.' => 'Saapuvan postin salasana.',
+        'Result of mail configuration check' => 'Asetusten tarkistusten tulos',
+        'Check mail configuration' => 'Tarkista sähköpostin asetukset',
+        'Skip this step' => 'Ohita tämä vaihe',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
+            'Tämän vaiheen ohittaminen ohittaa OTRS:n rekisteröimisen. Haluatko varmasti jatkaa?',
 
         # Template: InstallerDBResult
         'False' => 'Virhe',
@@ -2631,21 +2631,21 @@ sub Data {
         'SystemID' => 'JärjestelmäID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Järjestelmän tunniste. Tunniste lisätään tiketin numeroon sekä HTTP istunnon tunnisteeseen.',
-        'System FQDN' => 'Järjestelmän isäntänimi',
-        'Fully qualified domain name of your system.' => '',
-        'AdminEmail' => 'Ylläpidon sähköposti',
+        'System FQDN' => 'Järjestelmän verkko-osoite/domain',
+        'Fully qualified domain name of your system.' => 'Järjestelmäsi täydellinen verkkotunnus (FQDN).',
+        'AdminEmail' => 'Ylläpidon sähköpostiosoite',
         'Email address of the system administrator.' => 'Järjestelmän ylläpitäjän sähköpostiosoite.',
         'Log' => 'Loki',
         'LogModule' => 'LokiModuuli',
         'Log backend to use.' => 'Käytettävä logijärjestelmä.',
         'LogFile' => 'Logitiedosto',
-        'Log file location is only needed for File-LogModule!' => '',
+        'Log file location is only needed for File-LogModule!' => 'Lokitiedoston sijainti tarvitaan vain File-LogModulille',
         'Webfrontend' => 'Webnäkymä',
         'Default language' => 'Oletuskieli',
         'Default language.' => 'Oletuskieli.',
         'CheckMXRecord' => 'TarkastaMXTietue',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
-            '',
+            'Tarkasta käsin syötettyjen MX-tietueet DNS:stä. Jos nimipalvelimesi on hidas tai ei osaa selvittää julkisia osoitteita, älä käytä tätä ominaisuutta.',
 
         # Template: LinkObject
         'Object#' => 'Objekti#',
@@ -2747,8 +2747,8 @@ sub Data {
             '',
         'Agent interface notification module to see the number of watched tickets.' =>
             '',
-        'Agents <-> Groups' => '',
-        'Agents <-> Roles' => '',
+        'Agents <-> Groups' => 'Agentit <-> Ryhmät',
+        'Agents <-> Roles' => 'Agentit <-> Roolit',
         'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '',
@@ -2857,31 +2857,31 @@ sub Data {
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
-        'Converts HTML mails into text messages.' => '',
+        'Converts HTML mails into text messages.' => 'Konvertoi HTML sähköpostit teksteiksi',
         'Create New process ticket' => '',
-        'Create and manage Service Level Agreements (SLAs).' => '',
-        'Create and manage agents.' => '',
-        'Create and manage attachments.' => '',
-        'Create and manage companies.' => '',
-        'Create and manage customers.' => '',
-        'Create and manage dynamic fields.' => '',
-        'Create and manage event based notifications.' => '',
-        'Create and manage groups.' => '',
-        'Create and manage queues.' => '',
-        'Create and manage response templates.' => '',
-        'Create and manage responses that are automatically sent.' => '',
-        'Create and manage roles.' => '',
-        'Create and manage salutations.' => '',
-        'Create and manage services.' => '',
-        'Create and manage signatures.' => '',
-        'Create and manage ticket priorities.' => '',
-        'Create and manage ticket states.' => '',
-        'Create and manage ticket types.' => '',
-        'Create and manage web services.' => '',
+        'Create and manage Service Level Agreements (SLAs).' => 'Luo ja hallinnoi Palvelutasosopimuksia (SLA).',
+        'Create and manage agents.' => 'Luo ja hallinnoi agentteja.',
+        'Create and manage attachments.' => 'Luo ja hallinnoi liitteitä.',
+        'Create and manage companies.' => 'Luo ja hallinnoi yrityksiä.',
+        'Create and manage customers.' => 'Luo ja hallinnoi asiakkaita.',
+        'Create and manage dynamic fields.' => 'Luo ja hallinnoi dynaamisia kenttiä.',
+        'Create and manage event based notifications.' => 'Luo ja hallinnoi tapahtumaperusteisia muistutuksia.',
+        'Create and manage groups.' => 'Luo ja hallinnoi ryhmiä.',
+        'Create and manage queues.' => 'Luo ja hallinnoi jonoja.',
+        'Create and manage response templates.' => 'Luo ja hallinnoi vastausmalleja.',
+        'Create and manage responses that are automatically sent.' => 'Luo ja hallinnoi automaattisia vastauksia.',
+        'Create and manage roles.' => 'Luo ja hallinnoi rooleja.',
+        'Create and manage salutations.' => 'Luo ja hallinnoi tervehdyksiä.',
+        'Create and manage services.' => 'Luo ja hallinnoi palveluita.',
+        'Create and manage signatures.' => 'Luo ja hallinnoi allekirjoituksia.',
+        'Create and manage ticket priorities.' => 'Luo ja hallinnoi tikettien prioriteetteja.',
+        'Create and manage ticket states.' => 'Luo ja hallinnoi tikettien tiloja.',
+        'Create and manage ticket types.' => 'Luo ja hallinnoi tikettien tyyppejä.',
+        'Create and manage web services.' => 'Luo ja hallinnoi verkkopalveluita.',
         'Create new email ticket and send this out (outbound)' => 'Lisää uusi sähköpostitiketti ja lähetä se (lähtevä)',
         'Create new phone ticket (inbound)' => 'Lisää uusi puhelintiketti (saapuva)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
-            '',
+            'Räätälöity teksti asiakkaille, joilla ei vielä ole tikettejä.',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
         'Customer User Administration' => '',
@@ -2890,10 +2890,10 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'Customers <-> Groups' => '',
-        'Customers <-> Services' => '',
+        'Customers <-> Groups' => 'Asiakkaat <-> Ryhmät',
+        'Customers <-> Services' => 'Asiakkaat <-> Palvelut',
         'Data used to export the search result in CSV format.' => '',
-        'Date / Time' => '',
+        'Date / Time' => 'Päiväys / Aika',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '',
         'Default ACL values for ticket actions.' => '',
@@ -3774,14 +3774,14 @@ sub Data {
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '',
-        'Link agents to groups.' => '',
-        'Link agents to roles.' => '',
-        'Link attachments to responses templates.' => '',
-        'Link customers to groups.' => '',
-        'Link customers to services.' => '',
-        'Link queues to auto responses.' => '',
-        'Link responses to queues.' => '',
-        'Link roles to groups.' => '',
+        'Link agents to groups.' => 'Linkitä agentit ryhmiin.',
+        'Link agents to roles.' => 'Linkitä agentit rooleihin.',
+        'Link attachments to responses templates.' => 'Linkitä liitteet vastausmalleihin.',
+        'Link customers to groups.' => 'Linkitä asiakkaat ryhmiin.',
+        'Link customers to services.' => 'Linkitä asiakkaat palveluihin.',
+        'Link queues to auto responses.' => 'Linkitä automaattiset vastaukset jonoihin.',
+        'Link responses to queues.' => 'Linkitä vastaukset jonoihin.',
+        'Link roles to groups.' => 'Linkitä roolit ryhmiin.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3801,7 +3801,7 @@ sub Data {
         'List of default StandardResponses which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
-        'Mail Accounts' => '',
+        'Mail Accounts' => 'Sähköpostitilit',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
@@ -3812,7 +3812,7 @@ sub Data {
         'Manage PGP keys for email encryption.' => '',
         'Manage POP3 or IMAP accounts to fetch email from.' => '',
         'Manage S/MIME certificates for email encryption.' => '',
-        'Manage existing sessions.' => '',
+        'Manage existing sessions.' => 'Halinnoi istuntoja',
         'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
@@ -4494,7 +4494,7 @@ sub Data {
         'Types' => 'Tyypit',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
-        'Update and extend your system with software packages.' => '',
+        'Update and extend your system with software packages.' => 'Päivitä ja laajenna järjestelmää paketeilla.',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
