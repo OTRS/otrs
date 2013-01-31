@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.15 2013-01-30 14:25:31 des Exp $
+# $Id: BuildSelection.t,v 1.16 2013-01-31 07:53:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -778,9 +778,9 @@ my @Tests = (
             ID             => 'Select1ID',
             Sort           => 'TreeView',
             Multiple       => 0,
-            AutoComplete   => undef,
-            OnChange       => undef,
-            OnClick        => undef,
+            AutoComplete   => 'off',
+            OnChange       => 'onchangeJS',
+            OnClick        => 'onclickJS',
             SelectedID     => undef,
             SelectedValue  => 'Object1::AttributeA',
             SortReverse    => 0,
@@ -790,11 +790,11 @@ my @Tests = (
             DisabledBranch => undef,
             Max            => undef,
             HTMLQuote      => 0,
-            Title          => undef,
+            Title          => 'Title"\'<>',
             OptionTitle    => 0,
         },
         Response =>
-            '<select id="Select1ID" name="Select1">
+            '<select autocomplete="off" id="Select1ID" name="Select1" onchange="onchangeJS" onclick="onclickJS" title="Title&quot;\'&lt;&gt;">
   <option value="Object1">Object1</option>
   <option value="Object1::AttributeA" selected="selected">&nbsp;&nbsp;AttributeA</option>
   <option value="Object1::AttributeA::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
