@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.201 2013-01-24 07:39:16 mb Exp $
+# $Id: nl.pm,v 1.202 2013-01-31 13:10:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.201 $) [1];
+$VERSION = qw($Revision: 1.202 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:20
+    # Last translation file sync: 2013-01-31 13:59:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1557,6 +1557,7 @@ sub Data {
         'Processes' => 'Processen',
         'Process name' => 'Naam',
         'Copy' => 'Kopiëer',
+        'Print' => 'Afdrukken',
         'Export Process Configuration' => 'Exporteer procesconfiguratie',
         'Copy Process' => 'Kopiëer proces',
 
@@ -1674,6 +1675,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             'In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op \'Actief\' zetten en vervolgens een synchronisatie uitvoeren.',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1853,8 +1865,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'Secure Mode is niet actief.',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'Secure Mode wordt normaal gesproken geactiveerd na afronding van de installatie.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Als Secure Mode nog niet actief is activeer dit via de Systeemconfiguratie omdat de applicatie al draait.',
 
@@ -2164,7 +2174,6 @@ sub Data {
         'Stats' => 'Rapporten',
 
         # Template: AgentStatsPrint
-        'Print' => 'Afdrukken',
         'No Element selected.' => 'Geen element geselecteerd.',
 
         # Template: AgentStatsView
@@ -3495,7 +3504,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4525,6 +4534,8 @@ sub Data {
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
 
     };
     # $$STOP$$

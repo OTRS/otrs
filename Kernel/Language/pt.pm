@@ -3,7 +3,7 @@
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>viz
 # Copyright (C) 2012 FCCN - Rui Francisco <rui.francisco@fccn.pt>
 # --
-# $Id: pt.pm,v 1.139 2013-01-24 07:47:44 mb Exp $
+# $Id: pt.pm,v 1.140 2013-01-31 13:10:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.139 $) [1];
+$VERSION = qw($Revision: 1.140 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:22
+    # Last translation file sync: 2013-01-31 13:59:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar tickets selecionados',
         'Add Note' => 'Adicionar nota',
         'Time units' => 'UnAntiguidades de tempo',
-        ' (work units)' => ' (unAntiguidades de trabalho)',
+        '(work units)' => '',
         'Ticket Commands' => 'Comandos para tickets',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações a agente/cliente ',
         'CMD' => '',
@@ -1552,6 +1552,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Imprimir',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1669,6 +1670,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1848,8 +1860,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'O modo seguro necessita de estar ativo',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'O modo seguro vai estar ativo após a instalação inicial estar completa',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'O modo seguro necessita de estar inativo para re-instalar via browser',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             '',
 
@@ -2159,7 +2169,6 @@ sub Data {
         'Stats' => 'Estatísticas',
 
         # Template: AgentStatsPrint
-        'Print' => 'Imprimir',
         'No Element selected.' => 'Sem elemento selecionado',
 
         # Template: AgentStatsView
@@ -3490,7 +3499,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4516,8 +4525,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unAntiguidades de trabalho)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite condições de pesquisa de tickets aumentadas no interface de agente . Com esta funcionalAntiguidade pode pesquisar com por ex. "(key1&&key2)" or "(key1||key2)".',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'O modo seguro necessita de estar inativo para re-instalar via browser',
 
     };
     # $$STOP$$

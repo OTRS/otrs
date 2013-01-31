@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.76 2013-01-24 07:45:12 mb Exp $
+# $Id: es_MX.pm,v 1.77 2013-01-31 13:10:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:04
+    # Last translation file sync: 2013-01-31 13:59:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
-        ' (work units)' => ' (unidades de trabajo)',
+        '(work units)' => '',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -1551,6 +1551,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Imprimir',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1668,6 +1669,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1847,8 +1859,6 @@ sub Data {
         'Secure mode needs to be enabled!' => '¡El modo seguro necesita estar habilitado!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'El Modo Seguro (normalmente) queda habilitado cuando la instalación inicial se completa.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Si el modo seguro no está activo aún, hágalo a través de la Configuración del Sistema, porque su aplicación ya se está ejecutando.',
 
@@ -2158,7 +2168,6 @@ sub Data {
         'Stats' => 'Estadísticas',
 
         # Template: AgentStatsPrint
-        'Print' => 'Imprimir',
         'No Element selected.' => 'No hay elemento seleccionado',
 
         # Template: AgentStatsView
@@ -3489,8 +3498,8 @@ sub Data {
             'Determina las filas que serán válidas coom remitentes de los ticket, en la interfaz del cliente.',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'Deshabilita el envío de notificaciones de recordatorio al agente responsable de un ticket (Ticket::Responsible tiene que estar activo).',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
-            'Deshabilita el instalador web (http://yourhost.example.com/otrs/installer.pl), para prevenir que el sistema sufra un secuestro (hijack). Si se selecciona "No", el sistema puede ser reinstalado y la configuración básica actual se usará para pre-poblar las preguntas, en el script del instalador. Así mismo, al estar deshabilitado, es imposible hacer uso de: el agente genérico, el manejador de paquetes y la caja de consultas SQL (para evitar el uso de consultas dañinas, como DROP DATABASE, o para robar contraseñas).',
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Despliega la contabilidad de tiempo para un artículo, en la vista detallada del ticket.',
@@ -4515,8 +4524,13 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unidades de trabajo)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+            'Deshabilita el instalador web (http://yourhost.example.com/otrs/installer.pl), para prevenir que el sistema sufra un secuestro (hijack). Si se selecciona "No", el sistema puede ser reinstalado y la configuración básica actual se usará para pre-poblar las preguntas, en el script del instalador. Así mismo, al estar deshabilitado, es imposible hacer uso de: el agente genérico, el manejador de paquetes y la caja de consultas SQL (para evitar el uso de consultas dañinas, como DROP DATABASE, o para robar contraseñas).',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
 
     };
     # $$STOP$$

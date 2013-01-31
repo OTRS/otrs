@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.182 2013-01-24 07:40:47 mb Exp $
+# $Id: fr.pm,v 1.183 2013-01-31 13:10:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.182 $) [1];
+$VERSION = qw($Revision: 1.183 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:09
+    # Last translation file sync: 2013-01-31 13:59:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver tickets sélectionnés',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => ' Unité de travail',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications à l\'opérateur/au client sur changement',
         'CMD' => 'CMD',
@@ -1557,6 +1557,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Imprimer',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1674,6 +1675,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1853,8 +1865,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'Le mode sécurisé doit être activé',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'Le mode sécurisé sera (normallement) activé lorsque l\'installation initiale sera terminée.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'Le mode sécurisé doit être désactivé dans le but de réinstaller en utilisant le web-installer (installateur web)',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Si le mode sécurisé n\'est pas activé, activez le via SysConfig car votre application est en train de tourner',
 
@@ -2164,7 +2174,6 @@ sub Data {
         'Stats' => 'Statistiques',
 
         # Template: AgentStatsPrint
-        'Print' => 'Imprimer',
         'No Element selected.' => 'Aucun élément sélectionné.',
 
         # Template: AgentStatsView
@@ -3495,7 +3504,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4521,6 +4530,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' Unité de travail',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'Le mode sécurisé doit être désactivé dans le but de réinstaller en utilisant le web-installer (installateur web)',
 
     };
     # $$STOP$$

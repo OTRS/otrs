@@ -2,7 +2,7 @@
 # Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2012 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ca.pm,v 1.23 2013-01-24 07:40:48 mb Exp $
+# $Id: ca.pm,v 1.24 2013-01-31 13:10:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:46:58
+    # Last translation file sync: 2013-01-31 13:59:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        ' (work units)' => ' (unitats de treball)',
+        '(work units)' => '',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -1551,6 +1551,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Imprimir',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1668,6 +1669,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1847,8 +1859,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'El mode segur ha d\'estar habilitat!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'El mode segur que (normalment) es fixarà després de la instal·lació inicial s\'ha completat.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Si la manera segur no s\'activa, activi-ho a través de SysConfig perquè la seva aplicació ja s\'està executant.',
 
@@ -2158,7 +2168,6 @@ sub Data {
         'Stats' => 'Estadístiques',
 
         # Template: AgentStatsPrint
-        'Print' => 'Imprimir',
         'No Element selected.' => 'No hi ha element seleccionat',
 
         # Template: AgentStatsView
@@ -3489,7 +3498,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4515,8 +4524,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unitats de treball)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
 
     };
     # $$STOP$$

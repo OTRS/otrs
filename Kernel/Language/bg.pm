@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.149 2013-01-24 07:40:48 mb Exp $
+# $Id: bg.pm,v 1.150 2013-01-31 13:10:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:46:57
+    # Last translation file sync: 2013-01-31 13:59:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
-        ' (work units)' => ' (работни единици)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1552,6 +1552,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Отпечатване',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1669,6 +1670,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1847,8 +1859,6 @@ sub Data {
         # Template: AdminSecureMode
         'Secure mode needs to be enabled!' => '',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
-            '',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             '',
@@ -2159,7 +2169,6 @@ sub Data {
         'Stats' => 'Статистики',
 
         # Template: AgentStatsPrint
-        'Print' => 'Отпечатване',
         'No Element selected.' => 'Няма избран елемент',
 
         # Template: AgentStatsView
@@ -3490,7 +3499,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4516,6 +4525,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (работни единици)',
 
     };
     # $$STOP$$

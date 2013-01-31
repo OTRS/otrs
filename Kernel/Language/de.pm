@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.360 2013-01-31 07:28:46 mg Exp $
+# $Id: de.pm,v 1.361 2013-01-31 13:10:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.360 $) [1];
+$VERSION = qw($Revision: 1.361 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:01
+    # Last translation file sync: 2013-01-31 13:59:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        ' (work units)' => ' (Arbeitseinheiten)',
+        '(work units)' => 'Arbeitseinheiten',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -1551,6 +1551,7 @@ sub Data {
         'Processes' => 'Prozesse',
         'Process name' => 'Prozessname',
         'Copy' => 'Kopieren',
+        'Print' => 'Drucken',
         'Export Process Configuration' => 'Prozesskonfiguration exportieren',
         'Copy Process' => 'Prozess kopieren',
 
@@ -1668,6 +1669,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             'Hier können Sie einen neuen Prozess erstellen. Um ihn für die Benutzer verfügbar zu machen, sollten Sie seinen Status auf "Aktiv" setzen und als Abschluss Ihrer Arbeit die Synchronisation durchführen.',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => 'Enthält %s Dialog(e)',
+        'Assigned dialogs' => 'Zugewiesene Dialoge',
+        'Activities are not being used in this process.' => 'In diesem Prozess werden keine Aktivitäten verwendet.',
+        'Assigned fields' => 'Zugewiesene Felder',
+        'Activity dialogs are not being used in this process.' => 'In diesem Prozess werden keine Aktivitäts-Dialoge verwendet.',
+        'Transitions are not being used in this process.' => 'In diesem Prozess werden keine Übergänge verwendet.',
+        'Module name' => 'Modulname',
+        'Configuration' => 'Konfiguration',
+        'Transition actions are not being used in this process.' => 'In diesem Prozess werden keine Übergangs-Aktionen verwendet.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1847,8 +1859,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'Sicherheitsmodus muss eingeschaltet sein!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'Der Sicherheitsmodus wird normalerweise eingeschaltet, nachdem die Installation abgeschlossen ist.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Wenn der Sicherheitsmodus nicht aktiv ist, können Sie ihn mit der SysConfig aktivieren, da Ihr System bereits läuft.',
 
@@ -2158,7 +2168,6 @@ sub Data {
         'Stats' => 'Statistik',
 
         # Template: AgentStatsPrint
-        'Print' => 'Drucken',
         'No Element selected.' => 'Kein Element ausgewählt.',
 
         # Template: AgentStatsView
@@ -3489,7 +3498,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4515,12 +4524,14 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => 'Arbeitseinheiten',
+        ' (work units)' => ' (Arbeitseinheiten)',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Historic Time Range' => 'Historischer Zeitraum',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'State Historic' => 'Historischer Status',
         'State Type Historic' => 'Historischer Status-Typ',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',

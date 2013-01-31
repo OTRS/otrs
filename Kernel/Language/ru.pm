@@ -10,7 +10,7 @@
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # Copyright (C) 2012-2013 Vadim Goncharov <vgoncharov at mail.ru>
 # --
-# $Id: ru.pm,v 1.152 2013-01-31 12:17:16 mg Exp $
+# $Id: ru.pm,v 1.153 2013-01-31 13:10:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,13 +23,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:37
+    # Last translation file sync: 2013-01-31 13:59:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -239,7 +239,6 @@ sub Data {
         'Please contact your administrator' => 'Свяжитесь с администратором',
         'Logout' => 'Выход',
         'Logout successful. Thank you for using OTRS!' => 'Вы успешно вышли из системы. Благодарим за пользование системой OTRS !',
-        'Invalid SessionID!' => 'Неверный идентификатор сессии!',
         'Feature not active!' => 'Функция не активирована!',
         'Agent updated!' => 'Агент обновлен!',
         'Create Database' => 'Создать базу',
@@ -268,7 +267,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Перенаправление по заголовку To: электронного письма',
         'Dispatching by selected Queue.' => 'Перенаправление по выбранной очереди',
         'No entry found!' => 'Запись не найдена',
+        'Session invalid. Please log in again.' => '',
         'Session has timed out. Please log in again.' => 'Сеанс завершен. Попробуйте войти заново.',
+        'Session limit reached! Please try again later.' => '',
         'No Permission!' => 'Нет доступа!',
         '(Click here to add)' => '(нажмите сюда чтобы добавить)',
         'Preview' => 'Предварительный просмотр',
@@ -361,10 +362,13 @@ sub Data {
         'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Collapse' => 'Свернуть',
         'Shown' => 'Показано',
+        'Shown customer users' => '',
         'News' => 'Новости',
         'Product News' => 'Новости о продукте',
         'OTRS News' => 'Новости OTRS',
         '7 Day Stats' => 'Статистика за 7 дней',
+        'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
         'Bold' => 'Полужирный',
         'Italic' => 'Курсив',
         'Underline' => 'Подчеркнутый',
@@ -863,6 +867,9 @@ sub Data {
         'Ticket responsible options' => 'Атрибуты ответственного за заявку',
         'Options of the current user who requested this action' => 'Атрибуты текущего пользователя, запросившего это действие',
         'Options of the ticket data' => 'Атрибуты данных заявки',
+        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
+            '',
         'Config options' => 'Опции конфигурации',
         'Example response' => 'Пример ответа',
 
@@ -882,6 +889,8 @@ sub Data {
             'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
         'Please enter a search term to look for customers.' => 'Введите запрос для поиска клиентов.',
         'Last Login' => 'Последний вход',
+        'Login as' => 'Зайти данным пользователем',
+        'Switch to customer' => '',
         'Add Customer' => 'Добавить клиента',
         'Edit Customer' => 'Редактировать клиента',
         'This field is required and needs to be a valid email address.' =>
@@ -969,6 +978,8 @@ sub Data {
             'Это порядок, в котором поле будет показываться среди других полей на тех экранах, где оно активно.',
         'Field type' => 'Тип поля',
         'Object type' => 'Тип объекта',
+        'Internal field' => '',
+        'This field is protected and can\'t be deleted.' => '',
         'Field Settings' => ' - настройки поля',
         'Default value' => 'Значение по умолчанию',
         'This is the default value for this field.' => 'Это значение по умолчанию для данного поля.',
@@ -1103,7 +1114,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1268,17 +1279,17 @@ sub Data {
         'Certificate File' => 'Файл сертификата',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             '',
-        'e.g. /usr/local/otrs/var/certificates/SOAP/certificate.p12' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
         'Certificate Password File' => '',
         'The password to open the SSL certificate.' => '',
         'Certification Authority (CA) File' => '',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             '',
-        'e.g. /usr/local/otrs/var/certificates/SOAP/CA/ca.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
         'Certification Authority (CA) Directory' => '',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
-        'e.g. /usr/local/otrs/var/certificates/SOAP/CA' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
         'Proxy Server' => '',
         'URI of a proxy server to be used (if needed).' => '',
         'e.g. http://proxy_hostname:8080' => '',
@@ -1414,6 +1425,7 @@ sub Data {
         'Recipient email addresses' => 'Получат адреса электронной почты',
         'Article type' => 'Тип сообщения',
         'Only for ArticleCreate event' => 'Только для события ArticleCreate',
+        'Article sender type' => '',
         'Subject match' => 'Соответствие теме',
         'Body match' => 'Соответствие телу письма',
         'Include attachments to notification' => 'Добавить вложения в уведомление',
@@ -1528,6 +1540,179 @@ sub Data {
         'Add Priority' => 'Создать приоритет',
         'Edit Priority' => 'Изменить приоритет',
 
+        # Template: AdminProcessManagement
+        'Process Management' => '',
+        'Filter for Processes' => '',
+        'Filter' => 'Фильтр',
+        'Process Name' => '',
+        'Create New Process' => '',
+        'Synchronize All Processes' => '',
+        'Configuration import' => '',
+        'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
+            '',
+        'Upload process configuration' => '',
+        'Import process configuration' => '',
+        'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
+            '',
+        'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+            '',
+        'Processes' => '',
+        'Process name' => '',
+        'Copy' => '',
+        'Print' => 'Печать',
+        'Export Process Configuration' => '',
+        'Copy Process' => '',
+
+        # Template: AdminProcessManagementActivity
+        'Cancel & close window' => 'Отменить и закрыть окно',
+        'Go Back' => '',
+        'Please note, that changing this activity will affect the following processes' =>
+            '',
+        'Activity' => '',
+        'Activity Name' => '',
+        'Activity Dialogs' => '',
+        'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
+            '',
+        'Filter available Activity Dialogs' => '',
+        'Available Activity Dialogs' => '',
+        'Create New Activity Dialog' => '',
+        'Assigned Activity Dialogs' => '',
+        'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
+            '',
+
+        # Template: AdminProcessManagementActivityDialog
+        'Please note that changing this activity dialog will affect the following activities' =>
+            '',
+        'Activity Dialog' => '',
+        'Activity dialog Name' => '',
+        'Available in' => '',
+        'Description (short)' => '',
+        'Description (long)' => '',
+        'The selected permission does not exist.' => '',
+        'Required Lock' => '',
+        'The selected required lock does not exist.' => '',
+        'Submit Advice Text' => '',
+        'Submit Button Text' => '',
+        'Fields' => '',
+        'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Filter available fields' => '',
+        'Available Fields' => '',
+        'Assigned Fields' => '',
+        'Edit Details for Field' => '',
+        'ArticleType' => '',
+        'Display' => '',
+        'Edit Field Details' => '',
+
+        # Template: AdminProcessManagementPath
+        'Path' => '',
+        'Transition Actions' => '',
+        'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Filter available Transition Actions' => '',
+        'Available Transition Actions' => '',
+        'Create New Transition Action' => '',
+        'Assigned Transition Actions' => '',
+
+        # Template: AdminProcessManagementPopupResponse
+
+        # Template: AdminProcessManagementProcessAccordion
+        'Activities' => '',
+        'Filter Activities...' => '',
+        'Create New Activity' => '',
+        'Filter Activity Dialogs...' => '',
+        'Transitions' => '',
+        'Filter Transitions...' => '',
+        'Create New Transition' => '',
+        'Filter Transition Actions...' => '',
+
+        # Template: AdminProcessManagementProcessEdit
+        'Edit Process' => '',
+        'Delete Process' => '',
+        'Delete Inactive Process' => '',
+        'Available Process Elements' => '',
+        'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
+            '',
+        'You can place Activities on the canvas area to assign this Activity to the Process.' =>
+            '',
+        'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
+            '',
+        'You can start a connection between to Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
+            '',
+        'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
+            '',
+        'Edit Process Information' => '',
+        'The selected state does not exist.' => '',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
+        'Show EntityIDs' => '',
+        'Extend the width of the Canvas' => '',
+        'Extend the height of the Canvas' => '',
+        'Remove the Activity from this Process' => '',
+        'Do you really want to delete this Process?' => '',
+        'Do you really want to delete this Activity?' => '',
+        'Do you really want to delete this Activity Dialog?' => '',
+        'Do you really want to delete this Transition?' => '',
+        'Do you really want to delete this Transition Action?' => '',
+        'Hide EntityIDs' => '',
+        'Delete Entity' => '',
+        'This Activity is already used in the Process. You cannot add it twice!' =>
+            '',
+        'This Activity cannot be deleted because it is the Start Activity.' =>
+            '',
+        'This Transition is already used for this Activity. You cannot use it twice!' =>
+            '',
+        'This TransitionAction is already used in this Path. You cannot use it twice!' =>
+            '',
+        'No TransitionActions assigned.' => '',
+        'The Start Event cannot loose the Start Transition!' => '',
+        'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
+            '',
+        'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
+            '',
+        'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+
+        # Template: AdminProcessManagementProcessNew
+        'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
+            '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
+
+        # Template: AdminProcessManagementTransition
+        'Please note that changing this transition will affect the following processes' =>
+            '',
+        'Transition' => '',
+        'Transition Name' => '',
+        'Conditions' => '',
+        'Type of Linking between Conditions' => '',
+        'Condition' => '',
+        'Remove this Condition' => '',
+        'Type of Linking' => '',
+        'Remove this Field' => '',
+        'Add a new Field' => '',
+        'Add New Condition' => '',
+
+        # Template: AdminProcessManagementTransitionAction
+        'Please note that changing this transition action will affect the following processes' =>
+            '',
+        'Transition Action' => '',
+        'Transition Action Name' => '',
+        'Transition Action Module' => '',
+        'Config Parameters' => '',
+        'Remove this Parameter' => '',
+        'Add a new Parameter' => '',
+
         # Template: AdminQueue
         'Manage Queues' => 'Управление очередями',
         'Add queue' => 'Добавить очередь',
@@ -1569,7 +1754,6 @@ sub Data {
 
         # Template: AdminQueueResponses
         'Manage Response-Queue Relations' => 'Связь Ответов с Очередями',
-        'Filter' => 'Фильтр',
         'Filter for Responses' => 'Фильтр для Ответов',
         'Responses' => 'Ответы',
         'Change Queue Relations for Response' => 'Изменить Очередь для Ответа',
@@ -1651,6 +1835,7 @@ sub Data {
         'Hash' => 'Хэш',
         'Create' => 'Создать',
         'Handle related certificates' => 'Управлять связанными сертификатами',
+        'Read certificate' => '',
         'Delete this certificate' => 'Удалить сертификат',
         'Add Certificate' => 'Добавить сертификат',
         'Add Private Key' => 'Добавить закрытый ключ',
@@ -1659,6 +1844,10 @@ sub Data {
         'Delete this relation' => 'Удалить эту связь',
         'Available Certificates' => 'Доступные сертификаты',
         'Relate this certificate' => 'Связать этот сертификат',
+
+        # Template: AdminSMIMECertRead
+        'SMIME Certificate' => '',
+        'Close window' => 'Закрыть окно',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управление приветствиями',
@@ -1678,8 +1867,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'Необходимо включить безопасный режим',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'После установки системы обычно сразу же включают безопасный режим.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'Безопасный режим должен быть отключен при переустановке через веб-интерфейс',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Если безопасный режим не активирован, включите его через SysConfig, поскольку ваше приложение уже запущено.',
 
@@ -1800,7 +1987,6 @@ sub Data {
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Не забудьте добавить новых агентов в группы и/или роли!',
         'Please enter a search term to look for agents.' => 'Пожалуйста, введите поисковый запрос для поиска агентов.',
         'Last login' => 'Последний вход',
-        'Login as' => 'Зайти данным пользователем',
         'Switch to agent' => 'Переключиться на агента.',
         'Add Agent' => 'Добавить агента',
         'Edit Agent' => 'Редактирование агента',
@@ -1828,10 +2014,20 @@ sub Data {
         'Add email address %s to the Bcc field' => 'Добавить адрес электронной почты %s в поле Bcc',
         'Apply' => 'Применить',
 
+        # Template: AgentCustomerInformationCenter
+        'Customer Information Center' => '',
+
+        # Template: AgentCustomerInformationCenterBlank
+
+        # Template: AgentCustomerInformationCenterSearch
+        'Customer ID' => 'ID клиента',
+        'Customer User' => 'Учетная запись клиента',
+
         # Template: AgentCustomerSearch
         'Search Customer' => 'Искать клиента',
         'Duplicated entry' => 'Дублирующаяся запись',
         'This address already exists on the address list.' => 'Такой адрес уже существует в списке адресов.',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1840,6 +2036,20 @@ sub Data {
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'в',
+
+        # Template: AgentDashboardCustomerCompanyInformation
+
+        # Template: AgentDashboardCustomerIDStatus
+        'Escalated tickets' => '',
+
+        # Template: AgentDashboardCustomerUserList
+        'Customer information' => '',
+        'Phone ticket' => '',
+        'Email ticket' => '',
+        '%s open ticket(s) of %s' => '',
+        '%s closed ticket(s) of %s' => '',
+        'New phone ticket from %s' => '',
+        'New email ticket to %s' => '',
 
         # Template: AgentDashboardIFrame
 
@@ -1863,6 +2073,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
+        'out of office' => '',
+
+        # Template: AgentDashboardUserOutOfOffice
+        'until' => '',
 
         # Template: AgentHTMLReferenceForms
 
@@ -1878,7 +2092,6 @@ sub Data {
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'Связать объект: %s',
-        'Close window' => 'Закрыть окно',
         'go to link delete screen' => 'перейти к удалению связи',
         'Select Target Object' => 'Выберите целевой объект',
         'Link Object' => 'Связать объект',
@@ -1963,7 +2176,6 @@ sub Data {
         'Stats' => 'Отчеты',
 
         # Template: AgentStatsPrint
-        'Print' => 'Печать',
         'No Element selected.' => 'Элемент не выбран.',
 
         # Template: AgentStatsView
@@ -1990,7 +2202,6 @@ sub Data {
         'Set Pending' => 'Поставить в ожидание',
         'Change Priority of Ticket' => 'Изменить приоритет заявки',
         'Change Responsible of Ticket' => 'Изменить ответственного заявки',
-        'Cancel & close window' => 'Отменить и закрыть окно',
         'Service invalid.' => 'Некорректный сервис.',
         'New Owner' => 'Новый владелец',
         'Please set a new owner!' => 'Пожалуйста, установите',
@@ -2057,8 +2268,6 @@ sub Data {
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Переслать заявку: %s - %s',
-        'Need a valid email address or don\'t use a local email address' =>
-            'Требуется корректный адрес электронной почты либо не указывайте локальный адрес',
 
         # Template: AgentTicketFreeText
 
@@ -2094,12 +2303,10 @@ sub Data {
         'Tickets per page' => 'Заявок на страницу',
 
         # Template: AgentTicketOverviewPreview
-        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Эскалация через',
         'Locked' => 'Блокировка',
-        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2125,6 +2332,12 @@ sub Data {
         'by' => 'кем:',
 
         # Template: AgentTicketPriority
+
+        # Template: AgentTicketProcess
+        'Create New Process Ticket' => '',
+        'Process' => '',
+
+        # Template: AgentTicketProcessNavigationBar
 
         # Template: AgentTicketQueue
 
@@ -2152,6 +2365,8 @@ sub Data {
         'Ticket Change Time (between)' => 'Время изменения заявки (между)',
         'Ticket Close Time (before/after)' => 'Время закрытия заявки (до/после)',
         'Ticket Close Time (between)' => 'Время закрытия заявки (между)',
+        'Ticket Escalation Time (before/after)' => '',
+        'Ticket Escalation Time (between)' => '',
         'Archive Search' => 'Поиск в архиве',
         'Run search' => 'Выполнить поиск',
 
@@ -2166,10 +2381,13 @@ sub Data {
         'Article Type' => 'Тип сообщения',
         'Sender Type' => 'Тип отправителя',
         'Save filter settings as default' => 'Сохранить условия фильтра для показа по умолчанию',
-        'Ticket Information' => 'Информация о заявке',
+        'Archive' => '',
+        'This ticket is archived.' => '',
         'Linked Objects' => 'Связанные объекты',
         'Article(s)' => 'сообщений',
         'Change Queue' => 'Сменить очередь',
+        'There are currently no steps available for this process.' => '',
+        'This item has no articles yet.' => '',
         'Article Filter' => 'Фильтр сообщений',
         'Add Filter' => 'Добавить фильтр',
         'Set' => 'Установить',
@@ -2185,8 +2403,7 @@ sub Data {
         'Resize' => 'Изменить размер',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, active or/and remote content has blocked.' =>
-            'Чтобы защитить вашу конфиденциальность, активное и/или удаленное содержимое было заблокировано.',
+        'To protect your privacy, remote content was blocked.' => '',
         'Load blocked content.' => 'Загрузить заблокированное содержимое.',
 
         # Template: Copyright
@@ -2203,9 +2420,22 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Невозможо открыть всплывающее окно. Пожалуйста, отключите для этого приложения любые блокировки всплывающих окон.',
 
+        # Template: CustomerFooterSmall
+
         # Template: CustomerHeader
 
+        # Template: CustomerHeaderSmall
+
         # Template: CustomerLogin
+        'JavaScript Not Available' => 'JavaScript не доступен',
+        'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
+            'Для работы с OTRS вам потребуется включить JavaScript в вашем браузере.',
+        'Browser Warning' => 'Предупреждение о браузере',
+        'The browser you are using is too old.' => 'Используемый вами браузер слишком стар.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS работает с большим списком браузеров, пожалуйста, обновитесь до одного из них.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
         'Login' => 'Вход',
         'User name' => 'Имя пользователя',
         'Your user name' => 'Ваше имя пользователя',
@@ -2249,7 +2479,6 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Параметры',
         'e. g. 10*5155 or 105658*' => 'например, 10*5155 или 105658*',
-        'Customer ID' => 'ID клиента',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Полнотекстовый поиск в заявке (например, "Иван*в" или "Петр*")',
         'Recipient' => 'Получатель',
         'Carbon Copy' => 'Копия',
@@ -2273,10 +2502,13 @@ sub Data {
         'of' => 'из',
         'Page' => 'Страница',
         'Search Results for' => 'Результаты поиска для',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        'Show  article' => '',
         'Expand article' => 'Развернуть сообщение',
+        'Information' => '',
+        'Next Steps' => '',
+        'There are no further steps in this process' => '',
         'Reply' => 'Ответить',
 
         # Template: CustomerWarning
@@ -2326,14 +2558,15 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
+        'Fulltext search' => '',
+        'CustomerID Search' => '',
+        'CustomerUser Search' => '',
         'You are logged in as' => 'Вы вошли как',
 
         # Template: HeaderSmall
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript недоступен',
-        'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
-            'Для работы с OTRS вам потребуется включить JavaScript в вашем браузере.',
         'Database Settings' => 'Настройки базы данных',
         'General Specifications and Mail Settings' => 'Общие указания и настройки почты',
         'Registration' => 'Регистрация',
@@ -2436,13 +2669,6 @@ sub Data {
         'Delete links' => 'Удалить связи',
 
         # Template: Login
-        'JavaScript Not Available' => 'JavaScript не доступен',
-        'Browser Warning' => 'Предупреждение о браузере',
-        'The browser you are using is too old.' => 'Используемый вами браузер слишком стар.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS работает с большим списком браузеров, пожалуйста, обновитесь до одного из них.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
         'Lost your password?' => 'Забыли свой пароль',
         'Request New Password' => 'Запросить новый пароль',
         'Back to login' => 'Обратно ко входу',
@@ -2524,6 +2750,7 @@ sub Data {
         'Agent interface article notification module to check PGP.' => '',
         'Agent interface article notification module to check S/MIME.' =>
             '',
+        'Agent interface module to access CIC search via nav bar.' => '',
         'Agent interface module to access fulltext search via nav bar.' =>
             '',
         'Agent interface module to access search profiles via nav bar.' =>
@@ -2538,6 +2765,7 @@ sub Data {
             '',
         'Agents <-> Groups' => 'Агенты <-> Группы',
         'Agents <-> Roles' => 'Агенты <-> Роли',
+        'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
@@ -2569,17 +2797,23 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
+            '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
+            '',
+        'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             '',
@@ -2606,6 +2840,9 @@ sub Data {
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
+        'Cache time in seconds for the DB process backend.' => '',
+        'Cache time in seconds for the ticket process navigation bar output module.' =>
+            '',
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => 'Изменить пароль',
         'Change queue!' => '',
@@ -2620,10 +2857,11 @@ sub Data {
             '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
-        'Companies' => '',
+        'Company Status' => '',
         'Company Tickets' => 'Заявки компании',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
+        'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -2633,7 +2871,10 @@ sub Data {
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             '',
+        'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
+        'Create New process ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Создание и управление Соглашениями об Уровне Сервиса (SLA-ми).',
         'Create and manage agents.' => 'Создание и управление агентами.',
         'Create and manage attachments.' => 'Создание и управление вложениями.',
@@ -2642,7 +2883,6 @@ sub Data {
         'Create and manage dynamic fields.' => 'Создание и управление динамическими полями.',
         'Create and manage event based notifications.' => 'Создание и управление уведомлениями по событию.',
         'Create and manage groups.' => 'Создание и управление группами.',
-        'Create and manage notifications that are sent to agents.' => 'Создание и управление уведомлениями для агентов.',
         'Create and manage queues.' => 'Создание и управление очередями.',
         'Create and manage response templates.' => 'Создание и управление шаблонами ответов.',
         'Create and manage responses that are automatically sent.' => 'Создание и управление автоответами.',
@@ -2658,19 +2898,23 @@ sub Data {
         'Create new phone ticket (inbound)' => 'Создать телефонную заявку (входящую)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
+        'Customer Company Administration' => '',
+        'Customer Company Information' => '',
+        'Customer User Administration' => '',
+        'Customer Users' => 'Клиенты',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customers <-> Groups' => 'Клиенты <-> Группы',
         'Customers <-> Services' => 'Клиенты <-> Сервисы',
-        'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
-            '',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '',
         'Default ACL values for ticket actions.' => '',
+        'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
+            '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -2686,6 +2930,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
+        'Define the max depth of queues.' => '',
         'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
@@ -2731,6 +2976,8 @@ sub Data {
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             '',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -2760,6 +3007,8 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -2861,13 +3110,11 @@ sub Data {
             '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             '',
-        'Defines the default sender type of the article for this operation.' =>
-            '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',
@@ -2931,6 +3178,8 @@ sub Data {
             '',
         'Defines the default ticket priority in the ticket responsible screen of the agent interface.' =>
             '',
+        'Defines the default ticket type for new customer tickets in the customer interface.' =>
+            '',
         'Defines the default type for article in the customer interface.' =>
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
@@ -2973,6 +3222,8 @@ sub Data {
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
+            '',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
@@ -3051,6 +3302,8 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
@@ -3149,7 +3402,7 @@ sub Data {
         'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl.' =>
             '',
         'Defines the path to PGP binary.' => '',
-        'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/www\';).' =>
+        'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             '',
         'Defines the placement of the legend. This should be a two letter key of the form: \'B[LCR]|R[TCB]\'. The first letter indicates the placement (Bottom or Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).' =>
             '',
@@ -3157,6 +3410,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3185,6 +3440,8 @@ sub Data {
             '',
         'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
             '',
+        'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             '',
         'Defines the time in days to keep log backup files.' => '',
@@ -3203,6 +3460,8 @@ sub Data {
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.UnlockTickets.pl" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
+            '',
+        'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
@@ -3247,8 +3506,9 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
         'Dropdown' => '',
@@ -3261,8 +3521,16 @@ sub Data {
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
+        'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+            '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
+            '',
+        'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+            '',
+        'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3279,6 +3547,8 @@ sub Data {
         'Dynamic fields shown in the ticket move screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the ticket overview screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the ticket owner screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3302,18 +3572,17 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket search overview results screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket search screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the ticket search screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and shown by default.' =>
             '',
         'Dynamic fields shown in the ticket search screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
-            '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'DynamicField backend registration.' => '',
         'DynamicField object registration.' => '',
+        'Edit customer company' => '',
         'Email Addresses' => 'Адреса email',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
@@ -3340,9 +3609,10 @@ sub Data {
         'Escalation view' => 'Просмотр эскалаций',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             '',
+        'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
@@ -3369,6 +3639,8 @@ sub Data {
             '',
         'Frontend language' => 'Язык интерфейса',
         'Frontend module registration (disable company link if no company feature is used).' =>
+            '',
+        'Frontend module registration (disable ticket processes screen if no process available).' =>
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
@@ -3408,10 +3680,6 @@ sub Data {
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
-            '',
-        'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
-            '',
-        'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
             '',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
             '',
@@ -3536,8 +3804,6 @@ sub Data {
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -3552,6 +3818,7 @@ sub Data {
             '',
         'Log file for the ticket counter.' => '',
         'Mail Accounts' => '',
+        'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -3562,8 +3829,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Управление POP3 или IMAP учетными записями для получения почтовых сообщений.',
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Управление активными сеансами.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Управление повторяющимися задачами.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -3614,6 +3886,7 @@ sub Data {
         'NameX' => '',
         'New email ticket' => 'Новая заявка по email',
         'New phone ticket' => 'Новая телефонная заявка',
+        'New process ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -3649,6 +3922,12 @@ sub Data {
         'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
             '',
         'Parameters for the WatcherNotify object in the preference view of the agent interface.' =>
+            '',
+        'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -3690,11 +3969,19 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
+        'Process Information' => '',
+        'Process Management Activity Dialog GUI' => '',
+        'Process Management Activity GUI' => '',
+        'Process Management Path GUI' => '',
+        'Process Management Transition Action GUI' => '',
+        'Process Management Transition GUI' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Просмотр очередей',
         'Refresh Overviews after' => 'Обновлять обзоры каждые',
         'Refresh interval' => 'Интервал обновления',
+        'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -3738,11 +4025,10 @@ sub Data {
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
-        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
-            '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Тема интерфейса',
+        'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
@@ -3836,6 +4122,10 @@ sub Data {
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is loged out.' =>
             '',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             '',
         'Sets the minimum number of characters before autocomplete query is sent.' =>
@@ -3851,6 +4141,20 @@ sub Data {
         'Sets the prefered time units (e.g. work units, hours, minutes).' =>
             '',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
+            '',
+        'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
             '',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
             '',
@@ -3918,6 +4222,7 @@ sub Data {
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '',
+        'Sets the time (in seconds) a user is marked as active.' => '',
         'Sets the time type which should be shown.' => '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
@@ -3930,6 +4235,8 @@ sub Data {
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
+        'Show the current owner in the customer interface.' => '',
+        'Show the current queue in the customer interface.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' =>
@@ -4096,6 +4403,8 @@ sub Data {
             '',
         'Specifies if an agent should receive email notification of his own actions.' =>
             '',
+        'Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.' =>
+            '',
         'Specifies the background color of the chart.' => '',
         'Specifies the background color of the picture.' => '',
         'Specifies the border color of the chart.' => '',
@@ -4111,6 +4420,8 @@ sub Data {
         'Specifies the directory where private SSL certificates are stored.' =>
             '',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
+            '',
+        'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
             '',
         'Specifies the left margin of the chart.' => '',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
@@ -4133,6 +4444,8 @@ sub Data {
             '',
         'Specifies the top margin of the chart.' => '',
         'Specifies user id of the postmaster data base.' => '',
+        'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
+            '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -4171,6 +4484,14 @@ sub Data {
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
+        'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
+            '',
+        'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
+            '',
+        'This option defines the process tickets default lock.' => '',
+        'This option defines the process tickets default priority.' => '',
+        'This option defines the process tickets default queue.' => '',
+        'This option defines the process tickets default state.' => '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -4205,13 +4526,13 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Your language' => 'Язык',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена.',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4347,6 +4668,7 @@ sub Data {
         'Country{CustomerUser}' => 'Страна{ПользовательКлиента}',
         'Create New Template' => 'Создать новый шаблон',
         'Create Times' => 'Время создания',
+        'Create and manage notifications that are sent to agents.' => 'Создание и управление уведомлениями для агентов.',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
         'Create new database' => 'Создать новую базы данных',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>
@@ -4356,9 +4678,7 @@ sub Data {
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
         'Customer State Notify' => 'Извещать клиента об изменении статуса',
-        'Customer User' => 'Учетная запись клиента',
         'Customer User Management' => 'Управление пользователями (для клиентов)',
-        'Customer Users' => 'Клиенты',
         'Customer Users <-> Groups' => 'Группы клиентов',
         'Customer Users <-> Groups Management' => 'Управление группами клиентов',
         'Customer Users <-> Services Management' => 'Клиенты <-> Сервисы',
@@ -4454,6 +4774,7 @@ sub Data {
         'In this form you can select the basic specifications.' => 'В данной форме вы можете выбрать основные требования.',
         'Information about the Stat' => 'Информация об отчете',
         'Insert of the common specifications' => 'Вставьте дополнительные требования',
+        'Invalid SessionID!' => 'Неверный идентификатор сессии!',
         'Involved' => 'Привлечение',
         'Is Job Valid' => 'Данная задача действительна',
         'Is Job Valid?' => 'Данная задача действительна?',
@@ -4496,6 +4817,8 @@ sub Data {
         'My Responsible' => 'Моя ответственность',
         'MyTickets' => 'Мои заявки',
         'Name is required!' => 'Название обязательно!',
+        'Need a valid email address or don\'t use a local email address' =>
+            'Требуется корректный адрес электронной почты либо не указывайте локальный адрес',
         'New Agent' => 'Новый агент',
         'New Customer' => 'Новый клиент',
         'New Group' => 'Новая группа',
@@ -4623,6 +4946,8 @@ sub Data {
         'Search for customers (wildcards are allowed).' => 'Поиск клиентов (шаблоны поддерживаются).',
         'Search-Profile as Template?' => 'Поисковый запрос как шаблон?',
         'Secure Mode need to be enabled!' => 'Безопасный режим должен быть включен',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'Безопасный режим должен быть отключен при переустановке через веб-интерфейс',
         'Select Box' => 'Команда SELECT',
         'Select Box Result' => 'Выберите из меню',
         'Select Group' => 'Выберите Группу',
@@ -4695,6 +5020,7 @@ sub Data {
         'Ticket Close Times (from moment)' => 'Время закрытия заявки (с момента)',
         'Ticket Create Times (from moment)' => 'Время создания заявки (с момента)',
         'Ticket Hook' => 'Выбор заявки',
+        'Ticket Information' => 'Информация о заявке',
         'Ticket Lock' => 'Блокирование заявки',
         'Ticket Merged' => 'Заявка объединена',
         'Ticket Number Generator' => 'Генератор номеров заявок',
@@ -4728,6 +5054,8 @@ sub Data {
             'Поля сообщения (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Данные сообщения (например, <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> и <OTRS_CUSTOMER_Body>).',
+        'To protect your privacy, active or/and remote content has blocked.' =>
+            'Чтобы защитить вашу конфиденциальность, активное и/или удаленное содержимое было заблокировано.',
         'To: (%s) replaced with database email!' => 'To: (%s) заменено на e-mail базы данных!',
         'Tommorow' => 'Завтра',
         'Top of Page' => 'В начало страницы',
@@ -4772,6 +5100,7 @@ sub Data {
         'Your email address is new' => 'Ваш адрес электронной почты новый',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Ваше письмо с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
+        'Your language' => 'Язык',
         'Your own Ticket' => 'Ваша собственная заявка',
         'auto responses set!' => 'Установленных автоответов',
         'customer realname' => 'Имя клиента',

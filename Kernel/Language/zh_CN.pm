@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.127 2013-01-24 07:42:36 mb Exp $
+# $Id: zh_CN.pm,v 1.128 2013-01-31 13:10:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:35
+    # Last translation file sync: 2013-01-31 14:00:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1111,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '工作单元',
+        '(work units)' => '',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1556,6 +1556,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => '打印',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1673,6 +1674,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1852,8 +1864,6 @@ sub Data {
         'Secure mode needs to be enabled!' => '安全模式需要被启用！',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             '在初始安装结束后，安全模式通常将被设置',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            '为了重新用Web 界面安装，安全模式必须禁用',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             '系统已启用，请通过SysConfig启用安全模式。',
 
@@ -2163,7 +2173,6 @@ sub Data {
         'Stats' => '统计',
 
         # Template: AgentStatsPrint
-        'Print' => '打印',
         'No Element selected.' => '没有元素被选中',
 
         # Template: AgentStatsView
@@ -3494,7 +3503,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4520,6 +4529,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '工作单元',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            '为了重新用Web 界面安装，安全模式必须禁用',
 
     };
     # $$STOP$$

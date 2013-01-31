@@ -7,7 +7,7 @@
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # Copyright (C) 2013 Alexandre <matrixworkstation@gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.147 2013-01-31 12:22:52 mg Exp $
+# $Id: pt_BR.pm,v 1.148 2013-01-31 13:10:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.147 $) [1];
+$VERSION = qw($Revision: 1.148 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:23
+    # Last translation file sync: 2013-01-31 13:59:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -702,7 +702,7 @@ sub Data {
         'Change the owner for this ticket' => 'Alterar O Dono Deste Chamado',
         'Change the  customer for this ticket' => 'Alterar O Cliente Deste Chamado',
         'Add a note to this ticket' => 'Adicionar Nota À Este Chamado',
-#         'Merge into a different ticket' => 'Mesclar Em Um Chamado Diferente',
+        'Merge into a different ticket' => '',
         'Set this ticket to pending' => 'Marcar Chamado Como Pendente',
         'Close this ticket' => 'Fechar Este Chamado',
         'Look into a ticket!' => 'Examinar em detalhes o conteúdo de um chamado!',
@@ -944,7 +944,7 @@ sub Data {
         'Dynamic Fields Management' => 'Gerenciamento de Campos Dinâmicos',
         'Add new field for object' => 'Adicionar novo campo ao objeto',
         'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-        'Para adicionar um novo campo selecione o tipo do campo na lista de objetos, o objeto define os limites do campo e pode ser alterado após a criação do campo.',
+            'Para adicionar um novo campo selecione o tipo do campo na lista de objetos, o objeto define os limites do campo e pode ser alterado após a criação do campo.',
         'Dynamic Fields List' => 'Lista de Campos Dinâmicos',
         'Dynamic fields per page' => 'Campos dinâmicos por página',
         'Label' => 'Campo',
@@ -1550,11 +1550,12 @@ sub Data {
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
-        'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
+        'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Imprimir',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1672,6 +1673,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1851,8 +1863,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'O modo seguro precisa ser habilitado!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'O modo seguro é (normalmente) configurado após a instalação estar completa.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'Se o modo seguro não estiver ativado, ative-o através do SysConfig, porque sua aplicação já está executando.',
 
@@ -2162,7 +2172,6 @@ sub Data {
         'Stats' => 'Estatísticas',
 
         # Template: AgentStatsPrint
-        'Print' => 'Imprimir',
         'No Element selected.' => 'Nenhum elemento selecionado.',
 
         # Template: AgentStatsView
@@ -2792,8 +2801,8 @@ sub Data {
             'Permite definir novos tipos de chamado (caso a funcionalidade tipo do chamado esteja habilitada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite estender condições de pesquisa na tela de busca de chamados da interface de cliente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -3099,7 +3108,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3493,7 +3502,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -3511,7 +3520,7 @@ sub Data {
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => 'Limite da visualização de campos dinâmicos por página.',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -4521,6 +4530,8 @@ sub Data {
         #
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
 
     };
     # $$STOP$$

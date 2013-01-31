@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # Copyright (C) 2012 Csaba Németh <csaba@sopron.hu>
 # --
-# $Id: hu.pm,v 1.129 2013-01-24 07:40:47 mb Exp $
+# $Id: hu.pm,v 1.130 2013-01-31 13:10:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:13
+    # Last translation file sync: 2013-01-31 13:59:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1111,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idő egységek',
-        ' (work units)' => ' (munkaegység)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Küldjön változatásokról értesítést az ügyintézőnek/ügyfélnek',
         'CMD' => 'PARANCS',
@@ -1556,6 +1556,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Nyomtatás',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1673,6 +1674,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1852,8 +1864,6 @@ sub Data {
         'Secure mode needs to be enabled!' => '',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'Biztonságos üzemmód a telepítést követően fog teljesen működni.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'Biztonságos üzemmódot le kell tíltani ahhoz, hogy a webes telepítővel újra lehessen dolgozni.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             '',
 
@@ -2163,7 +2173,6 @@ sub Data {
         'Stats' => 'Statisztika',
 
         # Template: AgentStatsPrint
-        'Print' => 'Nyomtatás',
         'No Element selected.' => 'Nincsen érték kiválasztva.',
 
         # Template: AgentStatsView
@@ -3494,7 +3503,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4520,6 +4529,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (munkaegység)',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'Biztonságos üzemmódot le kell tíltani ahhoz, hogy a webes telepítővel újra lehessen dolgozni.',
 
     };
     # $$STOP$$

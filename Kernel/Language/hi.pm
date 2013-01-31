@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.38 2013-01-24 07:45:13 mb Exp $
+# $Id: hi.pm,v 1.39 2013-01-31 13:10:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:10
+    # Last translation file sync: 2013-01-31 13:59:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1108,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -1553,6 +1553,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'मुद्रित करें',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1670,6 +1671,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1849,8 +1861,6 @@ sub Data {
         'Secure mode needs to be enabled!' => 'सुरक्षित मोड को सक्रिय करने की जरूरत हैं।',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'सुरक्षित मोड (सामान्य रूप से)प्रारंभिक स्थापना पूरी होनॆ के बाद निर्धारित किया जाएगा।',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'सुरक्षित मोड का उपयोग करके अक्षम किया जाना चाहिए वेब इंस्टॉलर से उसके पुन:स्थापित के लिए।',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             'यदि सुरक्षित मोड सक्रिय नहीं है,तो उसे प्रणाली विन्यास के माध्यम से सक्रिय करें क्योंकि आपका अनुप्रयोग पहले से चल रहा है।',
 
@@ -2160,7 +2170,6 @@ sub Data {
         'Stats' => 'आँकड़ा',
 
         # Template: AgentStatsPrint
-        'Print' => 'मुद्रित करें',
         'No Element selected.' => 'कोई भी तत्व चयनित नहीं',
 
         # Template: AgentStatsView
@@ -3491,8 +3500,8 @@ sub Data {
             'ग्राहक अंतरफलक में  टिकट प्राप्तकर्ताओं के लिए जो श्रेणी वैध होगी उनको निर्धारित करता है।',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'एक टिकट के जिम्मेदार प्रतिनिधि को अनुस्मारक सूचनाएं भेजना निष्क्रिय करता है (टिकट:जिम्मेदार सक्रिय करने की जरूरत है)।',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
-            'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में एक अनुच्छेद के समय का हिसाब प्रदर्शित करता है।',
@@ -4519,6 +4528,10 @@ sub Data {
         #
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+            'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'सुरक्षित मोड का उपयोग करके अक्षम किया जाना चाहिए वेब इंस्टॉलर से उसके पुन:स्थापित के लिए।',
 
     };
     # $$STOP$$

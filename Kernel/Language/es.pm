@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.162 2013-01-24 07:40:48 mb Exp $
+# $Id: es.pm,v 1.163 2013-01-31 13:10:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:03
+    # Last translation file sync: 2013-01-31 13:59:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1110,7 +1110,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
-        ' (work units)' => ' (unidades de trabajo)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -1555,6 +1555,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Imprimir',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1672,6 +1673,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1851,8 +1863,6 @@ sub Data {
         'Secure mode needs to be enabled!' => '',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'El Modo Seguro (normalmente) queda habilitado cuando la instalación inicial se completa.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             '',
 
@@ -2162,7 +2172,6 @@ sub Data {
         'Stats' => 'Estadísticas',
 
         # Template: AgentStatsPrint
-        'Print' => 'Imprimir',
         'No Element selected.' => 'No hay elemento seleccionado',
 
         # Template: AgentStatsView
@@ -3493,7 +3502,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4519,6 +4528,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unidades de trabajo)',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
 
     };
     # $$STOP$$

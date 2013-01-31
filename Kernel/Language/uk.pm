@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.52 2013-01-24 07:42:36 mb Exp $
+# $Id: uk.pm,v 1.53 2013-01-31 13:10:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-24 08:47:33
+    # Last translation file sync: 2013-01-31 14:00:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
-        ' (work units)' => ' ( робочі одиниці)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -1551,6 +1551,7 @@ sub Data {
         'Processes' => '',
         'Process name' => '',
         'Copy' => '',
+        'Print' => 'Друк',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
@@ -1668,6 +1669,17 @@ sub Data {
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
             '',
+
+        # Template: AdminProcessManagementProcessPrint
+        'Contains %s dialog(s)' => '',
+        'Assigned dialogs' => '',
+        'Activities are not being used in this process.' => '',
+        'Assigned fields' => '',
+        'Activity dialogs are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => '',
+        'Module name' => '',
+        'Configuration' => '',
+        'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
@@ -1847,8 +1859,6 @@ sub Data {
         'Secure mode needs to be enabled!' => ' Необхідно включити безпечний режим',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'Після установки системи звичайно відразу ж включають безпечний режим.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'Безпечний режим повинен бути відключений при переустановці через веб-інтерфейс',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
             '',
 
@@ -2158,7 +2168,6 @@ sub Data {
         'Stats' => 'Статистика',
 
         # Template: AgentStatsPrint
-        'Print' => 'Друк',
         'No Element selected.' => 'Елемент не обраний.',
 
         # Template: AgentStatsView
@@ -3489,7 +3498,7 @@ sub Data {
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -4515,6 +4524,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' ( робочі одиниці)',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            'Безпечний режим повинен бути відключений при переустановці через веб-інтерфейс',
 
     };
     # $$STOP$$
