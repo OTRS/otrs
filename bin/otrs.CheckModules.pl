@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.50 2013-01-22 10:14:09 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.51 2013-02-01 13:39:33 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,13 +30,21 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+# on Windows, we only have ANSI support if Win32::Console::ANSI is present
+# turn off colors if it is not available
+BEGIN {
+    if ( $^O eq 'MSWin32' ) {
+        eval "use Win32::Console::ANSI";
+        $ARGV[0] = 'nocolors' if $@;
+    }
+}
+
 use ExtUtils::MakeMaker;
 use File::Path;
-use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 # config
 my @NeededModules = (
