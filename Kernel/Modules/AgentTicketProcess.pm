@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.36 2013-01-31 21:47:02 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.37 2013-02-01 18:42:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -318,7 +318,7 @@ sub Run {
     # including ActivityDialogEntityID and ProcessEntityID
     # is used for:
     # - Parameter checking before storing
-    # - will be used for ACL checking lateron
+    # - will be used for ACL checking later on
     my $GetParam = $Self->_GetParam(
         ProcessEntityID => $ProcessEntityID,
     );
@@ -597,13 +597,13 @@ sub _RenderAjax {
             );
             $Services = $Data;
 
-            # add Service to the JSONCollector
+            # add Service to the JSONCollector (Use ServiceID from web request)
             push(
                 @JSONCollector,
                 {
                     Name         => $Self->{NameToID}{$CurrentField},
                     Data         => $Data,
-                    SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
+                    SelectedID   => $Self->{ParamObject}->GetParam( Param => 'ServiceID' ) || '',
                     PossibleNone => 1,
                     Translation  => 0,
                     TreeView     => $TreeView,
@@ -618,15 +618,16 @@ sub _RenderAjax {
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
                 Services => $Services,
+                ServiceID => $Self->{ParamObject}->GetParam( Param => 'ServiceID' ) || '',
             );
 
-            # add SLA to the JSONCollector
+            # add SLA to the JSONCollector (Use SelectedID from web request)
             push(
                 @JSONCollector,
                 {
                     Name         => $Self->{NameToID}{$CurrentField},
                     Data         => $Data,
-                    SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
+                    SelectedID   => $Self->{ParamObject}->GetParam( Param => 'SLAID' ) || '',
                     PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,
