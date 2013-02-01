@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.examples,v 1.25 2012-03-07 19:51:26 mb Exp $
+# $Id: GenericAgent.pm.examples,v 1.25.2.1 2013-02-01 17:19:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use vars qw($VERSION @ISA @EXPORT %Jobs);
 require Exporter;
 @ISA     = qw(Exporter);
 @EXPORT  = qw(%Jobs);
-$VERSION = qw($Revision: 1.25 $)[1];
+$VERSION = qw($Revision: 1.25.2.1 $)[1];
 
 # -----------------------------------------------------------------------
 # config options
@@ -129,6 +129,32 @@ $VERSION = qw($Revision: 1.25 $)[1];
         },
     },
     # --
+    # [name of job] -> move specific tickets from abc to experts
+    # --
+    'move specific tickets from abc to experts' => {
+        # only move tickets where:
+        # Dynamic Field:
+        #   NameX is exactly 123
+        #   NameY is like admin (as admin, administrator or administrators
+        # Queue is abc
+
+        # get all tickets with these properties
+        Queue => 'abc',
+        DynamicField_NameX => {
+            Equals => '123',
+        },
+        DynamicField_NameY => {
+            Like => 'admin*',
+        },
+        Priorities => ['3 normal'],
+        # new ticket properties
+        New => {
+            Queue => 'experts',
+            Priority => '4 high',
+            DynamicField_ProductSkill => 'Expert required',
+        },
+    },
+    # --
     # [name of job] -> delete all tickets with subject 'VIRUS 32' in queue abc
     # (take care if you use From, To, Cc, Subject or Body because it takes
     # database performance!)
@@ -141,8 +167,10 @@ $VERSION = qw($Revision: 1.25 $)[1];
 #        Cc => '%Feedback%',
         Subject => '%VIRUS%',
 #        Body => '%installing%',
-#        Search_DynamicField_ProductSkill => 'Expert required',
-         # new ticket properties
+#        DynamicField_ProductSkill => {
+#            Equals => 'Expert required',
+#        },
+        # new ticket properties
         New => {
             # DELETE!
             Delete => 1,
