@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.196 2013-01-31 12:17:07 mg Exp $
+# $Id: CHANGES,v 1.2260.2.197 2013-02-01 13:13:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-02-01 Fixed bug#8829 - DateChecksum followup doesn't get correctly SystemID.
  - 2013-01-31 Updated Russian translation, thanks to Vadim Goncharov!
  - 2013-01-30 Fixed bug#9101 - Not possible to create dropdown with autocomplete attribute.
  - 2013-01-29 Fixed bug#9096 - All services list is shown instead of only default services.
