@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/TransitionAction/TicketArticleCreate.pm - A Module to create an article
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketArticleCreate.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
+# $Id: TicketArticleCreate.pm,v 1.2 2013-02-01 19:20:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -119,7 +119,8 @@ sub new {
         Ticket      => \%Ticket, # required
         Config      => {
             # required:
-            ArticleType      => 'note-internal',                        # email-external|email-internal|phone|fax|...
+            ArticleType      => 'note-internal',                        # note-external|phone|fax|sms|...
+                                                                        #   excluding any email type
             SenderType       => 'agent',                                # agent|system|customer
             ContentType      => 'text/plain; charset=ISO-8859-15',      # or optional Charset & MimeType
             Subject          => 'some short description',               # required
@@ -188,6 +189,15 @@ sub Run {
         return;
     }
 
+    # Check ArticleType
+    if ( $Param{Config}->{ArticleType} =~ m{\A email }msxi ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "ArticleType $Param{Config}->{ArticleType} is not supported",
+        );
+        return;
+    }
+
     my $Success = $Self->{TicketObject}->ArticleCreate(
         %{ $Param{Config} },
         TicketID => $Param{Ticket}->{TicketID},
@@ -219,6 +229,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2013-01-11 06:09:05 $
+$Revision: 1.2 $ $Date: 2013-02-01 19:20:38 $
 
 =cut

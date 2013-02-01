@@ -1,4 +1,8 @@
 3.2.2 2013-02-??
+ - 2013-02-01 Added restriction to TransitionAction TicketArticleCrete to do not allow the creation
+    email article types.
+ - 2013-02-01 Fixed bug#9112 - ProcessManagment: TransitionAction TicketActicleCreate should not
+    accept email type articles.
  - 2013-02-01 Fixed bug#8829 - DateChecksum followup doesn't get correctly SystemID.
  - 2013-01-31 Fixed bug#9111 - ProcessManagement: Empty Service or SLA causes an error.
  - 2013-01-31 Fixed bug#9077 - Process Management: TicketType not available as field for activity.
