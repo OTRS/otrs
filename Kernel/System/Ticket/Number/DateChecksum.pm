@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DateChecksum.pm,v 1.39 2012-11-20 16:01:45 mh Exp $
+# $Id: DateChecksum.pm,v 1.40 2013-02-01 13:14:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -156,12 +156,12 @@ sub GetTNByString {
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
 
     # check current setting
-    if ( $String =~ /\Q$TicketHook$TicketHookDivider\E(\d{4,10}$SystemID\d{4,40})/i ) {
+    if ( $String =~ /\Q$TicketHook$TicketHookDivider\E(\d{8}$SystemID\d{4,40})/i ) {
         return $1;
     }
 
     # check default setting
-    if ( $String =~ /\Q$TicketHook\E:\s{0,2}(\d{4,10}$SystemID\d{4,40})/i ) {
+    if ( $String =~ /\Q$TicketHook\E:\s{0,2}(\d{8}$SystemID\d{4,40})/i ) {
         return $1;
     }
 
