@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.97 2012-11-20 14:54:51 mh Exp $
+# $Id: Installer.pm,v 1.98 2013-02-02 21:53:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -524,6 +524,15 @@ sub Run {
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
+            }
+
+            # if running under PerlEx, reload the application (and thus the configuration)
+            if (
+                exists $ENV{'GATEWAY_INTERFACE'}
+                and $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+                )
+            {
+                PerlEx::ReloadAll();
             }
 
             $Self->{LayoutObject}->Block(
