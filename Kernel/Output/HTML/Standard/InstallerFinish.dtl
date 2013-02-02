@@ -1,8 +1,8 @@
 # --
 # InstallerFinish.dtl - provides the Installer's finish screen
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerFinish.dtl,v 1.22 2012-11-20 15:27:20 mh Exp $
+# $Id: InstallerFinish.dtl,v 1.23 2013-02-02 22:44:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,8 +72,8 @@
 <!-- dtl:block:Restart -->
                     <label>$Text{"Start page"}:</label>
                     <div class="Field">
-                        <a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">
-                            http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl
+                        <a href="http://$QData{"Host"}/$Data{"OTRSHandle"}/index.pl">
+                            http://$QData{"Host"}/$Data{"OTRSHandle"}/index.pl
                         </a>
                     </div>
                     <div class="Clear"></div>
