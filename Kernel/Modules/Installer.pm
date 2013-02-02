@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.98 2013-02-02 21:53:28 mb Exp $
+# $Id: Installer.pm,v 1.99 2013-02-02 22:19:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,13 +93,19 @@ sub Run {
         $Dist{Vendor}    = 'Redhat';
         $Dist{Webserver} = 'service httpd restart';
     }
-    else {
-        if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';
-            if ( defined $mod_perl::VERSION ) {
-                $Dist{Webserver} = 'Apache2 + mod_perl2';
-            }
+    elsif ( exists $ENV{MOD_PERL} ) {
+        eval 'require mod_perl';
+        if ( defined $mod_perl::VERSION ) {
+            $Dist{Webserver} = 'Apache2 + mod_perl2';
         }
+    }
+    elsif (
+        exists $ENV{'GATEWAY_INTERFACE'}
+        && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+        )
+    {
+        $Dist{Vendor}    = '';
+        $Dist{Webserver} = '';
     }
 
     # check if Apache::Reload is loaded
@@ -529,7 +535,7 @@ sub Run {
             # if running under PerlEx, reload the application (and thus the configuration)
             if (
                 exists $ENV{'GATEWAY_INTERFACE'}
-                and $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+                && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
                 )
             {
                 PerlEx::ReloadAll();
@@ -853,6 +859,15 @@ sub Run {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't write Config file!"
             );
+        }
+
+        # if running under PerlEx, reload the application (and thus the configuration)
+        if (
+            exists $ENV{'GATEWAY_INTERFACE'}
+            && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+            )
+        {
+            PerlEx::ReloadAll();
         }
 
         # check if the user wants to register
