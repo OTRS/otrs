@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.90 2013-01-17 15:55:09 mb Exp $
+# $Id: NewTicket.pm,v 1.91 2013-02-04 11:12:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
+use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,6 +39,7 @@ sub new {
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
 
     return $Self;
 }
@@ -355,6 +357,21 @@ sub Run {
                 . "under var/spool/problem-email*) on http://bugs.otrs.org/!",
         );
         return;
+    }
+
+    if ( $Param{LinkToTicketID} ) {
+        my $SourceKey = $Param{LinkToTicketID};
+        my $TargetKey = $TicketID;
+
+        $Self->{LinkObject}->LinkAdd(
+            SourceObject => 'Ticket',
+            SourceKey    => $SourceKey,
+            TargetObject => 'Ticket',
+            TargetKey    => $TargetKey,
+            Type         => 'Normal',
+            State        => 'Valid',
+            UserID       => $Param{InmailUserID},
+        );
     }
 
     # debug

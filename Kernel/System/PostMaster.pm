@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.93 2013-02-04 10:29:19 mg Exp $
+# $Id: PostMaster.pm,v 1.94 2013-02-04 11:12:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -328,6 +328,7 @@ sub Run {
                 QueueID          => $Param{QueueID},
                 Comment          => "Because the old ticket [$Tn] is '$State{Name}'",
                 AutoResponseType => 'auto reply/new ticket',
+                LinkToTicketID   => $TicketID,
             );
             if ( !$TicketID ) {
                 return;
@@ -688,6 +689,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2013-02-04 10:29:19 $
+$Revision: 1.94 $ $Date: 2013-02-04 11:12:54 $
 
 =cut
