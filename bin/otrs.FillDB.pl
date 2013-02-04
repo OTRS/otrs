@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.20 2013-01-22 10:14:09 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.21 2013-02-04 14:48:31 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Getopt::Std;
 
@@ -116,7 +116,7 @@ sub Run {
 otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
-usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -<CUSTOMERUSERS> -r <REALLYDOTHIS>
+usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -c <CUSTOMERUSERS> -r <REALLYDOTHIS>
 EOF
         exit 1;
     }
@@ -135,10 +135,10 @@ EOF
     }
     if ( !$Opts{c} ) {
         print STDERR
-            "NOTICE: No -c <COUNTOFCUSRTOMERS> given, will not create any new customers!\n";
+            "NOTICE: No -c <COUNTOFCUSTOMERS> given, will not create any new customers!\n";
     }
     if ( !$Opts{t} ) {
-        print STDERR "ERROR: Need -t <COUNTOFTICKET>\n";
+        print STDERR "ERROR: Need -t <COUNTOFTICKETS>\n";
         exit(1);
     }
 
