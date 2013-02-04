@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.198 2013-02-04 06:53:55 mg Exp $
+# $Id: CHANGES,v 1.2260.2.199 2013-02-04 10:29:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-02-02 Fixed bug#9108 - Check for opened/closed tickets not working with Ticket::SubjectFormat = Right.
  - 2013-02-01 Fixed bug#8839 - DateChecksum followup doesn't get correctly SystemID.
  - 2013-01-31 Updated Russian translation, thanks to Vadim Goncharov!
  - 2013-01-30 Fixed bug#9101 - Not possible to create dropdown with autocomplete attribute.

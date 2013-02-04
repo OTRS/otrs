@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.87.2.2 2012-07-20 05:48:57 cr Exp $
+# $Id: PostMaster.pm,v 1.87.2.3 2013-02-04 10:29:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.87.2.2 $) [1];
+$VERSION = qw($Revision: 1.87.2.3 $) [1];
 
 =head1 NAME
 
@@ -312,6 +312,16 @@ sub Run {
             if ($TQueueID) {
                 $Param{QueueID} = $TQueueID;
             }
+
+            # Clean out the old TicketNumber from the subject (see bug#9180).
+            # This avoids false ticket number detection on customer replies.
+            if ( $GetParam->{Subject} ) {
+                $GetParam->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+                    TicketNumber => $Tn,
+                    Subject      => $GetParam->{Subject},
+                );
+            }
+
             $TicketID = $Self->{NewTicket}->Run(
                 InmailUserID     => $Self->{PostmasterUserID},
                 GetParam         => $GetParam,
@@ -678,6 +688,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.87.2.2 $ $Date: 2012-07-20 05:48:57 $
+$Revision: 1.87.2.3 $ $Date: 2013-02-04 10:29:29 $
 
 =cut
