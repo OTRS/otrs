@@ -2,7 +2,7 @@
 # Basic.t - Basic Frontend Tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Basic.t,v 1.2 2013-01-14 08:05:20 mg Exp $
+# $Id: Basic.t,v 1.3 2013-02-04 09:26:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,7 @@ use LWP::UserAgent;
 
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
+use Kernel::System::JSON;
 
 my $ConfigObject = Kernel::Config->new();
 
@@ -36,6 +37,8 @@ my $TestUserLogin = $HelperObject->TestUserCreate(
     Groups => ['admin'],
 );
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+
+my $JSONObject = Kernel::System::JSON->new( %{$Self} );
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
@@ -114,6 +117,16 @@ for my $BaseURL ( sort keys %Frontends ) {
             scalar $Response->header('X-OTRS-Login'),
             "Module $Frontend is no OTRS login screen",
         );
+
+        # Check JSON response
+        if ( $Response->header('Content-type') =~ 'json' ) {
+            my $Data = $JSONObject->Decode( Data => $Response->content() );
+
+            $Self->True(
+                scalar $Data,
+                "Module $Frontend returned valid JSON data",
+            );
+        }
     }
 }
 
