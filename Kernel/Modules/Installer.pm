@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.100 2013-02-02 22:44:28 mb Exp $
+# $Id: Installer.pm,v 1.101 2013-02-04 15:05:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1008,20 +1008,6 @@ sub ReConfigure {
         }
     }
     close $In;
-
-    # add new config settings
-    for my $Key ( sort keys %Param ) {
-        if ( $Config !~ /\$Self->{("|'|)$Key("|'|)} =.+?;/ ) {
-            if ( $Param{$Key} =~ /^[0-9]+$/ && $Param{$Key} !~ /^0/ ) {
-                $Config =~
-                    s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = $Param{$Key};/g;
-            }
-            else {
-                $Config =~
-                    s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = '$Param{$Key}';/g;
-            }
-        }
-    }
 
     # write new config file
     open( my $Out, '>', $ConfigFile )
