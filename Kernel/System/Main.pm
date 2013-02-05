@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.68 2013-01-28 13:46:47 mg Exp $
+# $Id: Main.pm,v 1.69 2013-02-05 10:43:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -399,6 +399,9 @@ to write data to file system
         Type       => 'Local',   # optional - Local|Attachment|MD5
         Permission => '644',     # unix file permissions
     );
+
+Platform note: MacOS (HFS+) stores filenames as Unicode NFD internally,
+and DirectoryRead() will also report them as NFD.
 
 =cut
 
@@ -782,72 +785,6 @@ sub Dump {
 
 }
 
-=begin Internal:
-
-=cut
-
-sub _Dump {
-    my ( $Self, $Data ) = @_;
-
-    # data is not a reference
-    if ( !ref ${$Data} ) {
-        Encode::_utf8_off( ${$Data} );
-
-        return;
-    }
-
-    # data is a scalar reference
-    if ( ref ${$Data} eq 'SCALAR' ) {
-
-        # start recursion
-        $Self->_Dump( ${$Data} );
-
-        return;
-    }
-
-    # data is a hash reference
-    if ( ref ${$Data} eq 'HASH' ) {
-        KEY:
-        for my $Key ( sort keys %{ ${$Data} } ) {
-            next KEY if !defined ${$Data}->{$Key};
-
-            # start recursion
-            $Self->_Dump( \${$Data}->{$Key} );
-        }
-
-        return;
-    }
-
-    # data is a array reference
-    if ( ref ${$Data} eq 'ARRAY' ) {
-        KEY:
-        for my $Key ( 0 .. $#{ ${$Data} } ) {
-            next KEY if !defined ${$Data}->[$Key];
-
-            # start recursion
-            $Self->_Dump( \${$Data}->[$Key] );
-        }
-
-        return;
-    }
-
-    # data is a ref reference
-    if ( ref ${$Data} eq 'REF' ) {
-
-        # start recursion
-        $Self->_Dump( ${$Data} );
-
-        return;
-    }
-
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
-    );
-
-    return;
-}
-
 =item DirectoryRead()
 
 reads a directory and returns an array with results.
@@ -880,6 +817,9 @@ does not have to exist:
         Filter    => '*',
         Silent    => 1,     # will not log errors if the directory does not exist
     );
+
+Platform note: MacOS (HFS+) stores filenames as Unicode NFD internally,
+and DirectoryRead() will also report them as NFD.
 
 =cut
 
@@ -950,19 +890,78 @@ sub DirectoryRead {
             From => 'utf-8',
         );
 
-        # second, convert it to combined normalization form (NFC), if it is an utf-8 string
-        # this has to be done because MacOS stores filenames as NFD on HFS+ partitions,
-        #   leading to data inconsistencies
-        if ( Encode::is_utf8($Filename) ) {
-            $Filename = Unicode::Normalize::NFC($Filename);
-        }
-
         push @Results, $Filename;
     }
 
     # always sort the result
     return sort @Results;
 
+}
+
+=begin Internal:
+
+=cut
+
+sub _Dump {
+    my ( $Self, $Data ) = @_;
+
+    # data is not a reference
+    if ( !ref ${$Data} ) {
+        Encode::_utf8_off( ${$Data} );
+
+        return;
+    }
+
+    # data is a scalar reference
+    if ( ref ${$Data} eq 'SCALAR' ) {
+
+        # start recursion
+        $Self->_Dump( ${$Data} );
+
+        return;
+    }
+
+    # data is a hash reference
+    if ( ref ${$Data} eq 'HASH' ) {
+        KEY:
+        for my $Key ( sort keys %{ ${$Data} } ) {
+            next KEY if !defined ${$Data}->{$Key};
+
+            # start recursion
+            $Self->_Dump( \${$Data}->{$Key} );
+        }
+
+        return;
+    }
+
+    # data is a array reference
+    if ( ref ${$Data} eq 'ARRAY' ) {
+        KEY:
+        for my $Key ( 0 .. $#{ ${$Data} } ) {
+            next KEY if !defined ${$Data}->[$Key];
+
+            # start recursion
+            $Self->_Dump( \${$Data}->[$Key] );
+        }
+
+        return;
+    }
+
+    # data is a ref reference
+    if ( ref ${$Data} eq 'REF' ) {
+
+        # start recursion
+        $Self->_Dump( ${$Data} );
+
+        return;
+    }
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
+    );
+
+    return;
 }
 
 1;
@@ -983,6 +982,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2013-01-28 13:46:47 $
+$Revision: 1.69 $ $Date: 2013-02-05 10:43:07 $
 
 =cut
