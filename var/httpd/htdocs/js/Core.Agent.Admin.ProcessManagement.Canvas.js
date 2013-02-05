@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.47 2013-01-28 13:21:31 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.48 2013-02-05 13:09:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -85,6 +85,39 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             Width: MaxWidth,
             Height: MaxHeight
         };
+    }
+
+    function ShowRemoveEntityCanvasConfirmationDialog(EntityType, EntityName, EntityID, Callback) {
+        var DialogID = 'Remove' + EntityType + 'CanvasConfirmationDialog',
+            $DialogElement = $('#Dialogs #' + DialogID);
+
+        // Update EntityName in Dialog
+        $DialogElement.find('span.EntityName').text(EntityName);
+
+        Core.UI.Dialog.ShowContentDialog(
+            $('#Dialogs #' + DialogID),
+            Core.Agent.Admin.ProcessManagement.Localization.RemoveEntityCanvasTitle,
+            '240px',
+            'Center',
+            true,
+            [
+               {
+                   Label: Core.Agent.Admin.ProcessManagement.Localization.CancelMsg,
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('.Dialog'));
+                   }
+               },
+               {
+                   Label: Core.Agent.Admin.ProcessManagement.Localization.DeleteMsg,
+                   Function: function () {
+                       if (typeof(Callback) !== 'undefined') {
+                           Callback();
+                       }
+                   }
+               }
+           ]
+        );
     }
 
     TargetNS.CreateStartEvent = function (PosX, PosY) {
@@ -291,10 +324,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .show()
             .unbind('click')
             .bind('click', function () {
-                var Remove = confirm(Core.Agent.Admin.ProcessManagement.Localization.RemoveActivityMsg);
-                if (Remove) {
+                ShowRemoveEntityCanvasConfirmationDialog('Activity', Activity[ElementID].Name, ElementID, function () {
                     TargetNS.RemoveActivity(ElementID);
-                }
+                    Core.UI.Dialog.CloseDialog($('.Dialog'));
+                });
                 return false;
             });
     };
@@ -500,10 +533,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         if (!$(Connection.canvas).find('.Delete').length) {
             $(Connection.canvas).append('<a class="Delete" href="#">x</a>').find('.Delete').bind('click', function(Event) {
-                if (window.confirm(Core.Agent.Admin.ProcessManagement.Localization.RemoveTransitionMsg)) {
+                ShowRemoveEntityCanvasConfirmationDialog('Path', Config.Transition[TransitionEntityID].Name, TransitionEntityID, function () {
                     jsPlumb.detach(Connection.component);
                     delete Path[StartActivityID][TransitionEntityID];
-                }
+                    Core.UI.Dialog.CloseDialog($('.Dialog'));
+                });
+
                 Event.stopPropagation();
                 return false;
             });

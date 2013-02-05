@@ -1,4 +1,5 @@
 3.2.2 2013-02-??
+ - 2013-02-05 Fixed bug#9068 - ProcessManagement: Entity Names not shown in Deletion Dialogs.
  - 2013-02-05 Fixed bug#9121 - Filenames with Unicode NFD are incorrectly reported as NFC by Main::DirectoryRead().
  - 2013-02-05 Fixed bug#9126 - ProcessManagement: both article fields must be filled.
  - 2013-02-05 Added bug#1197 - Feature enhancement: Link tickets at "Follow up".

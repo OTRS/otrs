@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.362 2013-02-05 09:36:57 mn Exp $
+# $Id: de.pm,v 1.363 2013-02-05 13:09:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.362 $) [1];
+$VERSION = qw($Revision: 1.363 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1643,6 +1643,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Die Breite der Zeichenfläche vergrößern',
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
+        'Remove Entity from canvas' => 'Entität entfernen',
         'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
         'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
         'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
