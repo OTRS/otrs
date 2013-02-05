@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.361 2013-01-31 13:10:43 mg Exp $
+# $Id: de.pm,v 1.362 2013-02-05 09:36:57 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.361 $) [1];
+$VERSION = qw($Revision: 1.362 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1607,6 +1607,7 @@ sub Data {
         'Available Transition Actions' => 'Verfügbare Übergangs-Aktionen',
         'Create New Transition Action' => 'Neue Übergangs-Aktion erstellen',
         'Assigned Transition Actions' => 'Zugewiesene Übergangs-Aktionen',
+        'Edit this transition' => 'Diesen Übergang bearbeiten',
 
         # Template: AdminProcessManagementPopupResponse
 

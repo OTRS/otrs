@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.15 2012-11-26 13:45:48 mn Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.16 2013-02-05 09:36:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -463,10 +463,11 @@ sub _ShowEdit {
         $Self->{LayoutObject}->Block(
             Name => 'GoBack',
             Data => {
-                Action    => $Self->{ScreensPath}->[-1]->{Action}    || '',
-                Subaction => $Self->{ScreensPath}->[-1]->{Subaction} || '',
-                ID        => $Self->{ScreensPath}->[-1]->{ID}        || '',
-                EntityID  => $Self->{ScreensPath}->[-1]->{EntityID}  || '',
+                Action          => $Self->{ScreensPath}->[-1]->{Action}          || '',
+                Subaction       => $Self->{ScreensPath}->[-1]->{Subaction}       || '',
+                ID              => $Self->{ScreensPath}->[-1]->{ID}              || '',
+                EntityID        => $Self->{ScreensPath}->[-1]->{EntityID}        || '',
+                StartActivityID => $Self->{ScreensPath}->[-1]->{StartActivityID} || '',
             },
         );
     }

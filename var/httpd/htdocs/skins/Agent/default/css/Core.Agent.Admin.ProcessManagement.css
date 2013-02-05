@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.27 $
+ * @version     $Revision: 1.28 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -465,7 +465,7 @@ ul.Path {
     overflow: hidden;
     padding: 10px 0px;
     width: 620px;
-    margin-left: 150px;
+    margin-left: 160px;
 }
 
 ul.Path li {
@@ -514,6 +514,22 @@ ul.Path li.Transition span {
     height: 2px;
     left: -20px;
     top: 38px;
+}
+
+#EditPath {
+    position: relative;
+    height: 30px;
+}
+
+#EditPath a {
+    width: 180px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -90px;
+    top: -20px;
 }
 
 /**

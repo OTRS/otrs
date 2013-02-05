@@ -1,8 +1,8 @@
 # --
 # AdminProcessManagementPopupResponse.dtl - provides HTML for AdminProcessManagement
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPopupResponse.dtl,v 1.10 2012-11-20 15:11:27 mh Exp $
+# $Id: AdminProcessManagementPopupResponse.dtl,v 1.11 2013-02-05 09:36:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,7 @@ var Data = {
     ID: "$Data{"ID"}",
     EntityID: "$Data{"EntityID"}",
     Field: "$Data{"Field"}",
+    StartActivityID: "$Data{"StartActivityID"}",
 };
 
 // send results to main window

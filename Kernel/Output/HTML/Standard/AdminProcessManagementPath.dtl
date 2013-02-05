@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.18 2013-01-28 13:54:39 mn Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.19 2013-02-05 09:36:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,6 +56,7 @@
                             </li>
                             <li id="EndActivity" class="EndActivity"></li>
                         </ul>
+                        <div id="EditPath"><a href="#" data-action="AdminProcessManagementTransition" data-subaction="TransitionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_Transition">$Text{"Edit this transition"}</a></div>
                     </div>
                 </div>
 

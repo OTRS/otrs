@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.74 2013-01-31 13:45:55 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.75 2013-02-05 09:36:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -1144,14 +1144,19 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // Set chosen Startactivity, Endactivity and Transition
         $('#Transition').val(CurrentTransitionEntityID);
+        $('#EditPath a').data('entity', CurrentTransitionEntityID);
 
         if (AssignedTransitionActions && AssignedTransitionActions.length) {
-
             // Display assigned Transition Actions
             $.each(AssignedTransitionActions, function(Index, TransitionActionEntityID) {
                 $('#AvailableTransitionActions').find('#' + TransitionActionEntityID).remove().appendTo($('#AssignedTransitionActions'));
             });
         }
+
+        // if transition select is uodated, also update transition edit link
+        $('#Transition').bind('change', function () {
+           $('#EditPath a').data('entity', $(this).val());
+        });
 
         $('#Submit').bind('click', function() {
             $('#PathForm').submit();

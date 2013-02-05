@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementPath.pm - process management path
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.11 2013-01-23 15:44:26 cr Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.12 2013-02-05 09:36:55 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -160,13 +160,6 @@ sub Run {
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
-            $Self->_PushSessionScreen(
-                ID              => $TransferData->{ProcessEntityID},      # abuse!
-                EntityID        => $TransferData->{TransitionEntityID},
-                StartActivityID => $GetParam->{StartActivityID},
-                Subaction       => 'PathEdit'                             # always use edit screen
-            );
-
             my $RedirectAction
                 = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
             my $RedirectSubaction
@@ -175,6 +168,23 @@ sub Run {
             my $RedirectEntityID
                 = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
 
+            $Self->_PushSessionScreen(
+                ID       => $TransferData->{ProcessEntityID},    # abuse!
+                EntityID => $RedirectEntityID
+                ,    # needed, because the transition was changed before the submit
+                StartActivityID => $GetParam->{StartActivityID},
+                Subaction       => 'PathEdit'                      # always use edit screen
+            );
+
+            # get transition id
+            if ( $RedirectAction eq 'AdminProcessManagementTransition' && !$RedirectID ) {
+                my $Transition = $Self->{TransitionObject}->TransitionGet(
+                    EntityID => $RedirectEntityID,
+                    UserID   => $Self->{UserID},
+                );
+                $RedirectID = $Transition->{ID};
+            }
+
             # redirect to another popup window
             return $Self->_PopupResponse(
                 Redirect => 1,
@@ -182,7 +192,7 @@ sub Run {
                     Action    => $RedirectAction,
                     Subaction => $RedirectSubaction,
                     ID        => $RedirectID,
-                    EntityID  => $RedirectID,
+                    EntityID  => $RedirectEntityID,
                 },
                 ConfigJSON => $ConfigJSON,
             );
