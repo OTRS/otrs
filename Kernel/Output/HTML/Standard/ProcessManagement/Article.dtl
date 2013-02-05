@@ -1,8 +1,8 @@
 # --
 # Article.dtl - provides Article fields HTML for the AgentTicketProcess.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.dtl,v 1.6 2012-11-20 15:29:48 mh Exp $
+# $Id: Article.dtl,v 1.7 2013-02-05 09:01:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@
     $QData{"LabelSubject"}:
 </label>
 <div class="Field">
-    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc $QData{"ValidateRequired"} $QData{"SubjectServerError"}"/>
+    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc $QData{"ValidateRequired"} $QData{"SubjectServerError"} Validate_DependingRequiredAND Validate_Depending_RichText"/>
     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
     <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 </div>
@@ -46,7 +46,7 @@
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-    <textarea id="RichText" class="RichText $QData{"ValidateRequired"} $QData{"BodyServerError"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+    <textarea id="RichText" class="RichText $QData{"ValidateRequired"} $QData{"BodyServerError"} Validate_DependingRequiredAND Validate_Depending_Subject" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 </div>

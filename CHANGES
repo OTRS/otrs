@@ -1,6 +1,7 @@
 3.2.2 2013-02-??
- - 2013-02-02 Added bug#1197 - Feature enhancement: Link tickets at "Follow up".
- - 2013-02-02 Fixed bug#9108 - Check for opened/closed tickets not working with Ticket::SubjectFormat = Right.
+ - 2013-02-05 Fixed bug#9126 - ProcessManagement: both article fields must be filled.
+ - 2013-02-05 Added bug#1197 - Feature enhancement: Link tickets at "Follow up".
+ - 2013-02-05 Fixed bug#9108 - Check for opened/closed tickets not working with Ticket::SubjectFormat = Right.
  - 2013-02-02 Made Web Installer reload after writing Config.pm under PerlEx.
  - 2013-02-01 Added restriction to TransitionAction TicketArticleCrete to do not allow the creation
     email article types.
