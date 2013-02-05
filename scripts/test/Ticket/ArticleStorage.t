@@ -1,8 +1,8 @@
 # --
 # ArticleStorage.t - ticket module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorage.t,v 1.3 2012-11-20 16:12:52 mh Exp $
+# $Id: ArticleStorage.t,v 1.4 2013-02-05 13:24:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use utf8;
 use vars (qw($Self));
 
 use Time::HiRes qw( usleep );
+use Unicode::Normalize;
 
 use Kernel::Config;
 use Kernel::System::Ticket;
@@ -73,7 +74,7 @@ for my $Backend (qw(DB FS)) {
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
-    my $TicketObject = Kernel::System::Ticket->new(
+    $TicketObject = Kernel::System::Ticket->new(
         %{$Self},
         ConfigObject => $ConfigObject,
     );
@@ -88,55 +89,93 @@ for my $Backend (qw(DB FS)) {
             Location => $Location,
             Mode     => 'binmode',
         );
-        my $Content                = ${$ContentRef};
-        my $FileNew                = "ÄÖÜ ? カスタマ-" . $File;
-        my $MD5Orig                = $Self->{MainObject}->MD5sum( String => $Content );
-        my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
-            Content     => $Content,
-            Filename    => $FileNew,
-            ContentType => 'image/png',
-            ArticleID   => $ArticleID,
-            UserID      => 1,
-        );
-        $Self->True(
-            $ArticleWriteAttachment,
-            "$Backend ArticleWriteAttachment() - $FileNew",
-        );
-        my %Data = $TicketObject->ArticleAttachment(
-            ArticleID => $ArticleID,
-            FileID    => 1,
-            UserID    => 1,
-        );
-        $Self->True(
-            $Data{Content},
-            "$Backend ArticleAttachment() Content - $FileNew",
-        );
-        $Self->True(
-            $Data{ContentType},
-            "$Backend ArticleAttachment() ContentType - $FileNew",
-        );
-        $Self->True(
-            $Data{Content} eq $Content,
-            "$Backend ArticleWriteAttachment() / ArticleAttachment() - $FileNew",
-        );
-        $Self->True(
-            $Data{ContentType} eq 'image/png',
-            "$Backend ArticleWriteAttachment() / ArticleAttachment() - $File",
-        );
-        my $MD5New = $Self->{MainObject}->MD5sum( String => $Data{Content} );
-        $Self->Is(
-            $MD5Orig || '1',
-            $MD5New  || '2',
-            "$Backend MD5 - $FileNew",
-        );
-        my $Delete = $TicketObject->ArticleDeleteAttachment(
-            ArticleID => $ArticleID,
-            UserID    => 1,
-        );
-        $Self->True(
-            $Delete,
-            "$Backend ArticleDeleteAttachment() - $FileNew",
-        );
+
+        for my $FileName (
+            'SimpleFile',
+            'ÄÖÜカスタマ-',          # Unicode NFC
+            'Второй_файл',    # Unicode NFD
+            )
+        {
+            my $Content                = ${$ContentRef};
+            my $FileNew                = $FileName . $File;
+            my $MD5Orig                = $Self->{MainObject}->MD5sum( String => $Content );
+            my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+                Content     => $Content,
+                Filename    => $FileNew,
+                ContentType => 'image/png',
+                ArticleID   => $ArticleID,
+                UserID      => 1,
+            );
+            $Self->True(
+                $ArticleWriteAttachment,
+                "$Backend ArticleWriteAttachment() - $FileNew",
+            );
+
+            my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            my $TargetFilename = $FileName . $File;
+
+            # Mac OS (HFS+) will store all filenames as NFD internally.
+            if ( $^O eq 'darwin' && $Backend eq 'FS' ) {
+                $TargetFilename = Unicode::Normalize::NFD($TargetFilename);
+            }
+
+            $Self->Is(
+                $AttachmentIndex{1}->{Filename},
+                $TargetFilename,
+                "$Backend ArticleAttachmentIndex() Filename - $FileNew"
+            );
+
+            my %Data = $TicketObject->ArticleAttachment(
+                ArticleID => $ArticleID,
+                FileID    => 1,
+                UserID    => 1,
+            );
+            $Self->True(
+                $Data{Content},
+                "$Backend ArticleAttachment() Content - $FileNew",
+            );
+            $Self->True(
+                $Data{ContentType},
+                "$Backend ArticleAttachment() ContentType - $FileNew",
+            );
+            $Self->True(
+                $Data{Content} eq $Content,
+                "$Backend ArticleWriteAttachment() / ArticleAttachment() - $FileNew",
+            );
+            $Self->True(
+                $Data{ContentType} eq 'image/png',
+                "$Backend ArticleWriteAttachment() / ArticleAttachment() - $File",
+            );
+            my $MD5New = $Self->{MainObject}->MD5sum( String => $Data{Content} );
+            $Self->Is(
+                $MD5Orig || '1',
+                $MD5New  || '2',
+                "$Backend MD5 - $FileNew",
+            );
+            my $Delete = $TicketObject->ArticleDeleteAttachment(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+            $Self->True(
+                $Delete,
+                "$Backend ArticleDeleteAttachment() - $FileNew",
+            );
+
+            %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            $Self->IsDeeply(
+                \%AttachmentIndex,
+                {},
+                "$Backend ArticleAttachmentIndex() after delete - $FileNew"
+            );
+        }
     }
 }
 
