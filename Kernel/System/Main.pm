@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.63.2.1 2013-01-28 13:46:57 mg Exp $
+# $Id: Main.pm,v 1.63.2.2 2013-02-05 10:43:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63.2.1 $) [1];
+$VERSION = qw($Revision: 1.63.2.2 $) [1];
 
 =head1 NAME
 
@@ -950,13 +950,6 @@ sub DirectoryRead {
             From => 'utf-8',
         );
 
-        # second, convert it to combined normalization form (NFC), if it is an utf-8 string
-        # this has to be done because MacOS stores filenames as NFD on HFS+ partitions,
-        #   leading to data inconsistencies
-        if ( Encode::is_utf8($Filename) ) {
-            $Filename = Unicode::Normalize::NFC($Filename);
-        }
-
         push @Results, $Filename;
     }
 
@@ -983,6 +976,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63.2.1 $ $Date: 2013-01-28 13:46:57 $
+$Revision: 1.63.2.2 $ $Date: 2013-02-05 10:43:21 $
 
 =cut

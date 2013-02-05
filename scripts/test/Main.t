@@ -1,8 +1,8 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.30 2012-03-01 17:11:54 mg Exp $
+# $Id: Main.t,v 1.30.2.1 2013-02-05 10:43:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -322,7 +322,12 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 }
 
 # create test files
-for my $Suffix ( 0 .. 5, 'öäüßカスタマ' ) {
+for my $Suffix (
+    0 .. 5,
+    'öäüßカスタマ',         # Unicode NFC
+    'Второй_файл',    # Unicode NFD
+    )
+{
     my $Success = $Self->{MainObject}->FileWrite(
         Directory => $DirectoryWithFiles,
         Filename  => "Example_File_$Suffix",
@@ -347,6 +352,7 @@ for my $Suffix ( 0 .. 5, 'öäüßカスタマ' ) {
             "$DirectoryWithFiles/Example_File_4",
             "$DirectoryWithFiles/Example_File_5",
             "$DirectoryWithFiles/Example_File_öäüßカスタマ",
+            "$DirectoryWithFiles/Example_File_Второй_файл",
         ],
     },
     {
@@ -387,6 +393,7 @@ for my $Suffix ( 0 .. 5, 'öäüßカスタマ' ) {
             "$DirectoryWithFiles/Example_File_4",
             "$DirectoryWithFiles/Example_File_5",
             "$DirectoryWithFiles/Example_File_öäüßカスタマ",
+            "$DirectoryWithFiles/Example_File_Второй_файл",
         ],
     },
     {
@@ -401,6 +408,7 @@ for my $Suffix ( 0 .. 5, 'öäüßカスタマ' ) {
             "$DirectoryWithFiles/Example_File_4",
             "$DirectoryWithFiles/Example_File_5",
             "$DirectoryWithFiles/Example_File_öäüßカスタマ",
+            "$DirectoryWithFiles/Example_File_Второй_файл",
         ],
     },
     {
@@ -439,9 +447,12 @@ for my $Test (@Tests) {
         Filter    => $Test->{Filter},
     );
 
-    #use Data::Dumper;
-    #print STDERR "Dump: " . Dumper(\@Results) . "\n";
-    #print STDERR "Dump: " . Dumper(\@UnicodeResults) . "\n";
+    # Mac OS will store all filenames as NFD internally.
+    if ( $^O eq 'darwin' ) {
+        for my $Index ( 0 .. $#UnicodeResults ) {
+            $UnicodeResults[$Index] = Unicode::Normalize::NFD( $UnicodeResults[$Index] );
+        }
+    }
 
     $Self->IsDeeply( \@Results, \@UnicodeResults, $Test->{Name} );
 }
