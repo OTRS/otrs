@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.327 2012-11-20 15:58:35 mh Exp $
+# $Id: Article.pm,v 1.328 2013-02-06 08:55:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.327 $) [1];
+$VERSION = qw($Revision: 1.328 $) [1];
 
 =head1 NAME
 
@@ -181,7 +181,7 @@ sub ArticleCreate {
 
     # add 'no body' if there is no body there!
     my @AttachmentConvert;
-    if ( !$Param{Body} ) {
+    if ( !length $Param{Body} ) {    # allow '0' as body
         $Param{Body} = 'No body';
     }
 
@@ -3482,6 +3482,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.327 $ $Date: 2012-11-20 15:58:35 $
+$Revision: 1.328 $ $Date: 2013-02-06 08:55:18 $
 
 =cut
