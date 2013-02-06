@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentTicketCustomer.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.41 2013-01-11 12:35:19 mn Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.42 2013-02-06 12:20:30 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,15 +22,16 @@ $Include{"AgentCustomerSearch"}
 
     <div class="Content">
         <div class="LayoutFixedSidebar SidebarLast">
-            <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
-                </div>
-                <div class="Content">
-                    $Data{"Table"}
+            <div class="SidebarColumn">
+                <div id="CustomerInfo" class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
+                    </div>
+                    <div class="Content">
+                        $Data{"Table"}
+                    </div>
                 </div>
             </div>
-
 
             <div class="ContentColumn">
                 <div class="Content">

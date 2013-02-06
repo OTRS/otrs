@@ -1,8 +1,8 @@
 # --
 # AgentTicketPhoneCommon.dtl - provides HTML form for phone
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.dtl,v 1.10 2012-11-20 15:22:47 mh Exp $
+# $Id: AgentTicketPhoneCommon.dtl,v 1.11 2013-02-06 12:20:30 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,16 +29,18 @@
 
         <div class="LayoutFixedSidebar SidebarLast">
 
+            <div class="SidebarColumn">
 <!-- dtl:block:CustomerTable -->
-            <div id="CustomerInfo" class="SidebarColumn WidgetSimple">
-                <div class="Header">
-                    <h2>$Text{"Customer Information"}</h2>
+                <div id="CustomerInfo" class="WidgetSimple">
+                    <div class="Header">
+                        <h2>$Text{"Customer Information"}</h2>
+                    </div>
+                    <div class="Content">
+                        $Data{"CustomerTable"}
+                    </div>
                 </div>
-                <div class="Content">
-                    $Data{"CustomerTable"}
-                </div>
+<!-- dtl:block:CustomerTable -->
             </div>
-<!-- dtl:block:CustomerTable -->
 
             <div class="ContentColumn">
                 <fieldset class="TableLike FixedLabel">
