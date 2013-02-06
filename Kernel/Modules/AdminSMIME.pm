@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.47 2012-11-20 14:44:12 mh Exp $
+# $Id: AdminSMIME.pm,v 1.48 2013-02-06 22:28:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,7 +91,7 @@ sub Run {
             %Result = $Self->{CryptObject}->CertificateRemove( Filename => $Filename );
             push @Result, \%Result if %Result;
 
-            if ( $Attributes{Private} eq 'Yes' ) {
+            if ( defined $Attributes{Private} && $Attributes{Private} eq 'Yes' ) {
                 %Result = $Self->{CryptObject}->PrivateRemove( Filename => $Filename );
                 push @Result, \%Result if %Result;
             }
@@ -583,17 +583,24 @@ sub _Overview {
     );
     if (@List) {
         for my $Attributes (@List) {
+
+            # check if there is an invalid file in the SMIME directories and add explicit
+            # attributes to make it more easy to identify
+            if ( !defined $Attributes->{Type} && !defined $Attributes->{Subject} ) {
+                $Attributes->{Type}    = 'Invalid';
+                $Attributes->{Subject} = "The file: '$Attributes->{Filename}' is invalid";
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
                 Data => $Attributes,
             );
-            if ( $Attributes->{Type} eq 'key' ) {
+            if ( defined $Attributes->{Type} && $Attributes->{Type} eq 'key' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'CertificateRelationAdd',
                     Data => $Attributes,
                 );
             }
-            elsif ( $Attributes->{Type} eq 'cert' ) {
+            elsif ( defined $Attributes->{Type} && $Attributes->{Type} eq 'cert' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'CertificateRead',
                     Data => $Attributes,
