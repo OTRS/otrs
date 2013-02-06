@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.37 2013-02-01 18:42:01 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.38 2013-02-06 15:42:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -418,9 +418,33 @@ sub _RenderAjax {
     my $Services;
 
     # All submitted DynamicFields
-    # used for ACL checking
-    my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-        grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
+    # get dynamic field values form http request
+    my %DynamicFieldValues;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # extract the dynamic field value form the web request
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
+            = $Self->{BackendObject}->EditFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ParamObject        => $Self->{ParamObject},
+            LayoutObject       => $Self->{LayoutObject},
+            );
+    }
+
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldCheckParam;
+    DYNAMICFIELD:
+    for my $DynamicField ( sort keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamicField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
+
+        $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicField }
+            = $DynamicFieldValues{$DynamicField};
+    }
 
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
@@ -477,9 +501,9 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name       => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data       => $PossibleValues,
-                    SelectedID => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data        => $PossibleValues,
+                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                     Max         => 100,
                 }
@@ -817,7 +841,12 @@ sub _GetParam {
             );
 
             # If we got a submitted param, take it and next out
-            if ($Value) {
+            if (
+                IsStringWithData($Value)
+                || IsArrayRefWithData($Value)
+                || IsHashRefWithData($Value)
+                )
+            {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
             }
