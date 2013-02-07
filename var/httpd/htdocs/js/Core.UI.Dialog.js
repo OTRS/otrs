@@ -2,7 +2,7 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.37 2013-01-02 12:55:12 mn Exp $
+// $Id: Core.UI.Dialog.js,v 1.38 2013-02-07 08:43:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,11 +34,10 @@ Core.UI.Dialog = (function (TargetNS) {
 
     /**
      * @function
-     * @private
      * @return nothing
      * @description Adjusts the scrollable inner container of the dialog after every resizing.
      */
-    function AdjustScrollableHeight() {
+    function AdjustScrollableHeight(AllowAutoGrow) {
         // Check window height and adjust the scrollable height of InnerContent
         // Calculation:
         // Window height
@@ -52,7 +51,8 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // if dialog height is more than 300px recalculate width of InnerContent to make it scrollable
         // if dialog is smaller than 300px this is not necessary
-        if (DialogHeight > 300) {
+        // if AllowAutoGrow is set, auto-resizing should be possible
+        if (AllowAutoGrow || DialogHeight > 300) {
             ContentScrollHeight = WindowHeight - ((DialogTopMargin - WindowScrollTop) * 2) - 100;
         }
         else {
@@ -152,6 +152,8 @@ Core.UI.Dialog = (function (TargetNS) {
      *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
      *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
      *               NotDraggableIE7: true|false (default: false) If true, the dialog is not draggable in IE7 (due to performance reasons)
+     *               AllowAutoGrow: true|false (default: false) If true, the InnerContent of the dialog can resize until the max window height is reached,
+     *                                                          If false (default), InnerContent of small dialogs does not resize over 200px
      *               Buttons: Array of Hashes with the following properties (buttons are placed in a div "footer" of the dialog):
      *                  Label: string Text of the button
      *                  Type: string 'Submit'|'Close' (default: none) Special type of the button - invokes a standard function
@@ -382,7 +384,7 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         // Check window height and adjust the scrollable height of InnerContent
-        AdjustScrollableHeight();
+        AdjustScrollableHeight(Params.AllowAutoGrow);
 
         // Add event-handling
         if (!(Params.NotDraggableIE7 && $.browser.msie && parseInt($.browser.version, 10) === 7)) {
@@ -450,8 +452,8 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         // Add resize event handler for calculating the scroll height
-        $(window).unbind('resize.Dialog').bind('resize.Dialog', function (event) {
-            AdjustScrollableHeight();
+        $(window).unbind('resize.Dialog').bind('resize.Dialog', function () {
+            AdjustScrollableHeight(Params.AllowAutoGrow);
         });
 
         // Init KeyEvent-Logger
@@ -474,7 +476,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param NotDraggableIE7 If true, the dialog is not draggable in IE7 (performance reasons)
      * @return nothing
      */
-    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons, NotDraggableIE7) {
+    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons, NotDraggableIE7, AllowAutoGrow) {
         TargetNS.ShowDialog({
             HTML: HTML,
             Title: Title,
@@ -484,7 +486,8 @@ Core.UI.Dialog = (function (TargetNS) {
             PositionTop: PositionTop,
             PositionLeft: PositionLeft,
             Buttons: Buttons,
-            NotDraggableIE7: NotDraggableIE7
+            NotDraggableIE7: NotDraggableIE7,
+            AllowAutoGrow: AllowAutoGrow
         });
     };
 

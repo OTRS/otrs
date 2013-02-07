@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Search.js - provides the special module functions for the global search
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.50 2012-10-25 02:54:24 cr Exp $
+// $Id: Core.Agent.Search.js,v 1.51 2013-02-07 08:43:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -220,7 +220,7 @@ Core.Agent.Search = (function (TargetNS) {
                     return;
                 }
 
-                Core.UI.Dialog.ShowContentDialog(HTML, Core.Config.Get('SearchMsg'), '10px', 'Center', true, undefined, true);
+                Core.UI.Dialog.ShowContentDialog(HTML, Core.Config.Get('SearchMsg'), '10px', 'Center', true, undefined, true, true);
 
                 // hide add template block
                 $('#SearchProfileAddBlock').hide();
