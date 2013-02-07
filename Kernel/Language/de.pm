@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.363 2013-02-05 13:09:24 mn Exp $
+# $Id: de.pm,v 1.364 2013-02-07 09:16:32 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.363 $) [1];
+$VERSION = qw($Revision: 1.364 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1626,6 +1626,7 @@ sub Data {
         'Delete Process' => 'Prozess löschen',
         'Delete Inactive Process' => 'Inaktive Prozesse löschen',
         'Available Process Elements' => 'Verfügbare Prozess-Elemente',
+        'Print process information' => 'Prozess-Informationen drucken',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             'Die in der Seitenleiste aufgelisteten Elemente können mit der Maus in den Zeichenbereich gezogen werden.',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
