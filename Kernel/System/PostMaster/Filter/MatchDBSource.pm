@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.24 2012-11-20 15:52:06 mh Exp $
+# $Id: MatchDBSource.pm,v 1.25 2013-02-07 13:58:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,7 +75,7 @@ sub Run {
         for ( sort keys %Match ) {
 
             # match only email addresses
-            if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
+            if ( defined $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail    = $1;
                 my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
                     Line => $Param{GetParam}->{$_},
@@ -105,7 +105,7 @@ sub Run {
             }
 
             # match string
-            elsif ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
+            elsif ( defined $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
 
                 # don't lose older match values if more than one header is
                 # used for matching.
