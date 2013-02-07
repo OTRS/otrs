@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.37 2013-01-03 10:27:08 mg Exp $
+# $Id: TicketCreate.pm,v 1.38 2013-02-07 12:05:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -168,7 +168,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                 # ...
             ],
             # or
-            # DynamicField {
+            # DynamicField => {
             #    Name   => 'some name',
             #    Value  => $Value,
             #},
@@ -1429,6 +1429,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2013-01-03 10:27:08 $
+$Revision: 1.38 $ $Date: 2013-02-07 12:05:09 $
 
 =cut
