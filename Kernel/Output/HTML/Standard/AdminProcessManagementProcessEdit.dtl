@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.47 2013-02-05 13:09:24 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.48 2013-02-07 09:13:01 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,9 @@
                 <ul class="ActionList">
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="CallForAction Fullsize Center AsPopup PopupType_ProcessOverview Print"><span>$Text{"Print process information"}</span></a>
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>
