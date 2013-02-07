@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessPrint.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessPrint.dtl,v 1.3 2013-01-31 07:53:14 mg Exp $
+# $Id: AdminProcessManagementProcessPrint.dtl,v 1.4 2013-02-07 08:52:54 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,17 @@
     <img src="$QData{"LogoURL"}" class="Logo" />
 <!-- dtl:block:Logo -->
     <h1>$QData{"Name"}</h1>
-    <h2>$Text{"State"}: $QData{"State"}</h2>
+    <h2>
+        $Text{"State"}: $QData{"State"}<br />
+        $Text{"Start Activity"}: $QData{"StartActivity"}<br />
+        $Text{"Description"}: $QData{"Description"}
+    </h2>
+
+    <ul id="Path">
+<!-- dtl:block:PathItem -->
+        <li><span>$QData{"ActivityStart"}</span> <strong><em>$QData{"Transition"} $QData{"TransitionActions"}</em><span></span></strong> <span>$QData{"ActivityEnd"}</span></li>
+<!-- dtl:block:PathItem -->
+    </ul>
 
     <h3>$Text{"Activities"}</h3>
     <ul class="ItemData">
@@ -50,11 +60,21 @@
                 $QData{"Name"} ($QData{"EntityID"})
                 <span>$Text{"Available in"} $QData{"ShownIn"}</span>
             </h4>
+            <ul class="Attributes">
+<!-- dtl:block:ElementAttribute -->
+                <li><strong>$QData{"Key"}</strong>: $QData{"Value"}</li>
+<!-- dtl:block:ElementAttribute -->
+            </ul>
 <!-- dtl:block:AssignedFields -->
             <strong>$Text{"Assigned fields"}:</strong>
             <ol>
 <!-- dtl:block:AssignedFieldsRow -->
-                <li>$QData{"Name"}</li>
+                <li>
+                    $QData{"Name"}
+<!-- dtl:block:AssignedFieldsRowValue -->
+                    <p><strong>$QData{"Key"}</strong>: $QData{"Value"}</p>
+<!-- dtl:block:AssignedFieldsRowValue -->
+                </li>
 <!-- dtl:block:AssignedFieldsRow -->
             </ol>
 <!-- dtl:block:AssignedFields -->
@@ -71,8 +91,44 @@
     <ul class="ItemData">
 <!-- dtl:block:TransitionRow -->
         <li>
-            <h4>$QData{"Name"} ($QData{"EntityID"})</h4>
-            <pre>$QData{"Config"}</pre>
+            <h4>
+                $QData{"Name"} ($QData{"EntityID"})
+                <span>$Text{"Condition linking"}: $QData{"ConditionLinking"}</span>
+            </h4>
+<!-- dtl:block:Condition -->
+            <strong>$Text{"Conditions"}:</strong>
+            <ol>
+<!-- dtl:block:ConditionRow -->
+                <li>
+                    $Text{"Condition"}
+<!-- dtl:block:ConditionRowValue -->
+                    <p><strong>$QData{"Key"}</strong>: $QData{"Value"}</p>
+<!-- dtl:block:ConditionRowSub -->
+                    <ul>
+                        <li>
+                            <h5>$QData{"NameSub"}:</h5>
+<!-- dtl:block:ConditionRowSubValue -->
+                            <p class="sub"><strong>$QData{"Key"}</strong>: $QData{"Value"}</p>
+<!-- dtl:block:ConditionRowSubValue -->
+<!-- dtl:block:ConditionRowSubSub -->
+                            <ul>
+                                <li>
+                                    <h6>$QData{"NameSubSub"}</h6>
+                                </li>
+<!-- dtl:block:ConditionRowSubSubValue -->
+                                <li><strong>$QData{"Key"}</strong>: $QData{"Value"}</li>
+<!-- dtl:block:ConditionRowSubSubValue -->
+                            </ul>
+<!-- dtl:block:ConditionRowSubSub -->
+                        </li>
+                    </ul>
+<!-- dtl:block:ConditionRowSub -->
+<!-- dtl:block:ConditionRowValue -->
+                </li>
+<!-- dtl:block:ConditionRow -->
+            </ol>
+<!-- dtl:block:Condition -->
+
         </li>
 <!-- dtl:block:TransitionRow -->
 <!-- dtl:block:TransitionRowEmpty -->

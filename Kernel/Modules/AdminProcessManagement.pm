@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.47 2013-01-29 15:59:02 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.48 2013-02-07 08:52:54 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -487,6 +487,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ProcessPrint' ) {
 
+        # we need to use Data::Dumper with custom Indent
+        my $Indent = $Data::Dumper::Indent;
+        $Data::Dumper::Indent = 1;
+
         # check for ProcessID
         my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         if ( !$ProcessID ) {
@@ -494,6 +498,12 @@ sub Run {
                 Message => "Need ProcessID!",
             );
         }
+
+        my $BooleanMapping = {
+            0 => 'No',
+            1 => 'Yes',
+            2 => 'Yes (mandatory)',
+        };
 
         my $ProcessData = $Self->_GetProcessData(
             ID => $ProcessID
@@ -571,6 +581,30 @@ sub Run {
                     },
                 );
 
+                for my $ElementAttribute (
+                    qw(DescriptionShort DescriptionLong SubmitButtonText SubmitAdviceText Permission RequiredLock)
+                    )
+                {
+
+                    my $Value = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
+                        ->{$ElementAttribute};
+
+                    if ( $Value ne undef ) {
+
+                        if ( $ElementAttribute eq 'RequiredLock' ) {
+                            $Value = $BooleanMapping->{$Value};
+                        }
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ElementAttribute',
+                            Data => {
+                                Key   => $ElementAttribute,
+                                Value => $Value,
+                            },
+                        );
+                    }
+                }
+
                 # list all assigned fields
                 my $AssignedFields
                     = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
@@ -589,6 +623,33 @@ sub Run {
                                 Name => $AssignedField,
                             },
                         );
+
+                        my %Values = %{
+                            $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}
+                                ->{Config}->{Fields}->{$AssignedField}
+                        };
+                        if ( $Values{Config} ) {
+                            $Values{Config} = Dumper( $Values{Config} );
+                            $Values{Config} =~ s{ \s* \$VAR1 \s* =}{}xms;
+                            $Values{Config} =~ s{\s+\{}{\{}xms;
+                        }
+
+                        for my $Key ( keys %Values ) {
+
+                            if ( $Key eq 'Display' ) {
+                                $Values{$Key} = $BooleanMapping->{ $Values{$Key} };
+                            }
+
+                            if ( $Values{$Key} ) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => 'AssignedFieldsRowValue',
+                                    Data => {
+                                        Key   => $Key,
+                                        Value => $Values{$Key},
+                                    },
+                                );
+                            }
+                        }
                     }
                 }
             }
@@ -604,21 +665,97 @@ sub Run {
 
             for my $TransitionEntityID ( sort keys %{ $ProcessData->{Transitions} } ) {
 
-                my $Indent = $Data::Dumper::Indent;
-                $Data::Dumper::Indent = 1;
-                my $Config = Dumper( $ProcessData->{Transitions}->{$TransitionEntityID}->{Config} );
-                $Data::Dumper::Indent = $Indent;
-
-                $Config =~ s{ \s* \$VAR1 \s* =}{}xms;
-                $Config =~ s{\s+\{}{\{}xms;
+                # list config
+                my $Config = $ProcessData->{Transitions}->{$TransitionEntityID}->{Config};
 
                 $Self->{LayoutObject}->Block(
                     Name => 'TransitionRow',
                     Data => {
                         %{ $ProcessData->{Transitions}->{$TransitionEntityID} },
-                        Config => $Config,
+                        ConditionLinking => $Config->{ConditionLinking},
                     },
                 );
+
+                if ( $Config && %{$Config} ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Condition',
+                    );
+
+                    for my $Condition ( keys %{ $Config->{Condition} } ) {
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ConditionRow',
+                            Data => {
+                                Name => $Condition,
+                            },
+                        );
+
+                        my %Values = %{ $Config->{Condition}->{$Condition} };
+
+                        for my $Key ( keys %Values ) {
+
+                            if ( $Values{$Key} ) {
+
+                                if ( ref $Values{$Key} eq 'HASH' ) {
+
+                                    $Self->{LayoutObject}->Block(
+                                        Name => 'ConditionRowSub',
+                                        Data => {
+                                            NameSub => $Key,
+                                        },
+                                    );
+
+                                    for my $SubKey ( keys %{ $Values{$Key} } ) {
+
+                                        if ( ref $Values{$Key}->{$SubKey} eq 'HASH' ) {
+
+                                            $Self->{LayoutObject}->Block(
+                                                Name => 'ConditionRowSubSub',
+                                                Data => {
+                                                    NameSubSub => $SubKey,
+                                                },
+                                            );
+
+                                            for my $SubSubKey ( keys %{ $Values{$Key}->{$SubKey} } )
+                                            {
+
+                                                $Self->{LayoutObject}->Block(
+                                                    Name => 'ConditionRowSubSubValue',
+                                                    Data => {
+                                                        Key => $SubSubKey,
+                                                        Value =>
+                                                            $Values{$Key}->{$SubKey}->{$SubSubKey},
+                                                    },
+                                                );
+                                            }
+                                        }
+                                        else {
+
+                                            $Self->{LayoutObject}->Block(
+                                                Name => 'ConditionRowSubValue',
+                                                Data => {
+                                                    Key   => $SubKey,
+                                                    Value => $Values{$Key}->{$SubKey},
+                                                },
+                                            );
+                                        }
+                                    }
+                                }
+                                else {
+
+                                    $Self->{LayoutObject}->Block(
+                                        Name => 'ConditionRowValue',
+                                        Data => {
+                                            Key   => $Key,
+                                            Value => $Values{$Key},
+                                        },
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         else {
@@ -683,6 +820,56 @@ sub Run {
             );
         }
 
+        # collect path information
+        my @Path;
+        push @Path, $ProcessData->{Process}->{Config}->{StartActivity};
+
+        ACTIVITY:
+        for my $Activity ( @{ $ProcessData->{Process}->{Activities} } ) {
+            next ACTIVITY if $Activity eq $ProcessData->{Process}->{Config}->{StartActivity};
+            push @Path, $Activity;
+        }
+
+        for my $Activity (@Path) {
+
+            for my $Transition ( keys %{ $ProcessData->{Process}->{Config}->{Path}->{$Activity} } )
+            {
+                my $TransitionActionString;
+                if (
+                    $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
+                    ->{TransitionAction}
+                    && @{
+                        $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
+                            ->{TransitionAction}
+                    }
+                    )
+                {
+                    $TransitionActionString = join(
+                        ', ',
+                        @{
+                            $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
+                                ->{TransitionAction}
+                            }
+                    );
+                    if ($TransitionActionString) {
+                        $TransitionActionString = '(' . $TransitionActionString . ')';
+                    }
+                }
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'PathItem',
+                    Data => {
+                        ActivityStart     => $Activity,
+                        Transition        => $Transition,
+                        TransitionActions => $TransitionActionString,
+                        ActivityEnd =>
+                            $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
+                            ->{ActivityEntityID},
+                    },
+                );
+            }
+        }
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => "AdminProcessManagementProcessPrint",
             Data         => {
@@ -690,11 +877,17 @@ sub Run {
                     . $ProcessData->{Process}->{EntityID} . ')',
                 State => $ProcessData->{Process}->{State} . ' ('
                     . $ProcessData->{Process}->{StateEntityID} . ')',
+                Description   => $ProcessData->{Process}->{Config}->{Description},
+                StartActivity => $ProcessData->{Process}->{Config}->{StartActivity},
+
                 %Param,
             },
         );
 
         $Output .= $Self->{LayoutObject}->Footer();
+
+        # reset Indent
+        $Data::Dumper::Indent = $Indent;
 
         return $Output;
     }
