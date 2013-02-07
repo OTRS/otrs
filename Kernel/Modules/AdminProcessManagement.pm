@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.49 2013-02-07 08:57:26 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.50 2013-02-07 12:25:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -589,7 +589,7 @@ sub Run {
                     my $Value = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
                         ->{$ElementAttribute};
 
-                    if ( $Value ne undef ) {
+                    if ( defined $Value ) {
 
                         if ( $ElementAttribute eq 'RequiredLock' ) {
                             $Value = $BooleanMapping->{$Value};
