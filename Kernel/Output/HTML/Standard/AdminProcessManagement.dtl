@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.18 2013-01-29 15:59:02 mab Exp $
+# $Id: AdminProcessManagement.dtl,v 1.19 2013-02-07 09:21:22 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,7 @@
                             <td>$Text{"$Data{"State"}"}</td>
                             <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessExport;ID=$QData{"ID"}" class="Export AsBlock">$Text{"Export Process Configuration"}</a></td>
                             <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessCopy;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock">$Text{"Copy Process"}</a></td>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="AsBlock AsPopup PopupType_ProcessOverview">$Text{"Print"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Print AsBlock AsPopup PopupType_ProcessOverview">$Text{"Print"}</a></td>
                         </tr>
 <!-- dtl:block:ProcessRow -->
 <!-- dtl:block:ProcessNoDataRow -->

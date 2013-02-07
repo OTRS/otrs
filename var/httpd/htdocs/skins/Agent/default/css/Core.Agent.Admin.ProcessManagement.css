@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.30 $
+ * @version     $Revision: 1.31 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -24,6 +24,11 @@ a.Export {
 
 a.Copy {
     background: url(../img/icons/reports.png) no-repeat left center;
+    padding-left: 24px;
+}
+
+a.Print {
+    background: url(../img/icons/printer.png) no-repeat left center;
     padding-left: 24px;
 }
 
