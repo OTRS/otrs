@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.200 2013-02-05 10:43:21 mg Exp $
+# $Id: CHANGES,v 1.2260.2.201 2013-02-07 14:02:00 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.
  - 2013-02-05 Fixed bug#9121 - Filenames with Unicode NFD are incorrectly reported as NFC by Main::DirectoryRead().
  - 2013-02-05 Fixed bug#9108 - Check for opened/closed tickets not working with Ticket::SubjectFormat = Right.
  - 2013-02-01 Fixed bug#8839 - DateChecksum followup doesn't get correctly SystemID.
