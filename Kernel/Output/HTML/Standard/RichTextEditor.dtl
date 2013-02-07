@@ -1,8 +1,8 @@
 # --
 # RichTextEditor.dtl - provides Rich Text Editor
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.49 2012-12-12 14:35:59 mab Exp $
+# $Id: RichTextEditor.dtl,v 1.50 2013-02-07 11:12:05 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
 
     Core.Config.Set('RichText.TextDir', '$Env{"TextDirection"}');
     Core.Config.Set('RichText.SpellChecker', '$Env{"BrowserSpellCheckerInline"}');
-    Core.Config.Set('RichText.EditingAreaCSS', 'body { $Config{"Frontend::RichText::DefaultCSS"} }');
+    Core.Config.Set('RichText.EditingAreaCSS', 'body.cke_editable { $Config{"Frontend::RichText::DefaultCSS"} }');
 
     // decide if we need to use the enhanced mode (with tables)
     if ( '$Config{"Frontend::RichText::EnhancedMode"}' === '1' ) {
