@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/mysql.pm - mysql database backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.61 2012-11-20 15:45:33 mh Exp $
+# $Id: mysql.pm,v 1.62 2013-02-07 10:08:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -588,9 +588,23 @@ sub ForeignKeyDrop {
     }
 
     # drop foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP FOREIGN KEY $ForeignKey";
+    my @SQL;
 
-    return ($SQL);
+    if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
+        push @SQL, $Self->{'DB::Comment'}
+            . ' MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.';
+        push @SQL, $Self->{'DB::Comment'}
+            . ' However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.';
+    }
+
+    push @SQL,
+        "SET \@FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = '$Param{LocalTableName}' AND constraint_name = '$ForeignKey')";
+    push @SQL,
+        "SET \@FKSQLStatement := IF( \@FKExists > 0, 'ALTER TABLE $Param{LocalTableName} DROP FOREIGN KEY $ForeignKey', 'SELECT ''INFO: Foreign key constraint $ForeignKey does not exist, skipping.''' )";
+    push @SQL, "PREPARE FKStatement FROM \@FKSQLStatement";
+    push @SQL, "EXECUTE FKStatement";
+
+    return @SQL;
 }
 
 sub UniqueCreate {
