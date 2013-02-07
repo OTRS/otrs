@@ -1,8 +1,8 @@
 // --
 // Core.UI.RichTextEditor.js - provides all UI functions
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.23 2012-12-10 09:53:24 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.24 2013-02-07 11:03:50 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.Init = function ($EditorArea) {
         var EditorID = '',
             Editor,
-            Instance;
+            Instance,
+            UserLanguage;
 
         if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
             EditorID = $EditorArea.attr('id');
@@ -70,11 +71,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             });
         });
 
+        // The format for the language is different between OTRS and CKEditor (see bug#8024)
+        // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
+        UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
+
         Editor = CKEDITOR.replace(EditorID,
         {
             customConfig: '', // avoid loading external config files
-            defaultLanguage: Core.Config.Get('UserLanguage'),
-            language: Core.Config.Get('UserLanguage'),
+            defaultLanguage: UserLanguage,
+            language: UserLanguage,
             width: Core.Config.Get('RichText.Width', 620),
             resize_minWidth: Core.Config.Get('RichText.Width', 620),
             height: Core.Config.Get('RichText.Height', 320),
