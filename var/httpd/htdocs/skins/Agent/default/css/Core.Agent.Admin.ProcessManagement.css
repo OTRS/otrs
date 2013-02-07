@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.28 $
+ * @version     $Revision: 1.29 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -552,18 +552,76 @@ div.AJAXWaiting {
     display: inline;
 }
 
+}
+
 /**
  * @subsubsection     Popup Print
  */
+
+@media screen,projection,tv,handheld,print {
 
 .PrintContainer .Logo {
     float: right;
     height: 55px;
 }
 
+.PrintContainer ul.Attributes {
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 12px;
+    margin: 0px 0px 10px 0px;
+}
+
 .PrintContainer {
     padding: 15px;
     font-size: 14px;
+}
+
+.PrintContainer #Path {
+    border: 1px solid #ccc;
+    padding: 15px 15px 0px 15px;
+}
+
+.PrintContainer #Path li {
+    width: 500px;
+    display: block;
+    margin: 0px auto 15px auto;
+}
+
+.PrintContainer #Path li > span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #eee;
+}
+
+.PrintContainer #Path li > strong {
+    position: relative;
+    display: inline-block;
+    width: 392px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.PrintContainer #Path li > strong span {
+    width: 400px;
+    border-bottom: 2px solid #aaa;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -200px;
+    top: 9px;
+    z-index: 1;
+}
+
+.PrintContainer #Path li > strong em {
+    background-color: #f2f2f2;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    padding: 4px;
+    border: 1px solid #aaa;
 }
 
 .PrintContainer h1 {
@@ -572,10 +630,11 @@ div.AJAXWaiting {
 }
 
 .PrintContainer h2 {
-    font-size: 20px;
+    font-size: 18px;
     border-bottom: 1px solid #ccc;
     margin-top: 0px;
     padding-bottom: 15px;
+    line-height: 130%;
 }
 
 .PrintContainer h3 {
@@ -622,6 +681,38 @@ div.AJAXWaiting {
 .PrintContainer h4 ~ ol {
     list-style-type: decimal;
     padding-left: 15px;
+}
+
+.PrintContainer h4 ~ ol p {
+    font-size: 12px;
+    padding-left: 5px;
+    line-height: 150%;
+}
+
+.PrintContainer h4 ~ ol p:last-child {
+    margin-bottom: 5px;
+}
+
+.PrintContainer h4 ~ ol > li > ul {
+    margin-left: 5px;
+}
+
+.PrintContainer h4 ~ ol > li > ul ul {
+    margin-left: 5px;
+    font-size: 12px;
+    border-left: 5px solid #eee;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.PrintContainer h4 ~ ol > li > ul ul h6 {
+    font-style: italic;
+}
+
+.PrintContainer h4 ~ ol > li > ul > li h5 {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 0px;
 }
 
 .PrintContainer pre {
