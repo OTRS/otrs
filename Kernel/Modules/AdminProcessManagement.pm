@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.48 2013-02-07 08:52:54 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.49 2013-02-07 08:57:26 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -788,7 +788,10 @@ sub Run {
                         Name => 'Config',
                     );
 
+                    CONFIGITEM:
                     for my $ConfigItem ( keys %{$Config} ) {
+
+                        next CONFIGITEM if !$ConfigItem;
 
                         $Self->{LayoutObject}->Block(
                             Name => 'ConfigRow',
