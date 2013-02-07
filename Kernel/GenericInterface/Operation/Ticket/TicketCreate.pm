@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.38 2013-02-07 12:05:09 mg Exp $
+# $Id: TicketCreate.pm,v 1.39 2013-02-07 12:06:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -102,7 +102,7 @@ perform TicketCreate Operation. This will return the created ticket number.
             Password  => 'some password',                                       # if UserLogin or CustomerUserLogin is sent then
                                                                                 #   Password is required
 
-            Ticket {
+            Ticket => {
                 Title      => 'some ticket title',
 
                 QueueID       => 123,                                           # QueueID or Queue is required
@@ -137,7 +137,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                     Minute => 05,
                 },
             },
-            Article {
+            Article => {
                 ArticleTypeID                   => 123,                        # optional
                 ArticleType                     => 'some article type name',   # optional
                 SenderTypeID                    => 123,                        # optional
@@ -173,7 +173,7 @@ perform TicketCreate Operation. This will return the created ticket number.
             #    Value  => $Value,
             #},
 
-            Attachment [
+            Attachment => [
                 {
                     Content     => 'content'                                 # base64 encoded
                     ContentType => 'some content type'
@@ -182,7 +182,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                 # ...
             ],
             #or
-            #Attachment {
+            #Attachment => {
             #    Content     => 'content'
             #    ContentType => 'some content type'
             #    Filename    => 'some fine name'
@@ -1429,6 +1429,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2013-02-07 12:05:09 $
+$Revision: 1.39 $ $Date: 2013-02-07 12:06:31 $
 
 =cut
