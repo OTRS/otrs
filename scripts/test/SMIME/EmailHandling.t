@@ -1,8 +1,8 @@
 # --
 # EmailHandling.t - SMIME email handling tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailHandling.t,v 1.6 2012-11-20 16:12:09 mh Exp $
+# $Id: EmailHandling.t,v 1.7 2013-02-08 14:48:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
 use Kernel::Output::HTML::ArticleCheckSMIME;
+use Kernel::System::HTMLUtils;
 
 # create local objects
 my $ConfigObject = Kernel::Config->new();
@@ -154,6 +155,12 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     ConfigObject => $ConfigObject,
 );
 
+my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
+    %{$Self},
+    MainObject   => $MainObject,
+    ConfigObject => $Self->{ConfigObject},
+);
+
 #
 # Setup environment
 #
@@ -281,19 +288,22 @@ my @Tests = (
     {
         Name        => 'simple string',
         ArticleData => {
-            Body => 'Simple string',
+            Body     => 'Simple string',
+            MimeType => 'text/plain',
         },
     },
     {
         Name        => 'simple string with unix newline',
         ArticleData => {
-            Body => 'Simple string \n with unix newline',
+            Body     => 'Simple string \n with unix newline',
+            MimeType => 'text/plain',
         },
     },
     {
         Name        => 'simple string with windows newline',
         ArticleData => {
-            Body => 'Simple string \r\n with windows newline',
+            Body     => 'Simple string \r\n with windows newline',
+            MimeType => 'text/plain',
         },
     },
     {
@@ -301,6 +311,7 @@ my @Tests = (
         ArticleData => {
             Body =>
                 'SimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleString',
+            MimeType => 'text/plain',
         },
     },
     {
@@ -308,12 +319,22 @@ my @Tests = (
         ArticleData => {
             Body =>
                 'Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string',
+            MimeType => 'text/plain',
         },
     },
     {
         Name        => 'simple string with unicode data',
         ArticleData => {
-            Body => 'äöüßø@«∑€©ƒ',
+            Body     => 'äöüßø@«∑€©ƒ',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'Multiline HTML',
+        ArticleData => {
+            Body =>
+                '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">Simple Line<br/><br/><br/>Your Ticket-Team<br/><br/>Your Agent<br/><br/>--<br/> Super Support - Waterford Business Park<br/> 5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA<br/> Email: hot@example.com - Web: <a href="http://www.example.com/" title="http://www.example.com/" target="_blank">http://www.example.com/</a><br/>--</body></html>',
+            MimeType => 'text/html',
         },
     },
 );
@@ -443,7 +464,7 @@ for my $Test (@TestVariations) {
         HistoryComment => 'note',
         Subject        => 'Unittest data',
         Charset        => 'utf-8',
-        MimeType       => 'text/plain',                   # "text/plain" or "text/html"
+        MimeType       => $Test->{ArticleData}->{MimeType},    # "text/plain" or "text/html"
         Body           => 'Some nice text\n.',
         Sign           => {
             Type    => 'SMIME',
@@ -505,9 +526,18 @@ for my $Test (@TestVariations) {
         ArticleID => $ArticleID,
     );
 
+    my $TestBody = $Test->{ArticleData}->{Body};
+
+    # convert test body to ASCII if it was HTML
+    if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
+        $TestBody = $HTMLUtilsObject->ToAscii(
+            String => $TestBody,
+        );
+    }
+
     $Self->Is(
         $FinalArticleData{Body},
-        $Test->{ArticleData}->{Body},
+        $TestBody,
         "$Test->{Name} - verified body content",
     );
 }
