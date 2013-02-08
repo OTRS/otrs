@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.34 2012-11-20 14:56:05 mh Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.35 2013-02-08 22:53:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -425,6 +425,25 @@ sub Check {
                         UserID      => $Self->{UserID},
                     );
                 }
+            }
+
+            # output signature verification errors
+            elsif (
+                %SignCheck
+                && !$SignCheck{SignatureFound}
+                && !$SignCheck{Successful}
+                && !$SignCheck{Content}
+                )
+            {
+                # return result
+                push(
+                    @Return,
+                    {
+                        Key   => 'Signed',
+                        Value => $SignCheck{Message},
+                        %SignCheck,
+                    }
+                );
             }
         }
     }

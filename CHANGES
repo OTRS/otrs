@@ -1,4 +1,5 @@
 3.2.2 2013-02-??
+ - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.
  - 2013-02-07 Fixed bug#8024 - WYSIWYG editor does not get correct language information.
  - 2013-02-07 Fixed bug#9135 - Can't upgrade databases that have been changed from MyISAM > InnoDB.
@@ -365,6 +366,7 @@
     NotificationEvent definitions.
 
 3.1.13 20??-??-??
+ - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.
  - 2013-01-29 Fixed bug#9096 - All services list is shown instead of only default services.
  - 2012-01-09 Fixed bug#9030 - Wrong handling of Invalid YAML in Scheduler Tasks.
