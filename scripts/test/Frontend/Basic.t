@@ -2,7 +2,7 @@
 # Basic.t - Basic Frontend Tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Basic.t,v 1.4 2013-02-08 20:29:32 cr Exp $
+# $Id: Basic.t,v 1.5 2013-02-08 21:51:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,6 @@ use LWP::UserAgent;
 use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::JSON;
-
-return 1;
 
 my $ConfigObject = Kernel::Config->new();
 
