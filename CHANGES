@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.202 2013-02-08 22:52:42 cr Exp $
+# $Id: CHANGES,v 1.2260.2.203 2013-02-08 23:00:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
  - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.
  - 2013-02-05 Fixed bug#9121 - Filenames with Unicode NFD are incorrectly reported as NFC by Main::DirectoryRead().

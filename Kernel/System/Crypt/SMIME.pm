@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.55.2.11 2012-05-22 04:24:01 cr Exp $
+# $Id: SMIME.pm,v 1.55.2.12 2013-02-08 23:00:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.11 $) [1];
+$VERSION = qw($Revision: 1.55.2.12 $) [1];
 
 =head1 NAME
 
@@ -440,6 +440,20 @@ sub Verify {
             MessageLong =>
                 'OpenSSL: self signed certificate, to use it send the \'Certificate\' parameter : '
                 . $MessageLong,
+            SignerCertificate => $$SignerCertRef,
+            Content           => $$SignedContentRef,
+        );
+    }
+
+    # digest failure means that the content of the email does not match witht he signature
+    elsif ( $Message =~ m{digest failure}i ) {
+        %Return = (
+            SignatureFound => 1,
+            Successful     => 0,
+            Message =>
+                'OpenSSL: The signature does not match the message content : ' . $Message,
+            MessageLong =>
+                'OpenSSL: The signature does not match the message content : ' . $MessageLong,
             SignerCertificate => $$SignerCertRef,
             Content           => $$SignedContentRef,
         );
@@ -2406,6 +2420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55.2.11 $ $Date: 2012-05-22 04:24:01 $
+$Revision: 1.55.2.12 $ $Date: 2013-02-08 23:00:57 $
 
 =cut
