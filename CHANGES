@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-02-08 Added Patch/Workaround for CPAN MIME::Parser v5.503 that prevent the trimming of empty
+    lines that lead to inconsistencies between signed and actual email contents
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
  - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.
