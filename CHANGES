@@ -1,4 +1,6 @@
 3.2.2 2013-02-??
+ - 2013-02-11 Fixed bug#9132 - Button to create new ticket appears in Customer Interface although
+    ticket creation is disabled.
  - 2013-02-08 Added Patch/Workaround for CPAN MIME::Parser v5.503 that prevent the trimming of empty
     lines that lead to inconsistencies between signed and actual email contents
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.17 2012-11-22 08:55:26 mg Exp $
+# $Id: CustomerTicketOverview.pm,v 1.18 2013-02-11 10:43:29 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::User;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -255,11 +255,37 @@ sub Run {
                 Name => 'EmptyCustom',
                 Data => $CustomTexts,
             );
+
+            # only show button, if frontend module for NewTicket is registered
+            # and button text is configured
+            if (
+                ref $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketMessage}
+                eq 'HASH'
+                && defined $Self->{ConfigObject}
+                ->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText')->{Button}
+                )
+            {
+                $Self->{LayoutObject}->Block(
+                    Name => 'EmptyCustomButton',
+                    Data => $CustomTexts,
+                );
+            }
         }
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'EmptyDefault',
             );
+
+            # only show button, if frontend module for NewTicket is registered
+            if (
+                ref $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketMessage}
+                eq 'HASH'
+                )
+            {
+                $Self->{LayoutObject}->Block(
+                    Name => 'EmptyDefaultButton',
+                );
+            }
         }
     }
     else {
