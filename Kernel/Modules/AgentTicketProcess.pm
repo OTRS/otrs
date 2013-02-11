@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.38 2013-02-06 15:42:23 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.39 2013-02-11 23:01:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -4202,6 +4202,21 @@ sub _StoreActivityDialog {
                 )
             {
                 next DIALOGFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
+
+                # skip TicketCustomerSet() if there is no change in the customer
+                if (
+                    $Ticket{CustomerID} eq $TicketParam{CustomerID}
+                    && $Ticket{CustomerUserID} eq $TicketParam{CustomerUser}
+                    )
+                {
+
+                    # In this case we don't want to call any additional stores
+                    # on Customer, CustomerNo, CustomerID or CustomerUserID
+                    # so make sure both fields are set to "Stored" ;)
+                    $StoredFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
+                    $StoredFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
+                    next DIALOGFIELD;
+                }
 
                 $Success = $Self->{TicketObject}->TicketCustomerSet(
                     No => $TicketParam{CustomerID},
