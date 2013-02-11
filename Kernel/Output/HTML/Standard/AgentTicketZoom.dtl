@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.231 2013-01-07 10:27:47 mn Exp $
+# $Id: AgentTicketZoom.dtl,v 1.232 2013-02-11 14:45:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,7 +95,7 @@
                     <h2>$Text{"$Data{"WidgetTitle"}"}</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class="TableLike FixedLabelSmall">
+                    <fieldset class="TableLike FixedLabelSmall Narrow">
 <!-- dtl:block:ArchiveFlag -->
                         <label>$Text{"Archive"}:</label>
                         <p class="Value">$Text{"This ticket is archived."}</p>
@@ -134,7 +134,7 @@
 <!-- dtl:block:SLA -->
                     </fieldset>
 
-                    <fieldset class="TableLike FixedLabelSmall">
+                    <fieldset class="TableLike FixedLabelSmall Narrow">
 <!-- dtl:block:FirstResponseTime -->
                         <label>$Text{"First Response Time"}:</label>
                         <div class="Value">
@@ -170,7 +170,7 @@
 <!-- dtl:block:SolutionTime -->
                     </fieldset>
 
-                    <fieldset class="TableLike FixedLabelSmall">
+                    <fieldset class="TableLike FixedLabelSmall Narrow">
                         <label>$Text{"CustomerID"}:</label>
                         <p class="Value">
 <!-- dtl:block:CustomerIDRW -->
@@ -211,7 +211,7 @@
                     </fieldset>
 
 <!-- dtl:block:ProcessData -->
-                    <fieldset class="TableLike FixedLabelSmall">
+                    <fieldset class="TableLike FixedLabelSmall Narrow">
 
                         <label>$Text{"Process"}:</label>
                         <p class="Value" title="$QData{"Process"}">$QData{"Process","18"}</p>
@@ -224,7 +224,7 @@
 <!-- dtl:block:ProcessData -->
 
 # show ticket dynamic fields
-                    <fieldset class="TableLike FixedLabelSmall">
+                    <fieldset class="TableLike FixedLabelSmall Narrow">
 <!-- dtl:block:TicketDynamicField -->
                         <label>$Text{"$Data{"Label"}"}:</label>
                         <p class="Value">
@@ -242,7 +242,7 @@
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
-#                    <fieldset class="TableLike FixedLabelSmall">
+#                    <fieldset class="TableLike FixedLabelSmall Narrow">
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #                        <label>$Text{"$Data{"Label"}"}:</label>
 #                        <p class="Value">
@@ -255,7 +255,7 @@
 #                        </p>
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #                    </fieldset>
-#                    <fieldset class="TableLike FixedLabelSmall">
+#                    <fieldset class="TableLike FixedLabelSmall Narrow">
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 #                        <label>$Text{"$Data{"Label"}"}:</label>
 #                        <p class="Value">

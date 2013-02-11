@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.44 $
+ * @version     $Revision: 1.45 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -243,7 +243,7 @@ fieldset.TableLike > label,
 fieldset.TableLike > .Row > label {
     display: block;
     float: left;
-    line-height: 1.3em;
+    line-height: 1.9em;
     width: 30%;
     text-align: right;
     color: #929292;
@@ -261,7 +261,7 @@ fieldset.TableLike > .Row > label {
 
 fieldset.TableLike > .Field,
 fieldset.TableLike > .Row > .Field {
-    line-height: 1.2em;
+    line-height: 1.9em;
     margin-left: 30%;
     margin-right: 0;
     padding-top: 3px;
@@ -280,7 +280,7 @@ fieldset.TableLike > .Row > .Field {
 }
 
 fieldset.TableLike select {
-    margin-top: 1px;
+    margin-top: 3px;
 }
 
 /**
@@ -327,14 +327,14 @@ fieldset.TableLike > .Row > .FloatingField {
 fieldset.TableLike > .Value,
 fieldset.TableLike > .Row > .Value {
     margin-left: 30%;
-    padding: 3px 0 3px 8px;
-    line-height: 1.3em;
+    padding: 5px 0 3px 8px;
+    line-height: 1.9em;
 }
 
 .RTL fieldset.TableLike > .Value,
 .RTL fieldset.TableLike > .Row > .Value {
     margin: 0 30% 0 0;
-    padding: 3px 8px 3px 0;
+    padding: 5px 8px 3px 0;
 }
 
 fieldset.TableLike > .Value img,
@@ -400,6 +400,16 @@ fieldset.TableLike.FixedLabelSmall > .Row > .Value {
 fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
 fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
     width: 143px;
+}
+
+fieldset.TableLike.Narrow > label,
+fieldset.TableLike.Narrow > .Row > label {
+    line-height: 1.3em;
+}
+
+fieldset.TableLike.Narrow > .Value,
+fieldset.TableLike.Narrow > .Row > .Value {
+    line-height: 1.3em;
 }
 
 iframe.Signature {
