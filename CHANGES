@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.203 2013-02-08 23:00:57 cr Exp $
+# $Id: CHANGES,v 1.2260.2.204 2013-02-13 14:56:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.13 20??-??-??
+ - 2013-02-13 Fixed bug#9141 - Confused Columns in CustomerTicketSearch (ResultShort).
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
  - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.

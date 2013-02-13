@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.40.2.2 2012-11-20 20:14:56 mb Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.40.2.3 2013-02-13 14:56:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,14 +39,14 @@
         <table class="Overview">
             <thead>
                 <tr>
-                    <th class="Status $Data{"StateSort"}">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"};Profile=$LQData{"Profile"};TakeLastSearch=1">
-                            $Text{"State"}
-                        </a>
-                    </th>
                     <th class="Ticket $Data{"TicketSort"}">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=Ticket;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"};Profile=$LQData{"Profile"};TakeLastSearch=1">
                             $Config{"Ticket::Hook"}
+                        </a>
+                    </th>
+                    <th class="Status $Data{"StateSort"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;SortBy=State;Order=$LQData{"Order"};Filter=$LQData{"Filter"};Limit=$LQData{"Limit"};ShowClosedTickets=$LQData{"ShowClosed"};Type=$LQData{"Type"};Profile=$LQData{"Profile"};TakeLastSearch=1">
+                            $Text{"State"}
                         </a>
                     </th>
                     <th class="Title">
