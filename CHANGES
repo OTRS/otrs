@@ -1,4 +1,5 @@
 3.2.2 2013-02-??
+ - 2013-02-13 Fixed bug#9162 - Setting the start day of the week for the datepicker to Sunday does not work.
  - 2013-02-13 Fixed bug#9127 - Problem with CustomerPanelOwnSelection.
  - 2013-02-12 Added new Canadian French translation, thanks to Evans Bernier / CDE Solutions Informatique!
  - 2013-02-12 Fixed bug#5492 - Need Template or TemplateFile Param error message after activating AgentInfo.
@@ -378,6 +379,7 @@
     NotificationEvent definitions.
 
 3.1.13 20??-??-??
+ - 2013-02-13 Fixed bug#9162 - Setting the start day of the week for the datepicker to Sunday does not work.
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
  - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.

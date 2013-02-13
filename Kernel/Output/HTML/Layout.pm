@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.419 2013-01-30 14:24:33 des Exp $
+# $Id: Layout.pm,v 1.420 2013-02-13 17:04:57 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.419 $) [1];
+$VERSION = qw($Revision: 1.420 $) [1];
 
 =head1 NAME
 
@@ -3207,7 +3207,10 @@ sub BuildDateSelection {
     }
 
     # Get first day of the week
-    my $WeekDayStart = $Self->{ConfigObject}->Get('CalendarWeekDayStart') || 1;
+    my $WeekDayStart = $Self->{ConfigObject}->Get('CalendarWeekDayStart');
+    if ( !defined $WeekDayStart ) {
+        $WeekDayStart = 1;
+    }
 
     # Datepicker
     $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
@@ -5236,6 +5239,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.419 $ $Date: 2013-01-30 14:24:33 $
+$Revision: 1.420 $ $Date: 2013-02-13 17:04:57 $
 
 =cut
