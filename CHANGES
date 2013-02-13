@@ -1,5 +1,5 @@
 3.2.2 2013-02-??
- - 2013-02-12 Added new Canadian French translation, thanks to Evans Bernier!
+ - 2013-02-12 Added new Canadian French translation, thanks to Evans Bernier / CDE Solutions Informatique!
  - 2013-02-12 Fixed bug#5492 - Need Template or TemplateFile Param error message after activating AgentInfo.
  - 2013-02-12 Fixed bug#9138 - Unused X-OTRS-Info header in SysConfig.
  - 2013-02-11 Fixed bug#9117 - CustomerUpdate history entry added even if customer user has not
