@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.114 2012-11-20 14:53:45 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.115 2013-02-13 15:16:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,6 +187,7 @@ sub Run {
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
         $Output    .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output    .= $Self->_MaskNew(
+            %GetParam,
             QueueID          => $QueueDefaultID,
             ToSelected       => $Param{ToSelected},
             DynamicFieldHTML => \%DynamicFieldHTML,
@@ -782,64 +783,25 @@ sub _GetTos {
     my ( $Self, %Param ) = @_;
 
     # check own selection
-    my %NewTos;
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
-        %NewTos = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') };
+    my %NewTos = ( '', '-' );
+    my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule')
+        || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+    if ( $Self->{MainObject}->Require($Module) ) {
+        my $Object = $Module->new( %{$Self}, Debug => $Self->{Debug}, );
+
+        # log loaded module
+        if ( $Self->{Debug} > 1 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message  => "Module: $Module loaded!",
+            );
+        }
+        %NewTos = ( $Object->Run( Env => $Self, ACLParams => \%Param ), ( '', => '-' ) );
     }
     else {
-
-        # SelectionType Queue or SystemAddress?
-        my %Tos;
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
-            %Tos = $Self->{TicketObject}->MoveList(
-                %Param,
-                Type           => 'create',
-                Action         => $Self->{Action},
-                QueueID        => $Self->{QueueID},
-                CustomerUserID => $Self->{UserID},
-            );
-        }
-        else {
-            %Tos = $Self->{DBObject}->GetTableData(
-                Table => 'system_address',
-                What  => 'queue_id, id',
-                Valid => 1,
-                Clamp => 1,
-            );
-        }
-
-        # get create permission queues
-        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
-            Type   => 'create',
-            Result => 'HASH',
-        );
-
-        # build selection string
-        for my $QueueID ( sort keys %Tos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
-
-            # permission check, can we create new tickets in queue
-            next if !$UserGroups{ $QueueData{GroupID} };
-
-            my $String = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
-                || '<Realname> <<Email>> - Queue: <Queue>';
-            $String =~ s/<Queue>/$QueueData{Name}/g;
-            $String =~ s/<QueueComment>/$QueueData{Comment}/g;
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
-            {
-                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(
-                    ID => $Tos{$QueueID},
-                );
-                $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                $String =~ s/<Email>/$SystemAddressData{Name}/g;
-            }
-            $NewTos{$QueueID} = $String;
-        }
+        return $Self->{LayoutObject}->FatalError();
     }
 
-    # add empty selection
-    $NewTos{''} = '-';
     return \%NewTos;
 }
 
