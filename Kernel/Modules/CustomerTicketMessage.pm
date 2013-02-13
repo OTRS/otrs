@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.115 2013-02-13 15:16:59 mg Exp $
+# $Id: CustomerTicketMessage.pm,v 1.116 2013-02-13 16:54:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -799,7 +799,9 @@ sub _GetTos {
         %NewTos = ( $Object->Run( Env => $Self, ACLParams => \%Param ), ( '', => '-' ) );
     }
     else {
-        return $Self->{LayoutObject}->FatalError();
+        return $Self->{LayoutObject}->FatalDie(
+            Message => "Could not load $Module!",
+        );
     }
 
     return \%NewTos;
