@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.42 2013-02-14 01:40:21 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.43 2013-02-14 13:49:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -842,9 +842,13 @@ sub _GetParam {
 
             # If we got a submitted param, take it and next out
             if (
-                IsStringWithData($Value)
-                || IsArrayRefWithData($Value)
-                || IsHashRefWithData($Value)
+                defined $Value
+                && (
+                    $Value eq ''
+                    || IsStringWithData($Value)
+                    || IsArrayRefWithData($Value)
+                    || IsHashRefWithData($Value)
+                )
                 )
             {
                 $GetParam{$CurrentField} = $Value;
@@ -853,19 +857,23 @@ sub _GetParam {
 
             # If we didn't have a Param Value try the ticket Value
             # next out if it was successful
-            $Value = $Ticket{$CurrentField};
-            if ($Value) {
-                $GetParam{$CurrentField} = $Value;
+            if (
+                defined $Ticket{$CurrentField}
+                && (
+                    $Ticket{$CurrentField} eq ''
+                    || IsStringWithData( $Ticket{$CurrentField} )
+                    || IsArrayRefWithData( $Ticket{$CurrentField} )
+                    || IsHashRefWithData( $Ticket{$CurrentField} )
+                )
+                )
+            {
+                $GetParam{$CurrentField} = $Ticket{$CurrentField};
                 next DIALOGFIELD;
             }
 
             # If we had neighter submitted nor ticket param get the ActivityDialog's default Value
             # next out if it was successful
-            # skip CustomerID field otherwise the value will be in GetParam but never shown in the
-            # activity dialog field
-            if ( $CurrentField ne 'CustomerID' ) {
-                $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
-            }
+            $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
             if ($Value) {
                 $GetParam{$CurrentField} = $Value;
                 next DIALOGFIELD;
@@ -879,8 +887,10 @@ sub _GetParam {
                 next DIALOGFIELD;
             }
 
-            # if all that failed, use ''
-            $GetParam{$CurrentField} = '';
+            # if all that failed then the field should not have a defined value otherwise
+            # if a value (even empty) is sent, fields like Date or DateTime will mark the field as
+            # used with the field display value, this could lead to unwanted field sets,
+            # see bug#9159
             next DIALOGFIELD;
         }
 
@@ -2101,16 +2111,13 @@ sub _RenderDynamicField {
     my $DynamicFieldHTML = $Self->{BackendObject}->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,
         PossibleValuesFilter => $PossibleValuesFilter,
-
-        # if a value (even empty) is sent fields like Date or DateTime will mark the field as used
-        # with the field display value, this could lead to unwanted field sets, see bug#9159
-        Value => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} } || undef,
-        LayoutObject    => $Self->{LayoutObject},
-        ParamObject     => $Self->{ParamObject},
-        AJAXUpdate      => 1,
-        Mandatory       => $Param{ActivityDialogField}->{Display} == 2,
-        UpdatableFields => $Param{AJAXUpdatableFields},
-        ServerError     => $ServerError,
+        Value                => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} },
+        LayoutObject         => $Self->{LayoutObject},
+        ParamObject          => $Self->{ParamObject},
+        AJAXUpdate           => 1,
+        Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
+        UpdatableFields      => $Param{AJAXUpdatableFields},
+        ServerError          => $ServerError,
     );
 
     my %Data = (
