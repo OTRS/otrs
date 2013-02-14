@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.77 2013-02-14 08:36:23 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.78 2013-02-14 09:19:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -989,7 +989,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         // Init removal of conditions
-        $('#PresentConditionsContainer').delegate('.Remove', 'click', function() {
+        $('#PresentConditionsContainer').delegate('.ConditionField > .Remove', 'click', function() {
             if ($('#PresentConditionsContainer').find('.ConditionField').length > 1) {
 
                 $(this).parent().prev('label').remove();
@@ -1018,7 +1018,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         // Init removal of fields within conditions
-        $('.Condition .Fields').delegate('.Remove', 'click', function() {
+        $('.Condition .Field').delegate('.Remove', 'click', function() {
             if ($(this).closest('.Field').find('.Fields').length > 1) {
                 $(this).parent().prev('label').remove();
                 $(this).parent().remove();
