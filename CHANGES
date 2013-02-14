@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.205 2013-02-13 17:04:36 ub Exp $
+# $Id: CHANGES,v 1.2260.2.206 2013-02-14 13:31:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.13 20??-??-??
+3.1.13 2013-02-19
  - 2013-02-13 Fixed bug#9162 - Setting the start day of the week for the datepicker to Sunday does not work.
  - 2013-02-13 Fixed bug#9141 - Confused Columns in CustomerTicketSearch (ResultShort).
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
