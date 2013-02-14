@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.43 2013-02-14 13:49:50 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.44 2013-02-14 14:53:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -4975,8 +4975,7 @@ sub _GetStates {
         # be sent and the TicketStateList will send the parameter as State Type
         Type => undef,
 
-        #   Action may come in later if there's a reduced State list in config
-        #    Action => $Self->{Action},
+        Action => $Self->{Action},
         UserID => $Self->{UserID},
     );
 
