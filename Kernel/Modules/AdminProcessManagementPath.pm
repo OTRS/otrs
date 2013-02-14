@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementPath.pm - process management path
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.12 2013-02-05 09:36:55 mn Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.13 2013-02-14 08:36:23 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -168,12 +168,26 @@ sub Run {
             my $RedirectEntityID
                 = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
 
+            # when redirecting to the transition dialog, we need the new TransitionID
+            # because the ID was possibly changed in this dialog
+            # the value is stored in data-entity
+            # when redirecting to the transition action dialog, data-entity contains
+            # the transition action ID, but still we need the transition ID for going back
+
+            my $EntityID;
+
+            if ( $RedirectSubaction eq 'TransitionActionEdit' ) {
+                $EntityID = $TransferData->{TransitionEntityID};
+            }
+            elsif ( $RedirectSubaction eq 'TransitionEdit' ) {
+                $EntityID = $RedirectEntityID;
+            }
+
             $Self->_PushSessionScreen(
-                ID       => $TransferData->{ProcessEntityID},    # abuse!
-                EntityID => $RedirectEntityID
-                ,    # needed, because the transition was changed before the submit
+                ID              => $TransferData->{ProcessEntityID},    # abuse!
+                EntityID        => $EntityID,
                 StartActivityID => $GetParam->{StartActivityID},
-                Subaction       => 'PathEdit'                      # always use edit screen
+                Subaction       => 'PathEdit'                           # always use edit screen
             );
 
             # get transition id
