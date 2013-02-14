@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.16 2013-02-05 09:36:54 mn Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.17 2013-02-14 10:28:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -503,6 +503,7 @@ sub _ShowEdit {
             'Regexp' => 'Regexp',
             'Module' => 'Transition Validation Module'
         },
+        SelectedID  => 'String',
         Name        => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
         Sort        => 'AlphanumericKey',
         Translation => 1,
