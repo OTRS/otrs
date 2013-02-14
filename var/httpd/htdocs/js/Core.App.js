@@ -1,8 +1,8 @@
 // --
 // Core.App.js - provides the application functions
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.App.js,v 1.12 2012-12-17 10:46:20 mn Exp $
+// $Id: Core.App.js,v 1.13 2013-02-14 10:18:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,7 @@ Core.App = (function (TargetNS) {
      */
     TargetNS.Publish = function (Topic, Args) {
         $.publish(Topic, Args);
-    }
+    };
 
     /**
      * @function
@@ -133,7 +133,7 @@ Core.App = (function (TargetNS) {
      */
     TargetNS.Subscribe = function (Topic, Callback) {
         return $.subscribe(Topic, Callback);
-    }
+    };
 
     /**
      * @function
@@ -142,7 +142,7 @@ Core.App = (function (TargetNS) {
      */
     TargetNS.Unsubscribe = function (Handle) {
         $.unsubscribe(Handle);
-    }
+    };
 
     return TargetNS;
 }(Core.App || {}));

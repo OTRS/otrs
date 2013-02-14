@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the functionality for AJAX calls
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.38 2013-01-07 10:18:49 mn Exp $
+// $Id: Core.AJAX.js,v 1.39 2013-02-14 10:18:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -253,7 +253,7 @@ Core.AJAX = (function (TargetNS) {
             success: function (Response, Status, XHRObject) {
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
-                };
+                }
 
                 if (!Response) {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
@@ -277,7 +277,7 @@ Core.AJAX = (function (TargetNS) {
             error: function (XHRObject, Status, Error) {
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
-                };
+                }
 
                 if (Status !== 'abort') {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
@@ -312,7 +312,7 @@ Core.AJAX = (function (TargetNS) {
             success: function (Response, Status, XHRObject) {
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
-                };
+                }
 
                 if (!Response) {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
@@ -336,7 +336,7 @@ Core.AJAX = (function (TargetNS) {
             error: function (XHRObject, Status, Error) {
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
-                };
+                }
 
                 if (Status !== 'abort') {
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
@@ -370,7 +370,7 @@ Core.AJAX = (function (TargetNS) {
             success: function (Response, Status, XHRObject) {
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
-                };
+                }
 
                 // call the callback
                 if ($.isFunction(Callback)) {
@@ -386,7 +386,7 @@ Core.AJAX = (function (TargetNS) {
             error: function (XHRObject, Status, Error) {
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
                     return false;
-                };
+                }
 
                 // We sometimes manually abort an ajax request (e.g. in autocompletion). This should not throw a global error message
                 if (Status !== 'abort') {

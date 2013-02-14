@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.49 2013-02-14 09:33:04 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.50 2013-02-14 10:18:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Correct placing of activity name within box
         $EntityBox = $('#' + EntityID);
         EntityNameHeight = $EntityBox.find('span').height();
-        $EntityBox.find('span').css('margin-top', parseInt((ActivityBoxHeight - EntityNameHeight) / 2), 10);
+        $EntityBox.find('span').css('margin-top', parseInt( (ActivityBoxHeight - EntityNameHeight) / 2, 10) );
 
         // make the activity able to accept transitions
         jsPlumb.makeTarget(EntityID, {

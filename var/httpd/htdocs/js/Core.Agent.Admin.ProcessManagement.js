@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.78 2013-02-14 09:19:15 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.79 2013-02-14 10:18:08 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -690,7 +690,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // these open transitions must be deleted before saving
             $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (Activity, ActivityData) {
                 $.each(ActivityData, function (Transition, TransitionData) {
-                    if (typeof TransitionData['ActivityEntityID'] === 'undefined') {
+                    if (typeof TransitionData.ActivityEntityID === 'undefined') {
                         delete ActivityData[Transition];
                     }
                 });
