@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.40 2013-02-14 00:11:20 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.41 2013-02-14 01:19:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -4206,6 +4206,15 @@ sub _StoreActivityDialog {
             {
                 next DIALOGFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
 
+                if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 1 ) {
+                    $Self->{LayoutObject}->FatalError(
+                        Message => "Wrong ActivityDialog Field config: $CurrentField can't be"
+                            . ' Display => 1 / Show field (Please change its configuration to be'
+                            . ' Display => 0 / Do not show field or '
+                            . ' Display => 2 / Show field as mandatory )!',
+                    );
+                }
+
                 # skip TicketCustomerSet() if there is no change in the customer
                 if (
                     $Ticket{CustomerID} eq $TicketParam{CustomerID}
@@ -4466,8 +4475,9 @@ sub _CheckField {
         if ($TicketRequiredField) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Wrong ActivityDialog Field config: $Param{Field} can't be"
-                    . " Display => 1 (Please change its configuration to be Display => 0 or"
-                    . " Display => 2)!",
+                    . ' Display => 1 / Show field (Please change its configuration to be'
+                    . ' Display => 0 / Do not show field or '
+                    . ' Display => 2 / Show field as mandatory )!',
             );
         }
 
