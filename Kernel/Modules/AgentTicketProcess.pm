@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.41 2013-02-14 01:19:42 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.42 2013-02-14 01:40:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2101,13 +2101,16 @@ sub _RenderDynamicField {
     my $DynamicFieldHTML = $Self->{BackendObject}->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,
         PossibleValuesFilter => $PossibleValuesFilter,
-        Value                => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} },
-        LayoutObject         => $Self->{LayoutObject},
-        ParamObject          => $Self->{ParamObject},
-        AJAXUpdate           => 1,
-        Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
-        UpdatableFields      => $Param{AJAXUpdatableFields},
-        ServerError          => $ServerError,
+
+        # if a value (even empty) is sent fields like Date or DateTime will mark the field as used
+        # with the field display value, this could lead to unwanted field sets, see bug#9159
+        Value => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} } || undef,
+        LayoutObject    => $Self->{LayoutObject},
+        ParamObject     => $Self->{ParamObject},
+        AJAXUpdate      => 1,
+        Mandatory       => $Param{ActivityDialogField}->{Display} == 2,
+        UpdatableFields => $Param{AJAXUpdatableFields},
+        ServerError     => $ServerError,
     );
 
     my %Data = (

@@ -1,7 +1,8 @@
 3.2.2 2013-02-??
+ - 2013-02-13 Fixed bug#9159 - ProcessManagement: Date fields are activated by default.
  - 2013-02-13 Added display restriction for field "CustomerID" in Process Management Activity
     Dialogs to only be shown as mandatory or not shown.
- - 2013-02-13 Fixed bug#9150 - Process Management: CustomerUser field not indicated as required field
+ - 2013-02-13 Fixed bug#9150 - Process Management: CustomerUser field not indicated as required field.
  - 2013-02-13 Fixed bug#9158 - ProcessManagement: Priority field error message: Need Priority or PriorityID!
  - 2013-02-13 Fixed bug#9162 - Setting the start day of the week for the datepicker to Sunday does not work.
  - 2013-02-13 Fixed bug#9127 - Problem with CustomerPanelOwnSelection.
