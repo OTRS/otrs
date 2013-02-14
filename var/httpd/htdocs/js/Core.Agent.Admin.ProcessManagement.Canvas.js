@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.48 2013-02-05 13:09:24 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.49 2013-02-14 09:33:04 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,10 @@ Core.Agent.Admin.ProcessManagement = Core.Agent.Admin.ProcessManagement || {};
  */
 Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
-    var Elements = {};
+    var Elements = {},
+        ActivityBoxHeight = 80;
+
+
 
     function EscapeHTML(Content) {
         return Content
@@ -64,7 +67,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 MaxWidth = Left + 110;
             }
             if (Top > MaxHeight) {
-                MaxHeight = Top + 80;
+                MaxHeight = Top + ActivityBoxHeight;
             }
         });
 
@@ -136,7 +139,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     TargetNS.CreateActivity = function (EntityID, EntityName, ActivityID, PosX, PosY) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
-            ProcessEntityID = $('#ProcessEntityID').val();
+            ProcessEntityID = $('#ProcessEntityID').val(),
+            EntityNameHeight,
+            $EntityBox;
 
         $('#Canvas')
             .append('<div class="Activity" id="' + EscapeHTML(EntityID) + '"><span>' + EscapeHTML(EntityName) + '</span><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
@@ -161,6 +166,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(Path, 'Activity');
             });
+
+        // Correct placing of activity name within box
+        $EntityBox = $('#' + EntityID);
+        EntityNameHeight = $EntityBox.find('span').height();
+        $EntityBox.find('span').css('margin-top', parseInt((ActivityBoxHeight - EntityNameHeight) / 2), 10);
 
         // make the activity able to accept transitions
         jsPlumb.makeTarget(EntityID, {
