@@ -1,8 +1,8 @@
 # --
 # AgentTicketProcess.dtl - provides HTML for AgentTicketProcess.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.dtl,v 1.9 2012-11-20 15:23:10 mh Exp $
+# $Id: AgentTicketProcess.dtl,v 1.10 2013-02-14 11:23:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,6 +40,7 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#ProcessEntityID').bind('change', function() {
+
         if ($('#ProcessEntityID').val()) {
 
             // remove the content of the activity dialog
@@ -60,7 +61,7 @@
                 if (!Response) {
 
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
-                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content received.", 'CommunicationError'));
                     $('#AJAXLoader').addClass('Hidden');
                 }
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
@@ -71,6 +72,7 @@
                     });
                     $ElementToUpdate.fadeIn();
                     try {
+                        /*jslint evil: true */
                         eval(JavaScriptString);
                     }
                     catch (Exception) {}
