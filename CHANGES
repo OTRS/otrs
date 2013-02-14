@@ -1,5 +1,7 @@
 3.2.2 2013-02-??
- - 2013-02-14 Updated Spanis translation, thanks to Enrique Matías Sánchez!
+ - 2013-02-14 Follow-up fix for bug#4513 - Password and Username are added
+    automatically by the browser in AdminUser dialog.
+ - 2013-02-14 Updated Spanish translation, thanks to Enrique Matías Sánchez!
  - 2013-02-14 Fixed bug#9157 - ProcessManagement: Activity labels not aligned well.
  - 2013-02-14 Fixed bug#9156 - ProcessManagement: Transition Condition Fields cannot be removed correctly.
  - 2013-02-14 Fixed bug#9160 - ProcessManagement: Path dialog looses data after editing transition actions.

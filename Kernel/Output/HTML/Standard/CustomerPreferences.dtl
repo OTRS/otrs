@@ -1,8 +1,8 @@
 # --
 # CustomerPreferences.dtl - provides HTML form for CustomerPreferences
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.dtl,v 1.10 2012-11-20 15:24:58 mh Exp $
+# $Id: CustomerPreferences.dtl,v 1.11 2013-02-14 13:19:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
 <!-- dtl:block:Password -->
                     <div>
                         <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}</label>
-                        <input title="$QData{"Name"}" type="password" id="$QData{"Name"}" name="$QData{"Name"}" value="" size="20" />
+                        <input title="$QData{"Name"}" type="password" id="$QData{"Name"}" name="$QData{"Name"}" value="" size="20" autocomplete="off" />
                         <div class="ClearLeft"></div>
                     </div>
 <!-- dtl:block:Password -->
