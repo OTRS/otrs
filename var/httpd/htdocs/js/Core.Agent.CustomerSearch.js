@@ -1,8 +1,8 @@
 // --
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.48 2012-12-27 12:28:01 mn Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.49 2013-02-14 11:16:49 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -595,8 +595,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     TargetNS.ShowDuplicatedDialog = function(Field){
         Core.UI.Dialog.ShowAlert(
             Core.Config.Get('Duplicated.TitleText'),
-            Core.Config.Get('Duplicated.ContentText')
-                + ' ' + Core.Config.Get('Duplicated.RemoveText'),
+            Core.Config.Get('Duplicated.ContentText') + ' ' + Core.Config.Get('Duplicated.RemoveText'),
             function () {
                 Core.UI.Dialog.CloseDialog($('.Alert'));
                 $('#' + Field).val('');
