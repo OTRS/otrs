@@ -1,5 +1,9 @@
+3.2.3 2013-??-??
+ - 2013-02-14 Fixed bug#9087 - ProcessManagement: AgentTicketProcess doesn't show multi level queue structure.
+ - 2013-02-14 Follow-up fix for bug#9158 - ProcessManagement: Priority field error message: Need Priority or PriorityID!.
+
 3.2.2 2013-02-19
- - 2013-02-14 fixed bug#9171 - ProcessManagement: AgentTicketProcess lists all state types.
+ - 2013-02-14 Fixed bug#9171 - ProcessManagement: AgentTicketProcess lists all state types.
  - 2013-02-14 Follow-up fix for bug#4513 - Password and Username are added
     automatically by the browser in AdminUser dialog.
  - 2013-02-14 Updated Spanish translation, thanks to Enrique Matías Sánchez!
