@@ -1,16 +1,5 @@
-# --
-# README - readme file of Custom directory
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: README,v 1.6 2012-11-20 14:26:06 mh Exp $
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --
-
-In case you need to modify already existing framework file for customizations,
-do this in the $OTRS_HOME/Custom/ directory.
+If you need to modify already existing framework Perl module files or DTL template files
+for customizations, you can do this in the $OTRS_HOME/Custom/ directory.
 
 Example:
 
