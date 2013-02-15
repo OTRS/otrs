@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.44 2013-02-14 14:53:48 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.45 2013-02-15 03:09:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -3190,26 +3190,23 @@ sub _RenderPriority {
         );
     }
 
-    # get field default value from the config
-    my $DefaultPriority = $Param{ActivityDialogField}->{DefaultValue} || '';
-
     if ( $Param{FieldName} eq 'Priority' ) {
 
-        if ( !$SelectedValue && $DefaultPriority ) {
+        if ( !$SelectedValue ) {
 
-            # check if default value exist in the system
+            # Fetch DefaultValue from Config
             $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
-                Priority => $DefaultPriority,
+                Priority => $Param{ActivityDialogField}->{DefaultValue} || '',
             );
             if ($SelectedValue) {
-                $SelectedValue = $DefaultPriority;
+                $SelectedValue = $Param{ActivityDialogField}->{DefaultValue};
             }
         }
     }
     else {
-        if ( !$SelectedValue && $DefaultPriority ) {
+        if ( !$SelectedValue ) {
             $SelectedValue = $Self->{PriorityObject}->PriorityLookup(
-                PriorityID => $DefaultPriority,
+                PriorityID => $Param{ActivityDialogField}->{DefaultValue} || '',
             );
         }
     }
