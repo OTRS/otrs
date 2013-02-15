@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.175 2012-12-12 13:47:24 mg Exp $
+# $Id: AgentTicketCompose.pm,v 1.176 2013-02-15 22:21:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.175 $) [1];
+$VERSION = qw($Revision: 1.176 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -553,6 +553,10 @@ sub Run {
         # run compose modules
         if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' )
         {
+
+            # use ticket QueueID in compose modules
+            $GetParam{QueueID} = $Ticket{QueueID};
+
             my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
 
@@ -877,6 +881,10 @@ sub Run {
 
         # run compose modules
         if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
+
+            # use ticket QueueID in compose modules
+            $GetParam{QueueID} = $Ticket{QueueID};
+
             my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
 
@@ -892,6 +900,11 @@ sub Run {
 
                 # run module
                 my %Data = $Object->Data( %GetParam, Config => $Jobs{$Job} );
+
+                # get AJAX param values
+                if ( $Object->can('GetParamAJAX') ) {
+                    %GetParam = ( %GetParam, $Object->GetParamAJAX(%GetParam) )
+                }
 
                 my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
                 if ($Key) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.220 2013-01-30 00:00:42 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.221 2013-02-15 22:21:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.220 $) [1];
+$VERSION = qw($Revision: 1.221 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1428,6 +1428,10 @@ sub Run {
 
         # run compose modules
         if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
+
+            # use QueueID from web request in compose modules
+            $GetParam{QueueID} = $QueueID;
+
             my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
 
@@ -1443,6 +1447,11 @@ sub Run {
 
                 # run module
                 my %Data = $Object->Data( %GetParam, Config => $Jobs{$Job} );
+
+                # get AJAX param values
+                if ( $Object->can('GetParamAJAX') ) {
+                    %GetParam = ( %GetParam, $Object->GetParamAJAX(%GetParam) )
+                }
 
                 my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
                 if ($Key) {

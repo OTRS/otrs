@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleComposeSign.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.26 2012-11-20 14:56:18 mh Exp $
+# $Id: ArticleComposeSign.pm,v 1.27 2013-02-15 22:21:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -154,6 +154,24 @@ sub ArticleOption {
         );
     }
     return;
+}
+
+sub GetParamAJAX {
+    my ( $Self, %Param ) = @_;
+
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+
+    my %Result;
+
+    # get default signing key
+    if ( $Param{QueueID} ) {
+        my $QueueObject = Kernel::System::Queue->new( %{$Self} );
+        my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
+        $Result{SignKeyID} = $Queue{DefaultSignKey} || '';
+    }
+
+    return %Result;
 }
 
 sub Error {
