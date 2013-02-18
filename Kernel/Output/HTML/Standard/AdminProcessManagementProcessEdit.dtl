@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.48 2013-02-07 09:13:01 mab Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.49 2013-02-18 10:56:15 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,7 +233,9 @@
                     <div id="Canvas">
                     </div>
                     <div class="DiagramDeleteLink"><a href="#" title="$Text{"Remove the Activity from this Process"}">X</a></div>
+                </div>
 
+                <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop SaveButtons">
                             <button class="Primary" id="SubmitAndContinue" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
