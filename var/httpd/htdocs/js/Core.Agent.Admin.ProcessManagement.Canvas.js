@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.50 2013-02-14 10:18:08 mg Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.51 2013-02-18 10:57:04 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -258,12 +258,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
 
     TargetNS.ShowActivityTooltip = function ($Element) {
-        var $tooltip = $('#DiagramTooltip'),
+        var $Tooltip = $('#DiagramTooltip'),
             text = '<h4>' + EscapeHTML($Element.find('span').text()) + '</h4>',
-            position = { x: 0, y: 0},
+            position = {x: 0, y: 0},
             Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             ActivityDialogs,
-            ElementID = $Element.attr('id');
+            ElementID = $Element.attr('id'),
+            CanvasWidth,
+            TooltipWidth;
 
         if (typeof Activity[$Element.attr('id')] === 'undefined') {
             return false;
@@ -271,19 +273,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         ActivityDialogs = Activity[$Element.attr('id')].ActivityDialog;
 
-        if (!$tooltip.length) {
-            $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
+        if (!$Tooltip.length) {
+            $Tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
         }
-        else if ($tooltip.is(':visible')) {
-            $tooltip.hide();
+        else if ($Tooltip.is(':visible')) {
+            $Tooltip.hide();
         }
-
-        // calculate tooltip position
-        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-        position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 10;
-
-        // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
-        position.y = parseInt($Element.css('top'), 10) + 10;
 
         // Add content to the tooltip
         text += "<ul>";
@@ -307,8 +302,28 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         text += "</ul>";
 
-        $tooltip
-            .html(text)
+        $Tooltip.html(text);
+
+        // calculate tooltip position
+        // if activity box is at the right border of the canvas, switch tooltip to the left side of the box
+        CanvasWidth = $('#Canvas').width();
+        TooltipWidth = $Tooltip.width();
+
+        // If activity does not fit in canvas, generate tooltip on the left side
+        if (CanvasWidth < (parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + TooltipWidth)) {
+            // x: x-coordinate of element within canvas - width of tooltip
+            position.x = parseInt($Element.css('left'), 10) - TooltipWidth - 10;
+        }
+        // otherwise put tooltip on the right side (default behaviour)
+        else {
+            // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
+            position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 10;
+        }
+
+        // y-coordinate
+        position.y = parseInt($Element.css('top'), 10) + 10;
+
+        $Tooltip
             .css('top', position.y)
             .css('left', position.x)
             .show();
