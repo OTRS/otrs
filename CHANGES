@@ -10,6 +10,8 @@
 # --
 
 3.1.13 2013-02-19
+ - 2013-02-19 Fixed bug#9128 - OTRS uses internal sub of Locale::Codes::Country which causes trouble for
+    Debian.
  - 2013-02-13 Fixed bug#9162 - Setting the start day of the week for the datepicker to Sunday does not work.
  - 2013-02-13 Fixed bug#9141 - Confused Columns in CustomerTicketSearch (ResultShort).
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
