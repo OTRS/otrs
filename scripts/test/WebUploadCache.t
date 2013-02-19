@@ -74,6 +74,12 @@ for my $Module (qw(DB FS)) {
             ContentID   => $ContentID,
             Disposition => $Disposition,
         );
+        
+        my $Filename = "UploadCache Test1äöüß.$File";
+        # Mac OS (HFS+) will store all filenames as NFD internally.
+        if ( $^O eq 'darwin' && $Module eq 'FS' ) {
+            $Filename = Unicode::Normalize::NFD($Filename);
+        }
 
         $Self->True(
             $Add || '',
@@ -90,9 +96,10 @@ for my $Module (qw(DB FS)) {
                 $ContentID,
                 "#$Module - FormIDGetAllFilesData() - ContentID ." . $File,
             );
+            
             $Self->Is(
                 $File{Filename},
-                "UploadCache Test1äöüß.$File",
+                $Filename,
                 "#$Module - FormIDGetAllFilesData() - Filename ." . $File,
             );
             $Self->True(
@@ -115,9 +122,10 @@ for my $Module (qw(DB FS)) {
                 $ContentID,
                 "#$Module - FormIDGetAllFilesMeta() - ContentID ." . $File,
             );
+            
             $Self->Is(
                 $File{Filename},
-                "UploadCache Test1äöüß.$File",
+                $Filename,
                 "#$Module - FormIDGetAllFilesMeta() - Filename ." . $File,
             );
         }
@@ -139,6 +147,7 @@ for my $Module (qw(DB FS)) {
             Location => $Location,
             Mode     => 'binmode',
         );
+        
         my $Content = ${$ContentRef};
         $EncodeObject->EncodeOutput( \$Content );
         my $MD5         = md5_hex($Content);
@@ -154,6 +163,12 @@ for my $Module (qw(DB FS)) {
             Disposition => $Disposition,
         );
 
+        my $Filename = "UploadCache Test1äöüß.$File";
+        # Mac OS (HFS+) will store all filenames as NFD internally.
+        if ( $^O eq 'darwin' && $Module eq 'FS' ) {
+            $Filename = Unicode::Normalize::NFD($Filename);
+        }
+        
         $Self->True(
             $Add || '',
             "#$Module - FormIDAddFile() - ." . $File,
@@ -164,9 +179,10 @@ for my $Module (qw(DB FS)) {
         );
         if (@Data) {
             my %File = %{ $Data[$#Data] };
+            
             $Self->Is(
                 $File{Filename},
-                "UploadCache Test1äöüß.$File",
+                $Filename,
                 "#$Module - FormIDGetAllFilesData() - Filename ." . $File,
             );
             $Self->True(
@@ -186,7 +202,7 @@ for my $Module (qw(DB FS)) {
             my %File = %{ $Data[$#Data] };
             $Self->Is(
                 $File{Filename},
-                "UploadCache Test1äöüß.$File",
+                $Filename,
                 "#$Module - FormIDGetAllFilesMeta() - Filename ." . $File,
             );
         }
