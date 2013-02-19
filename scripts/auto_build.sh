@@ -134,8 +134,6 @@ echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE
 # --
 cd $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
-# remove CVS dirs
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name CVS | xargs rm -rf || exit 1;
 # remove .cvs ignore files
 find -name ".gitignore" | xargs rm -rf
 
