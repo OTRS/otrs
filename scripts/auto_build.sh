@@ -173,7 +173,7 @@ rm -rf var/httpd/htdocs/yui/*/tests/
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
 # remove .cvs ignore files
-find -name ".cvsignore" | xargs rm -rf
+find -name ".gitignore" | xargs rm -rf
 # remove Kernel/Config.pm if exists
 rm -rf Kernel/Config.pm
 # remove not used dirs
