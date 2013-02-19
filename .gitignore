@@ -3,5 +3,6 @@
 .gnupg
 .settings
 .includepath
+.DS_Store
 Fred.sopm
 CHANGES-Fred
