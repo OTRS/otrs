@@ -114,7 +114,7 @@ sub CountryList {
         return \%CountryJustNames;
     }
 
-    my @CountryNames = all_country_names('alpha-2');
+    my @CountryNames = all_country_names();
 
     if ( $Param{Result} ) {
 

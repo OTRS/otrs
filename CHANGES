@@ -1,4 +1,6 @@
 3.2.3 2013-??-??
+ - 2013-02-18 Fixed bug#9128 - OTRS uses internal sub of Locale::Codes::Country which causes trouble for
+    Debian.
  - 2013-02-18 Fixed bug#9173 - ProcessManagement: Very right aligned activities can't display assigned dialogs.
  - 2013-02-18 Fixed bug#9174 - Process Management: Save / Save and finish / Cancel inside process diagram canvas.
  - 2013-02-15 Fixed bug#9155 - SMIME: DefaultSignKey not selected in AJAX refreshes.
