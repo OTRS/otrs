@@ -137,7 +137,7 @@ cd $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 # remove CVS dirs
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name CVS | xargs rm -rf || exit 1;
 # remove .cvs ignore files
-find -name ".cvsignore" | xargs rm -rf
+find -name ".gitignore" | xargs rm -rf
 
 #
 # remove old sessions, articles and spool and other stuff
