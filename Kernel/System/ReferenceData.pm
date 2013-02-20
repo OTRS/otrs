@@ -14,7 +14,7 @@ package Kernel::System::ReferenceData;
 use strict;
 use warnings;
 
-use Locale::Codes::Country qw(all_country_names);
+use Locale::Country qw(all_country_names);
 
 use vars qw(@ISA $VERSION);
 $VERSION = qw($Revision: 1.7 $) [1];
