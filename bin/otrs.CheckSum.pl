@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.CheckSum.pl - a tool to compare changes in a installation
+# bin/otrs.CheckSum.pl - a tool to compare changes in an installation
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
 # $Id: otrs.CheckSum.pl,v 1.16 2013-01-22 10:14:09 mg Exp $
@@ -104,8 +104,8 @@ sub R {
         # always stay in OTRS directory
         next FILE if $File !~ /^\Q$Start\E/;
 
-        # ignote cvs directories
-        next if $File =~ /Entries|Repository|Root|CVS|ARCHIVE/;
+        # ignore source code directories, ARCHIVE file
+        next if $File =~ /Entries|Repository|Root|CVS|.git|ARCHIVE/;
 
         # if it's a directory
         if ( -d $File ) {
