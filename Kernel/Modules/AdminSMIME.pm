@@ -15,6 +15,7 @@ use strict;
 use warnings;
 
 use Kernel::System::Crypt;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.48 $) [1];
@@ -37,6 +38,7 @@ sub new {
     }
 
     $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'SMIME' );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %Param );
 
     return $Self;
 }
@@ -90,6 +92,36 @@ sub Run {
 
             %Result = $Self->{CryptObject}->CertificateRemove( Filename => $Filename );
             push @Result, \%Result if %Result;
+
+            # delete certificate from customer preferences
+            if ( $Result{Successful} ) {
+
+                # check if there are customers that have assigned the certificate in their
+                # preferences
+                my %UserList = $Self->{CustomerUserObject}->SearchPreferences(
+                    Key   => 'SMIMEFilename',
+                    Value => $Filename,
+                );
+
+                # loop all customers that have assigned certificate in their preferences
+                for my $UserID (sort keys %UserList) {
+
+                    # reset all SMIME preferences for the customer
+                    for my $PreferenceKey ( qw(SMIMEHash SMIMEFingerprint SMIMEFilename) ) {
+                        my $Success = $Self->{CustomerUserObject}->SetPreferences(
+                            Key    => $PreferenceKey,
+                            Value  => '',
+                            UserID => $UserID,
+                        );
+                        if ( !$Success ) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'error',
+                                Message  => "Could not reset preference $PreferenceKey for customer $UserID",
+                            );
+                        }
+                    }
+                }
+            }
 
             if ( defined $Attributes{Private} && $Attributes{Private} eq 'Yes' ) {
                 %Result = $Self->{CryptObject}->PrivateRemove( Filename => $Filename );
