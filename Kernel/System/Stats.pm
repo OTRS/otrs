@@ -2907,38 +2907,40 @@ sub _GenerateDynamicStats {
     }
 
     # merge the array if two elements for the valueseries are avialable
-    KEY:
-    for my $Key ( sort keys %{ $ArraySelected[0]{Values} } ) {
-        my $Value0;
-        if ( $ArraySelected[0]{Block} eq 'SelectField' ) {
-            $Value0 = $Key;
-        }
-        elsif ( $ArraySelected[0]{Block} eq 'MultiSelectField' ) {
-            $Value0 = [$Key];
-        }
-
-        if ( !$ArraySelected[1] ) {
-            $ValueSeries{ $ArraySelected[0]{Values}{$Key} }
-                = { $ArraySelected[0]{Element} => $Value0 };
-            next KEY;
-        }
-
-        for my $SubKey ( sort keys %{ $ArraySelected[1]{Values} } ) {
-            my $Value1;
-            if ( $ArraySelected[1]{Block} eq 'SelectField' ) {
-                $Value1 = $SubKey;
+    if ( $ArraySelected[0] ) {
+        KEY:
+        for my $Key ( sort keys %{ $ArraySelected[0]{Values} } ) {
+            my $Value0;
+            if ( $ArraySelected[0]{Block} eq 'SelectField' ) {
+                $Value0 = $Key;
             }
-            elsif ( $ArraySelected[1]{Block} eq 'MultiSelectField' ) {
-                $Value1 = [$SubKey];
+            elsif ( $ArraySelected[0]{Block} eq 'MultiSelectField' ) {
+                $Value0 = [$Key];
             }
-            $ValueSeries{
-                $ArraySelected[0]{Values}{$Key} . ' - '
-                    . $ArraySelected[1]{Values}{$SubKey}
+    
+            if ( !$ArraySelected[1] ) {
+                $ValueSeries{ $ArraySelected[0]{Values}{$Key} }
+                    = { $ArraySelected[0]{Element} => $Value0 };
+                next KEY;
+            }
+    
+            for my $SubKey ( sort keys %{ $ArraySelected[1]{Values} } ) {
+                my $Value1;
+                if ( $ArraySelected[1]{Block} eq 'SelectField' ) {
+                    $Value1 = $SubKey;
                 }
-                = {
-                $ArraySelected[0]{Element} => $Value0,
-                $ArraySelected[1]{Element} => $Value1
-                };
+                elsif ( $ArraySelected[1]{Block} eq 'MultiSelectField' ) {
+                    $Value1 = [$SubKey];
+                }
+                $ValueSeries{
+                    $ArraySelected[0]{Values}{$Key} . ' - '
+                        . $ArraySelected[1]{Values}{$SubKey}
+                    }
+                    = {
+                    $ArraySelected[0]{Element} => $Value0,
+                    $ArraySelected[1]{Element} => $Value1
+                    };
+            }
         }
     }
 

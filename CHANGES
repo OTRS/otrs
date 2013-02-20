@@ -1,4 +1,5 @@
 3.2.3 2013-??-??
+ - 2013-02-20 Fixed bug#8865 - Additional empty data column in statistics CSV-Output.
  - 2013-02-19 Fixed bug#4056 - Delete S/MIME Certificate via AdminSMIME does not update CustomerUserPreferences.
  - 2013-02-18 Fixed bug#9128 - OTRS uses internal sub of Locale::Codes::Country which causes trouble for
     Debian.
