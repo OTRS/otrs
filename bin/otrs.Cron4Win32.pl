@@ -24,9 +24,8 @@
 use strict;
 use warnings;
 
-use Path::Class;
-
 use File::Basename;
+use File::Spec;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
@@ -39,7 +38,7 @@ $VERSION = qw($Revision: 1.13 $) [1];
 my $CronTabFile = "";
 
 my $OTRSHome = dirname($RealBin);
-my $CronDir = dir( $OTRSHome, 'var/cron' );
+my $CronDir = File::Spec->catfile( $OTRSHome, 'var/cron' );
 
 # if $CronTabFile is not set by windows installer, for instance
 # with a manual installation, require an argument for the location
