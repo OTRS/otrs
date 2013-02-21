@@ -5,6 +5,7 @@
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
+# Copyleft (cc-by) 2013 Katerina Bubenickova <katerina.bubenickova at plbbohnice dot cz>
 # --
 # $Id: cs.pm,v 1.23.2.2 2012-11-22 06:56:07 mb Exp $
 # --
@@ -19,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.2 $) [1];
+$VERSION = qw($Revision: 1.23.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:30
+    # Last translation file sync: 2013-01-11 16:07:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -57,9 +58,9 @@ sub Data {
         'Reset' => '',
         'last' => 'poslední',
         'before' => 'před',
-        'Today' => '',
+        'Today' => 'Dnes',
         'Tomorrow' => 'Zítra',
-        'Next week' => '',
+        'Next week' => 'Příští týden',
         'day' => 'den',
         'days' => 'dní(dny)',
         'day(s)' => 'den(dní)',
@@ -242,12 +243,12 @@ sub Data {
         'System Settings' => 'Nastavení systému',
         'Mail Configuration' => '',
         'Finished' => 'Dokončeno',
-        'Install OTRS' => '',
+        'Install OTRS' => 'Instalovat OTRS',
         'Intro' => '',
         'License' => 'Licence',
         'Database' => 'Databáze',
-        'Configure Mail' => '',
-        'Database deleted.' => '',
+        'Configure Mail' => 'Konfigurovat Mail',
+        'Database deleted.' => 'Databáze smazána',
         'Database setup succesful!' => '',
         'Login is needed!' => 'Vyžadováno přihlášení',
         'Password is needed!' => 'Vyžadováno heslo',
@@ -257,7 +258,7 @@ sub Data {
         'reject' => 'zamítnout',
         'reverse' => 'reverzní',
         'Facility' => 'Vybavení',
-        'Time Zone' => '',
+        'Time Zone' => 'Časové pásmo',
         'Pending till' => 'Čekání na vyřízení do',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             '',
@@ -270,35 +271,35 @@ sub Data {
         'Preview' => 'Zobrazit',
         'Package not correctly deployed! Please reinstall the package.' =>
             '',
-        '%s is not writable!' => '',
+        '%s is not writable!' => '%s není zapisovatelné',
         'Cannot create %s!' => '',
         'Check to activate this date' => '',
         'You have Out of Office enabled, would you like to disable it?' =>
             '',
-        'Customer %s added' => '',
+        'Customer %s added' => 'Zákazník %s přidán',
         'Role added!' => 'Role přidána!',
-        'Role updated!' => '',
-        'Attachment added!' => '',
-        'Attachment updated!' => '',
-        'Response added!' => '',
-        'Response updated!' => '',
-        'Group updated!' => '',
-        'Queue added!' => '',
-        'Queue updated!' => '',
-        'State added!' => '',
-        'State updated!' => '',
-        'Type added!' => '',
-        'Type updated!' => '',
-        'Customer updated!' => '',
+        'Role updated!' => 'Role aktualizována!',
+        'Attachment added!' => 'Příloha připojena!',
+        'Attachment updated!' => 'Příloha aktualizována!',
+        'Response added!' => 'Odpověď přidána!',
+        'Response updated!' => 'Odpověď aktualizována!',
+        'Group updated!' => 'Skupina přidána!',
+        'Queue added!' => 'Fronta přidána!',
+        'Queue updated!' => 'Fronta aktualizována!',
+        'State added!' => 'Stav přidán!',
+        'State updated!' => 'Stav aktualizován!',
+        'Type added!' => 'Typ přidán!',
+        'Type updated!' => 'Typ aktualizován!',
+        'Customer updated!' => 'Zákazník aktualizován!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
-        'Mail account added!' => '',
-        'Mail account updated!' => '',
-        'System e-mail address added!' => '',
-        'System e-mail address updated!' => '',
+        'Mail account added!' => 'Mailový účet přidán!',
+        'Mail account updated!' => 'Mailový účet aktualizován!',
+        'System e-mail address added!' => 'Systémová e-mailová adresa přidána!',
+        'System e-mail address updated!' => 'Systémová e-mailová adresa aktualizována!',
         'Contract' => 'Kontrakt',
-        'Online Customer: %s' => 'Online Zákazníci',
-        'Online Agent: %s' => 'Online Řešitelé',
+        'Online Customer: %s' => 'Online Zákazník: %s',
+        'Online Agent: %s' => 'Online Řešitel: %s',
         'Calendar' => 'Kalendář',
         'File' => 'Soubor',
         'Filename' => 'Název souboru',
@@ -311,8 +312,8 @@ sub Data {
         'Crypted' => 'Šifrováno',
         'Crypt' => 'Šifrovat',
         'PGP' => 'PGP',
-        'PGP Key' => '',
-        'PGP Keys' => '',
+        'PGP Key' => 'PGP klíč',
+        'PGP Keys' => 'PGP klíče',
         'S/MIME' => 'S/MIME',
         'S/MIME Certificate' => '',
         'S/MIME Certificates' => '',
@@ -605,7 +606,7 @@ sub Data {
         'Escalation' => 'Eskalace',
         'last-search' => '',
         'QueueView' => 'Náhled fronty',
-        'Ticket Escalation View' => '',
+        'Ticket Escalation View' => 'Zobrazit eskalaci tiketu',
         'Message from' => '',
         'End message' => '',
         'Forwarded message from' => '',
@@ -613,7 +614,7 @@ sub Data {
         'new' => 'nová',
         'open' => 'otevřít',
         'Open' => 'Otevřít',
-        'Open tickets' => '',
+        'Open tickets' => 'Otevřené tikety',
         'closed' => 'uzavřeno',
         'Closed' => 'Uzavřeno',
         'Closed tickets' => '',
@@ -716,7 +717,7 @@ sub Data {
         'Ticket %s: solution time will be over in %s!' => 'Tiket %s: Čas Řešení vyprší v %s!',
         'There are more escalated tickets!' => 'Je zde více Eskalovaných Tiketů',
         'Plain Format' => '',
-        'Reply All' => '',
+        'Reply All' => 'Odpovědět všem',
         'Direction' => '',
         'Agent (All with write permissions)' => '',
         'Agent (Owner)' => '',
@@ -724,25 +725,25 @@ sub Data {
         'New ticket notification' => 'Oznámení o Novém Tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Pošli mi oznámení o novém Tiketu v mých Frontách.',
-        'Send new ticket notifications' => '',
-        'Ticket follow up notification' => '',
+        'Send new ticket notifications' => 'Poslat oznámení o novém tiketu',
+        'Ticket follow up notification' => 'Oznámení o pokračování tiketu',
         'Ticket lock timeout notification' => 'Oznámení o vypršení času uzamčení tiketu',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Pošli mi oznámení, pokud je tiket odemknut systémem.',
-        'Send ticket lock timeout notifications' => '',
-        'Ticket move notification' => '',
+        'Send ticket lock timeout notifications' => 'Poslat oznámení o odemčení tiketu systémem',
+        'Ticket move notification' => 'Oznámení o přesunu tiketu',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
             'Pošli mi oznámení pokud je Tiket přesunut do mých Front.',
-        'Send ticket move notifications' => '',
+        'Send ticket move notifications' => 'Poslat oznámení o přesunu tiketu',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Custom Queue' => 'Vlastní fronta',
         'QueueView refresh time' => 'Doba obnovení náhledu fronty',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
             '',
-        'Refresh QueueView after' => '',
+        'Refresh QueueView after' => 'Obnovit zobrazení front po',
         'Screen after new ticket' => 'Zobrazení po Novém Tiketu',
-        'Show this screen after I created a new ticket' => '',
+        'Show this screen after I created a new ticket' => 'Zobraz tento pohled, když vytvořím nový tiket',
         'Closed Tickets' => 'Uzavřené Tikety',
         'Show closed tickets.' => 'Ukázat uzavřené tikety.',
         'Max. shown Tickets a page in QueueView.' => 'Max. zobrazených tiketů v náhledu fronty na stránku',
@@ -757,12 +758,12 @@ sub Data {
             '',
         'Send ticket watch notifications' => '',
         'Out Of Office Time' => '',
-        'New Ticket' => 'nový Tiket',
+        'New Ticket' => 'Nový tiket',
         'Create new Ticket' => 'Vytvořit Nový Tiket',
         'Customer called' => 'Volal Zákazník',
         'phone call' => 'Telefonní volání',
-        'Phone Call Outbound' => '',
-        'Phone Call Inbound' => '',
+        'Phone Call Outbound' => 'Odchozí telefonní hovor',
+        'Phone Call Inbound' => 'Příchozí telefonní hovor',
         'Reminder Reached' => 'Dosažena Upomínka',
         'Reminder Tickets' => 'Upozornění na Tikety',
         'Escalated Tickets' => 'Eskalované Tikety',
@@ -774,7 +775,7 @@ sub Data {
         'All escalated tickets' => '',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
-        'Archived tickets' => '',
+        'Archived tickets' => 'Archivované tikety',
         'Unarchived tickets' => '',
         'History::Move' => 'Tiket přesunut do Fronty "%s" (%s) z Fronty "%s" (%s).',
         'History::TypeUpdate' => 'Typ Tiketu aktualizován na %s (ID=%s).',
@@ -827,59 +828,59 @@ sub Data {
 
         # Template: AdminAttachment
         'Attachment Management' => 'Správa příloh',
-        'Actions' => '',
-        'Go to overview' => '',
-        'Add attachment' => '',
+        'Actions' => 'Akce',
+        'Go to overview' => 'Přejít na přehled',
+        'Add attachment' => 'Přidat přílohu',
         'List' => 'Pořadí',
-        'Validity' => '',
-        'No data found.' => '',
-        'Download file' => '',
-        'Delete this attachment' => '',
-        'Add Attachment' => '',
-        'Edit Attachment' => '',
-        'This field is required.' => '',
+        'Validity' => 'Platnost',
+        'No data found.' => 'Data nenalezena.',
+        'Download file' => 'Stáhnout soubor',
+        'Delete this attachment' => 'Smazat tuto přílohu',
+        'Add Attachment' => 'Přidat přílohu',
+        'Edit Attachment' => 'Upravit přílohu',
+        'This field is required.' => 'Toto pole musí být vyplněno.',
         'or' => 'nebo',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Správa automatických odpovědí',
-        'Add auto response' => '',
-        'Add Auto Response' => '',
-        'Edit Auto Response' => '',
+        'Add auto response' => 'Přidat automatickou odpověď',
+        'Add Auto Response' => 'Přidat Automatickou Odpověď',
+        'Edit Auto Response' => 'Upravit automatickou odpověď',
         'Response' => 'Odpověď',
-        'Auto response from' => '',
+        'Auto response from' => 'Automatická odpověď od',
         'Reference' => '',
         'You can use the following tags' => '',
         'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu',
         'To get the first 5 lines of the email.' => 'pro získáni prvních 5ti řádků z emailu',
         'To get the realname of the sender (if given).' => 'Pro získání Jména Odesílatele (je-li dáno)',
-        'To get the article attribute' => '',
+        'To get the article attribute' => 'Získat atributy článku',
         ' e. g.' => '',
         'Options of the current customer user data' => '',
-        'Ticket owner options' => '',
+        'Ticket owner options' => 'Nastavení vlastníka tiketu',
         'Ticket responsible options' => '',
         'Options of the current user who requested this action' => '',
         'Options of the ticket data' => '',
         'Config options' => '',
-        'Example response' => '',
+        'Example response' => 'Vzorová odpověď',
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Správa Společnosti Zákazníka',
         'Wildcards like \'*\' are allowed.' => '',
-        'Add customer company' => '',
+        'Add customer company' => 'Přidat společnost zákazníka',
         'Please enter a search term to look for customer companies.' => '',
         'Add Customer Company' => 'Přidat Společnost Zákazníka',
 
         # Template: AdminCustomerUser
-        'Customer Management' => '',
-        'Add customer' => '',
+        'Customer Management' => 'Správa zákazníků',
+        'Add customer' => 'Přidat zákazníka',
         'Select' => 'Vybrat',
-        'Hint' => '',
+        'Hint' => 'Nápověda',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             '',
         'Please enter a search term to look for customers.' => '',
-        'Last Login' => '',
-        'Add Customer' => '',
-        'Edit Customer' => '',
+        'Last Login' => 'Poslední přihlášení',
+        'Add Customer' => 'Přidat zákazníka',
+        'Edit Customer' => 'Upravit zákazníka',
         'This field is required and needs to be a valid email address.' =>
             '',
         'This email address is not allowed due to the system configuration.' =>
@@ -891,24 +892,24 @@ sub Data {
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
-        'Notice' => '',
+        'Notice' => 'Poznámka',
         'This feature is disabled!' => 'tato Funkce je Deaktivovaná!',
         'Just use this feature if you want to define group permissions for customers.' =>
             '',
         'Enable it here!' => 'Aktivujte ji Zde!',
-        'Search for customers.' => '',
-        'Edit Customer Default Groups' => '',
+        'Search for customers.' => 'Hledat zákazníka.',
+        'Edit Customer Default Groups' => 'Upravit implicitní skupinu zákazníka',
         'These groups are automatically assigned to all customers.' => '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
-        'Filter for Groups' => '',
-        'Select the customer:group permissions.' => '',
+        'Filter for Groups' => 'Filtr pro skupiny',
+        'Select the customer:group permissions.' => 'Vybrat práva pro zákazníka:skupinu',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => '',
-        'Customers' => '',
+        'Search Result:' => 'Výsledek vyhledávání',
+        'Customers' => 'Zákazníci',
         'Groups' => 'Skupiny',
-        'No matches found.' => '',
+        'No matches found.' => 'Nenalezena žádná shoda.',
         'Change Group Relations for Customer' => '',
         'Change Customer Relations for Group' => '',
         'Toggle %s Permission for all' => '',
@@ -1466,7 +1467,7 @@ sub Data {
         'Metadata' => '',
         'Change Log' => '',
         'Date' => 'Datum',
-        'List of Files' => '',
+        'List of Files' => 'Seznam souborů',
         'Permission' => 'Práva',
         'Download' => '',
         'Download file from package!' => 'Download Souboru z Balíčku!',
@@ -1791,26 +1792,26 @@ sub Data {
         'Edit Type' => '',
 
         # Template: AdminUser
-        'Add agent' => '',
+        'Add agent' => 'Přidat řešitele',
         'Agents will be needed to handle tickets.' => '',
-        'Don\'t forget to add a new agent to groups and/or roles!' => '',
-        'Please enter a search term to look for agents.' => '',
-        'Last login' => '',
+        'Don\'t forget to add a new agent to groups and/or roles!' => 'Nezapomeňte přidat nového řešitele do skupin a/nebo rolí!',
+        'Please enter a search term to look for agents.' => 'Prosím vložte hledaný výraz pro hledání řešitelů.',
+        'Last login' => 'Poslední přihlášení',
         'Login as' => 'Přihlásit jako',
-        'Switch to agent' => '',
-        'Add Agent' => '',
-        'Edit Agent' => '',
+        'Switch to agent' => 'Přepnout na řešitele',
+        'Add Agent' => 'Přidat řešitele',
+        'Edit Agent' => 'Upravit řešitele',
         'Firstname' => 'Křestní Jméno',
         'Lastname' => 'Příjmenní',
-        'Password is required.' => '',
+        'Password is required.' => 'Je požadováno heslo.',
         'Start' => '',
         'End' => 'Konec',
 
         # Template: AdminUserGroup
-        'Manage Agent-Group Relations' => '',
+        'Manage Agent-Group Relations' => 'Spravovat vztahy mezi skupinami a řešiteli',
         'Change Group Relations for Agent' => '',
         'Change Agent Relations for Group' => '',
-        'note' => '',
+        'note' => 'poznámka',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'vlastník',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -1822,7 +1823,7 @@ sub Data {
         'Add email address %s to the To field' => '',
         'Add email address %s to the Cc field' => '',
         'Add email address %s to the Bcc field' => '',
-        'Apply' => '',
+        'Apply' => 'Použít',
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Vyhledat Zákazníka',
@@ -1852,10 +1853,10 @@ sub Data {
         'Posted %s ago.' => 'Odesláno před %s',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
-        'My watched tickets' => '',
+        'My locked tickets' => 'Moje uzamčené tikety',
+        'My watched tickets' => 'Moje sledované tikety',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
+        'Tickets in My Queues' => 'Tikety v mých frontách',
 
         # Template: AgentDashboardTicketStats
 
@@ -1866,8 +1867,8 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => '',
-        'Undo & close window' => '',
+        'The ticket has been locked' => 'Tiket byl uzamčen',
+        'Undo & close window' => 'Krok zpět & zavřít okno',
 
         # Template: AgentInfo
         'Info' => '',
@@ -1875,9 +1876,9 @@ sub Data {
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'Svázat Objekt: %s',
-        'Close window' => '',
+        'Close window' => 'Zavřít okno',
         'go to link delete screen' => '',
-        'Select Target Object' => '',
+        'Select Target Object' => 'Vybrat cílový Objekt',
         'Link Object' => 'Svázat Objekt',
         'with' => 's',
         'Unlink Object: %s' => 'Zrušit Vazbu Objektu: %s',
@@ -1886,7 +1887,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferences
-        'Edit your preferences' => '',
+        'Edit your preferences' => 'Upravit moje preference',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Funkce na kontrolu pravopisu',
@@ -1894,13 +1895,13 @@ sub Data {
         'Apply these changes' => 'Aplikovat tyto změny',
 
         # Template: AgentStatsDelete
-        'Delete stat' => '',
+        'Delete stat' => 'Smazat statistiky',
         'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
         'Step %s' => '',
-        'General Specifications' => '',
+        'General Specifications' => 'Obecné specifikace',
         'Select the element that will be used at the X-axis' => '',
         'Select the elements for the value series' => 'Vybrat prvky pro řadu hodnot',
         'Select the restrictions to characterize the stat' => '',
@@ -1923,7 +1924,7 @@ sub Data {
         'Some result formats are disabled because at least one needed package is not installed.' =>
             '',
         'Please contact your administrator.' => '',
-        'Graph size' => '',
+        'Graph size' => 'Velikost grafu',
         'If you use a graph as output format you have to select at least one graph size.' =>
             'Při použití grafu jako výstupního formátu, je nutno vybrat alespoň jednu velikost grafu.',
         'Sum rows' => 'Součet řádků',
@@ -2103,9 +2104,9 @@ sub Data {
         # Template: AgentTicketPending
 
         # Template: AgentTicketPhone
-        'Create New Phone Ticket' => '',
-        'From customer' => '',
-        'To queue' => '',
+        'Create New Phone Ticket' => 'Vytvořit nový telefonní tiket',
+        'From customer' => 'Od zákazníka',
+        'To queue' => 'Do fronty',
 
         # Template: AgentTicketPhoneCommon
         'Phone call' => 'Telefoní hovor',
@@ -2130,13 +2131,13 @@ sub Data {
         # Template: AgentTicketSearch
         'Search template' => 'Forma vyhledávání',
         'Create Template' => '',
-        'Create New' => '',
+        'Create New' => 'Vytvořit nový',
         'Profile link' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
         'Output' => 'Forma výsledku',
         'Fulltext' => '',
-        'Remove' => '',
+        'Remove' => 'Odstranit',
         'Customer User Login' => 'Přihlášení klienta',
         'Created in Queue' => 'Vytvořeno ve Frontě',
         'Lock state' => '',
@@ -2150,7 +2151,7 @@ sub Data {
         'Ticket Close Time (before/after)' => '',
         'Ticket Close Time (between)' => '',
         'Archive Search' => '',
-        'Run search' => '',
+        'Run search' => 'Spustit hledání',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2163,8 +2164,8 @@ sub Data {
         'Article Type' => 'Typ Článku',
         'Sender Type' => '',
         'Save filter settings as default' => 'Uložit Filtr jako Implicitní',
-        'Ticket Information' => '',
-        'Linked Objects' => '',
+        'Ticket Information' => 'Informace o tiketu',
+        'Linked Objects' => 'Připojené objekty',
         'Article(s)' => '',
         'Change Queue' => '',
         'Article Filter' => '',
@@ -2219,14 +2220,14 @@ sub Data {
         'How we should address you' => '',
         'Your First Name' => '',
         'Please supply a first name' => '',
-        'Your Last Name' => '',
+        'Your Last Name' => 'Vaše příjmení',
         'Please supply a last name' => '',
         'Your email address (this will become your username)' => '',
         'Please supply a' => '',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '',
-        'Logout %s' => '',
+        'Logout %s' => 'Odhlásit %s',
 
         # Template: CustomerPreferences
 
@@ -2236,31 +2237,31 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
-        'Please click the button below to create your first ticket.' => '',
-        'Create your first ticket' => '',
+        'Welcome!' => 'Vítejte!',
+        'Please click the button below to create your first ticket.' => 'Prosím stiskněte tlačítko pro vytvoření vašeho prvního tiketu.',
+        'Create your first ticket' => 'Vytvořit váš první tiket',
 
         # Template: CustomerTicketPrint
-        'Ticket Print' => '',
+        'Ticket Print' => 'Tisk tiketu',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => '',
         'Customer ID' => '',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Fulltextové vyhledávání v tiketech (např. "John*n" nebo "Will*")',
         'Recipient' => 'Příjemci',
         'Carbon Copy' => '',
-        'Time restrictions' => '',
+        'Time restrictions' => 'Omezení času',
         'No time settings' => '',
-        'Only tickets created' => '',
-        'Only tickets created between' => '',
+        'Only tickets created' => 'Pouze tikety vytvořené',
+        'Only tickets created between' => 'Pouze tikety vytvořené mezi',
         'Ticket archive system' => '',
-        'Save search as template?' => '',
-        'Save as Template?' => '',
-        'Save as Template' => '',
+        'Save search as template?' => 'Uložit vyhledávání jako šablonu?',
+        'Save as Template?' => 'Uložit jako šablonu?',
+        'Save as Template' => 'Uložit jako šablonu',
         'Template Name' => '',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'Výstup',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
@@ -2274,7 +2275,7 @@ sub Data {
         # Template: CustomerTicketZoom
         '","18' => '',
         'Expand article' => '',
-        'Reply' => '',
+        'Reply' => 'Odpovědět',
 
         # Template: CustomerWarning
 
@@ -2323,7 +2324,7 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'You are logged in as' => '',
+        'You are logged in as' => 'Jste přihlášen jako',
 
         # Template: HeaderSmall
 
@@ -2620,7 +2621,7 @@ sub Data {
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
-        'Company Tickets' => '',
+        'Company Tickets' => 'Ostatní tikety',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
         'Configure your own log text for PGP.' => '',
@@ -2653,7 +2654,7 @@ sub Data {
         'Create and manage ticket types.' => '',
         'Create and manage web services.' => '',
         'Create new email ticket and send this out (outbound)' => '',
-        'Create new phone ticket (inbound)' => '',
+        'Create new phone ticket (inbound)' => 'Vytvořit nový telefonní tiket (příchozí hovor)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3339,7 +3340,7 @@ sub Data {
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => '',
+        'Escalation view' => 'Zobrazit vyeskalované',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3517,7 +3518,7 @@ sub Data {
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
-        'Interface language' => '',
+        'Interface language' => 'Jazyk rozhraní',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -3615,25 +3616,25 @@ sub Data {
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
-        'My Tickets' => '',
+        'My Tickets' => 'Moje tikety',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New email ticket' => '',
-        'New phone ticket' => '',
+        'New email ticket' => 'Nový emailový tiket',
+        'New phone ticket' => 'Nový telefonní tiket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Notifications (Event)' => '',
-        'Number of displayed tickets' => '',
+        'Number of displayed tickets' => 'Počet zobrazených tiketů',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'Open tickets of customer' => '',
+        'Open tickets of customer' => 'Otevřené tikety zákazníka',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => '',
@@ -3699,7 +3700,7 @@ sub Data {
         'PostMaster Mail Accounts' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Queue view' => '',
+        'Queue view' => 'Prohlédnout fronty',
         'Refresh Overviews after' => '',
         'Refresh interval' => '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4146,8 +4147,8 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
-        'Status view' => '',
+        'Statistics' => 'Statistiky',
+        'Status view' => 'Zobrazit status',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4182,7 +4183,7 @@ sub Data {
             '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket overview' => '',
+        'Ticket overview' => 'Přehled tiketů',
         'Tickets' => 'Tikety',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4212,7 +4213,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Your language' => '',
+        'Your language' => 'Váš jazyk',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Selekce Front z Oblíbených. Bude zasíláno oznámení, je-li zapnuto.',
 
