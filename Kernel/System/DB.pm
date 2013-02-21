@@ -464,9 +464,9 @@ sub Do {
     if ( bytes::length( $Param{SQL} ) > 4 * 1024 ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
-            Priority => 'error',
+            Priority => 'notice',
             Message  => 'Your SQL is longer than 4k, this does not work on many '
-                . 'databases. Use bind instead!',
+                . 'databases. Use bind instead! SQL: ' . $Param{SQL},
         );
     }
 
@@ -478,7 +478,7 @@ sub Do {
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
-            Priority => 'Error',
+            Priority => 'error',
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
