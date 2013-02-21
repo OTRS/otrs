@@ -1,42 +1,40 @@
 What is OTRS?
 =============
+OTRS is an Open source Ticket Request System with many features to manage
+customer telephone calls and e-mails. It is distributed under the GNU
+AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
+Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
+want to answer them with a team of agents? You're going to love OTRS!
 
-  OTRS is an Open source Ticket Request System with many features to manage
-  customer telephone calls and e-mails. It is distributed under the GNU
-  AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
-  Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
-  want to answer them with a team of agents? You're going to love OTRS!
-
-  You can find a list of features at:
-  http://doc.otrs.org/3.2/en/html/features-of-otrs.html
+You can find a list of features at:
+http://doc.otrs.org/3.2/en/html/features-of-otrs.html
 
 
 License:
 ========
-  It is distributed under the AFFERO GNU General Public License - see the
-  accompanying COPYING file for more details.
+It is distributed under the AFFERO GNU General Public License - see the
+accompanying COPYING file for more details.
 
 Documentation:
 ==============
-  You can find quick documentation in README.* and the long version online at
-  http://doc.otrs.org/.
+You can find quick documentation in README.* and the long version online at
+http://doc.otrs.org/.
 
 Software requirements:
 ======================
+Perl
+* Perl 5.8.8 or higher
 
-  Perl
-    * Perl 5.8.8 or higher
+Webserver
+* Webserver with CGI support (CGI is not recommended)
+* Apache2+mod_perl2 or higher (recommended, mod_perl is really fast!)
+* IIS6 or higher
 
-  Webserver
-    * Webserver with CGI support (CGI is not recommended)
-    * Apache2+mod_perl2 or higher (recommended, mod_perl is really fast!)
-    * IIS6 or higher
-
-  Databases
-    * MySQL 4.1 or higher
-    * PostgreSQL 8.0 or higher
-    * Oracle 10g or higher
-    * Microsoft SQL Server 2005 or higher
+Databases
+* MySQL 4.1 or higher
+* PostgreSQL 8.0 or higher
+* Oracle 10g or higher
+* Microsoft SQL Server 2005 or higher
 
 Directories & Files:
 ====================
