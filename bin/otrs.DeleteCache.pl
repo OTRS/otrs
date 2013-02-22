@@ -53,12 +53,16 @@ GetOptions(
     'type|t=s'  => \$Opts{t},
 );
 
+print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
+print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n\n";
+
 if ( $Opts{h} ) {
-    print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.DeleteCache.pl [--expired] [--type TYPE]\n";
     exit 1;
 }
+
+print "Deleting cache... ";
+
 my %Options;
 if ( $Opts{e} ) {
     $Options{Expired} = 1;
@@ -88,4 +92,6 @@ $CommonObject{CacheObject} = Kernel::System::Cache->new(%CommonObject);
 if ( !$CommonObject{CacheObject}->CleanUp(%Options) ) {
     exit 1;
 }
+
+print "Done.\n";
 exit;

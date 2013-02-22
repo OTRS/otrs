@@ -62,6 +62,7 @@ $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 print "otrs.RebuildConfig.pl <Revision $VERSION> - OTRS rebuild default config\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
 if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
+    print "Done.\n";
     exit;
 }
 else {
