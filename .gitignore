@@ -4,5 +4,6 @@
 .settings
 .includepath
 .DS_Store
+.tidyall.d
 Fred.sopm
 CHANGES-Fred

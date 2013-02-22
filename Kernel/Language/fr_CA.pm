@@ -28,7 +28,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-13 11:09:31
+    # Last translation file sync: 2013-02-22 10:10:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -3490,6 +3490,8 @@ sub Data {
             'Détermine les nouveaux états de la demande après la création d\'une demande par courriel dans l\'interface agent.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             'Détermine les nouveaux états de la demande après la création d\'une demande téléphonique dans l\'interface agent.',
+        'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Détermine l\'écran suivant une nouvelle demande du client dans l\'interface client.',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>

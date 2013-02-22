@@ -27,7 +27,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-31 13:59:50
+    # Last translation file sync: 2013-02-22 10:10:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1606,6 +1606,7 @@ sub Data {
 
         # Template: AdminProcessManagementPath
         'Path' => 'Pad',
+        'Edit this transition' => '',
         'Transition Actions' => 'Transitie-acties',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             'U kunt transitie-acties aan deze transitie toevoegen door de elementen met de muis van links naar rechts te slepen.',
@@ -1628,6 +1629,7 @@ sub Data {
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Bewerk proces',
+        'Print process information' => '',
         'Delete Process' => 'Verwijder proces',
         'Delete Inactive Process' => 'Verwijder inactief proces',
         'Available Process Elements' => 'Beschikbare proces-elementen',
@@ -1653,8 +1655,13 @@ sub Data {
         'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
         'Do you really want to delete this Transition?' => 'Wilt u deze transitie verwijderen?',
         'Do you really want to delete this Transition Action?' => 'Wilt u deze transitie-actie verwijderen?',
+        'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
+            'Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
+        'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
+            'Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
         'Hide EntityIDs' => 'Verberg ID\'s',
         'Delete Entity' => 'Verwijderen',
+        'Remove Entity from canvas' => '',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
         'This Activity cannot be deleted because it is the Start Activity.' =>
@@ -1665,10 +1672,6 @@ sub Data {
             'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
         'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
         'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
-        'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
-            'Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
-        'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
-            'Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
             'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
 
@@ -1677,11 +1680,15 @@ sub Data {
             'In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op \'Actief\' zetten en vervolgens een synchronisatie uitvoeren.',
 
         # Template: AdminProcessManagementProcessPrint
+        'Start Activity' => '',
         'Contains %s dialog(s)' => '',
         'Assigned dialogs' => '',
         'Activities are not being used in this process.' => '',
         'Assigned fields' => '',
         'Activity dialogs are not being used in this process.' => '',
+        'Condition linking' => '',
+        'Conditions' => 'Condities',
+        'Condition' => 'Conditie',
         'Transitions are not being used in this process.' => '',
         'Module name' => '',
         'Configuration' => '',
@@ -1692,9 +1699,7 @@ sub Data {
             'Let op: het wijzigen van deze transitie heeft invloed op de volgende processen',
         'Transition' => 'Transitie',
         'Transition Name' => 'Naam',
-        'Conditions' => 'Condities',
         'Type of Linking between Conditions' => 'Type koppeling tussen condities',
-        'Condition' => 'Conditie',
         'Remove this Condition' => 'Verwijder conditie',
         'Type of Linking' => 'Type koppeling',
         'Remove this Field' => 'Verwijder dit veld',
@@ -3483,6 +3488,8 @@ sub Data {
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',

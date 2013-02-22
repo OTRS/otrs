@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-14 13:01:32
+    # Last translation file sync: 2013-02-22 10:10:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -3488,6 +3488,8 @@ sub Data {
             '',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             '',
+        'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
@@ -4534,6 +4536,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+
     };
     # $$STOP$$
     return;
