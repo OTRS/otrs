@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
+# Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount accounts
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
 # $Id: AdminMailAccount.pm,v 1.30 2012-11-20 14:39:26 mh Exp $
