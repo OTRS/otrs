@@ -284,7 +284,7 @@ sub _ShowEdit {
         );
     }
 
-    # localize available actvity dialogs
+    # localize available activity dialogs
     my @AvailableTransitionActions = @{ $Self->{TransitionActionList} };
 
     # create available transition actions lookup tables based on entity id
