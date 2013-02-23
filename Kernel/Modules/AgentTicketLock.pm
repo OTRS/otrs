@@ -68,7 +68,7 @@ sub Run {
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
-    # check if ACL resctictions if exist
+    # check if ACL restrictions exist
     if ( IsHashRefWithData( \%AclAction ) ) {
 
         # show error screen if ACL prohibits this action
