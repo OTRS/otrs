@@ -245,7 +245,7 @@ sub HandleLanguage {
     print "\nReading template files:\n";
 
     for my $File (@List) {
-        if ( open my $In, '<', $File ) {
+        if ( open my $In, '<', $File ) { ## no critic
             my $Content = '';
             while ( my $Line = <$In> ) {
                 if ( $Line !~ /^#/ ) {
@@ -490,7 +490,7 @@ EOF
 
     # translating the core
     else {
-        open( my $In, '<', $LanguageFile ) || die "Can't open: $LanguageFile\n";
+        open( my $In, '<', $LanguageFile ) || die "Can't open: $LanguageFile\n"; ## no critic
         while (<$In>) {
             if ( !$MetaData{DataPrinted} ) {
                 $NewOut .= $_;
@@ -553,7 +553,7 @@ EOF
     }
 
     print "Writing $TargetFile\n";
-    open( my $Out, '>', $TargetFile ) || die $!;
+    open( my $Out, '>', $TargetFile ) || die $!; ## no critic
     print $Out $NewOut;
     close $Out;
 }

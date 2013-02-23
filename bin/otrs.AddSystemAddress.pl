@@ -44,26 +44,26 @@ use Kernel::System::SystemAddress;
 
 my %Param;
 my %CommonObject;
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'c:d:e:q:h', \%opts );
+getopts( 'c:d:e:q:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $0 [-c <comment>] -d <display name> \n";
     print STDERR "    -e <email address> -q <queue name>\n";
     exit;
 }
 
-if ( !$opts{d} ) {
+if ( !$Options{d} ) {
     print STDERR "ERROR: Need -d <display name>\n";
     exit 1;
 }
-if ( !$opts{e} ) {
+if ( !$Options{e} ) {
     print STDERR "ERROR: Need -e <email address>\n";
     exit 1;
 }
-if ( !$opts{q} ) {
+if ( !$Options{q} ) {
     print STDERR "ERROR: Need -q <queue name>\n";
     exit 1;
 }
@@ -86,10 +86,10 @@ $Param{UserID} = '1';
 
 # validrecord
 $Param{ValidID}  = '1';
-$Param{Comment}  = $opts{c} || '';
-$Param{Realname} = $opts{d} || '';
-$Param{Queue}    = $opts{q};
-$Param{Name}     = $opts{e};
+$Param{Comment}  = $Options{c} || '';
+$Param{Realname} = $Options{d} || '';
+$Param{Queue}    = $Options{q};
+$Param{Name}     = $Options{e};
 
 # check if queue exists
 $Param{QueueID} = $CommonObject{QueueObject}->QueueLookup(
@@ -110,7 +110,7 @@ if ($SystemExists) {
 }
 
 if ( my $ID = $CommonObject{SystemAddressObject}->SystemAddressAdd(%Param) ) {
-    print "System Address '$opts{e}' added. Id is '$ID'\n";
+    print "System Address '$Options{e}' added. Id is '$ID'\n";
 }
 else {
     print STDERR "ERROR: Can't add System Address\n";

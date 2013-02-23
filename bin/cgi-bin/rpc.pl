@@ -49,7 +49,7 @@ use Kernel::System::LinkObject;
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.22 $) [1];
 
-SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
+SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle();
 
 package Core;
 

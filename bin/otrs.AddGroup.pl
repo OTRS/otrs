@@ -40,17 +40,17 @@ use Kernel::System::DB;
 use Kernel::System::Group;
 use Kernel::System::Main;
 
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'c:n:h', \%opts );
+getopts( 'c:n:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $0 [-c <comment>] -n <groupname>\n";
     exit;
 }
 
-if ( !$opts{n} ) {
+if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n groupname\n";
     exit 1;
 }
@@ -73,11 +73,11 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Comment} = $opts{c} || '';
-$Param{Name}    = $opts{n} || '';
+$Param{Comment} = $Options{c} || '';
+$Param{Name}    = $Options{n} || '';
 
 if ( my $GID = $CommonObject{GroupObject}->GroupAdd(%Param) ) {
-    print "Group '$opts{n}' added. Group id is '$GID'\n";
+    print "Group '$Options{n}' added. Group id is '$GID'\n";
 }
 else {
     print STDERR "ERROR: Can't add group\n";

@@ -53,19 +53,24 @@ if ( !$CronTabFile ) {
     }
 }
 
-opendir( my $DirHandle, $CronDir ) or die "ERROR: Can't open $CronDir: $!";
+opendir( my $DirHandle, $CronDir ) || die "ERROR: Can't open $CronDir: $!";
 
 my @Entries = readdir($DirHandle);
 closedir($DirHandle);
+
+## no critic
 open my $CronTab, '>', $CronTabFile
-    or die "ERROR: Can't write to file $CronTabFile: $!";
+    || die "ERROR: Can't write to file $CronTabFile: $!";
+## use critic
 print "Writing to $CronTabFile...\n\n";
 CRONFILE:
 for my $CronData (@Entries) {
     next CRONFILE if ( !-f "$CronDir/$CronData" );
     next CRONFILE if ( $CronData eq 'postmaster.dist' );
+    ## no critic
     open( my $Data, '<', "$CronDir/$CronData" )
-        or die "ERROR: Can't open file $CronDir/$CronData: $!";
+        || die "ERROR: Can't open file $CronDir/$CronData: $!";
+    ## use critic
     LINE:
     while ( my $Line = <$Data> ) {
         next LINE if ( $Line =~ m{ \A \# }xms );

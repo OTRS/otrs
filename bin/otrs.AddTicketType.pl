@@ -42,17 +42,17 @@ use Kernel::System::Main;
 
 my %Param;
 my %CommonObject;
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'n:h', \%opts );
+getopts( 'n:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $FindBin::Script -n <Type>\n";
     exit;
 }
 
-if ( !$opts{n} ) {
+if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n <Type>\n";
     exit 1;
 }
@@ -71,10 +71,10 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Name} = $opts{n} || '';
+$Param{Name} = $Options{n} || '';
 
 if ( my $RID = $CommonObject{TypeObject}->TypeAdd(%Param) ) {
-    print "Ticket type '$opts{n}' added. Type id is '$RID'\n";
+    print "Ticket type '$Options{n}' added. Type id is '$RID'\n";
 }
 else {
     print STDERR "ERROR: Can't add type\n";
