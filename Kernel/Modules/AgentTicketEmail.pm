@@ -316,7 +316,7 @@ sub Run {
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -383,7 +383,7 @@ sub Run {
             # ACLs info for all fields
             my %DynamicFieldDefaults;
 
-            # cycle trough the activated Dynamic Fields for this screen
+            # cycle through the activated Dynamic Fields for this screen
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -412,7 +412,7 @@ sub Run {
             # create html strings for all dynamic fields
             my %DynamicFieldHTML;
 
-            # cycle trough the activated Dynamic Fields for this screen
+            # cycle through the activated Dynamic Fields for this screen
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -700,7 +700,7 @@ sub Run {
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1093,7 +1093,7 @@ sub Run {
         );
 
         # set ticket dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1205,7 +1205,7 @@ sub Run {
         }
 
         # set article dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1371,10 +1371,10 @@ sub Run {
             Services       => $Services,
         );
 
-        # update Dynamc Fields Possible Values via AJAX
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -2219,7 +2219,7 @@ sub _MaskEmailNew {
     }
 
     # Dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -2385,7 +2385,7 @@ sub _GetFieldsToUpdate {
 
     my @UpdatableFields;
 
-    # set the fields that can be updatable via AJAXUpdate
+    # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
         @UpdatableFields
             = qw(
@@ -2393,7 +2393,7 @@ sub _GetFieldsToUpdate {
         );
     }
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
