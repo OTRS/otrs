@@ -270,7 +270,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'ActivityDialog',
             EntityID   => $EntityID,
@@ -522,7 +522,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'ActivityDialog',
             EntityID   => $ActivityDialogData->{EntityID},
@@ -783,7 +783,7 @@ sub _ShowEdit {
         PossibleNone => 0,
     );
 
-    # create permssion selection
+    # create permission selection
     $Param{PermissionSelection} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('System::Permission') || ['rw'],
         Name       => 'Permission',
@@ -795,7 +795,7 @@ sub _ShowEdit {
         Class        => $Param{PermissionServerError} || '',
     );
 
-    # create permssion selection
+    # create "required lock" selection
     $Param{RequiredLockSelection} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             0 => 'No',

@@ -101,7 +101,7 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams;
 
-        # set new confguration
+        # set new configuration
         $ActivityData->{Name}   = $GetParam->{Name};
         $ActivityData->{Config} = {};
 
@@ -126,7 +126,7 @@ sub Run {
             my $Counter = 1;
             for my $ActivityDialogID ( @{ $GetParam->{ActivityDialogs} } ) {
 
-                # check if the activiry dialog and it's entity id are in the list
+                # check if the activity dialog and its entity id are in the list
                 if (
                     $ActivityDialogsLookup{$ActivityDialogID}
                     && $ActivityDialogsLookup{$ActivityDialogID}->{EntityID}
@@ -190,7 +190,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'Activity',
             EntityID   => $EntityID,
@@ -323,7 +323,7 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams;
 
-        # set new confguration
+        # set new configuration
         $ActivityData->{Name}     = $GetParam->{Name};
         $ActivityData->{EntityID} = $GetParam->{EntityID};
         $ActivityData->{Config}   = {};
@@ -402,7 +402,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'Activity',
             EntityID   => $ActivityData->{EntityID},
@@ -712,7 +712,7 @@ sub _ShowEdit {
         );
     }
 
-    # localize available actvity dialogs
+    # localize available activity dialogs
     my @AvailableActivityDialogs = @{ $Self->{ActivityDialogsList} };
 
     # create available activity dialogs lookup tables based on entity id

@@ -392,15 +392,15 @@ sub _ChangeAction {
         }
     }
 
-    # accept negative numbers for YearsInFuture and YearsInPast but convert them to possitive
+    # accept negative numbers for YearsInFuture and YearsInPast but convert them to positive
     # before store
     for my $DateConfigParam (qw(YearsInFuture YearsInPast)) {
 
-        # check if numeric values has the '-' sing, capture only the numbers without the sing in
+        # check if numeric values has the '-' sign, capture only the numbers without the sign in
         # $1
         if ( $GetParam{$DateConfigParam} =~ m{\A - ([\d]+) \Z}xms ) {
 
-            # set the parameter number without the '-' sing
+            # set the parameter number without the '-' sign
             $GetParam{$DateConfigParam} = $1;
         }
     }
@@ -419,7 +419,7 @@ sub _ChangeAction {
         );
     }
 
-    # return to change screen if errors
+    # return to change screen if errors occured
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,

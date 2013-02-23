@@ -71,7 +71,7 @@ sub Run {
             DefaultServices   => 0,
         );
 
-        # List servces.
+        # List services.
         my %ServiceData = $Self->{ServiceObject}->ServiceList(
             UserID => $Self->{UserID},
         );

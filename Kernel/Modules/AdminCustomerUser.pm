@@ -40,7 +40,7 @@ sub new {
         }
     }
 
-    # create additonal objects
+    # create additional objects
     $Self->{CustomerUserObject}    = Kernel::System::CustomerUser->new(%Param);
     $Self->{CustomerGroupObject}   = Kernel::System::CustomerGroup->new(%Param);
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);

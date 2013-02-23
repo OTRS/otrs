@@ -164,7 +164,7 @@ sub Run {
         }
 
         # get Dynamic fields form param object
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -384,7 +384,7 @@ sub Run {
         my %DynamicFieldSearchParameters;
         my %DynamicFieldSearchDisplay;
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -538,7 +538,7 @@ sub Run {
                         }
                     }
 
-                    # otherwise retreive data from article
+                    # otherwise retrieve data from article
                     else {
                         push @Data, $Info{$Header};
                     }
@@ -680,7 +680,7 @@ sub Run {
         if (@ViewableTicketIDs) {
 
             # Dynamic fields table headers
-            # cycle trough the activated Dynamic Fields for this screen
+            # cycle through the activated Dynamic Fields for this screen
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{OverviewDynamicField} } ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -832,7 +832,7 @@ sub Run {
                     );
 
                     # Dynamic fields
-                    # cycle trough the activated Dynamic Fields for this screen
+                    # cycle through the activated Dynamic Fields for this screen
                     DYNAMICFIELD:
                     for my $DynamicFieldConfig ( @{ $Self->{OverviewDynamicField} } ) {
                         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -960,7 +960,7 @@ sub Run {
             }
         }
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1071,7 +1071,7 @@ sub Run {
         # create HTML strings for all dynamic fields
         my %DynamicFieldHTML;
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1097,7 +1097,7 @@ sub Run {
                     }
                 }
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                # convert possible values key => value to key => key for ACLs using a Hash slice
                 my %AclData = %{$Data};
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -1335,7 +1335,7 @@ sub MaskForm {
     }
 
     # output Dynamic fields blocks
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
