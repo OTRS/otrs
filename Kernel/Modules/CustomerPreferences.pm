@@ -109,7 +109,7 @@ sub Run {
             );
         }
 
-        # rediect
+        # redirect
         return $Self->{LayoutObject}->Redirect(
             OP => "Action=CustomerPreferences;Priority=$Priority;Message=$Message",
         );
