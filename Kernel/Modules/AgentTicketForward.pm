@@ -101,7 +101,7 @@ sub Run {
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
-    # check if ACL resctictions if exist
+    # check if ACL restrictions exist
     if ( IsHashRefWithData( \%AclAction ) ) {
 
         # show error screen if ACL prohibits this action
@@ -397,7 +397,7 @@ sub Form {
     # create html strings for all dynamic fields
     my %DynamicFieldHTML;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -407,7 +407,7 @@ sub Form {
         # check if field has PossibleValues property in its configuration
         if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -436,7 +436,7 @@ sub Form {
         my $Value;
 
         # only get values for Ticket fields (all screens based on AgentTickeActionCommon
-        # generates a new article, then article fields will be always empty at the beginign)
+        # create a new article, then article fields will be always empty at the beginning)
         if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
 
             # get value stored on the database from Ticket
@@ -510,7 +510,7 @@ sub SendEmail {
 
     my %DynamicFieldValues;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -596,7 +596,7 @@ sub SendEmail {
     # create html strings for all dynamic fields
     my %DynamicFieldHTML;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -606,7 +606,7 @@ sub SendEmail {
         # check if field has PossibleValues property in its configuration
         if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -892,12 +892,12 @@ sub SendEmail {
     }
 
     # set dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # set the object ID (TicketID or ArticleID) depending on the field configration
+        # set the object ID (TicketID or ArticleID) depending on the field configuration
         my $ObjectID
             = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
@@ -1004,7 +1004,7 @@ sub AjaxUpdate {
 
     my %DynamicFieldValues;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1035,10 +1035,10 @@ sub AjaxUpdate {
         %ACLCompatGetParam,
     );
 
-    # update Dynamc Fields Possible Values via AJAX
+    # update Dynamic Fields Possible Values via AJAX
     my @DynamicFieldAJAX;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1052,7 +1052,7 @@ sub AjaxUpdate {
             DynamicFieldConfig => $DynamicFieldConfig,
         );
 
-        # convert possible values key => value to key => key for ACLs usign a Hash slice
+        # convert possible values key => value to key => key for ACLs using a Hash slice
         my %AclData = %{$PossibleValues};
         @AclData{ keys %AclData } = keys %AclData;
 
@@ -1331,7 +1331,7 @@ sub _Mask {
     }
 
     # Dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1465,12 +1465,12 @@ sub _GetFieldsToUpdate {
 
     my @UpdatableFields;
 
-    # set the fields that can be updatable via AJAXUpdate
+    # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
         @UpdatableFields = qw( ComposeStateID );
     }
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
