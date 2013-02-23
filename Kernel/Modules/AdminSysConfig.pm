@@ -134,7 +134,7 @@ sub Run {
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet( Name => $_ );
 
             # check if config item needs no update because it is not editable
-            # because of an insufficent config level of the admin user
+            # because of an insufficient config level of the admin user
             if ( $Self->{ParamObject}->GetParam( Param => $_ . '-InsufficientConfigLevel' ) ) {
                 next ITEM;
             }
