@@ -36,7 +36,7 @@ sub new {
         }
     }
 
-    # create addtional objects
+    # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
     $Self->{JSONObject}  = Kernel::System::JSON->new( %{$Self} );
     $Self->{WebserviceObject} =
@@ -65,7 +65,7 @@ sub Run {
             );
         }
 
-        # get webserice configuration
+        # get webservice configuration
         my $WebserviceData =
             $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
@@ -100,7 +100,7 @@ sub Run {
             );
         }
 
-        # get webserice configuration
+        # get webservice configuration
         my $WebserviceData =
             $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
@@ -217,7 +217,7 @@ sub Run {
             }
         }
 
-        # set new confguration
+        # set new configuration
         $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
 
         # if there is an error return to edit screen
