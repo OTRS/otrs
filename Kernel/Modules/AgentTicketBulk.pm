@@ -627,7 +627,7 @@ sub Run {
                 }
             }
 
-            # link togehter
+            # link together
             if ( $GetParam{'LinkTogether'} ) {
                 for my $TicketIDPartner (@TicketIDs) {
                     if ( $TicketID ne $TicketIDPartner ) {
