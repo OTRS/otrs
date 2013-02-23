@@ -215,7 +215,7 @@ sub new {
     }
 
     # get source file charset
-    # what charset shoud I use (take it from translation file)!
+    # what charset should I use (take it from translation file)!
     if ( $Self->{Charset} && ref $Self->{Charset} eq 'ARRAY' ) {
         $Self->{TranslationCharset} = $Self->{Charset}->[-1];
     }
@@ -334,7 +334,7 @@ sub Get {
 
 =item FormatTimeString()
 
-Get date format in used language formate (based on translation file).
+Get date format in used language format (based on translation file).
 
     my $Date = $LanguageObject->FormatTimeString('2009-12-12 12:12:12', 'DateFormat');
 
