@@ -34,6 +34,8 @@ use vars qw($VERSION);
 $VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
+use Win32;
+use Win32::Daemon;
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -52,12 +54,6 @@ BEGIN {
         exit 1;
     }
 }
-
-# load Windows specific modules
-use Win32::Daemon;
-
-# installing and removing of services requires Administrator permissions
-require Win32; ## no critic
 
 if ( !Win32::IsAdminUser() ) {
     print "To be able to install or remove the Scheduler, call the script with UAC enabled.\n";
