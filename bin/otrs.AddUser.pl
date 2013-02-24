@@ -33,9 +33,9 @@ use lib dirname($RealBin) . '/Custom';
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.9 $) [1];
 
-my %opts;
+my %Options;
 use Getopt::Std;
-getopt( 'flpge', \%opts );
+getopt( 'flpge', \%Options );
 unless ( $ARGV[0] ) {
     print
         "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
@@ -51,6 +51,7 @@ use Kernel::System::Time;
 use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::User;
+use Kernel::System::Group;
 
 # create common objects
 my %CommonObject = ();
@@ -74,24 +75,21 @@ $Param{UserID} = '1';
 #Validrecord
 $Param{ValidID} = '1';
 
-$Param{UserFirstname} = $opts{f};
-$Param{UserLastname}  = $opts{l};
-$Param{UserPw}        = $opts{p};
+$Param{UserFirstname} = $Options{f};
+$Param{UserLastname}  = $Options{l};
+$Param{UserPw}        = $Options{p};
 $Param{UserLogin}     = $ARGV[0];
-$Param{UserEmail}     = $opts{e};
+$Param{UserEmail}     = $Options{e};
 
 if ( $Param{UID} = $CommonObject{UserObject}->UserAdd( %Param, ChangeUserID => 1 ) ) {
     print "User added. user  id is $Param{UID}\n";
 }
 
-if ( $opts{g} ) {
+if ( $Options{g} ) {
 
-    # bring in the groups module
-    require Kernel::System::Group;
-    import Kernel::System::Group;
     $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
-    $Param{Group} = $opts{g};
+    $Param{Group} = $Options{g};
 
     if ( $Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
         print "Found Group.. GID is $Param{GID}", "\n";

@@ -11,7 +11,7 @@
 # any later version.
 #
 # This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# but WITH$Output ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
@@ -66,12 +66,14 @@ else {
     $Archive = $Start . 'ARCHIVE';
 }
 
+my $Output;
+
 if ( $Action eq 'create' ) {
     print "Writing $Archive ...";
-    open( OUT, '>', $Archive ) || die "ERROR: Can't open: $Archive";
+    open( $Output, '>', $Archive ) || die "ERROR: Can't open: $Archive"; ## no critic
 }
 else {
-    open( my $In, '<', $Archive ) || die "ERROR: Can't open: $Archive";
+    open( my $In, '<', $Archive ) || die "ERROR: Can't open: $Archive"; ## no critic
     while (<$In>) {
         my @Row = split( /::/, $_ );
         chomp $Row[1];
@@ -89,13 +91,15 @@ for my $File ( sort keys %Compare ) {
 }
 if ( $Action eq 'create' ) {
     print " done.\n";
-    close OUT;
+    close $Output;
 }
 
 sub R {
     my $In = shift;
 
     my @List = glob("$In/*");
+
+    FILE:
     for my $File (@List) {
 
         # clean up directory name
@@ -110,7 +114,7 @@ sub R {
         # if it's a directory
         if ( -d $File ) {
             R($File);
-            next;
+            next FILE;
 
             # print "Directory: $File\n";
         }
@@ -125,20 +129,20 @@ sub R {
 
         # ignore directories
         next if $File =~ /^doc\//;
-        next if $File =~ /^var\/tmp/;
-        next if $File =~ /^var\/article/;
-        next if $File =~ /js-cache/;
-        next if $File =~ /css-cache/;
+        next FILE if $File =~ /^var\/tmp/;
+        next FILE if $File =~ /^var\/article/;
+        next FILE if $File =~ /js-cache/;
+        next FILE if $File =~ /css-cache/;
 
         # next if not readable
         # print "File: $File\n";
-        open( my $In, '<', $OrigFile ) || die "ERROR: $!";
-        my $ctx = Digest::MD5->new;
-        $ctx->addfile($In);
-        my $Digest = $ctx->hexdigest();
+        open( my $In, '<', $OrigFile ) || die "ERROR: $!"; ## no critic
+        my $DigestGenerator = Digest::MD5->new();
+        $DigestGenerator->addfile($In);
+        my $Digest = $DigestGenerator->hexdigest();
         close $In;
         if ( $Action eq 'create' ) {
-            print OUT $Digest . '::' . $File . "\n";
+            print $Output $Digest . '::' . $File . "\n";
         }
         else {
             if ( !$Compare{$File} ) {

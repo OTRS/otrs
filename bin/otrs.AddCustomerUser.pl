@@ -33,9 +33,9 @@ use lib dirname($RealBin) . '/Custom';
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.11 $) [1];
 
-my %opts;
+my %Options;
 use Getopt::Std;
-getopt( 'flpgec', \%opts );
+getopt( 'flpgec', \%Options );
 unless ( $ARGV[0] ) {
     print
         "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] [-c CustomerID] username\n";
@@ -73,12 +73,12 @@ $Param{UserID} = '1';
 $Param{ValidID} = '1';
 
 $Param{Source}         = 'CustomerUser';
-$Param{UserFirstname}  = $opts{f};
-$Param{UserLastname}   = $opts{l};
-$Param{UserCustomerID} = defined $opts{c} ? $opts{c} : $ARGV[0];
+$Param{UserFirstname}  = $Options{f};
+$Param{UserLastname}   = $Options{l};
+$Param{UserCustomerID} = defined $Options{c} ? $Options{c} : $ARGV[0];
 $Param{UserLogin}      = $ARGV[0];
-$Param{UserPassword}   = $opts{p};
-$Param{UserEmail}      = $opts{e};
+$Param{UserPassword}   = $Options{p};
+$Param{UserEmail}      = $Options{e};
 
 if ( $Param{UID} = $CommonObject{UserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) ) {
     print "Customer user added. Username is $Param{UID}\n";

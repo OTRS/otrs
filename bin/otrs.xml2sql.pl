@@ -183,8 +183,10 @@ sub Dump {
     my ( $Filename, $SQL, $Head, $Commit, $StdOut ) = @_;
 
     if ($StdOut) {
+        ## no critic
         open my $OutHandle, '>', $Filename or die "Can't write: $!";
         binmode $OutHandle, ':utf8';
+        ## use critic
         print "writing: $Filename\n";
         print $OutHandle $Head;
         for my $Item ( @{$SQL} ) {

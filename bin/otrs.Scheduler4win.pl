@@ -69,7 +69,7 @@ use Win32::Service;
 
 # starting and stopping can only be done with UAC enabled
 if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
-    require Win32;
+    require Win32; ## no critic
 
     if ( !Win32::IsAdminUser() ) {
         print "To be able to start or stop the Scheduler, call the script with UAC enabled.\n";
@@ -80,7 +80,7 @@ if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
 
 # help option
 if ( $Opts{h} ) {
-    _help();
+    _Help();
     exit 0;
 }
 
@@ -126,14 +126,14 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 elsif ( $Opts{a} && $Opts{a} eq "servicestop" ) {
 
     # stop the scheduler service
-    _stop();
+    _Stop();
 }
 
 # check if a status request is sent
 elsif ( $Opts{a} && $Opts{a} eq "status" ) {
 
     # query scheduler status
-    _status();
+    _Status();
 }
 
 # check if a reload request is sent
@@ -263,24 +263,24 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 elsif ( $Opts{a} && $Opts{a} eq "servicestart" ) {
 
     # start the scheduler process
-    _start();
+    _Start();
 }
 
 # otherwise show help
 else {
 
     # help option
-    _help();
+    _Help();
 }
 
 # Internal
-sub _help {
+sub _Help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
 }
 
-sub _start {
+sub _Start {
 
     # create common objects
 
@@ -318,7 +318,7 @@ sub _start {
     my $DaysToKeepSystemTime
         = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
-    my @LogFiles = <$LogPath/*.log>;
+    my @LogFiles = glob("$LogPath/*.log");
 
     LOGFILE:
     for my $LogFile (@LogFiles) {
@@ -371,8 +371,8 @@ sub _start {
     $State = Win32::Daemon::State();
 
     # Redirect STDOUT and STDERR to log file
-    open( STDOUT, ">$FileStdOut" );
-    open( STDERR, ">$FileStdErr" );
+    open( STDOUT, ">", $FileStdOut ); ## no critic
+    open( STDERR, ">", $FileStdErr ); ## no critic
 
     # main service loop
     while ( SERVICE_STOPPED != $State ) {
@@ -508,10 +508,10 @@ sub _start {
     }
 
     # stop the service
-    _stop();
+    _Stop();
 }
 
-sub _stop {
+sub _Stop {
 
     # create common objects
 
@@ -545,7 +545,7 @@ sub _stop {
     exit 0;
 }
 
-sub _status {
+sub _Status {
 
     # Windows service status table
     # 5 => 'The service continue is pending.',

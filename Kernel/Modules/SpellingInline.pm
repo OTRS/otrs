@@ -44,7 +44,7 @@ sub Run {
         || $Self->{UserSpellDict}
         || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
 
-    # inline spell checker of richt text
+    # inline spell checker of rich text
 
     my $JSData = '';
     my @Text = $Self->{ParamObject}->GetArray( Param => 'textinputs[]' );

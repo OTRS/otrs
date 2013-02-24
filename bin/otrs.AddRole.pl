@@ -42,17 +42,17 @@ use Kernel::System::Main;
 
 my %Param;
 my %CommonObject;
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'c:n:h', \%opts );
+getopts( 'c:n:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $0 [-c <comment>] -n <rolename>\n";
     exit;
 }
 
-if ( !$opts{n} ) {
+if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n <rolename>\n";
     exit 1;
 }
@@ -73,11 +73,11 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Comment} = $opts{c} || '';
-$Param{Name}    = $opts{n} || '';
+$Param{Comment} = $Options{c} || '';
+$Param{Name}    = $Options{n} || '';
 
 if ( my $RID = $CommonObject{GroupObject}->RoleAdd(%Param) ) {
-    print "Role '$opts{n}' added. Role id is '$RID'\n";
+    print "Role '$Options{n}' added. Role id is '$RID'\n";
 }
 else {
     print STDERR "ERROR: Can't add role\n";

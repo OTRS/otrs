@@ -133,7 +133,7 @@ sub _ShowOverview {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    # check for posible order collitions or gaps
+    # check for posible order collisions or gaps
     my $OrderSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderCheck();
     if ( !$OrderSuccess ) {
         return $Self->_DynamicFieldOrderReset(

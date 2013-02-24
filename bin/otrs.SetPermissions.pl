@@ -115,14 +115,14 @@ if ( !$WebGroup ) {
 # Check that the users exist
 my ( $WebUserId, $OtrsUserId, $AdminUserId );
 if ( !$NotRoot ) {
-    ( $WebUserId, $OtrsUserId, $AdminUserId ) = getUserIDs( $WebUser, $OtrsUser, $AdminUser );
+    ( $WebUserId, $OtrsUserId, $AdminUserId ) = GetUserIDs( $WebUser, $OtrsUser, $AdminUser );
 }
 
 # Check that the groups exist
 my ( $WebGroupId, $OtrsGroupId, $AdminGroupId );
 if ( !$NotRoot ) {
     ( $WebGroupId, $OtrsGroupId, $AdminGroupId )
-        = getGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
+        = GetGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
 }
 
 # set permissions
@@ -130,16 +130,16 @@ print "Setting permissions on $DestDir\n";
 if ($Secure) {
 
     # In secure mode, make files read-only by default
-    find( \&makeReadOnly, $DestDir );
+    find( \&MakeReadOnly, $DestDir );
 }
 else {
 
     # set all files writeable for webserver user (needed for package manager)
-    find( \&makeWritable, $DestDir );
+    find( \&MakeWritable, $DestDir );
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {
-        safeChown( $OtrsUserId, $OtrsGroupId, $DestDir );
+        SafeChown( $OtrsUserId, $OtrsGroupId, $DestDir );
     }
 }
 
@@ -148,7 +148,7 @@ my @EmptyFiles = (
     "$DestDir/var/log/TicketCounter.log",
 );
 for my $File (@EmptyFiles) {
-    open( my $Fh, '>>', $File );
+    open( my $Fh, '>>', $File ); ## no critic
     print $Fh '';
     close $Fh;
 }
@@ -175,31 +175,31 @@ for my $Dir (@Dirs) {
         mkdir $Dir;
     }
 }
-find( \&makeWritableSetGid, @Dirs );
+find( \&MakeWritableSetGid, @Dirs );
 
 # set all bin/* as executable
 print "Setting permissions on $DestDir/bin/*\n";
-find( \&makeExecutable, "$DestDir/bin" );
+find( \&MakeExecutable, "$DestDir/bin" );
 
 # set all scripts/* as executable
 print "Setting permissions on $DestDir/scripts/*.pl\n";
 my @FileListScripts = glob("$DestDir/scripts/*.pl");
 for (@FileListScripts) {
-    makeExecutable();
+    MakeExecutable();
 }
 
 # set all scripts/tools/* as executable
 print "Setting permissions on $DestDir/scripts/tools/*.pl\n";
 my @FileListTools = glob("$DestDir/scripts/tools/*.pl");
 for (@FileListTools) {
-    makeExecutable();
+    MakeExecutable();
 }
 
 # set write permission for web installer
 if ( !$Secure ) {
     print "Setting permissions on Kernel/Config.pm\n";
     $_ = "$DestDir/Kernel/Config.pm";
-    makeWritable();
+    MakeWritable();
 }
 
 # set owner rw and group ro
@@ -212,16 +212,18 @@ for my $Dir (@Dirs) {
     if ( -e $Dir ) {
         print "Setting owner rw and group ro permissions on $Dir\n";
         $_ = $Dir;
-        makeReadOnly();
+        MakeReadOnly();
     }
 }
 
 exit(0);
 
-sub makeReadOnly {
+## no critic (ProhibitLeadingZeros)
+
+sub MakeReadOnly {
     my $File = $_;
     if ( !$NotRoot ) {
-        safeChown( $AdminUserId, $AdminGroupId, $File );
+        SafeChown( $AdminUserId, $AdminGroupId, $File );
     }
     my $Mode;
     if ( -d $File ) {
@@ -230,10 +232,10 @@ sub makeReadOnly {
     else {
         $Mode = 0644;
     }
-    safeChmod( $Mode, $File );
+    SafeChmod( $Mode, $File );
 }
 
-sub makeWritable {
+sub MakeWritable {
     my $File = $_;
     my $Mode;
 
@@ -245,15 +247,15 @@ sub makeWritable {
     }
     if ($NotRoot) {
         $Mode |= 2;
-        safeChmod( $Mode, $File );
+        SafeChmod( $Mode, $File );
     }
     else {
-        safeChown( $OtrsUserId, $WebGroupId, $File );
-        safeChmod( $Mode, $File );
+        SafeChown( $OtrsUserId, $WebGroupId, $File );
+        SafeChmod( $Mode, $File );
     }
 }
 
-sub makeWritableSetGid {
+sub MakeWritableSetGid {
     my $File = $_;
     my $Mode;
 
@@ -265,27 +267,27 @@ sub makeWritableSetGid {
     }
     if ($NotRoot) {
         $Mode |= 2;
-        safeChmod( $Mode, $File );
+        SafeChmod( $Mode, $File );
     }
     else {
-        safeChown( $OtrsUserId, $WebGroupId, $File );
-        safeChmod( $Mode, $File );
+        SafeChown( $OtrsUserId, $WebGroupId, $File );
+        SafeChmod( $Mode, $File );
     }
 }
 
-sub makeExecutable {
+sub MakeExecutable {
     my $File = $_;
     my $Mode = ( lstat($File) )[2];
     if ( defined $Mode ) {
         $Mode |= 0111;
-        safeChmod( $Mode, $File );
+        SafeChmod( $Mode, $File );
     }
 }
 
-sub getUserIDs {
+sub GetUserIDs {
     my @Ids;
-    my @args = @_;
-    for my $User (@args) {
+    my @Arguments = @_;
+    for my $User (@Arguments) {
         my $Id = getpwnam $User;
         if ( !defined $Id ) {
             print "User \"$User\" does not exist!\n";
@@ -296,7 +298,7 @@ sub getUserIDs {
     return @Ids;
 }
 
-sub getGroupIDs {
+sub GetGroupIDs {
     my @Ids;
     for my $Group (@_) {
         my $Id = getgrnam $Group;
@@ -309,14 +311,14 @@ sub getGroupIDs {
     return @Ids;
 }
 
-sub safeChown {
+sub SafeChown {
     my ( $User, $Group, $File ) = @_;
     if ( !chown( $User, $Group, $File ) ) {
         die("Error in chown $User $Group $File: $!\n");
     }
 }
 
-sub safeChmod {
+sub SafeChmod {
     my ( $Mode, $File ) = @_;
     if ( !chmod( $Mode, $File ) ) {
         die("Error in chmod $Mode $File: $!\n");

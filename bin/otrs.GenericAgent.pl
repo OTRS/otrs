@@ -113,7 +113,7 @@ else {
         print STDERR "ERROR: Can't load agent job file '$Opts{c}': $!\n";
         exit 1;
     }
-    eval "import $Opts{c}";
+    eval "import $Opts{c}"; ## no critic
 }
 
 # check -b option

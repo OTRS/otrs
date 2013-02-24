@@ -166,12 +166,14 @@ for my $StatID ( @{$StatsListRef} ) {
     # write data in filesystem
     my $FullFilename = $CommonObject{ConfigObject}->Get('Home') . "/var/Stats/" . $File->{Filename};
     push( @Filelist, $File->{Filename} );
-    if ( !open( OUT, "> $FullFilename" ) ) {
+
+    my $Output;
+    if ( !open( $Output, ">", $FullFilename ) ) { ## no critic
         print "\nCan't create $FullFilename!\n";
     }
     else {
-        print OUT $File->{Content};
-        close(OUT);
+        print $Output $File->{Content};
+        close($Output);
         print "\n$FullFilename successful created!\n";
     }
 }
@@ -256,10 +258,12 @@ $OPMS{CodeUpgrade}{Content}   = $OPMS{CodeInstall}{Content};
 # save the package
 my $File = $CommonObject{ConfigObject}->Get('Home')
     . "/var/OPM/$PackageName-$OPMS{Version}{Content}.opm";
-if ( open( OUT, "> $File" ) ) {
+
+my $Output;
+if ( open( $Output, ">", $File ) ) { ## no critic
     print "Writing $File\n";
-    print OUT $CommonObject{PackageObject}->PackageBuild(%OPMS);
-    close(OUT);
+    print $Output $CommonObject{PackageObject}->PackageBuild(%OPMS);
+    close($Output);
     exit 1;
 }
 else {

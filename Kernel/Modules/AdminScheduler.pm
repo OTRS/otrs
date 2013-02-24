@@ -58,10 +58,10 @@ sub Run {
             $Scheduler =~ s{/}{\\}g
         }
 
-        # set force start parmeter
+        # set force start parameter
         my $ForceStart = $Self->{ParamObject}->GetParam( Param => 'ForceStart' );
 
-        # start scheduler form the command line
+        # start scheduler from the command line
         my $Success = system("$Scheduler -a start $ForceStart");
 
         # invert system call return code to be like in standard perl functions

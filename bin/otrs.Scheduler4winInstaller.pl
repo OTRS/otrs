@@ -57,7 +57,7 @@ BEGIN {
 use Win32::Daemon;
 
 # installing and removing of services requires Administrator permissions
-require Win32;
+require Win32; ## no critic
 
 if ( !Win32::IsAdminUser() ) {
     print "To be able to install or remove the Scheduler, call the script with UAC enabled.\n";
@@ -67,7 +67,7 @@ if ( !Win32::IsAdminUser() ) {
 
 # help option
 if ( $Opts{h} ) {
-    _help();
+    _Help();
     exit 1;
 }
 
@@ -123,11 +123,11 @@ elsif ( $Opts{a} && $Opts{a} eq 'install' ) {
 
 # invalid option, show help
 else {
-    _help();
+    _Help();
 }
 
 # Internal
-sub _help {
+sub _Help {
     print "otrs.Scheduler4WinInstaller.pl <Revision $VERSION> - OTRS Scheduler daemon\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.Scheduler4WinInstaller.pl -a <ACTION> (install|remove) ";

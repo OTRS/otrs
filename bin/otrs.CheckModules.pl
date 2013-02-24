@@ -34,7 +34,9 @@ use lib dirname($RealBin) . '/Custom';
 # turn off colors if it is not available
 BEGIN {
     if ( $^O eq 'MSWin32' ) {
+        ## no critic
         eval "use Win32::Console::ANSI";
+        ## use critic
         $ARGV[0] = 'nocolors' if $@;
     }
 }
@@ -524,9 +526,11 @@ sub _Check {
         my $ErrorMessage;
 
         # test if all module dependencies are installed by requiring the module
+        ## no critic
         if ( !eval "require $Module->{Module}" ) {
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
+        ## use critic
 
         if ( $Module->{NotSupported} ) {
 
