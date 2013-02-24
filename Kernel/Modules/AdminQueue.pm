@@ -347,16 +347,16 @@ sub Run {
         if ( !%Errors ) {
 
             # create new queue
-            my $Id = $Self->{QueueObject}->QueueAdd(
+            my $ID = $Self->{QueueObject}->QueueAdd(
                 %GetParam,
                 UserID          => $Self->{UserID},
                 NoDefaultValues => 1,
             );
 
-            if ($Id) {
+            if ($ID) {
 
                 # update preferences
-                my %QueueData = $Self->{QueueObject}->QueueGet( ID => $Id );
+                my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
 
                 my %Preferences;
                 if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
@@ -400,7 +400,7 @@ sub Run {
                 }
 
                 return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$Id",
+                    OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$ID",
                 );
             }
         }

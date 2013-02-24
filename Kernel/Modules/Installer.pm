@@ -1264,7 +1264,7 @@ sub CheckMailConfiguration {
 
     # if successful, add mail account to DB
     if ( $Result{Successful} ) {
-        my $Id = $MailAccount->MailAccountAdd(
+        my $ID = $MailAccount->MailAccountAdd(
             Login         => $InboundUser,
             Password      => $InboundPassword,
             Host          => $InboundHost,
@@ -1276,7 +1276,7 @@ sub CheckMailConfiguration {
             UserID        => 1,
         );
 
-        if ( !$Id ) {
+        if ( !$ID ) {
             return (
                 Successful => 0,
                 Message    => 'Error while adding mail account!'

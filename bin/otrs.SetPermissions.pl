@@ -113,15 +113,15 @@ if ( !$WebGroup ) {
 }
 
 # Check that the users exist
-my ( $WebUserId, $OtrsUserId, $AdminUserId );
+my ( $WebUserID, $OtrsUserID, $AdminUserID );
 if ( !$NotRoot ) {
-    ( $WebUserId, $OtrsUserId, $AdminUserId ) = GetUserIDs( $WebUser, $OtrsUser, $AdminUser );
+    ( $WebUserID, $OtrsUserID, $AdminUserID ) = GetUserIDs( $WebUser, $OtrsUser, $AdminUser );
 }
 
 # Check that the groups exist
-my ( $WebGroupId, $OtrsGroupId, $AdminGroupId );
+my ( $WebGroupID, $OtrsGroupID, $AdminGroupID );
 if ( !$NotRoot ) {
-    ( $WebGroupId, $OtrsGroupId, $AdminGroupId )
+    ( $WebGroupID, $OtrsGroupID, $AdminGroupID )
         = GetGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
 }
 
@@ -139,7 +139,7 @@ else {
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {
-        SafeChown( $OtrsUserId, $OtrsGroupId, $DestDir );
+        SafeChown( $OtrsUserID, $OtrsGroupID, $DestDir );
     }
 }
 
@@ -223,7 +223,7 @@ exit(0);
 sub MakeReadOnly {
     my $File = $_;
     if ( !$NotRoot ) {
-        SafeChown( $AdminUserId, $AdminGroupId, $File );
+        SafeChown( $AdminUserID, $AdminGroupID, $File );
     }
     my $Mode;
     if ( -d $File ) {
@@ -250,7 +250,7 @@ sub MakeWritable {
         SafeChmod( $Mode, $File );
     }
     else {
-        SafeChown( $OtrsUserId, $WebGroupId, $File );
+        SafeChown( $OtrsUserID, $WebGroupID, $File );
         SafeChmod( $Mode, $File );
     }
 }
@@ -270,7 +270,7 @@ sub MakeWritableSetGid {
         SafeChmod( $Mode, $File );
     }
     else {
-        SafeChown( $OtrsUserId, $WebGroupId, $File );
+        SafeChown( $OtrsUserID, $WebGroupID, $File );
         SafeChmod( $Mode, $File );
     }
 }
@@ -285,30 +285,30 @@ sub MakeExecutable {
 }
 
 sub GetUserIDs {
-    my @Ids;
+    my @IDs;
     my @Arguments = @_;
     for my $User (@Arguments) {
-        my $Id = getpwnam $User;
-        if ( !defined $Id ) {
+        my $ID = getpwnam $User;
+        if ( !defined $ID ) {
             print "User \"$User\" does not exist!\n";
             exit(1);
         }
-        push @Ids, $Id;
+        push @IDs, $ID;
     }
-    return @Ids;
+    return @IDs;
 }
 
 sub GetGroupIDs {
-    my @Ids;
+    my @IDs;
     for my $Group (@_) {
-        my $Id = getgrnam $Group;
-        if ( !defined $Id ) {
+        my $ID = getgrnam $Group;
+        if ( !defined $ID ) {
             print "Group \"$Group\" does not exist!\n";
             exit(1);
         }
-        push @Ids, $Id;
+        push @IDs, $ID;
     }
-    return @Ids;
+    return @IDs;
 }
 
 sub SafeChown {
