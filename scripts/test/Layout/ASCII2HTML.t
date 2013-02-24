@@ -2,8 +2,6 @@
 # scripts/test/Layout/ASCII2HTML.t - layout testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ASCII2HTML.t,v 1.4 2013-02-15 14:34:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

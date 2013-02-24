@@ -2,8 +2,6 @@
 # Kernel/Language/es_CO.pm - provides Spanish language translation for Colombia
 # Copyright (C) 2013 John Edisson Ortiz Roman <jortiz@slabinfo.com.co>
 # --
-# $Id: es_CO.pm,v 1.2 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

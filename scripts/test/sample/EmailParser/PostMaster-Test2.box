@@ -13,7 +13,6 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Operating-System: Linux 2.4.10-4GB i686
 X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
-X-CVS: $Id: PostMaster-Test2.box,v 1.1 2007/03/19 22:27:19 martin Exp $
 Content-Length: 139
 Lines: 11
 

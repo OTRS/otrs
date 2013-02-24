@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminProcessManagementPath.pm - process management path
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.13 2013-02-14 08:36:23 mn Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

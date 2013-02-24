@@ -3,8 +3,6 @@
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.2.pl,v 1.13 2013-01-22 10:14:10 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or

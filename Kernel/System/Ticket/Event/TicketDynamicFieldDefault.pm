@@ -2,8 +2,6 @@
 # Kernel/System/Ticket/Event/TicketDynamicFieldDefault.pm - a event module for default ticket dynamic field settings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldDefault.pm,v 1.7 2012-11-20 16:01:25 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

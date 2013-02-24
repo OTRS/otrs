@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.13 2013-01-17 03:39:20 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

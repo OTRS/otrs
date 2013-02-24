@@ -4,8 +4,6 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011-2013 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.146 2013-01-31 13:12:28 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

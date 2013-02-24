@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: DateTime.xml,v 1.1 2012-09-26 20:41:51 cr Exp $</CVS>
     <ConfigItem Name="DateTime::DateTime" Required="1" Valid="1">
         <Description Translatable="1">DateTime test setting.</Description>
         <Group>Development</Group>

@@ -2,8 +2,6 @@
 # RPM spec file for RHEL5 of the OTRS package
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: rhel5-otrs.spec,v 1.3 2013-01-04 19:50:35 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

@@ -2,8 +2,6 @@
 # Kernel/System/Ticket/Event/ResponsibleAutoSet.pm - a event module for auto set of responible
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ResponsibleAutoSet.pm,v 1.7 2012-11-20 16:01:17 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

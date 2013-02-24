@@ -2,8 +2,6 @@
 // Core.UI.Dialog.js - Dialogs
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.38 2013-02-07 08:43:51 mn Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

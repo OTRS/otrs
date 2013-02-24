@@ -4,8 +4,6 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.39 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

@@ -4,8 +4,6 @@
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # Copyright (C) 2012 Andreas Berger" <andreas.berger at hagfors.se>
 # --
-# $Id: sv.pm,v 1.129 2013-01-31 13:10:42 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

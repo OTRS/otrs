@@ -2,8 +2,6 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.84 2012-12-03 18:24:43 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

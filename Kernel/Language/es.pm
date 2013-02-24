@@ -7,8 +7,6 @@
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # Copyright (C) 2013 Enrique Matías Sánchez <quique@unizar.es>
 # --
-# $Id: es.pm,v 1.164 2013-02-14 11:45:45 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

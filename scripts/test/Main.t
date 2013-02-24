@@ -2,8 +2,6 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.34 2013-02-05 10:43:07 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

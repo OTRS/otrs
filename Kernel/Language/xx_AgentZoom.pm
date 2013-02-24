@@ -2,8 +2,6 @@
 # Kernel/Language/xx_AgentZoom.pm - provides xx Kernel/Modules/*.pm module language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: xx_AgentZoom.pm,v 1.12 2012-11-20 14:34:59 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

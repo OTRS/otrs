@@ -2,8 +2,6 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.73 2013-02-08 23:01:42 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

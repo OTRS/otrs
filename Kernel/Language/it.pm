@@ -9,8 +9,6 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012,2013 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.152 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

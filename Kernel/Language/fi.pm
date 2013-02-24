@@ -4,8 +4,6 @@
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # Copyright (C) 2012-2013 Niklas Lampén <Niklas.Lampen@aava.eu>
 # --
-# $Id: fi.pm,v 1.154 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

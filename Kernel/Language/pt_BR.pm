@@ -7,8 +7,6 @@
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # Copyright (C) 2013 Alexandre <matrixworkstation@gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.148 2013-01-31 13:10:43 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

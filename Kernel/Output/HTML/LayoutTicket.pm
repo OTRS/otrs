@@ -2,8 +2,6 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.150 2012-11-22 09:24:02 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

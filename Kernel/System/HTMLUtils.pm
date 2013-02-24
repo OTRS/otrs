@@ -2,8 +2,6 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.49 2012-11-20 15:35:22 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

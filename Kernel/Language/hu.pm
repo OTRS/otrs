@@ -7,8 +7,6 @@
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # Copyright (C) 2012 Csaba Németh <csaba@sopron.hu>
 # --
-# $Id: hu.pm,v 1.130 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

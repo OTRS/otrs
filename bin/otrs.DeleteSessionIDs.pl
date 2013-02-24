@@ -3,8 +3,6 @@
 # bin/otrs.DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteSessionIDs.pl,v 1.12 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or

@@ -3,8 +3,6 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.113 2013-01-31 13:10:42 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

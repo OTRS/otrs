@@ -2,8 +2,6 @@
 # Kernel/Output/HTML/CustomerUserGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGeneric.pm,v 1.7 2012-11-20 14:56:38 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

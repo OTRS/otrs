@@ -2,8 +2,6 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.16 2013-01-31 07:53:02 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

@@ -4,8 +4,6 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.58 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

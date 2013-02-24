@@ -3,8 +3,6 @@
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # Copyright (C) 2012 Margus Värton <margusvarton@gmail.com>
 # --
-# $Id: et.pm,v 1.85 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

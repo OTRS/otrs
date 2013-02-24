@@ -3,8 +3,6 @@
 # bin/otrs.Cron4Win32.pl - a script to generate a full crontab file for OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Cron4Win32.pl,v 1.13 2013-01-21 16:54:46 mb Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or

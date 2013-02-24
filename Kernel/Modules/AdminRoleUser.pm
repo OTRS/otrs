@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.36 2012-12-10 15:02:00 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

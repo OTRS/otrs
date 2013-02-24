@@ -2,8 +2,6 @@
 # Kernel/System/ProcessManagement/TransitionAction/TicketLockSet.pm - A Module to unlock a ticket
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketLockSet.pm,v 1.1 2013-01-11 06:09:05 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

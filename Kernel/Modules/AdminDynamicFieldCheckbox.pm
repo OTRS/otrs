@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminDynamicFieldCheckbox.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.pm,v 1.21 2012-11-20 14:36:51 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

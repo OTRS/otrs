@@ -4,7 +4,6 @@ Date: Tue, 13 Nov 2007 09:04:10 +0100
 From: "Hans Huber" <hans@otrs.com>
 To: "OTRS" <skywalker@otrs.org>
 Subject: Some message with .pdf as only MIME attachment (without text for body)
-X-CVS: $Id: PostMaster-Test9.box,v 1.1 2007/11/13 16:58:56 martin Exp $
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="=__Part2600556A.0__="
 

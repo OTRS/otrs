@@ -1,8 +1,6 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: redhat-rcotrs-config,v 1.7 2012-10-03 08:55:37 mb Exp $
-# --
 
 # 
 # program name

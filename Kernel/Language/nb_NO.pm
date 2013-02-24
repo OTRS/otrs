@@ -9,8 +9,6 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.146 2013-01-31 13:10:41 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

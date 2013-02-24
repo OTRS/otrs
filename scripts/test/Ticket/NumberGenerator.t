@@ -2,8 +2,6 @@
 # NumberGenerator.t - ticket module testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: NumberGenerator.t,v 1.6 2013-02-01 13:14:05 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

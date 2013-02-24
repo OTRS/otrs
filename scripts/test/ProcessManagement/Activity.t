@@ -2,8 +2,6 @@
 # Activity.t - Activity module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.t,v 1.4 2012-11-20 16:10:47 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

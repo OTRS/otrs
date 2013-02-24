@@ -2,8 +2,6 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.54 2012-12-05 15:06:21 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

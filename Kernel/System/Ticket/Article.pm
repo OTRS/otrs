@@ -2,8 +2,6 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.328 2013-02-06 08:55:18 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

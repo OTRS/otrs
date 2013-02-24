@@ -2,8 +2,6 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.28 2013-01-14 13:29:42 jh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

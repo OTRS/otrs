@@ -2,8 +2,6 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.74 2013-01-17 07:22:56 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

@@ -2,8 +2,6 @@
 # Kernel/System/YAML.pm - YAML wrapper
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: YAML.pm,v 1.5 2013-01-17 09:47:23 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

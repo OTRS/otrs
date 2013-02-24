@@ -2,8 +2,6 @@
 # ArticleStorage.t - ticket module testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorage.t,v 1.4 2013-02-05 13:24:55 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

@@ -10,8 +10,6 @@
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # Copyright (C) 2012-2013 Vadim Goncharov <vgoncharov at mail.ru>
 # --
-# $Id: ru.pm,v 1.153 2013-01-31 13:10:44 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

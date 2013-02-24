@@ -2,8 +2,6 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.53 2013-01-31 13:10:42 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

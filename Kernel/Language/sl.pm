@@ -4,8 +4,6 @@
 # Copyright (C) 2011 Andrej Cimerlajt, i-Rose d.o.o. <andrej.cimerlajt@i-rose.si>
 # Copyright (C) 2011 Gorazd Žagar, i-Rose d.o.o. <gorazd.zagar@i-rose.si>
 # --
-# $Id: sl.pm,v 1.19 2013-01-31 13:10:42 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

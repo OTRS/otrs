@@ -2,8 +2,6 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.101 2013-02-04 15:05:26 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
