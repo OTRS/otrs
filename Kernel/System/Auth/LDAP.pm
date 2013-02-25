@@ -181,12 +181,12 @@ sub Auth {
     else {
         $Result = $LDAP->bind();
     }
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'First bind failed! ' . $Result->error(),
         );
-        $LDAP->disconnect;
+        $LDAP->disconnect();
         return;
     }
 
@@ -210,19 +210,19 @@ sub Auth {
         filter => $Filter,
         attrs  => ['1.1'],
     );
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Search failed! ' . $Result->error,
+            Message  => 'Search failed! ' . $Result->error(),
         );
-        $LDAP->unbind;
-        $LDAP->disconnect;
+        $LDAP->unbind();
+        $LDAP->disconnect();
         return;
     }
 
     # get whole user dn
     my $UserDN = '';
-    for my $Entry ( $Result->all_entries ) {
+    for my $Entry ( $Result->all_entries() ) {
         $UserDN = $Entry->dn();
     }
 
@@ -237,8 +237,8 @@ sub Auth {
         );
 
         # take down session
-        $LDAP->unbind;
-        $LDAP->disconnect;
+        $LDAP->unbind();
+        $LDAP->disconnect();
         return;
     }
 
@@ -272,22 +272,22 @@ sub Auth {
             filter => $Filter2,
             attrs  => ['1.1'],
         );
-        if ( $Result2->code ) {
+        if ( $Result2->code() ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Search failed! base='$Self->{GroupDN}', filter='$Filter2', "
-                    . $Result2->error,
+                    . $Result2->error(),
             );
 
             # take down session
-            $LDAP->unbind;
-            $LDAP->disconnect;
+            $LDAP->unbind();
+            $LDAP->disconnect();
             return;
         }
 
         # extract it
         my $GroupDN = '';
-        for my $Entry ( $Result2->all_entries ) {
+        for my $Entry ( $Result2->all_entries() ) {
             $GroupDN = $Entry->dn();
         }
 
@@ -302,15 +302,15 @@ sub Auth {
             );
 
             # take down session
-            $LDAP->unbind;
-            $LDAP->disconnect;
+            $LDAP->unbind();
+            $LDAP->disconnect();
             return;
         }
     }
 
     # bind with user data -> real user auth.
     $Result = $LDAP->bind( dn => $UserDN, password => $Param{Pw} );
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
 
         # failed login note
         $Self->{LogObject}->Log(
@@ -321,8 +321,8 @@ sub Auth {
         );
 
         # take down session
-        $LDAP->unbind;
-        $LDAP->disconnect;
+        $LDAP->unbind();
+        $LDAP->disconnect();
         return;
     }
 
@@ -342,8 +342,8 @@ sub Auth {
     );
 
     # take down session
-    $LDAP->unbind;
-    $LDAP->disconnect;
+    $LDAP->unbind();
+    $LDAP->disconnect();
     return $Param{User};
 }
 

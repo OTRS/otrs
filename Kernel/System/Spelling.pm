@@ -133,15 +133,15 @@ sub Check {
     # don't correct quoted text
     $Param{Text} =~ s/^>.*$//gm;
 
-    # ispell encoding: # ÄÖÜäöü
+    # ispell encoding:
     if ( $Self->{SpellChecker} =~ /ispell/ ) {
-        $Param{Text} =~ s/ä/a"/g;
-        $Param{Text} =~ s/ö/o"/g;
-        $Param{Text} =~ s/ü/u"/g;
-        $Param{Text} =~ s/Ä/A"/g;
-        $Param{Text} =~ s/Ö/O"/g;
-        $Param{Text} =~ s/Ü/U"/g;
-        $Param{Text} =~ s/ß/sS/g;
+        $Param{Text} =~ s/Ã¤/a"/g;
+        $Param{Text} =~ s/Ã¶/o"/g;
+        $Param{Text} =~ s/Ã¼/u"/g;
+        $Param{Text} =~ s/Ã„/A"/g;
+        $Param{Text} =~ s/Ã–/O"/g;
+        $Param{Text} =~ s/Ãœ/U"/g;
+        $Param{Text} =~ s/ÃŸ/sS/g;
     }
 
     # check if spell checker exists in file system
@@ -185,7 +185,7 @@ sub Check {
 
     # open spell checker
     my $Spell;
-    if ( !open( $Spell, "$Self->{SpellChecker} < $TmpFile |" ) ) {
+    if ( !open( $Spell, "-|", "$Self->{SpellChecker} < $TmpFile" ) ) { ## no critic
         $Self->{Error} = 1;
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -204,15 +204,15 @@ sub Check {
         # set utf8 stamp if running in utf8 mode
         $Self->{EncodeObject}->EncodeInput( \$Line );
 
-        # ispell encoding: # ÄÖÜäöü
+        # ispell encoding:
         if ( $Self->{SpellChecker} =~ /ispell/ ) {
-            $Line =~ s/a"/ä/g;
-            $Line =~ s/o"/ö/g;
-            $Line =~ s/u"/ü/g;
-            $Line =~ s/A"/Ä/g;
-            $Line =~ s/O"/Ö/g;
-            $Line =~ s/U"/Ü/g;
-            $Line =~ s/sS/ß/g;
+            $Line =~ s/a"/Ã¤/g;
+            $Line =~ s/o"/Ã¶/g;
+            $Line =~ s/u"/Ã¼/g;
+            $Line =~ s/A"/Ã„/g;
+            $Line =~ s/O"/Ã–/g;
+            $Line =~ s/U"/Ãœ/g;
+            $Line =~ s/sS/ÃŸ/g;
         }
 
         # '#' words with no suggestions

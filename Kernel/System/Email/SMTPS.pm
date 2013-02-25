@@ -161,7 +161,7 @@ sub Send {
             Message =>
                 "Can't use from '$Param{From}': $Error! Enable Net::SMTP::SSL debug for more info!",
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
 
@@ -176,7 +176,7 @@ sub Send {
                 Message =>
                     "Can't send to '$To': $Error! Enable Net::SMTP::SSL debug for more info!",
             );
-            $SMTP->quit;
+            $SMTP->quit();
             return;
         }
     }
@@ -194,10 +194,10 @@ sub Send {
             Priority => 'error',
             Message  => "Can't send message: $Error! Enable Net::SMTP::SSL debug for more info!"
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
-    $SMTP->quit;
+    $SMTP->quit();
 
     # debug
     if ( $Self->{Debug} > 2 ) {

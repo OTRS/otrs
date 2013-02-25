@@ -196,12 +196,12 @@ sub _Connect {
         $Result = $Self->{LDAP}->bind();
     }
 
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'First bind failed! ' . $Result->error(),
         );
-        $Self->{LDAP}->disconnect;
+        $Self->{LDAP}->disconnect();
         return;
     }
 
@@ -247,15 +247,15 @@ sub CustomerName {
         attrs     => $Self->{CustomerUserMap}->{CustomerUserNameFields},
     );
 
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Search failed! ' . $Result->error,
+            Message  => 'Search failed! ' . $Result->error(),
         );
         return;
     }
 
-    for my $Entry ( $Result->all_entries ) {
+    for my $Entry ( $Result->all_entries() ) {
 
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserNameFields} } ) {
 
@@ -366,7 +366,7 @@ sub CustomerSearch {
     return if !$Self->_Connect();
 
     # combine needed attrs
-    my @attrs = ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} }, $Self->{CustomerKey} );
+    my @Attributes = ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} }, $Self->{CustomerKey} );
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -374,25 +374,25 @@ sub CustomerSearch {
         scope     => $Self->{SScope},
         filter    => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
-        attrs     => \@attrs,
+        attrs     => \@Attributes,
     );
 
     # log ldap errors
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => $Result->error,
+            Message  => $Result->error(),
         );
     }
 
     my %Users;
-    for my $entry ( $Result->all_entries ) {
+    for my $Entry ( $Result->all_entries() ) {
 
         my $CustomerString = '';
 
         for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
 
-            my $Value = $Self->_ConvertFrom( $entry->get_value($Field) );
+            my $Value = $Self->_ConvertFrom( $Entry->get_value($Field) );
 
             if ($Value) {
                 if ( $Field =~ /^targetaddress$/i ) {
@@ -404,8 +404,8 @@ sub CustomerSearch {
 
         $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
 
-        if ( defined $entry->get_value( $Self->{CustomerKey} ) ) {
-            $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
+        if ( defined $Entry->get_value( $Self->{CustomerKey} ) ) {
+            $Users{ $Self->_ConvertFrom( $Entry->get_value( $Self->{CustomerKey} ) ) }
                 = $CustomerString;
         }
     }
@@ -423,7 +423,7 @@ sub CustomerSearch {
                 attrs     => ['1.1'],
             );
 
-            if ( !$Result2->all_entries ) {
+            if ( !$Result2->all_entries() ) {
                 delete $Users{$Filter2};
             }
         }
@@ -471,7 +471,7 @@ sub CustomerUserList {
     return if !$Self->_Connect();
 
     # combine needed attrs
-    my @attrs = ( $Self->{CustomerKey}, $Self->{CustomerID} );
+    my @Attributes = ( $Self->{CustomerKey}, $Self->{CustomerID} );
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -479,7 +479,7 @@ sub CustomerUserList {
         scope     => $Self->{SScope},
         filter    => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
-        attrs     => \@attrs,
+        attrs     => \@Attributes,
     );
 
     # log ldap errors
@@ -491,18 +491,18 @@ sub CustomerUserList {
     }
 
     my %Users;
-    for my $entry ( $Result->all_entries() ) {
+    for my $Entry ( $Result->all_entries() ) {
 
         my $CustomerString = '';
-        for my $Field (@attrs) {
+        for my $Field (@Attributes) {
 
-            my $FieldValue = $entry->get_value($Field);
+            my $FieldValue = $Entry->get_value($Field);
             $FieldValue = defined $FieldValue ? $FieldValue : '';
 
             $CustomerString .= $Self->_ConvertFrom($FieldValue) . ' ';
         }
 
-        my $KeyValue = $entry->get_value( $Self->{CustomerKey} );
+        my $KeyValue = $Entry->get_value( $Self->{CustomerKey} );
         $KeyValue = defined $KeyValue ? $KeyValue : '';
 
         $Users{ $Self->_ConvertFrom($KeyValue) } = $CustomerString;
@@ -521,7 +521,7 @@ sub CustomerUserList {
                 attrs     => ['1.1'],
             );
 
-            if ( !$Result2->all_entries ) {
+            if ( !$Result2->all_entries() ) {
                 delete $Users{$Filter2};
             }
         }
@@ -581,7 +581,7 @@ sub CustomerIDList {
     return if !$Self->_Connect();
 
     # combine needed attrs
-    my @attrs = ( $Self->{CustomerKey}, $Self->{CustomerID} );
+    my @Attributes = ( $Self->{CustomerKey}, $Self->{CustomerID} );
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -589,7 +589,7 @@ sub CustomerIDList {
         scope     => $Self->{SScope},
         filter    => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
-        attrs     => \@attrs,
+        attrs     => \@Attributes,
     );
 
     # log ldap errors
@@ -601,12 +601,12 @@ sub CustomerIDList {
     }
 
     my %Users;
-    for my $entry ( $Result->all_entries() ) {
+    for my $Entry ( $Result->all_entries() ) {
 
-        my $FieldValue = $entry->get_value( $Self->{CustomerID} );
+        my $FieldValue = $Entry->get_value( $Self->{CustomerID} );
         $FieldValue = defined $FieldValue ? $FieldValue : '';
 
-        my $KeyValue = $entry->get_value( $Self->{CustomerKey} );
+        my $KeyValue = $Entry->get_value( $Self->{CustomerKey} );
         $KeyValue = defined $KeyValue ? $KeyValue : '';
         $Users{ $Self->_ConvertFrom($KeyValue) } = $Self->_ConvertFrom($FieldValue);
     }
@@ -621,7 +621,7 @@ sub CustomerIDList {
                 sizelimit => $Self->{UserSearchListLimit},
                 attrs     => ['1.1'],
             );
-            if ( !$Result2->all_entries ) {
+            if ( !$Result2->all_entries() ) {
                 delete $Users{$Filter2};
             }
         }
@@ -724,9 +724,9 @@ sub CustomerUserDataGet {
     }
 
     # perform user search
-    my @attrs;
+    my @Attributes;
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        push( @attrs, $Entry->[2] );
+        push( @Attributes, $Entry->[2] );
     }
     my $Filter = "($Self->{CustomerKey}=$Param{User})";
 
@@ -752,7 +752,7 @@ sub CustomerUserDataGet {
         base   => $Self->{BaseDN},
         scope  => $Self->{SScope},
         filter => $Filter,
-        attrs  => \@attrs,
+        attrs  => \@Attributes,
     );
 
     # log ldap errors
@@ -953,7 +953,7 @@ sub DESTROY {
 
     # take down session
     if ( $Self->{LDAP} ) {
-        $Self->{LDAP}->unbind;
+        $Self->{LDAP}->unbind();
     }
 
     return 1;

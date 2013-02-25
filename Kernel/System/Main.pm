@@ -331,7 +331,7 @@ sub FileRead {
     }
 
     # return if file can not open
-    if ( !open $FH, $Mode, $Param{Location} ) {
+    if ( !open $FH, $Mode, $Param{Location} ) { ## no critic
         if ( !$Param{DisableWarnings} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -445,7 +445,7 @@ sub FileWrite {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{Location} ) {
+    if ( !open $FH, $Mode, $Param{Location} ) { ## no critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write '$Param{Location}': $!",
@@ -625,7 +625,7 @@ sub FileGetMTime {
         return;
     }
 
-    return $Stat->mtime;
+    return $Stat->mtime();
 }
 
 =item MD5sum()
@@ -672,7 +672,7 @@ sub MD5sum {
 
         # open file
         my $FH;
-        if ( !open $FH, '<', $Param{Filename} ) {
+        if ( !open $FH, '<', $Param{Filename} ) { ## no critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't read '$Param{Filename}': $!",
@@ -770,7 +770,7 @@ sub Dump {
         $Self->_Dump($DataNew);
 
         # Dump it as binary strings.
-        my $String = Data::Dumper::Dumper( ${$DataNew} );
+        my $String = Data::Dumper::Dumper( ${$DataNew} ); ## no critic
 
         # Enable utf8 flag.
         Encode::_utf8_on($String);
@@ -779,7 +779,7 @@ sub Dump {
     }
 
     # fallback if Storable can not be loaded
-    return Data::Dumper::Dumper($Data);
+    return Data::Dumper::Dumper($Data); ## no critic
 
 }
 
@@ -892,7 +892,8 @@ sub DirectoryRead {
     }
 
     # always sort the result
-    return sort @Results;
+    @Results = sort @Results;
+    return @Results;
 
 }
 

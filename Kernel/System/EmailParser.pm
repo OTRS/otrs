@@ -754,7 +754,7 @@ sub PartsAttachments {
 
     # Guess the filename for nested messages (see bug#1970).
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
-        my ($SubjectString) = $Part->as_string =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
+        my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
         my $Subject;
         foreach my $Decoded ( decode_mimewords($SubjectString) ) {
             if ( $Decoded->[0] ) {

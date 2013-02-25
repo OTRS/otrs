@@ -16,7 +16,7 @@ use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
 $VERSION = qw($Revision: 1.10 $) [1];
 
 use Exporter;
-%EXPORT_TAGS = (
+%EXPORT_TAGS = ( ## no critic
     all => [
         'IsArrayRefWithData',
         'IsHashRefWithData',

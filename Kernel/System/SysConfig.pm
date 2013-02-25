@@ -88,6 +88,8 @@ create an object
 
 =cut
 
+## no critic (StringyEval)
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -227,7 +229,9 @@ sub Download {
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
         return '';
     }
+    ## no critic
     elsif ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    ## use critic
         return if $Param{Type};
 
         $Self->{LogObject}->Log(
@@ -445,7 +449,9 @@ sub ConfigItemUpdate {
 
     # check if config file is writable
     my $Out;
+    ## no critic
     if ( !open( $Out, ">>$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    ## use critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
@@ -500,7 +506,10 @@ sub ConfigItemUpdate {
 
     # get config file and insert it
     my $In;
+    ## no critic
     if ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    ## use critic
+
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
@@ -1570,7 +1579,10 @@ sub _Init {
         for my $File (@Files) {
             my $ConfigFile = '';
             my $In;
+            ## no critic
             if ( open( $In, '<', $File ) ) {
+            ## use critic
+
                 $ConfigFile = do { local $/; <$In> };
                 close $In;
             }
@@ -1873,7 +1885,10 @@ sub _FileWriteAtomic {
     my $TempFilename = $Param{Filename} . '.' . $$;
     my $FH;
 
+    ## no critic
     if ( !open( $FH, ">$Self->{FileMode}", $TempFilename ) ) {
+    ## use critic
+
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't open file $TempFilename!",

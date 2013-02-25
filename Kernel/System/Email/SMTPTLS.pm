@@ -131,7 +131,7 @@ sub Send {
             Priority => 'error',
             Message  => "Can't use from '$Param{From}': $@!",
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
 
@@ -145,7 +145,7 @@ sub Send {
                 Priority => 'error',
                 Message  => "Can't send to '$To': $@!",
             );
-            $SMTP->quit;
+            $SMTP->quit();
             return;
         }
     }
@@ -157,18 +157,18 @@ sub Send {
     $Self->{EncodeObject}->EncodeOutput( $Param{Body} );
 
     # send data
-    $SMTP->data;
+    $SMTP->data();
     eval { $SMTP->datasend( ${ $Param{Header} }, "\n", ${ $Param{Body} } ) };
     if ($@) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't send message: $@!"
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
-    $SMTP->dataend;
-    $SMTP->quit;
+    $SMTP->dataend();
+    $SMTP->quit();
 
     # debug
     if ( $Self->{Debug} > 2 ) {

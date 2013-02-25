@@ -75,7 +75,9 @@ sub Send {
 
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
+    ## no critic
     if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) {
+    ## use critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't send message: $!!",
@@ -84,7 +86,7 @@ sub Send {
     }
 
     # switch filehandle to utf8 mode if utf-8 is used
-    binmode $FH, ':utf8';
+    binmode $FH, ':utf8'; ## no critic
 
     print $FH ${ $Param{Header} };
     print $FH "\n";

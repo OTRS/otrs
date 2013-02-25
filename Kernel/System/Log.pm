@@ -76,7 +76,7 @@ sub new {
 
     # load log backend
     my $GenericModule = $Param{ConfigObject}->Get('LogModule') || 'Kernel::System::Log::SysLog';
-    if ( !eval "require $GenericModule" ) {
+    if ( !eval "require $GenericModule" ) { ## no critic
         die "Can't load log backend module $GenericModule! $@";
     }
 
@@ -86,7 +86,7 @@ sub new {
         EncodeObject => $Self->{EncodeObject},
     );
 
-    return $Self if !eval "require IPC::SysV";
+    return $Self if !eval "require IPC::SysV"; ## no critic
 
     # create the IPC options
     $Self->{IPC}     = 1;
@@ -139,8 +139,10 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
 
+        ## no critic
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
             . localtime() . "\n\n", $^V;
+        ## use critic
 
         $Error .= " Message: $Message\n\n";
 
@@ -170,7 +172,7 @@ sub Log {
             # print line if upper caller module exists
             my $VersionString = '';
 
-            eval { $VersionString = $Package1->VERSION || ''; };
+            eval { $VersionString = $Package1->VERSION || ''; }; ## no critic
 
             if ($VersionString) {
                 $VersionString = 'v' . $VersionString;
@@ -202,7 +204,7 @@ sub Log {
 
         $Priority = lc $Priority;
 
-        my $Data   = localtime() . ";;$Priority;;$Self->{LogPrefix};;$Message\n";
+        my $Data   = localtime() . ";;$Priority;;$Self->{LogPrefix};;$Message\n"; ## no critic
         my $String = $Self->GetLog();
 
         shmwrite( $Self->{Key}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
@@ -290,7 +292,7 @@ dump a perl variable to log
 sub Dumper {
     my ( $Self, @Data ) = @_;
 
-    require Data::Dumper;
+    require Data::Dumper; ## no critic
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
@@ -301,7 +303,7 @@ sub Dumper {
     # log backend
     $Self->{Backend}->Log(
         Priority  => 'debug',
-        Message   => substr( Data::Dumper::Dumper(@Data), 0, 600600600 ),
+        Message   => substr( Data::Dumper::Dumper(@Data), 0, 600600600 ), ## no critic
         LogPrefix => $Self->{LogPrefix},
         Module    => $Subroutine2,
         Line      => $Line1,

@@ -620,11 +620,11 @@ sub AutoResponse {
     # format body (only if longer the 86 chars)
     if ( $Param{OrigHeader}->{Body} ) {
         if ( length $Param{OrigHeader}->{Body} > 86 ) {
-            my @lines = split /\n/, $Param{OrigHeader}->{Body};
-            for my $line (@lines) {
-                $line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+            my @Lines = split /\n/, $Param{OrigHeader}->{Body};
+            for my $Line (@Lines) {
+                $Line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
             }
-            $Param{OrigHeader}->{Body} = join '', @lines;
+            $Param{OrigHeader}->{Body} = join '', @Lines;
         }
     }
 
@@ -781,11 +781,11 @@ sub NotificationAgent {
     # format body (only if longer the 86 chars)
     if ( $Param{CustomerMessageParams}->{Body} ) {
         if ( length $Param{CustomerMessageParams}->{Body} > 86 ) {
-            my @lines = split /\n/, $Param{CustomerMessageParams}->{Body};
-            for my $line (@lines) {
-                $line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+            my @Lines = split /\n/, $Param{CustomerMessageParams}->{Body};
+            for my $Line (@Lines) {
+                $Line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
             }
-            $Param{CustomerMessageParams}->{Body} = join '', @lines;
+            $Param{CustomerMessageParams}->{Body} = join '', @Lines;
         }
     }
 
@@ -1386,7 +1386,7 @@ sub _Replace {
         $Tag = $Start . 'OTRS_EMAIL_DATE';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
             my $TimeZone = $1;
-            my $EmailDate = strftime( '%A, %B %e, %Y at %T ', localtime );
+            my $EmailDate = strftime( '%A, %B %e, %Y at %T ', localtime ); ## no critic
             $EmailDate .= "($TimeZone)";
             $Param{Text} =~ s/$Tag\[.+?\]$End/$EmailDate/g;
         }

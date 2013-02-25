@@ -796,27 +796,27 @@ sub GenerateGraph {
     # build plot data
     my @PData = ( $HeadArrayRef, @StatArray );
     my ( $XSize, $YSize ) = split( m{x}x, $Param{GraphSize} );
-    my $graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
+    my $Graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
 
     # set fonts so we can use non-latin characters
     my $FontDir    = $Self->{ConfigObject}->Get('Home') . '/var/fonts/';
     my $TitleFont  = $FontDir . 'DejaVuSans-Bold.ttf';
     my $LegendFont = $FontDir . 'DejaVuSans.ttf';
-    $graph->set_title_font( $TitleFont, 14 );
+    $Graph->set_title_font( $TitleFont, 14 );
 
     # there are different font options for different font types
     if ( $GDBackend eq 'GD::Graph::pie' ) {
-        $graph->set_value_font( $LegendFont, 9 );
+        $Graph->set_value_font( $LegendFont, 9 );
     }
     else {
-        $graph->set_values_font( $LegendFont, 9 );
-        $graph->set_legend_font( $LegendFont, 9 );
-        $graph->set_x_label_font( $LegendFont, 9 );
-        $graph->set_y_label_font( $LegendFont, 9 );
-        $graph->set_x_axis_font( $LegendFont, 9 );
-        $graph->set_y_axis_font( $LegendFont, 9 );
+        $Graph->set_values_font( $LegendFont, 9 );
+        $Graph->set_legend_font( $LegendFont, 9 );
+        $Graph->set_x_label_font( $LegendFont, 9 );
+        $Graph->set_y_label_font( $LegendFont, 9 );
+        $Graph->set_x_axis_font( $LegendFont, 9 );
+        $Graph->set_y_axis_font( $LegendFont, 9 );
     }
-    $graph->set(
+    $Graph->set(
         x_label => $Xlabel,
 
         #        y_label => 'Ylabel',
@@ -858,11 +858,11 @@ sub GenerateGraph {
 
     # set legend (y-line)
     if ( $Param{Format} ne 'GD::Graph::pie' ) {
-        $graph->set_legend(@YLine);
+        $Graph->set_legend(@YLine);
     }
 
     # investigate the possible output types
-    my @OutputTypeList = $graph->export_format();
+    my @OutputTypeList = $Graph->export_format();
 
     # transfer array to hash
     my %OutputTypes;
@@ -895,7 +895,7 @@ sub GenerateGraph {
     }
 
     # create graph
-    my $Content = eval { $graph->plot( \@PData )->$Ext() };
+    my $Content = eval { $Graph->plot( \@PData )->$Ext() };
 
     return $Content;
 }
@@ -1486,7 +1486,7 @@ sub Export {
         my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
         my $FileContent = '';
 
-        open my $Filehandle, '<', $File or die "Can't open: $File: $!";
+        open my $Filehandle, '<', $File || die "Can't open: $File: $!"; ## no critic
 
         # set bin mode
         binmode $Filehandle;
@@ -1672,7 +1672,9 @@ sub Import {
         }
 
         # write file if it is included in the stats definition
+        ## no critic
         elsif ( open my $Filehandle, '>', $FileLocation ) {
+        ## use critic
 
             print STDERR "Notice: Install $FileLocation ($StatsXML->{File}[1]{Permission})!\n";
             if ( $StatsXML->{File}->[1]->{Encode} && $StatsXML->{File}->[1]->{Encode} eq 'Base64' )
@@ -1686,7 +1688,7 @@ sub Import {
 
             # set utf8 or bin mode
             if ( $StatsXML->{File}->[1]->{Content} =~ /use\sutf8;/ ) {
-                open $Filehandle, '>:utf8', $FileLocation;
+                open $Filehandle, '>:utf8', $FileLocation; ## no critic
             }
             else {
                 binmode $Filehandle;
@@ -2915,13 +2917,13 @@ sub _GenerateDynamicStats {
             elsif ( $ArraySelected[0]{Block} eq 'MultiSelectField' ) {
                 $Value0 = [$Key];
             }
-    
+
             if ( !$ArraySelected[1] ) {
                 $ValueSeries{ $ArraySelected[0]{Values}{$Key} }
                     = { $ArraySelected[0]{Element} => $Value0 };
                 next KEY;
             }
-    
+
             for my $SubKey ( sort keys %{ $ArraySelected[1]{Values} } ) {
                 my $Value1;
                 if ( $ArraySelected[1]{Block} eq 'SelectField' ) {
@@ -3222,7 +3224,7 @@ sub _SetResultCache {
     # write the csv string into the filesystem
     my $Filehandle;
     my $Path = $Self->{ConfigObject}->Get('TempDir');
-    if ( !open $Filehandle, '>', "$Path/$Param{Filename}" ) {
+    if ( !open $Filehandle, '>', "$Path/$Param{Filename}" ) { ## no critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write: $Path/$Param{Filename}!",
@@ -3261,7 +3263,7 @@ sub _GetResultCache {
 
     my $Path      = $Self->{ConfigObject}->Get('TempDir');
     my $CSVString = '';
-    if ( open my $Filehandle, '<', "$Path/$Param{Filename}" ) {
+    if ( open my $Filehandle, '<', "$Path/$Param{Filename}" ) { ## no critic
         binmode $Filehandle;
         while (<$Filehandle>) {
             $CSVString .= $_;
@@ -3350,7 +3352,7 @@ sub _AutomaticSampleImport {
 
             # read file
             my $Filehandle;
-            if ( !open $Filehandle, '<', $Directory . $Filename ) {
+            if ( !open $Filehandle, '<', $Directory . $Filename ) { ## no critic
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,
