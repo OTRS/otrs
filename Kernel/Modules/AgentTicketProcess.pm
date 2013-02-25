@@ -670,7 +670,9 @@ sub _RenderAjax {
     );
 }
 
-=item _GetParam()
+=cut
+
+_GetParam()
 
 returns the current data state of the submitted information
 
@@ -4421,7 +4423,9 @@ sub _DisplayProcessList {
     return $Output;
 }
 
-=item _CheckField()
+=cut
+
+_CheckField()
 
 checks all the possible ticket fields and returns the ID (if possible) value of the field, if valid
 and checks are successfull
@@ -4561,7 +4565,9 @@ sub _CheckField {
     return $Value;
 }
 
-=item _LookupValue()
+=cut
+
+_LookupValue()
 
 returns the ID (if possible) of nearly all ticket fields and/or checks if its valid.
 Can handle IDs or Strings.
