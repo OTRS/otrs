@@ -260,7 +260,7 @@ sub Run {
                 Summary => 'MappingOut could not be initialized',
                 Data    => $MappingOutObject,
             );
-            return $Self->DebuggerObject->Error(
+            return $Self->{DebuggerObject}->Error(
                 Summary => $FunctionResult->{ErrorMessage},
             );
         }
@@ -270,7 +270,7 @@ sub Run {
         );
 
         if ( !$FunctionResult->{Success} ) {
-            return $Self->DebuggerObject->Error(
+            return $Self->{DebuggerObject}->Error(
                 Summary => $FunctionResult->{ErrorMessage},
             );
         }

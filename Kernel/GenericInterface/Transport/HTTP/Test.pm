@@ -173,7 +173,7 @@ sub ProviderGenerateResponse {
         $Response = HTTP::Response->new( 200 => "OK" );
         $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain; charset=UTF-8");
-        $Response->add_content_utf8( $Request->content );
+        $Response->add_content_utf8( $Request->content() );
         $Response->date(time);
     }
 
@@ -234,7 +234,7 @@ sub RequesterPerformRequest {
     return {
         Success => 1,
         Data    => {
-            ResponseContent => $Response->content,
+            ResponseContent => $Response->content(),
         },
     };
 }
@@ -268,7 +268,7 @@ sub new {
     return $Class->SUPER::new(@_);
 }
 
-sub request {
+sub request { ## no critic
     my $Self = shift;
 
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;
@@ -276,11 +276,11 @@ sub request {
     my $Response = HTTP::Response->new( 200 => "OK" );
     $Response->protocol('HTTP/1.0');
     $Response->content_type("text/plain; charset=UTF-8");
-    $Response->add_content_utf8( $Request->content );
+    $Response->add_content_utf8( $Request->content() );
     $Response->date(time);
 
-    #print $Request->as_string;
-    #print $Response->as_string;
+    #print $Request->as_string();
+    #print $Response->as_string();
 
     return $Response;
 }
