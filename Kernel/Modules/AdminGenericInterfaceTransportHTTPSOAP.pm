@@ -112,7 +112,7 @@ sub Run {
         }
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # check required parameters
         my %Error;

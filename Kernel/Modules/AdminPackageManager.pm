@@ -55,8 +55,8 @@ sub Run {
     # ------------------------------------------------------------ #
 
     if ( exists $ENV{MOD_PERL} ) {
-        if ( defined $mod_perl::VERSION ) {
-            if ( $mod_perl::VERSION >= 1.99 ) {
+        if ( defined $mod_perl::VERSION ) { ## no critic
+            if ( $mod_perl::VERSION >= 1.99 ) { ## no critic
 
                 # check if Apache::Reload is loaded
                 my $ApacheReload = 0;

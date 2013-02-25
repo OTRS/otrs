@@ -111,8 +111,8 @@ sub Run {
         # write tmp file
         my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open( my $ViewerDataFH, '>', $Filename ) ) {
-            print $ViewerDataFH $Data{Content};
+        if ( open( my $ViewerDataFH, '>', $Filename ) ) { ## no critic
+            print $ViewerDataFH $Data{Content}; ## no critic
             close $ViewerDataFH;
         }
         else {
@@ -127,7 +127,7 @@ sub Run {
 
         # use viewer
         my $Content = '';
-        if ( open( my $ViewerFH, "$Viewer $Filename |" ) ) {
+        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) { ## no critic
             while (<$ViewerFH>) {
                 $Content .= $_;
             }

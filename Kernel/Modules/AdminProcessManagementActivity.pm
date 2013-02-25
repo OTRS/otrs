@@ -99,7 +99,7 @@ sub Run {
         my $ActivityData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $ActivityData->{Name}   = $GetParam->{Name};
@@ -321,7 +321,7 @@ sub Run {
         my $ActivityData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $ActivityData->{Name}     = $GetParam->{Name};

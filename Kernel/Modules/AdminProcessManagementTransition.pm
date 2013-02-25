@@ -93,7 +93,7 @@ sub Run {
         my $TransitionData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $TransitionData->{Name}   = $GetParam->{Name};
@@ -278,7 +278,7 @@ sub Run {
         my $TransitionData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $TransitionData->{Name}     = $GetParam->{Name};

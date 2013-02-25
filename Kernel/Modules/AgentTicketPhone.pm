@@ -303,9 +303,12 @@ sub Run {
         # multiple addresses list
         # check email address
         my $CountFrom = scalar @MultipleCustomer || 1;
-        my %CustomerDataFrom = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $Article{CustomerUserID},
-        ) if $Article{CustomerUserID};
+        my %CustomerDataFrom;
+        if ( $Article{CustomerUserID} ) {
+            %CustomerDataFrom = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Article{CustomerUserID},
+            );
+        }
 
         for my $Email ( Mail::Address->parse($ArticleFrom) ) {
 
