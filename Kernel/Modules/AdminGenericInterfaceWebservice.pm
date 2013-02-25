@@ -116,7 +116,7 @@ sub Run {
         }
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $WebserviceData->{Name}                                 = $GetParam->{Name};
@@ -244,7 +244,7 @@ sub Run {
         my $WebserviceData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $WebserviceData->{Name}                                 = $GetParam->{Name};

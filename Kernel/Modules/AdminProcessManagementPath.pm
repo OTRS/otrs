@@ -84,7 +84,7 @@ sub Run {
         my $PathData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         $PathData->{ProcessEntityID}    = $GetParam->{ProcessEntityID}    || $GetParam->{ID};
         $PathData->{TransitionEntityID} = $GetParam->{TransitionEntityID} || $GetParam->{EntityID};
@@ -111,7 +111,7 @@ sub Run {
         my $TransferData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # merge changed data into process config
         $TransferData->{ProcessEntityID}    = $GetParam->{ProcessEntityID};

@@ -138,7 +138,7 @@ sub Run {
         my $ActivityDialogData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ActivityDialogData->{Name}                       = $GetParam->{Name};
@@ -210,7 +210,7 @@ sub Run {
         }
 
         # check if permission exists
-        if ( defined $GetParam->{Permission} and $GetParam->{Permission} ne '' ) {
+        if ( defined $GetParam->{Permission} && $GetParam->{Permission} ne '' ) {
             my $PermissionList = $Self->{ConfigObject}->Get('System::Permission');
 
             my %PermissionLookup = map { $_ => 1 } @{$PermissionList};
@@ -392,7 +392,7 @@ sub Run {
         my $ActivityDialogData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ActivityDialogData->{Name}                       = $GetParam->{Name};
@@ -473,7 +473,7 @@ sub Run {
         }
 
         # check if permission exists
-        if ( defined $GetParam->{Permission} and $GetParam->{Permission} ne '' ) {
+        if ( defined $GetParam->{Permission} && $GetParam->{Permission} ne '' ) {
 
             my $PermissionList = $Self->{ConfigObject}->Get('System::Permission');
 

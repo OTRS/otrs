@@ -432,7 +432,7 @@ sub Run {
                                 my $TypeKey = $Self->{ParamObject}->GetParam(
                                     Param => $ElementKey . 'LoaderType' . ( $Index + 1 )
                                 ) || 'JavaScript';
-                                if ( $TypeKey and ( $Key eq $TypeKey ) ) {
+                                if ( $TypeKey && ( $Key eq $TypeKey ) ) {
                                     push @LoaderArray, $Loader[$Index];
                                 }
                             }
@@ -713,7 +713,7 @@ sub Run {
         # if running under PerlEx, reload the application (and thus the configuration)
         if (
             exists $ENV{'GATEWAY_INTERFACE'}
-            and $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+            && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
             )
         {
             PerlEx::ReloadAll();

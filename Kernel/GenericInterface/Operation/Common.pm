@@ -163,8 +163,10 @@ sub Auth {
 
     # check if a valid SessionID is present
     if ($SessionID) {
-        my $ValidSessionID =
-            $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) if $SessionID;
+        my $ValidSessionID;
+        if $SessionID {
+            $ValidSessionID = $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID );
+        }
         return 0 if !$ValidSessionID;
 
         # get session data

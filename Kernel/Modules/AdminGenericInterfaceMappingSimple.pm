@@ -191,7 +191,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # if there is an error return to edit screen
         if ( $GetParam->{Error} ) {

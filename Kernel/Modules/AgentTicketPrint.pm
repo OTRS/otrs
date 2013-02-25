@@ -174,11 +174,6 @@ sub Run {
             User => $Ticket{CustomerUserID},
         );
     }
-    elsif ( $Ticket{CustomerID} ) {
-        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            CustomerID => $Ticket{CustomerID},
-        );
-    }
 
     # do some html quoting
     $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(

@@ -627,7 +627,7 @@ sub Run {
                                 ->{Config}->{Fields}->{$AssignedField}
                         };
                         if ( $Values{Config} ) {
-                            $Values{Config} = Dumper( $Values{Config} );
+                            $Values{Config} = Dumper( $Values{Config} ); ## no critic
                             $Values{Config} =~ s{ \s* \$VAR1 \s* =}{}xms;
                             $Values{Config} =~ s{\s+\{}{\{}xms;
                         }
@@ -1005,7 +1005,7 @@ sub Run {
         my $ProcessData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ProcessData->{Name}                  = $GetParam->{Name};
@@ -1163,7 +1163,7 @@ sub Run {
         my $ProcessData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ProcessData->{Name}                          = $GetParam->{Name};

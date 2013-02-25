@@ -667,7 +667,8 @@ sub _SignerCertificateOverview {
     my @SignerCertResults = $Self->{CryptObject}->PrivateSearch(
         Search => $Param{CertFingerprint},
     );
-    my %SignerCert = %{ $SignerCertResults[0] } if @SignerCertResults;
+    my %SignerCert;
+    %SignerCert = %{ $SignerCertResults[0] } if @SignerCertResults;
 
     # get all certificates
     my @AvailableCerts = $Self->{CryptObject}->CertificateSearch();
