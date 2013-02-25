@@ -847,9 +847,9 @@ sub _LogAddChain {
     return 1;
 }
 
-=end Internal:
-
 1;
+
+=end Internal:
 
 =back
 

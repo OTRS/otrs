@@ -131,7 +131,7 @@ sub _Fetch {
     my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
 
     my $IMAPObject = $Connect{IMAPObject};
-    $IMAPObject->select($IMAPFolder) or die "Could not select: $@\n";
+    $IMAPObject->select($IMAPFolder) || die "Could not select: $@\n";
 
     my $Messages = $IMAPObject->messages()
         || die "Could not retrieve messages : $@\n";
@@ -244,7 +244,7 @@ sub _Fetch {
             Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
-    $IMAPObject->close;
+    $IMAPObject->close();
     if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }

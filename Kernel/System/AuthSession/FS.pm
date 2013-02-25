@@ -250,16 +250,16 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
     # create session id
-    my $md5 = Digest::MD5->new();
-    $md5->add(
+    my $MD5 = Digest::MD5->new();
+    $MD5->add(
         ( $TimeNow . int( rand 999999999 ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
-    my $SessionID = $Self->{SystemID} . $md5->hexdigest;
+    my $SessionID = $Self->{SystemID} . $MD5->hexdigest();
 
     # create challenge token
-    $md5 = Digest::MD5->new();
-    $md5->add( $TimeNow . $SessionID );
-    my $ChallengeToken = $md5->hexdigest;
+    $MD5 = Digest::MD5->new();
+    $MD5->add( $TimeNow . $SessionID );
+    my $ChallengeToken = $MD5->hexdigest();
 
     my %Data;
     KEY:

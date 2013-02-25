@@ -95,7 +95,7 @@ sub new {
     use CGI::Carp;
 
     # max 5 MB posts
-    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
 
     # query object (in case use already existing WebRequest, e. g. fast cgi)
     $Self->{Query} = $Param{WebRequest} || new CGI;
@@ -123,7 +123,7 @@ sub Error {
     }
 
     return if !cgi_error();
-    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
+    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB'; ## no critic
 }
 
 =item GetParam()
@@ -282,11 +282,11 @@ sub GetUploadAll {
         }
 
         # create upload dir
-        File::Path::make_path( $Path, { mode => 0700 } );
+        File::Path::make_path( $Path, { mode => 0700 } ); ## no critic
 
         $Content = "$Path/$NewFileName";
 
-        open my $Out, '>', $Content or die $!;
+        open my $Out, '>', $Content || die $!; ## no critic
         while (<$Upload>) {
             print $Out $_;
         }

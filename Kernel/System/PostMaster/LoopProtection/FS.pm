@@ -34,7 +34,7 @@ sub new {
     $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time); ## no critic
     $Year = $Year + 1900;
     $Month++;
     $Self->{LoopProtectionLog} .= '-' . $Year . '-' . $Month . '-' . $Day . '.log';
@@ -48,8 +48,10 @@ sub SendEmail {
     my $To = $Param{To} || return;
 
     # write log
+    ## no critic
     if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {
-        print $Out "$To;" . localtime() . ";\n";
+    ## use critic
+        print $Out "$To;" . localtime() . ";\n"; ## no critic
         close($Out);
     }
     else {
@@ -69,10 +71,14 @@ sub Check {
     my $Count = 0;
 
     # check existing logfile
+    ## no critic
     if ( !open( my $In, '<', $Self->{LoopProtectionLog} ) ) {
+    ## use critic
 
         # create new log file
+        ## no critic
         if ( !open( my $Out, '>', $Self->{LoopProtectionLog} ) ) {
+        ## use critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",

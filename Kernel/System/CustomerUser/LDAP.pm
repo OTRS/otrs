@@ -672,12 +672,12 @@ sub CustomerIDs {
 
         # used separators
         separator:
-        for my $separator ( ';', ',', '|' ) {
+        for my $Separator ( ';', ',', '|' ) {
 
-            next separator if $Data{UserCustomerIDs} !~ /\Q$separator\E/;
+            next separator if $Data{UserCustomerIDs} !~ /\Q$Separator\E/;
 
             # split it
-            my @IDs = split /\Q$separator\E/, $Data{UserCustomerIDs};
+            my @IDs = split /\Q$Separator\E/, $Data{UserCustomerIDs};
 
             for my $ID (@IDs) {
                 $ID =~ s/^\s+//g;

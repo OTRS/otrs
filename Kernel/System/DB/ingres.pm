@@ -236,9 +236,9 @@ sub TableCreate {
     push( @Return, $SQLStart . $SQL . $SQLEnd );
 
     # modify to btree
-    my $modifySQL = "MODIFY $TableName TO btree";
-    if ($PrimaryKey) { $modifySQL .= " unique ON $PrimKeyColName WITH unique_scope = statement"; }
-    push( @Return, $modifySQL );
+    my $ModifySQL = "MODIFY $TableName TO btree";
+    if ($PrimaryKey) { $ModifySQL .= " unique ON $PrimKeyColName WITH unique_scope = statement"; }
+    push( @Return, $ModifySQL );
     if ($PrimaryKey) {
         push(
             @Return,

@@ -313,7 +313,7 @@ sub _GetAutoCorrectValue {
     my %State2ID = reverse %States;
 
     # try to find the state 'open'
-    if ( $State2ID{open} ) {
+    if ( $State2ID{'open'} ) {
         return 'open';
     }
 

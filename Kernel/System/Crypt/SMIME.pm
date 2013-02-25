@@ -606,7 +606,9 @@ sub CertificateAdd {
         }
 
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
+        ## no critic
         if ( open( my $OUT, '>', $File ) ) {
+        ## use critic
             print $OUT $Param{Certificate};
             close($OUT);
             %Result = (
@@ -974,10 +976,12 @@ sub PrivateAdd {
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
+        ## no critic
         if ( open( my $PrivKeyFH, '>', "$File" ) ) {
+        ## use critic
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
-            open( my $PassFH, '>', "$File.P" );
+            open( my $PassFH, '>', "$File.P" ); ## no critic
             print $PassFH $Param{Secret};
             close $PassFH;
             %Result = (

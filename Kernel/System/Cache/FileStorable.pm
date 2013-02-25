@@ -38,7 +38,9 @@ sub new {
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
         if ( !-e $Directory ) {
+            ## no critic
             if ( !mkdir( $Directory, 0775 ) ) {
+            ## use critic
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can't create directory '$Directory': $!",
@@ -74,7 +76,9 @@ sub Set {
     my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
 
     if ( !-e $CacheDirectory ) {
+        ## no critic
         if ( !File::Path::mkpath( $CacheDirectory, 0, 0775 ) ) {
+        ## use critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create directory '$CacheDirectory': $!",
