@@ -460,13 +460,13 @@ sub Time {
         }
     }
     my $ReturnString = $Self->{ $Param{Format} } || 'Need to be translated!';
-    my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst );
+    my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST );
 
     # set or get time
     if ( lc $Param{Action} eq 'get' ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst ) = $Self->{TimeObject}->SystemTime2Date(
+        ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
         );
     }
@@ -502,7 +502,7 @@ sub Time {
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$wd]);}egx;
+        $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$WD]);}egx;
         $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
         return $ReturnString;
     }
