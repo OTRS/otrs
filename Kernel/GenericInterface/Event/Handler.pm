@@ -20,6 +20,17 @@ use Kernel::Scheduler;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
+=head1 NAME
+
+Kernel::GenericInterface::Event::Handler - GenericInterface event handler
+
+=head1 SYNOPSIS
+
+This event handler intercepts all system events and fires connected GenericInterface
+invokers.
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -117,3 +128,19 @@ sub Run {
 }
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.22 $ $Date: 2013-01-09 18:24:44 $
+
+=cut
