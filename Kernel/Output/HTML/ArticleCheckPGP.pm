@@ -161,11 +161,11 @@ sub Check {
             UserID    => $Self->{UserID},
         );
         use MIME::Parser;
-        my $parser = MIME::Parser->new();
-        $parser->decode_headers(0);
-        $parser->extract_nested_messages(0);
-        $parser->output_to_core('ALL');
-        my $Entity = $parser->parse_data($Message);
+        my $Parser = MIME::Parser->new();
+        $Parser->decode_headers(0);
+        $Parser->extract_nested_messages(0);
+        $Parser->output_to_core('ALL');
+        my $Entity = $Parser->parse_data($Message);
         my $Head   = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
@@ -193,12 +193,12 @@ sub Check {
             }
 
             # decrypt
-            my $Cryped = $Entity->parts(1)->as_string;
+            my $Cryped = $Entity->parts(1)->as_string();
 
             # Encrypt it
             my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Cryped, );
             if ( $Decrypt{Successful} ) {
-                $Entity = $parser->parse_data( $Decrypt{Data} );
+                $Entity = $Parser->parse_data( $Decrypt{Data} );
                 my $Head = $Entity->head();
                 $Head->unfold();
                 $Head->combine('Content-Type');

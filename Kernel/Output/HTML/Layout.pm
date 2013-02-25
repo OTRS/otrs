@@ -545,7 +545,9 @@ sub Output {
         else {
             $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
         }
+        ## no critic
         if ( open my $TEMPLATEIN, '<', $File ) {
+        ## use critic
             $TemplateString = do { local $/; <$TEMPLATEIN> };
             close $TEMPLATEIN;
         }
@@ -3858,7 +3860,8 @@ sub CustomerNoPermission {
     $Param{Message} ||= 'No Permission!';
 
     # create output
-    my $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    my $Output;
+    $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
     $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
     $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
 

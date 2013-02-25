@@ -93,11 +93,11 @@ sub Check {
         my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => \@Email, );
 
         use MIME::Parser;
-        my $parser = MIME::Parser->new();
-        $parser->decode_headers(0);
-        $parser->extract_nested_messages(0);
-        $parser->output_to_core("ALL");
-        my $Entity = $parser->parse_data($Message);
+        my $Parser = MIME::Parser->new();
+        $Parser->decode_headers(0);
+        $Parser->extract_nested_messages(0);
+        $Parser->output_to_core("ALL");
+        my $Entity = $Parser->parse_data($Message);
         my $Head   = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
