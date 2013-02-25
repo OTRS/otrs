@@ -1366,6 +1366,8 @@ sub ProcessDump {
 # OTRS config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZProcessManagement;
+use strict;
+use warnings;
 use utf8;
 sub Load {
     my ($File, $Self) = @_;

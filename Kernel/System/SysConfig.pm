@@ -181,6 +181,8 @@ sub WriteDefault {
     $Out .= "# OTRS config file (automatically generated)\n";
     $Out .= "# VERSION:1.1\n";
     $Out .= "package Kernel::Config::Files::ZZZAAuto;\n";
+    $Out .= "use strict;\n";
+    $Out .= "use warnings;\n";
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
@@ -394,6 +396,8 @@ sub CreateConfig {
     $Out .= "# OTRS config file (automatically generated)\n";
     $Out .= "# VERSION:1.1\n";
     $Out .= "package Kernel::Config::Files::ZZZAuto;\n";
+    $Out .= "use strict;\n";
+    $Out .= "use warnings;\n";
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
