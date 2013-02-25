@@ -2,8 +2,6 @@
 # Kernel/System/DB/ingres.pm - ingres database backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ingres.pm,v 1.8 2012-11-20 15:45:16 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -238,9 +236,9 @@ sub TableCreate {
     push( @Return, $SQLStart . $SQL . $SQLEnd );
 
     # modify to btree
-    my $modifySQL = "MODIFY $TableName TO btree";
-    if ($PrimaryKey) { $modifySQL .= " unique ON $PrimKeyColName WITH unique_scope = statement"; }
-    push( @Return, $modifySQL );
+    my $ModifySQL = "MODIFY $TableName TO btree";
+    if ($PrimaryKey) { $ModifySQL .= " unique ON $PrimKeyColName WITH unique_scope = statement"; }
+    push( @Return, $ModifySQL );
     if ($PrimaryKey) {
         push(
             @Return,

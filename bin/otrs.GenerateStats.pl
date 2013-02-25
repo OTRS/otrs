@@ -3,8 +3,6 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.20 2013-01-16 09:14:00 mb Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -408,7 +406,7 @@ else {
 
 # write output
 if ( $Opts{o} ) {
-    if ( open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}" ) {
+    if ( open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}" ) { ## no critic
         print $Filehandle $Attachment{Content};
         close $Filehandle;
         print "NOTICE: Writing file $Opts{o}/$Attachment{Filename}.\n";

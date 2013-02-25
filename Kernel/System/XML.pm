@@ -2,8 +2,6 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.113 2012-11-20 15:41:51 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -256,7 +254,7 @@ sub XMLHashGet {
         }
         $Content .= '$XMLHash' . $Data[0] . " = '$Data[1]';\n 1;\n";
     }
-    if ( $Content && !eval $Content ) {
+    if ( $Content && !eval $Content ) { ## no critic
         print STDERR "ERROR: XML.pm $@\n";
     }
 
@@ -757,7 +755,7 @@ sub XMLParse {
     # load parse package and parse
     my $UseFallback = 1;
 
-    if ( eval 'require XML::Parser' ) {
+    if ( eval 'require XML::Parser' ) { ## no critic
         my $Parser = XML::Parser->new(
             Handlers => {
                 Start => sub { $Self->_HS(@_); },
@@ -782,7 +780,7 @@ sub XMLParse {
     }
 
     if ($UseFallback) {
-        require XML::Parser::Lite;
+        require XML::Parser::Lite; ## no critic
 
         my $Parser = XML::Parser::Lite->new(
             Handlers => {

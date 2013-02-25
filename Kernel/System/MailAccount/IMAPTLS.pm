@@ -2,8 +2,6 @@
 # Kernel/System/MailAccount/IMAPTLS.pm - lib for imap accounts over TLS encryption
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAPTLS.pm,v 1.5 2012-11-20 15:50:13 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -133,7 +131,7 @@ sub _Fetch {
     my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
 
     my $IMAPObject = $Connect{IMAPObject};
-    $IMAPObject->select($IMAPFolder) or die "Could not select: $@\n";
+    $IMAPObject->select($IMAPFolder) || die "Could not select: $@\n";
 
     my $Messages = $IMAPObject->messages()
         || die "Could not retrieve messages : $@\n";
@@ -246,7 +244,7 @@ sub _Fetch {
             Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
-    $IMAPObject->close;
+    $IMAPObject->close();
     if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }

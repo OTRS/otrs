@@ -2,8 +2,6 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.86 2012-11-26 09:28:52 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -215,7 +213,7 @@ sub new {
     }
 
     # get source file charset
-    # what charset shoud I use (take it from translation file)!
+    # what charset should I use (take it from translation file)!
     if ( $Self->{Charset} && ref $Self->{Charset} eq 'ARRAY' ) {
         $Self->{TranslationCharset} = $Self->{Charset}->[-1];
     }
@@ -334,7 +332,7 @@ sub Get {
 
 =item FormatTimeString()
 
-Get date format in used language formate (based on translation file).
+Get date format in used language format (based on translation file).
 
     my $Date = $LanguageObject->FormatTimeString('2009-12-12 12:12:12', 'DateFormat');
 
@@ -462,13 +460,13 @@ sub Time {
         }
     }
     my $ReturnString = $Self->{ $Param{Format} } || 'Need to be translated!';
-    my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst );
+    my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST );
 
     # set or get time
     if ( lc $Param{Action} eq 'get' ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst ) = $Self->{TimeObject}->SystemTime2Date(
+        ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
         );
     }
@@ -504,7 +502,7 @@ sub Time {
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$wd]);}egx;
+        $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$WD]);}egx;
         $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
         return $ReturnString;
     }

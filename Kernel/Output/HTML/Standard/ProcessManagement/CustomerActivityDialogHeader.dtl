@@ -2,8 +2,6 @@
 # CustomerActivityDialogHeader.dtl - provides CustomerActivityDialogHeader HTML for the CustomerAgentTicketProcess.pm
 # Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
 # --
-# $Id: CustomerActivityDialogHeader.dtl,v 1.3 2012-11-20 15:30:40 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

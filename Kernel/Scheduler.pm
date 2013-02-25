@@ -2,8 +2,6 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.25 2013-01-09 18:21:50 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -105,7 +103,7 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
-    # create aditional objects
+    # create additional objects
     $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 
     $Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
@@ -134,7 +132,7 @@ sub Run {
     # get all tasks
     my @TaskList = $Self->{TaskManagerObject}->TaskList();
 
-    # if there are no task to execute return succesfull
+    # if there are no task to execute return successfully
     return 1 if !@TaskList;
 
     # get the task details
@@ -188,7 +186,7 @@ sub Run {
             );
             $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
 
-            # skip if cant get task data -> data
+            # skip if can't get task data -> data
             next TASKITEM;
         }
 
@@ -222,7 +220,7 @@ sub Run {
         # skip if can't delete task
         next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
 
-        # check if need to re-schedule
+        # check if need to reschedule
         if ( $TaskResult->{ReSchedule} ) {
 
             # set new due time
@@ -232,20 +230,20 @@ sub Run {
                 Type    => scalar $TaskItem->{Type},
             );
 
-            # re-schedule: create a new task
+            # reschedule: create a new task
             my $TaskID = $Self->TaskRegister(%ReScheduleTaskData);
 
-            # check if task was re scheduled successfuly
+            # check if task was rescheduled successfully
             if ( !$TaskID ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Could not re-schedule task",
+                    Message  => "Could not reschedule task",
                 );
                 next TASKITEM;
             }
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Task is re-scheduled.",
+                Message  => "Task is rescheduled.",
             );
         }
     }
@@ -259,7 +257,7 @@ schedules a task for asynchronous execution (either as soon as possible, or with
 specified future execution time). Each task has a task type, and for each task type
 a corresponding task handler backend must be present. The task data that is required
 depends on the task type. Please consult the task handler backend specification to find
-out exactly which data is needed.
+out which data is exactly needed.
 
     my $TaskID = $SchedulerObject->TaskRegister(
         Type     => 'GenericInterface',

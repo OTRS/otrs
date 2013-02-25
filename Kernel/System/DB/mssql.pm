@@ -2,8 +2,6 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.67 2012-12-11 06:19:42 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

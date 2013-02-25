@@ -3,8 +3,6 @@
 # Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cron.sh,v 1.22 2012-11-20 16:02:25 mh Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or

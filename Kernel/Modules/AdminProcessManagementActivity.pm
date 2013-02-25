@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.21 2013-01-22 08:17:59 mn Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -99,9 +97,9 @@ sub Run {
         my $ActivityData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
-        # set new confguration
+        # set new configuration
         $ActivityData->{Name}   = $GetParam->{Name};
         $ActivityData->{Config} = {};
 
@@ -126,7 +124,7 @@ sub Run {
             my $Counter = 1;
             for my $ActivityDialogID ( @{ $GetParam->{ActivityDialogs} } ) {
 
-                # check if the activiry dialog and it's entity id are in the list
+                # check if the activity dialog and its entity id are in the list
                 if (
                     $ActivityDialogsLookup{$ActivityDialogID}
                     && $ActivityDialogsLookup{$ActivityDialogID}->{EntityID}
@@ -190,7 +188,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'Activity',
             EntityID   => $EntityID,
@@ -321,9 +319,9 @@ sub Run {
         my $ActivityData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
-        # set new confguration
+        # set new configuration
         $ActivityData->{Name}     = $GetParam->{Name};
         $ActivityData->{EntityID} = $GetParam->{EntityID};
         $ActivityData->{Config}   = {};
@@ -402,7 +400,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'Activity',
             EntityID   => $ActivityData->{EntityID},
@@ -712,7 +710,7 @@ sub _ShowEdit {
         );
     }
 
-    # localize available actvity dialogs
+    # localize available activity dialogs
     my @AvailableActivityDialogs = @{ $Self->{ActivityDialogsList} };
 
     # create available activity dialogs lookup tables based on entity id

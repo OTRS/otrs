@@ -269,8 +269,8 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     $Self->{TicketAcl}->{'Limit Dropdown1 entries based in Dropdown2'} = {
         Properties => {
             Ticket => {
-                # Match on the DeopDown2 KEY '1'
-                DynamicField_Dwondown2 => ['1'],
+                # Match on the DropDown2 KEY '1'
+                DynamicField_Dropdown2 => ['1'],
             },
         },
         Possible => {

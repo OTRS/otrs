@@ -3,8 +3,6 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.44 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -57,7 +55,7 @@ if ( $^O eq "MSWin32" ) {
 
 # help option
 if ( $Opts{h} ) {
-    _help();
+    _Help();
     exit 1;
 }
 
@@ -302,7 +300,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         my $DaysToKeepSystemTime
             = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
-        my @LogFiles = <$LogPath/*.log>;
+        my @LogFiles = glob("$LogPath/*.log");
 
         LOGFILE:
         for my $LogFile (@LogFiles) {
@@ -375,10 +373,10 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # write PID to the PID file (if possible)
-    my $PIDFILE = $RunDir . '/scheduler.pid';
-    if ( open PIDFILE, ">", $PIDFILE ) {
-        print PIDFILE $PID{PID};
-        close PIDFILE;
+    my $PIDFILE;
+    if ( open $PIDFILE, ">", "$RunDir/scheduler.pid" ) { ## no critic
+        print $PIDFILE $PID{PID};
+        close $PIDFILE;
     }
 
     # otherwise stop if we can't write the PID on the PID file
@@ -503,14 +501,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
 # invalid option, show help
 else {
-    _help();
+    _Help();
     exit 1;
 }
 
 exit 1;
 
 # Internal
-sub _help {
+sub _Help {
     print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";

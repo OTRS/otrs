@@ -3,8 +3,6 @@
 # bin/otrs.Cron4Win32.pl - a script to generate a full crontab file for OTRS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Cron4Win32.pl,v 1.13 2013-01-21 16:54:46 mb Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -53,19 +51,24 @@ if ( !$CronTabFile ) {
     }
 }
 
-opendir( my $DirHandle, $CronDir ) or die "ERROR: Can't open $CronDir: $!";
+opendir( my $DirHandle, $CronDir ) || die "ERROR: Can't open $CronDir: $!";
 
 my @Entries = readdir($DirHandle);
 closedir($DirHandle);
+
+## no critic
 open my $CronTab, '>', $CronTabFile
-    or die "ERROR: Can't write to file $CronTabFile: $!";
+    || die "ERROR: Can't write to file $CronTabFile: $!";
+## use critic
 print "Writing to $CronTabFile...\n\n";
 CRONFILE:
 for my $CronData (@Entries) {
     next CRONFILE if ( !-f "$CronDir/$CronData" );
     next CRONFILE if ( $CronData eq 'postmaster.dist' );
+    ## no critic
     open( my $Data, '<', "$CronDir/$CronData" )
-        or die "ERROR: Can't open file $CronDir/$CronData: $!";
+        || die "ERROR: Can't open file $CronDir/$CronData: $!";
+    ## use critic
     LINE:
     while ( my $Line = <$Data> ) {
         next LINE if ( $Line =~ m{ \A \# }xms );

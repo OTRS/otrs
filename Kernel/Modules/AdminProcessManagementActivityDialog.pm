@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.34 2013-01-31 13:45:55 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -140,7 +138,7 @@ sub Run {
         my $ActivityDialogData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ActivityDialogData->{Name}                       = $GetParam->{Name};
@@ -212,7 +210,7 @@ sub Run {
         }
 
         # check if permission exists
-        if ( defined $GetParam->{Permission} and $GetParam->{Permission} ne '' ) {
+        if ( defined $GetParam->{Permission} && $GetParam->{Permission} ne '' ) {
             my $PermissionList = $Self->{ConfigObject}->Get('System::Permission');
 
             my %PermissionLookup = map { $_ => 1 } @{$PermissionList};
@@ -270,7 +268,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'ActivityDialog',
             EntityID   => $EntityID,
@@ -394,7 +392,7 @@ sub Run {
         my $ActivityDialogData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ActivityDialogData->{Name}                       = $GetParam->{Name};
@@ -475,7 +473,7 @@ sub Run {
         }
 
         # check if permission exists
-        if ( defined $GetParam->{Permission} and $GetParam->{Permission} ne '' ) {
+        if ( defined $GetParam->{Permission} && $GetParam->{Permission} ne '' ) {
 
             my $PermissionList = $Self->{ConfigObject}->Get('System::Permission');
 
@@ -522,7 +520,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'ActivityDialog',
             EntityID   => $ActivityDialogData->{EntityID},
@@ -783,7 +781,7 @@ sub _ShowEdit {
         PossibleNone => 0,
     );
 
-    # create permssion selection
+    # create permission selection
     $Param{PermissionSelection} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('System::Permission') || ['rw'],
         Name       => 'Permission',
@@ -795,7 +793,7 @@ sub _ShowEdit {
         Class        => $Param{PermissionServerError} || '',
     );
 
-    # create permssion selection
+    # create "required lock" selection
     $Param{RequiredLockSelection} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             0 => 'No',

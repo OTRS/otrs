@@ -2,8 +2,6 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.251 2013-01-30 00:00:42 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -303,9 +301,12 @@ sub Run {
         # multiple addresses list
         # check email address
         my $CountFrom = scalar @MultipleCustomer || 1;
-        my %CustomerDataFrom = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $Article{CustomerUserID},
-        ) if $Article{CustomerUserID};
+        my %CustomerDataFrom;
+        if ( $Article{CustomerUserID} ) {
+            %CustomerDataFrom = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Article{CustomerUserID},
+            );
+        }
 
         for my $Email ( Mail::Address->parse($ArticleFrom) ) {
 

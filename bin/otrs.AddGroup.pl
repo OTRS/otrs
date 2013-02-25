@@ -3,8 +3,6 @@
 # bin/otrs.AddGroup.pl - add new system groups
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddGroup.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -40,17 +38,17 @@ use Kernel::System::DB;
 use Kernel::System::Group;
 use Kernel::System::Main;
 
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'c:n:h', \%opts );
+getopts( 'c:n:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $0 [-c <comment>] -n <groupname>\n";
     exit;
 }
 
-if ( !$opts{n} ) {
+if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n groupname\n";
     exit 1;
 }
@@ -73,11 +71,11 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Comment} = $opts{c} || '';
-$Param{Name}    = $opts{n} || '';
+$Param{Comment} = $Options{c} || '';
+$Param{Name}    = $Options{n} || '';
 
 if ( my $GID = $CommonObject{GroupObject}->GroupAdd(%Param) ) {
-    print "Group '$opts{n}' added. Group id is '$GID'\n";
+    print "Group '$Options{n}' added. Group id is '$GID'\n";
 }
 else {
     print STDERR "ERROR: Can't add group\n";

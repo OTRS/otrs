@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.17 2013-02-14 10:28:28 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -93,7 +91,7 @@ sub Run {
         my $TransitionData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $TransitionData->{Name}   = $GetParam->{Name};
@@ -146,7 +144,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'Transition',
             EntityID   => $EntityID,
@@ -278,7 +276,7 @@ sub Run {
         my $TransitionData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $TransitionData->{Name}     = $GetParam->{Name};
@@ -320,7 +318,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'Transition',
             EntityID   => $EntityID,

@@ -2,8 +2,6 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.111 2012-11-29 12:39:49 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -756,7 +754,7 @@ sub PartsAttachments {
 
     # Guess the filename for nested messages (see bug#1970).
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
-        my ($SubjectString) = $Part->as_string =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
+        my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
         my $Subject;
         foreach my $Decoded ( decode_mimewords($SubjectString) ) {
             if ( $Decoded->[0] ) {

@@ -2,8 +2,6 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.72 2012-11-22 09:19:35 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -277,16 +275,16 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
     # create session id
-    my $md5 = Digest::MD5->new();
-    $md5->add(
+    my $MD5 = Digest::MD5->new();
+    $MD5->add(
         ( $TimeNow . int( rand 999999999 ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
-    my $SessionID = $Self->{SystemID} . $md5->hexdigest;
+    my $SessionID = $Self->{SystemID} . $MD5->hexdigest();
 
     # create challenge token
-    $md5 = Digest::MD5->new();
-    $md5->add( $TimeNow . $SessionID );
-    my $ChallengeToken = $md5->hexdigest;
+    $MD5 = Digest::MD5->new();
+    $MD5->add( $TimeNow . $SessionID );
+    my $ChallengeToken = $MD5->hexdigest();
 
     my %Data;
     KEY:

@@ -2,8 +2,6 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.53 2013-01-28 12:36:04 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

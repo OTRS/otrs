@@ -2,8 +2,6 @@
 # Kernel/System/Cache/FileStorable.pm - all cache functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FileStorable.pm,v 1.13 2012-11-20 15:42:55 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -40,7 +38,9 @@ sub new {
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
         if ( !-e $Directory ) {
+            ## no critic
             if ( !mkdir( $Directory, 0775 ) ) {
+            ## use critic
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can't create directory '$Directory': $!",
@@ -76,7 +76,9 @@ sub Set {
     my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
 
     if ( !-e $CacheDirectory ) {
+        ## no critic
         if ( !File::Path::mkpath( $CacheDirectory, 0, 0775 ) ) {
+        ## use critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create directory '$CacheDirectory': $!",

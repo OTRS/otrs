@@ -2,8 +2,6 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.84 2012-12-03 18:24:43 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -45,7 +43,7 @@ sub ArticleStorageInit {
     my $PermissionCheckDirectory
         = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
     my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/" . $PermissionCheckDirectory;
-    if ( File::Path::mkpath( $Path, 0, 0775 ) ) {
+    if ( File::Path::mkpath( $Path, 0, 0775 ) ) { ## no critic
         rmdir $Path;
     }
     else {
@@ -248,7 +246,7 @@ sub ArticleWritePlain {
     }
 
     # write article to fs 1:1
-    File::Path::mkpath( [$Path], 0, 0775 );
+    File::Path::mkpath( [$Path], 0, 0775 ); ## no critic
 
     # write article to fs
     my $Success = $Self->{MainObject}->FileWrite(
@@ -312,7 +310,7 @@ sub ArticleWriteAttachment {
 
     # write attachment to backend
     if ( !-d $Param{Path} ) {
-        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) {
+        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) { ## no critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create $Param{Path}: $!",

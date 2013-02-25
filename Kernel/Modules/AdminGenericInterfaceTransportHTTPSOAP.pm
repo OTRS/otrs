@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.15 2013-01-15 17:43:26 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -36,7 +34,7 @@ sub new {
         }
     }
 
-    # create addtional objects
+    # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
     $Self->{JSONObject}  = Kernel::System::JSON->new( %{$Self} );
     $Self->{WebserviceObject} =
@@ -65,7 +63,7 @@ sub Run {
             );
         }
 
-        # get webserice configuration
+        # get webservice configuration
         my $WebserviceData =
             $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
@@ -100,7 +98,7 @@ sub Run {
             );
         }
 
-        # get webserice configuration
+        # get webservice configuration
         my $WebserviceData =
             $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
@@ -112,7 +110,7 @@ sub Run {
         }
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # check required parameters
         my %Error;
@@ -217,7 +215,7 @@ sub Run {
             }
         }
 
-        # set new confguration
+        # set new configuration
         $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
 
         # if there is an error return to edit screen

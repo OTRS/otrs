@@ -4,8 +4,6 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.18 2013-01-22 10:14:10 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or

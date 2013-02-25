@@ -2,8 +2,6 @@
 # Kernel/Language/en.pm - provides en_US languag translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.42 2012-11-20 14:31:09 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

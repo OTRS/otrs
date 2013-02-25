@@ -1,8 +1,6 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: suse-rcotrs-config,v 1.8 2012-07-11 14:15:33 cr Exp $
-# --
 
 #
 # program name

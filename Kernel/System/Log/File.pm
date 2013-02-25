@@ -2,8 +2,6 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.24 2012-11-20 15:49:45 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -42,7 +40,7 @@ sub new {
 
     # get log file suffix
     if ( $Param{ConfigObject}->Get('LogModule::LogFile::Date') ) {
-        my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst ) = localtime( time() );
+        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() ); ## no critic
         $Y = $Y + 1900;
         $M++;
         $Self->{LogFile} .= ".$Y-$M";
@@ -51,7 +49,9 @@ sub new {
     # Fixed bug# 2265 - For IIS we need to create a own error log file.
     # Bind stderr to log file, because iis do print stderr to web page.
     if ( $ENV{SERVER_SOFTWARE} && $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
+        ## no critic
         if ( !open STDERR, '>>', $Self->{LogFile} . '.error' ) {
+        ## use critic
             print STDERR "ERROR: Can't write $Self->{LogFile}.error: $!";
         }
     }
@@ -65,7 +65,9 @@ sub Log {
     my $FH;
 
     # open logfile
+    ## no critic
     if ( !open $FH, '>>', $Self->{LogFile} ) {
+    ## use critic
 
         # print error screen
         print STDERR "\n";
@@ -76,7 +78,7 @@ sub Log {
 
     # write log file
     $Self->{EncodeObject}->SetIO($FH);
-    print $FH '[' . localtime() . ']';
+    print $FH '[' . localtime() . ']'; ## no critic
     if ( lc $Param{Priority} eq 'debug' ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";
     }

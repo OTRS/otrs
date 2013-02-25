@@ -2,8 +2,6 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.421 2013-02-15 14:34:45 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -547,7 +545,9 @@ sub Output {
         else {
             $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
         }
+        ## no critic
         if ( open my $TEMPLATEIN, '<', $File ) {
+        ## use critic
             $TemplateString = do { local $/; <$TEMPLATEIN> };
             close $TEMPLATEIN;
         }
@@ -3860,7 +3860,8 @@ sub CustomerNoPermission {
     $Param{Message} ||= 'No Permission!';
 
     # create output
-    my $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    my $Output;
+    $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
     $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
     $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
 

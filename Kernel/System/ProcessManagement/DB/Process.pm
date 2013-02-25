@@ -2,8 +2,6 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.39 2013-01-17 03:39:21 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -1368,6 +1366,8 @@ sub ProcessDump {
 # OTRS config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZProcessManagement;
+use strict;
+use warnings;
 use utf8;
 sub Load {
     my ($File, $Self) = @_;

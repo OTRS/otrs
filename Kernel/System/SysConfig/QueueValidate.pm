@@ -2,8 +2,6 @@
 # Kernel/System/SysConfig/QueueValidate.pm - all QueueValidate functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: QueueValidate.pm,v 1.3 2012-11-20 15:57:56 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

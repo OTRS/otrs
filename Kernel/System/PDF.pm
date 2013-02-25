@@ -2,8 +2,6 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.51 2012-11-20 15:36:44 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -610,7 +608,7 @@ sub DocumentOutput {
     }
 
     # return the document as string
-    my $DocumentString = $Self->{PDF}->stringify;
+    my $DocumentString = $Self->{PDF}->stringify();
     $Self->{PDF}->end();
 
     return $DocumentString;
@@ -1172,7 +1170,7 @@ sub Text {
     if ( $Return{LeftOver} ne $Param{Text} ) {
 
         # create a text object
-        my $Text = $Self->{Page}->text;
+        my $Text = $Self->{Page}->text();
 
         # set font and fontsize
         $Text->font( $Self->{Font}->{ $Param{Font} }, $Param{FontSize} );
@@ -1280,7 +1278,7 @@ sub Image {
     $Param{Width}  = $Param{Width} /  ( 300 / 72 );
     $Param{Height} = $Param{Height} / ( 300 / 72 );
 
-    my $Image = $Self->{Page}->gfx;
+    my $Image = $Self->{Page}->gfx();
     my $ImageFile;
 
     # if image already used, use the existing image object
@@ -1420,7 +1418,7 @@ sub HLine {
     }
 
     # output the lines in top and bottom of the page
-    my $Line = $Self->{Page}->gfx;
+    my $Line = $Self->{Page}->gfx();
     $Line->fillcolor( $Param{Color} );
 
     # check values
@@ -1461,7 +1459,7 @@ sub HLine {
 
         # output line
         $Line->rect( $Position{X}, $Position{Y}, $Param{Width}, $Param{LineWidth} );
-        $Line->fill;
+        $Line->fill();
 
         # set new position
         $Self->_CurPositionSet( Y => $Position{Y} - $Param{LineWidth}, );
@@ -2374,48 +2372,48 @@ sub _TableCellOutput {
 
     # output background
     if ( $Param{BackgroundColor} ne 'NULL' ) {
-        my $Background = $Self->{Page}->gfx;
+        my $Background = $Self->{Page}->gfx();
         $Background->fillcolor( $Param{BackgroundColor} );
         $Background->rect( $Position{X}, $Position{Y}, $Param{Width}, -( $Param{Height} ) );
-        $Background->fill;
+        $Background->fill();
     }
 
     # output top border
     if ( $Param{Border} > 0 ) {
-        my $BorderTop = $Self->{Page}->gfx;
+        my $BorderTop = $Self->{Page}->gfx();
         $BorderTop->fillcolor( $Param{BorderColor} );
         $BorderTop->rect( $Position{X}, $Position{Y}, $Param{Width}, -( $Param{Border} ) );
-        $BorderTop->fill;
+        $BorderTop->fill();
     }
 
     # output right border
     if ( $Param{Border} > 0 ) {
-        my $BorderRight = $Self->{Page}->gfx;
+        my $BorderRight = $Self->{Page}->gfx();
         $BorderRight->fillcolor( $Param{BorderColor} );
         $BorderRight->rect(
             ( $Position{X} + $Param{Width} - $Param{Border} ),
             $Position{Y}, $Param{Border}, -( $Param{Height} )
         );
-        $BorderRight->fill;
+        $BorderRight->fill();
     }
 
     # output bottom border
     if ( $Param{Border} > 0 ) {
-        my $BorderBottom = $Self->{Page}->gfx;
+        my $BorderBottom = $Self->{Page}->gfx();
         $BorderBottom->fillcolor( $Param{BorderColor} );
         $BorderBottom->rect(
             $Position{X}, ( $Position{Y} - $Param{Height} + $Param{Border} ),
             $Param{Width}, -( $Param{Border} )
         );
-        $BorderBottom->fill;
+        $BorderBottom->fill();
     }
 
     # output left border
     if ( $Param{Border} > 0 ) {
-        my $BorderLeft = $Self->{Page}->gfx;
+        my $BorderLeft = $Self->{Page}->gfx();
         $BorderLeft->fillcolor( $Param{BorderColor} );
         $BorderLeft->rect( $Position{X}, $Position{Y}, $Param{Border}, -( $Param{Height} ) );
-        $BorderLeft->fill;
+        $BorderLeft->fill();
     }
 
     # calculate text start position
@@ -2785,7 +2783,7 @@ sub _StringWidth {
         if $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} };
 
     # create a text object
-    $Self->{TextWidthObject} ||= $Self->{Page}->text;
+    $Self->{TextWidthObject} ||= $Self->{Page}->text();
 
     # set font and fontsize
     $Self->{TextWidthObject}->font( $Self->{Font}->{ $Param{Font} }, $Param{FontSize} );

@@ -2,8 +2,6 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.91 2012-11-20 14:51:07 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -88,7 +86,7 @@ sub Run {
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
-    # check if ACL resctictions if exist
+    # check if ACL restrictions exist
     if ( IsHashRefWithData( \%AclAction ) ) {
 
         # show error screen if ACL prohibits this action
@@ -174,11 +172,6 @@ sub Run {
     if ( $Ticket{CustomerUserID} ) {
         %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
-        );
-    }
-    elsif ( $Ticket{CustomerID} ) {
-        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            CustomerID => $Ticket{CustomerID},
         );
     }
 

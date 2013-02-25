@@ -2,8 +2,6 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.44 2013-01-10 13:11:42 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -89,6 +87,8 @@ create an object
     );
 
 =cut
+
+## no critic (StringyEval)
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -181,6 +181,8 @@ sub WriteDefault {
     $Out .= "# OTRS config file (automatically generated)\n";
     $Out .= "# VERSION:1.1\n";
     $Out .= "package Kernel::Config::Files::ZZZAAuto;\n";
+    $Out .= "use strict;\n";
+    $Out .= "use warnings;\n";
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
@@ -229,7 +231,9 @@ sub Download {
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
         return '';
     }
+    ## no critic
     elsif ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    ## use critic
         return if $Param{Type};
 
         $Self->{LogObject}->Log(
@@ -392,6 +396,8 @@ sub CreateConfig {
     $Out .= "# OTRS config file (automatically generated)\n";
     $Out .= "# VERSION:1.1\n";
     $Out .= "package Kernel::Config::Files::ZZZAuto;\n";
+    $Out .= "use strict;\n";
+    $Out .= "use warnings;\n";
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
@@ -447,7 +453,9 @@ sub ConfigItemUpdate {
 
     # check if config file is writable
     my $Out;
+    ## no critic
     if ( !open( $Out, ">>$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    ## use critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
@@ -502,7 +510,10 @@ sub ConfigItemUpdate {
 
     # get config file and insert it
     my $In;
+    ## no critic
     if ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
+    ## use critic
+
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't read $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
@@ -1572,7 +1583,10 @@ sub _Init {
         for my $File (@Files) {
             my $ConfigFile = '';
             my $In;
+            ## no critic
             if ( open( $In, '<', $File ) ) {
+            ## use critic
+
                 $ConfigFile = do { local $/; <$In> };
                 close $In;
             }
@@ -1875,7 +1889,10 @@ sub _FileWriteAtomic {
     my $TempFilename = $Param{Filename} . '.' . $$;
     my $FH;
 
+    ## no critic
     if ( !open( $FH, ">$Self->{FileMode}", $TempFilename ) ) {
+    ## use critic
+
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't open file $TempFilename!",

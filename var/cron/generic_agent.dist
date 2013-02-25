@@ -2,8 +2,6 @@
 # cron/generic_agent - otrs.GenericAgent.pl cron of the OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: generic_agent.dist,v 1.15 2012-02-07 20:11:16 jb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

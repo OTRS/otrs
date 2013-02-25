@@ -2,8 +2,6 @@
 # Kernel/GenericInterface/Operation/Common.pm - common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.11 2012-11-20 14:28:27 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -165,8 +163,10 @@ sub Auth {
 
     # check if a valid SessionID is present
     if ($SessionID) {
-        my $ValidSessionID =
-            $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) if $SessionID;
+        my $ValidSessionID;
+        if ( $SessionID ) {
+            $ValidSessionID = $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID );
+        }
         return 0 if !$ValidSessionID;
 
         # get session data

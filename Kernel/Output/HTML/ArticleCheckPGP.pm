@@ -2,8 +2,6 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.29 2012-11-20 14:55:58 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -163,11 +161,11 @@ sub Check {
             UserID    => $Self->{UserID},
         );
         use MIME::Parser;
-        my $parser = MIME::Parser->new();
-        $parser->decode_headers(0);
-        $parser->extract_nested_messages(0);
-        $parser->output_to_core('ALL');
-        my $Entity = $parser->parse_data($Message);
+        my $Parser = MIME::Parser->new();
+        $Parser->decode_headers(0);
+        $Parser->extract_nested_messages(0);
+        $Parser->output_to_core('ALL');
+        my $Entity = $Parser->parse_data($Message);
         my $Head   = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
@@ -195,12 +193,12 @@ sub Check {
             }
 
             # decrypt
-            my $Cryped = $Entity->parts(1)->as_string;
+            my $Cryped = $Entity->parts(1)->as_string();
 
             # Encrypt it
             my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Cryped, );
             if ( $Decrypt{Successful} ) {
-                $Entity = $parser->parse_data( $Decrypt{Data} );
+                $Entity = $Parser->parse_data( $Decrypt{Data} );
                 my $Head = $Entity->head();
                 $Head->unfold();
                 $Head->combine('Content-Type');

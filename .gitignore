@@ -4,5 +4,13 @@
 .settings
 .includepath
 .DS_Store
+.tidyall.d
 Fred.sopm
+Support.sopm
 CHANGES-Fred
+CHANGES-Support
+Kernel/cpan-lib/Archive/*
+Kernel/cpan-lib/Linux/*
+Kernel/Config/Files/Support.xml
+Kernel/Language/de_Support.pm
+Kernel/Language/es_MX_Support.pm

@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.29 2012-12-10 15:02:01 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -71,7 +69,7 @@ sub Run {
             DefaultServices   => 0,
         );
 
-        # List servces.
+        # List services.
         my %ServiceData = $Self->{ServiceObject}->ServiceList(
             UserID => $Self->{UserID},
         );

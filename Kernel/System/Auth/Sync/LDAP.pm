@@ -2,8 +2,6 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.16 2012-11-20 15:42:33 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -139,7 +137,7 @@ sub Sync {
     else {
         $Result = $LDAP->bind();
     }
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'First bind failed! ' . $Result->error(),
@@ -164,17 +162,17 @@ sub Sync {
         base   => $Self->{BaseDN},
         filter => $Filter,
     );
-    if ( $Result->code ) {
+    if ( $Result->code() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
+            Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error(),
         );
         return;
     }
 
     # get whole user dn
     my $UserDN;
-    for my $Entry ( $Result->all_entries ) {
+    for my $Entry ( $Result->all_entries() ) {
         $UserDN = $Entry->dn();
     }
 
@@ -189,7 +187,7 @@ sub Sync {
         );
 
         # take down session
-        $LDAP->unbind;
+        $LDAP->unbind();
         return;
     }
 
@@ -219,7 +217,7 @@ sub Sync {
 
         # get whole user dn
         my %SyncUser;
-        for my $Entry ( $Result->all_entries ) {
+        for my $Entry ( $Result->all_entries() ) {
             for my $Key ( sort keys %{$UserSyncMap} ) {
 
                 # detect old config setting
@@ -267,7 +265,7 @@ sub Sync {
                 );
 
                 # take down session
-                $LDAP->unbind;
+                $LDAP->unbind();
                 return;
             }
             else {
@@ -360,17 +358,17 @@ sub Sync {
                 base   => $GroupDN,
                 filter => $Filter,
             );
-            if ( $Result->code ) {
+            if ( $Result->code() ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Search failed! ($GroupDN) filter='$Filter' " . $Result->error,
+                    Message  => "Search failed! ($GroupDN) filter='$Filter' " . $Result->error(),
                 );
                 next GROUPDN;
             }
 
             # extract it
             my $Valid;
-            for my $Entry ( $Result->all_entries ) {
+            for my $Entry ( $Result->all_entries() ) {
                 $Valid = $Entry->dn();
             }
 
@@ -436,10 +434,10 @@ sub Sync {
             base   => $Self->{BaseDN},
             filter => $Filter,
         );
-        if ( $Result->code ) {
+        if ( $Result->code() ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
+                Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error(),
             );
         }
         else {
@@ -450,7 +448,7 @@ sub Sync {
                 ATTRIBUTEVALUE:
                 for my $AttributeValue ( sort keys %AttributeValues ) {
 
-                    for my $Entry ( $Result->all_entries ) {
+                    for my $Entry ( $Result->all_entries() ) {
 
                         # Check if configured value exists in values of group attribute
                         # If yes, add sync groups to the user
@@ -580,17 +578,17 @@ sub Sync {
                 base   => $GroupDN,
                 filter => $Filter,
             );
-            if ( $Result->code ) {
+            if ( $Result->code() ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Search failed! ($GroupDN) filter='$Filter' " . $Result->error,
+                    Message  => "Search failed! ($GroupDN) filter='$Filter' " . $Result->error(),
                 );
                 next GROUPDN;
             }
 
             # extract it
             my $Valid;
-            for my $Entry ( $Result->all_entries ) {
+            for my $Entry ( $Result->all_entries() ) {
                 $Valid = $Entry->dn();
             }
 
@@ -644,10 +642,10 @@ sub Sync {
             base   => $Self->{BaseDN},
             filter => $Filter,
         );
-        if ( $Result->code ) {
+        if ( $Result->code() ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
+                Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error(),
             );
         }
         else {
@@ -658,7 +656,7 @@ sub Sync {
                 ATTRIBUTEVALUE:
                 for my $AttributeValue ( sort keys %AttributeValues ) {
 
-                    for my $Entry ( $Result->all_entries ) {
+                    for my $Entry ( $Result->all_entries() ) {
 
                         # Check if configured value exists in values of role attribute
                         # If yes, add sync roles to the user
@@ -735,7 +733,7 @@ sub Sync {
     }
 
     # take down session
-    $LDAP->unbind;
+    $LDAP->unbind();
 
     return $Param{User};
 }

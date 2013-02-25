@@ -2,8 +2,6 @@
 # Kernel/System/Email/SMTPTLS.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTPTLS.pm,v 1.5 2012-11-20 15:48:10 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -81,7 +79,7 @@ sub Check {
         last TRY if $SMTP;
 
         # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 );
+        select( undef, undef, undef, 0.3 ); ## no critic
     }
 
     # return if no connect was possible
@@ -133,7 +131,7 @@ sub Send {
             Priority => 'error',
             Message  => "Can't use from '$Param{From}': $@!",
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
 
@@ -147,7 +145,7 @@ sub Send {
                 Priority => 'error',
                 Message  => "Can't send to '$To': $@!",
             );
-            $SMTP->quit;
+            $SMTP->quit();
             return;
         }
     }
@@ -159,18 +157,18 @@ sub Send {
     $Self->{EncodeObject}->EncodeOutput( $Param{Body} );
 
     # send data
-    $SMTP->data;
+    $SMTP->data();
     eval { $SMTP->datasend( ${ $Param{Header} }, "\n", ${ $Param{Body} } ) };
     if ($@) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't send message: $@!"
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
-    $SMTP->dataend;
-    $SMTP->quit;
+    $SMTP->dataend();
+    $SMTP->quit();
 
     # debug
     if ( $Self->{Debug} > 2 ) {

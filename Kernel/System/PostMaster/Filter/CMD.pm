@@ -2,8 +2,6 @@
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CMD.pm,v 1.17 2012-11-20 15:51:47 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -58,12 +56,14 @@ sub Run {
 
     # execute prog
     my $TmpFile = $Self->{ConfigObject}->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
+    ## no critic
     if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
+    ## use critic
         print $Prog $Self->{ParserObject}->GetPlainEmail();
         close $Prog;
     }
     if ( -s $TmpFile ) {
-        open my $In, '<', $TmpFile;
+        open my $In, '<', $TmpFile; ## no critic
         my $Ret = <$In>;
         close $In;
 

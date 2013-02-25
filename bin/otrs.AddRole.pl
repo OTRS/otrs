@@ -3,8 +3,6 @@
 # bin/otrs.AddRole.pl - add new system roles
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddRole.pl,v 1.10 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -42,17 +40,17 @@ use Kernel::System::Main;
 
 my %Param;
 my %CommonObject;
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'c:n:h', \%opts );
+getopts( 'c:n:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $0 [-c <comment>] -n <rolename>\n";
     exit;
 }
 
-if ( !$opts{n} ) {
+if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n <rolename>\n";
     exit 1;
 }
@@ -73,11 +71,11 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Comment} = $opts{c} || '';
-$Param{Name}    = $opts{n} || '';
+$Param{Comment} = $Options{c} || '';
+$Param{Name}    = $Options{n} || '';
 
 if ( my $RID = $CommonObject{GroupObject}->RoleAdd(%Param) ) {
-    print "Role '$opts{n}' added. Role id is '$RID'\n";
+    print "Role '$Options{n}' added. Role id is '$RID'\n";
 }
 else {
     print STDERR "ERROR: Can't add role\n";

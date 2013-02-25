@@ -2,8 +2,6 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm.dist,v 1.30 2013-02-12 12:10:31 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -13,13 +11,15 @@
 #  -->> Most OTRS configuration should be done via the OTRS web interface
 #       and the SysConfig. Only for some configuration, such as database
 #       credentials and customer data source changes, you should edit this
-#       file. For changes do customer data sources you can copy the defenitions
+#       file. For changes do customer data sources you can copy the definitions
 #       from Kernel/Config/Defaults.pm and paste them in this file.
 #       Config.pm will not be overwritten when updating OTRS.
 # --
 
 package Kernel::Config;
 
+use strict;
+use warnings;
 use utf8;
 
 sub Load {

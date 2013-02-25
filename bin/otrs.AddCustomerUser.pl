@@ -3,8 +3,6 @@
 # bin/otrs.AddCustomerUser.pl - Add User from CLI
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddCustomerUser.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -33,9 +31,9 @@ use lib dirname($RealBin) . '/Custom';
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.11 $) [1];
 
-my %opts;
+my %Options;
 use Getopt::Std;
-getopt( 'flpgec', \%opts );
+getopt( 'flpgec', \%Options );
 unless ( $ARGV[0] ) {
     print
         "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] [-c CustomerID] username\n";
@@ -73,12 +71,12 @@ $Param{UserID} = '1';
 $Param{ValidID} = '1';
 
 $Param{Source}         = 'CustomerUser';
-$Param{UserFirstname}  = $opts{f};
-$Param{UserLastname}   = $opts{l};
-$Param{UserCustomerID} = defined $opts{c} ? $opts{c} : $ARGV[0];
+$Param{UserFirstname}  = $Options{f};
+$Param{UserLastname}   = $Options{l};
+$Param{UserCustomerID} = defined $Options{c} ? $Options{c} : $ARGV[0];
 $Param{UserLogin}      = $ARGV[0];
-$Param{UserPassword}   = $opts{p};
-$Param{UserEmail}      = $opts{e};
+$Param{UserPassword}   = $Options{p};
+$Param{UserEmail}      = $Options{e};
 
 if ( $Param{UID} = $CommonObject{UserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) ) {
     print "Customer user added. Username is $Param{UID}\n";

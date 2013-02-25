@@ -2,8 +2,6 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.61 2012-11-20 15:40:15 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -179,7 +177,7 @@ sub SystemTime2Date {
     }
 
     # get time format
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{SystemTime};
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{SystemTime}; ## no critic
     $Year  = $Year + 1900;
     $Month = $Month + 1;
     $Month = sprintf "%02d", $Month;
@@ -388,7 +386,7 @@ sub MailTimeStamp {
     my @DayMap   = qw/Sun Mon Tue Wed Thu Fri Sat/;
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
     my @GMTime   = gmtime();
-    my @LTime    = localtime();
+    my @LTime    = localtime(); ## no critic
     my $GUTime   = $Self->Date2SystemTime(
         Year   => $GMTime[5] + 1900,
         Month  => $GMTime[4] + 1,
@@ -488,17 +486,17 @@ sub WorkingTime {
         }
     }
     my $Counted = 0;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};
+    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime}; ## no critic
     $AYear  = $AYear + 1900;
     $AMonth = $AMonth + 1;
     my $ADate = "$AYear-$AMonth-$ADay";
-    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime $Param{StopTime};
+    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime $Param{StopTime}; ## no critic
     $BYear  = $BYear + 1900;
     $BMonth = $BMonth + 1;
     my $BDate = "$BYear-$BMonth-$BDay";
 
     while ( $Param{StartTime} < $Param{StopTime} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime};
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime}; ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
         my $CDate = "$Year-$Month-$Day";
@@ -621,7 +619,7 @@ sub DestinationTime {
     my $First           = 0;
     my $FirstTurn       = 1;
     my $Count           = 1;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};
+    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime}; ## no critic
     $AYear  = $AYear + 1900;
     $AMonth = $AMonth + 1;
     my $ADate = "$AYear-$AMonth-$ADay";
@@ -631,7 +629,7 @@ sub DestinationTime {
         $Count++;
         last if $Count > 100;
 
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime; ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
         my $CDate = "$Year-$Month-$Day";
@@ -742,7 +740,7 @@ sub DestinationTime {
 
             # reduce destination time diff between today and tomrrow
             my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear )
-                = localtime $CTime;
+                = localtime $CTime; ## no critic
             $NextYear  = $NextYear + 1900;
             $NextMonth = $NextMonth + 1;
 

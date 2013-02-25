@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.48 2013-02-06 22:28:18 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -669,7 +667,8 @@ sub _SignerCertificateOverview {
     my @SignerCertResults = $Self->{CryptObject}->PrivateSearch(
         Search => $Param{CertFingerprint},
     );
-    my %SignerCert = %{ $SignerCertResults[0] } if @SignerCertResults;
+    my %SignerCert;
+    %SignerCert = %{ $SignerCertResults[0] } if @SignerCertResults;
 
     # get all certificates
     my @AvailableCerts = $Self->{CryptObject}->CertificateSearch();

@@ -3,8 +3,6 @@
 # bin/otrs.AddTicketType.pl - add new Ticket Types
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddTicketType.pl,v 1.9 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -42,17 +40,17 @@ use Kernel::System::Main;
 
 my %Param;
 my %CommonObject;
-my %opts;
+my %Options;
 
 use Getopt::Std;
-getopts( 'n:h', \%opts );
+getopts( 'n:h', \%Options );
 
-if ( $opts{h} ) {
+if ( $Options{h} ) {
     print STDERR "Usage: $FindBin::Script -n <Type>\n";
     exit;
 }
 
-if ( !$opts{n} ) {
+if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n <Type>\n";
     exit 1;
 }
@@ -71,10 +69,10 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Name} = $opts{n} || '';
+$Param{Name} = $Options{n} || '';
 
 if ( my $RID = $CommonObject{TypeObject}->TypeAdd(%Param) ) {
-    print "Ticket type '$opts{n}' added. Type id is '$RID'\n";
+    print "Ticket type '$Options{n}' added. Type id is '$RID'\n";
 }
 else {
     print STDERR "ERROR: Can't add type\n";

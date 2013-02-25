@@ -2,8 +2,6 @@
 # Kernel/System/VariableCheck.pm - helpers to check variables
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.pm,v 1.10 2012-11-20 15:41:22 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -18,7 +16,7 @@ use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
 $VERSION = qw($Revision: 1.10 $) [1];
 
 use Exporter;
-%EXPORT_TAGS = (
+%EXPORT_TAGS = ( ## no critic
     all => [
         'IsArrayRefWithData',
         'IsHashRefWithData',

@@ -3,8 +3,6 @@
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -166,12 +164,14 @@ for my $StatID ( @{$StatsListRef} ) {
     # write data in filesystem
     my $FullFilename = $CommonObject{ConfigObject}->Get('Home') . "/var/Stats/" . $File->{Filename};
     push( @Filelist, $File->{Filename} );
-    if ( !open( OUT, "> $FullFilename" ) ) {
+
+    my $Output;
+    if ( !open( $Output, ">", $FullFilename ) ) { ## no critic
         print "\nCan't create $FullFilename!\n";
     }
     else {
-        print OUT $File->{Content};
-        close(OUT);
+        print $Output $File->{Content};
+        close($Output);
         print "\n$FullFilename successful created!\n";
     }
 }
@@ -256,10 +256,12 @@ $OPMS{CodeUpgrade}{Content}   = $OPMS{CodeInstall}{Content};
 # save the package
 my $File = $CommonObject{ConfigObject}->Get('Home')
     . "/var/OPM/$PackageName-$OPMS{Version}{Content}.opm";
-if ( open( OUT, "> $File" ) ) {
+
+my $Output;
+if ( open( $Output, ">", $File ) ) { ## no critic
     print "Writing $File\n";
-    print OUT $CommonObject{PackageObject}->PackageBuild(%OPMS);
-    close(OUT);
+    print $Output $CommonObject{PackageObject}->PackageBuild(%OPMS);
+    close($Output);
     exit 1;
 }
 else {

@@ -2,8 +2,6 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.48 2012-12-03 14:18:02 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -97,7 +95,7 @@ sub new {
     use CGI::Carp;
 
     # max 5 MB posts
-    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
 
     # query object (in case use already existing WebRequest, e. g. fast cgi)
     $Self->{Query} = $Param{WebRequest} || new CGI;
@@ -125,7 +123,7 @@ sub Error {
     }
 
     return if !cgi_error();
-    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
+    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB'; ## no critic
 }
 
 =item GetParam()
@@ -284,11 +282,11 @@ sub GetUploadAll {
         }
 
         # create upload dir
-        File::Path::make_path( $Path, { mode => 0700 } );
+        File::Path::make_path( $Path, { mode => 0700 } ); ## no critic
 
         $Content = "$Path/$NewFileName";
 
-        open my $Out, '>', $Content or die $!;
+        open my $Out, '>', $Content || die $!; ## no critic
         while (<$Upload>) {
             print $Out $_;
         }

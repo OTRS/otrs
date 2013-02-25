@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.14 2013-01-22 11:50:17 mn Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -91,7 +89,7 @@ sub Run {
         my $TransitionActionData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $TransitionActionData->{Name}             = $GetParam->{Name};
@@ -290,7 +288,7 @@ sub Run {
         my $TransitionActionData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new configuration
         $TransitionActionData->{Name}             = $GetParam->{Name};

@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.50 2013-02-07 12:25:50 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -629,7 +627,7 @@ sub Run {
                                 ->{Config}->{Fields}->{$AssignedField}
                         };
                         if ( $Values{Config} ) {
-                            $Values{Config} = Dumper( $Values{Config} );
+                            $Values{Config} = Dumper( $Values{Config} ); ## no critic
                             $Values{Config} =~ s{ \s* \$VAR1 \s* =}{}xms;
                             $Values{Config} =~ s{\s+\{}{\{}xms;
                         }
@@ -1007,7 +1005,7 @@ sub Run {
         my $ProcessData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ProcessData->{Name}                  = $GetParam->{Name};
@@ -1165,7 +1163,7 @@ sub Run {
         my $ProcessData;
 
         # get parameter from web browser
-        my $GetParam = $Self->_GetParams;
+        my $GetParam = $Self->_GetParams();
 
         # set new confguration
         $ProcessData->{Name}                          = $GetParam->{Name};

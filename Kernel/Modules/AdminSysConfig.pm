@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.125 2012-11-20 14:45:18 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -134,7 +132,7 @@ sub Run {
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet( Name => $_ );
 
             # check if config item needs no update because it is not editable
-            # because of an insufficent config level of the admin user
+            # because of an insufficient config level of the admin user
             if ( $Self->{ParamObject}->GetParam( Param => $_ . '-InsufficientConfigLevel' ) ) {
                 next ITEM;
             }
@@ -434,7 +432,7 @@ sub Run {
                                 my $TypeKey = $Self->{ParamObject}->GetParam(
                                     Param => $ElementKey . 'LoaderType' . ( $Index + 1 )
                                 ) || 'JavaScript';
-                                if ( $TypeKey and ( $Key eq $TypeKey ) ) {
+                                if ( $TypeKey && ( $Key eq $TypeKey ) ) {
                                     push @LoaderArray, $Loader[$Index];
                                 }
                             }
@@ -715,7 +713,7 @@ sub Run {
         # if running under PerlEx, reload the application (and thus the configuration)
         if (
             exists $ENV{'GATEWAY_INTERFACE'}
-            and $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+            && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
             )
         {
             PerlEx::ReloadAll();

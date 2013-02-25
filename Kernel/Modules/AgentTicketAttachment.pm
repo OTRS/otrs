@@ -2,8 +2,6 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.39 2012-11-20 14:47:36 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -111,8 +109,8 @@ sub Run {
         # write tmp file
         my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open( my $ViewerDataFH, '>', $Filename ) ) {
-            print $ViewerDataFH $Data{Content};
+        if ( open( my $ViewerDataFH, '>', $Filename ) ) { ## no critic
+            print $ViewerDataFH $Data{Content}; ## no critic
             close $ViewerDataFH;
         }
         else {
@@ -127,7 +125,7 @@ sub Run {
 
         # use viewer
         my $Content = '';
-        if ( open( my $ViewerFH, "$Viewer $Filename |" ) ) {
+        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) { ## no critic
             while (<$ViewerFH>) {
                 $Content .= $_;
             }

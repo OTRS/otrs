@@ -2,8 +2,6 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.142 2012-11-20 15:37:04 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -2124,7 +2122,7 @@ sub _Code {
 
         print STDERR "Code: $Code->{Content}\n";
 
-        if ( !eval $Code->{Content} . "\n1;" ) {
+        if ( !eval $Code->{Content} . "\n1;" ) { ## no critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Code: $@",
@@ -2417,7 +2415,7 @@ sub _CheckModuleRequired {
                 $Installed = 1;
 
                 # check version if installed module
-                $InstalledVersion = $Module->{Content}->VERSION;
+                $InstalledVersion = $Module->{Content}->VERSION; ## no critic
             }
             if ( !$Installed ) {
                 $Self->{LogObject}->Log(

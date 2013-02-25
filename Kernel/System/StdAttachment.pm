@@ -2,8 +2,6 @@
 # Kernel/System/StdAttachment.pm - lib for std attachment
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.39 2012-11-20 15:38:53 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

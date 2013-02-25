@@ -2,8 +2,6 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.73 2013-02-08 23:01:42 cr Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -608,7 +606,9 @@ sub CertificateAdd {
         }
 
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
+        ## no critic
         if ( open( my $OUT, '>', $File ) ) {
+        ## use critic
             print $OUT $Param{Certificate};
             close($OUT);
             %Result = (
@@ -976,10 +976,12 @@ sub PrivateAdd {
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
+        ## no critic
         if ( open( my $PrivKeyFH, '>', "$File" ) ) {
+        ## use critic
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
-            open( my $PassFH, '>', "$File.P" );
+            open( my $PassFH, '>', "$File.P" ); ## no critic
             print $PassFH $Param{Secret};
             close $PassFH;
             %Result = (

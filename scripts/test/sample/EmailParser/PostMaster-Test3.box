@@ -12,7 +12,6 @@ Received: from [10.161.134.230] (gprs-pool-1-027.eplus-online.de [212.23.126.27]
 	by osser.otrs.com (Postfix) with ESMTP id 380185BB20
 	for <darthvader@otrs.org>; Thu,  5 Apr 2007 10:46:12 +0200 (CEST)
 Message-ID: <4614B72A.9020509@otrs.org>
-X-CVS: $Id: PostMaster-Test3.box,v 1.1 2007/04/05 14:36:16 martin Exp $
 Date: Thu, 05 Apr 2007 10:45:30 +0200
 From: Skywalker <skywalker@otrs.org>
 User-Agent: Thunderbird 1.5.0.10 (X11/20070221)

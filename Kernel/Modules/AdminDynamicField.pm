@@ -2,8 +2,6 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.22 2012-11-20 14:36:43 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -133,7 +131,7 @@ sub _ShowOverview {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    # check for posible order collitions or gaps
+    # check for posible order collisions or gaps
     my $OrderSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderCheck();
     if ( !$OrderSuccess ) {
         return $Self->_DynamicFieldOrderReset(

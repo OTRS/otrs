@@ -2,8 +2,6 @@
 // Core.UI.AllocationList.js - provides functionality for allocation lists
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.AllocationList.js,v 1.4 2012-08-09 14:40:06 mn Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

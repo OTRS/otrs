@@ -22,7 +22,6 @@ MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Date: Tue, 20 May 2008 10:20:25 +0200 (CEST)
-X-CVS: $Id: PostMaster-Test14.box,v 1.1 2008/05/22 17:15:29 martin Exp $
 X-Virus-Scanned: amavisd-new at example.org
 X-Amavis-Alert: BAD HEADER Non-encoded 8-bit data (char AE hex) in message header 'From': From: VIAGRA \256 Official Site ...
 X-Spam-Status: Yes, score=22.455 tagged_above=-900 required=5

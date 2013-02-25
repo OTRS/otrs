@@ -2,8 +2,6 @@
 // Core.UI.js - provides all UI functions
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Accordion.js,v 1.3 2013-01-22 08:56:29 mn Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

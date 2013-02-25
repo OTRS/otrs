@@ -2,8 +2,6 @@
 # Kernel/System/PostMaster/LoopProtection/DB.pm - backend module of LoopProtection
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.15 2012-11-20 15:52:18 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -33,7 +31,7 @@ sub new {
     $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time); ## no critic
     $Year = $Year + 1900;
     $Month++;
     $Self->{LoopProtectionDate} .= $Year . '-' . $Month . '-' . $Day;

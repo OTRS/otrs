@@ -2,8 +2,6 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.101 2013-02-04 15:05:26 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -80,8 +78,8 @@ sub Run {
     if ( -f '/etc/SuSE-release' ) {
         $Dist{Vendor} = 'SuSE';
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';
-            if ( defined $mod_perl::VERSION ) {
+            eval 'require mod_perl'; ## no critic
+            if ( defined $mod_perl::VERSION ) { ## no critic
                 $Dist{Webserver} = 'rcapache2 restart';
             }
         }
@@ -94,8 +92,8 @@ sub Run {
         $Dist{Webserver} = 'service httpd restart';
     }
     elsif ( exists $ENV{MOD_PERL} ) {
-        eval 'require mod_perl';
-        if ( defined $mod_perl::VERSION ) {
+        eval 'require mod_perl'; ## no critic
+        if ( defined $mod_perl::VERSION ) { ## no critic
             $Dist{Webserver} = 'Apache2 + mod_perl2';
         }
     }
@@ -347,7 +345,7 @@ sub Run {
                         Name => 'DatabaseResultBack',
                         Data => {},
                     );
-                    print STDERR "ERR: $DBI::errstr - $_\n";
+                    print STDERR "ERR: $DBI::errstr - $_\n"; ## no critic
                     $Output .= $Self->{LayoutObject}->Output(
                         TemplateFile => 'Installer',
                         Data         => {},
@@ -387,7 +385,7 @@ sub Run {
                         Name => 'DatabaseResultBack',
                         Data => {},
                     );
-                    print STDERR "ERR: $DBI::errstr - $_\n";
+                    print STDERR "ERR: $DBI::errstr - $_\n"; ## no critic
                     $Output .= $Self->{LayoutObject}->Output(
                         TemplateFile => 'Installer',
                         Data         => {},
@@ -424,7 +422,7 @@ sub Run {
                         Name => 'DatabaseResultBack',
                         Data => {},
                     );
-                    print STDERR "ERR: $DBI::errstr - $_\n";
+                    print STDERR "ERR: $DBI::errstr - $_\n"; ## no critic
                     $Output .= $Self->{LayoutObject}->Output(
                         TemplateFile => 'Installer',
                         Data         => {},
@@ -983,8 +981,10 @@ sub ReConfigure {
 
     # read config file
     my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
+    ## no critic
     open( my $In, '<', $ConfigFile )
         || return "Can't open $ConfigFile: $!";
+    ## use critic
     my $Config = '';
     while (<$In>) {
         if ( $_ =~ /^#/ ) {
@@ -1010,9 +1010,11 @@ sub ReConfigure {
     close $In;
 
     # write new config file
+    ## no critic
     open( my $Out, '>', $ConfigFile )
         || return "Can't open $ConfigFile: $!";
     print $Out $Config;
+    ## use critic
     close $Out;
 
     return;
@@ -1022,23 +1024,23 @@ sub ParseSQLFile {
     my ( $Self, $File ) = @_;
 
     my @SQL;
-    if ( open( my $In, '<', $File ) ) {
+    if ( open( my $In, '<', $File ) ) { ## no critic
         my $SQLEnd    = 0;
-        my $SQLSingel = '';
+        my $SQLStatement = '';
         while (<$In>) {
             if ( $_ !~ /^(#|--)/ ) {
                 if ( $_ =~ /^(.*)(;|;\s)$/ || $_ =~ /^(\));/ ) {
-                    $SQLSingel .= $1;
+                    $SQLStatement .= $1;
                     $SQLEnd = 1;
                 }
                 else {
-                    $SQLSingel .= $_;
+                    $SQLStatement .= $_;
                 }
             }
             if ($SQLEnd) {
-                push @SQL, $SQLSingel;
+                push @SQL, $SQLStatement;
                 $SQLEnd    = 0;
-                $SQLSingel = '';
+                $SQLStatement = '';
             }
         }
         close $In;
@@ -1264,7 +1266,7 @@ sub CheckMailConfiguration {
 
     # if successful, add mail account to DB
     if ( $Result{Successful} ) {
-        my $Id = $MailAccount->MailAccountAdd(
+        my $ID = $MailAccount->MailAccountAdd(
             Login         => $InboundUser,
             Password      => $InboundPassword,
             Host          => $InboundHost,
@@ -1276,7 +1278,7 @@ sub CheckMailConfiguration {
             UserID        => 1,
         );
 
-        if ( !$Id ) {
+        if ( !$ID ) {
             return (
                 Successful => 0,
                 Message    => 'Error while adding mail account!'

@@ -2,8 +2,6 @@
 # Kernel/System/PostMaster/LoopProtection/FS.pm - backend module of LoopProtection
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.15 2012-11-20 15:52:26 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -36,7 +34,7 @@ sub new {
     $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time); ## no critic
     $Year = $Year + 1900;
     $Month++;
     $Self->{LoopProtectionLog} .= '-' . $Year . '-' . $Month . '-' . $Day . '.log';
@@ -50,8 +48,10 @@ sub SendEmail {
     my $To = $Param{To} || return;
 
     # write log
+    ## no critic
     if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {
-        print $Out "$To;" . localtime() . ";\n";
+    ## use critic
+        print $Out "$To;" . localtime() . ";\n"; ## no critic
         close($Out);
     }
     else {
@@ -71,10 +71,14 @@ sub Check {
     my $Count = 0;
 
     # check existing logfile
+    ## no critic
     if ( !open( my $In, '<', $Self->{LoopProtectionLog} ) ) {
+    ## use critic
 
         # create new log file
+        ## no critic
         if ( !open( my $Out, '>', $Self->{LoopProtectionLog} ) ) {
+        ## use critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",

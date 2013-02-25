@@ -2,8 +2,6 @@
 # InstallerFinish.dtl - provides the Installer's finish screen
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerFinish.dtl,v 1.23 2013-02-02 22:44:28 mb Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

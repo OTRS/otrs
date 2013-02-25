@@ -2,8 +2,6 @@
 # Selenium.pm - run frontend tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Selenium.pm,v 1.13 2012-11-20 16:01:55 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -26,6 +24,9 @@ Kernel::System::UnitTest::Selenium - run frontend tests
 
 =cut
 
+# TODO: fix no critic
+## no critic
+
 sub new {
     my ( $Class, %Param ) = @_;
 
@@ -39,13 +40,13 @@ sub new {
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario '$Param{ID}'..." );
 
     # selenium stuff
-    my $default_names = defined $Param{default_names}
+    my $DefaultNames = defined $Param{default_names}
         ?
         delete $Param{default_names}
         : 1;
 
     my $Self = $Class->SUPER::new(%Param);
-    $Self->{default_names} = $default_names;
+    $Self->{default_names} = $DefaultNames;
     $Self->start;
 
     return $Self;

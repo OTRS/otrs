@@ -2,8 +2,6 @@
 # Kernel/System/Email/SMTPS.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTPS.pm,v 1.5 2012-11-20 15:48:03 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -73,7 +71,7 @@ sub Check {
         last TRY if $SMTP;
 
         # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 );
+        select( undef, undef, undef, 0.3 ); ## no critic
     }
 
     # return if no connect was possible
@@ -129,7 +127,7 @@ sub Send {
         last TRY if $SMTP;
 
         # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 );
+        select( undef, undef, undef, 0.3 ); ## no critic
     }
 
     # return if no connect was possible
@@ -163,7 +161,7 @@ sub Send {
             Message =>
                 "Can't use from '$Param{From}': $Error! Enable Net::SMTP::SSL debug for more info!",
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
 
@@ -178,7 +176,7 @@ sub Send {
                 Message =>
                     "Can't send to '$To': $Error! Enable Net::SMTP::SSL debug for more info!",
             );
-            $SMTP->quit;
+            $SMTP->quit();
             return;
         }
     }
@@ -196,10 +194,10 @@ sub Send {
             Priority => 'error',
             Message  => "Can't send message: $Error! Enable Net::SMTP::SSL debug for more info!"
         );
-        $SMTP->quit;
+        $SMTP->quit();
         return;
     }
-    $SMTP->quit;
+    $SMTP->quit();
 
     # debug
     if ( $Self->{Debug} > 2 ) {

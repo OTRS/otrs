@@ -3,8 +3,6 @@
 # otrs.Scheduler4winInstaller.pl - helps to install OTRS Scheduler on Microsoft Windows OS
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4winInstaller.pl,v 1.11 2013-01-22 10:14:09 mg Exp $
-# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -34,6 +32,8 @@ use vars qw($VERSION);
 $VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
+use Win32;
+use Win32::Daemon;
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -53,12 +53,6 @@ BEGIN {
     }
 }
 
-# load Windows specific modules
-use Win32::Daemon;
-
-# installing and removing of services requires Administrator permissions
-require Win32;
-
 if ( !Win32::IsAdminUser() ) {
     print "To be able to install or remove the Scheduler, call the script with UAC enabled.\n";
     print "(right-click CMD, select \'Run as administrator\').\n";
@@ -67,7 +61,7 @@ if ( !Win32::IsAdminUser() ) {
 
 # help option
 if ( $Opts{h} ) {
-    _help();
+    _Help();
     exit 1;
 }
 
@@ -123,11 +117,11 @@ elsif ( $Opts{a} && $Opts{a} eq 'install' ) {
 
 # invalid option, show help
 else {
-    _help();
+    _Help();
 }
 
 # Internal
-sub _help {
+sub _Help {
     print "otrs.Scheduler4WinInstaller.pl <Revision $VERSION> - OTRS Scheduler daemon\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.Scheduler4WinInstaller.pl -a <ACTION> (install|remove) ";
