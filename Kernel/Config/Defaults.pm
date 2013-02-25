@@ -1731,7 +1731,7 @@ sub ConfigChecksum {
             return;
         }
 
-        $ConfigString .= $File . $Stat->mtime;
+        $ConfigString .= $File . $Stat->mtime();
     }
 
     return Digest::MD5::md5_hex( $ConfigString );
@@ -1787,7 +1787,9 @@ sub new {
             # check config file format - use 1.0 as eval string, 1.1 as require or do
             my $FileFormat = 1;
             my $ConfigFile = '';
+            ## no critic
             if ( open( my $In, '<', $File ) ) {
+            ## use critic
 
                 # only try to find # VERSION:1.1 in the first 8 lines
                 my $TryCount = 0;
@@ -1825,7 +1827,9 @@ sub new {
                     # if mod_perl 2.x is used, check if Apache::Reload is use
                     # on win32 Apache::Reload is not working correctly, so do also use "do"
                     my $OS = $^O;
+                    ## no critic
                     if ( $mod_perl::VERSION >= 1.99 && $OS ne 'MSWin32') {
+                    ## use critic
                         my $ApacheReload = 0;
                         for my $Module ( sort keys %INC ) {
                             $Module =~ s/\//::/g;
@@ -1848,6 +1852,7 @@ sub new {
 
                 # if require is usable, use it (because of better performance,
                 # if not, use do to do it on runtime)
+                ## no critic
                 if ( $Require ) {
                     if (! require $File ) {
                         die "ERROR: $!\n";
@@ -1858,6 +1863,7 @@ sub new {
                         die "ERROR: $!\n";
                     }
                 }
+                ## use critic
 
                 # prepare file
                 $File =~ s/\Q$Self->{Home}\E//g;
@@ -1871,7 +1877,7 @@ sub new {
 
                 # use eval for old file format
                 if ($ConfigFile) {
-                    if ( !eval $ConfigFile ) {
+                    if ( !eval $ConfigFile ) { ## no critic
                         print STDERR "ERROR: Syntax error in $File: $@\n";
                     }
 
@@ -1886,7 +1892,7 @@ sub new {
         print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {
+    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic
         while (<$Product>) {
 
             # filtering of comment lines

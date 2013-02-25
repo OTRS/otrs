@@ -14,7 +14,7 @@ use warnings;
 use utf8;
 
 use vars qw($VERSION @ISA @EXPORT %Jobs);
-require Exporter;
+use Exporter;
 @ISA     = qw(Exporter);
 @EXPORT  = qw(%Jobs);
 $VERSION = qw($Revision: 1.18 $)[1];
