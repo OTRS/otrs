@@ -33,11 +33,12 @@ BEGIN {
 
     $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
 
-    # set $0 to index.pl because this is broken in mod_perl context;
-    # apart from that, on Fedora, $0 is not a path which would break OTRS.
+    # set $0 to index.pl if it is not an existing file:
+    # on Fedora, $0 is not a path which would break OTRS.
     # see bug # 8533
-
-    $0 = '/opt/otrs/bin/cgi-bin/index.pl';
+    if ( !-e $0 ) {
+        $0 = '/opt/otrs/bin/cgi-bin/index.pl';
+    }
 }
 
 use ModPerl::Util;
