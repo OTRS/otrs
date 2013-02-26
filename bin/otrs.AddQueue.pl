@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.AddQueue.pl - Add Queue from CLI
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -48,7 +48,7 @@ getopts( 'hg:n:s:S:c:r:u:l:C:', \%Opts );
 
 if ( $Opts{h} ) {
     print STDOUT "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
-    print STDOUT "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
+    print STDOUT "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -S \n";
     print STDOUT
         "<SYSTEMADDRESS> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> \n";

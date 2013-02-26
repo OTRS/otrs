@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.RebuildEscalationIndex.pl - rebuild escalation index
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -46,7 +46,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildEscalationIndex.pl <Revision $VERSION> - rebuild escalation index\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RebuildEscalationIndex.pl\n";
     exit 1;
 }
