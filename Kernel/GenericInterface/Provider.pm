@@ -99,8 +99,11 @@ sub Run {
 
     my $Webservice;
 
+    # on Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
+	my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
+
     my ($WebserviceID)
-        = $ENV{REQUEST_URI} =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
+        = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
 
     if ($WebserviceID) {
 
@@ -112,12 +115,12 @@ sub Run {
     else {
 
         my ($WebserviceName)
-            = $ENV{REQUEST_URI} =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
+            = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
 
         if ( !$WebserviceName ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Could not determine WebserviceID from query string $ENV{REQUEST_URI}",
+                Message  => "Could not determine WebserviceID from query string $RequestURI",
             );
 
             return;    # bail out without Transport, Apache will generate 500 Error
@@ -134,7 +137,7 @@ sub Run {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                "Could not load web service configuration for web service at $ENV{REQUEST_URI}",
+                "Could not load web service configuration for web service at $RequestURI",
         );
 
         return;    # bail out without Transport, Apache will generate 500 Error
