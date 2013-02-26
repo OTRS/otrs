@@ -1,6 +1,6 @@
 # --
 # Attachment.t - email attachments tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -174,9 +174,9 @@ for my $Test (@Tests) {
     # Processing with Send headersif constant SEND set to 1
     if ($SEND) {
         my %Result;
-        for my $header ( split '\n', ${$Body} ) {
-            if ( $header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-                $Result{$2} = ( split ': ', $header )[1];
+        for my $Header ( split '\n', ${$Body} ) {
+            if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
+                $Result{$2} = ( split ': ', $Header )[1];
             }
         }
 
@@ -207,9 +207,9 @@ for my $Test (@Tests) {
 
     my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
 
-    for my $header ( @{$Headers} ) {
-        if ( $header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-            $Result{$2} = ( split ': ', $header )[1];
+    for my $Header ( @{$Headers} ) {
+        if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
+            $Result{$2} = ( split ': ', $Header )[1];
         }
     }
 

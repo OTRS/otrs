@@ -1,6 +1,6 @@
 # --
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-require Kernel::System::UnitTest::Selenium;
+require Kernel::System::UnitTest::Selenium; ## no critic
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -34,7 +34,7 @@ my $Helper = Kernel::System::UnitTest::Helper->new(
 
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     eval {
-        my $sel = Kernel::System::UnitTest::Selenium->new(
+        my $Selenium = Kernel::System::UnitTest::Selenium->new(
             Verbose        => 1,
             UnitTestObject => $Self,
             %{$SeleniumScenario},
@@ -44,29 +44,29 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
             my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
 
-            $sel->open_ok("${WebPath}js/test/JSUnitTest.html");
-            $sel->wait_for_page_to_load_ok("30000");
+            $Selenium->open_ok("${WebPath}js/test/JSUnitTest.html");
+            $Selenium->wait_for_page_to_load_ok("30000");
 
             # wait for the javascript tests (including AJAX) to complete
             WAIT:
             for ( 1 .. 20 ) {
-                last WAIT if ( $sel->is_element_present("css=p.result span.failed") );
+                last WAIT if ( $Selenium->is_element_present("css=p.result span.failed") );
                 sleep(0.2);
             }
 
-            $sel->is_element_present_ok("css=p.result span.failed");
-            $sel->is_element_present_ok("css=p.result span.passed");
-            $sel->is_element_present_ok("css=p.result span.total");
+            $Selenium->is_element_present_ok("css=p.result span.failed");
+            $Selenium->is_element_present_ok("css=p.result span.passed");
+            $Selenium->is_element_present_ok("css=p.result span.total");
 
             my ( $Passed, $Failed, $Total );
-            $Passed = $sel->get_eval(
+            $Passed = $Selenium->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.passed').text()"
             );
-            $Failed = $sel->get_eval(
+            $Failed = $Selenium->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()"
             );
             $Total
-                = $sel->get_eval(
+                = $Selenium->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.total').text()"
                 );
 

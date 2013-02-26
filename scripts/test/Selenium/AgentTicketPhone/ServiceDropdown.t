@@ -1,6 +1,6 @@
 # --
 # ServiceDropdown.t - frontend test AgentTicketPhone
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-require Kernel::System::UnitTest::Selenium;
+require Kernel::System::UnitTest::Selenium; ## no critic
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -42,7 +42,7 @@ my $TestUserLogin = $Helper->TestUserCreate(
 
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     eval {
-        my $sel = Kernel::System::UnitTest::Selenium->new(
+        my $Selenium = Kernel::System::UnitTest::Selenium->new(
             Verbose        => 1,
             UnitTestObject => $Self,
             %{$SeleniumScenario},
@@ -50,7 +50,7 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
         eval {
 
-            $sel->Login(
+            $Selenium->Login(
                 Type     => 'Agent',
                 User     => $TestUserLogin,
                 Password => $TestUserLogin,
@@ -130,13 +130,13 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             # real selenium test start
             # open the page that clicking on Split link of the zoom view of the
             # just created ticket would open
-            $sel->open_ok(
+            $Selenium->open_ok(
                 "${ScriptAlias}index.pl?Action=AgentTicketPhone;TicketID=$TicketID;ArticleID=$ArticleID"
             );
-            $sel->wait_for_page_to_load_ok("30000");
+            $Selenium->wait_for_page_to_load_ok("30000");
 
             # verify that the services dropdown has the just created service
-            $sel->select_ok( "ServiceID", "label=SeleniumTestService" . $RandomID );
+            $Selenium->select_ok( "ServiceID", "label=SeleniumTestService" . $RandomID );
 
             # set the test service to invalid
             $ServiceObject->ServiceUpdate(

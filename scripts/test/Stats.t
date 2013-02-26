@@ -1,6 +1,6 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -247,7 +247,7 @@ my $Path
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;
-if ( !open $Filehandle, '<', $Path ) {
+if ( !open $Filehandle, '<', $Path ) { ## no critic
     $Self->True(
         0,
         'Get the file which should be imported',
@@ -290,7 +290,7 @@ my $Perl = $^X;
 
 my $Command = "$Perl $Home/bin/otrs.GenerateStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
 
-if ( open my $Filehandle, '-|', $Command ) {
+if ( open my $Filehandle, '-|', $Command ) { ## no critic
     @Lines = <$Filehandle>;
     close $Filehandle;
 

@@ -1,6 +1,6 @@
 # --
 # Cache.t - Cache tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -554,10 +554,10 @@ for my $ModuleFile (@BackendModuleFiles) {
                         $Data::Dumper::Indent = 0;
 
                         # dump the cached value
-                        my $CachedValue = Data::Dumper::Dumper($CacheGet);
+                        my $CachedValue = Data::Dumper::Dumper($CacheGet); ## no critic
 
                         # dump the reference attribute
-                        my $OriginValue = Data::Dumper::Dumper($CacheItem);
+                        my $OriginValue = Data::Dumper::Dumper($CacheItem); ## no critic
 
                         # Don't use Is(), produces too much output.
                         $Self->True(

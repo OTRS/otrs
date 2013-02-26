@@ -1,6 +1,6 @@
 # --
 # YAML.t - tests for the YAML parser
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +75,7 @@ ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
 
     # locally override the internal engine of YAML::Any to force testing
-    local @YAML::Any::_TEST_ORDER = ($Engine);
+    local @YAML::Any::_TEST_ORDER = ($Engine); ## no critic
 
     TEST:
     for my $Test (@Tests) {

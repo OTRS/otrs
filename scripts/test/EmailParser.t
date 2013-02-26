@@ -1,6 +1,6 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,11 +18,11 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # test #1
 my @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );
-while (<IN>) {
+open( my $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 # create local object
 my $EmailParserObject = Kernel::System::EmailParser->new(
@@ -114,11 +114,11 @@ $Self->Is(
 
 # test #3
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -144,11 +144,11 @@ $Self->Is(
 
 # test #4
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -214,11 +214,11 @@ for my $Key ( sort keys %MatchNot ) {
 
 # test #5
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -271,11 +271,11 @@ $Self->Is(
 
 # test #6
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -325,11 +325,11 @@ $Self->Is(
 
 # test #7
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -377,11 +377,11 @@ $Self->Is(
 
 # test #8
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -410,11 +410,11 @@ $Self->True(
 
 # test #9
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -447,11 +447,11 @@ $Self->True(
 
 # test #10
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -500,11 +500,11 @@ $Self->True(
 
 # test #11
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -531,11 +531,11 @@ $Self->True(
 
 # test #12
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -636,11 +636,11 @@ $Self->True(
 
 # test #13
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -665,11 +665,11 @@ $Self->Is(
 
 # test #14
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -699,11 +699,11 @@ $Self->Is(
 
 # test #15
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -800,11 +800,11 @@ for my $Test (@Tests) {
 
 # test #17
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},
@@ -829,11 +829,11 @@ $Self->Is(
 
 # test #20
 @Array = ();
-open( IN, "< $Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" );
-while (<IN>) {
+open( $IN, "<", " $Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" ); ## no critic
+while (<$IN>) {
     push( @Array, $_ );
 }
-close(IN);
+close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
     %{$Self},

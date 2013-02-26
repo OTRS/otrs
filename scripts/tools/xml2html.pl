@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -19,13 +19,13 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+use strict;
+use warnings;
+
 # use ../../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
-
-use strict;
-use warnings;
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -69,7 +69,7 @@ my $File        = shift;
 my $FileContent = '';
 
 if ($File) {
-    open my $IN, '<', $File or die "Can't open file $File: $!";
+    open my $IN, '<', $File || die "Can't open file $File: $!"; ## no critic
     $FileContent = do { local $/; <$IN> };
     close $IN;
 }

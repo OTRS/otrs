@@ -1,6 +1,6 @@
 # --
 # PDF.t - PDF tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,7 +62,7 @@ $Self->True(
 );
 
 # test _StringWidth() - test width calculation
-my $StringWidthText   = 'abcikwAXIJWZ 123 öäüß !$-';
+my $StringWidthText   = 'abcikwAXIJWZ 123 ï¿½ï¿½ï¿½ï¿½ !$-';
 my @StringWidthReturn = (
     123.38, 117.82, 115.04, 112.26, 106.15, 100.59, 95.03, 89.47, 86.69, 81.13,
     75.57, 70.01, 67.23, 61.12, 51.68, 46.68, 43.9, 37.23, 30.56, 23.34, 18.34,
@@ -2720,14 +2720,15 @@ $Self->True(
 );
 
 my %CharsetTestData1;
-open( IN,
-    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt"
-    )
-    || die $!;
-while (<IN>) {
+## no critic
+open( my $IN,
+    "< ", "$Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt"
+    ) || die $!;
+## use critic
+while (<$IN>) {
     $CharsetTestData1{Text} .= $_;
 }
-close(IN);
+close($IN);
 
 $CharsetTestData1{Type}           = 'ReturnLeftOver';
 $CharsetTestData1{Font}           = 'Testfont2';
@@ -2806,14 +2807,15 @@ $Self->True(
 );
 
 my %CharsetTestData2;
-open( IN,
-    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-utf-8.txt"
-    )
-    || die $!;
-while (<IN>) {
+## no critic
+open( $IN,
+    "< ", "$Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-utf-8.txt"
+    ) || die $!;
+## use critic 
+while (<$IN>) {
     $CharsetTestData2{Text} .= $_;
 }
-close(IN);
+close($IN);
 
 $CharsetTestData2{Type}           = 'ReturnLeftOver';
 $CharsetTestData2{Font}           = 'Testfont2';
@@ -2892,14 +2894,15 @@ $Self->True(
 );
 
 my %CharsetTestData3;
-open( IN,
-    "< " . $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test2-utf-8.txt"
-    )
-    || die $!;
-while (<IN>) {
+## no critic
+open( $IN,
+    "< ", "$Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test2-utf-8.txt"
+    ) || die $!; 
+## use critic
+while (<$IN>) {
     $CharsetTestData3{Text} .= $_;
 }
-close(IN);
+close($IN);
 
 $CharsetTestData3{Type}           = 'ReturnLeftOver';
 $CharsetTestData3{Font}           = 'Testfont1';

@@ -1,6 +1,6 @@
 # --
 # Basic.t - Basic Frontend Tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,13 +48,13 @@ my $AgentBaseURL    = $BaseURL . 'index.pl?';
 my $CustomerBaseURL = $BaseURL . 'customer.pl?';
 my $PublicBaseURL   = $BaseURL . 'public.pl?';
 
-my $UserAgent = LWP::UserAgent->new;
+my $UserAgent = LWP::UserAgent->new();
 $UserAgent->cookie_jar( {} );    # keep cookies
 
 my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
-if ( !$Response->is_success ) {
+if ( !$Response->is_success() ) {
     $Self->True( 0, "Could not login to agent interface, aborting" );
     return 1;
 }
@@ -62,7 +62,7 @@ if ( !$Response->is_success ) {
 $Response = $UserAgent->get(
     $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
 );
-if ( !$Response->is_success ) {
+if ( !$Response->is_success() ) {
     $Self->True( 0, "Could not login to customer interface, aborting" );
     return 1;
 }

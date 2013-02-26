@@ -1,6 +1,6 @@
 # --
 # CustomerAutoCompletion.t - frontend test AgentTicketPhone
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-require Kernel::System::UnitTest::Selenium;
+require Kernel::System::UnitTest::Selenium; ## no critic
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -41,7 +41,7 @@ my $TestUserLogin = $Helper->TestUserCreate(
 
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     eval {
-        my $sel = Kernel::System::UnitTest::Selenium->new(
+        my $Selenium = Kernel::System::UnitTest::Selenium->new(
             Verbose        => 1,
             UnitTestObject => $Self,
             %{$SeleniumScenario},
@@ -49,7 +49,7 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
         eval {
 
-            $sel->Login(
+            $Selenium->Login(
                 Type     => 'Agent',
                 User     => $TestUserLogin,
                 Password => $TestUserLogin,
@@ -130,8 +130,8 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             );
 
             for my $AutocompleteURL ( sort keys %ParamAutoCompleteExptected ) {
-                $sel->open_ok("${ScriptAlias}index.pl?$AutocompleteURL");
-                $sel->wait_for_page_to_load_ok("30000");
+                $Selenium->open_ok("${ScriptAlias}index.pl?$AutocompleteURL");
+                $Selenium->wait_for_page_to_load_ok("30000");
 
                 # wait for autocomplete to load
                 sleep 0.2;
@@ -139,12 +139,12 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 for ( 1 .. 10 ) {
                     last WAIT
                         if (
-                        eval { $sel->get_eval("this.browserbot.getCurrentWindow().\$.active") == 0 }
+                        eval { $Selenium->get_eval("this.browserbot.getCurrentWindow().\$.active") == 0 }
                         );
                     sleep 1;
                 }
 
-                my $AutoCompleteEntries = $sel->get_eval(
+                my $AutoCompleteEntries = $Selenium->get_eval(
                     "this.browserbot.getCurrentWindow().\$('ul.ui-autocomplete li.ui-menu-item:visible').length",
                 );
 
@@ -156,8 +156,8 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             }
 
             # Normal autocomplete tests
-            $sel->open_ok("${ScriptAlias}index.pl?Action=AgentTicketPhone");
-            $sel->wait_for_page_to_load_ok("30000");
+            $Selenium->open_ok("${ScriptAlias}index.pl?Action=AgentTicketPhone");
+            $Selenium->wait_for_page_to_load_ok("30000");
 
             my %AutoCompleteExptected = (
                 "$RandomID"             => 2,
@@ -171,8 +171,8 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 # Workaround: type_keys_ok() does not workin Safari.
                 # Use type_ok() instead and emulate the key events.
                 # see http://jira.openqa.org/browse/SRC-760
-                $sel->type_ok( "css=input#CustomerAutoComplete", $AutocompleteInput );
-                $sel->get_eval(
+                $Selenium->type_ok( "css=input#CustomerAutoComplete", $AutocompleteInput );
+                $Selenium->get_eval(
                     "this.browserbot.getCurrentWindow().\$('input#CustomerAutoComplete').trigger('keydown').trigger('keypress').trigger('keyup');",
                 );
 
@@ -182,12 +182,12 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 for ( 1 .. 10 ) {
                     last WAIT
                         if (
-                        eval { $sel->get_eval("this.browserbot.getCurrentWindow().\$.active") == 0 }
+                        eval { $Selenium->get_eval("this.browserbot.getCurrentWindow().\$.active") == 0 }
                         );
                     sleep 1;
                 }
 
-                my $AutoCompleteEntries = $sel->get_eval(
+                my $AutoCompleteEntries = $Selenium->get_eval(
                     "this.browserbot.getCurrentWindow().\$('ul.ui-autocomplete li.ui-menu-item:visible').length",
                 );
 

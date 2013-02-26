@@ -1,6 +1,6 @@
 # --
 # SLA.t - SLA tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -656,12 +656,12 @@ for my $Item ( @{$ItemData} ) {
 
             # dump the given attribute
             if ( ref $SLAGet{$SLAAttribute} ) {
-                $SLAGet{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet{$SLAAttribute} );
+                $SLAGet{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet{$SLAAttribute} ); ## no critic
             }
 
             # dump the reference string
             if ( ref $Item->{AddGet}->{$SLAAttribute} ) {
-                $Item->{AddGet}->{$SLAAttribute} = Data::Dumper::Dumper(
+                $Item->{AddGet}->{$SLAAttribute} = Data::Dumper::Dumper(  ## no critic
                     $Item->{AddGet}->{$SLAAttribute},
                 );
             }
@@ -715,12 +715,12 @@ for my $Item ( @{$ItemData} ) {
 
             # dump the given attribute
             if ( ref $SLAGet2{$SLAAttribute} ) {
-                $SLAGet2{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet2{$SLAAttribute} );
+                $SLAGet2{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet2{$SLAAttribute} ); ## no critic
             }
 
             # dump the reference string
             if ( ref $Item->{UpdateGet}->{$SLAAttribute} ) {
-                $Item->{UpdateGet}->{$SLAAttribute} = Data::Dumper::Dumper(
+                $Item->{UpdateGet}->{$SLAAttribute} = Data::Dumper::Dumper( ## no critic
                     $Item->{UpdateGet}->{$SLAAttribute},
                 );
             }

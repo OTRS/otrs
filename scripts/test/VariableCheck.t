@@ -1,6 +1,6 @@
 # --
 # VariableCheck.t - tests for VariableCheck
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -893,7 +893,7 @@ $RunTests->( 'IsStringWithData', $TestVariables, $ExpectedTestResults );
 # DataIsDifferent tests
 #
 
-my %hash1 = (
+my %Hash1 = (
     key1 => '1',
     key2 => '2',
     key3 => {
@@ -905,8 +905,8 @@ my %hash1 = (
     key4 => undef,
 );
 
-my %hash2 = %hash1;
-$hash2{AdditionalKey} = 1;
+my %Hash2 = %Hash1;
+$Hash2{AdditionalKey} = 1;
 
 my @List1 = ( 1, 2, 3, );
 my @List2 = (
@@ -925,7 +925,7 @@ my $Scalar2 = {
 };
 
 my $Count = 0;
-for my $Value1 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
     $Count++;
     $Self->Is(
         scalar DataIsDifferent( Data1 => $Value1, Data2 => $Value1 ),
@@ -934,7 +934,7 @@ for my $Value1 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
     );
 
     my $Count2 = 0;
-    VALUE2: for my $Value2 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+    VALUE2: for my $Value2 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
         if ( $Value2 == $Value1 ) {
             next VALUE2;
         }

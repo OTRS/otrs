@@ -1,6 +1,6 @@
 # --
 # 100-AdminSession.t - frontend tests for AdminSession
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-require Kernel::System::UnitTest::Selenium;
+require Kernel::System::UnitTest::Selenium; ## no critic
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -39,7 +39,7 @@ my $TestUserLogin = $Helper->TestUserCreate(
 
 for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
     eval {
-        my $sel = Kernel::System::UnitTest::Selenium->new(
+        my $Selenium = Kernel::System::UnitTest::Selenium->new(
             Verbose        => 1,
             UnitTestObject => $Self,
             %{$SeleniumScenario},
@@ -47,7 +47,7 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
         eval {
 
-            $sel->Login(
+            $Selenium->Login(
                 Type     => 'Agent',
                 User     => $TestUserLogin,
                 Password => $TestUserLogin,
@@ -76,29 +76,29 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
 
             my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
-            $sel->open_ok("${ScriptAlias}index.pl?Action=AdminSession");
-            $sel->wait_for_page_to_load_ok("30000");
+            $Selenium->open_ok("${ScriptAlias}index.pl?Action=AdminSession");
+            $Selenium->wait_for_page_to_load_ok("30000");
 
-            $sel->is_text_present_ok($CurrentSessionID);
-            $sel->is_element_present_ok("css=table");
+            $Selenium->is_text_present_ok($CurrentSessionID);
+            $Selenium->is_element_present_ok("css=table");
 
-            $sel->open_ok(
+            $Selenium->open_ok(
                 "${ScriptAlias}index.pl?Action=AdminSession;Subaction=Detail;WantSessionID=$CurrentSessionID"
             );
-            $sel->wait_for_page_to_load_ok("30000");
+            $Selenium->wait_for_page_to_load_ok("30000");
 
-            $sel->is_text_present_ok($CurrentSessionID);
-            $sel->is_text_present_ok($TestUserLogin);
-            $sel->is_text_present_ok('UserIsGroup[admin]');
-            $sel->is_text_present_ok('UserIsGroupRo[admin]');
-            $sel->is_element_present_ok("css=table");
+            $Selenium->is_text_present_ok($CurrentSessionID);
+            $Selenium->is_text_present_ok($TestUserLogin);
+            $Selenium->is_text_present_ok('UserIsGroup[admin]');
+            $Selenium->is_text_present_ok('UserIsGroupRo[admin]');
+            $Selenium->is_element_present_ok("css=table");
 
             # kill current session, this means a logout effectively
-            $sel->click_ok("css=a#KillThisSession");
-            $sel->wait_for_page_to_load_ok("30000");
+            $Selenium->click_ok("css=a#KillThisSession");
+            $Selenium->wait_for_page_to_load_ok("30000");
 
             # make sure that we now see the login screen
-            $sel->is_element_present_ok("css=#LoginBox");
+            $Selenium->is_element_present_ok("css=#LoginBox");
 
             return 1;
         } || $Self->True( 0, "Exception in Selenium scenario '$SeleniumScenario->{ID}': $@" );

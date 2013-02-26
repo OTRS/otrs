@@ -1,6 +1,6 @@
 # --
 # TicketFlags.t - ticket module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -228,13 +228,13 @@ $Self->True(
 # create 2 new users
 my @UserIDs;
 for ( 1 .. 2 ) {
-    my $random_number = rand(1000);
+    my $RandomNumber = rand(1000);
 
     my $UserID = $UserObject->UserAdd(
-        UserFirstname => "MyExampleUserName$random_number",
-        UserLastname  => "MyExampleUserLastName$random_number",
-        UserLogin     => "example$random_number",
-        UserEmail     => "myuser$random_number\@mydomain.com",
+        UserFirstname => "MyExampleUserName$RandomNumber",
+        UserLastname  => "MyExampleUserLastName$RandomNumber",
+        UserLogin     => "example$RandomNumber",
+        UserEmail     => "myuser$RandomNumber\@mydomain.com",
         ValidID       => 1,
         ChangeUserID  => 1,
     );
@@ -385,14 +385,14 @@ for my $TicketID (@TicketIDs) {
 
 # set created users to invalid
 for my $UserID (@UserIDs) {
-    my $random_number = rand(1000);
+    my $RandomNumber = rand(1000);
 
     $UserObject->UserUpdate(
         UserID        => $UserID,
-        UserFirstname => "MyExampleUserName$random_number",
-        UserLastname  => "MyExampleUserLastName$random_number",
-        UserLogin     => "example$random_number",
-        UserEmail     => "myuser$random_number\@mydomain.com",
+        UserFirstname => "MyExampleUserName$RandomNumber",
+        UserLastname  => "MyExampleUserLastName$RandomNumber",
+        UserLogin     => "example$RandomNumber",
+        UserEmail     => "myuser$RandomNumber\@mydomain.com",
         ValidID       => 2,
         ChangeUserID  => 1,
     );

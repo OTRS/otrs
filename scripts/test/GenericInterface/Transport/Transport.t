@@ -1,6 +1,6 @@
 # --
 # Transport.t - GenericInterface transport interface tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -228,7 +228,7 @@ for my $Fail ( 0 .. 1 ) {
 
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;
-            open STDIN, '<:utf8', \$TestEntry->{RequestContent};
+            open STDIN, '<:utf8', \$TestEntry->{RequestContent}; ## no critic
 
             # reset CGI object from previous runs
             CGI::initialize_globals();
@@ -317,7 +317,7 @@ for my $Fail ( 0 .. 1 ) {
 
                 # redirect STDOUT from String so that the transport layer will write there
                 local *STDOUT;
-                open STDOUT, '>:utf8', \$ResultData;
+                open STDOUT, '>:utf8', \$ResultData; ## no critic
 
                 $Result = $TransportObject->ProviderGenerateResponse(
                     Success      => $OptionSuccess,
