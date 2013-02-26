@@ -5,19 +5,18 @@
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --
-#
-# Description: copy this file into Kernel/Modules/ and change the
-# config options ($Title, $DetailText, $SQL, ...) below.
-#
-# Add a html link to your OTRS agent frontend, e. g.
-# <a href="$Env{"Baselink"}Action=SystemStatsGeneric">Your Stats</a>
-# and you will get your printable pure SQL stats.
-#
-# If you want a CSV file add the param CSV=1 to your html link e. g.
-# <a href="$Env{"Baselink"}Action=SystemStatsGeneric&CSV=1">Your CVS Stats File</a>
-#
-# --
+
+=cut
+Description: copy this file into Kernel/Modules/ and change the
+config options ($Title, $DetailText, $SQL, ...) below.
+
+Add a html link to your OTRS agent frontend, e. g.
+<a href="$Env{"Baselink"}Action=SystemStatsGeneric">Your Stats</a>
+and you will get your printable pure SQL stats.
+
+If you want a CSV file add the param CSV=1 to your html link e. g.
+<a href="$Env{"Baselink"}Action=SystemStatsGeneric&CSV=1">Your CVS Stats File</a>
+=cut
 
 package Kernel::Modules::SystemStatsGeneric;
 
@@ -73,10 +72,10 @@ sub Run {
     my @GlobalData = ();
 
     # get table columns names
-    my $sth = $Self->{DBObject}->{dbh}->prepare($SQL);
-    $sth->execute;
-    my $names = $sth->{NAME};
-    @HeadData = @{$names};
+    my $STH = $Self->{DBObject}->{dbh}->prepare($SQL);
+    $STH->execute();
+    my $Names = $STH->{NAME};
+    @HeadData = @{$Names};
 
     # get table columns data
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $SQLLimit );
@@ -89,12 +88,12 @@ sub Run {
         $OutputBody .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
         $OutputBody .= "<tr>\n";
     }
-    for my $col (@HeadData) {
+    for my $Col (@HeadData) {
         if ( $Self->{CSV} ) {
-            $CSVBody .= "$col;";
+            $CSVBody .= "$Col;";
         }
         else {
-            $OutputBody .= "<th class=\"item\">$col</th>\n";
+            $OutputBody .= "<th class=\"item\">$Col</th>\n";
         }
     }
     if ( $Self->{CSV} ) {

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -23,12 +23,12 @@ use strict;
 use warnings;
 
 # Make sure we are in a sane environment.
-$ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
+$ENV{MOD_PERL} =~ /mod_perl/ || die "MOD_PERL not used!";
 
 BEGIN {
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
-    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
+    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs'; ## no critic
 
     # set $0 to index.pl if it is not an existing file:
     # on Fedora, $0 is not a path which would break OTRS.
