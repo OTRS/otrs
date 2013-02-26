@@ -1,4 +1,5 @@
 3.2.3 2013-??-??
+ - 2013-02-26 Fixed bug#9172 - Generic Interface does not work on IIS 7.0.
  - 2013-02-25 Updated French language translation, thanks to Raphaël Doursenaud!
  - 2013-02-23 Updated Hungarian language translation, thanks to Németh Csaba!
  - 2013-02-21 Updated Czech language translation, thanks to Katerina Bubenickova!
