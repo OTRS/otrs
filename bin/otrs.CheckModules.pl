@@ -145,16 +145,6 @@ my @NeededModules = (
                 Required => 0,
                 Comment  => 'Required for stats.',
             },
-            {
-                Module   => 'GD::Graph::lines',
-                Required => 0,
-                Comment  => 'Required for stats.',
-            },
-            {
-                Module   => 'GD::Text::Align',
-                Required => 0,
-                Comment  => 'Required for stats.',
-            },
         ],
     },
     {
