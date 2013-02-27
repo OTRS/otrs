@@ -234,7 +234,8 @@ Core.Agent.Admin.ProcessManagement.InitActivityDialogEdit();
 Core.Agent.Admin.ProcessManagement.Localization = {
         CancelMsg: "$Text{"Cancel"}",
         SaveMsg: "$Text{"Save"}",
-        DialogTitle: "$Text{"Edit Field Details"}"
+        DialogTitle: "$Text{"Edit Field Details"}",
+        WrongArticleTypeMsg: "$Text{"Customer interface does not support internal article types."}"
 };
 //]]></script>
 <!--dtl:js_on_document_complete-->
