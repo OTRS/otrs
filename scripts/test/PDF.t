@@ -2720,15 +2720,11 @@ $Self->True(
 );
 
 my %CharsetTestData1;
-## no critic
-open( my $IN,
-    "< ", "$Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt"
-    ) || die $!;
-## use critic
-while (<$IN>) {
+open my $IN1, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt' || die $!;
+while (<$IN1>) {
     $CharsetTestData1{Text} .= $_;
 }
-close($IN);
+close $IN1;
 
 $CharsetTestData1{Type}           = 'ReturnLeftOver';
 $CharsetTestData1{Font}           = 'Testfont2';
@@ -2807,15 +2803,11 @@ $Self->True(
 );
 
 my %CharsetTestData2;
-## no critic
-open( $IN,
-    "< ", "$Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test1-utf-8.txt"
-    ) || die $!;
-## use critic 
-while (<$IN>) {
+open my $IN2, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt' || die $!;
+while (<$IN2>) {
     $CharsetTestData2{Text} .= $_;
 }
-close($IN);
+close $IN2;
 
 $CharsetTestData2{Type}           = 'ReturnLeftOver';
 $CharsetTestData2{Font}           = 'Testfont2';
@@ -2894,15 +2886,11 @@ $Self->True(
 );
 
 my %CharsetTestData3;
-## no critic
-open( $IN,
-    "< ", "$Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/PDF/PDF-test2-utf-8.txt"
-    ) || die $!; 
-## use critic
-while (<$IN>) {
+open my $IN3, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt' || die $!; 
+while (<$IN3>) {
     $CharsetTestData3{Text} .= $_;
 }
-close($IN);
+close $IN3;
 
 $CharsetTestData3{Type}           = 'ReturnLeftOver';
 $CharsetTestData3{Font}           = 'Testfont1';
