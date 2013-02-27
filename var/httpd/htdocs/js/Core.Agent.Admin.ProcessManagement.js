@@ -892,9 +892,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                  if (typeof FieldConfig.Config === 'undefined'){
                                      FieldConfig.Config = {};
                                  }
+                                 FieldConfig.Config.ArticleType = $('#ArticleType').val();
 
                                  // show error if internal article type is set for an interface different than AgentInterface
-                                 FieldConfig.Config.ArticleType = $('#ArticleType').val();
                                  if ($('Interface') !=='AgentInterface' && $('#ArticleType').val().match(/int/i)){
                                      alert(Core.Agent.Admin.ProcessManagement.Localization.WrongArticleTypeMsg);
                                      return;
