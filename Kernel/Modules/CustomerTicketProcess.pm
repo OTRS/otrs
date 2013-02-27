@@ -1438,13 +1438,13 @@ sub _StoreActivityDialog {
                     From           => $From,
                     MimeType       => $MimeType,
                     Charset        => $Self->{LayoutObject}->{UserCharset},
-                    UserID         => $Self->{UserID},
+                    UserID         => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     HistoryType    => 'AddNote',
                     HistoryComment => '%%Note',
                     Body           => $Param{GetParam}{Body},
                     Subject        => $Param{GetParam}{Subject},
                     ArticleType =>
-                        $ActivityDialog->{Fields}->{Article}->{Config}->{CustomerArticleType},
+                        $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
                 );
                 if ( !$ArticleID ) {
                     return $Self->{LayoutObject}->CustomerErrorScreen();

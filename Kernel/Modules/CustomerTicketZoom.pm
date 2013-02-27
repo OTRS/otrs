@@ -1404,6 +1404,14 @@ sub _Mask {
         }
     }
 
+    # fallback to ticket info if there is no article
+    if ( !IsHashRefWithData( \%Article ) ) {
+        %Article = %Param;
+        if ( !$Article{StateID} ) {
+            $Article{StateID} = $Param{TicketStateID}
+        }
+    }
+
     # check follow up permissions
     my $FollowUpPossible
         = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
