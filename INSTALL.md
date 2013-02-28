@@ -140,7 +140,7 @@ Or if you are installing OTRS an a Windows system:
 6. Web Server
 -------------
 
-[follow README.webserver]
+Please follow [README.webserver](README.webserver).
 
 7. File Permissions
 -------------------
