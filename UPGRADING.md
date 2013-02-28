@@ -16,8 +16,8 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
 9, 13, 15, 16 and 17.
 
 
-1) Stop all relevant services
-   --------------------------
+1. Stop all relevant services
+=============================
 
     e. g. (depends on used services):
 
@@ -26,8 +26,8 @@ upgrade. For instance you can upgrade directly from OTRS 3.2.1 to version
     shell> /etc/init.d/apache stop
 
 
-2) Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
-   -----------------------------------------------------------------
+2. Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
+====================================================================
 
     o Kernel/Config.pm
     o Kernel/Config/GenericAgent.pm
