@@ -42,16 +42,6 @@ use Kernel::System::Group;
 use Kernel::System::Main;
 use Kernel::System::User;
 
-# get options
-my %Opts;
-getopt( 'ur', \%Opts );
-if ( !$Opts{r} || !$Opts{u} ) {
-    print "$0 <Revision $VERSION> - assign Users to Roles\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
-    print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
-    exit 1;
-}
-
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
@@ -65,6 +55,16 @@ $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 $CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
+
+# get options
+my %Opts;
+getopt( 'ur', \%Opts );
+if ( !$Opts{r} || !$Opts{u} ) {
+    print "$0 <Revision $VERSION> - assign Users to Roles\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
+    exit 1;
+}
 
 # check user
 my $UserID = $CommonObject{UserObject}->UserLookup( UserLogin => $Opts{u} );

@@ -86,6 +86,11 @@ o Name:    CPAN File::Temp
            # Jenness and the UK Particle Physics and Astronomy Research Council.
            # All Rights Reserved.
 
+o Name:    CPAN IO::Interactive
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2005, Damian Conway <DCONWAY@cpan.org>. All rights reserved.
+
 o Name:    CPAN IO::Lines
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

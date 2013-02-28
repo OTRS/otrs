@@ -38,8 +38,20 @@ use Kernel::System::DB;
 use Kernel::System::Group;
 use Kernel::System::Main;
 
-my %Param;
 my %CommonObject;
+
+# create common objects
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-otrs.AddRole.pl',
+    %CommonObject,
+);
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+
+my %Param;
 my %Options;
 
 use Getopt::Std;
@@ -54,17 +66,6 @@ if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n <rolename>\n";
     exit 1;
 }
-
-# create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddRole.pl',
-    %CommonObject,
-);
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # user id of the person adding the record
 $Param{UserID} = '1';

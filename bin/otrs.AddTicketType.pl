@@ -38,8 +38,18 @@ use Kernel::System::DB;
 use Kernel::System::Type;
 use Kernel::System::Main;
 
-my %Param;
 my %CommonObject;
+
+# create common objects
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TypeObject} = Kernel::System::Type->new(%CommonObject);
+
+my %Param;
 my %Options;
 
 use Getopt::Std;
@@ -54,15 +64,6 @@ if ( !$Options{n} ) {
     print STDERR "ERROR: Need -n <Type>\n";
     exit 1;
 }
-
-# create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TypeObject} = Kernel::System::Type->new(%CommonObject);
 
 # user id of the person adding the record
 $Param{UserID} = '1';

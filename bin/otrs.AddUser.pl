@@ -31,17 +31,6 @@ use lib dirname($RealBin) . '/Custom';
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.9 $) [1];
 
-my %Options;
-use Getopt::Std;
-getopt( 'flpge', \%Options );
-unless ( $ARGV[0] ) {
-    print
-        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
-    print "\tif you define -g with a valid group name then the user will be added that group\n";
-    print "\n";
-    exit;
-}
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -64,8 +53,18 @@ $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
+my %Options;
+use Getopt::Std;
+getopt( 'flpge', \%Options );
+unless ( $ARGV[0] ) {
+    print
+        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
+    print "\tif you define -g with a valid group name then the user will be added that group\n";
+    print "\n";
+    exit;
+}
+
 my %Param;
-undef %Param;
 
 #user id of the person adding the record
 $Param{UserID} = '1';

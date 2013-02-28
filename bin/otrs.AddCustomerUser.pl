@@ -31,6 +31,25 @@ use lib dirname($RealBin) . '/Custom';
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.11 $) [1];
 
+use Kernel::Config;
+use Kernel::System::Encode;
+use Kernel::System::Log;
+use Kernel::System::Time;
+use Kernel::System::Main;
+use Kernel::System::DB;
+use Kernel::System::CustomerUser;
+
+# create common objects
+my %CommonObject;
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}
+    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddCustomerUser.pl' );
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
+
 my %Options;
 use Getopt::Std;
 getopt( 'flpgec', \%Options );
@@ -42,27 +61,7 @@ unless ( $ARGV[0] ) {
     exit;
 }
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::CustomerUser;
-
-# create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddCustomerUser.pl' );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
-
 my %Param;
-undef %Param;
 
 #user id of the person adding the record
 $Param{UserID} = '1';

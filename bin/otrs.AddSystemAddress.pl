@@ -40,8 +40,22 @@ use Kernel::System::Main;
 use Kernel::System::Queue;
 use Kernel::System::SystemAddress;
 
-my %Param;
 my %CommonObject;
+
+# create common objects
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-otrs.AddSystemAddress.pl',
+    %CommonObject,
+);
+$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject}         = Kernel::System::Group->new(%CommonObject);
+$CommonObject{QueueObject}         = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonObject);
+
+my %Param;
 my %Options;
 
 use Getopt::Std;
@@ -65,19 +79,6 @@ if ( !$Options{q} ) {
     print STDERR "ERROR: Need -q <queue name>\n";
     exit 1;
 }
-
-# create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddSystemAddress.pl',
-    %CommonObject,
-);
-$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject}         = Kernel::System::Group->new(%CommonObject);
-$CommonObject{QueueObject}         = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonObject);
 
 # user id of the person adding the record
 $Param{UserID} = '1';

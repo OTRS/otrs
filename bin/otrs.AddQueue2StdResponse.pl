@@ -41,14 +41,27 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 use Kernel::System::Main;
 
+# create common objects
+my %CommonObject;
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-otrs.AddQueue2StdResponse.pl.pl',
+    %CommonObject,
+);
+$CommonObject{MainObject}             = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}               = Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject}            = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{StandardResponseObject} = Kernel::System::StandardResponse->new(%CommonObject);
+
 # get options
-my %Opts = ();
+my %Opts;
 getopts( 'hq:r:', \%Opts );
 if ( $Opts{h} ) {
     print
         "otrs.AddQueue2StdResponse.pl <Revision $VERSION> - assign Queues to Standard responses\n";
     print
-        "usage: otrs.AddQueue2StdResponse.pl.pl -r <RESPONSE> -q <QUEUE>\n";
+        "usage: otrs.AddQueue2StdResponse.pl -r <RESPONSE> -q <QUEUE>\n";
     exit 1;
 }
 
@@ -61,18 +74,6 @@ if ( !$Opts{q} ) {
     exit 1;
 }
 
-# create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddQueue2StdResponse.pl.pl',
-    %CommonObject,
-);
-$CommonObject{MainObject}             = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}               = Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject}            = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{StandardResponseObject} = Kernel::System::StandardResponse->new(%CommonObject);
 
 # check queue
 my $QueueID = $CommonObject{QueueObject}->QueueLookup( Queue => $Opts{q} );
@@ -102,6 +103,6 @@ if (
     exit 1;
 }
 else {
-    print "Added Queue '$Opts{q}' to Standard Response '$Opts{r}'.'\n";
+    print "Added Queue '$Opts{q}' to Standard Response '$Opts{r}'.\n";
     exit 0;
 }

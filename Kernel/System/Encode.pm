@@ -13,6 +13,8 @@ use strict;
 use warnings;
 
 use Encode;
+use Encode::Locale;
+use IO::Interactive qw(is_interactive);
 
 use vars qw(@ISA $VERSION);
 $VERSION = qw($Revision: 1.53 $) [1];
@@ -33,12 +35,12 @@ This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
 
 =item new()
 
-create a language object
+create an encode object
 
     use Kernel::System::Encode;
 
-    my $EncodeObject = Kernel::System::Encode->new();
-
+    my $EncodeObject = Kernel::System::Encode->new();  
+        
 =cut
 
 sub new {
@@ -51,9 +53,19 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-    # encode STDOUT and STDERR
-    $Self->SetIO( \*STDOUT, \*STDERR );
-
+    # check if the encodeobject is used from the command line
+    # if so, we need to decode @ARGV
+    if ( !is_interactive() ) {
+        # encode STDOUT and STDERR
+        $Self->SetIO( \*STDOUT, \*STDERR );
+    }
+    else {
+        # use "locale" as an arg to encode/decode
+        @ARGV = map { decode(locale => $_, 1) } @ARGV if -t STDIN;
+        binmode STDOUT, ":encoding(console_out)" if -t STDOUT;
+        binmode STDERR, ":encoding(console_out)" if -t STDERR;
+    }
+    
     return $Self;
 }
 

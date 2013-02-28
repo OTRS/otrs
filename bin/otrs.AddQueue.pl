@@ -42,6 +42,20 @@ use Kernel::System::Group;
 use Kernel::System::SystemAddress;
 use Kernel::System::Main;
 
+# create common objects
+my %CommonObject;
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-otrs.AddQueue.pl',
+    %CommonObject,
+);
+$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject}         = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{GroupObject}         = Kernel::System::Group->new(%CommonObject);
+$CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonObject);
+
 # get options
 my %Opts;
 getopts( 'hg:n:s:S:c:r:u:l:C:', \%Opts );
@@ -64,20 +78,6 @@ if ( !$Opts{g} ) {
     print STDERR "ERROR: Need -g <GROUP>\n";
     exit 1;
 }
-
-# create common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddQueue.pl',
-    %CommonObject,
-);
-$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject}         = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{GroupObject}         = Kernel::System::Group->new(%CommonObject);
-$CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonObject);
 
 # check group
 my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{g} );

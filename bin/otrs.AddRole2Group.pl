@@ -41,8 +41,20 @@ use Kernel::System::Queue;
 use Kernel::System::Group;
 use Kernel::System::Main;
 
+# create common objects
+my %CommonObject = ();
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-otrs.AddRole2Group.pl',
+    %CommonObject,
+);
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+
 # get options
-my %Opts = ();
+my %Opts;
 getopts( 'hg:r:R:M:C:N:O:P:W:', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.AddRole2Group.pl <Revision $VERSION> - assign Roles to Groups\n";
@@ -61,18 +73,6 @@ if ( !$Opts{g} ) {
     print STDERR "ERROR: Need -g <GROUP>\n";
     exit 1;
 }
-
-# create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddRole2Group.pl',
-    %CommonObject,
-);
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 # check group
 my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{g} );
@@ -110,6 +110,6 @@ if (
     exit 1;
 }
 else {
-    print "Added Group '$Opts{g} to Role '$Opts{r}'.'\n";
+    print "Added Group '$Opts{g}' to Role '$Opts{r}'.\n";
     exit(0);
 }

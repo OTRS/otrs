@@ -40,18 +40,7 @@ use Kernel::System::Main;
 use Kernel::System::User;
 use Kernel::System::Group;
 
-my %Param;
 my %CommonObject;
-my %Opts;
-
-use Getopt::Std;
-getopt( 'guph', \%Opts );
-
-if ( $Opts{h} || !$Opts{g} || !$Opts{u} || !$Opts{p} ) {
-    print STDERR
-        "Usage: $0 -g groupname -u username -p ro|rw\n";
-    exit;
-}
 
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
@@ -65,6 +54,18 @@ $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
 $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+
+my %Param;
+my %Opts;
+
+use Getopt::Std;
+getopt( 'guph', \%Opts );
+
+if ( $Opts{h} || !$Opts{g} || !$Opts{u} || !$Opts{p} ) {
+    print STDERR
+        "Usage: $0 -g groupname -u username -p ro|rw\n";
+    exit;
+}
 
 # user id
 $Param{UserID} = '1';
