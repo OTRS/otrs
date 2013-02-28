@@ -52,27 +52,27 @@ To install missing Perl modules, you can:
 
 - For Red Hat, CentOS, Fedora or compatible systems:
 
-    shell> yum install "perl(Digest::MD5)"
+        shell> yum install "perl(Digest::MD5)"
 
 - For SUSE Linux Enterprise Server, openSUSE or compatible systems:
 first determine the name of the package the module is shipped in.
 Usually the package for My::Module would be called "perl-My-Module".
 
-    shell> zypper search Digest::MD5
+        shell> zypper search Digest::MD5
 
-Then install:
+        Then install:
 
-    shell> zypper install perl-Digest-MD5
+        shell> zypper install perl-Digest-MD5
 
 - For Debian, Ubuntu or compatible systems
 first determine the name of the package the module is shipped in.
 Usually the package for My::Module would be called "libmy-module-perl".
 
-    shell> apt-get search Digest::MD5
+        shell> apt-get search Digest::MD5
 
-Then install:
+        Then install:
 
-    shell> apt-get install libdigest-md5-perl
+        shell> apt-get install libdigest-md5-perl
 
 Please note that it might be that you can't find all modules or their
 required versions in your distribution repository, in that case you might
@@ -146,7 +146,7 @@ Or if you are installing OTRS an a Windows system:
 -------------------
 File permissions need to be adjusted to allow OTRS to read and write files:
 
-        shell> bin/otrs.SetPermissions.pl --otrs-user=<OTRS_USER> --web-user=<WEBSERVER_USER> [--otrs-group=<OTRS_GROUP>] [--web-group=<WEB_GROUP>] <OTRS_HOME>
+    shell> bin/otrs.SetPermissions.pl --otrs-user=<OTRS_USER> --web-user=<WEBSERVER_USER> [--otrs-group=<OTRS_GROUP>] [--web-group=<WEB_GROUP>] <OTRS_HOME>
 
 For example:
 
@@ -202,15 +202,15 @@ Make sure to execute it as the OTRS system user!
 
 - Scheduling the cronjobs for the first time:
 
-    shell> /opt/otrs/bin/Cron.sh start
+        shell> /opt/otrs/bin/Cron.sh start
 
 - Updating the cronjob schedules if you made changes:
 
-    shell> /opt/otrs/bin/Cron.sh restart
+        shell> /opt/otrs/bin/Cron.sh restart
 
 - Stopping the cronjobs (useful for maintenance):
 
-    shell> /opt/otrs/bin/Cron.sh stop
+        shell> /opt/otrs/bin/Cron.sh stop
 
 12. OTRS Scheduler Service
 ---------------------------
