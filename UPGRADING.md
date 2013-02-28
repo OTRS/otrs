@@ -74,7 +74,7 @@ In this case the RPM update automatically restores the old configuration files.
 
 Note: The OTRS themes between 3.1 and 3.2 are NOT compatible, so don't use your old themes!
 
-Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
+Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.dtl` (default: `OTRS_HOME=/opt/otrs`)
 
 
 7. Set file permissions
@@ -118,7 +118,7 @@ MySQL:
  or change the existing tables to use InnoDB as storage engine.
 
  Any problems with regards to the storage engine will be reported by the
- otrs.CheckDB.pl script, so please run it to check for possible issues.
+ `otrs.CheckDB.pl` script, so please run it to check for possible issues.
 
     shell> bin/otrs.CheckDB.pl
 
@@ -141,7 +141,7 @@ PostgreSQL, older versions:
 
 ### DATABASE MIGRATION SCRIPT
 
- Run the migration script (as user 'otrs', NOT as root):
+ Run the migration script (as user `otrs`, NOT as `root`):
 
     shell> scripts/DBUpdate-to-3.2.pl
 
@@ -195,8 +195,8 @@ Now you can log into your system.
 ---------------------------------
 
 The file cache backend 'FileRaw' was removed in favor of the faster 'FileStorable'.
-The DBUpdate-to-3.2.pl automatically updates the config setting 'Cache::Module', but
-you need to change it manually if you defined this setting in Kernel/Config.pm directly.
+The `DBUpdate-to-3.2.pl` automatically updates the config setting `Cache::Module`, but
+you need to change it manually if you defined this setting in `Kernel/Config.pm` directly.
 It needs to be changed from 'Kernel::System::Cache::FileRaw' to
 'Kernel::System::Cache::FileStorable'.
 
@@ -258,7 +258,7 @@ ACLs prior OTRS 3.2 should look like:
        },
     };
 
-ACLs must be modified to:
+These ACLs must be modified to:
 
     $Self->{TicketAcl}->{'Limit Dropdown1 entries'} = {
        Properties => {},
@@ -295,7 +295,7 @@ sections already use Keys instead of Values, please look at the following exampl
 Note: this only applies if you have any custom developed event handler modules.
 
 Since OTRS 3.2, the data payload for event handler modules is no longer copied
-into the %Param hash. You need to explicitly access it through $Param{Data}.
+into the `%Param` hash. You need to explicitly access it through `$Param{Data}`.
 
 Old:
 
