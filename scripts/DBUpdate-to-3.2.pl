@@ -58,9 +58,9 @@ EOF
         exit 1;
     }
 
-    # UID check
-    if ($> == 0) { # $EFFECTIVE_USER_ID
-        die "Cannot run this program as root. Please run it as the 'otrs' user.";
+    # UID check if not on Windows
+    if ( $^O ne 'MSWin32' && $> == 0) { # $EFFECTIVE_USER_ID
+        die "Cannot run this program as root. Please run it as the 'otrs' user.\n";
     }
 
     print "\nMigration started...\n\n";
