@@ -1,4 +1,5 @@
 3.2.3 2013-??-??
+ - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
  - 2013-02-28 Added the possibility to use ticket data in dynamic fields links.
  - 2013-02-28 Fixed bug#8764 - Added @ARGV encoding to command line scripts.
  - 2013-02-28 Fixed bug#9189 - Executing DBUpdate-to-3.2.pl as root user leaves file permissions on ZZZAuto.pm in incorrect state.

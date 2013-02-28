@@ -809,14 +809,6 @@ Description>
             <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerInfoQueueMaxSize" Required="1" Valid="1">
-        <Description Translatable="1">Maximum size (in characters) of the customer info table in the queue view.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]{1,3}$">18</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketOverviewSortable" Required="0" Valid="1">
         <Description Translatable="1">Controls if customers have the ability to sort their tickets.</Description>
         <Group>Ticket</Group>
