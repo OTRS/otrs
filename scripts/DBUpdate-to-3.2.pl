@@ -58,6 +58,11 @@ EOF
         exit 1;
     }
 
+    # UID check
+    if ($> == 0) { # $EFFECTIVE_USER_ID
+        die "Cannot run this program as root. Please run it as the 'otrs' user.";
+    }
+
     print "\nMigration started...\n\n";
 
     # create common objects
