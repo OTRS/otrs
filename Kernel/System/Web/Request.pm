@@ -123,7 +123,7 @@ sub Error {
     }
 
     return if !cgi_error();
-    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB'; ## no critic
+    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';    ## no critic
 }
 
 =item GetParam()
@@ -282,11 +282,11 @@ sub GetUploadAll {
         }
 
         # create upload dir
-        File::Path::make_path( $Path, { mode => 0700 } ); ## no critic
+        File::Path::make_path( $Path, { mode => 0700 } );    ## no critic
 
         $Content = "$Path/$NewFileName";
 
-        open my $Out, '>', $Content || die $!; ## no critic
+        open my $Out, '>', $Content || die $!;               ## no critic
         while (<$Upload>) {
             print $Out $_;
         }

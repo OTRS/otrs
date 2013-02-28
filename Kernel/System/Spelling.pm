@@ -185,7 +185,7 @@ sub Check {
 
     # open spell checker
     my $Spell;
-    if ( !open( $Spell, "-|", "$Self->{SpellChecker} < $TmpFile" ) ) { ## no critic
+    if ( !open( $Spell, "-|", "$Self->{SpellChecker} < $TmpFile" ) ) {    ## no critic
         $Self->{Error} = 1;
         $Self->{LogObject}->Log(
             Priority => 'error',

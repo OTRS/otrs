@@ -336,8 +336,8 @@ for my $Test (@Tests) {
         my $AuxDebugLevel = $DebugLevel;
         for my $DataFromDB ( @{ $LogData->{Data} } ) {
             if (
-                $DataFromDB->{Data}       eq $AuxData &&
-                $DataFromDB->{Summary}    eq $AuxSummary &&
+                $DataFromDB->{Data} eq $AuxData       &&
+                $DataFromDB->{Summary} eq $AuxSummary &&
                 $DataFromDB->{DebugLevel} eq lc $AuxDebugLevel
                 )
             {

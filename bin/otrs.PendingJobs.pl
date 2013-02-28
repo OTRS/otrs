@@ -251,8 +251,8 @@ if (@PendingReminderStateIDs) {
             my $Sent = 0;
             for my $Line (@Lines) {
                 if (
-                    $Line->{Name}          =~ /PendingReminder/
-                    && $Line->{Name}       =~ /\Q$Preferences{UserEmail}\E/i
+                    $Line->{Name} =~ /PendingReminder/
+                    && $Line->{Name} =~ /\Q$Preferences{UserEmail}\E/i
                     && $Line->{CreateTime} =~ /$Year-$Month-$Day/
                     )
                 {

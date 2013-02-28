@@ -243,7 +243,7 @@ sub HandleLanguage {
     print "\nReading template files:\n";
 
     for my $File (@List) {
-        if ( open my $In, '<', $File ) { ## no critic
+        if ( open my $In, '<', $File ) {    ## no critic
             my $Content = '';
             while ( my $Line = <$In> ) {
                 if ( $Line !~ /^#/ ) {
@@ -420,7 +420,7 @@ sub HandleLanguage {
 
             my $Translation = $LanguageObject->{Translation}->{$Key};
             $Translation =~ s/'/\\'/g;
-            $Key         =~ s/'/\\'/g;
+            $Key =~ s/'/\\'/g;
 
             # if a string was previously in a DTL, but has not yet been translated,
             # there's no need to preserve it in the translation file.
@@ -486,7 +486,7 @@ EOF
 
     # translating the core
     else {
-        open( my $In, '<', $LanguageFile ) || die "Can't open: $LanguageFile\n"; ## no critic
+        open( my $In, '<', $LanguageFile ) || die "Can't open: $LanguageFile\n";    ## no critic
         while (<$In>) {
             if ( !$MetaData{DataPrinted} ) {
                 $NewOut .= $_;
@@ -549,7 +549,7 @@ EOF
     }
 
     print "Writing $TargetFile\n";
-    open( my $Out, '>', $TargetFile ) || die $!; ## no critic
+    open( my $Out, '>', $TargetFile ) || die $!;    ## no critic
     print $Out $NewOut;
     close $Out;
 }

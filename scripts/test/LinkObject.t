@@ -2838,10 +2838,11 @@ for my $Test ( @{$LinkData} ) {
     $Data::Dumper::Indent = 0;
 
     # dump the results from LinkList()
-    my $LinksString = Data::Dumper::Dumper($Links); ## no critic
+    my $LinksString = Data::Dumper::Dumper($Links);    ## no critic
 
     # dump the reference data
-    my $LinksReferenceString = Data::Dumper::Dumper( $ReferenceData->{LinkListReference} ); ## no critic
+    my $LinksReferenceString
+        = Data::Dumper::Dumper( $ReferenceData->{LinkListReference} );    ## no critic
 
     # get objects lists
     my @ReferenceObjects = sort keys %{ $ReferenceData->{LinkListReference} };

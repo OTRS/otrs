@@ -23,7 +23,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-require Kernel::System::UnitTest::Selenium; ## no critic
+require Kernel::System::UnitTest::Selenium;    ## no critic
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -49,7 +49,10 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             $Selenium->open_ok("${ScriptAlias}index.pl?Action=Logout");
 
             # prevent version information disclosure
-            $Self->False( $Selenium->is_text_present("Powered"), 'No version information disclosure' );
+            $Self->False(
+                $Selenium->is_text_present("Powered"),
+                'No version information disclosure'
+            );
 
             # check
             $Selenium->is_editable_ok("User");

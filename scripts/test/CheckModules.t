@@ -15,7 +15,7 @@ use vars (qw($Self));
 my $Home = $Self->{ConfigObject}->Get('Home');
 my $TmpSumString;
 
-if ( open( $TmpSumString, '-|', "$^X $Home/bin/otrs.CheckModules.pl NoColors" ) ) { ## no critic
+if ( open( $TmpSumString, '-|', "$^X $Home/bin/otrs.CheckModules.pl NoColors" ) ) {    ## no critic
 
     while (<$TmpSumString>) {
         my $TmpLine = $_;

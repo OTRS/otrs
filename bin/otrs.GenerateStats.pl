@@ -406,7 +406,7 @@ else {
 
 # write output
 if ( $Opts{o} ) {
-    if ( open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}" ) { ## no critic
+    if ( open my $Filehandle, '>', "$Opts{o}/$Attachment{Filename}" ) {    ## no critic
         print $Filehandle $Attachment{Content};
         close $Filehandle;
         print "NOTICE: Writing file $Opts{o}/$Attachment{Filename}.\n";

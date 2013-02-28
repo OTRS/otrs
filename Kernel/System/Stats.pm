@@ -1486,7 +1486,7 @@ sub Export {
         my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
         my $FileContent = '';
 
-        open my $Filehandle, '<', $File || die "Can't open: $File: $!"; ## no critic
+        open my $Filehandle, '<', $File || die "Can't open: $File: $!";    ## no critic
 
         # set bin mode
         binmode $Filehandle;
@@ -1674,7 +1674,7 @@ sub Import {
         # write file if it is included in the stats definition
         ## no critic
         elsif ( open my $Filehandle, '>', $FileLocation ) {
-        ## use critic
+            ## use critic
 
             print STDERR "Notice: Install $FileLocation ($StatsXML->{File}[1]{Permission})!\n";
             if ( $StatsXML->{File}->[1]->{Encode} && $StatsXML->{File}->[1]->{Encode} eq 'Base64' )
@@ -1688,7 +1688,7 @@ sub Import {
 
             # set utf8 or bin mode
             if ( $StatsXML->{File}->[1]->{Content} =~ /use\sutf8;/ ) {
-                open $Filehandle, '>:utf8', $FileLocation; ## no critic
+                open $Filehandle, '>:utf8', $FileLocation;    ## no critic
             }
             else {
                 binmode $Filehandle;
@@ -3224,7 +3224,7 @@ sub _SetResultCache {
     # write the csv string into the filesystem
     my $Filehandle;
     my $Path = $Self->{ConfigObject}->Get('TempDir');
-    if ( !open $Filehandle, '>', "$Path/$Param{Filename}" ) { ## no critic
+    if ( !open $Filehandle, '>', "$Path/$Param{Filename}" ) {    ## no critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write: $Path/$Param{Filename}!",
@@ -3263,7 +3263,7 @@ sub _GetResultCache {
 
     my $Path      = $Self->{ConfigObject}->Get('TempDir');
     my $CSVString = '';
-    if ( open my $Filehandle, '<', "$Path/$Param{Filename}" ) { ## no critic
+    if ( open my $Filehandle, '<', "$Path/$Param{Filename}" ) {    ## no critic
         binmode $Filehandle;
         while (<$Filehandle>) {
             $CSVString .= $_;
@@ -3352,7 +3352,7 @@ sub _AutomaticSampleImport {
 
             # read file
             my $Filehandle;
-            if ( !open $Filehandle, '<', $Directory . $Filename ) { ## no critic
+            if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,

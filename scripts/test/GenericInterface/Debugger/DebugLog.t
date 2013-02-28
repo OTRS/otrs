@@ -335,8 +335,8 @@ for my $Test (@Tests) {
         my $AuxDebugLevel = $Test->{Config}->{DebugLevel};
         for my $DataFromDB ( @{ $LogData->{Data} } ) {
             if (
-                $DataFromDB->{Data}       eq $AuxData &&
-                $DataFromDB->{Summary}    eq $AuxSummary &&
+                $DataFromDB->{Data} eq $AuxData       &&
+                $DataFromDB->{Summary} eq $AuxSummary &&
                 $DataFromDB->{DebugLevel} eq $AuxDebugLevel
                 )
             {
@@ -431,8 +431,8 @@ for my $Test (@Tests) {
             my $AuxDebugLevel = $Test->{Config}->{DebugLevel};
             for my $DataFromDB ( @{ $DataFromSearch->{Data} } ) {
                 if (
-                    $DataFromDB->{Data}       eq $AuxData &&
-                    $DataFromDB->{Summary}    eq $AuxSummary &&
+                    $DataFromDB->{Data} eq $AuxData       &&
+                    $DataFromDB->{Summary} eq $AuxSummary &&
                     $DataFromDB->{DebugLevel} eq $AuxDebugLevel
                     )
                 {

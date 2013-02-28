@@ -262,7 +262,7 @@ sub SendMail {
     my $FromEmail = $Param{FromEmail};
     $FromEmail =~ s/"|;|'|<|>|\||\s|\r|\n|\t|`//ig;
     $FromEmail = quotemeta $FromEmail;
-    if ( open my $Mail, '|-', "$Sendmail $FromEmail" ) { ## no critic
+    if ( open my $Mail, '|-', "$Sendmail $FromEmail" ) {    ## no critic
         print $Mail @Mail;
         close $Mail;
 

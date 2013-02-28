@@ -69,7 +69,7 @@ my $File        = shift;
 my $FileContent = '';
 
 if ($File) {
-    open my $IN, '<', $File || die "Can't open file $File: $!"; ## no critic
+    open my $IN, '<', $File || die "Can't open file $File: $!";    ## no critic
     $FileContent = do { local $/; <$IN> };
     close $IN;
 }

@@ -109,7 +109,7 @@ sub Run {
     my $Webservice;
 
     # on Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
-	my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
+    my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
 
     my ($WebserviceID)
         = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;

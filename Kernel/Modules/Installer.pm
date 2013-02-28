@@ -78,8 +78,8 @@ sub Run {
     if ( -f '/etc/SuSE-release' ) {
         $Dist{Vendor} = 'SuSE';
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl'; ## no critic
-            if ( defined $mod_perl::VERSION ) { ## no critic
+            eval 'require mod_perl';    ## no critic
+            if ( defined $mod_perl::VERSION ) {    ## no critic
                 $Dist{Webserver} = 'rcapache2 restart';
             }
         }
@@ -92,8 +92,8 @@ sub Run {
         $Dist{Webserver} = 'service httpd restart';
     }
     elsif ( exists $ENV{MOD_PERL} ) {
-        eval 'require mod_perl'; ## no critic
-        if ( defined $mod_perl::VERSION ) { ## no critic
+        eval 'require mod_perl';    ## no critic
+        if ( defined $mod_perl::VERSION ) {    ## no critic
             $Dist{Webserver} = 'Apache2 + mod_perl2';
         }
     }
@@ -345,7 +345,7 @@ sub Run {
                         Name => 'DatabaseResultBack',
                         Data => {},
                     );
-                    print STDERR "ERR: $DBI::errstr - $_\n"; ## no critic
+                    print STDERR "ERR: $DBI::errstr - $_\n";    ## no critic
                     $Output .= $Self->{LayoutObject}->Output(
                         TemplateFile => 'Installer',
                         Data         => {},
@@ -385,7 +385,7 @@ sub Run {
                         Name => 'DatabaseResultBack',
                         Data => {},
                     );
-                    print STDERR "ERR: $DBI::errstr - $_\n"; ## no critic
+                    print STDERR "ERR: $DBI::errstr - $_\n";    ## no critic
                     $Output .= $Self->{LayoutObject}->Output(
                         TemplateFile => 'Installer',
                         Data         => {},
@@ -422,7 +422,7 @@ sub Run {
                         Name => 'DatabaseResultBack',
                         Data => {},
                     );
-                    print STDERR "ERR: $DBI::errstr - $_\n"; ## no critic
+                    print STDERR "ERR: $DBI::errstr - $_\n";    ## no critic
                     $Output .= $Self->{LayoutObject}->Output(
                         TemplateFile => 'Installer',
                         Data         => {},
@@ -1024,8 +1024,8 @@ sub ParseSQLFile {
     my ( $Self, $File ) = @_;
 
     my @SQL;
-    if ( open( my $In, '<', $File ) ) { ## no critic
-        my $SQLEnd    = 0;
+    if ( open( my $In, '<', $File ) ) {    ## no critic
+        my $SQLEnd       = 0;
         my $SQLStatement = '';
         while (<$In>) {
             if ( $_ !~ /^(#|--)/ ) {
@@ -1039,7 +1039,7 @@ sub ParseSQLFile {
             }
             if ($SQLEnd) {
                 push @SQL, $SQLStatement;
-                $SQLEnd    = 0;
+                $SQLEnd       = 0;
                 $SQLStatement = '';
             }
         }

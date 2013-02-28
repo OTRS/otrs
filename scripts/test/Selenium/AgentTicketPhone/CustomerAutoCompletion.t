@@ -27,7 +27,7 @@ if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     return 1;
 }
 
-require Kernel::System::UnitTest::Selenium; ## no critic
+require Kernel::System::UnitTest::Selenium;    ## no critic
 
 my $Helper = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
@@ -139,7 +139,10 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 for ( 1 .. 10 ) {
                     last WAIT
                         if (
-                        eval { $Selenium->get_eval("this.browserbot.getCurrentWindow().\$.active") == 0 }
+                        eval {
+                            $Selenium->get_eval("this.browserbot.getCurrentWindow().\$.active")
+                                == 0;
+                        }
                         );
                     sleep 1;
                 }
@@ -182,7 +185,10 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 for ( 1 .. 10 ) {
                     last WAIT
                         if (
-                        eval { $Selenium->get_eval("this.browserbot.getCurrentWindow().\$.active") == 0 }
+                        eval {
+                            $Selenium->get_eval("this.browserbot.getCurrentWindow().\$.active")
+                                == 0;
+                        }
                         );
                     sleep 1;
                 }

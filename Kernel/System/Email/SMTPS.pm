@@ -71,7 +71,7 @@ sub Check {
         last TRY if $SMTP;
 
         # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 ); ## no critic
+        select( undef, undef, undef, 0.3 );    ## no critic
     }
 
     # return if no connect was possible
@@ -127,7 +127,7 @@ sub Send {
         last TRY if $SMTP;
 
         # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 ); ## no critic
+        select( undef, undef, undef, 0.3 );    ## no critic
     }
 
     # return if no connect was possible

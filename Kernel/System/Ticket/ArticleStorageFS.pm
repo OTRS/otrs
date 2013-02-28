@@ -43,7 +43,7 @@ sub ArticleStorageInit {
     my $PermissionCheckDirectory
         = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
     my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/" . $PermissionCheckDirectory;
-    if ( File::Path::mkpath( $Path, 0, 0775 ) ) { ## no critic
+    if ( File::Path::mkpath( $Path, 0, 0775 ) ) {    ## no critic
         rmdir $Path;
     }
     else {
@@ -246,7 +246,7 @@ sub ArticleWritePlain {
     }
 
     # write article to fs 1:1
-    File::Path::mkpath( [$Path], 0, 0775 ); ## no critic
+    File::Path::mkpath( [$Path], 0, 0775 );    ## no critic
 
     # write article to fs
     my $Success = $Self->{MainObject}->FileWrite(
@@ -310,7 +310,7 @@ sub ArticleWriteAttachment {
 
     # write attachment to backend
     if ( !-d $Param{Path} ) {
-        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) { ## no critic
+        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) {    ## no critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create $Param{Path}: $!",

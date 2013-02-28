@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DB::postgresql_before_8_2; ## no critic
+package Kernel::System::DB::postgresql_before_8_2;    ## no critic
 
 use strict;
 use warnings;

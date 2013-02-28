@@ -68,10 +68,10 @@ my $Output;
 
 if ( $Action eq 'create' ) {
     print "Writing $Archive ...";
-    open( $Output, '>', $Archive ) || die "ERROR: Can't open: $Archive"; ## no critic
+    open( $Output, '>', $Archive ) || die "ERROR: Can't open: $Archive";    ## no critic
 }
 else {
-    open( my $In, '<', $Archive ) || die "ERROR: Can't open: $Archive"; ## no critic
+    open( my $In, '<', $Archive ) || die "ERROR: Can't open: $Archive";     ## no critic
     while (<$In>) {
         my @Row = split( /::/, $_ );
         chomp $Row[1];
@@ -126,7 +126,7 @@ sub R {
         $File =~ s/^\/(.*)$/$1/;
 
         # ignore directories
-        next if $File =~ /^doc\//;
+        next      if $File =~ /^doc\//;
         next FILE if $File =~ /^var\/tmp/;
         next FILE if $File =~ /^var\/article/;
         next FILE if $File =~ /js-cache/;
@@ -134,7 +134,7 @@ sub R {
 
         # next if not readable
         # print "File: $File\n";
-        open( my $In, '<', $OrigFile ) || die "ERROR: $!"; ## no critic
+        open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
         my $DigestGenerator = Digest::MD5->new();
         $DigestGenerator->addfile($In);
         my $Digest = $DigestGenerator->hexdigest();

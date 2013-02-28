@@ -871,7 +871,7 @@ sub Run {
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
             ## no critic
             if ( open my $Out, '>>', $File ) {
-            ## use critic
+                ## use critic
                 print $Out time()
                     . '::Agent::'
                     . ( time() - $Self->{PerformanceLogStart} )

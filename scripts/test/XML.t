@@ -570,7 +570,7 @@ my $Path = $Self->{ConfigObject}->Get('Home');
 $Path .= "/scripts/test/sample/XML/";
 my $File = 'XML-Test-file.xml';
 $String = '';
-if ( open( my $DATA, "<", "$Path/$File" ) ) { ## no critic
+if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
     while (<$DATA>) {
         $String .= $_;
     }

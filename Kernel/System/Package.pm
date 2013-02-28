@@ -1673,7 +1673,7 @@ sub PackageBuild {
                         for ( sort keys %{$Tag} ) {
 
                             if (
-                                $_    ne 'Tag'
+                                $_ ne 'Tag'
                                 && $_ ne 'Content'
                                 && $_ ne 'TagType'
                                 && $_ ne 'TagLevel'
@@ -2122,7 +2122,7 @@ sub _Code {
 
         print STDERR "Code: $Code->{Content}\n";
 
-        if ( !eval $Code->{Content} . "\n1;" ) { ## no critic
+        if ( !eval $Code->{Content} . "\n1;" ) {    ## no critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Code: $@",
@@ -2415,7 +2415,7 @@ sub _CheckModuleRequired {
                 $Installed = 1;
 
                 # check version if installed module
-                $InstalledVersion = $Module->{Content}->VERSION; ## no critic
+                $InstalledVersion = $Module->{Content}->VERSION;    ## no critic
             }
             if ( !$Installed ) {
                 $Self->{LogObject}->Log(

@@ -266,7 +266,7 @@ sub new {
     return $Class->SUPER::new(@_);
 }
 
-sub request { ## no critic
+sub request {    ## no critic
     my $Self = shift;
 
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;

@@ -539,7 +539,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     ) || '';
 
                     if (
-                        ref $CacheItem    eq 'HASH'
+                        ref $CacheItem eq 'HASH'
                         || ref $CacheItem eq 'ARRAY'
                         || ref $CacheItem eq 'SCALAR'
                         )
@@ -554,10 +554,10 @@ for my $ModuleFile (@BackendModuleFiles) {
                         $Data::Dumper::Indent = 0;
 
                         # dump the cached value
-                        my $CachedValue = Data::Dumper::Dumper($CacheGet); ## no critic
+                        my $CachedValue = Data::Dumper::Dumper($CacheGet);    ## no critic
 
                         # dump the reference attribute
-                        my $OriginValue = Data::Dumper::Dumper($CacheItem); ## no critic
+                        my $OriginValue = Data::Dumper::Dumper($CacheItem);    ## no critic
 
                         # Don't use Is(), produces too much output.
                         $Self->True(

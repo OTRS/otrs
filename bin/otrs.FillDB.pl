@@ -339,7 +339,7 @@ EOF
             my $File    = $Files[ int( rand( $#Files + 1 ) ) ];
             my @Content = ();
             my $Input;
-            open( $Input, '<', $File ) || die $!; ## no critic
+            open( $Input, '<', $File ) || die $!;    ## no critic
 
             #    binmode(IN);
             while ( my $Line = <$Input> ) {

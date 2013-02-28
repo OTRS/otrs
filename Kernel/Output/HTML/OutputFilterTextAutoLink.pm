@@ -66,7 +66,7 @@ sub Post {
         # iterage through regular expressions and create a hash with found keywords
         my %Keywords = ();
         for my $RegExp ( @{ $Link->{RegExp} } ) {
-            my @Count = $RegExp =~ m{\(}gx;
+            my @Count    = $RegExp =~ m{\(}gx;
             my $Elements = scalar @Count;
             if ( my @MatchData = ${ $Param{Data} } =~ m{([\s:]$RegExp)}gxi ) {
                 my $Counter = 0;

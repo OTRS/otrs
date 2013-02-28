@@ -233,7 +233,7 @@ sub Download {
     }
     ## no critic
     elsif ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-    ## use critic
+        ## use critic
         return if $Param{Type};
 
         $Self->{LogObject}->Log(
@@ -455,7 +455,7 @@ sub ConfigItemUpdate {
     my $Out;
     ## no critic
     if ( !open( $Out, ">>$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-    ## use critic
+        ## use critic
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!",
@@ -512,7 +512,7 @@ sub ConfigItemUpdate {
     my $In;
     ## no critic
     if ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-    ## use critic
+        ## use critic
 
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -751,7 +751,7 @@ sub ConfigItemGet {
                     my %LoaderFiles;
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
-                            $Key2    eq 'CSS'
+                            $Key2 eq 'CSS'
                             || $Key2 eq 'CSS_IE7'
                             || $Key2 eq 'CSS_IE8'
                             || $Key2 eq 'JavaScript'
@@ -1585,7 +1585,7 @@ sub _Init {
             my $In;
             ## no critic
             if ( open( $In, '<', $File ) ) {
-            ## use critic
+                ## use critic
 
                 $ConfigFile = do { local $/; <$In> };
                 close $In;
@@ -1891,7 +1891,7 @@ sub _FileWriteAtomic {
 
     ## no critic
     if ( !open( $FH, ">$Self->{FileMode}", $TempFilename ) ) {
-    ## use critic
+        ## use critic
 
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -2168,7 +2168,7 @@ sub _XML2Perl {
                 my %Loader;
                 for my $Key ( sort keys %{$Content} ) {
                     if (
-                        $Key    eq 'CSS'
+                        $Key eq 'CSS'
                         || $Key eq 'CSS_IE7'
                         || $Key eq 'CSS_IE8'
                         || $Key eq 'JavaScript'

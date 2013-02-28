@@ -36,7 +36,7 @@ sub new {
     }
 
     $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'SMIME' );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %Param );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
 }
@@ -102,10 +102,10 @@ sub Run {
                 );
 
                 # loop all customers that have assigned certificate in their preferences
-                for my $UserID (sort keys %UserList) {
+                for my $UserID ( sort keys %UserList ) {
 
                     # reset all SMIME preferences for the customer
-                    for my $PreferenceKey ( qw(SMIMEHash SMIMEFingerprint SMIMEFilename) ) {
+                    for my $PreferenceKey (qw(SMIMEHash SMIMEFingerprint SMIMEFilename)) {
                         my $Success = $Self->{CustomerUserObject}->SetPreferences(
                             Key    => $PreferenceKey,
                             Value  => '',
@@ -114,7 +114,8 @@ sub Run {
                         if ( !$Success ) {
                             $Self->{LogObject}->Log(
                                 Priority => 'error',
-                                Message  => "Could not reset preference $PreferenceKey for customer $UserID",
+                                Message =>
+                                    "Could not reset preference $PreferenceKey for customer $UserID",
                             );
                         }
                     }

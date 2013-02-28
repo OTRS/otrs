@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.SOAPRequest.pl - sample to send a SOAP request to OTRS Generic Interface Ticket Connector
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -99,6 +99,6 @@ else {
 
     # just output relevant data and no the operation name key (like TicketCreateResponse)
     for my $ResponseKey ( sort keys %{$Body} ) {
-        print Dumper( $Body->{$ResponseKey} ); ## no critic
+        print Dumper( $Body->{$ResponseKey} );    ## no critic
     }
 }

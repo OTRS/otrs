@@ -371,7 +371,7 @@ sub MailAccountBackendList {
         my $GenericModule = "Kernel::System::MailAccount::$File";
 
         # try to load module $GenericModule
-        if ( eval "require $GenericModule" ) { ## no critic
+        if ( eval "require $GenericModule" ) {    ## no critic
             if ( eval { $GenericModule->new( %{$Self} ) } ) {
                 $Backends{$File} = $File;
             }

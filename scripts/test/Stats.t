@@ -247,7 +247,7 @@ my $Path
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;
-if ( !open $Filehandle, '<', $Path ) { ## no critic
+if ( !open $Filehandle, '<', $Path ) {    ## no critic
     $Self->True(
         0,
         'Get the file which should be imported',
@@ -290,7 +290,7 @@ my $Perl = $^X;
 
 my $Command = "$Perl $Home/bin/otrs.GenerateStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
 
-if ( open my $Filehandle, '-|', $Command ) { ## no critic
+if ( open my $Filehandle, '-|', $Command ) {    ## no critic
     @Lines = <$Filehandle>;
     close $Filehandle;
 

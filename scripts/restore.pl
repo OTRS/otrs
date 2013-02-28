@@ -110,7 +110,7 @@ else {
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DBDump ) {
     my $Installed = 0;
-    open( my $Input, '-|', "which $CMD" ); ## no critic
+    open( my $Input, '-|', "which $CMD" );    ## no critic
     while (<$Input>) {
         $Installed = 1;
     }

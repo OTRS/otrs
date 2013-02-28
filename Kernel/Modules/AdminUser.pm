@@ -547,7 +547,7 @@ sub _Edit {
                             Data => { %Param, },
                         );
                         if (
-                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            ref( $ParamItem->{Data} ) eq 'HASH'
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {

@@ -124,7 +124,7 @@ else {
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
     my $Installed = 0;
-    open my $In, '-|', "which $CMD"; ## no critic
+    open my $In, '-|', "which $CMD";    ## no critic
     while (<$In>) {
         $Installed = 1;
     }

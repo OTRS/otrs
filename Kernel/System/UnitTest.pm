@@ -185,7 +185,7 @@ sub Run {
             {
 
                 # HERE the actual tests are run!!!
-                if ( !eval ${$UnitTestFile} ) { ## no critic
+                if ( !eval ${$UnitTestFile} ) {    ## no critic
                     $Self->True( 0, "ERROR: Syntax error in $File: $@" );
                     print STDERR "ERROR: Syntax error in $File: $@\n";
                 }

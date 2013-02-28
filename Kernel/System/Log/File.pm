@@ -40,7 +40,7 @@ sub new {
 
     # get log file suffix
     if ( $Param{ConfigObject}->Get('LogModule::LogFile::Date') ) {
-        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() ); ## no critic
+        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );    ## no critic
         $Y = $Y + 1900;
         $M++;
         $Self->{LogFile} .= ".$Y-$M";
@@ -51,7 +51,7 @@ sub new {
     if ( $ENV{SERVER_SOFTWARE} && $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
         ## no critic
         if ( !open STDERR, '>>', $Self->{LogFile} . '.error' ) {
-        ## use critic
+            ## use critic
             print STDERR "ERROR: Can't write $Self->{LogFile}.error: $!";
         }
     }
@@ -67,7 +67,7 @@ sub Log {
     # open logfile
     ## no critic
     if ( !open $FH, '>>', $Self->{LogFile} ) {
-    ## use critic
+        ## use critic
 
         # print error screen
         print STDERR "\n";
@@ -78,7 +78,7 @@ sub Log {
 
     # write log file
     $Self->{EncodeObject}->SetIO($FH);
-    print $FH '[' . localtime() . ']'; ## no critic
+    print $FH '[' . localtime() . ']';    ## no critic
     if ( lc $Param{Priority} eq 'debug' ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";
     }

@@ -16,7 +16,7 @@ use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
 $VERSION = qw($Revision: 1.10 $) [1];
 
 use Exporter;
-%EXPORT_TAGS = ( ## no critic
+%EXPORT_TAGS = (    ## no critic
     all => [
         'IsArrayRefWithData',
         'IsHashRefWithData',
@@ -162,7 +162,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsArrayRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_     ne 1;
+    return if scalar @_ ne 1;
     return if ref $TestData ne 'ARRAY';
     return if !@{$TestData};
 
@@ -187,7 +187,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsHashRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_     ne 1;
+    return if scalar @_ ne 1;
     return if ref $TestData ne 'HASH';
     return if !%{$TestData};
 

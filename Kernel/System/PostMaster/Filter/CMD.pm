@@ -58,12 +58,12 @@ sub Run {
     my $TmpFile = $Self->{ConfigObject}->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
     ## no critic
     if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
-    ## use critic
+        ## use critic
         print $Prog $Self->{ParserObject}->GetPlainEmail();
         close $Prog;
     }
     if ( -s $TmpFile ) {
-        open my $In, '<', $TmpFile; ## no critic
+        open my $In, '<', $TmpFile;    ## no critic
         my $Ret = <$In>;
         close $In;
 

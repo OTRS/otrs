@@ -69,7 +69,7 @@ elsif ( !-f $Opts{f} ) {
 
 # read file
 else {
-    open my $IN, '<', $Opts{f} || die "Can't open $Opts{f}: $!\n"; ## no critic
+    open my $IN, '<', $Opts{f} || die "Can't open $Opts{f}: $!\n";    ## no critic
     $In = do { local $/; <$IN> };
     close $IN;
 }
@@ -84,7 +84,7 @@ if (@STD) {
 
 # write
 else {
-    open my $Out, '>', $Opts{f} || die "Can't write $Opts{f}: $!\n"; ## no critic
+    open my $Out, '>', $Opts{f} || die "Can't write $Opts{f}: $!\n";    ## no critic
     print $Out $In;
     close $Out;
 }

@@ -557,7 +557,7 @@ sub Send {
     if (
         $Param{Crypt}
         && $Param{Crypt}->{Type}
-        && $Param{Crypt}->{Type}    eq 'PGP'
+        && $Param{Crypt}->{Type} eq 'PGP'
         && $Param{Crypt}->{SubType} eq 'Detached'
         )
     {
@@ -837,7 +837,7 @@ sub _EncodeMIMEWords {
     return '' if !defined $Param{Line};
 
     # check if MIME::EncWords is installed
-    if ( eval { require MIME::EncWords } ) { ## no critic
+    if ( eval { require MIME::EncWords } ) {    ## no critic
         return MIME::EncWords::encode_mimewords(
             Encode::encode(
                 $Param{Charset},
@@ -856,7 +856,7 @@ sub _EncodeMIMEWords {
     # as fallback use MIME::Words of MIME::Tools (but it lakes on some utf8
     # issues, see pod of MIME::Words)
     else {
-        require MIME::Words; ## no critic
+        require MIME::Words;    ## no critic
         return MIME::Words::encode_mimewords(
             Encode::encode(
                 $Param{Charset},

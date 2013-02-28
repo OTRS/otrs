@@ -254,7 +254,7 @@ sub XMLHashGet {
         }
         $Content .= '$XMLHash' . $Data[0] . " = '$Data[1]';\n 1;\n";
     }
-    if ( $Content && !eval $Content ) { ## no critic
+    if ( $Content && !eval $Content ) {    ## no critic
         print STDERR "ERROR: XML.pm $@\n";
     }
 
@@ -755,7 +755,7 @@ sub XMLParse {
     # load parse package and parse
     my $UseFallback = 1;
 
-    if ( eval 'require XML::Parser' ) { ## no critic
+    if ( eval 'require XML::Parser' ) {    ## no critic
         my $Parser = XML::Parser->new(
             Handlers => {
                 Start => sub { $Self->_HS(@_); },
@@ -780,7 +780,7 @@ sub XMLParse {
     }
 
     if ($UseFallback) {
-        require XML::Parser::Lite; ## no critic
+        require XML::Parser::Lite;    ## no critic
 
         my $Parser = XML::Parser::Lite->new(
             Handlers => {

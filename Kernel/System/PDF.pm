@@ -398,7 +398,7 @@ sub PageNew {
         defined( $Param{LogoFile} )
         && -e $Param{LogoFile}
         && (
-            $Param{LogoFile}    =~ /^.*\.gif$/i
+            $Param{LogoFile} =~ /^.*\.gif$/i
             || $Param{LogoFile} =~ /^.*\.jpg$/i
             || $Param{LogoFile} =~ /^.*\.png$/i
         )
@@ -736,9 +736,9 @@ sub Table {
     $Param{RowData}    ||= [];
 
     if (
-        ref( $Param{CellData} )      eq 'ARRAY'
+        ref( $Param{CellData} ) eq 'ARRAY'
         && ref( $Param{ColumnData} ) eq 'ARRAY'
-        && ref( $Param{RowData} )    eq 'ARRAY'
+        && ref( $Param{RowData} ) eq 'ARRAY'
         )
     {
         if ( !defined( $Param{OutputCount} ) ) {
@@ -1777,9 +1777,9 @@ sub _TableCalculate {
         }
     }
     if (
-        ref( $Param{CellData} )      ne 'ARRAY'
+        ref( $Param{CellData} ) ne 'ARRAY'
         || ref( $Param{ColumnData} ) ne 'ARRAY'
-        || ref( $Param{RowData} )    ne 'ARRAY'
+        || ref( $Param{RowData} ) ne 'ARRAY'
         )
     {
         $Self->{LogObject}->Log(
@@ -2169,7 +2169,7 @@ sub _TableBlockNextCalculate {
             if (
                 $Row->[$ColumnCounter]->{Off} ne 1
                 && $Row->[$ColumnCounter]->{TmpOff} ne 1
-                && $RowStart    eq 'NULL'
+                && $RowStart eq 'NULL'
                 && $ColumnStart eq 'NULL'
                 )
             {
@@ -2235,9 +2235,9 @@ sub _TableRowCalculate {
         }
     }
     if (
-        ref( $Param{CellData} )      ne 'ARRAY'
+        ref( $Param{CellData} ) ne 'ARRAY'
         || ref( $Param{ColumnData} ) ne 'ARRAY'
-        || ref( $Param{RowData} )    ne 'ARRAY'
+        || ref( $Param{RowData} ) ne 'ARRAY'
         )
     {
         $Self->{LogObject}->Log(

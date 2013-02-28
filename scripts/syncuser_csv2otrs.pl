@@ -73,7 +73,7 @@ if ( !$Opts{s} ) {
 }
 
 # read csv file
-open my $In, '<', $Opts{s} || die "Can't read $Opts{s}: $!"; ## no critic
+open my $In, '<', $Opts{s} || die "Can't read $Opts{s}: $!";    ## no critic
 while (<$In>) {
     my @Line = split( /;/, $_ );
 

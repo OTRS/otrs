@@ -166,7 +166,7 @@ for my $StatID ( @{$StatsListRef} ) {
     push( @Filelist, $File->{Filename} );
 
     my $Output;
-    if ( !open( $Output, ">", $FullFilename ) ) { ## no critic
+    if ( !open( $Output, ">", $FullFilename ) ) {    ## no critic
         print "\nCan't create $FullFilename!\n";
     }
     else {
@@ -258,7 +258,7 @@ my $File = $CommonObject{ConfigObject}->Get('Home')
     . "/var/OPM/$PackageName-$OPMS{Version}{Content}.opm";
 
 my $Output;
-if ( open( $Output, ">", $File ) ) { ## no critic
+if ( open( $Output, ">", $File ) ) {    ## no critic
     print "Writing $File\n";
     print $Output $CommonObject{PackageObject}->PackageBuild(%OPMS);
     close($Output);

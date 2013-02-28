@@ -374,7 +374,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # write PID to the PID file (if possible)
     my $PIDFILE;
-    if ( open $PIDFILE, ">", "$RunDir/scheduler.pid" ) { ## no critic
+    if ( open $PIDFILE, ">", "$RunDir/scheduler.pid" ) {    ## no critic
         print $PIDFILE $PID{PID};
         close $PIDFILE;
     }

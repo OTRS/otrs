@@ -247,9 +247,9 @@ sub _Change {
     }
 
     if (
-        ref $WebserviceData->{Config}                                           ne 'HASH'
-        || ref $WebserviceData->{Config}->{Provider}                            ne 'HASH'
-        || ref $WebserviceData->{Config}->{Provider}->{Operation}               ne 'HASH'
+        ref $WebserviceData->{Config} ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider} ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider}->{Operation} ne 'HASH'
         || ref $WebserviceData->{Config}->{Provider}->{Operation}->{$Operation} ne 'HASH'
         )
     {
@@ -295,8 +295,8 @@ sub _ChangeAction {
 
     # Get config data of existing operation.
     if (
-        ref $WebserviceData->{Config}                             ne 'HASH'
-        || ref $WebserviceData->{Config}->{Provider}              ne 'HASH'
+        ref $WebserviceData->{Config} ne 'HASH'
+        || ref $WebserviceData->{Config}->{Provider} ne 'HASH'
         || ref $WebserviceData->{Config}->{Provider}->{Operation} ne 'HASH'
         || ref $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} } ne
         'HASH'

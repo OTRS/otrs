@@ -189,7 +189,7 @@ sub _CheckFrameworkVersion {
     }
     my $ProductName;
     my $Version;
-    if ( open( my $Product, '<', "$Home/RELEASE" ) ) { ## no critic
+    if ( open( my $Product, '<', "$Home/RELEASE" ) ) {    ## no critic
         while (<$Product>) {
 
             # filtering of comment lines
@@ -353,7 +353,7 @@ sub _DropArticleSearchColumns {
         # Catch STDERR log messages to not confuse the user. The Prepare() will fail
         #   if the columns are not present.
         local *STDERR;
-        open STDERR, '>:utf8', \$STDERR; ## no critic
+        open STDERR, '>:utf8', \$STDERR;    ## no critic
 
         $ColumnExists = $CommonObject->{DBObject}->Prepare(
             SQL   => "SELECT a_freekey1 FROM article_search WHERE 1=0",

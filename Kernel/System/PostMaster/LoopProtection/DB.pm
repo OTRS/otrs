@@ -31,7 +31,7 @@ sub new {
     $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time); ## no critic
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);    ## no critic
     $Year = $Year + 1900;
     $Month++;
     $Self->{LoopProtectionDate} .= $Year . '-' . $Month . '-' . $Day;

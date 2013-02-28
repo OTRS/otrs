@@ -72,8 +72,9 @@ for my $Module (qw(DB FS)) {
             ContentID   => $ContentID,
             Disposition => $Disposition,
         );
-        
+
         my $Filename = "UploadCache Test1äöüß.$File";
+
         # Mac OS (HFS+) will store all filenames as NFD internally.
         if ( $^O eq 'darwin' && $Module eq 'FS' ) {
             $Filename = Unicode::Normalize::NFD($Filename);
@@ -94,7 +95,7 @@ for my $Module (qw(DB FS)) {
                 $ContentID,
                 "#$Module - FormIDGetAllFilesData() - ContentID ." . $File,
             );
-            
+
             $Self->Is(
                 $File{Filename},
                 $Filename,
@@ -120,7 +121,7 @@ for my $Module (qw(DB FS)) {
                 $ContentID,
                 "#$Module - FormIDGetAllFilesMeta() - ContentID ." . $File,
             );
-            
+
             $Self->Is(
                 $File{Filename},
                 $Filename,
@@ -145,7 +146,7 @@ for my $Module (qw(DB FS)) {
             Location => $Location,
             Mode     => 'binmode',
         );
-        
+
         my $Content = ${$ContentRef};
         $EncodeObject->EncodeOutput( \$Content );
         my $MD5         = md5_hex($Content);
@@ -162,11 +163,12 @@ for my $Module (qw(DB FS)) {
         );
 
         my $Filename = "UploadCache Test1äöüß.$File";
+
         # Mac OS (HFS+) will store all filenames as NFD internally.
         if ( $^O eq 'darwin' && $Module eq 'FS' ) {
             $Filename = Unicode::Normalize::NFD($Filename);
         }
-        
+
         $Self->True(
             $Add || '',
             "#$Module - FormIDAddFile() - ." . $File,
@@ -177,7 +179,7 @@ for my $Module (qw(DB FS)) {
         );
         if (@Data) {
             my %File = %{ $Data[$#Data] };
-            
+
             $Self->Is(
                 $File{Filename},
                 $Filename,

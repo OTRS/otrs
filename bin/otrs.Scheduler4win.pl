@@ -67,7 +67,7 @@ use Win32::Service;
 
 # starting and stopping can only be done with UAC enabled
 if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
-    require Win32; ## no critic
+    require Win32;    ## no critic
 
     if ( !Win32::IsAdminUser() ) {
         print "To be able to start or stop the Scheduler, call the script with UAC enabled.\n";
@@ -369,8 +369,8 @@ sub _Start {
     $State = Win32::Daemon::State();
 
     # Redirect STDOUT and STDERR to log file
-    open( STDOUT, ">", $FileStdOut ); ## no critic
-    open( STDERR, ">", $FileStdErr ); ## no critic
+    open( STDOUT, ">", $FileStdOut );    ## no critic
+    open( STDERR, ">", $FileStdErr );    ## no critic
 
     # main service loop
     while ( SERVICE_STOPPED != $State ) {

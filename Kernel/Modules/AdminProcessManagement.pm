@@ -627,7 +627,7 @@ sub Run {
                                 ->{Config}->{Fields}->{$AssignedField}
                         };
                         if ( $Values{Config} ) {
-                            $Values{Config} = Dumper( $Values{Config} ); ## no critic
+                            $Values{Config} = Dumper( $Values{Config} );    ## no critic
                             $Values{Config} =~ s{ \s* \$VAR1 \s* =}{}xms;
                             $Values{Config} =~ s{\s+\{}{\{}xms;
                         }

@@ -608,7 +608,7 @@ sub CertificateAdd {
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
         ## no critic
         if ( open( my $OUT, '>', $File ) ) {
-        ## use critic
+            ## use critic
             print $OUT $Param{Certificate};
             close($OUT);
             %Result = (
@@ -978,10 +978,10 @@ sub PrivateAdd {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
         ## no critic
         if ( open( my $PrivKeyFH, '>', "$File" ) ) {
-        ## use critic
+            ## use critic
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
-            open( my $PassFH, '>', "$File.P" ); ## no critic
+            open( my $PassFH, '>', "$File.P" );    ## no critic
             print $PassFH $Param{Secret};
             close $PassFH;
             %Result = (
@@ -1720,7 +1720,7 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg if $AttributesRef->{Issuer};
+    $AttributesRef->{Issuer} =~ s{=}{= }xmsg  if $AttributesRef->{Issuer};
     $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
     $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
 

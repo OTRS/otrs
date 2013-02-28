@@ -109,7 +109,7 @@ my $FileWriteSleep = sub {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{Location} ) { ## no critic
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
         $Self->True(
             0,
             "From $Param{Who} - FileWriteSleep->() Can't write '$Param{Location}': $!",

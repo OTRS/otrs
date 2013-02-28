@@ -75,7 +75,7 @@ ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
 
     # locally override the internal engine of YAML::Any to force testing
-    local @YAML::Any::_TEST_ORDER = ($Engine); ## no critic
+    local @YAML::Any::_TEST_ORDER = ($Engine);    ## no critic
 
     TEST:
     for my $Test (@Tests) {
