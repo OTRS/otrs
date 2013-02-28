@@ -10,6 +10,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::PDF;
 
@@ -62,7 +63,7 @@ $Self->True(
 );
 
 # test _StringWidth() - test width calculation
-my $StringWidthText   = 'abcikwAXIJWZ 123 ���� !$-';
+my $StringWidthText   = 'abcikwAXIJWZ 123 öäüß !$-';
 my @StringWidthReturn = (
     123.38, 117.82, 115.04, 112.26, 106.15, 100.59, 95.03, 89.47, 86.69, 81.13,
     75.57, 70.01, 67.23, 61.12, 51.68, 46.68, 43.9, 37.23, 30.56, 23.34, 18.34,
