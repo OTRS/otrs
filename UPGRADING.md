@@ -143,7 +143,7 @@ PostgreSQL, older versions:
 
  Run the migration script (as user 'otrs', NOT as root):
 
-   shell> scripts/DBUpdate-to-3.2.pl
+    shell> scripts/DBUpdate-to-3.2.pl
 
  Do not continue the upgrading process if this script did not work properly for you.
  Otherwise data loss may occur.
@@ -238,8 +238,10 @@ possible values.
 Now in OTRS 3.2 the Possible and PossibleNot ACL sections for Dynamic Fields Dropdown and
 Multiselect must refer to the key (internal values) rather than the value (shown values).
 
-Example:
-    For the defined field "Dropdown1"  with possible values:
+###Example
+
+For the defined field "Dropdown1"  with possible values:
+
     1 => 'A',
     2 => 'B',
     3 => 'C',
