@@ -79,8 +79,8 @@ my $SOAPObject = SOAP::Lite
     ->$Operation($SOAPData);
 
 # check for a fault in the soap code
-if ( $SOAPObject->fault ) {
-    print $SOAPObject->faultcode, " ", $SOAPObject->faultstring, "\n";
+if ( $SOAPObject->fault() ) {
+    print $SOAPObject->faultcode(), " ", $SOAPObject->faultstring(), "\n";
 }
 
 # otherwise print the results
@@ -99,6 +99,6 @@ else {
 
     # just output relevant data and no the operation name key (like TicketCreateResponse)
     for my $ResponseKey ( sort keys %{$Body} ) {
-        print Dumper( $Body->{$ResponseKey} );
+        print Dumper( $Body->{$ResponseKey} ); ## no critic
     }
 }
