@@ -2720,7 +2720,7 @@ $Self->True(
 );
 
 my %CharsetTestData1;
-open my $IN1, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt' || die $!;
+open my $IN1, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt' || die $!; ## no critic
 while (<$IN1>) {
     $CharsetTestData1{Text} .= $_;
 }
@@ -2803,7 +2803,7 @@ $Self->True(
 );
 
 my %CharsetTestData2;
-open my $IN2, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt' || die $!;
+open my $IN2, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt' || die $!; ## no critic
 while (<$IN2>) {
     $CharsetTestData2{Text} .= $_;
 }
@@ -2886,7 +2886,7 @@ $Self->True(
 );
 
 my %CharsetTestData3;
-open my $IN3, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt' || die $!; 
+open my $IN3, '<', $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt' || die $!; ## no critic 
 while (<$IN3>) {
     $CharsetTestData3{Text} .= $_;
 }
