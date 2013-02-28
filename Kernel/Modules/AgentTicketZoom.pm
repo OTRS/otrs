@@ -1289,6 +1289,7 @@ sub MaskAgentZoom {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketDynamicFieldLink',
                 Data => {
+					%Ticket,
                     Value          => $Field->{Value},
                     Title          => $Field->{Title},
                     Link           => $Field->{Link},
