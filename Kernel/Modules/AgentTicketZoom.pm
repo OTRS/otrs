@@ -1185,6 +1185,7 @@ sub MaskAgentZoom {
                             $Self->{LayoutObject}->Block(
                                 Name => 'ProcessWidgetDynamicFieldLink',
                                 Data => {
+                                    %Ticket,
                                     Value          => $Field->{Value},
                                     Title          => $Field->{Title},
                                     Link           => $Field->{Link},
@@ -1256,6 +1257,7 @@ sub MaskAgentZoom {
                 $Self->{LayoutObject}->Block(
                     Name => 'ProcessWidgetDynamicFieldLink',
                     Data => {
+                        %Ticket,
                         Value          => $Field->{Value},
                         Title          => $Field->{Title},
                         Link           => $Field->{Link},
@@ -1289,7 +1291,7 @@ sub MaskAgentZoom {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketDynamicFieldLink',
                 Data => {
-					%Ticket,
+                    %Ticket,
                     Value          => $Field->{Value},
                     Title          => $Field->{Title},
                     Link           => $Field->{Link},
@@ -2195,6 +2197,7 @@ sub _ArticleItem {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleDynamicFieldLink',
                 Data => {
+                    %Ticket,
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
                     Link                        => $ValueStrg->{Link},
