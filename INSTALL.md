@@ -34,9 +34,9 @@ directory is /opt/otrs. You can adapt these values as needed.
 1. Install tar.gz
 ------------------
 
-   shell> cd /opt/
-   shell> tar -xzvf otrs-x.x.x.tar.gz
-   shell> mv otrs-x.x.x otrs
+    shell> cd /opt/
+    shell> tar -xzvf otrs-x.x.x.tar.gz
+    shell> mv otrs-x.x.x otrs
 
 2. Install Additional Perl Modules
 ----------------------------------
@@ -44,47 +44,47 @@ directory is /opt/otrs. You can adapt these values as needed.
 Use the following script to get an overview of all installed and
 required cpan modules.
 
-   shell> perl /opt/otrs/bin/otrs.CheckModules.pl
+    shell> perl /opt/otrs/bin/otrs.CheckModules.pl
 
 To install missing Perl modules, you can:
 
 ###a) Install the packages via the package manager of your Linux distribution.
 
- - For Red Hat, CentOS, Fedora or compatible systems:
+- For Red Hat, CentOS, Fedora or compatible systems:
 
     shell> yum install "perl(Digest::MD5)"
 
- - For SUSE Linux Enterprise Server, openSUSE or compatible systems:
- first determine the name of the package the module is shipped in.
- Usually the package for My::Module would be called "perl-My-Module".
+- For SUSE Linux Enterprise Server, openSUSE or compatible systems:
+first determine the name of the package the module is shipped in.
+Usually the package for My::Module would be called "perl-My-Module".
 
     shell> zypper search Digest::MD5
 
- Then install:
+Then install:
 
     shell> zypper install perl-Digest-MD5
 
- - For Debian, Ubuntu or compatible systems
- first determine the name of the package the module is shipped in.
- Usually the package for My::Module would be called "libmy-module-perl".
+- For Debian, Ubuntu or compatible systems
+first determine the name of the package the module is shipped in.
+Usually the package for My::Module would be called "libmy-module-perl".
 
     shell> apt-get search Digest::MD5
 
- Then install:
+Then install:
 
     shell> apt-get install libdigest-md5-perl
 
- Please note that it might be that you can't find all modules or their
- required versions in your distribution repository, in that case you might
- choose to install those modules via CPAN (see below).
+Please note that it might be that you can't find all modules or their
+required versions in your distribution repository, in that case you might
+choose to install those modules via CPAN (see below).
 
-- or -
+###or
 
 ###b) Install the required modules via the CPAN shell
 
- note that when you're on Linux you should run CPAN as your superuser
- account because the modules should be accessible both by the OTRS
- account and the account under which the web server is running.
+note that when you're on Linux you should run CPAN as your superuser
+account because the modules should be accessible both by the OTRS
+account and the account under which the web server is running.
 
     shell> perl -MCPAN -e shell;
     ...
@@ -92,8 +92,8 @@ To install missing Perl modules, you can:
     install Crypt::PasswdMD5
     ...
 
- Any optional modules listed by the script should be installed depending
- on the special requirements of the target system.
+Any optional modules listed by the script should be installed depending
+on the special requirements of the target system.
 
 3. Create OTRS User
 -------------------
@@ -125,6 +125,7 @@ Or if you are installing OTRS an a Windows system:
 
 5. Check if all needed modules are installed
 --------------------------------------------
+
     shell> perl -cw /opt/otrs/bin/cgi-bin/index.pl
     /opt/otrs/bin/cgi-bin/index.pl syntax OK
 
@@ -149,19 +150,19 @@ File permissions need to be adjusted to allow OTRS to read and write files:
 
 For example:
 
- - Web server which runs as the OTRS user:
+- Web server which runs as the OTRS user:
 
     shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs
 
- - Webserver with wwwrun user (e. g. SUSE):
+- Webserver with wwwrun user (e. g. SUSE):
 
     shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs
 
- - Webserver with apache user (e. g. Red Hat, CentOS):
+- Webserver with apache user (e. g. Red Hat, CentOS):
 
     shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs
 
- - Webserver with www-data user (e. g. Debian, Ubuntu):
+- Webserver with www-data user (e. g. Debian, Ubuntu):
 
     shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=www-data --otrs-group=www-data --web-group=www-data /opt/otrs
 
@@ -199,15 +200,15 @@ They can be activated by copying them without the ".dist" filename extension.
 To schedule these cronjobs on your system, you can use the script Cron.sh.
 Make sure to execute it as the OTRS system user!
 
- - Scheduling the cronjobs for the first time:
+- Scheduling the cronjobs for the first time:
 
     shell> /opt/otrs/bin/Cron.sh start
 
- - Updating the cronjob schedules if you made changes:
+- Updating the cronjob schedules if you made changes:
 
     shell> /opt/otrs/bin/Cron.sh restart
 
- - Stopping the cronjobs (useful for maintenance):
+- Stopping the cronjobs (useful for maintenance):
 
     shell> /opt/otrs/bin/Cron.sh stop
 
