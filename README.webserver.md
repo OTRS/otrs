@@ -36,18 +36,20 @@ Example instructions for SuSE linux:
 Permission Setup
 ----------------
 
-You can either change the web server user (normally wwwrun or similar) to the OTRS user (otrs):
+You can either change the web server user (normally wwwrun or similar) to the OTRS user (otrs).
+This has the benefit of avoiding file permission problems because the web server process uses the
+same user id as the commandline tools of OTRS. If you have this option,
 
     User wwwrun
 
-    should become
+should become
 
     User otrs
 
 Or, if you can't change the user and group of your web server (system-wide),
 because you have other applications running on this server, you can
-also work with group permissions. Please see [INSTALL.md](INSTALL.md) for details
-on the permission setup.
+also work with group permissions in this case you can keep your default web server user.
+Later on in [INSTALL.md](INSTALL.md) you can find details on the permission setup.
 
 
 Restart the web server
