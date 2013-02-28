@@ -47,7 +47,7 @@ sub PrintUsage {
     print <<"EOF";
 
 otrs.CreateApacheStartupFile.pl <Revision $VERSION> - update apache startup file for mod_perl
-Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
 EOF
 }
@@ -108,20 +108,17 @@ EOF
 use strict;
 use warnings;
 
-# make sure we are in a sane environment.
-\$ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
-
 BEGIN {
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
+    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';    ## no critic
 
-    \$ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
-
-    # set $0 to index.pl because this is broken in mod_perl context;
-    # apart from that, on Fedora, $0 is not a path which would break OTRS.
+    # set $0 to index.pl if it is not an existing file:
+    # on Fedora, $0 is not a path which would break OTRS.
     # see bug # 8533
-
-    \$0 = '/opt/otrs/bin/cgi-bin/index.pl';
+    if ( !-e $0 ) {
+        $0 = '/opt/otrs/bin/cgi-bin/index.pl';
+    }
 }
 
 use ModPerl::Util;
