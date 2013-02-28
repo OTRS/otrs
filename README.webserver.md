@@ -13,7 +13,7 @@ You have two options:
 
 ### Via binary package
 
-Install the RPM-Package (http://otrs.org/ - "rpm -i otrs-xxx.rpm").
+Install the RPM-Package ("rpm -i otrs-xxx.rpm").
 This will automatically make the neccessary configuration changes for apache.
 
 ### Manual installation
