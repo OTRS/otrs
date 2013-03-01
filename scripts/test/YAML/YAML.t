@@ -69,6 +69,27 @@ my @Tests = (
         Data => ' äø<>"\'' x 40_000,
         SkipEngine => 'YAML',            # This test does not run with plain YAML, see the bug above
     },
+    {
+        Name => 'Wrong newline',
+        Data => {
+            DefaultValue => '',
+        },
+        YAMLString => "---\rDefaultValue: ''\r",
+    },
+    {
+        Name => 'Windows newline',
+        Data => {
+            DefaultValue => '',
+        },
+        YAMLString => "---\r\nDefaultValue: ''\r\n",
+    },
+    {
+        Name => 'Unix newline',
+        Data => {
+            DefaultValue => '',
+        },
+        YAMLString => "---\nDefaultValue: ''\n",
+    },
 );
 
 ENGINE:
