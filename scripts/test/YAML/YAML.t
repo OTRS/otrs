@@ -73,22 +73,25 @@ my @Tests = (
         Name => 'Wrong newline',
         Data => {
             DefaultValue => '',
+            PossibleValues => undef,
         },
-        YAMLString => "---\rDefaultValue: ''\r",
+        YAMLString => "---\rDefaultValue: ''\rPossibleValues: ~\r",
     },
     {
         Name => 'Windows newline',
         Data => {
             DefaultValue => '',
+            PossibleValues => undef,
         },
-        YAMLString => "---\r\nDefaultValue: ''\r\n",
+        YAMLString => "---\r\nDefaultValue: ''\r\nPossibleValues: ~\r\n",
     },
     {
         Name => 'Unix newline',
         Data => {
             DefaultValue => '',
+            PossibleValues => undef,
         },
-        YAMLString => "---\nDefaultValue: ''\n",
+        YAMLString => "---\nDefaultValue: ''\nPossibleValues: ~\n",
     },
 );
 
