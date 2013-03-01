@@ -904,23 +904,23 @@ sub TicketSubjectClean {
     my $TicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
 
     # remove all possible ticket hook formats with []
-    $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\]\s*//g;
-    $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\]\s*//g;
-    $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\]\s*//g;
+    $Subject =~ s/\[\Q$TicketHook: $Param{TicketNumber}\E\]\s*//g;
+    $Subject =~ s/\[\Q$TicketHook:$Param{TicketNumber}\E\]\s*//g;
+    $Subject =~ s/\[\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\]\s*//g;
 
     # remove all ticket numbers with []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\]\s*//g;
+        $Subject =~ s/\[\Q$TicketHook$TicketHookDivider\E\d+?\]\s*//g;
     }
 
     # remove all possible ticket hook formats without []
-    $Subject =~ s/$TicketHook: $Param{TicketNumber}\s*//g;
-    $Subject =~ s/$TicketHook:$Param{TicketNumber}\s*//g;
-    $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber}\s*//g;
+    $Subject =~ s/\Q$TicketHook: $Param{TicketNumber}\E\s*//g;
+    $Subject =~ s/\Q$TicketHook:$Param{TicketNumber}\E\s*//g;
+    $Subject =~ s/\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\s*//g;
 
     # remove all ticket numbers without []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/$TicketHook$TicketHookDivider\d+?\s*//g;
+        $Subject =~ s/\Q$TicketHook$TicketHookDivider\E\d+?\s*//g;
     }
 
     # remove leading "..:\s" and "..[\d+]:\s" e. g. "Re: " or "Re[5]: "
