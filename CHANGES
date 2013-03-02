@@ -1,4 +1,5 @@
 3.2.3 2013-??-??
+ - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.  
  - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
  - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
  - 2013-02-28 Added the possibility to use ticket data in dynamic fields links.
@@ -418,14 +419,46 @@
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
 
-3.1.13 20??-??-??
+3.1.14 2013-??-??
+ - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.  
+ - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
+ - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
+ - 2013-02-26 Follow-up fix for bug#8533 apache will not start on Fedora.
+ - 2013-02-26 Fixed bug#9172 - Generic Interface does not work on IIS 7.0.
+ - 2013-02-21 Updated Czech language translation, thanks to Katerina Bubenickova!
+ - 2013-02-20 Fixed bug#8865 - Additional empty data column in statistics CSV-Output.
+
+3.1.13 2013-02-19
+ - 2013-02-19 Fixed bug#9128 - OTRS uses internal sub of Locale::Codes::Country which causes trouble for
+    Debian.
  - 2013-02-13 Fixed bug#9162 - Setting the start day of the week for the datepicker to Sunday does not work.
+ - 2013-02-13 Fixed bug#9141 - Confused Columns in CustomerTicketSearch (ResultShort).
  - 2013-02-08 Fixed bug#9146 - Signed SMIME mails with altered content shows a not clear message.
  - 2013-02-08 Fixed bug#9145 - SMIME sign verification errors are not displayed in TicketZoom.
  - 2013-02-07 Fixed bug#9140 - Postmaster Filter for empty subjects does not work.
+ - 2013-02-05 Fixed bug#9121 - Filenames with Unicode NFD are incorrectly reported as NFC by Main::DirectoryRead().
+ - 2013-02-05 Fixed bug#9108 - Check for opened/closed tickets not working with Ticket::SubjectFormat = Right.
+ - 2013-02-01 Fixed bug#8839 - DateChecksum followup doesn't get correctly SystemID.
+ - 2013-01-31 Updated Russian translation, thanks to Vadim Goncharov!
+ - 2013-01-30 Fixed bug#9101 - Not possible to create dropdown with autocomplete attribute.
  - 2013-01-29 Fixed bug#9096 - All services list is shown instead of only default services.
- - 2012-01-09 Fixed bug#9030 - Wrong handling of Invalid YAML in Scheduler Tasks.
- - 2012-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
+ - 2013-01-28 Fixed bug#8470 - otrs.GenericAgent.pl reports: Can't open
+    '/opt/otrs/otrs_vemco/var/tmp/CacheFileStorable/DynamicField/f3b7e10730fb6c9cab5ae0e7f7e034f3'.
+ - 2013-01-28 Added new translation for Spanish (Colombia), thanks to John Edisson Ortiz Roman!
+ - 2013-01-21 Fixed bug#9054 - Link Object deletes all links under certain conditions.
+ - 2013-01-18 Fixed bug#8944 - do not backup the cache.
+ - 2013-01-16 Fixed bug#9057 - Generating a PDF with bin/otrs.GenerateStats.pl produces lots
+    of warnings.
+ - 2013-01-15 Fixed bug#8929 - Fix problems with empty ticket search results while
+    Ticket::Frontend::AgentTicketSearch###ExtendedSearchCondition is inactive.
+ - 2013-01-14 Fixed bug#9042 - Add X-Spam-Score to Ticket.xml.
+ - 2013-01-14 Fixed bug#9047 - HistoryTicketGet caches info on disk directly.
+ - 2013-01-11 Fixed bug#8923 - Alert message shown, if parent window is reloaded while
+    bulk action popup is open.
+ - 2013-01-09 Fixed bug#9030 - Wrong handling of Invalid YAML in Scheduler Tasks.
+ - 2013-01-07 Updated CKEditor to version 3.6.6.
+ - 2013-01-07 Updated Polish translation, thanks to Pawel @ ib.pl!
+ - 2013-01-04 Follow-up fix for bug#8805 - Cron missing as RPM dependency on Red Hat Enterprise Linux.
     Changed dependency on 'anacron' to 'vixie-cron' on RHEL5.
  - 2013-01-02 Fixed bug#9020 - Generic Ticket Connector does not support attachments with
     ContentType without charset.
