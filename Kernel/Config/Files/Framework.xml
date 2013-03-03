@@ -281,7 +281,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-3.4.2/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-3.6.6/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
