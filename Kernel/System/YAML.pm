@@ -129,6 +129,10 @@ sub Load {
             Priority => 'error',
             Message  => 'Loading the YAML string failed: ' . $@,
         );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'YAML data was: "' . $Param{Data} . '"',
+        );
         return;
     }
 

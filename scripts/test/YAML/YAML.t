@@ -25,6 +25,7 @@ my @Tests = (
     {
         Name => 'Simple string',
         Data => 'Teststring <tag> äß@ø " \\" \' \'\'',
+        SuccessDecode => 1,
     },
     {
         Name => 'Complex data',
@@ -41,33 +42,40 @@ my @Tests = (
                 'Teststring <tag> äß@ø " \\" \' \'\'',
             ],
         },
+        SuccessDecode => 1,
     },
     {
         Name => 'Special YAML chars',
         Data => ' a " a " a \'\' a \'\' a',
+        SuccessDecode => 1,
     },
     {
         Name => 'UTF8 string',
         Data => 'kéy',
+        SuccessDecode => 1,
     },
     {
         Name       => 'UTF8 string, loader',
         Data       => 'kéy',
         YAMLString => '--- kéy' . "\n",
+        SuccessDecode => 1,
     },
     {
         Name => 'UTF8 string without UTF8-Flag',
         Data => 'k\x{e9}y',
+        SuccessDecode => 1,
     },
     {
         Name       => 'UTF8 string without UTF8-Flag, loader',
         Data       => 'k\x{e9}y',
         YAMLString => '--- k\x{e9}y' . "\n",
+        SuccessDecode => 1,
     },
     {
         Name => 'Very long string',      # see https://bugzilla.redhat.com/show_bug.cgi?id=192400
         Data => ' äø<>"\'' x 40_000,
         SkipEngine => 'YAML',            # This test does not run with plain YAML, see the bug above
+        SuccessDecode => 1,
     },
     {
         Name => 'Wrong newline',
@@ -76,6 +84,7 @@ my @Tests = (
             PossibleValues => undef,
         },
         YAMLString => "---\rDefaultValue: ''\rPossibleValues: ~\r",
+        SuccessDecode => 1,
     },
     {
         Name => 'Windows newline',
@@ -84,6 +93,7 @@ my @Tests = (
             PossibleValues => undef,
         },
         YAMLString => "---\r\nDefaultValue: ''\r\nPossibleValues: ~\r\n",
+        SuccessDecode => 1,
     },
     {
         Name => 'Unix newline',
@@ -92,6 +102,13 @@ my @Tests = (
             PossibleValues => undef,
         },
         YAMLString => "---\nDefaultValue: ''\nPossibleValues: ~\n",
+        SuccessDecode => 1,
+    },
+    {
+        Name => 'Invalid YAML string',
+        Data => '1',
+        YAMLString => "-\nDefaultValue: ''\nPossibleValues: ~\n",
+        SuccessDecode => 0,
     },
 );
 
@@ -108,11 +125,19 @@ for my $Engine (qw(YAML::XS YAML)) {
         my $YAMLString = $Test->{YAMLString} || $YAMLObject->Dump( Data => $Test->{Data} );
         my $YAMLData = $YAMLObject->Load( Data => $YAMLString );
 
-        $Self->IsDeeply(
-            $YAMLData,
-            $Test->{Data},
-            "Engine $Engine - $Test->{Name}",
-        );
+        if ($Test->{SuccessDecode}) {
+            $Self->IsDeeply(
+                $YAMLData,
+                $Test->{Data},
+                "Engine $Engine - $Test->{Name}",
+            );
+        }
+        else {
+            $Self->False(
+                $YAMLData,
+                "Engine $Engine - $Test->{Name}",
+            );
+        }
     }
 }
 
