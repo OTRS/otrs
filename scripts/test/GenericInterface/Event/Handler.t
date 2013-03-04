@@ -133,13 +133,18 @@ my @Tests = (
         ValidID      => 2,
         Success      => 0,
     },
+    # to add the Web Service is needed to have the Requester Transport and Type
     {
         Name             => 'Synchronous event call - Empty Requester configuration',
         WebserviceConfig => {
             Debugger => {
                 DebugThreshold => 'debug',
             },
-            Requester => {},
+            Requester => {
+                Transport => {
+                    Type => '',
+                },
+            },
         },
         Asynchronous => 0,
         ValidID      => 1,

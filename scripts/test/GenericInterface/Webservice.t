@@ -205,8 +205,8 @@ my @Tests = (
     },
     {
         Name          => 'test 3',
-        SuccessAdd    => 1,
-        SuccessUpdate => 1,
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
             Config  => {},
@@ -233,7 +233,11 @@ my @Tests = (
                     DebugThreshold => 'debug',
                     TestMode       => 1,
                 },
-                Provider  => {},
+                Provider => {
+                    Transport => {
+                        Type => '',
+                    },
+                },
                 Requester => {
                     Transport => {
                         Type   => 'HTTP::REST',
@@ -254,6 +258,7 @@ my @Tests = (
             UserID  => 1,
         },
     },
+    # the name must be 'test 4', because the purpose if that it fails on 
     {
         Name          => 'test 4',
         SuccessAdd    => 0,
@@ -267,7 +272,11 @@ my @Tests = (
                     DebugThreshold => 'debug',
                     TestMode       => 1,
                 },
-                Provider  => {},
+                Provider => {
+                    Transport => {
+                        Type => '',
+                    },
+                },
                 Requester => {
                     Transport => {
                         Type   => 'HTTP::REST',

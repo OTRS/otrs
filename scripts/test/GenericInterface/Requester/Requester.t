@@ -173,40 +173,6 @@ my @Tests = (
         ReturnData      => {},
         ResponseSuccess => 0,
     },
-    {
-        Name             => 'webservice without debugger config',
-        WebserviceConfig => {
-            Requester => {
-                Transport => {
-                    Type   => 'HTTP::Test',
-                    Config => {
-                        Fail => 0,
-                    },
-                },
-                Invoker => {
-                    test_operation => {
-                        Type           => 'Test::TestSimple',
-                        MappingInbound => {
-                            Type   => 'Test',
-                            Config => {
-                                TestOption => 'ToUpper',
-                            },
-                        },
-                        MappingOutbound => {
-                            Type => 'Test',
-                        },
-                    },
-                },
-            },
-        },
-        InputData => {
-            TicketID => 123,
-        },
-        ReturnData => {
-            TICKETID => 123,
-        },
-        ResponseSuccess => 0,
-    },
 );
 
 for my $Test (@Tests) {

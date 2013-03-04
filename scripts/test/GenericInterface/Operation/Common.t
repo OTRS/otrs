@@ -47,7 +47,16 @@ my $WebserviceName = '-Test-' . $RandomID;
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Name    => $WebserviceName,
-    Config  => {},
+    Config  => {
+        Debugger => {
+            DebugThreshold => 'debug',
+        },
+        Provider => {
+            Transport => {
+                Type => '',
+            },
+        },
+    },
     ValidID => 1,
     UserID  => 1,
 );

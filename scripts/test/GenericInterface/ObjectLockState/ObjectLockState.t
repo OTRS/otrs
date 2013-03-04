@@ -28,6 +28,11 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
         Debugger => {
             DebugThreshold => 'debug',
         },
+        Provider => {
+            Transport => {
+                Type => '',
+            },
+        },
     },
     Name    => "Test$RandomNumber",
     ValidID => 1,

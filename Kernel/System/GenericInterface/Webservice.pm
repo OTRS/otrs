@@ -19,7 +19,7 @@ use Kernel::System::GenericInterface::WebserviceHistory;
 use Kernel::System::GenericInterface::ObjectLockState;
 use Kernel::System::Cache;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
 $VERSION = qw($Revision: 1.40 $) [1];
@@ -140,12 +140,55 @@ sub WebserviceAdd {
     }
 
     # check config
-    if ( ref $Param{Config} ne 'HASH' ) {
+    if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Webservice config should be a hash reference!"
+            Message  => "Webservice Config should be a non empty hash reference!",
         );
         return;
+    }
+
+    # check config internals
+    if ( !IsHashRefWithData( $Param{Config}->{Debugger} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice Config Debugger should be a non empty hash reference!",
+        );
+        return;
+    }
+    if ( !IsStringWithData( $Param{Config}->{Debugger}->{DebugThreshold} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice Config Debugger DebugThreshold should be a non empty string!",
+        );
+        return;
+    }
+    if ( !defined $Param{Config}->{Provider} && !defined $Param{Config}->{Requester} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice Config Provider or Requester should be defined!",
+        );
+        return;
+    }
+    for my $CommunicationType (qw(Provider Requester) ) {
+        if ( defined $Param{Config}->{$CommunicationType} ) {
+            if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Webservice Config $CommunicationType should be a non empty hash"
+                        . " reference!",
+                );
+                return;
+            }
+            if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType}->{Transport} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Webservice Config $CommunicationType Transport should be a"
+                        . " non empty hash reference!",
+                );
+                return;
+            }
+        }
     }
 
     # dump config as string
@@ -311,12 +354,55 @@ sub WebserviceUpdate {
     }
 
     # check config
-    if ( ref $Param{Config} ne 'HASH' ) {
+    if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Webservice config should be a hash reference!"
+            Message  => "Webservice Config should be a non empty hash reference!",
         );
         return;
+    }
+
+    # check config internals
+    if ( !IsHashRefWithData( $Param{Config}->{Debugger} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice Config Debugger should be a non empty hash reference!",
+        );
+        return;
+    }
+    if ( !IsStringWithData( $Param{Config}->{Debugger}->{DebugThreshold} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice Config Debugger DebugThreshold should be a non empty string!",
+        );
+        return;
+    }
+    if ( !defined $Param{Config}->{Provider} && !defined $Param{Config}->{Requester} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Webservice Config Provider or Requester should be defined!",
+        );
+        return;
+    }
+    for my $CommunicationType (qw(Provider Requester) ) {
+        if ( defined $Param{Config}->{$CommunicationType} ) {
+            if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Webservice Config $CommunicationType should be a non empty hash"
+                        . " reference!",
+                );
+                return;
+            }
+            if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType}->{Transport} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Webservice Config $CommunicationType Transport should be a"
+                        . " non empty hash reference!",
+                );
+                return;
+            }
+        }
     }
 
     # dump config as string

@@ -25,7 +25,17 @@ my $RandomID = $HelperObject->GetRandomID();
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
-    Config  => {},
+    Config  => {
+        Debugger    => {
+            DebugThreshold => 'debug',
+            TestMode       => 1,
+        },
+        Provider => {
+            Transport => {
+                Type => '',
+            },
+        },
+    },
     Name    => "$RandomID webservice",
     ValidID => 1,
     UserID  => 1,

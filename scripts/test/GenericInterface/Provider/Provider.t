@@ -173,43 +173,6 @@ my @Tests = (
         ResponseData    => {},
         ResponseSuccess => 0,
     },
-    {
-        Name             => 'Webservice without debugger config',
-        WebserviceConfig => {
-            Provider => {
-                Transport => {
-                    Type   => 'HTTP::Test',
-                    Config => {
-                        Fail => 0,
-                    },
-                },
-                Operation => {
-                    test_operation => {
-                        Type           => 'Test::Test',
-                        MappingInbound => {
-                            Type   => 'Test',
-                            Config => {
-                                TestOption => 'ToUpper',
-                                }
-                        },
-                        MappingOutbound => {
-                            Type => 'Test',
-                        },
-                    },
-                },
-            },
-        },
-        RequestData => {
-            A => 'A',
-            b => 'b',
-        },
-        ResponseData => {
-            A => 'A',
-            b => 'B',
-        },
-        ResponseSuccess => 0,
-        EarlyError      => 1,
-    },
 );
 
 my $CreateQueryString = sub {
