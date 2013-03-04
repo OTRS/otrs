@@ -298,7 +298,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test 5',
+        Name          => 'test 5 - Invalid Config Add (Undef)',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         HistoryCount  => 0,
@@ -309,12 +309,542 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test 6',
+        Name          => 'test 6 - Invalid Config Add (String)',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         HistoryCount  => 0,
         Add           => {
             Config  => 'Something',
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 7 - Invalid Config Add (Missing DebugThreshold)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger => {},
+                Provider => undef,
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 8 - Invalid Config Add (Empty DebugThreshold)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => '',
+                },
+                Provider => undef,
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 9 - Invalid Config Add (Undefined Provider)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => undef,
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 10 - Invalid Config Add (String Provider)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => 'string',
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 11 - Invalid Config Add (Empty Provider)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {},
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 12 - Invalid Config Add (Wrong Provider)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Other => 1,
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 13 - Invalid Config Add (String Provider Transport)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => 'string',
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 14 - Invalid Config Add (Empty Provider Transport)',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        HistoryCount  => 2,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 15 - Invalid Config Add (Wrong Provider Transport) must success',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Other => 1
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 16 - Invalid Config Update (string Config)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => 'string',
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 17 - Invalid Config Update (empty Config)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {},
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 18 - Invalid Config Update (mssing Debugger)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => undef,
+                Provider => {}
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 19 - Invalid Config Update (empty Debugger)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {},
+                Provider => {}
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 20 - Invalid Config Update (missing Debugger DebugThreshold)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    TestMode => 1,
+                },
+                Provider => {}
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 21 - Invalid Config Update (empty Debugger DebugThreshold)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => '',
+                },
+                Provider => {}
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 22 - Invalid Config Update (missing Requester)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => 'debug',
+                },
+                Requester => undef,
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 22 - Invalid Config Update (string Requester)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                    }
+                },
+                Requester => 'String',
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 23 - Invalid Config Update (empty Requester)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                    }
+                },
+                Requester => {},
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 24 - Invalid Config Update (missing Requester Transport)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                    }
+                },
+                Requester => {
+                    Transport => undef,
+                    Other => 1,
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 25 - Invalid Config Update (string Requester Transport)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                    }
+                },
+                Requester => {
+                    Transport => 'string',
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+    {
+        Name          => 'test 26 - Invalid Config Update (empty Requester Transport)',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        HistoryCount  => 1,
+        Add           => {
+            Config  => {
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => { 
+                        Type =>  'HTTP::Test'
+                    },
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        },
+        Update => {
+            Config  => {
+                Debugger  => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                    }
+                },
+                Requester => {
+                    Transport => { },
+                },
+            },
             ValidID => 1,
             UserID  => 1,
         },
