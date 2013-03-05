@@ -1968,7 +1968,7 @@ sub StatNumber2StatID {
 
 installs stats
 
-    my $Result = $CodeObject->StatsInstall(
+    my $Result = $StatsObject->StatsInstall(
         FilePrefix => 'FAQ',  # (optional)
     );
 
