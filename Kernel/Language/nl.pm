@@ -1604,7 +1604,7 @@ sub Data {
 
         # Template: AdminProcessManagementPath
         'Path' => 'Pad',
-        'Edit this transition' => '',
+        'Edit this transition' => 'Bewerk transitie',
         'Transition Actions' => 'Transitie-acties',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             'U kunt transitie-acties aan deze transitie toevoegen door de elementen met de muis van links naar rechts te slepen.',
@@ -1627,7 +1627,7 @@ sub Data {
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Bewerk proces',
-        'Print process information' => '',
+        'Print process information' => 'Print proces',
         'Delete Process' => 'Verwijder proces',
         'Delete Inactive Process' => 'Verwijder inactief proces',
         'Available Process Elements' => 'Beschikbare proces-elementen',
@@ -1659,7 +1659,7 @@ sub Data {
             'Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan.',
         'Hide EntityIDs' => 'Verberg ID\'s',
         'Delete Entity' => 'Verwijderen',
-        'Remove Entity from canvas' => '',
+        'Remove Entity from canvas' => 'Verwijder van canvas',
         'This Activity is already used in the Process. You cannot add it twice!' =>
             'Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken.',
         'This Activity cannot be deleted because it is the Start Activity.' =>
@@ -1678,19 +1678,19 @@ sub Data {
             'In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op \'Actief\' zetten en vervolgens een synchronisatie uitvoeren.',
 
         # Template: AdminProcessManagementProcessPrint
-        'Start Activity' => '',
-        'Contains %s dialog(s)' => '',
-        'Assigned dialogs' => '',
-        'Activities are not being used in this process.' => '',
-        'Assigned fields' => '',
-        'Activity dialogs are not being used in this process.' => '',
-        'Condition linking' => '',
+        'Start Activity' => 'Start activiteit',
+        'Contains %s dialog(s)' => 'Bevat %s dialoog(en)',
+        'Assigned dialogs' => 'Toegewezen dialogen',
+        'Activities are not being used in this process.' => 'Er zijn geen activiteiten in dit proces.',
+        'Assigned fields' => 'Toegewezen velden',
+        'Activity dialogs are not being used in this process.' => 'Er zijn geen dialogen in dit proces.',
+        'Condition linking' => 'Contities koppelen',
         'Conditions' => 'Condities',
         'Condition' => 'Conditie',
-        'Transitions are not being used in this process.' => '',
-        'Module name' => '',
-        'Configuration' => '',
-        'Transition actions are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => 'Er zijn geen overgangen in dit proces.',
+        'Module name' => 'Modulenaam',
+        'Configuration' => 'Configuratie',
+        'Transition actions are not being used in this process.' => 'Er zijn geen transitie-acties in dit proces.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
