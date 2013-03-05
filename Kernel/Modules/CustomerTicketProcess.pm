@@ -134,6 +134,9 @@ sub Run {
     my $Access = $Self->{TicketObject}->TicketCustomerPermission(
         Type     => $ActivityDialogPermission,
         TicketID => $Self->{TicketID},
+
+        # here is safe to use $Self->{UserID}, since it will be compared vs ticket customer in
+        # ticket permission modules
         UserID   => $Self->{UserID}
     );
 
@@ -1405,7 +1408,7 @@ sub _StoreActivityDialog {
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $TicketID,
                 Value              => $TicketParam{$CurrentField},
-                UserID             => $Self->{UserID},
+                UserID             => $Self->{ConfigObject}->Get('CustomerPanelUserID'),,
             );
             if ( !$Success ) {
                 $Self->{LayoutObject}->CustomerFatalError(
@@ -1489,7 +1492,7 @@ sub _StoreActivityDialog {
                     $Self->{TicketObject}->ArticleWriteAttachment(
                         %{$Attachment},
                         ArticleID => $ArticleID,
-                        UserID    => $Self->{UserID},
+                        UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     );
                 }
 
