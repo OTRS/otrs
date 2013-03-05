@@ -1408,7 +1408,7 @@ sub _StoreActivityDialog {
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $TicketID,
                 Value              => $TicketParam{$CurrentField},
-                UserID             => $Self->{ConfigObject}->Get('CustomerPanelUserID'),,
+                UserID             => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             );
             if ( !$Success ) {
                 $Self->{LayoutObject}->CustomerFatalError(
