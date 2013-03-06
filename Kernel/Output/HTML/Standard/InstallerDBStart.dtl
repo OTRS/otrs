@@ -105,7 +105,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="OTRSDBConnectHost">$Text{"DB--- host"}:</label>
+                    <label for="OTRSDBConnectHost">$Text{"DB host"}:</label>
                     <div class="Field">
                         <input type="text" id="OTRSDBConnectHost" name="OTRSDBConnectHost" value="localhost" class="W25pc"/>
                     </div>
