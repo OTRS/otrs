@@ -2616,7 +2616,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'En ny database-bruger med begrænsede rettigheder vil blive oprettet til dette OTRS-system.',
         'default \'hot\'' => 'standard \'hot\'',
-        'DB--- host' => 'DB--- server',
+        'DB host' => 'DB--- server',
         'Check database settings' => 'Tjek database-konfiguration',
         'Result of database check' => 'Resultat af database-konfigurationstjek',
 

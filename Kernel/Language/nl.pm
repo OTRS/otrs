@@ -2620,7 +2620,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor deze OTRS omgeving.',
         'default \'hot\'' => 'Standaard \'hot\'',
-        'DB--- host' => 'Database host',
+        'DB host' => 'Database host',
         'Check database settings' => 'Test database instellingen',
         'Result of database check' => 'Resultaat van database test',
 

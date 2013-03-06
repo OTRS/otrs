@@ -2622,7 +2622,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Для этой системы OTRS будет создан новый пользователь базы данных с ограниченными правами.',
         'default \'hot\'' => 'По умолчанию: «hot»',
-        'DB--- host' => 'БД--- сервер',
+        'DB host' => 'БД--- сервер',
         'Check database settings' => 'Проверить настройки БД',
         'Result of database check' => 'Результат проверки базы данных',
 

@@ -2619,7 +2619,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'یک کاربر برای پایگاه داده با دسترسی‌های محدود برای این سیستم ساخته خواهند شد.',
         'default \'hot\'' => 'پیش فرض \'hot\'',
-        'DB--- host' => 'میزبان--- پایگاه داده',
+        'DB host' => 'میزبان--- پایگاه داده',
         'Check database settings' => 'کنترل تنظیمات پایگاه داده',
         'Result of database check' => 'نتیجه کنترل پایگاه داده',
 

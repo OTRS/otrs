@@ -2616,7 +2616,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'सीमित अधिकार के साथ एक नया आंकड़ाकोष उपयोगकर्ता इस OTRS प्रणाली के लिए बनाया जाएगा।',
         'default \'hot\'' => 'तयशुदा \'hot\'',
-        'DB--- host' => 'आंकड़ाकोष मेजबान',
+        'DB host' => 'आंकड़ाकोष मेजबान',
         'Check database settings' => 'आंकड़ाकोष व्यवस्थाऒं की जाँच करें',
         'Result of database check' => 'आंकड़ाकोष की जाँच के नतीजे',
 

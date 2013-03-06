@@ -2618,7 +2618,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Novi korisnik baze sa ograničenim pravima bit će  kreiran za ovaj OTRS sustav',
         'default \'hot\'' => 'podrazumijevano \'hot\'',
-        'DB--- host' => 'Naziv ili adresa DB servera',
+        'DB host' => 'Naziv ili adresa DB servera',
         'Check database settings' => 'Provjerite postavke baze podataka',
         'Result of database check' => 'Rezultat provjere baze podataka',
 

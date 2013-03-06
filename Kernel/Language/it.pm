@@ -2621,7 +2621,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Verrà creato un nuovo database a permessi limitati per questo sistema OTRS',
         'default \'hot\'' => '\'hot\' predefinito',
-        'DB--- host' => '',
+        'DB host' => '',
         'Check database settings' => 'Controlla impostazioni database',
         'Result of database check' => 'Risultato del controllo database',
 

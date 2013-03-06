@@ -2615,7 +2615,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'このOTRSシステム用に限られた権限の新規データベースユーザーが作成されます。',
         'default \'hot\'' => '既定パスワード \'hot\'',
-        'DB--- host' => 'データベース - ホスト',
+        'DB host' => 'データベース - ホスト',
         'Check database settings' => 'データベース設定をチェック',
         'Result of database check' => 'データベースチェックの結果',
 

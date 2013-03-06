@@ -2613,7 +2613,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'noklusētais \'hot\'',
-        'DB--- host' => '',
+        'DB host' => '',
         'Check database settings' => '',
         'Result of database check' => '',
 

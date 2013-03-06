@@ -2614,7 +2614,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų bazės naudotojas.',
         'default \'hot\'' => 'standartiškai \'hot\'',
-        'DB--- host' => 'Duomenų bazės serveris',
+        'DB host' => 'Duomenų bazės serveris',
         'Check database settings' => 'Patikrinti duomenų bazės nustatymus',
         'Result of database check' => 'Duomenų bazės nustatymų patikrinimo rezultatas',
 

@@ -2616,7 +2616,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'oletuspalvelin',
-        'DB--- host' => '',
+        'DB host' => '',
         'Check database settings' => 'Tarkista tietokanta-asetukset',
         'Result of database check' => 'Tietokannan tarkistuksen tulos',
 

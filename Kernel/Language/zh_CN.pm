@@ -2619,7 +2619,7 @@ sub Data {
         'A new database user with limited rights will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库用户',
         'default \'hot\'' => '默认密码 \'hot\'',
-        'DB--- host' => '数据库服务器',
+        'DB host' => '数据库服务器',
         'Check database settings' => '测试数据库设置',
         'Result of database check' => '数据库检查结果',
 
