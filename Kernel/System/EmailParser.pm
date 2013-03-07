@@ -26,11 +26,11 @@ $VERSION = qw($Revision: 1.111 $) [1];
 
 =head1 NAME
 
-Kernel::System::EmailParser - parse and encode a email
+Kernel::System::EmailParser - parse and encode an email
 
 =head1 SYNOPSIS
 
-A module to parse and encode a email.
+A module to parse and encode an email.
 
 =head1 PUBLIC INTERFACE
 
@@ -390,7 +390,7 @@ sub GetCharset {
             );
         }
 
-        # remember to charset
+        # remember charset
         $Self->{Charset} = '';
 
         # return charset
@@ -408,7 +408,7 @@ sub GetCharset {
             );
         }
 
-        # remember to charset
+        # remember charset
         $Self->{Charset} = $Data{Charset};
 
         # return charset
@@ -426,7 +426,7 @@ sub GetCharset {
         );
     }
 
-    # remember to charset
+    # remember charset
     $Self->{Charset} = 'ISO-8859-1';
 
     # return charset
@@ -508,7 +508,7 @@ sub GetMessageBody {
             $BodyStrg = MIME::QuotedPrint::decode($BodyStrg);
         }
 
-        # base 64 encode
+        # base64 decode
         elsif ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /base64/i ) {
             $BodyStrg = decode_base64($BodyStrg);
         }
@@ -572,7 +572,7 @@ sub GetMessageBody {
                 $Self->{MessageBody} = '- no text message => see attachment -';
             }
 
-            # check it it's a html-only email (store it as attachment and add text/plain)
+            # check if it's a html-only email (store it as attachment and add text/plain)
             $Self->CheckMessageBody();
 
             # return message body
@@ -621,13 +621,13 @@ sub GetAttachments {
     # return if it's no mime email
     return if !$Self->{MimeEmail};
 
-    # return if it got already parsed
+    # return if it is already parsed
     return @{ $Self->{Attachments} } if $Self->{Attachments};
 
     # parse email
     $Self->PartsAttachments( Part => $Self->{ParserParts} );
 
-    # return if no attachments got found
+    # return if no attachments are found
     return if !$Self->{Attachments};
 
     # return attachments
@@ -743,7 +743,7 @@ sub PartsAttachments {
             );
         }
 
-        # check if reserved filenames file-1 or file-2 is already used
+        # check if reserved filename file-1 or file-2 is already used
         for my $Count ( 1 .. 2 ) {
             if ( $PartData{Filename} eq "file-$Count" ) {
                 $PartData{Filename} = "File-$Count";
@@ -899,7 +899,7 @@ sub CheckMessageBody {
     # return if no auto convert from html2text is needed
     return if $Self->{NoHTMLChecks};
 
-    # check it it's juat a html email (store it as attachment and add text/plain)
+    # check if it's just a html email (store it as attachment and add text/plain)
     if ( $Self->GetReturnContentType() =~ /text\/html/i ) {
         $Self->{MessageChecked} = 1;
 
@@ -916,7 +916,7 @@ sub CheckMessageBody {
             );
         }
 
-        # remember to html file if not aleady there
+        # add .html suffix to filename if not aleady there
         else {
             if ( $Self->{Attachments}->[0]->{Filename} ) {
                 if ( $Self->{Attachments}->[0]->{Filename} !~ /\.(htm|html)/i ) {
@@ -925,7 +925,7 @@ sub CheckMessageBody {
             }
         }
 
-        # remember to be an mime email now
+        # remember to be a mime email now
         $Self->{MimeEmail} = 1;
 
         # convert from html to ascii
