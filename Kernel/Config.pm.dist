@@ -55,7 +55,7 @@ sub Load {
 
     # The database DSN for Microsoft SQL Server - only supported if OTRS is
     # installed on Windows as well
-#    $Self->{DatabaseDSN} = "DBI:ODBC:driver={SQL Server};Server=$Self->{DatabaseHost},1433";
+#    $Self->{DatabaseDSN} = "DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost},1433";
 #    $Self->{Database::Type} = 'mssql';
 
 
