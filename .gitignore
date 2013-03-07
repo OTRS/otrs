@@ -10,15 +10,60 @@ Kernel/cpan-lib/Linux/*
 # Fred
 Fred.sopm
 CHANGES-Fred
+Kernel/Output/HTML/OutputFilterFred.pm
+Kernel/Output/HTML/LayoutFred.pm
+Kernel/Output/HTML/OutputFilterPostShowSystemNameInHeader.pm
+Kernel/Output/HTML/Fred*
+Kernel/Output/HTML/Standard/DevelFred*
+Kernel/Config/Files/AAAFred.pm
+Kernel/Config/Files/Fred.xml
+Kernel/Modules/DevelFred.pm
+Kernel/System/Fred
+Kernel/System/Fred.pm
+Kernel/System/DBListener
+var/fred
+var/httpd/htdocs/js/Fred*js
 
 # Support
 Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
 Kernel/Language/*_Support.pm
+Kernel/Config/Files/ZZZAAuto.pm
+Kernel/Config/Files/ZZZAuto.pm
+Kernel/Config/Files/ZZZProcessManagement.pm
+Kernel/Config/GenericAgent.pm
+Kernel/Config.pm
+Kernel/System/Support
 
 # OTRSCodePolicy
 .tidyall.d
 Perl/Critic
 TidyAll
 scripts/test/OTRSCodePolicy.t
+
+# Other
+Custom/
+!Custom/README
+doc/manual/en
+Kernel/Language/*.old
+bin/cgi-bin/.htaccess
+var/virtualfs
+var/run
+var/log/*.log
+var/OPM
+var/Stats
+var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
+var/tmp/*
+var/httpd/htdocs/js/thirdparty/jslint
+var/httpd/htdocs/js/js-cache
+var/httpd/htdocs/js/js-cache/*
+var/httpd/htdocs/skins/Agent/default/css-cache
+var/httpd/htdocs/skins/Agent/default/css-cache/*
+var/httpd/htdocs/skins/Agent/ivory/css-cache
+var/httpd/htdocs/skins/Agent/ivory/css-cache/*
+var/httpd/htdocs/skins/Agent/slim/css-cache/*
+var/httpd/htdocs/skins/Customer/default/css-cache/*
+var/httpd/htdocs/skins/Customer/ivory/css-cache/*
+var/sessions/*
+var/articles/*
