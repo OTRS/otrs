@@ -16,7 +16,6 @@ var/run
 var/log/*.log
 var/OPM
 var/Stats
-var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 var/tmp/*
 var/httpd/htdocs/js/thirdparty/jslint
 var/httpd/htdocs/js/js-cache
@@ -34,8 +33,6 @@ var/articles/*
 # Fred
 Fred.sopm
 CHANGES-Fred
-Kernel/cpan-lib/Archive/*
-Kernel/cpan-lib/Linux/*
 Kernel/Output/HTML/OutputFilterFred.pm
 Kernel/Output/HTML/LayoutFred.pm
 Kernel/Output/HTML/OutputFilterPostShowSystemNameInHeader.pm
@@ -54,6 +51,8 @@ var/httpd/htdocs/js/Fred*js
 Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
+Kernel/cpan-lib/Archive/*
+Kernel/cpan-lib/Linux/*
 Kernel/Language/*_Support.pm
 Kernel/Config/Files/ZZZAAuto.pm
 Kernel/Config/Files/ZZZAuto.pm
@@ -61,6 +60,7 @@ Kernel/Config/Files/ZZZProcessManagement.pm
 Kernel/Config/GenericAgent.pm
 Kernel/Config.pm
 Kernel/System/Support
+var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d
