@@ -1,7 +1,7 @@
-3.2.3 2013-??-??
+3.2.3 2013-03-12
  - 2013-03-05 Fixed bug#9221 - Got error log message when customer user take activity dialog operation in customer interface.
  - 2013-03-04 Fixed bug#8727 - Webservices can be created with an invalid/incomplete configuration.
- - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.  
+ - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
  - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
  - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
  - 2013-02-28 Added the possibility to use ticket data in dynamic fields links.
@@ -422,7 +422,7 @@
     NotificationEvent definitions.
 
 3.1.14 2013-??-??
- - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.  
+ - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
  - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
  - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
  - 2013-02-26 Follow-up fix for bug#8533 apache will not start on Fedora.
