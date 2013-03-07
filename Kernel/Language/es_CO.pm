@@ -19,7 +19,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:30
+    # Last translation file sync: 2013-03-07 10:55:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -872,6 +872,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gesti√≥n de Clientes',
+        'Back to search result' => '',
         'Add customer' => 'A√±adir cliente',
         'Select' => 'Seleccionar',
         'Hint' => 'Pista',
@@ -1595,6 +1596,7 @@ sub Data {
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
+        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => '',
@@ -3843,8 +3845,6 @@ sub Data {
             'N√∫mero m√°ximo de tickets para ser mostrados en el resultado de una b√∫squeda, en la interfaz del agente.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'N√∫mero m√°ximo de tickets para ser mostrados en el resultado de una b√∫squeda, en la interfaz del cliente.',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'N√∫mero m√°ximo (en caracteres) de la tabla de informaci√≥n del cliente en la vista de filas.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'N√∫mero m√°ximo (en caracteres) de la tabla de informaci√≥n del cliente en la vista detallada del ticket.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -5179,6 +5179,8 @@ sub Data {
         'Match' => 'Coincidir',
         'Max. displayed tickets' => 'N√∫mero m√°ximo de tickets mostrados.',
         'Max. shown Tickets a page' => 'N√∫mero m√°ximo de tickets mostrados por p√°gina',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'N√∫mero m√°ximo (en caracteres) de la tabla de informaci√≥n del cliente en la vista de filas.',
         'Merge this ticket!' => 'Fusionar este ticket',
         'Message for new Owner' => 'Mensaje para el nuevo propietario',
         'Message sent to' => 'Mensaje enviado a',

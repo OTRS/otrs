@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:36
+    # Last translation file sync: 2013-03-07 10:55:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -879,6 +879,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gestion des clients',
+        'Back to search result' => '',
         'Add customer' => 'Ajouter un client',
         'Select' => 'Sélectionner',
         'Hint' => 'Conseil',
@@ -1602,6 +1603,7 @@ sub Data {
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
+        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => '',
@@ -3850,8 +3852,6 @@ sub Data {
             'Le nombre maximal de demandes à afficher dans les résultats de recherche de l\'interface agent.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Le nombre maximal de demandes à afficher dans les résultats de recherche de l\'interface client.',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'Le nombre maximal de caractères dans la table de renseignements du client dans la vue des files.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Le nombre maximal de caractères dans la table de renseignements du client dans la synthèse de la demande.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -6355,6 +6355,8 @@ sub Data {
         'Mauritania' => 'Mauritanie',
         'Mauritius' => 'Maurice',
         'Max. shown Tickets a page' => 'Nombre maximum de demandes par page.',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'Le nombre maximal de caractères dans la table de renseignements du client dans la vue des files.',
         'Mayotte' => 'Mayotte',
         'Merge this ticket!' => 'Fusionner cette demande.',
         'Merged' => 'Fusionné',

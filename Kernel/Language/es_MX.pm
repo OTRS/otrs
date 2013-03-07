@@ -19,7 +19,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:31
+    # Last translation file sync: 2013-03-07 10:55:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -872,6 +872,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gestión de Clientes',
+        'Back to search result' => '',
         'Add customer' => 'Añadir cliente',
         'Select' => 'Seleccionar',
         'Hint' => 'Pista',
@@ -1595,6 +1596,7 @@ sub Data {
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
+        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => '',
@@ -3843,8 +3845,6 @@ sub Data {
             'Número máximo de tickets para ser mostrados en el resultado de una búsqueda, en la interfaz del agente.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Número máximo de tickets para ser mostrados en el resultado de una búsqueda, en la interfaz del cliente.',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'Número máximo (en caracteres) de la tabla de información del cliente en la vista de filas.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Número máximo (en caracteres) de la tabla de información del cliente en la vista detallada del ticket.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4534,6 +4534,8 @@ sub Data {
             'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'Deshabilita el instalador web (http://yourhost.example.com/otrs/installer.pl), para prevenir que el sistema sufra un secuestro (hijack). Si se selecciona "No", el sistema puede ser reinstalado y la configuración básica actual se usará para pre-poblar las preguntas, en el script del instalador. Así mismo, al estar deshabilitado, es imposible hacer uso de: el agente genérico, el manejador de paquetes y la caja de consultas SQL (para evitar el uso de consultas dañinas, como DROP DATABASE, o para robar contraseñas).',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'Número máximo (en caracteres) de la tabla de información del cliente en la vista de filas.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
 

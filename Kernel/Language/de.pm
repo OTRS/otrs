@@ -19,7 +19,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:27
+    # Last translation file sync: 2013-03-07 10:55:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -872,6 +872,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Kunden-Verwaltung',
+        'Back to search result' => 'Zurück zum Suchergebnis',
         'Add customer' => 'Kunden hinzufügen',
         'Select' => 'Auswahl',
         'Hint' => 'Hinweis',
@@ -1595,6 +1596,7 @@ sub Data {
         'ArticleType' => 'Artikeltyp',
         'Display' => 'Anzeige',
         'Edit Field Details' => 'Feld-Details bearbeiten',
+        'Customer interface does not support internal article types.' => 'Die Kundenoberfläche unterstützt keine internen Artikeltypen.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Pfad',
@@ -1672,13 +1674,13 @@ sub Data {
             'Hier können Sie einen neuen Prozess erstellen. Um ihn für die Benutzer verfügbar zu machen, sollten Sie seinen Status auf "Aktiv" setzen und als Abschluss Ihrer Arbeit die Synchronisation durchführen.',
 
         # Template: AdminProcessManagementProcessPrint
-        'Start Activity' => '',
+        'Start Activity' => 'Start-Aktivität',
         'Contains %s dialog(s)' => 'Enthält %s Dialog(e)',
         'Assigned dialogs' => 'Zugewiesene Dialoge',
         'Activities are not being used in this process.' => 'In diesem Prozess werden keine Aktivitäten verwendet.',
         'Assigned fields' => 'Zugewiesene Felder',
         'Activity dialogs are not being used in this process.' => 'In diesem Prozess werden keine Aktivitäts-Dialoge verwendet.',
-        'Condition linking' => '',
+        'Condition linking' => 'Verknüpfung der Bedingungen',
         'Conditions' => 'Bedingungen',
         'Condition' => 'Bedingung',
         'Transitions are not being used in this process.' => 'In diesem Prozess werden keine Übergänge verwendet.',
@@ -3842,8 +3844,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',

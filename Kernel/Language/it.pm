@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:40
+    # Last translation file sync: 2013-03-07 10:55:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -879,6 +879,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gestione clienti',
+        'Back to search result' => '',
         'Add customer' => 'Aggiungi cliente',
         'Select' => 'Seleziona',
         'Hint' => 'Suggerimento',
@@ -1602,6 +1603,7 @@ sub Data {
         'ArticleType' => 'Tipologia Articolo',
         'Display' => 'Mostra',
         'Edit Field Details' => 'Modifica i dettagli per il campo',
+        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => 'percorso',
@@ -3849,8 +3851,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',

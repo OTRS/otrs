@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:41
+    # Last translation file sync: 2013-03-07 10:55:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -873,6 +873,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => '顧客管理',
+        'Back to search result' => '',
         'Add customer' => '顧客を追加',
         'Select' => '選択',
         'Hint' => 'ヒント',
@@ -1596,6 +1597,7 @@ sub Data {
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
+        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => '',
@@ -3846,8 +3848,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースの検索結果で、表示されるチケットの最大数です。',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             '顧客インタフェースの検索結果で表示される、チケットの最大数です。',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'チケット･ズーム・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4538,6 +4538,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケージ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パスワードの盗難を防ぐためです）。',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'セキュアモードで実行中のため、Webインストーラーで再インストールするには無効にする必要があります。',
 

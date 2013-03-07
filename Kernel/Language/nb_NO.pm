@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-02-22 10:10:45
+    # Last translation file sync: 2013-03-07 10:55:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -879,6 +879,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Administrasjon: Kunder',
+        'Back to search result' => '',
         'Add customer' => 'Legg til kunde',
         'Select' => 'Velg',
         'Hint' => 'Hint',
@@ -1602,6 +1603,7 @@ sub Data {
         'ArticleType' => '',
         'Display' => '',
         'Edit Field Details' => '',
+        'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => '',
@@ -3850,8 +3852,6 @@ sub Data {
             'Maks. antall viste saker i søkeresultater (agentdelen)',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Maks. antall viste saker i søkeresultater (kundeportalen)',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i saksdetaljer-visningen.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4539,6 +4539,8 @@ sub Data {
         ' (work units)' => ' (arbeidsenheter)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
 
