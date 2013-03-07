@@ -9,7 +9,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.18 ???-???-??
+3.0.18 2013-03-12
  - 2013-03-04 Updated CKEditor to version 3.6.6.
  - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
  - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
