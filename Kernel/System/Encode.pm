@@ -39,8 +39,8 @@ create an encode object
 
     use Kernel::System::Encode;
 
-    my $EncodeObject = Kernel::System::Encode->new();  
-        
+    my $EncodeObject = Kernel::System::Encode->new();
+
 =cut
 
 sub new {
@@ -61,11 +61,17 @@ sub new {
     }
     else {
         # use "locale" as an arg to encode/decode
-        @ARGV = map { decode(locale => $_, 1) } @ARGV if -t STDIN;
-        binmode STDOUT, ":encoding(console_out)" if -t STDOUT;
-        binmode STDERR, ":encoding(console_out)" if -t STDERR;
+        if ( is_interactive(*STDIN) ) {
+            @ARGV = map { decode(locale => $_, 1) } @ARGV;
+        }
+        if ( is_interactive(*STDOUT) ) {
+            binmode STDOUT, ":encoding(console_out)";
+        }
+        if ( is_interactive(*STDERR) ) {
+            binmode STDERR, ":encoding(console_out)";
+        }
     }
-    
+
     return $Self;
 }
 
