@@ -47,8 +47,8 @@ $Self->Is(
 my $WebserviceName = '-Test-' . $RandomID;
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
-    Name    => $WebserviceName,
-    Config  => {
+    Name   => $WebserviceName,
+    Config => {
         Debugger => {
             DebugThreshold => 'debug',
         },

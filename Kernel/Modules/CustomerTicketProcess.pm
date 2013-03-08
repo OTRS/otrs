@@ -137,7 +137,7 @@ sub Run {
 
         # here is safe to use $Self->{UserID}, since it will be compared vs ticket customer in
         # ticket permission modules
-        UserID   => $Self->{UserID}
+        UserID => $Self->{UserID}
     );
 
     # error screen, don't show ticket

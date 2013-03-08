@@ -258,7 +258,8 @@ my @Tests = (
             UserID  => 1,
         },
     },
-    # the name must be 'test 4', because the purpose if that it fails on 
+
+    # the name must be 'test 4', because the purpose if that it fails on
     {
         Name          => 'test 4',
         SuccessAdd    => 0,
@@ -325,7 +326,7 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
+            Config => {
                 Debugger => {},
                 Provider => undef,
             },
@@ -339,8 +340,8 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => '',
                 },
                 Provider => undef,
@@ -355,8 +356,8 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => undef,
@@ -371,8 +372,8 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => 'string',
@@ -387,8 +388,8 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {},
@@ -403,8 +404,8 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
@@ -421,8 +422,8 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
@@ -439,12 +440,12 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 2,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { },
+                    Transport => {},
                 },
             },
             ValidID => 1,
@@ -457,12 +458,12 @@ my @Tests = (
         SuccessUpdate => 1,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
+                    Transport => {
                         Other => 1
                     },
                 },
@@ -477,13 +478,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -502,13 +503,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -527,13 +528,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -541,8 +542,8 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => undef,
+            Config => {
+                Debugger => undef,
                 Provider => {}
             },
             ValidID => 1,
@@ -555,13 +556,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -569,8 +570,8 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {},
+            Config => {
+                Debugger => {},
                 Provider => {}
             },
             ValidID => 1,
@@ -583,13 +584,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -597,8 +598,8 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     TestMode => 1,
                 },
                 Provider => {}
@@ -613,13 +614,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -627,8 +628,8 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => '',
                 },
                 Provider => {}
@@ -643,13 +644,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -657,8 +658,8 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Requester => undef,
@@ -673,13 +674,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -687,14 +688,14 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                    }
+                        }
                 },
                 Requester => 'String',
             },
@@ -708,13 +709,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -722,14 +723,14 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                    }
+                        }
                 },
                 Requester => {},
             },
@@ -743,13 +744,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -757,18 +758,18 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                    }
+                        }
                 },
                 Requester => {
                     Transport => undef,
-                    Other => 1,
+                    Other     => 1,
                 },
             },
             ValidID => 1,
@@ -781,13 +782,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -795,14 +796,14 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                    }
+                        }
                 },
                 Requester => {
                     Transport => 'string',
@@ -818,13 +819,13 @@ my @Tests = (
         SuccessUpdate => 0,
         HistoryCount  => 1,
         Add           => {
-            Config  => {
-                Debugger    => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
-                    Transport => { 
-                        Type =>  'HTTP::Test'
+                    Transport => {
+                        Type => 'HTTP::Test'
                     },
                 },
             },
@@ -832,17 +833,17 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config  => {
-                Debugger  => {
+            Config => {
+                Debugger => {
                     DebugThreshold => 'debug',
                 },
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                    }
+                        }
                 },
                 Requester => {
-                    Transport => { },
+                    Transport => {},
                 },
             },
             ValidID => 1,

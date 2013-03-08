@@ -74,7 +74,6 @@ if ( !$Opts{q} ) {
     exit 1;
 }
 
-
 # check queue
 my $QueueID = $CommonObject{QueueObject}->QueueLookup( Queue => $Opts{q} );
 if ( !$QueueID ) {
