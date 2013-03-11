@@ -17,7 +17,6 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -794,9 +793,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.62 $ $Date: 2012-12-03 11:29:12 $
 
 =cut

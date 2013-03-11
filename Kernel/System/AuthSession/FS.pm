@@ -17,7 +17,6 @@ use Digest::MD5;
 use Storable;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -15,6 +15,5 @@ use warnings;
 use base qw( Kernel::Modules::AgentTicketPhoneCommon );
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
 
 1;

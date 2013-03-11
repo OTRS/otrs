@@ -29,7 +29,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
 
 use File::Spec;
 use Getopt::Std;

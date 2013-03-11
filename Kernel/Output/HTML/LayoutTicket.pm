@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;

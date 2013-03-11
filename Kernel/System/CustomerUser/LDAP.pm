@@ -18,7 +18,6 @@ use Kernel::System::Cache;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -31,7 +31,6 @@ use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;

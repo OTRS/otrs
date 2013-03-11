@@ -17,7 +17,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

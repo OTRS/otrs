@@ -23,7 +23,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
 
 use Encode;
 use Getopt::Std;

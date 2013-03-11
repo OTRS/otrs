@@ -16,7 +16,6 @@ use Mail::IMAPClient;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -19,7 +19,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

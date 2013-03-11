@@ -29,7 +29,6 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
 
 # Imports the library; required line
 use CGI::Fast;

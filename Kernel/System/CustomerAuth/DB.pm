@@ -15,7 +15,6 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

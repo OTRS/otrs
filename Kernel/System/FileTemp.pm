@@ -16,7 +16,6 @@ use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -124,9 +123,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.20 $ $Date: 2012-11-20 15:34:53 $
 
 =cut

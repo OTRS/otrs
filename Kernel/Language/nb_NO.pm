@@ -20,7 +20,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.146 $;
 
 sub Data {
     my $Self = shift;

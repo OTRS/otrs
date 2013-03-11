@@ -29,7 +29,6 @@ use lib dirname($RealBin) . "/../";
 use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
 
 use Net::LDAP;
 use Kernel::Config;

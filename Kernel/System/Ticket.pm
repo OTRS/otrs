@@ -40,7 +40,6 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.587 $) [1];
 
 =head1 NAME
 
@@ -7965,9 +7964,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.587 $ $Date: 2013-01-14 12:28:01 $
 
 =cut

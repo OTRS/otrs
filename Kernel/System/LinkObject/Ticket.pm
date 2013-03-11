@@ -78,7 +78,6 @@ create an object
 =cut
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -609,9 +608,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.41 $ $Date: 2012-11-20 15:49:39 $
 
 =cut

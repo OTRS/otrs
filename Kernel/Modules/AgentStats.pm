@@ -19,7 +19,6 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

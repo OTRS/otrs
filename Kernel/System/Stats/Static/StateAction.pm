@@ -15,7 +15,6 @@ use warnings;
 use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $ ';
 
 sub new {
     my ( $Type, %Param ) = @_;
