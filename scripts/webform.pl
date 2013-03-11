@@ -29,8 +29,6 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = qw($Revision: 1.18 $) [1];
-
 # --------------------------
 # web form options
 # --------------------------
@@ -252,7 +250,7 @@ sub SendMail {
     push @Mail, "X-OTRS-ArticleValue1: Webform\n";
     push @Mail, "X-OTRS-ArticleKey2: Orig. sort\n";
     push @Mail, "X-OTRS-ArticleValue2: $Param{Topic}\n";
-    push @Mail, "X-Mailer: OTRS WebForm ($VERSION)\n";
+    push @Mail, "X-Mailer: OTRS WebForm\n";
     push @Mail, "X-Powered-By: OTRS (http://otrs.org/)\n";
     push @Mail, "\n";
     push @Mail, $Param{Body};

@@ -18,7 +18,6 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -386,9 +385,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.40 $ $Date: 2012-11-29 12:58:27 $
 
 =cut

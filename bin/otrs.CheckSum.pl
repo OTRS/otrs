@@ -29,7 +29,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);

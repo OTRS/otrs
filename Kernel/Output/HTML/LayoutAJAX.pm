@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
 
 =item BuildSelectionJSON()
 

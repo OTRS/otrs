@@ -29,7 +29,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 # to get it readable for the webserver user and writable for otrs
 # group (just in case)

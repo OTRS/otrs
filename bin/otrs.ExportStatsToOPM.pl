@@ -29,7 +29,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 
@@ -47,7 +46,6 @@ use Kernel::System::CSV;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 # common objects
 my %CommonObject = ();

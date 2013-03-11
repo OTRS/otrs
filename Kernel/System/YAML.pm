@@ -16,7 +16,6 @@ use YAML::Any qw();
 use Encode qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -208,9 +207,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.5 $ $Date: 2013-01-17 09:47:23 $
 
 =cut

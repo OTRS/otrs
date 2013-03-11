@@ -44,7 +44,6 @@ use File::Path;
 use Term::ANSIColor;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
 
 # config
 my @NeededModules = (

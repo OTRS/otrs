@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -1731,9 +1730,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.21 $ $Date: 2013-01-10 15:20:08 $
 
 =cut

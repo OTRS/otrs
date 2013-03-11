@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::GenericInterface::Requester;
 use Kernel::Scheduler;
@@ -138,9 +137,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.22 $ $Date: 2013-01-09 18:24:44 $
 
 =cut

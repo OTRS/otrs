@@ -14,7 +14,6 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

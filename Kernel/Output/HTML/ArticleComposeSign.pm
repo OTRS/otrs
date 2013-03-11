@@ -17,7 +17,6 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

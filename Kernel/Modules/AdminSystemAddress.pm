@@ -18,7 +18,6 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

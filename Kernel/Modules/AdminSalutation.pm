@@ -17,7 +17,6 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

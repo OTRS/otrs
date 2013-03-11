@@ -17,7 +17,6 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

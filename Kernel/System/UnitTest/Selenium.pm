@@ -247,8 +247,4 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
-=head1 VERSION
-
-$Revision: 1.13 $ $Date: 2012-11-20 16:01:55 $
-
 =cut

@@ -22,7 +22,6 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
 
 =head1 NAME
 
@@ -956,9 +955,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.111 $ $Date: 2012-11-29 12:39:49 $
 
 =cut

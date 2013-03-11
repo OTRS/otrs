@@ -16,7 +16,6 @@ use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -949,9 +948,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.68 $ $Date: 2013-01-16 14:28:02 $
 
 =cut

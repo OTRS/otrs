@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -221,9 +220,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.27 $ $Date: 2012-11-20 15:50:58 $
 
 =cut

@@ -18,7 +18,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;

@@ -16,7 +16,6 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

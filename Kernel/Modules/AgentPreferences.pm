@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

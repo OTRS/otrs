@@ -30,7 +30,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
 
 # $CronTabFile is replaced by the Windows Installer if it is empty
 my $CronTabFile = "";

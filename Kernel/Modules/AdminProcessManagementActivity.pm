@@ -23,7 +23,6 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

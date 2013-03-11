@@ -29,7 +29,6 @@ use lib dirname($RealBin) . "/../";
 use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
 
 # config
 my @Compress

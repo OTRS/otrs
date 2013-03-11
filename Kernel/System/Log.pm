@@ -15,7 +15,6 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -62,6 +61,9 @@ sub new {
     if ( !$Param{ConfigObject} ) {
         die 'Got no ConfigObject!';
     }
+
+    $Self->{ProductVersion} =  $Param{ConfigObject}->Get('Product') . ' ';
+    $Self->{ProductVersion} .= $Param{ConfigObject}->Get('Version');
 
     # get system id
     my $SystemID = $Param{ConfigObject}->Get('SystemID');
@@ -174,9 +176,15 @@ sub Log {
 
             eval { $VersionString = $Package1->VERSION || ''; };    ## no critic
 
+            # Version is present
             if ($VersionString) {
                 $VersionString = 'v' . $VersionString;
             }
+            # OTRS modules do not have a version variable
+            elsif (index($Package1, 'Kernel::') > -1) {
+                $VersionString = $Self->{ProductVersion};
+            }
+            # Other modules
             else {
                 $VersionString = 'unknown version';
             }
@@ -323,9 +331,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.72 $ $Date: 2012-11-20 15:35:59 $
 
 =cut

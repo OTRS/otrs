@@ -15,7 +15,6 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

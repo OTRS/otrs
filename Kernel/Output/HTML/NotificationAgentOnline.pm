@@ -15,7 +15,6 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

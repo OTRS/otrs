@@ -55,7 +55,7 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.22 $> "
+echo "Cron.sh - start/stop OTRS cronjobs"
 echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/"
 
 #

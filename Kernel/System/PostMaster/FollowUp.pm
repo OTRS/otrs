@@ -15,7 +15,6 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -20,7 +20,6 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

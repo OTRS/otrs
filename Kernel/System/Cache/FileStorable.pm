@@ -19,7 +19,6 @@ use File::Path qw();
 use File::Find qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

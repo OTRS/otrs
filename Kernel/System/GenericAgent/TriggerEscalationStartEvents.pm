@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
 
 use List::Util qw(first);
 
