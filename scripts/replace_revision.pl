@@ -42,7 +42,7 @@ use File::Find;
 use File::Temp qw( tempfile );
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 3.2.3$) [1];
+$VERSION = qw($Revision: 3.2.3 $) [1];
 
 # get options
 my %Opts = ();
@@ -89,6 +89,10 @@ sub ReplaceRevision {
 
     # skip directories
     return if -d $File;
+    # skip linked files
+    return if -l $File;
+    # Only treat plain files
+    return if !-f $File;
 
     # skip special directories:
     # CVS, git, cpan-lib, images, etc...
@@ -112,7 +116,7 @@ sub ReplaceRevision {
     # remember the original content for later comparison
     my $OriginalContent = $Content;
 
-    $Content =~ s{ 0.otrs.git\$ }{$Opts{r}\$}xmsg;
+    $Content =~ s{ (?<=\$ Revision): [^\$]+ \$ }{: $Opts{r} \$}xmsg;
 
     # if nothing was changed, check the next file
     return 1 if $Content eq $OriginalContent;
