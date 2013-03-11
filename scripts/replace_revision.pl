@@ -96,7 +96,7 @@ sub ReplaceRevision {
 
     # skip special directories:
     # CVS, git, cpan-lib, images, etc...
-    return if $Dir =~ m{ / CVS | \.git | cpan-lib | thirdparty | images | img | icons | fonts | cache /? }xms;
+    return if $Dir =~ m{ / CVS | \.git | cpan-lib | thirdparty | images | img | icons | fonts | -cache /? }xms;
 
     # exclude some files:
     # images, fonts, .gitignore, .cvsignore, and others
