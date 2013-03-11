@@ -36,8 +36,8 @@ $Self->Is(
 );
 my $WebserviceName = 'SOAPTest' . $HelperObject->GetRandomID();
 my $WebserviceID   = $WebserviceObject->WebserviceAdd(
-    Name    => $WebserviceName,
-    Config  => {
+    Name   => $WebserviceName,
+    Config => {
         Debugger => {
             DebugThreshold => 'debug',
         },
@@ -95,13 +95,13 @@ my @Tests = (
             },
         },
         WebserviceConfig => {
-            Debugger    => {
+            Debugger => {
                 DebugThreshold => 'debug',
                 TestMode       => 1,
             },
             Provider => {
                 Transport => {
-                    Type   => 'HTTP::SOAP',
+                    Type => 'HTTP::SOAP',
                 },
             },
         },
@@ -119,7 +119,7 @@ my @Tests = (
             },
             Provider => {
                 Transport => {
-                    Type   => 'HTTP::SOAP',
+                    Type => 'HTTP::SOAP',
                 },
             },
         },

@@ -52,7 +52,7 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-   <ConfigItem Name="Frontend::NotifyModule###800-Scheduler-Check" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###800-Scheduler-Check" Required="0" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, (only for agents on the admin group) if the scheduler is not running.</Description>
         <Group>Scheduler</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>

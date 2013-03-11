@@ -380,7 +380,7 @@
         </Setting>
     </ConfigItem>
 
-   <ConfigItem Name="GenericInterface::Operation::TicketCreate###ArticleType" Required="1" Valid="1">
+    <ConfigItem Name="GenericInterface::Operation::TicketCreate###ArticleType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>GenericInterface::Operation::TicketCreate</SubGroup>
@@ -404,7 +404,7 @@
             <String Regex="">%%GenericInterface Create</String>
         </Setting>
     </ConfigItem>
-   <ConfigItem Name="GenericInterface::Operation::TicketCreate###AutoResponseType" Required="1" Valid="1">
+    <ConfigItem Name="GenericInterface::Operation::TicketCreate###AutoResponseType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default auto response type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>GenericInterface::Operation::TicketCreate</SubGroup>
@@ -413,7 +413,7 @@
         </Setting>
     </ConfigItem>
 
-   <ConfigItem Name="GenericInterface::Operation::TicketUpdate###ArticleType" Required="1" Valid="1">
+    <ConfigItem Name="GenericInterface::Operation::TicketUpdate###ArticleType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>GenericInterface::Operation::TicketUpdate</SubGroup>
@@ -437,7 +437,7 @@
             <String Regex="">%%GenericInterface Note</String>
         </Setting>
     </ConfigItem>
-   <ConfigItem Name="GenericInterface::Operation::TicketUpdate###AutoResponseType" Required="1" Valid="1">
+    <ConfigItem Name="GenericInterface::Operation::TicketUpdate###AutoResponseType" Required="1" Valid="1">
         <Description Translatable="1">Defines the default auto response type of the article for this operation.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>GenericInterface::Operation::TicketUpdate</SubGroup>

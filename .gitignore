@@ -4,18 +4,60 @@
 .settings
 .includepath
 .DS_Store
-Kernel/cpan-lib/Archive/*
-Kernel/cpan-lib/Linux/*
+
+# OTRS
+doc/manual/en
+Kernel/Config/Files/ZZZ*.pm
+Kernel/Config/GenericAgent.pm
+Kernel/Config.pm
+Kernel/Language/*.old
+bin/cgi-bin/.htaccess
+var/virtualfs
+var/run
+var/log/*.log
+var/OPM
+var/Stats
+var/tmp/*
+var/httpd/htdocs/js/thirdparty/jslint
+var/httpd/htdocs/js/js-cache
+var/httpd/htdocs/js/js-cache/*
+var/httpd/htdocs/skins/Agent/default/css-cache
+var/httpd/htdocs/skins/Agent/default/css-cache/*
+var/httpd/htdocs/skins/Agent/ivory/css-cache
+var/httpd/htdocs/skins/Agent/ivory/css-cache/*
+var/httpd/htdocs/skins/Agent/slim/css-cache/*
+var/httpd/htdocs/skins/Customer/default/css-cache/*
+var/httpd/htdocs/skins/Customer/ivory/css-cache/*
+var/sessions/*
+var/articles/*
 
 # Fred
 Fred.sopm
 CHANGES-Fred
+doc/en/Fred.xml
+Kernel/Output/HTML/OutputFilterFred.pm
+Kernel/Output/HTML/LayoutFred.pm
+Kernel/Output/HTML/OutputFilterPostShowSystemNameInHeader.pm
+Kernel/Output/HTML/Fred*
+Kernel/Output/HTML/Standard/DevelFred*
+Kernel/Config/Files/AAAFred.pm
+Kernel/Config/Files/Fred.xml
+Kernel/Modules/DevelFred.pm
+Kernel/System/Fred
+Kernel/System/Fred.pm
+Kernel/System/DBListener
+var/fred
+var/httpd/htdocs/js/Fred*js
 
 # Support
 Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
+Kernel/cpan-lib/Archive/*
+Kernel/cpan-lib/Linux/*
 Kernel/Language/*_Support.pm
+Kernel/System/Support
+var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d

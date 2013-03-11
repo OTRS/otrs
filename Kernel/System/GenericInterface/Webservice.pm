@@ -170,7 +170,7 @@ sub WebserviceAdd {
         );
         return;
     }
-    for my $CommunicationType (qw(Provider Requester) ) {
+    for my $CommunicationType (qw(Provider Requester)) {
         if ( defined $Param{Config}->{$CommunicationType} ) {
             if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType} ) ) {
                 $Self->{LogObject}->Log(
@@ -384,7 +384,7 @@ sub WebserviceUpdate {
         );
         return;
     }
-    for my $CommunicationType (qw(Provider Requester) ) {
+    for my $CommunicationType (qw(Provider Requester)) {
         if ( defined $Param{Config}->{$CommunicationType} ) {
             if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType} ) ) {
                 $Self->{LogObject}->Log(
