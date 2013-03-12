@@ -24,7 +24,6 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-
 =head1 NAME
 
 Kernel::System::PostMaster - postmaster lib

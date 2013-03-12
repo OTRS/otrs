@@ -52,6 +52,7 @@ sub Run {
         },
         Name       => 'Profile',
         ID         => 'ToolBarSearchProfile',
+        Title      => $Self->{LayoutObject}->{LanguageObject}->Get('Search template'),
         SelectedID => '',
         Max        => $Param{Config}->{MaxWidth},
     );

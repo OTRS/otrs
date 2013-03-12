@@ -16,7 +16,6 @@ use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-
 =head1 NAME
 
 Kernel::System::Temp - tmp files

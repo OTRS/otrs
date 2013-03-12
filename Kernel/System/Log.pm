@@ -62,7 +62,7 @@ sub new {
         die 'Got no ConfigObject!';
     }
 
-    $Self->{ProductVersion} =  $Param{ConfigObject}->Get('Product') . ' ';
+    $Self->{ProductVersion} = $Param{ConfigObject}->Get('Product') . ' ';
     $Self->{ProductVersion} .= $Param{ConfigObject}->Get('Version');
 
     # get system id
@@ -180,10 +180,12 @@ sub Log {
             if ($VersionString) {
                 $VersionString = 'v' . $VersionString;
             }
+
             # OTRS modules do not have a version variable
-            elsif (index($Package1, 'Kernel::') > -1) {
+            elsif ( index( $Package1, 'Kernel::' ) > -1 ) {
                 $VersionString = $Self->{ProductVersion};
             }
+
             # Other modules
             else {
                 $VersionString = 'unknown version';

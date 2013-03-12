@@ -80,21 +80,21 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                         <fieldset class="TableLike DontPrint">
 <!-- dtl:block:ContentSmallPreferencesItem -->
 <!-- dtl:block:ContentSmallPreferencesItemOption -->
-                            <label>$Text{"$Data{"Desc"}"}:</label>
+                            <label for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field DontPrint">
                                 $Data{"Option"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemOption -->
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
-                            <label class="DontPrint">$Text{"$Data{"Desc"}"}:</label>
+                            <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field DontPrint">
                                 <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentSmallPreferencesItemInput -->
 <!-- dtl:block:ContentSmallPreferencesItemTextArea -->
-                            <label class="DontPrint">$Text{"$Data{"Desc"}"}:</label>
+                            <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field DontPrint">
                                 <textarea rows="$QData{"Rows"}" cols="$QData{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
                             </div>
@@ -172,21 +172,21 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                         <fieldset class="TableLike FixedLabelSmall DontPrint">
 <!-- dtl:block:ContentLargePreferencesItem -->
 <!-- dtl:block:ContentLargePreferencesItemOption -->
-                            <label class="DontPrint">$Text{"$Data{"Desc"}"}:</label>
+                            <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                             <div class="DontPrint Field">
                                 $Data{"Option"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemOption -->
 <!-- dtl:block:ContentLargePreferencesItemInput -->
-                            <label class="DontPrint">$Text{"$Data{"Desc"}"}:</label>
+                            <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field DontPrint">
                                 <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemInput -->
 <!-- dtl:block:ContentLargePreferencesItemTextArea -->
-                            <label class="DontPrint">$Text{"$Data{"Desc"}"}:</label>
+                            <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                             <div class="Field DontPrint">
                                 <textarea rows="$QData{"Rows"}" cols="$Data{"Cols"}" name="$QData{"NamePref"}">$QData{"Data"}</textarea>
                             </div>

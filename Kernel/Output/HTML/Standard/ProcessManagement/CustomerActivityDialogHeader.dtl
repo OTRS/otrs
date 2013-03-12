@@ -24,11 +24,11 @@
                     <h1>
                         $QData{"Name"}
 <!-- dtl:block:DescriptionShort -->
-                         - $QData{"DescriptionShort"}
+                        - $QData{"DescriptionShort"}
 <!-- dtl:block:DescriptionShort -->
                     </h1>
 <!-- dtl:block:DescriptionLong -->
-                        $QData{"DescriptionLong"} - 
+                    $QData{"DescriptionLong"} - 
 <!-- dtl:block:DescriptionLong -->
 <!-- dtl:block:CancelLink -->
                     <p>

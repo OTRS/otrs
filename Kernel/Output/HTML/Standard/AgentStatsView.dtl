@@ -83,7 +83,7 @@
 #                       <div class="Clear"></div>
 #
 <!-- dtl:block:Format -->
-                        <label>$Text{"Format"}:</label>
+                        <label for="Format">$Text{"Format"}:</label>
                         <div class="Value">$Data{"SelectFormat"}</div>
                         <div class="Clear"></div>
 <!-- dtl:block:Format -->
@@ -247,8 +247,7 @@ $('#StartStatistic').bind('click', function (Event) {
         URL;
 
     if (Format === 'Print' && !PDFUsable) {
-        var Data = Core.AJAX.SerializeForm($('#compose'));
-        URL = '$Env{"Baselink"}' + Data;
+        URL = '$Env{"Baselink"}' + Core.AJAX.SerializeForm($('#compose'));
         Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
         return false;
     }

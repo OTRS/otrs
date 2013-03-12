@@ -1110,7 +1110,12 @@ sub MaskAgentZoom {
             my $TrimmedValue = $ValueStrg->{Value};
 
             # trim the value so it can fit better in the sidebar
-            if ( length $ValueStrg->{Value} > 18 ) {
+            # but don't trim attachment html data (FAO OTRSDynamicFieldAttachment)
+            if (
+                $DynamicFieldConfig->{FieldType} ne 'Attachment'
+                && length $ValueStrg->{Value} > 18
+                )
+            {
                 $TrimmedValue = substr( $ValueStrg->{Value}, 0, 18 ) . '...';
             }
 
