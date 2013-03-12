@@ -20,7 +20,7 @@
                     <label>$Text{"Process"}:</label>
                     <p class="Value FixedValueSmall" title="$QData{"Process"}">$QData{"Process","18"}</p>
                     <div class="Clear"></div>
-               </fieldset>
+                </fieldset>
 
                 <fieldset class="TableLike FixedLabelSmall">
                     <label>$Text{"Activity"}:</label>
@@ -57,7 +57,7 @@
                     <h1>
                         $QData{"Name"}
 <!-- dtl:block:DescriptionShort -->
-                         - $QData{"DescriptionShort"}
+                        - $QData{"DescriptionShort"}
 <!-- dtl:block:DescriptionShort -->
                     </h1>
                     <p>

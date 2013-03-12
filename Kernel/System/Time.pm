@@ -16,7 +16,6 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-
 =head1 NAME
 
 Kernel::System::Time - time functions

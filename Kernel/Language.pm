@@ -16,7 +16,6 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-
 =head1 NAME
 
 Kernel::Language - global language interface
