@@ -1,8 +1,9 @@
 # --
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2013 Sefer Şimşek / Network Group <network@kamusm.gov.tr>
 # --
-# $Id: tr.pm,v 1.69.2.2 2012-11-22 06:59:17 mb Exp $
+# $Id: tr.pm,v 1.69.2.1 2012/08/17 12:07:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69.2.2 $)[1];
+$VERSION = qw($Revision: 1.69.2.1 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:47
+    # Last translation file sync: 2013-03-12 11:24:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,13 +49,13 @@ sub Data {
         'top' => 'üst',
         'end' => 'son',
         'Done' => 'Tamam',
-        'Cancel' => 'İptâl',
+        'Cancel' => 'İptal',
         'Reset' => 'Sıfırla',
         'last' => 'son',
         'before' => 'önce',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next week' => '',
+        'Today' => 'Bugün',
+        'Tomorrow' => 'Yarın',
+        'Next week' => 'Gelecek hafta',
         'day' => 'gün',
         'days' => 'gün',
         'day(s)' => 'gün',
@@ -150,9 +151,9 @@ sub Data {
         'agent' => 'aracı',
         'system' => 'sistem',
         'Customer Info' => 'Müşteri Bilgisi',
-        'Customer Information' => '',
+        'Customer Information' => 'Müşteri Bilgileri',
         'Customer Company' => 'Müşteri Şirketi',
-        'Customer Companies' => '',
+        'Customer Companies' => 'Müşteri Şirketleri',
         'Company' => 'Şirket',
         'go!' => 'Başla!',
         'go' => 'başla',
@@ -192,7 +193,7 @@ sub Data {
         'Title' => 'Başlık',
         'Item' => 'Madde',
         'Delete' => 'Sil',
-        'Edit' => 'yazimla',
+        'Edit' => 'Düzenle',
         'View' => 'Görünüm',
         'Number' => 'Sayı',
         'System' => 'Sistem',
@@ -206,10 +207,10 @@ sub Data {
         'Category' => 'Kategori',
         'Viewer' => 'Görüntüleyici',
         'Expand' => 'Genişlet',
-        'Small' => '',
-        'Medium' => '',
-        'Large' => '',
-        'Date picker' => '',
+        'Small' => 'Küçük',
+        'Medium' => 'Orta',
+        'Large' => 'Büyük',
+        'Date picker' => 'Tarih seçici',
         'New message' => 'Yeni mesaj',
         'New message!' => 'Yeni mesaj!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -217,33 +218,33 @@ sub Data {
         'You have %s new message(s)!' => '%s yeni mesajınız var!',
         'You have %s reminder ticket(s)!' => '%s hatırlatıcı biletiniz var!',
         'The recommended charset for your language is %s!' => 'Kullandığınız dil için tavsiye edilen karakter seti %s!',
-        'Change your password.' => '',
-        'Please activate %s first!' => '',
+        'Change your password.' => 'Parolanızı değiştirin.',
+        'Please activate %s first!' => 'Önce %s aktif edin!',
         'No suggestions' => 'Öneri yok',
         'Word' => 'Kelime',
         'Ignore' => 'Yoksay',
         'replace with' => 'ile değiştir',
         'There is no account with that login name.' => 'kullanıcı adı bilinmiyor.',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            '',
-        'There is no acount with that user name.' => '',
-        'Please contact your administrator' => '',
+            'Oturum açılamadı! Kullanıcı adınız veya parolanız hatalı girildi.',
+        'There is no acount with that user name.' => 'Bu kullanıcı adıyla bir hesap yok.',
+        'Please contact your administrator' => 'Lütfen yöneticinizle irtibat kurun',
         'Logout' => 'Oturumu kapat',
         'Logout successful. Thank you for using OTRS!' => 'Oturum kapatma başarılı! OTRS\'yi kullandığınız için teşekkür ederiz!',
         'Invalid SessionID!' => 'Geçersiz oturum kimliği!',
         'Feature not active!' => 'Özellik etkin değil!',
-        'Agent updated!' => '',
+        'Agent updated!' => 'Aracı güncellendi!',
         'Create Database' => 'Veritabanını Oluştur',
         'System Settings' => 'Sistem Ayarları',
-        'Mail Configuration' => '',
+        'Mail Configuration' => 'E-posta ayarları',
         'Finished' => 'Tamamlandı',
-        'Install OTRS' => '',
-        'Intro' => '',
+        'Install OTRS' => 'OTRS\'yi kur',
+        'Intro' => 'Tanıtım',
         'License' => 'Lisans',
         'Database' => 'Veritabanı',
-        'Configure Mail' => '',
-        'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Configure Mail' => 'E-posta ayarla',
+        'Database deleted.' => 'Veritabanı silindi.',
+        'Database setup succesful!' => 'Veritabanı kurulumu başarılı!',
         'Login is needed!' => 'Oturum açmanız gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'Take this Customer' => 'Bu Müşteriyi al',
@@ -265,32 +266,32 @@ sub Data {
         'Preview' => 'Önizleme',
         'Package not correctly deployed! Please reinstall the package.' =>
             '',
-        '%s is not writable!' => '',
-        'Cannot create %s!' => '',
+        '%s is not writable!' => '%s yazılamaz!',
+        'Cannot create %s!' => '%s oluşturulamadı!',
         'Check to activate this date' => '',
         'You have Out of Office enabled, would you like to disable it?' =>
             '',
-        'Customer %s added' => '',
-        'Role added!' => '',
-        'Role updated!' => '',
-        'Attachment added!' => '',
-        'Attachment updated!' => '',
-        'Response added!' => '',
-        'Response updated!' => '',
-        'Group updated!' => '',
-        'Queue added!' => '',
-        'Queue updated!' => '',
-        'State added!' => '',
-        'State updated!' => '',
-        'Type added!' => '',
-        'Type updated!' => '',
-        'Customer updated!' => '',
-        'Customer company added!' => '',
-        'Customer company updated!' => '',
-        'Mail account added!' => '',
-        'Mail account updated!' => '',
-        'System e-mail address added!' => '',
-        'System e-mail address updated!' => '',
+        'Customer %s added' => '%s müşterisi eklendi',
+        'Role added!' => 'Rol eklendi!',
+        'Role updated!' => 'Rol güncellendi!',
+        'Attachment added!' => 'Dosya eklendi!',
+        'Attachment updated!' => 'Dosya güncellendi!',
+        'Response added!' => 'Cevap eklendi!',
+        'Response updated!' => 'Cevap güncellendi!',
+        'Group updated!' => 'Grup güncellendi!',
+        'Queue added!' => 'Kuyruk eklendi!',
+        'Queue updated!' => 'Kuyruk güncellendi!',
+        'State added!' => 'Durum eklendi!',
+        'State updated!' => 'Durum güncellendi!',
+        'Type added!' => 'Tip eklendi!',
+        'Type updated!' => 'Tip güncellendi!',
+        'Customer updated!' => 'Müşteri güncellendi!',
+        'Customer company added!' => 'Müşteri şirketi eklendi!',
+        'Customer company updated!' => 'Müşteri şirketi güncellendi!',
+        'Mail account added!' => 'E-posta hesabı eklendi!',
+        'Mail account updated!' => 'E-posta hesabı güncellendi!',
+        'System e-mail address added!' => 'Sistem e-posta adresi eklendi!',
+        'System e-mail address updated!' => 'Sistem e-posta adresi güncellendi!',
         'Contract' => 'Kontrat',
         'Online Customer: %s' => 'Online Müşteri: %s',
         'Online Agent: %s' => 'Online Aracı: %s',
@@ -331,18 +332,18 @@ sub Data {
             '',
         'Edit the system configuration settings.' => '',
         'printed at' => 'yazdırıldı',
-        'Loading...' => '',
+        'Loading...' => 'Yükleniyor',
         'Dear Mr. %s,' => 'Sayın Bay %s,',
         'Dear Mrs. %s,' => 'Sayın Bayan %s,',
         'Dear %s,' => 'Sayın %s,',
         'Hello %s,' => 'Merhaba %s,',
         'This email address already exists. Please log in or reset your password.' =>
-            '',
+            'Bu e-posta adresi zaten var. Lütfen giriş yapın yada parolanızı sıfırlayın.',
         'New account created. Sent login information to %s. Please check your email.' =>
-            '',
+            'Yeni Hesap eklendi. Giriş bilgileri %s adresine gönderildi. Lütfen e-postanızı kontrol edin.',
         'Please press Back and try again.' => 'Lüften geri tuşuna basınız ve tekrar deneyiniz',
-        'Sent password reset instructions. Please check your email.' => '',
-        'Sent new password to %s. Please check your email.' => '',
+        'Sent password reset instructions. Please check your email.' => 'Parola sıfırlama talimatları gönderildi. Lütfen e-postanızı kontrol ediniz.',
+        'Sent new password to %s. Please check your email.' => '%s adresine yeni parola gönderildi. Lütfen e-postanızı kontrol edin.',
         'Upcoming Events' => 'gelecek olgular',
         'Event' => 'Olgu',
         'Events' => 'olgular',
@@ -353,22 +354,22 @@ sub Data {
         'Collapse' => 'daralt',
         'Shown' => '',
         'News' => 'yenilikler',
-        'Product News' => 'ürün yenilikleri',
-        'OTRS News' => '',
-        '7 Day Stats' => '',
-        'Bold' => 'kalın',
-        'Italic' => 'italik',
-        'Underline' => 'altı çizili',
-        'Font Color' => 'karakter rengi',
-        'Background Color' => 'fon rengi',
-        'Remove Formatting' => 'formatı sil',
-        'Show/Hide Hidden Elements' => 'gizli bölümleri göster/kapat',
-        'Align Left' => 'sola hizala',
-        'Align Center' => 'ortaya hizala',
-        'Align Right' => 'sağa hizala',
-        'Justify' => 'satır uzunluğunu ayarla',
+        'Product News' => 'Ürün Yenilikleri',
+        'OTRS News' => 'OTRS Haberleri',
+        '7 Day Stats' => '7 Günlük Durum',
+        'Bold' => 'Kalın',
+        'Italic' => 'İtalik',
+        'Underline' => 'Altı çizili',
+        'Font Color' => 'Karakter Rengi',
+        'Background Color' => 'Fon Rengi',
+        'Remove Formatting' => 'Formatı Sil',
+        'Show/Hide Hidden Elements' => 'Gizli Bölümleri Göster/Kapat',
+        'Align Left' => 'Sola Hizala',
+        'Align Center' => 'Ortaya Hizala',
+        'Align Right' => 'Sağa Hizala',
+        'Justify' => 'Satır Uzunluğunu Ayarla',
         'Header' => 'Başlık',
-        'Indent' => 'Içeri',
+        'Indent' => 'İçeri',
         'Outdent' => 'Dışarı',
         'Create an Unordered List' => 'Düzensiz liste yarat',
         'Create an Ordered List' => 'Düzenli iste yarat',
@@ -423,36 +424,36 @@ sub Data {
 
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Tercihler başarılı bir şekilde güncellendi!',
-        'User Profile' => '',
-        'Email Settings' => '',
-        'Other Settings' => '',
+        'User Profile' => 'Kullanıcı Profili',
+        'Email Settings' => 'E-posta ayarları',
+        'Other Settings' => 'Diğer Ayarlar',
         'Change Password' => 'Parola Değiştir',
-        'Current password' => '',
+        'Current password' => 'Mevcut parola',
         'New password' => 'Yeni parola',
-        'Verify password' => '',
+        'Verify password' => 'Parolayı doğrula',
         'Spelling Dictionary' => 'Sözdizim Sözlüğü',
-        'Default spelling dictionary' => '',
+        'Default spelling dictionary' => 'Varsayılan sözlük hecelemesi',
         'Max. shown Tickets a page in Overview.' => 'Genel bakışta bir sayfada gösterilecek en fazla Bilet sayısı.',
-        'The current password is not correct. Please try again!' => '',
+        'The current password is not correct. Please try again!' => 'Mevcut şifreniz hatalı. Tekrar deneyin',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
-            '',
-        'Can\'t update password, it contains invalid characters!' => '',
+            'Şifreniz güncellenemiyor. Yeni şifreniz eşleşmiyor. Tekrar dene.',
+        'Can\'t update password, it contains invalid characters!' => 'Şifreniz güncellenemiyor. Geçersiz karakter içeriyor!',
         'Can\'t update password, it must be at least %s characters long!' =>
-            '',
+            'Şifreniz güncellenemiyor. En az %s karakter uzunluğunda olmalı!',
         'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
-            '',
-        'Can\'t update password, it must contain at least 1 digit!' => '',
+            'Şifreniz güncellenemiyor. En az 2 küçük harf, 2 büyük harf içermeli!',
+        'Can\'t update password, it must contain at least 1 digit!' => 'Şifreniz güncellenemiyor. En az 1 rakam içermeli!',
         'Can\'t update password, it must contain at least 2 characters!' =>
-            '',
+            'Şifreniz güncellenemiyor. En az 2 karakter içermeli!',
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
-            '',
+            'Şifreniz güncellenemiyor. Bu şifre zaten kullanıldı. Başka birini seçin!',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             '',
         'CSV Separator' => '',
 
         # Template: AAAStats
         'Stat' => 'İstatistikler',
-        'Sum' => '',
+        'Sum' => 'Toplam',
         'Please fill out the required fields!' => 'Lütfen zorunlu alanları doldurun!',
         'Please select a file!' => 'Lütfen bir dosya seçin!',
         'Please select an object!' => 'Lütfen bir nesne seçin!',
@@ -506,7 +507,7 @@ sub Data {
         'ascending' => 'çıkarak',
         'descending' => 'inerek',
         'First Lock' => 'ilk kilitleme',
-        'Evaluation by' => '',
+        'Evaluation by' => 'tarafından değerlendirme',
         'Total Time' => 'Tüm süre',
         'Ticket Average' => 'Bilet ortalaması',
         'Ticket Min Time' => 'Bilet minimum süresi',
@@ -523,7 +524,7 @@ sub Data {
         'Ticket Close Time' => 'bilet kapanma saati',
 
         # Template: AAATicket
-        'Status View' => '',
+        'Status View' => 'Durum görünümü',
         'Bulk' => '',
         'Lock' => 'Kilitle',
         'Unlock' => 'Kilidi Aç',
@@ -541,23 +542,23 @@ sub Data {
         'Queue' => 'Kuyruğa koy',
         'Queues' => 'Kuyruklar',
         'Priority' => 'Öncelik',
-        'Priorities' => '',
-        'Priority Update' => '',
-        'Priority added!' => '',
-        'Priority updated!' => '',
-        'Signature added!' => '',
-        'Signature updated!' => '',
+        'Priorities' => 'Öncelikler',
+        'Priority Update' => 'Öncelik güncelle!',
+        'Priority added!' => 'Öncelik eklendi!',
+        'Priority updated!' => 'Öncelik güncellendi!',
+        'Signature added!' => 'İmza eklendi!',
+        'Signature updated!' => 'İmza güncellendi!',
         'SLA' => 'SLA',
-        'Service Level Agreement' => '',
-        'Service Level Agreements' => '',
+        'Service Level Agreement' => 'Servis seviye anlaşması',
+        'Service Level Agreements' => 'Servis seviye anlaşmaları',
         'Service' => 'Servis',
-        'Services' => '',
+        'Services' => 'Servisler',
         'State' => 'Durum',
-        'States' => '',
+        'States' => 'Durumlar',
         'Status' => 'Durum',
-        'Statuses' => '',
-        'Ticket Type' => '',
-        'Ticket Types' => '',
+        'Statuses' => 'Durumlar',
+        'Ticket Type' => 'Bilet Tipi',
+        'Ticket Types' => 'Bilet Tipleri',
         'Compose' => 'Yeni Oluştur',
         'Pending' => 'Bekliyor',
         'Owner' => 'Sahip',
@@ -586,32 +587,32 @@ sub Data {
         'merged' => 'birleştirildi',
         'closed successful' => 'kapatma başarılı',
         'closed unsuccessful' => 'kapatma başarısız',
-        'Locked Tickets Total' => '',
+        'Locked Tickets Total' => 'Tüm kilitlenen biletler',
         'Locked Tickets Reminder Reached' => '',
-        'Locked Tickets New' => '',
-        'Responsible Tickets Total' => '',
-        'Responsible Tickets New' => '',
+        'Locked Tickets New' => 'Yeni kilitlenen biletler',
+        'Responsible Tickets Total' => 'Toplam Sorumlu Biletler',
+        'Responsible Tickets New' => 'Yeni Sorumlu Biletler',
         'Responsible Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
+        'Watched Tickets Total' => 'İzlenen tüm biletler',
+        'Watched Tickets New' => 'Yeni izlenen biletler',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Tüm biletler',
-        'Available tickets' => '',
-        'Escalation' => '',
-        'last-search' => '',
+        'Available tickets' => 'Kullanılabilir biletler',
+        'Escalation' => 'Yükselme',
+        'last-search' => 'Son arama',
         'QueueView' => 'Kuyruk Görünümü',
-        'Ticket Escalation View' => '',
+        'Ticket Escalation View' => 'Bilet Yükselme Görünümü',
         'Message from' => '',
         'End message' => '',
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'new' => 'yeni',
-        'open' => 'aç',
-        'Open' => '',
-        'Open tickets' => '',
+        'open' => 'açık',
+        'Open' => 'Açık',
+        'Open tickets' => 'Açık biletler',
         'closed' => 'kapalı',
-        'Closed' => '',
-        'Closed tickets' => '',
+        'Closed' => 'Kapalı',
+        'Closed tickets' => 'Kapalı Biletler',
         'removed' => 'kaldırıldı',
         'pending reminder' => 'bekleyen hatırlatıcı',
         'pending auto' => 'bekleyen otomatik',
@@ -637,11 +638,11 @@ sub Data {
         '3 normal' => '3 normal',
         '4 high' => '4 yüksek',
         '5 very high' => '5 çok yüksek',
-        'auto follow up' => '',
-        'auto reject' => '',
-        'auto remove' => '',
-        'auto reply' => '',
-        'auto reply/new ticket' => '',
+        'auto follow up' => 'otomatik izle',
+        'auto reject' => 'otomatik çıkar',
+        'auto remove' => 'otomatik kaldır',
+        'auto reply' => 'otomatik cevapla',
+        'auto reply/new ticket' => 'otomatik cevapla/yeni bilet',
         'Ticket "%s" created!' => '"%s" bileti oluşturuldu!',
         'Ticket Number' => 'Bilet Numarası',
         'Ticket Object' => 'Bilet Nesnesi',
@@ -649,9 +650,9 @@ sub Data {
         'You don\'t have write access to this ticket.' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '',
-        'Ticket selected.' => '',
-        'Ticket is locked by another agent.' => '',
-        'Ticket locked.' => '',
+        'Ticket selected.' => 'Bilet seçildi.',
+        'Ticket is locked by another agent.' => 'Bilet başka bir aracı tarafından kilitlendi.',
+        'Ticket locked.' => 'Bilet kilitli.',
         'Don\'t show closed Tickets' => 'Kapalı Biletleri gösterme',
         'Show closed Tickets' => 'Kapalı Biletleri göster',
         'New Article' => 'Yeni Yazı',
@@ -673,26 +674,26 @@ sub Data {
         'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Tüm açık Biletlere genel bakış',
         'Locked Tickets' => 'Kilitli Biletler',
-        'My Locked Tickets' => '',
-        'My Watched Tickets' => '',
-        'My Responsible Tickets' => '',
+        'My Locked Tickets' => 'Kilitli Biletlerim',
+        'My Watched Tickets' => 'İzlediğim Biletler ',
+        'My Responsible Tickets' => 'Sorumluluğumdaki Biletler',
         'Watched Tickets' => 'İzlenen Biletler',
         'Watched' => 'İzlenen',
-        'Watch' => '',
-        'Unwatch' => '',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
-        'Show the ticket history' => '',
-        'Print this ticket' => '',
-        'Print this article' => '',
-        'Split this article' => '',
-        'Forward article via mail' => '',
-        'Change the ticket priority' => '',
+        'Watch' => 'İzle',
+        'Unwatch' => 'İzleme',
+        'Lock it to work on it' => 'Üzerinde çalışmak için kilitle',
+        'Unlock to give it back to the queue' => 'Kuyruğa geri vermek için aç',
+        'Show the ticket history' => 'Bilet tarihini göster',
+        'Print this ticket' => 'Bu bileti bas',
+        'Print this article' => 'Bu yazıyı bas',
+        'Split this article' => 'Bu yazıyı böl',
+        'Forward article via mail' => 'Yazıyı e-posta üzerinden ilet',
+        'Change the ticket priority' => 'Bilet önceliğini değiştir',
         'Change the ticket free fields!' => 'Biletteki serbest alanları değiştir!',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
+        'Link this ticket to other objects' => 'Bu bileti başka nesnelere bağla',
+        'Change the owner for this ticket' => 'Bu bilet için sahip değiştir',
+        'Change the  customer for this ticket' => 'Bu bilet için müşteri değiştir',
+        'Add a note to this ticket' => 'Bu bilete not ekle',
         'Merge into a different ticket' => '',
         'Set this ticket to pending' => '',
         'Close this ticket' => '',
@@ -711,21 +712,21 @@ sub Data {
         'Ticket %s: solution time will be over in %s!' => 'Bilet %s: %s içinde çözme zamanı aşılacak!',
         'There are more escalated tickets!' => 'Başka yükseltilmiş biletler var!',
         'Plain Format' => '',
-        'Reply All' => '',
+        'Reply All' => 'Tümüne Cevapla',
         'Direction' => '',
-        'Agent (All with write permissions)' => '',
-        'Agent (Owner)' => '',
-        'Agent (Responsible)' => '',
+        'Agent (All with write permissions)' => 'Aracı (Yazma yetkisine sahip herkes)',
+        'Agent (Owner)' => 'Aracı (Sahip)',
+        'Agent (Responsible)' => 'Aracı (Sorumlu)',
         'New ticket notification' => 'Yeni bilet bildirimi',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             '"Kuyruklarım"da yeni bir bilet olduğunda bana bildirim gönder.',
-        'Send new ticket notifications' => '',
-        'Ticket follow up notification' => '',
+        'Send new ticket notifications' => 'Yeni bilet uyarıları gönder',
+        'Ticket follow up notification' => 'Bilet izleme uyarısı',
         'Ticket lock timeout notification' => 'Bilet kilidi zaman aşımı bildirimi',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Bir biletin kilidi sistem tarafından kaldırıldığında bana bildirim gönder.',
         'Send ticket lock timeout notifications' => '',
-        'Ticket move notification' => '',
+        'Ticket move notification' => 'Bilet taşıma uyarısı',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
             'Bilet "Kuyruklarım"dan birine taşındığında bana bildirim gönder',
         'Send ticket move notifications' => '',
@@ -756,17 +757,17 @@ sub Data {
         'Create new Ticket' => 'Yeni Bilet oluştur',
         'Customer called' => 'Aranan müşteri',
         'phone call' => 'telefon araması',
-        'Phone Call Outbound' => '',
-        'Phone Call Inbound' => '',
-        'Reminder Reached' => 'hatırlatma süresi doldu',
-        'Reminder Tickets' => 'hatırlatma biletleri',
-        'Escalated Tickets' => '',
-        'New Tickets' => 'yeni biletler',
-        'Open Tickets / Need to be answered' => 'açık biletler/cevap bekleniyor',
+        'Phone Call Outbound' => 'Giden Telefon Çağrısı',
+        'Phone Call Inbound' => 'Gelen Telefon Çağrısı',
+        'Reminder Reached' => 'Hatırlatma süresi doldu',
+        'Reminder Tickets' => 'Hatırlatma biletleri',
+        'Escalated Tickets' => 'Yükseltilmiş Biletler',
+        'New Tickets' => 'Yeni Biletler',
+        'Open Tickets / Need to be answered' => 'Açık Biletler / Cevap Bekleniyor',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             '',
         'All new tickets, these tickets have not been worked on yet' => '',
-        'All escalated tickets' => '',
+        'All escalated tickets' => 'Tüm yükseltilmiş biletler',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
         'Archived tickets' => '',
@@ -822,17 +823,17 @@ sub Data {
 
         # Template: AdminAttachment
         'Attachment Management' => 'Eklenti yönetimi',
-        'Actions' => '',
-        'Go to overview' => '',
-        'Add attachment' => '',
+        'Actions' => 'Eylemler',
+        'Go to overview' => 'Genel Bakışa git',
+        'Add attachment' => 'Dosya ekle',
         'List' => 'Liste',
-        'Validity' => '',
-        'No data found.' => '',
-        'Download file' => '',
-        'Delete this attachment' => '',
-        'Add Attachment' => '',
-        'Edit Attachment' => '',
-        'This field is required.' => '',
+        'Validity' => 'Doğrula',
+        'No data found.' => 'Veri bulunamadı.',
+        'Download file' => 'Dosyayı indir',
+        'Delete this attachment' => 'Bu dosyayı sil',
+        'Add Attachment' => 'Dosya Ekle',
+        'Edit Attachment' => 'Dosyayı görüntüle',
+        'This field is required.' => 'Bu alan zorunludur',
         'or' => 'veya',
 
         # Template: AdminAutoResponse
@@ -865,16 +866,16 @@ sub Data {
         'Add Customer Company' => 'Müşteri Sirket Ekle',
 
         # Template: AdminCustomerUser
-        'Customer Management' => '',
-        'Add customer' => '',
+        'Customer Management' => 'Müşteri Yönetimi',
+        'Add customer' => 'Müşteri ekle',
         'Select' => 'Seç',
-        'Hint' => '',
+        'Hint' => 'İpucu',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             '',
         'Please enter a search term to look for customers.' => '',
-        'Last Login' => '',
-        'Add Customer' => '',
-        'Edit Customer' => '',
+        'Last Login' => 'Son Giriş',
+        'Add Customer' => 'Müşteri Ekle',
+        'Edit Customer' => 'Müşteri Düzenle',
         'This field is required and needs to be a valid email address.' =>
             '',
         'This email address is not allowed due to the system configuration.' =>
@@ -900,12 +901,12 @@ sub Data {
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => '',
-        'Customers' => '',
+        'Search Result:' => 'Sonuç Ara:',
+        'Customers' => 'Müşteriler',
         'Groups' => 'Gruplar',
-        'No matches found.' => '',
-        'Change Group Relations for Customer' => '',
-        'Change Customer Relations for Group' => '',
+        'No matches found.' => 'Sonuç bulunamadı.',
+        'Change Group Relations for Customer' => 'Müşteri için grup ilişkilerini değiştir.',
+        'Change Customer Relations for Group' => 'Grup için müşteri ilişkilerini değiştir. ',
         'Toggle %s Permission for all' => '',
         'Toggle %s permission for %s' => '',
         'Customer Default Groups:' => '',
@@ -927,25 +928,25 @@ sub Data {
         'Toggle active state for %s' => '',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => '',
-        'Add new field for object' => '',
+        'Dynamic Fields Management' => 'Dinamik alanların yönetimi',
+        'Add new field for object' => 'Nesne için yeni alan ekle',
         'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
-        'Dynamic Fields List' => '',
+        'Dynamic Fields List' => 'Dinamik alanların listesi',
         'Dynamic fields per page' => '',
-        'Label' => '',
+        'Label' => 'Etiket',
         'Order' => 'Sıralama',
         'Object' => 'Nesne',
-        'Delete this field' => '',
+        'Delete this field' => 'Bu alanı sil',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '',
-        'Delete field' => '',
+            'Bu dinamik alanı silmek istediğinizden eminmisiniz? İlgili tüm veriler kaybolacak!',
+        'Delete field' => 'Alanı sil',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
-        'Field' => '',
-        'Go back to overview' => '',
-        'General' => '',
+        'Dynamic Fields' => 'Dinamik Alan',
+        'Field' => 'Alan',
+        'Go back to overview' => 'Genel bakışa geri dön',
+        'General' => 'Genel',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
             '',
         'Must be unique and only accept alphabetic and numeric characters.' =>
@@ -954,7 +955,7 @@ sub Data {
             '',
         'This is the name to be shown on the screens where the field is active.' =>
             '',
-        'Field order' => '',
+        'Field order' => 'Alan sıralaması',
         'This field is required and must be numeric.' => '',
         'This is the order in which this field will be shown on the screens where is active.' =>
             '',
@@ -1041,24 +1042,24 @@ sub Data {
         'Ticket Filter' => '',
         '(e. g. 10*5155 or 105658*)' => '(örneğin 105155 veya 105658*)',
         '(e. g. 234321)' => '(örneğin 234321)',
-        'Customer login' => '',
+        'Customer login' => 'Müşteri Girişi',
         '(e. g. U5150)' => '(örneğin U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => '',
         'Agent' => 'Aracı',
-        'Ticket lock' => '',
-        'Create times' => '',
+        'Ticket lock' => 'Bilet kilitleme',
+        'Create times' => 'Oluşturulma zamanı',
         'No create time settings.' => 'Oluşturma zamanı ayarı yok.',
         'Ticket created' => 'Bilet oluşturuldu',
         'Ticket created between' => 'Bilet ikisi arasında oluşturuldu:',
-        'Change times' => '',
-        'No change time settings.' => '',
-        'Ticket changed' => '',
+        'Change times' => 'Değiştirilme zamanı',
+        'No change time settings.' => 'Zaman ayarlarında değişiklik yok.',
+        'Ticket changed' => 'Bilet değişti',
         'Ticket changed between' => '',
-        'Close times' => '',
+        'Close times' => 'Kapanma zamanı',
         'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
-        'Pending times' => '',
+        'Ticket closed' => 'Bilet kapatıldı',
+        'Ticket closed between' => 'arasındaki bilet kapatıldı',
+        'Pending times' => 'Bekleme zamanı',
         'No pending time settings.' => 'Bekleme zamanı ayarı yok.',
         'Ticket pending time reached' => 'Bilet bekleme zamanına ulaşıldı',
         'Ticket pending time reached between' => 'Bilet bekleme zamanına ikisi arasında ulaşıldı:',
@@ -1380,10 +1381,10 @@ sub Data {
 
         # Template: AdminNavigationBar
         'Admin' => 'Yönetici',
-        'Agent Management' => '',
-        'Queue Settings' => '',
-        'Ticket Settings' => '',
-        'System Administration' => '',
+        'Agent Management' => 'Aracı Yönetimi',
+        'Queue Settings' => 'Kuyruk Ayarları',
+        'Ticket Settings' => 'Bilet Ayarları',
+        'System Administration' => 'Sistem Yöneticisi',
 
         # Template: AdminNotification
         'Notification Management' => 'Bildirim Yönetimi',
@@ -1396,17 +1397,17 @@ sub Data {
         'Options of the current customer data' => '',
 
         # Template: AdminNotificationEvent
-        'Add notification' => '',
-        'Delete this notification' => '',
+        'Add notification' => 'Uyarı Ekle',
+        'Delete this notification' => 'Bu uyarıyı sil',
         'Add Notification' => 'Bildirim ekle',
-        'Recipient groups' => '',
-        'Recipient agents' => '',
-        'Recipient roles' => '',
-        'Recipient email addresses' => '',
+        'Recipient groups' => 'Alıcı Grup',
+        'Recipient agents' => 'Alıcı aracılar',
+        'Recipient roles' => 'Alıcı roller',
+        'Recipient email addresses' => 'alıcı e-posta adresleri',
         'Article type' => 'Metin tipi',
         'Only for ArticleCreate event' => '',
-        'Subject match' => '',
-        'Body match' => '',
+        'Subject match' => 'Konu eşleme',
+        'Body match' => 'Gövde eşleme',
         'Include attachments to notification' => '',
         'Notification article type' => '',
         'Only for notifications to specified email addresses' => '',
@@ -1444,10 +1445,10 @@ sub Data {
             '',
         'Continue' => 'Devam et',
         'Install' => 'Yükle',
-        'Install Package' => '',
-        'Update repository information' => '',
+        'Install Package' => 'Paketi yükle',
+        'Update repository information' => 'Depo bilgilerini güncelle',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            '',
+            'Gerekli özelliği bulamadınızmı? OTRS grubu üye müşterilerimize seçkin eklentileri sunar.',
         'Online Repository' => 'Çevrimiçi Depo',
         'Vendor' => 'Sağlayıcı',
         'Module documentation' => '',
@@ -1682,43 +1683,43 @@ sub Data {
             '',
         'There is at least one parameter missing for the binding. Please check it.' =>
             '',
-        'Result format' => '',
-        'Run Query' => '',
+        'Result format' => 'Sonuç Biçimi',
+        'Run Query' => 'Sorgu Çalıştır',
 
         # Template: AdminService
         'Service Management' => 'Servis Yönetimi',
-        'Add service' => '',
+        'Add service' => 'Servis ekle',
         'Add Service' => 'Servis Ekle',
-        'Edit Service' => '',
-        'Sub-service of' => '',
+        'Edit Service' => 'Servis Düzenle',
+        'Sub-service of' => 'Alt servis',
 
         # Template: AdminSession
         'Session Management' => 'Oturum Yönetimi',
-        'All sessions' => '',
-        'Agent sessions' => '',
-        'Customer sessions' => '',
-        'Unique agents' => '',
-        'Unique customers' => '',
+        'All sessions' => 'Bütün oturumlar',
+        'Agent sessions' => 'Aracı oturum',
+        'Customer sessions' => 'Müşteri oturumu',
+        'Unique agents' => 'Benzer aracılar',
+        'Unique customers' => 'Benzer müşteriler',
         'Kill all sessions' => 'Tüm oturumları öldür',
-        'Kill this session' => '',
+        'Kill this session' => 'Bu oturumu öldür',
         'Session' => 'Oturum',
-        'Kill' => '',
-        'Detail View for SessionID' => '',
+        'Kill' => 'Öldür',
+        'Detail View for SessionID' => 'OturumID için detaylı görünüm',
 
         # Template: AdminSignature
         'Signature Management' => 'İmza Yönetimi',
-        'Add signature' => '',
+        'Add signature' => 'İmza ekle',
         'Add Signature' => 'İmza Ekle',
-        'Edit Signature' => '',
-        'Example signature' => '',
+        'Edit Signature' => 'İmza Düzenle',
+        'Example signature' => 'Örnek imza',
 
         # Template: AdminState
         'State Management' => 'Durum Yönetimi',
-        'Add state' => '',
-        'Please also update the states in SysConfig where needed.' => '',
+        'Add state' => 'Durum ekle',
+        'Please also update the states in SysConfig where needed.' => 'Sysconfig\'te gerekli durumları da güncelle',
         'Add State' => 'Durum Ekle',
-        'Edit State' => '',
-        'State type' => '',
+        'Edit State' => 'Durum Düzenle',
+        'State type' => 'Durum tipi',
 
         # Template: AdminSysConfig
         'SysConfig' => 'Sistem Yapılandırması',
@@ -1756,7 +1757,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'Dolaşma Çubuğu Adı',
         'NavBar' => 'Dolaşma Çubuğu',
-        'LinkOption' => '',
+        'LinkOption' => 'Bağlantı Seçeneği',
         'Block' => 'Blok',
         'AccessKey' => 'Erişim Tuşu',
         'Add NavBar entry' => '',
@@ -1790,7 +1791,7 @@ sub Data {
         'Agents will be needed to handle tickets.' => '',
         'Don\'t forget to add a new agent to groups and/or roles!' => '',
         'Please enter a search term to look for agents.' => '',
-        'Last login' => '',
+        'Last login' => 'Son giriş',
         'Login as' => 'Oturum açma kimliği',
         'Switch to agent' => '',
         'Add Agent' => '',
@@ -1838,19 +1839,19 @@ sub Data {
         # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '',
-        'Please update now.' => '',
-        'Release Note' => '',
-        'Level' => '',
+        '%s %s is available!' => '%s %s erişilebilir',
+        'Please update now.' => 'Şimdi güncelleyin',
+        'Release Note' => 'Sürüm notu',
+        'Level' => 'Seviye',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => '',
+        'Posted %s ago.' => '%s önce gönderildi.',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
-        'My watched tickets' => '',
-        'My responsibilities' => '',
-        'Tickets in My Queues' => '',
+        'My locked tickets' => 'Kilitli biletlerim',
+        'My watched tickets' => 'İzlediğim biletler',
+        'My responsibilities' => 'Sorumluluklarım',
+        'Tickets in My Queues' => 'Kuyruğumdaki biletler',
 
         # Template: AgentDashboardTicketStats
 
@@ -1861,8 +1862,8 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => '',
-        'Undo & close window' => '',
+        'The ticket has been locked' => 'Bilet kilitlendi',
+        'Undo & close window' => 'Geri al & pencereyi kapat',
 
         # Template: AgentInfo
         'Info' => 'Bilgi',
@@ -1881,7 +1882,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferences
-        'Edit your preferences' => '',
+        'Edit your preferences' => 'Tercihleri düzenle',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Sözdizim Denetleyicisi',
@@ -1889,13 +1890,13 @@ sub Data {
         'Apply these changes' => 'Bu değişiklikleri uygula',
 
         # Template: AgentStatsDelete
-        'Delete stat' => '',
+        'Delete stat' => 'Durumu sil',
         'Stat#' => 'İstatistik numarası',
-        'Do you really want to delete this stat?' => '',
+        'Do you really want to delete this stat?' => 'Bu durumu gerçekten silmek istiyormusunuz?',
 
         # Template: AgentStatsEditRestrictions
-        'Step %s' => '',
-        'General Specifications' => '',
+        'Step %s' => '%s. adım',
+        'General Specifications' => 'Genel Özellikler',
         'Select the element that will be used at the X-axis' => '',
         'Select the elements for the value series' => 'Değer serileri için öğeleri seçin',
         'Select the restrictions to characterize the stat' => '',
@@ -1975,33 +1976,33 @@ sub Data {
         'to' => 'şuna:',
 
         # Template: AgentTicketActionCommon
-        'Change Free Text of Ticket' => '',
-        'Change Owner of Ticket' => '',
-        'Close Ticket' => '',
-        'Add Note to Ticket' => '',
+        'Change Free Text of Ticket' => 'Biletin yazısı değiştir',
+        'Change Owner of Ticket' => 'Bilet sahibini değiştir',
+        'Close Ticket' => 'Bileti kapat',
+        'Add Note to Ticket' => 'Bilete not ekle',
         'Set Pending' => 'Beklemeyi Ayarla',
-        'Change Priority of Ticket' => '',
-        'Change Responsible of Ticket' => '',
-        'Cancel & close window' => '',
-        'Service invalid.' => '',
+        'Change Priority of Ticket' => 'Bilet önceliğini değiştir',
+        'Change Responsible of Ticket' => 'Bilet sorumluluğunu değiştir',
+        'Cancel & close window' => 'İptal & Pencereyi kapat',
+        'Service invalid.' => 'Servis hatalı',
         'New Owner' => 'Yeni Sahip',
-        'Please set a new owner!' => '',
+        'Please set a new owner!' => 'Yeni sahip ata',
         'Previous Owner' => 'Önceki sahip',
         'Inform Agent' => 'Aracıyı bilgilendir',
         'Optional' => 'Seçimlik',
         'Inform involved Agents' => 'İlgili aracıları bilgilendir',
-        'Spell check' => '',
+        'Spell check' => 'Yazım denetimi',
         'Note type' => 'Not tipi',
         'Next state' => 'Sonraki durum',
         'Pending date' => 'Bekleme tarihi',
-        'Date invalid!' => '',
+        'Date invalid!' => 'Hatalı tarih!',
 
         # Template: AgentTicketActionPopupClose
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => '',
+        'Bounce Ticket' => 'Bilet ötele',
         'Bounce to' => 'Şuna ötele:',
-        'You need a email address.' => '',
+        'You need a email address.' => 'E-posta gerekli',
         'Need a valid email address or don\'t use a local email address.' =>
             '',
         'Next ticket state' => 'Biletin sonraki durumu',
@@ -2010,40 +2011,40 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Bilet Toplu İşlemi',
-        'Send Email' => '',
+        'Send Email' => 'Postayı gönder',
         'Merge to' => 'Şuna birleştir:',
-        'Invalid ticket identifier!' => '',
-        'Merge to oldest' => '',
-        'Link together' => '',
+        'Invalid ticket identifier!' => 'Hatalı bilet tanımlayıcı!',
+        'Merge to oldest' => 'Daha eskilere birleştir',
+        'Link together' => 'Birbirine bağlan',
         'Link to parent' => '',
-        'Unlock tickets' => '',
+        'Unlock tickets' => 'Biletleri aç',
 
         # Template: AgentTicketClose
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Bilete cevap yaz',
-        'Remove Ticket Customer' => '',
+        'Remove Ticket Customer' => 'Müşteri biletini kaldır',
         'Please remove this entry and enter a new one with the correct value.' =>
             '',
         'Please include at least one recipient' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
-        'Address book' => '',
+        'Remove Cc' => 'KK Kaldır',
+        'Remove Bcc' => 'GKK Kaldır',
+        'Address book' => 'Adres defteri',
         'Pending Date' => 'Bekleme tarihi',
         'for pending* states' => 'Bekleme* durumları için',
-        'Date Invalid!' => '',
+        'Date Invalid!' => 'Hatalı Tarih',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Biletin müşterisini değiştir',
         'Customer Data' => 'Müşteri Verisi',
-        'Customer user' => '',
+        'Customer user' => 'Müşteri hesabı',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => '',
-        'From queue' => '',
-        'To customer' => '',
-        'Please include at least one customer for the ticket.' => '',
-        'Get all' => '',
+        'Create New Email Ticket' => 'Yeni e-posta bileti oluştur',
+        'From queue' => 'Kuyruktan',
+        'To customer' => 'Müşteriye',
+        'Please include at least one customer for the ticket.' => 'En az bir müşteri bileti içermeli',
+        'Get all' => 'Hepsini getir',
 
         # Template: AgentTicketEscalation
 
@@ -2056,8 +2057,8 @@ sub Data {
 
         # Template: AgentTicketHistory
         'History of' => 'Şunun tarihçesi:',
-        'History Content' => '',
-        'Zoom view' => '',
+        'History Content' => 'Tarihçe içeriği',
+        'Zoom view' => 'Yakınlaştırma görünümü',
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Bilet Birleştir',
@@ -2073,17 +2074,17 @@ sub Data {
 
         # Template: AgentTicketOverviewMedium
         'Select all' => '',
-        'No ticket data found.' => '',
+        'No ticket data found.' => 'Bilet kaydı bulunamadı.',
         'First Response Time' => 'İlk Yanıt Zamanı',
         'Service Time' => 'Servis Zamanı',
         'Update Time' => 'Güncelleme Zamanı',
         'Solution Time' => 'Çözüm Zamanı',
-        'Move ticket to a different queue' => '',
+        'Move ticket to a different queue' => 'Bileti başka bir kuyruğa taşı',
         'Change queue' => 'Kuyruğu değiştir',
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Arama seçeneklerini değiştir',
-        'Tickets per page' => '',
+        'Tickets per page' => 'Her sayfadaki biletler',
 
         # Template: AgentTicketOverviewPreview
         '","26' => '',
@@ -2098,17 +2099,17 @@ sub Data {
         # Template: AgentTicketPending
 
         # Template: AgentTicketPhone
-        'Create New Phone Ticket' => '',
-        'From customer' => '',
-        'To queue' => '',
+        'Create New Phone Ticket' => 'Yeni telefon bileti oluştur',
+        'From customer' => 'Müşteriden',
+        'To queue' => 'Kuyruğa',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => 'Telefon arası',
+        'Phone call' => 'Telefon araması',
 
         # Template: AgentTicketPlain
-        'Email Text Plain View' => '',
+        'Email Text Plain View' => 'E-posta düz metin görünümü',
         'Plain' => 'Düz',
-        'Download this email' => '',
+        'Download this email' => 'Bu e-postayı indir',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Bilet Bilgisi',
@@ -2124,28 +2125,28 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Arama Şablonu',
-        'Create Template' => '',
-        'Create New' => '',
-        'Profile link' => '',
-        'Save changes in template' => '',
-        'Add another attribute' => '',
+        'Create Template' => 'Şablon oluştur',
+        'Create New' => 'Yeni oluştur',
+        'Profile link' => 'Profil bağlantısı',
+        'Save changes in template' => 'Değişiklikleri şablona kaydet',
+        'Add another attribute' => 'Başka bir nitelik ekle',
         'Output' => 'Sonuç Formu',
-        'Fulltext' => 'Tümmetin',
-        'Remove' => '',
+        'Fulltext' => 'Tüm metin',
+        'Remove' => 'Kaldır',
         'Customer User Login' => 'Müşteri Kullanıcı Oturum Açma',
-        'Created in Queue' => 'Oluşturuldu Kuyruk',
-        'Lock state' => '',
+        'Created in Queue' => 'Kuyrukta Oluşturuldu',
+        'Lock state' => 'Kilit durumu',
         'Watcher' => 'İzleyici',
-        'Article Create Time (before/after)' => '',
-        'Article Create Time (between)' => '',
-        'Ticket Create Time (before/after)' => '',
-        'Ticket Create Time (between)' => '',
-        'Ticket Change Time (before/after)' => '',
-        'Ticket Change Time (between)' => '',
-        'Ticket Close Time (before/after)' => '',
-        'Ticket Close Time (between)' => '',
-        'Archive Search' => '',
-        'Run search' => '',
+        'Article Create Time (before/after)' => 'Makale Oluşturulma Zamanı (önce/sonra)',
+        'Article Create Time (between)' => 'Makale Oluşturulma Zamanı (arasında)',
+        'Ticket Create Time (before/after)' => 'Bilet Oluşturulma Zamanı (önce/sonra)',
+        'Ticket Create Time (between)' => 'Bilet Oluşturulma Zamanı (arasında)',
+        'Ticket Change Time (before/after)' => 'Bilet Değiştirilme Zamanı (önce/sonra)',
+        'Ticket Change Time (between)' => 'Bilet Değiştirilme Zamanı (arasında)',
+        'Ticket Close Time (before/after)' => 'Bilet Kapatılma Zamanı (önce/sonra)',
+        'Ticket Close Time (between)' => 'Bilet Kapatılma Zamanı (arasında)',
+        'Archive Search' => 'Arşiv arama',
+        'Run search' => 'Aramayı çalıştır',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2154,39 +2155,39 @@ sub Data {
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
-        'Article filter' => '',
-        'Article Type' => 'Yazı tipi',
-        'Sender Type' => '',
-        'Save filter settings as default' => '',
-        'Ticket Information' => '',
-        'Linked Objects' => '',
-        'Article(s)' => '',
-        'Change Queue' => '',
-        'Article Filter' => '',
-        'Add Filter' => '',
-        'Set' => 'Küme',
-        'Reset Filter' => '',
-        'Show one article' => '',
-        'Show all articles' => '',
-        'Unread articles' => '',
+        'Article filter' => 'Makale Filtresi',
+        'Article Type' => 'Makale tipi',
+        'Sender Type' => 'Gönderici tipi',
+        'Save filter settings as default' => 'Filtreyi varsayılan olarak kaydet',
+        'Ticket Information' => 'Bilet Bilgileri',
+        'Linked Objects' => 'Bağlantılı Nesneler',
+        'Article(s)' => 'Makale(ler)',
+        'Change Queue' => 'Kuyruk Değiştir',
+        'Article Filter' => 'Makale Filtresi',
+        'Add Filter' => 'Filtre ekle',
+        'Set' => 'Ayarla',
+        'Reset Filter' => 'Filtreyi Sıfırla',
+        'Show one article' => 'Bir makale göster',
+        'Show all articles' => 'Tüm makaleleri göster',
+        'Unread articles' => 'Okunmamış makaleler',
         'No.' => '',
-        'Unread Article!' => '',
-        'Incoming message' => '',
-        'Outgoing message' => '',
-        'Internal message' => '',
-        'Resize' => '',
+        'Unread Article!' => 'Okunmamış Makale!',
+        'Incoming message' => 'Gelen Mesaj',
+        'Outgoing message' => 'Giden Mesaj',
+        'Internal message' => 'İç mesaj',
+        'Resize' => 'Yeniden Boyutlandır',
 
         # Template: AttachmentBlocker
         'To protect your privacy, active or/and remote content has blocked.' =>
             '',
-        'Load blocked content.' => '',
+        'Load blocked content.' => 'Bloklu içeriği yükle.',
 
         # Template: Copyright
 
         # Template: CustomerAccept
 
         # Template: CustomerError
-        'Traceback' => 'Geriiz',
+        'Traceback' => 'Geri iz',
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -2199,63 +2200,63 @@ sub Data {
 
         # Template: CustomerLogin
         'Login' => 'Oturum aç',
-        'User name' => '',
-        'Your user name' => '',
-        'Your password' => '',
-        'Forgot password?' => '',
-        'Log In' => '',
-        'Not yet registered?' => '',
-        'Sign up now' => '',
+        'User name' => 'Adınız',
+        'Your user name' => 'Soyadınız',
+        'Your password' => 'parolanız',
+        'Forgot password?' => 'Parolanızı unuttunuz mu?',
+        'Log In' => 'Giriş',
+        'Not yet registered?' => 'Henüz kayıt olmadınız mı?',
+        'Sign up now' => 'Şimdi kaydol',
         'Request new password' => 'Yeni parola iste',
-        'Your User Name' => '',
-        'A new password will be sent to your email address.' => '',
+        'Your User Name' => 'Kullanıcı Adı',
+        'A new password will be sent to your email address.' => '...',
         'Create Account' => 'Hesap oluştur',
-        'Please fill out this form to receive login credentials.' => '',
-        'How we should address you' => '',
-        'Your First Name' => '',
-        'Please supply a first name' => '',
-        'Your Last Name' => '',
-        'Please supply a last name' => '',
-        'Your email address (this will become your username)' => '',
-        'Please supply a' => '',
+        'Please fill out this form to receive login credentials.' => 'Giriş bilgilerini almak için bu formu doldurun.',
+        'How we should address you' => 'Size nasıl hitap edelim?',
+        'Your First Name' => 'Adınız',
+        'Please supply a first name' => 'Lütfen bir isim belirleyiniz',
+        'Your Last Name' => 'Soyadınız',
+        'Please supply a last name' => 'Lütfen bir soyadı belirleyiniz',
+        'Your email address (this will become your username)' => 'E-posta adresiniz (Bu kullanıcı adınız olacak)',
+        'Please supply a' => 'Lütfen belirleyin bir',
 
         # Template: CustomerNavigationBar
-        'Edit personal preferences' => '',
-        'Logout %s' => '',
+        'Edit personal preferences' => 'Kişisel tercihleri görüntüle',
+        'Logout %s' => 'Çıkış %s',
 
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'Servis seviye anlaşması',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
-        'Please click the button below to create your first ticket.' => '',
-        'Create your first ticket' => '',
+        'Welcome!' => 'Hoşgeldiniz',
+        'Please click the button below to create your first ticket.' => 'Lütfen ilk biletinizi oluşturmak için aşağıdaki butona basın.',
+        'Create your first ticket' => 'İlk biletinizi oluşturun',
 
         # Template: CustomerTicketPrint
-        'Ticket Print' => '',
+        'Ticket Print' => 'Bilet Bas',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
-        'e. g. 10*5155 or 105658*' => '',
-        'Customer ID' => '',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
+        'e. g. 10*5155 or 105658*' => 'örn: 10*5155 yada 105658*',
+        'Customer ID' => 'Müşteri Kimliği',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Biletler içerisinde ara (örn: "Ahmet*t" yada "Ali*")',
         'Recipient' => 'alıcı',
-        'Carbon Copy' => '',
-        'Time restrictions' => '',
-        'No time settings' => '',
-        'Only tickets created' => '',
-        'Only tickets created between' => '',
-        'Ticket archive system' => '',
-        'Save search as template?' => '',
-        'Save as Template?' => '',
-        'Save as Template' => '',
-        'Template Name' => '',
-        'Pick a profile name' => '',
-        'Output to' => '',
+        'Carbon Copy' => 'Karbon kopya',
+        'Time restrictions' => 'Zaman kısıtlaması',
+        'No time settings' => 'Zaman ayarları yok',
+        'Only tickets created' => 'Sadece biletler oluşturuldu',
+        'Only tickets created between' => 'Sadece şu zaman aralığında oluşturulan biletler',
+        'Ticket archive system' => 'Bilet arşiv sistemi',
+        'Save search as template?' => 'Aramayı şablon olarak kaydet',
+        'Save as Template?' => 'Şablon olarak kaydedilsin mi?',
+        'Save as Template' => 'Şablon olarak kaydet',
+        'Template Name' => 'Şablon Adı',
+        'Pick a profile name' => 'Bir profil adı seç',
+        'Output to' => 'Çıkar',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
@@ -2264,41 +2265,41 @@ sub Data {
         # Template: CustomerTicketSearchResultShort
         'of' => '..nın',
         'Page' => 'Sayfa',
-        'Search Results for' => '',
+        'Search Results for' => 'için arama sonuçları ',
 
         # Template: CustomerTicketZoom
         '","18' => '',
-        'Expand article' => '',
-        'Reply' => '',
+        'Expand article' => 'Makaleyi genişlet',
+        'Reply' => 'Cevapla',
 
         # Template: CustomerWarning
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '',
-        'Previous' => '',
-        'Sunday' => '',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
-        'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
-        'Fr' => '',
-        'Sa' => '',
+        'Invalid date (need a future date)!' => 'Hatalı tarih (ileri bir tarih olmalı)!',
+        'Previous' => 'Önceki',
+        'Sunday' => 'Pazar',
+        'Monday' => 'Pazartesi',
+        'Tuesday' => 'Salı',
+        'Wednesday' => 'Çarşamba',
+        'Thursday' => 'Perşembe',
+        'Friday' => 'Cuma',
+        'Saturday' => 'Cumartesi',
+        'Su' => 'Paz',
+        'Mo' => 'Pzt',
+        'Tu' => 'Sa',
+        'We' => 'Çar',
+        'Th' => 'Per',
+        'Fr' => 'Cu',
+        'Sa' => 'Cmt',
         'Open date selection' => '',
 
         # Template: Error
         'Oops! An Error occurred.' => '',
-        'Error Message' => '',
+        'Error Message' => 'Hata mesajı',
         'You can' => '',
-        'Send a bugreport' => '',
-        'go back to the previous page' => '',
-        'Error Details' => '',
+        'Send a bugreport' => 'Hata raporu gönder',
+        'go back to the previous page' => 'Bir önceki sayfaya geri dön',
+        'Error Details' => 'Hata detayı',
 
         # Template: Footer
         'Top of page' => '',
@@ -2326,13 +2327,13 @@ sub Data {
         'JavaScript not available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '',
-        'Database Settings' => '',
+        'Database Settings' => 'Veritabanı ayarları',
         'General Specifications and Mail Settings' => '',
         'Registration' => '',
         'Welcome to %s' => '%s sistemine hoşgeldiniz',
         'Web site' => '',
-        'Database check successful.' => '',
-        'Mail check successful.' => '',
+        'Database check successful.' => 'Veritabanı kontrolü başarılı.',
+        'Mail check successful.' => 'E-posta kontrolü başarılı.',
         'Error in the mail settings. Please correct and try again.' => '',
 
         # Template: InstallerConfigureMail
@@ -2428,7 +2429,7 @@ sub Data {
         'Delete links' => '',
 
         # Template: Login
-        'JavaScript Not Available' => '',
+        'JavaScript Not Available' => 'JavaScript Kullanılamıyor',
         'Browser Warning' => '',
         'The browser you are using is too old.' => '',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
@@ -2436,11 +2437,11 @@ sub Data {
         'Please see the documentation or ask your admin for further information.' =>
             '',
         'Lost your password?' => 'Parolanızı mı kaybettiniz?',
-        'Request New Password' => '',
-        'Back to login' => '',
+        'Request New Password' => 'Yeni Parola Talep Et',
+        'Back to login' => 'Giriş\'e dön',
 
         # Template: Motd
-        'Message of the Day' => '',
+        'Message of the Day' => 'Günün Mesajı',
 
         # Template: NoPermission
         'Insufficient Rights' => '',
@@ -2449,15 +2450,15 @@ sub Data {
         # Template: Notify
 
         # Template: Pagination
-        'Show first page' => '',
-        'Show previous pages' => '',
-        'Show page %s' => '',
-        'Show next pages' => '',
-        'Show last page' => '',
+        'Show first page' => 'İlk sayfayı göster',
+        'Show previous pages' => 'Bir önceki sayfayı göster',
+        'Show page %s' => '%s. sayfayı göster',
+        'Show next pages' => 'Bir sonraki sayfayı göster',
+        'Show last page' => 'Son sayfayı göster',
 
         # Template: PictureUpload
-        'Need FormID!' => '',
-        'No file found!' => '',
+        'Need FormID!' => 'FormID gerekli',
+        'No file found!' => 'Dosya bulunamadı!',
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
@@ -2567,7 +2568,7 @@ sub Data {
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -2601,21 +2602,21 @@ sub Data {
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for the web service config backend.' => '',
-        'Change password' => '',
-        'Change queue!' => '',
-        'Change the customer for this ticket' => '',
-        'Change the free fields for this ticket' => '',
-        'Change the priority for this ticket' => '',
-        'Change the responsible person for this ticket' => '',
+        'Change password' => 'Parola Değiştir',
+        'Change queue!' => 'Kuyruk değiştir',
+        'Change the customer for this ticket' => 'Bu bilet için müşteri değiştir',
+        'Change the free fields for this ticket' => 'Bu bilet için boş alanları değiştir',
+        'Change the priority for this ticket' => 'Bu bilet için öncelik değiştir',
+        'Change the responsible person for this ticket' => 'Bu bilet için sorumlu kişiyi değiştir',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Closed tickets of customer' => '',
+        'Closed tickets of customer' => 'Müşteriye ait kapalı biletler',
         'Comment for new history entries in the customer interface.' => '',
-        'Companies' => '',
-        'Company Tickets' => '',
+        'Companies' => 'Şirketler',
+        'Company Tickets' => 'Şirket biletleri',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
         'Configure your own log text for PGP.' => '',
@@ -2629,7 +2630,7 @@ sub Data {
             '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
-        'Create and manage agents.' => '',
+        'Create and manage agents.' => 'Aracı oluştur ve yönet',
         'Create and manage attachments.' => '',
         'Create and manage companies.' => '',
         'Create and manage customers.' => '',
@@ -2860,7 +2861,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3046,6 +3047,8 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
@@ -3259,7 +3262,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3334,7 +3337,7 @@ sub Data {
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => '',
+        'Escalation view' => 'Yükselme Görünümü',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3576,8 +3579,6 @@ sub Data {
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -3609,31 +3610,31 @@ sub Data {
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '',
         'Module to use database filter storage.' => '',
-        'Multiselect' => '',
-        'My Tickets' => '',
+        'Multiselect' => 'Çoklu Seçim',
+        'My Tickets' => 'Biletlerim',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New email ticket' => '',
-        'New phone ticket' => '',
+        'New email ticket' => 'Yeni e-posta bileti',
+        'New phone ticket' => 'Yeni telefon bileti',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Notifications (Event)' => 'bildirim',
-        'Number of displayed tickets' => '',
+        'Number of displayed tickets' => 'Görünen Biletlerin sayısı',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'Open tickets of customer' => '',
+        'Open tickets of customer' => 'Müşteriye ait açık biletler',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => '',
-        'Overview Refresh Time' => '',
-        'Overview of all open Tickets.' => '',
+        'Overview Escalated Tickets' => 'Yükseltilmiş Biletlere Genel Bakış',
+        'Overview Refresh Time' => 'Genel Bakış yenileme süresi',
+        'Overview of all open Tickets.' => 'Tüm açık biletlere genel bakış.',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -3694,9 +3695,9 @@ sub Data {
         'PostMaster Mail Accounts' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Queue view' => '',
-        'Refresh Overviews after' => '',
-        'Refresh interval' => '',
+        'Queue view' => 'Kuyruk görünümü',
+        'Refresh Overviews after' => 'Genel bakıştan sonra yenile',
+        'Refresh interval' => 'Yenileme süresi',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -4141,8 +4142,8 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
-        'Status view' => '',
+        'Statistics' => 'İstatistikler',
+        'Status view' => 'Durum görünümü',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4177,7 +4178,7 @@ sub Data {
             '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket overview' => '',
+        'Ticket overview' => 'Bilet Genel Bakış',
         'Tickets' => 'Biletler',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4207,7 +4208,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Your language' => '',
+        'Your language' => 'Diliniz',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Favori kuyruklarınızın seçim kuyruğu. Bu kuyruklar hakkında da e-posta yoluyla (eğer açıksa) bildirim alırsınız.',
 
@@ -4272,7 +4273,7 @@ sub Data {
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' =>
             'Bu e-posta adresinden gelen tüm e-postalar seçili kuyruğa yönlendirilir.',
         'All messages' => 'Tüm mesajlar',
-        'All new tickets!' => 'tüm yeni biletler',
+        'All new tickets!' => 'Tüm yeni biletler',
         'All tickets where the reminder date has reached!' => 'hatırlatma tarihi gelen tüm biletler',
         'Allocate CustomerUser to service' => 'MüşteriKullanıcıyı servise ata',
         'Allocate services to CustomerUser' => 'Servisleri MüşteriKullanıcıya ata',
@@ -4442,7 +4443,7 @@ sub Data {
         'Logfile' => 'Günlük dosyası',
         'Logfile too large, you need to reset it!' => 'Günlük dosyası çok büyük, boşaltmalısınız!',
         'Login failed! Your username or password was entered incorrectly.' =>
-            'Oturum açılamadı! Kullanıcı adınız veya parolanız hatalı.',
+            'Oturum açılamadı! Kullanıcı adınız veya parolanız hatalı girildi.',
         'Lookup' => 'Ara',
         'Mail Management' => 'Posta Yönetimi',
         'Mailbox' => 'Posta kutusu',
