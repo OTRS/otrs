@@ -1171,7 +1171,7 @@ sub _Mask {
             Data  => \%Type,
             Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
-            PossibleNone => 0,
+            PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
         );
