@@ -170,7 +170,7 @@ sub ArticleDeleteAttachment {
         Bind => [ \$Param{ArticleID} ],
     );
 
-    # return of only delete in my backend
+    # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
     # delete from fs
