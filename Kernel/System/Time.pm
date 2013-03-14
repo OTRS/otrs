@@ -566,7 +566,20 @@ sub WorkingTime {
 
 =item DestinationTime()
 
-get the destination time (working time cal.) from start plus some time in seconds
+get the destination time based on the current calendar working time (fallback: default
+system working time) configuragtion.
+
+The algorithm roughly works as follows:
+    - Check if the start time is acutally in the configured working time.
+        - If not, set it to the next working time second. Example: start time is
+            on a weekend, start time would be set to 8:00 on the following Monday.
+    - Then the diff time (in seconds) is added to the start time incrementally, only considering
+        the configured working times. So adding 24 hours could actually span multiple days because
+        they would be spread over the configured working hours. If we have 8-20, 24 hours would be
+        spread over 2 days (13/11 hours).
+
+NOTE: Currently, the implementation stops silently after 100 iterations, making it impossible to
+    specify longer escalation times, for example.
 
     my $DestinationTime = $TimeObject->DestinationTime(
         StartTime => $Created,
@@ -741,7 +754,7 @@ sub DestinationTime {
         if ( $NewCTime == $CTime ) {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
-            # reduce destination time diff between today and tomrrow
+            # reduce destination time diff between today and tomorrow
             my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear )
                 = localtime $CTime;    ## no critic
             $NextYear  = $NextYear + 1900;

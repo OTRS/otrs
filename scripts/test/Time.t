@@ -400,6 +400,40 @@ my @DestinationTime = (
         EndTime         => '2007-03-27 10:42:23',
         EndTimeSystem   => 1174984943,
     },
+
+    # Behaviour tests
+    {
+        Name            => 'Test weekend',
+        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTimeSystem => '',
+        Diff            => 60 * 1,
+        EndTime         => '2013-03-18 08:01:00', # Monday
+        EndTimeSystem   => '',
+    },
+    {
+        Name            => 'Test weekend',
+        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTimeSystem => '',
+        Diff            => 60 * 60 * 1,
+        EndTime         => '2013-03-18 09:00:00', # Monday
+        EndTimeSystem   => '',
+    },
+    {
+        Name            => 'Test weekend',
+        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTimeSystem => '',
+        Diff            => 60 * 60 * 13,
+        EndTime         => '2013-03-18 21:00:00', # Monday
+        EndTimeSystem   => '',
+    },
+    {
+        Name            => 'Test weekend',
+        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTimeSystem => '',
+        Diff            => 60 * 60 * 14 + 60 * 1,
+        EndTime         => '2013-03-19 09:01:00', # Monday
+        EndTimeSystem   => '',
+    },
 );
 
 # DestinationTime test
