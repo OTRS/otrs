@@ -640,7 +640,7 @@ sub DestinationTime {
         $LoopCounter++;
         last if $LoopCounter > 100;
 
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
 
@@ -651,7 +651,6 @@ sub DestinationTime {
             )
         {
 
-            # do nothing
             if ($FirstTurn) {
                 $DestinationTime = $Self->Date2SystemTime(
                     Year   => $Year,
@@ -676,8 +675,8 @@ sub DestinationTime {
                     }
                     if ($Hit) {
                         if ( $Param{Time} > 60 * 60 ) {
-                            if ( $Min != 0 && $FirstTurn ) {
-                                my $Max = 60 - $Min;
+                            if ( $Minute != 0 && $FirstTurn ) {
+                                my $Max = 60 - $Minute;
                                 $Param{Time} = $Param{Time} - ( $Max * 60 );
                                 $DestinationTime = $DestinationTime + ( $Max * 60 );
                                 $FirstTurn = 0;
@@ -737,7 +736,7 @@ sub DestinationTime {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
             # reduce destination time diff between today and tomorrow
-            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear )
+            my ( $NextSecond, $NextMinute, $NextHour, $NextDay, $NextMonth, $NextYear )
                 = localtime $CTime;    ## no critic
             $NextYear  = $NextYear + 1900;
             $NextMonth = $NextMonth + 1;
