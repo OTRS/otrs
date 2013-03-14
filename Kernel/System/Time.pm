@@ -471,14 +471,7 @@ sub WorkingTime {
             );
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
-
-                if ( $Zone > 0 ) {
-                    $Zone = '+' . ( $Zone * 60 * 60 );
-                }
-                else {
-                    $Zone = ( $Zone * 60 * 60 );
-                    $Zone =~ s/\+/-/;
-                }
+                $Zone = $Zone * 3600;    # 60 * 60
                 $Param{StartTime} = $Param{StartTime} + $Zone;
                 $Param{StopTime}  = $Param{StopTime} + $Zone;
             }
@@ -627,31 +620,27 @@ sub DestinationTime {
     my $DestinationTime = $Param{StartTime};
     my $CTime           = $Param{StartTime};
     my $FirstTurn       = 1;
-    my $Count           = 1;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay )
-        = localtime $Param{StartTime};             ## no critic
-    $AYear  = $AYear + 1900;
-    $AMonth = $AMonth + 1;
-    my $ADate = "$AYear-$AMonth-$ADay";
     $Param{Time}++;
 
+    my %LDay  = (
+        1 => 'Mon',
+        2 => 'Tue',
+        3 => 'Wed',
+        4 => 'Thu',
+        5 => 'Fri',
+        6 => 'Sat',
+        0 => 'Sun',
+    );
+
+    my $LoopCounter;
+
     while ( $Param{Time} > 1 ) {
-        $Count++;
-        last if $Count > 100;
+        $LoopCounter++;
+        last if $LoopCounter > 100;
 
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
-        my $CDate = "$Year-$Month-$Day";
-        my %LDay  = (
-            1 => 'Mon',
-            2 => 'Tue',
-            3 => 'Wed',
-            4 => 'Thu',
-            5 => 'Fri',
-            6 => 'Sat',
-            0 => 'Sun',
-        );
 
         # count nothing because of vacation
         if (
