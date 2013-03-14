@@ -432,7 +432,7 @@ sub MailTimeStamp {
 
 =item WorkingTime()
 
-get the working time in seconds between these times
+get the working time in seconds between these times.
 
     my $WorkingTime = $TimeObject->WorkingTime(
         StartTime => $Created,
@@ -477,6 +477,17 @@ sub WorkingTime {
             }
         }
     }
+
+    my %LDay  = (
+        1 => 'Mon',
+        2 => 'Tue',
+        3 => 'Wed',
+        4 => 'Thu',
+        5 => 'Fri',
+        6 => 'Sat',
+        0 => 'Sun',
+    );
+
     my $Counted = 0;
     my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay )
         = localtime $Param{StartTime};    ## no critic
@@ -495,15 +506,6 @@ sub WorkingTime {
         $Year  = $Year + 1900;
         $Month = $Month + 1;
         my $CDate = "$Year-$Month-$Day";
-        my %LDay  = (
-            1 => 'Mon',
-            2 => 'Tue',
-            3 => 'Wed',
-            4 => 'Thu',
-            5 => 'Fri',
-            6 => 'Sat',
-            0 => 'Sun',
-        );
 
         # count nothing because of vacation
         if (
@@ -730,8 +732,7 @@ sub DestinationTime {
         ) + ( 60 * 60 * 24 );
 
         # Protect local time zone problems on your machine
-        # (e. g. sommertime -> wintertime) and not getting
-        # over to the next day.
+        # (e. g. summertime -> wintertime) and not getting over to the next day.
         if ( $NewCTime == $CTime ) {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
