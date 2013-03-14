@@ -597,6 +597,7 @@ NOTE: Currently, the implementation stops silently after 100 iterations, making 
 sub DestinationTime {
     my ( $Self, %Param ) = @_;
 
+    # "Time zone" diff in seconds
     my $Zone = 0;
 
     # check needed stuff
@@ -619,19 +620,12 @@ sub DestinationTime {
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
             $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
-            if ( $Zone > 0 ) {
-                $Zone = '+' . ( $Zone * 3600 );    # 60 * 60
-            }
-            else {
-                $Zone = ( $Zone * 3600 );          # 60 * 60
-                $Zone =~ s/\+/-/;
-            }
+            $Zone = $Zone * 3600;    # 60 * 60
             $Param{StartTime} = $Param{StartTime} + $Zone;
         }
     }
     my $DestinationTime = $Param{StartTime};
     my $CTime           = $Param{StartTime};
-    my $First           = 0;
     my $FirstTurn       = 1;
     my $Count           = 1;
     my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay )
@@ -668,7 +662,6 @@ sub DestinationTime {
 
             # do nothing
             if ($FirstTurn) {
-                $First           = 1;
                 $DestinationTime = $Self->Date2SystemTime(
                     Year   => $Year,
                     Month  => $Month,
@@ -719,7 +712,6 @@ sub DestinationTime {
                     }
                     else {
                         if ($FirstTurn) {
-                            $First           = 1;
                             $DestinationTime = $Self->Date2SystemTime(
                                 Year   => $Year,
                                 Month  => $Month,

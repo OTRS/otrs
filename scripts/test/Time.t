@@ -17,7 +17,23 @@ $ENV{TZ} = 'Europe/Berlin';
 
 use Kernel::System::Time;
 
-my $TimeObject = Kernel::System::Time->new( %{$Self} );
+my $ConfigObject = Kernel::Config->new();
+
+$ConfigObject->Set(
+    Key => 'TimeZone::Calendar9',
+    Value => '-1',
+);
+
+$ConfigObject->Set(
+    Key => 'TimeZone::Calendar8',
+    Value => '+1',
+);
+
+
+my $TimeObject = Kernel::System::Time->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 my $SystemTime = $TimeObject->TimeStamp2SystemTime( String => '2005-10-20T10:00:00Z' );
 $Self->Is(
@@ -411,6 +427,24 @@ my @DestinationTime = (
         EndTimeSystem   => '',
     },
     {
+        Name            => 'Test weekend -1',
+        StartTime       => '2013-03-16 10:00:00', # Saturday
+        Calendar        => 9,
+        StartTimeSystem => '',
+        Diff            => 60 * 1,
+        EndTime         => '2013-03-18 09:01:00', # Monday
+        EndTimeSystem   => '',
+    },
+    {
+        Name            => 'Test weekend +1',
+        StartTime       => '2013-03-16 10:00:00', # Saturday
+        Calendar        => 8,
+        StartTimeSystem => '',
+        Diff            => 60 * 1,
+        EndTime         => '2013-03-18 07:01:00', # Monday
+        EndTimeSystem   => '',
+    },
+    {
         Name            => 'Test weekend',
         StartTime       => '2013-03-16 10:00:00', # Saturday
         StartTimeSystem => '',
@@ -455,6 +489,7 @@ for my $Test (@DestinationTime) {
     my $DestinationTime = $TimeObject->DestinationTime(
         StartTime => $SystemTimeDestination,
         Time      => $Test->{Diff},
+        Calendar  => $Test->{Calendar},
     );
 
     # check system destination time
@@ -532,8 +567,8 @@ $Self->Is(
 );
 
 # modify calendar 1
-my $TimeVacationDays1        = $Self->{ConfigObject}->Get('TimeVacationDays::Calendar1');
-my $TimeVacationDaysOneTime1 = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime::Calendar1');
+my $TimeVacationDays1        = $ConfigObject->Get('TimeVacationDays::Calendar1');
+my $TimeVacationDaysOneTime1 = $ConfigObject->Get('TimeVacationDaysOneTime::Calendar1');
 
 # 2005-01-01
 $Vacation = $TimeObject->VacationCheck(
