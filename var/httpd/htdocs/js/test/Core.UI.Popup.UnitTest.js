@@ -22,7 +22,13 @@ Core.UI.Popup = (function (Namespace) {
         test('PopupProfiles', 2, function(){
 
             var ExpectedProfiles = {
-                    'Default': "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
+                'Default': {
+                    WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
+                    Left:            100,
+                    Top:             100,
+                    Width:           1000,
+                    Height:          700
+                }
             };
 
             same(Core.UI.Popup.ProfileList(), ExpectedProfiles, 'Default profile list');
