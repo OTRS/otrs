@@ -230,6 +230,7 @@ sub Data {
         'Please contact your administrator' => 'Παρακαλω επικοινωνηστε με τον διαχειριστή σας',
         'Logout' => 'Έξοδος',
         'Logout successful. Thank you for using OTRS!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το OTRS!',
+        'Logout successful. Thank you for using %s!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το %s!',
         'Feature not active!' => 'Μη ενεργή επιλογή!',
         'Agent updated!' => 'Ενημέρωση Συνεργάτη',
         'Create Database' => 'Δημιουργία Βάσης',

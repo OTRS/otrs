@@ -235,6 +235,7 @@ sub Data {
         'Please contact your administrator' => 'Vennligst kontakt administratoren',
         'Logout' => 'Logg ut',
         'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
+        'Logout successful. Thank you for using %s!' => 'Utlogging utført.  Takk for at du brukte %s!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
         'Agent updated!' => 'Saksbehandler oppdatert',
         'Create Database' => 'Opprett database',

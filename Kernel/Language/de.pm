@@ -228,6 +228,7 @@ sub Data {
         'Please contact your administrator' => 'Bitte kontaktieren Sie Ihren Administrator',
         'Logout' => 'Abmelden',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
+        'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Agent updated!' => 'Agent aktualisiert!',
         'Create Database' => 'Datenbank erstellen',

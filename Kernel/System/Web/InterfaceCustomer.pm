@@ -425,7 +425,7 @@ sub Run {
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
                 Title   => 'Logout',
-                Message => 'Logout successful. Thank you for using OTRS!',
+                Message => 'Logout successful. Thank you for using %s!", "$Config{"ProductName"}',
                 %Param,
             ),
         );

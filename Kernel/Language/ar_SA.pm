@@ -230,6 +230,7 @@ sub Data {
         'Please contact your administrator' => '',
         'Logout' => 'تسجيل الخروج',
         'Logout successful. Thank you for using OTRS!' => 'تم الخروج من النظام بنجاح. شكراً لإستخدامك OTRS!',
+        'Logout successful. Thank you for using %s!' => 'تم الخروج من النظام بنجاح. شكراً لإستخدامك %s!',
         'Feature not active!' => 'الخاصية غير مفعلة!',
         'Agent updated!' => '',
         'Create Database' => '',

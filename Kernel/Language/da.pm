@@ -230,6 +230,7 @@ sub Data {
         'Please contact your administrator' => 'Kontakt venligst din administrator',
         'Logout' => 'Log ud',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
+        'Logout successful. Thank you for using %s!' => 'Du er nu logget ud. Tak fordi du bruger %s.',
         'Feature not active!' => 'Funktionen er ikke aktiv',
         'Agent updated!' => 'Agent opdateret',
         'Create Database' => 'Opret database',

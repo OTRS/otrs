@@ -227,6 +227,7 @@ sub Data {
         'Please contact your administrator' => '',
         'Logout' => 'Đăng xuất',
         'Logout successful. Thank you for using OTRS!' => 'Đăng xuất thành công! Cảm ơn bạn đã sử dụng OTRS!',
+        'Logout successful. Thank you for using %s!' => 'Đăng xuất thành công! Cảm ơn bạn đã sử dụng %s!',
         'Feature not active!' => 'Tính năng không hoạt động!',
         'Agent updated!' => '',
         'Create Database' => 'Tạo cơ sở dữ liệu',

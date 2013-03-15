@@ -236,6 +236,7 @@ sub Data {
         'Please contact your administrator' => 'Свяжитесь с администратором',
         'Logout' => 'Выход',
         'Logout successful. Thank you for using OTRS!' => 'Вы успешно вышли из системы. Благодарим за пользование системой OTRS !',
+        'Logout successful. Thank you for using %s!' => 'Вы успешно вышли из системы. Благодарим за пользование системой %s !',
         'Feature not active!' => 'Функция не активирована!',
         'Agent updated!' => 'Агент обновлен!',
         'Create Database' => 'Создать базу',

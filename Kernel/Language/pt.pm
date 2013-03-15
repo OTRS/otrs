@@ -229,6 +229,7 @@ sub Data {
         'Please contact your administrator' => 'Por favor contate o administrador',
         'Logout' => 'Sair',
         'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',
+        'Logout successful. Thank you for using %s!' => 'Saiu com sucesso. Obrigado por utilizar o %s!',
         'Feature not active!' => 'Característica não ativa!',
         'Agent updated!' => 'Agente atualizado',
         'Create Database' => 'Criar Base de Dados',

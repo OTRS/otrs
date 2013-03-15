@@ -228,6 +228,7 @@ sub Data {
         'Please contact your administrator' => 'Молимо контактирајте вашег администратора',
         'Logout' => 'Одјава',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се одјавили! Хвала што сте користили "OTRS"!',
+        'Logout successful. Thank you for using %s!' => 'Успешно сте се одјавили! Хвала што сте користили "%s"!',
         'Feature not active!' => 'Функција није активна!',
         'Agent updated!' => 'Ажуриран оператер',
         'Create Database' => 'Креирај базу података',

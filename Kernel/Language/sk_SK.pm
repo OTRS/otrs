@@ -228,6 +228,7 @@ sub Data {
         'Please contact your administrator' => '',
         'Logout' => 'Odhlásenie ',
         'Logout successful. Thank you for using OTRS!' => 'Odhlásenie úspešné. Ďakujeme za používanie OTRS!',
+        'Logout successful. Thank you for using %s!' => 'Odhlásenie úspešné. Ďakujeme za používanie %s!',
         'Feature not active!' => 'Funkcia neaktívna!',
         'Agent updated!' => '',
         'Create Database' => 'Vytvor databázu',

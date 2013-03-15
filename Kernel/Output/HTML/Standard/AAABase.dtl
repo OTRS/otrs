@@ -211,7 +211,7 @@ $Text{"Login failed! Your user name or password was entered incorrectly."}
 $Text{"There is no acount with that user name."}
 $Text{"Please contact your administrator"}
 $Text{"Logout"}
-$Text{"Logout successful. Thank you for using OTRS!"}
+$Text{"Logout successful. Thank you for using %s!"}
 $Text{"Feature not active!"}
 $Text{"Agent updated!"}
 $Text{"Create Database"}
