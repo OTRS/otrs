@@ -63,7 +63,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label class="Mandatory" for="Name">$Text{"Available in"}:</label>
+                            <label class="Mandatory" for="Interface">$Text{"Available in"}:</label>
                             <div class="Field">
                                 $Data{"InterfaceSelection"}
                             </div>
