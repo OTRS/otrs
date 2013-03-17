@@ -1641,7 +1641,7 @@ sub Run {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
-                for my $ElementData ( @{$ElementList} ) {
+                for my $ElementData ( sort { lc($a->{Name}) cmp lc($b->{Name}) } @{$ElementList} ) {
 
                     my $AvailableIn = '';
                     if ( $Element eq "ActivityDialog" ) {
@@ -1840,7 +1840,7 @@ sub _ShowEdit {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
-                for my $ElementData ( @{$ElementList} ) {
+                for my $ElementData ( sort { lc($a->{Name}) cmp lc($b->{Name}) } @{$ElementList} ) {
 
                     my $AvailableIn = '';
                     if ( $Element eq "ActivityDialog" ) {
