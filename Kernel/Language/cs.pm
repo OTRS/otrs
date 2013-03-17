@@ -6,6 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # Copyleft (cc-by) 2013 Katerina Bubenickova <katerina.bubenickova at plbbohnice dot cz>
+# Copyleft (cc-by) 2013 Peter Pruchnerovic <peter.pruchnerovic at mall dot cz>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -228,12 +229,13 @@ sub Data {
         'replace with' => 'nahradit čím',
         'There is no account with that login name.' => 'Žádný účet s tímto přihlašovacím jménem neexistuje.',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            '',
+            'Přihlášení neúspěšné! Vaše uživatelské jméno či heslo bylo zadáno nesprávně.',
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => 'Odhlásit',
         'Logout successful. Thank you for using OTRS!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání OTRS!',
-        'Logout successful. Thank you for using %s!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání %s!',
+		'Logout successful. Thank you for using %s!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání %s!',
+        'Invalid SessionID!' => 'Neplatné ID relace!',
         'Feature not active!' => 'Funkce je neaktivní!',
         'Agent updated!' => '',
         'Create Database' => 'Vytvořit Databazi',
@@ -336,7 +338,7 @@ sub Data {
             '',
         'Edit the system configuration settings.' => '',
         'printed at' => 'vytištěno na',
-        'Loading...' => '',
+        'Loading...' => 'Nahrávám...',
         'Dear Mr. %s,' => 'Vážený Pane %s,',
         'Dear Mrs. %s,' => 'Vážená Paní %s,',
         'Dear %s,' => 'Vážený(á) %s,',
@@ -549,6 +551,7 @@ sub Data {
         'Queue' => 'Fronta',
         'Queues' => 'Řady',
         'Priority' => 'Priorita',
+        'Due Date' => 'Datum splatnosti',
         'Priorities' => '',
         'Priority Update' => 'Oprava Priority',
         'Priority added!' => '',
@@ -594,9 +597,9 @@ sub Data {
         'merged' => 'Sloučeno',
         'closed successful' => 'uzavřeno - vyřešeno',
         'closed unsuccessful' => 'uzavřeno - nevyřešeno',
-        'Locked Tickets Total' => '',
+        'Locked Tickets Total' => 'Zamčené Tikety - Všechny',
         'Locked Tickets Reminder Reached' => '',
-        'Locked Tickets New' => '',
+        'Locked Tickets New' => 'Zamčené Tikety - Nové',
         'Responsible Tickets Total' => '',
         'Responsible Tickets New' => '',
         'Responsible Tickets Reminder Reached' => '',
@@ -604,7 +607,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Všechny tikety',
-        'Available tickets' => '',
+        'Available tickets' => 'Tiketů k dispozici',
         'Escalation' => 'Eskalace',
         'last-search' => '',
         'QueueView' => 'Náhled fronty',
@@ -614,7 +617,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'new' => 'nová',
-        'open' => 'otevřít',
+        'open' => 'otevřený',
         'Open' => 'Otevřít',
         'Open tickets' => 'Otevřené tikety',
         'closed' => 'uzavřeno',
@@ -681,31 +684,35 @@ sub Data {
         'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Přehled všech otevřených tiketů',
         'Locked Tickets' => 'Uzamčené tikety',
-        'My Locked Tickets' => '',
+        'My Locked Tickets' => 'Moje zamčené tikety',
         'My Watched Tickets' => '',
         'My Responsible Tickets' => '',
         'Watched Tickets' => 'Zobrazené tikety',
         'Watched' => 'Zobrazené',
         'Watch' => '',
         'Unwatch' => '',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
-        'Show the ticket history' => '',
-        'Print this ticket' => '',
-        'Print this article' => '',
-        'Split this article' => '',
-        'Forward article via mail' => '',
-        'Change the ticket priority' => '',
+        'Lock it to work on it' => 'Uzamknout pro práci',
+        'Unlock to give it back to the queue' => 'Odemknout zpět do Fronty',
+        'Show the ticket history' => 'Zobraz historii tiketu',
+        'Print this ticket' => 'Vytisknout tiket',
+        'Print this article' => 'Vytisknout tuto zprávu',
+        'Split this article' => 'Rozdelit tuto zprávu',
+        'Split' => 'Rozdělit',
+        'Forward article via mail' => 'Přeposlat zprávu',
+        'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
+        'View the source for this Article' => 'Zobrazit zdroj zprávy',
+        'Change the ticket priority' => 'Změna Priority tiketu',
         'Change the ticket free fields!' => 'Změna volných polí tiketu',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
-        'Merge into a different ticket' => '',
-        'Set this ticket to pending' => '',
-        'Close this ticket' => '',
+        'Link this ticket to other objects' => 'Spárovat Tiket s jinými objekty',
+        'Change the owner for this ticket' => 'Změna vlastníka tiketu',
+        'Change the  customer for this ticket' => 'Změna Zákazníka Tiketu',
+        'Add a note to this ticket' => 'Přidat poznámku do Tiketu',
+        'Merge into a different ticket' => 'Sloučit do jiného tiketu',
+        'Merge this ticket' => 'Sloučit Tiket',
+        'Set this ticket to pending' => 'Nastavit jako čekající na vyřízení',
+        'Close this ticket' => 'Uzavřít Tiket',
         'Look into a ticket!' => 'Náhled Tiketu',
-        'Delete this ticket' => '',
+        'Delete this ticket' => 'Smazat Tiket',
         'Mark as Spam!' => 'Označit jako SPAM',
         'My Queues' => 'Moje Fronty',
         'Shown Tickets' => 'Zobrazit Tikety',
@@ -718,7 +725,7 @@ sub Data {
         'Ticket %s: solution time is over (%s)!' => 'Tiket %s: Vypršel čas Řešení (%s)!',
         'Ticket %s: solution time will be over in %s!' => 'Tiket %s: Čas Řešení vyprší v %s!',
         'There are more escalated tickets!' => 'Je zde více Eskalovaných Tiketů',
-        'Plain Format' => 'Prostý text',
+        'Plain Format' => 'Zdrojový formát',
         'Reply All' => 'Odpovědět všem',
         'Direction' => '',
         'Agent (All with write permissions)' => '',
@@ -746,6 +753,8 @@ sub Data {
         'Refresh QueueView after' => 'Obnovit zobrazení front po',
         'Screen after new ticket' => 'Zobrazení po Novém Tiketu',
         'Show this screen after I created a new ticket' => 'Zobraz tento pohled, když vytvořím nový tiket',
+        'CreateTicket' => 'Vytvořit Tiket',
+        'TicketZoom' => 'Zobrazení tiketu',
         'Closed Tickets' => 'Uzavřené Tikety',
         'Show closed tickets.' => 'Ukázat uzavřené tikety.',
         'Max. shown Tickets a page in QueueView.' => 'Max. zobrazených tiketů v náhledu fronty na stránku',
@@ -870,9 +879,9 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Správa Společnosti Zákazníka',
-        'Wildcards like \'*\' are allowed.' => '',
+        'Wildcards like \'*\' are allowed.' => 'Pseudoznaky jako \'*\' jsou povolené',
         'Add customer company' => 'Přidat společnost zákazníka',
-        'Please enter a search term to look for customer companies.' => '',
+        'Please enter a search term to look for customer companies.' => 'Prosím vlož hledaný výraz pro vyhledaní společnosti zákazníka',
         'Add Customer Company' => 'Přidat Společnost Zákazníka',
 
         # Template: AdminCustomerUser
@@ -1062,6 +1071,7 @@ sub Data {
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => '',
         'Agent' => 'Řešitel',
         'Ticket lock' => '',
+        'TicketFreeFields' => 'Volná pole Tiketu',
         'Create times' => '',
         'No create time settings.' => 'Žádná nastavení Času Vytvoření.',
         'Ticket created' => 'Tiket vytvořen',
@@ -1110,7 +1120,6 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1560,7 +1569,7 @@ sub Data {
         'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close window' => '',
+        'Cancel & close window' => 'Zruš & zavři okno',
         'Go Back' => '',
         'Please note, that changing this activity will affect the following processes' =>
             '',
@@ -1812,7 +1821,7 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '',
         'Filter for Agents' => '',
-        'Agents' => '',
+        'Agents' => 'Řešitelé',
         'Manage Role-Agent Relations' => '',
         'Change Role Relations for Agent' => '',
         'Change Agent Relations for Role' => '',
@@ -1940,11 +1949,11 @@ sub Data {
         'Error: this directory could not be found.' => '',
         'Error: an invalid value was entered.' => '',
         'Content' => 'Obsah',
-        'Remove this entry' => '',
-        'Add entry' => '',
-        'Remove entry' => '',
-        'Add new entry' => '',
-        'Create new entry' => '',
+        'Remove this entry' => 'Odstranit tuto položku',
+        'Add entry' => 'Přidat položku',
+        'Remove entry' => 'Odstranit položku',
+        'Add new entry' => 'Přidat novú položku',
+        'Create new entry' => 'Vytvořit novú položku',
         'New group' => '',
         'Group ro' => '',
         'Readonly group' => '',
@@ -2236,8 +2245,8 @@ sub Data {
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => 'Spojit s nejstarším',
         'Link together' => 'spárovat dohlromady',
-        'Link to parent' => '',
-        'Unlock tickets' => '',
+        'Link to parent' => 'Spojit z nadřazeným tiketem',
+        'Unlock tickets' => 'Odemkni tikety',
 
         # Template: AgentTicketClose
 
@@ -2249,7 +2258,7 @@ sub Data {
         'Please include at least one recipient' => '',
         'Remove Cc' => '',
         'Remove Bcc' => '',
-        'Address book' => '',
+        'Address book' => 'Adresář',
         'Pending Date' => 'Očekávaný čas vyřízení',
         'for pending* states' => 'pro stavy očekávání*',
         'Date Invalid!' => '',
@@ -2260,16 +2269,16 @@ sub Data {
         'Customer user' => '',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => '',
-        'From queue' => '',
-        'To customer' => '',
+        'Create New Email Ticket' => 'Vytvořit Nový Email Tiket',
+        'From queue' => 'Z fronty',
+        'To customer' => 'Zákazníkovi',
         'Please include at least one customer for the ticket.' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
-        'Forward ticket: %s - %s' => '',
+        'Forward ticket: %s - %s' => 'Přeposlat tiket: %s - %s',
 
         # Template: AgentTicketFreeText
 
@@ -2292,7 +2301,7 @@ sub Data {
 
         # Template: AgentTicketOverviewMedium
         'Select all' => '',
-        'No ticket data found.' => '',
+        'No ticket data found.' => 'žádné',
         'First Response Time' => 'Čas první reakce',
         'Service Time' => 'Servisní čas',
         'Update Time' => 'Čas Aktualizace',
@@ -2302,7 +2311,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Změnit možnosti vyhledávání',
-        'Tickets per page' => '',
+        'Tickets per page' => 'Tiketů na stránku',
 
         # Template: AgentTicketOverviewPreview
 
@@ -2323,9 +2332,9 @@ sub Data {
         'Phone call' => 'Telefoní hovor',
 
         # Template: AgentTicketPlain
-        'Email Text Plain View' => '',
+        'Email Text Plain View' => 'Zobrazení zdroje tiketu',
         'Plain' => 'Jednoduché',
-        'Download this email' => '',
+        'Download this email' => 'Stáhnout tento email',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Informace o Tiketu',
@@ -2346,9 +2355,9 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search template' => 'Forma vyhledávání',
-        'Create Template' => 'Vztvořit šablonu',
-        'Create New' => 'Vytvořit nový',
+        'Search template' => 'Šablona vyhledávání',
+        'Create Template' => 'Vytvořit šablonu',
+        'Create New' => 'Vytvořit novou',
         'Profile link' => '',
         'Save changes in template' => 'Uložit změny v šabloně',
         'Add another attribute' => 'Přidat další atribut',
@@ -2357,19 +2366,19 @@ sub Data {
         'Remove' => 'Odstranit',
         'Customer User Login' => 'Přihlášení klienta',
         'Created in Queue' => 'Vytvořeno ve Frontě',
-        'Lock state' => '',
+        'Lock state' => 'Stav zámku',
         'Watcher' => '',
-        'Article Create Time (before/after)' => '',
-        'Article Create Time (between)' => '',
-        'Ticket Create Time (before/after)' => '',
-        'Ticket Create Time (between)' => '',
-        'Ticket Change Time (before/after)' => '',
-        'Ticket Change Time (between)' => '',
-        'Ticket Close Time (before/after)' => '',
-        'Ticket Close Time (between)' => '',
-        'Ticket Escalation Time (before/after)' => '',
-        'Ticket Escalation Time (between)' => '',
-        'Archive Search' => '',
+        'Article Create Time (before/after)' => 'Čas Vytvoření zprávy (poslední/před)',
+        'Article Create Time (between)' => 'Čas Vytvoření zprávy (mezi)',
+        'Ticket Create Time (before/after)' => 'Čas Vytvoření Tiketu (poslední/před)',
+        'Ticket Create Time (between)' => 'Čas Vytvoření Tiketu (mezi)',
+        'Ticket Change Time (before/after)' => 'Čas Změny Tiketu (poslední/před)',
+        'Ticket Change Time (between)' => 'Čas Změny Tiketu (mezi)',
+        'Ticket Close Time (before/after)' => 'Čas Uzatvoření Tiketu (poslední/před)',
+        'Ticket Close Time (between)' => 'Čas Uzatvoření Tiketu (mezi)',
+        'Ticket Escalation Time (before/after)' => 'Čas eskalace Tiketu (poslední/před)',
+        'Ticket Escalation Time (between)' => 'Čas eskalace Tiketu (mezi)',
+        'Archive Search' => 'Vyhledávat v archivu',
         'Run search' => 'Spustit hledání',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
@@ -2385,8 +2394,9 @@ sub Data {
         'Save filter settings as default' => 'Uložit Filtr jako Implicitní',
         'Archive' => 'Informace o tiketu',
         'This ticket is archived.' => 'Tiket je archivován.',
+        'Ticket Information' => 'Informace o tiketu',
         'Linked Objects' => 'Připojené objekty',
-        'Article(s)' => '',
+        'Article(s)' => 'Zpráva(y)',
         'Change Queue' => 'Změnit frontu',
         'There are currently no steps available for this process.' => '',
         'This item has no articles yet.' => '',
@@ -2394,8 +2404,8 @@ sub Data {
         'Add Filter' => '',
         'Set' => 'Nastavit',
         'Reset Filter' => '',
-        'Show one article' => '',
-        'Show all articles' => '',
+        'Show one article' => 'Zobrazit jednu zprávu',
+        'Show all articles' => 'Zobrazit všechny zprávy',
         'Unread articles' => '',
         'No.' => '',
         'Unread Article!' => '',
@@ -2418,7 +2428,7 @@ sub Data {
         # Template: CustomerFooter
         'Powered by' => 'Vytvořeno',
         'One or more errors occurred!' => '',
-        'Close this dialog' => '',
+        'Close this dialog' => 'Zavřít toto okno',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '',
 
@@ -2460,7 +2470,7 @@ sub Data {
         'Please supply a' => 'Prosím zadejte',
 
         # Template: CustomerNavigationBar
-        'Edit personal preferences' => '',
+        'Edit personal preferences' => 'Nastavení účtu',
         'Logout %s' => 'Odhlásit %s',
 
         # Template: CustomerPreferences
@@ -2512,27 +2522,28 @@ sub Data {
         'Next Steps' => 'Další kroky',
         'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
         'Reply' => 'Odpovědět',
+		'empty answer' => '0_Prázdná odpověd',
 
         # Template: CustomerWarning
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '',
-        'Previous' => '',
-        'Sunday' => '',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
-        'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
-        'Fr' => '',
-        'Sa' => '',
-        'Open date selection' => '',
+        'Invalid date (need a future date)!' => 'Nesprávne datum (musí být v budoucnosti)',
+        'Previous' => 'Předchozí',
+        'Sunday' => 'Neděle',
+        'Monday' => 'Pondelí',
+        'Tuesday' => 'Úterí',
+        'Wednesday' => 'Středa',
+        'Thursday' => 'Čtvrtek',
+        'Friday' => 'Pátek',
+        'Saturday' => 'Sobota',
+        'Su' => 'Ne',
+        'Mo' => 'Po',
+        'Tu' => 'Ut',
+        'We' => 'St',
+        'Th' => 'Čt',
+        'Fr' => 'Pá',
+        'Sa' => 'So',
+        'Open date selection' => 'Otevři kalendář',
 
         # Template: Error
         'Oops! An Error occurred.' => '',
@@ -2543,7 +2554,7 @@ sub Data {
         'Error Details' => '',
 
         # Template: Footer
-        'Top of page' => '',
+        'Top of page' => 'Na začátek stránky',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
@@ -2563,7 +2574,7 @@ sub Data {
         'Fulltext search' => 'Fulltextové vyhledávání',
         'CustomerID Search' => '',
         'CustomerUser Search' => '',
-        'You are logged in as' => '',
+        'You are logged in as' => 'Jste přihlášen jako',
 
         # Template: HeaderSmall
 
@@ -2848,7 +2859,7 @@ sub Data {
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => '',
         'Change queue!' => '',
-        'Change the customer for this ticket' => '',
+        'Change the customer for this ticket' => 'Změna Zákazníka Tiketu',
         'Change the free fields for this ticket' => '',
         'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
@@ -3641,14 +3652,14 @@ sub Data {
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
-        'Frontend language' => '',
+        'Frontend language' => 'Jazyk prostředí',
         'Frontend module registration (disable company link if no company feature is used).' =>
             '',
         'Frontend module registration (disable ticket processes screen if no process available).' =>
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend theme' => '',
+        'Frontend theme' => 'Motiv prostředí',
         'GenericAgent' => 'Obecný Prostředek',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3766,7 +3777,7 @@ sub Data {
         'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            '',
+            'Když zapnuto, různe přehledy (Nástěnka, Zamčené Tikety, Náhled Fronty) budou automaticky znovunačteny.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
@@ -3905,7 +3916,7 @@ sub Data {
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => '',
-        'Overview Refresh Time' => '',
+        'Overview Refresh Time' => 'Čas znovunačtení přehledu',
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
@@ -3980,7 +3991,7 @@ sub Data {
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Zobrazit frontu',
-        'Refresh Overviews after' => '',
+        'Refresh Overviews after' => 'Načti prehled po',
         'Refresh interval' => 'Interval obnovy',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
@@ -4036,9 +4047,9 @@ sub Data {
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '',
+            'Pošli mi oznámení když zákazník pošle novou zprávu a já jsem vlastníkem tiketu nebo se jedná o tiket který je odemčený a je v mých frontách.',
         'Send notifications to users.' => '',
-        'Send ticket follow up notifications' => '',
+        'Send ticket follow up notifications' => 'Pošli oznámení o nové komunikaci v tiketu',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',
