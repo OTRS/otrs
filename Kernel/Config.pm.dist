@@ -56,8 +56,6 @@ sub Load {
     # The database DSN for Microsoft SQL Server - only supported if OTRS is
     # installed on Windows as well
 #    $Self->{DatabaseDSN} = "DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost},1433";
-#    $Self->{Database::Type} = 'mssql';
-
 
     # The database DSN for Oracle ==> more: "perldoc DBD::oracle"
 #    $ENV{ORACLE_HOME} = '/u01/app/oracle/product/10.2.0/client_1';

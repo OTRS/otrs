@@ -134,7 +134,7 @@ sub new {
     elsif ( $Self->{DSN} =~ /:db2/i ) {
         $Self->{'DB::Type'} = 'db2';
     }
-    elsif ( $Self->{DSN} =~ /:(mssql|sybase)/i ) {
+    elsif ( $Self->{DSN} =~ /(mssql|sybase|sql server)/i ) {
         $Self->{'DB::Type'} = 'mssql';
     }
 
