@@ -515,7 +515,7 @@ sub _ShowEdit {
             Sort => 'AlphanumericKey',
             Translation   => 1,
             Class         => 'W50pc',
-            SelectedValue => $TransitionData->{Config}->{ConditionLinking},
+            SelectedID    => $TransitionData->{Config}->{ConditionLinking},
         );
 
         my @Conditions = sort keys %{ $TransitionData->{Config}->{Condition} };
@@ -530,7 +530,7 @@ sub _ShowEdit {
                 Sort => 'AlphanumericKey',
                 Translation   => 1,
                 Class         => 'W50pc',
-                SelectedValue => $ConditionData{ConditionLinking},
+                SelectedID    => $ConditionData{Type},
             );
 
             $Self->{LayoutObject}->Block(
@@ -559,7 +559,7 @@ sub _ShowEdit {
                     Name          => "ConditionFieldType[$Condition][$Field]",
                     Sort          => 'AlphanumericKey',
                     Translation   => 1,
-                    SelectedValue => $FieldData{Type},
+                    SelectedID    => $FieldData{Type},
                 );
 
                 # show fields
