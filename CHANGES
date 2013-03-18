@@ -1,5 +1,6 @@
 3.2.4 2013-??-??
- - 2013-03-18 Updated Czech translation, thanks to Peter Pruchnerovic!
+ - 2013-03-18 Updated Norwegian translation, thanks to Espen Stefansen.
+ - 2013-03-18 Updated Czech translation, thanks to Peter Pruchnerovic.
  - 2013-03-18 Fixed bug#9215 - Process import always creates new process. Now there is a new option
     "overwrite existing entities" for the process import.
  - 2013-03-15 Fixed bug#4716 - Logout page should use ProductName instead of 'OTRS'.
