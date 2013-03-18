@@ -38,12 +38,12 @@ $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:TimeLong -->
 
 <!-- dtl:block:Checkbox -->
-<input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"/>
+<input type="checkbox" id="$QData{"Name"}" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"/>
 &nbsp;<br/>
 <!-- dtl:block:Checkbox -->
 
 <!-- dtl:block:InputText -->
-<input type="text" name="$QData{"Key"}" class="W50pc" value="$QData{"Value"}" />
+<input type="text" id="$QData{"Key"}" name="$QData{"Key"}" class="W50pc" value="$QData{"Value"}" />
 <!-- dtl:block:InputText -->
 
 <!-- dtl:block:TableSimpleNone -->

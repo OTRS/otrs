@@ -107,7 +107,7 @@
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
 <!-- dtl:block:LinkSearchRow -->
-                        <label>
+                        <label for="$QData{"FormKey"}">
                             $Text{"$Data{"Name"}"}:
                         </label>
                         <div class="Field">
