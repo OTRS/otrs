@@ -39,7 +39,7 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

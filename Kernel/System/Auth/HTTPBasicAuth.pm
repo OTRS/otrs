@@ -22,8 +22,6 @@ package Kernel::System::Auth::HTTPBasicAuth;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

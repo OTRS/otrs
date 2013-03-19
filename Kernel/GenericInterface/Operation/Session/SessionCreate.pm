@@ -16,7 +16,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Session::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData IsHashRefWithData);
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

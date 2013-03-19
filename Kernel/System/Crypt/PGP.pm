@@ -12,8 +12,6 @@ package Kernel::System::Crypt::PGP;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Crypt::PGP - pgp crypt backend lib

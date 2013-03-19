@@ -14,8 +14,6 @@ use warnings;
 
 use Sys::Syslog qw();
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

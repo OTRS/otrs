@@ -12,8 +12,6 @@ package Kernel::Modules::AdminGenericInterfaceWebserviceHistory;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
 

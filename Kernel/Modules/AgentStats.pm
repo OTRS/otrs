@@ -18,8 +18,6 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 use Kernel::System::PDF;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

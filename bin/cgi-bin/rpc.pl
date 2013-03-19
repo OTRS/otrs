@@ -44,8 +44,6 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 
-use vars qw($VERSION);
-
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle();
 
 package Core;

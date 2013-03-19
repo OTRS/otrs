@@ -12,8 +12,6 @@ package Kernel::System::GenericAgent::TriggerEscalationStartEvents;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 use List::Util qw(first);
 
 use Kernel::System::SLA;

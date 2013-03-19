@@ -12,8 +12,6 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

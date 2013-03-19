@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::DynamicField;
 use Kernel::System::PostMaster::Filter;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

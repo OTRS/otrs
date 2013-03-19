@@ -12,7 +12,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-use vars qw($VERSION @INC);
+use vars qw(@INC);
 
 use Kernel::Config;
 use Kernel::System::Log;

@@ -16,8 +16,6 @@ use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use Kernel::System::Valid;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

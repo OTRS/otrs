@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 # to get it readable for the webserver user and writable for otrs
 # group (just in case)
 
@@ -48,7 +46,7 @@ use Kernel::System::PostMaster;
 my %Opts;
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
+    print "otrs.PostMaster.pl - OTRS cmd postmaster\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";

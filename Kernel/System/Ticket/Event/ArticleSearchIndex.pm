@@ -12,8 +12,6 @@ package Kernel::System::Ticket::Event::ArticleSearchIndex;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

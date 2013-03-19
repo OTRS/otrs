@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::Spelling;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

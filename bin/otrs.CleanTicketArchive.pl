@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -52,7 +50,7 @@ $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # print header
-print STDOUT "otrs.CleanTicketArchive.pl <Revision $VERSION> - clean ticket archive flag\n";
+print STDOUT "otrs.CleanTicketArchive.pl - clean ticket archive flag\n";
 print STDOUT "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
 
 # check if archive system is activated

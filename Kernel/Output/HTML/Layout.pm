@@ -19,7 +19,7 @@ use Kernel::System::JSON;
 use Mail::Address;
 use URI::Escape qw();
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

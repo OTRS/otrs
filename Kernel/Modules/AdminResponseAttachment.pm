@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::StdAttachment;
 use Kernel::System::StandardResponse;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

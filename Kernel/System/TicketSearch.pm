@@ -12,7 +12,7 @@ package Kernel::System::TicketSearch;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;

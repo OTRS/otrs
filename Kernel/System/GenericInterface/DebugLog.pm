@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::GenericInterface::DebugLog - log interface for generic interface

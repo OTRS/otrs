@@ -24,8 +24,6 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Process.pm

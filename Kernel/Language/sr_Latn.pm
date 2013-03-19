@@ -12,8 +12,6 @@ package Kernel::Language::sr_Latn;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub Data {
     my $Self = shift;
 

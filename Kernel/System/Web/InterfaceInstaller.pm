@@ -12,7 +12,7 @@ package Kernel::System::Web::InterfaceInstaller;
 use strict;
 use warnings;
 
-use vars qw($VERSION @INC);
+use vars qw(@INC);
 
 # all framework needed  modules
 use Kernel::Config;

@@ -21,8 +21,6 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 use Mail::Address;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::EmailParser - parse and encode an email

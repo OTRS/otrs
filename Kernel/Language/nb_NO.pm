@@ -20,8 +20,6 @@ package Kernel::Language::nb_NO;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub Data {
     my $Self = shift;
 

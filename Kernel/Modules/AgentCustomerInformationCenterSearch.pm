@@ -16,8 +16,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

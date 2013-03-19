@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -59,7 +57,7 @@ $CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
 my %Opts;
 getopt( 'ur', \%Opts );
 if ( !$Opts{r} || !$Opts{u} ) {
-    print "$0 <Revision $VERSION> - assign Users to Roles\n";
+    print "$0 - assign Users to Roles\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;

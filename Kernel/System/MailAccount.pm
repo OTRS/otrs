@@ -12,8 +12,6 @@ package Kernel::System::MailAccount;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::MailAccount - to manage mail accounts

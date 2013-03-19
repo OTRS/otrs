@@ -15,7 +15,7 @@ use warnings;
 use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

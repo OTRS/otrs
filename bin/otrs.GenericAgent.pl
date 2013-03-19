@@ -28,7 +28,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION %Jobs @ISA);
+use vars qw(%Jobs @ISA);
 
 use Getopt::Std;
 
@@ -47,7 +47,7 @@ use Kernel::System::GenericAgent;
 my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
+    print "otrs.GenericAgent.pl - OTRS generic agent\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";

@@ -12,8 +12,6 @@ package Kernel::System::Email::Sendmail;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::FileTemp;
 use Kernel::System::Time;
 
-use vars qw($VERSION @ISA);
+use vars qw(@ISA);
 
 =head1 NAME
 

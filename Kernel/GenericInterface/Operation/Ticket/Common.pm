@@ -36,7 +36,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

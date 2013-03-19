@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::SystemAddress;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::AutoResponse - auto response lib

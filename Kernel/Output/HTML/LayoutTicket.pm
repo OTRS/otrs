@@ -12,7 +12,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;

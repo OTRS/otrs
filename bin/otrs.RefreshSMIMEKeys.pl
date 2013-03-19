@@ -29,8 +29,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -45,7 +43,7 @@ my %Opts = ();
 getopt( 'hdf', \%Opts );
 
 if ( $Opts{h} ) {
-    print "otrs.RefreshSMIMEKeys.pl <Revision $VERSION> - fix SMIME certificates private keys and"
+    print "otrs.RefreshSMIMEKeys.pl - fix SMIME certificates private keys and"
         . " secrets filenames\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RefreshSMIMEKeys.pl -d <DETAILS> (short|long) [-f (force to execute even"

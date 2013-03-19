@@ -12,8 +12,6 @@ package Kernel::Output::HTML::DashboardCustomerUserList;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 use Kernel::System::CustomerUser;
 
 sub new {

@@ -13,8 +13,6 @@ package Kernel::Output::HTML::DashboardIFrame;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

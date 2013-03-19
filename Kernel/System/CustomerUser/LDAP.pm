@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 use Kernel::System::Time;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 sub new {
     my ( $Type, %Param ) = @_;

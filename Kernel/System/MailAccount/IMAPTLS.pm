@@ -15,8 +15,6 @@ use warnings;
 use Mail::IMAPClient;
 use Kernel::System::PostMaster;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -15,8 +15,6 @@ use Kernel::System::VariableCheck qw(:all);
 
 use utf8;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::TicketTitleSet - A Module to set the title of a Ticket

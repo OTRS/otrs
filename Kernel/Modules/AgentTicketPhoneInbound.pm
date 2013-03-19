@@ -14,6 +14,4 @@ use warnings;
 
 use base qw( Kernel::Modules::AgentTicketPhoneCommon );
 
-use vars qw($VERSION);
-
 1;

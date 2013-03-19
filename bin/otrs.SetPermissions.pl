@@ -28,12 +28,10 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use File::Find;
 use Getopt::Long;
 
-print "bin/otrs.SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
+print "bin/otrs.SetPermissions.pl - set OTRS file permissions\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
 
 my $Secure             = 0;
@@ -89,7 +87,12 @@ EOF
         exit 0;
     }
 }
+
+# Append a / to $DestDir if it does not end with / already.
+# With this File::Find will recurse into symlinked directories.
 my $DestDir = $ARGV[0];
+$DestDir .= '/' if substr($DestDir, -1, 1) ne '/';
+
 
 # check params
 if ( !$OtrsUser ) {
@@ -219,6 +222,7 @@ exit(0);
 
 sub MakeReadOnly {
     my $File = $_;
+
     if ( !$NotRoot ) {
         SafeChown( $AdminUserID, $AdminGroupID, $File );
     }

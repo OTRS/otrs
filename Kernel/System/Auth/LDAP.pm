@@ -13,8 +13,6 @@ use strict;
 use warnings;
 use Net::LDAP;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

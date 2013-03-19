@@ -11,8 +11,6 @@ package Kernel::System::Ticket::Event::ResponsibleAutoSet;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

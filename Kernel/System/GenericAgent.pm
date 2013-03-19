@@ -16,8 +16,6 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::GenericAgent - to manage the generic agent jobs

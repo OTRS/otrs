@@ -21,8 +21,6 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

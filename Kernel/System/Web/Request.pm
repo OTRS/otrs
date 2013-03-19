@@ -16,8 +16,6 @@ use File::Path qw();
 
 use Kernel::System::CheckItem;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Web::Request - global CGI interface

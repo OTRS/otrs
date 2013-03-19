@@ -19,8 +19,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -43,8 +43,6 @@ use ExtUtils::MakeMaker;
 use File::Path;
 use Term::ANSIColor;
 
-use vars qw($VERSION);
-
 # config
 my @NeededModules = (
     {

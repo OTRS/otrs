@@ -26,8 +26,6 @@ use Kernel::System::SystemAddress;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -1075,14 +1073,6 @@ sub MaskAgentZoom {
         next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
-        # get print string for this dynamic field
-        # do not use ValueMaxChars here otherwise values will be trimmed also in Process Widget
-        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-            LayoutObject       => $Self->{LayoutObject},
-        );
-
         # use translation here to be able to reduce the character length in the template
         my $Label = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} );
 
@@ -1091,6 +1081,13 @@ sub MaskAgentZoom {
             $Self->{DisplaySettings}->{ProcessWidgetDynamicField}->{ $DynamicFieldConfig->{Name} }
             )
         {
+            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                LayoutObject       => $Self->{LayoutObject},
+                # no ValueMaxChars here, enough space available
+            );
+
             push @FieldsWidget, {
                 Name  => $DynamicFieldConfig->{Name},
                 Title => $ValueStrg->{Title},
@@ -1103,26 +1100,22 @@ sub MaskAgentZoom {
             };
         }
 
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            LayoutObject       => $Self->{LayoutObject},
+            ValueMaxChars      => 18, # limit for sidebar display
+        );
+
+
         if (
             $Self->{DisplaySettings}->{DynamicField}->{ $DynamicFieldConfig->{Name} }
             )
         {
-            my $TrimmedValue = $ValueStrg->{Value};
-
-            # trim the value so it can fit better in the sidebar
-            # but don't trim attachment html data (FAO OTRSDynamicFieldAttachment)
-            if (
-                $DynamicFieldConfig->{FieldType} ne 'Attachment'
-                && length $ValueStrg->{Value} > 18
-                )
-            {
-                $TrimmedValue = substr( $ValueStrg->{Value}, 0, 18 ) . '...';
-            }
-
             push @FieldsSidebar, {
                 Name                        => $DynamicFieldConfig->{Name},
                 Title                       => $ValueStrg->{Title},
-                Value                       => $TrimmedValue,
+                Value                       => $ValueStrg->{Value},
                 Label                       => $Label,
                 Link                        => $ValueStrg->{Link},
                 $DynamicFieldConfig->{Name} => $ValueStrg->{Title},

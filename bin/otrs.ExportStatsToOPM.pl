@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -45,7 +43,7 @@ use Kernel::System::Package;
 use Kernel::System::CSV;
 
 # get file version
-use vars qw($VERSION $Debug);
+use vars qw($Debug);
 
 # common objects
 my %CommonObject = ();
@@ -79,7 +77,7 @@ getopt( 'dhvn', \%Opts );
 # check needed params
 if ( $Opts{'h'} ) {
     print
-        "otrs.ExportStatsToOPM.pl <Revision $VERSION> - export all stats of a system and create a package for the package manager\n";
+        "otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.ExportStatsToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print

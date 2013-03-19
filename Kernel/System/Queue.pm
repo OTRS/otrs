@@ -20,8 +20,6 @@ use Kernel::System::SysConfig;
 use Kernel::System::Time;
 use Kernel::System::Valid;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Queue - queue lib

@@ -12,7 +12,7 @@ package Kernel::System::VariableCheck;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 
 use Exporter;
 %EXPORT_TAGS = (    ## no critic

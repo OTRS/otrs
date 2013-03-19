@@ -16,8 +16,6 @@ package Kernel::Language::sl;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub Data {
     my $Self = shift;
 

@@ -77,8 +77,6 @@ create an object
 
 =cut
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

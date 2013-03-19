@@ -13,8 +13,6 @@ use strict;
 use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo - Demo for Transition Validation Module

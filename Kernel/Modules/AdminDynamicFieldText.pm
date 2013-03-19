@@ -17,8 +17,6 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

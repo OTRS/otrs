@@ -17,8 +17,6 @@ use utf8;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet - A module to set a new ticket owner

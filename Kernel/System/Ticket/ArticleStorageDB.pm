@@ -17,8 +17,6 @@ use MIME::Words qw(:all);
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
 

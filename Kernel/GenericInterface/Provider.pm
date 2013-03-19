@@ -12,7 +12,7 @@ package Kernel::GenericInterface::Provider;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 use Kernel::Config;
 use Kernel::System::Log;

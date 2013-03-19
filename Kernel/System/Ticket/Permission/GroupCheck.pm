@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Permission::GroupCheck;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 sub new {
     my ( $Type, %Param ) = @_;

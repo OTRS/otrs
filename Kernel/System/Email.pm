@@ -18,8 +18,6 @@ use Mail::Address;
 use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Email - to send email

@@ -17,7 +17,7 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 use Kernel::System::PID;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

@@ -18,8 +18,6 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -17,8 +17,6 @@ use Kernel::System::YAML;
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Transition::TransitionAction.pm

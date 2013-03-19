@@ -16,7 +16,7 @@ use Encode;
 use Encode::Locale;
 use IO::Interactive qw(is_interactive);
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

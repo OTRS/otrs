@@ -14,7 +14,7 @@ use warnings;
 
 use Time::Local;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

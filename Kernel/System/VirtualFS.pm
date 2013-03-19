@@ -12,8 +12,6 @@ package Kernel::System::VirtualFS;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::VirtualFS - virtual fs lib

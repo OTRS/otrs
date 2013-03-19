@@ -16,8 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Backend::Text
