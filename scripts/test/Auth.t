@@ -89,27 +89,9 @@ my @Tests = (
         AuthResult => $UserRand1,
     },
     {
-        Password   => "",
-        AuthResult => undef,
-    },
-    {
         Password   => "a" x 64, # max length for plain
         AuthResult => $UserRand1,
     },
-    # These tests do not work on all platforms, old mysql versions
-    #   don't return an error if the string is too long.
-    # {
-    #     Password   => "a" x 65, # too long for plain
-    #     PlainFail  => 1,
-    #     AuthResult => $UserRand1,
-    # },
-    # {
-    #     Password   => "a" x 10_000,
-    #     PlainFail  => 1,
-    #     AuthResult => $UserRand1,
-    # },
-
-
     # SQL security tests
     {
         Password   => "'UNION'",
