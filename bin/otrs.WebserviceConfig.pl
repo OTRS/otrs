@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -45,7 +43,7 @@ use Kernel::System::YAML;
 my %Opts;
 getopt( 'hiafn', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.WebserviceConfig.pl <Revision $VERSION> - read/write/list webservice config\n";
+    print "otrs.WebserviceConfig.pl - read/write/list webservice config\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.WebserviceConfig.pl -a read  -i \$ID                         (read config, print to STDOUT)\n";

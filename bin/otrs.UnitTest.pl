@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -44,7 +42,7 @@ use Kernel::System::Main;
 my %Opts;
 getopt( 'hdnop', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
+    print "otrs.UnitTest.pl - OTRS test handle\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-d Directory] [-o ASCII|HTML|XML] [-p PRODUCT]\n";

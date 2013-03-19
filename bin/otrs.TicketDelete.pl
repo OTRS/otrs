@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Long;
 
 use Kernel::Config;
@@ -126,7 +124,7 @@ elsif (@TicketIDs) {
 # show usage
 else {
     print "\n";
-    print "otrs.TicketDelete.pl <Revision $VERSION> - ";
+    print "otrs.TicketDelete.pl - ";
     print "delete tickets by number.\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "\n";

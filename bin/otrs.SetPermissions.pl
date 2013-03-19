@@ -28,12 +28,10 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use File::Find;
 use Getopt::Long;
 
-print "bin/otrs.SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
+print "bin/otrs.SetPermissions.pl - set OTRS file permissions\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
 
 my $Secure             = 0;

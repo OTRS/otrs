@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -56,7 +54,7 @@ $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 my %Opts;
 getopts( 'hg:r:R:M:C:N:O:P:W:', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.AddRole2Group.pl <Revision $VERSION> - assign Roles to Groups\n";
+    print "otrs.AddRole2Group.pl - assign Roles to Groups\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.AddRole2Group.pl -g <GROUP> -r <ROLE> [-R<READ> -M<MOVE_INTO> -C<CREATE> -N<NOTE> -O<OWNER> -P<PRIORITY> -W<RW>] \n";

@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -56,7 +54,7 @@ $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 # ---
 # rebuild
 # ---
-print "otrs.RebuildConfig.pl <Revision $VERSION> - OTRS rebuild default config\n";
+print "otrs.RebuildConfig.pl - OTRS rebuild default config\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
 if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
     print "Done.\n";

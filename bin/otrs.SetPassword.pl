@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -56,7 +54,7 @@ $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
-    print "$0 <Revision $VERSION> - set a new agent password\n";
+    print "$0 - set a new agent password\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.SetPassword user password\n";
     exit 1;

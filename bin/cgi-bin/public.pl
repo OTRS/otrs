@@ -28,8 +28,6 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
-use vars qw($VERSION);
-
 # 0=off;1=on;
 my $Debug = 0;
 

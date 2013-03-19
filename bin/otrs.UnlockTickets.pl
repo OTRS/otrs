@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -69,7 +67,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 
 # check args
 my $Command = shift || '--help';
-print "otrs.UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
+print "otrs.UnlockTickets.pl - unlock tickets\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
 
 # unlock all tickets

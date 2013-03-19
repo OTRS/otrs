@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std qw();
 use File::Find qw();
 
@@ -45,7 +43,7 @@ use Kernel::System::SysConfig;
 sub PrintUsage {
     print <<"EOF";
 
-otrs.CreateApacheStartupFile.pl <Revision $VERSION> - update apache startup file for mod_perl
+otrs.CreateApacheStartupFile.pl - update apache startup file for mod_perl
 Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
 EOF

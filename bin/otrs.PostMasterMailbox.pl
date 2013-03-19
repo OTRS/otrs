@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -46,7 +44,7 @@ use Kernel::System::MailAccount;
 my %Opts = ();
 getopt( 'upshdftb', \%Opts );
 if ( $Opts{h} ) {
-    print "PostMasterMailbox.pl <Revision $VERSION> - Fetch mail accounts for OTRS\n";
+    print "PostMasterMailbox.pl - Fetch mail accounts for OTRS\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> ";
     print "-p <PASSWORD> [-d 1-2] [-b <BACKGROUND_INTERVAL_IN_MIN>] [-f force]\n";

@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 use Win32;
 use Win32::Daemon;
@@ -121,7 +119,7 @@ else {
 
 # Internal
 sub _Help {
-    print "otrs.Scheduler4WinInstaller.pl <Revision $VERSION> - OTRS Scheduler daemon\n";
+    print "otrs.Scheduler4WinInstaller.pl - OTRS Scheduler daemon\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.Scheduler4WinInstaller.pl -a <ACTION> (install|remove) ";
 }

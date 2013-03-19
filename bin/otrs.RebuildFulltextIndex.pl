@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -43,7 +41,7 @@ use Kernel::System::Ticket;
 my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.RebuildFulltextIndex.pl <Revision $VERSION> - rebuild fulltext index\n";
+    print "otrs.RebuildFulltextIndex.pl - rebuild fulltext index\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RebuildFulltextIndex.pl\n";
     exit 1;

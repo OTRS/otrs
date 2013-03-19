@@ -28,8 +28,6 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
-use vars qw($VERSION);
-
 # load generic interface
 use Kernel::GenericInterface::Provider;
 

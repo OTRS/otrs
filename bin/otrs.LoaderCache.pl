@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -40,7 +38,7 @@ use Kernel::System::Main;
 
 sub PrintHelp {
     print <<"EOF";
-otrs.LoaderCache.pl <Revision $VERSION> - Commandline interface to the
+otrs.LoaderCache.pl - Commandline interface to the
      cache of the CSS/JavaScript loading mechanism of OTRS
 
 Usage: otrs.LoaderCache.pl -o delete

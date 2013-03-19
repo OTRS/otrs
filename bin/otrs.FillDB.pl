@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -110,7 +108,7 @@ sub Run {
     getopt( 'hqugtramc', \%Opts );
     if ( $Opts{h} ) {
         print <<EOF;
-otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data
+otrs.FillDB.pl - OTRS fill db with data
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
 usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -c <CUSTOMERUSERS> -r <REALLYDOTHIS>

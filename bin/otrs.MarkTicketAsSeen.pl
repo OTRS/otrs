@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -45,7 +43,7 @@ use Kernel::System::Ticket;
 my %Opts = ();
 getopts( 'ha', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.MarkTicketAsSeen.pl <Revision $VERSION> - mark tickets as seen by the agent\n";
+    print "otrs.MarkTicketAsSeen.pl - mark tickets as seen by the agent\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n\n";
     print "usage: otrs.MarkTicketAsSeen.pl [-a]\n\n";
     print "If you pass '-a' it will update ALL tickets, otherwise only non-closed\n";

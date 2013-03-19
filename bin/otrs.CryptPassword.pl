@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -50,7 +48,7 @@ $CommonObject{DBObject} = Kernel::System::DB->new( %CommonObject, AutoConnectNo 
 # check args
 my $Password = shift;
 print
-    "bin/otrs.CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
+    "bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
 
 if ( !$Password ) {

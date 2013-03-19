@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Long;
 
 use Kernel::Config;
@@ -50,7 +48,7 @@ GetOptions(
     'type|t=s'  => \$Opts{t},
 );
 
-print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
+print "otrs.DeleteCache.pl - delete OTRS cache\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n\n";
 
 if ( $Opts{h} ) {

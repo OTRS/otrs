@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std qw();
 
 use Kernel::Config;
@@ -44,7 +42,7 @@ use Kernel::System::SysConfig;
 sub PrintUsage {
     print <<"EOF";
 
-otrs.CreateTranslationFile.pl <Revision $VERSION> - update translation files
+otrs.CreateTranslationFile.pl - update translation files
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 
 Translating OTRS

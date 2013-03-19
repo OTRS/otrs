@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -44,7 +42,7 @@ my %Opts;
 getopt( 'f', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
-otrs.MySQLInnoDBSwitch.pl <Revision $VERSION> - convert all MyISAM tables to InnoDB
+otrs.MySQLInnoDBSwitch.pl - convert all MyISAM tables to InnoDB
 Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 
 usage: otrs.MySQLInnoDBSwitch.pl [-f force]

@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -49,7 +47,7 @@ $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{XMLObject}  = Kernel::System::XML->new(%CommonObject);
 
-print "otrs.ExecuteDatabaseXML.pl <Revision $VERSION> - Execute XML DDL in the OTRS database\n";
+print "otrs.ExecuteDatabaseXML.pl - Execute XML DDL in the OTRS database\n";
 print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n\n";
 
 if ( !$ARGV[0] ) {

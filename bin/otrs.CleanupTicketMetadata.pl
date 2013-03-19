@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use Getopt::Long;
 
 use Kernel::Config;
@@ -75,7 +73,7 @@ sub Run {
 
     if ( $Opts{h} || ( !$Opts{Archived} && !$Opts{InvalidUsers} ) ) {
         print <<EOF;
-otrs.CleanupTicketMetadata.pl <Revision $VERSION> - Remove unneeded ticket metadata
+otrs.CleanupTicketMetadata.pl - Remove unneeded ticket metadata
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
 Usage:

@@ -28,8 +28,6 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use vars qw($VERSION);
-
 use File::Spec;
 use Getopt::Std;
 
@@ -80,7 +78,7 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 
 # check needed params
 if ( $Opts{h} ) {
-    print "otrs.PackageManager.pl <Revision $VERSION> - OTRS Package Manager\n";
+    print "otrs.PackageManager.pl - OTRS Package Manager\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
