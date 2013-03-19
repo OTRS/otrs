@@ -1117,7 +1117,7 @@ sub MaskAgentZoom {
             push @FieldsSidebar, {
                 Name                        => $DynamicFieldConfig->{Name},
                 Title                       => $ValueStrg->{Title},
-                Value                       => $$ValueStrg->{Value},
+                Value                       => $ValueStrg->{Value},
                 Label                       => $Label,
                 Link                        => $ValueStrg->{Link},
                 $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
