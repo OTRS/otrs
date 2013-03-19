@@ -101,6 +101,7 @@
                     $Text{"Condition"}
 <!-- dtl:block:ConditionRowValue -->
                     <p><strong>$QData{"Key"}</strong>: $QData{"Value"}</p>
+<!-- dtl:block:ConditionRowValue -->
 <!-- dtl:block:ConditionRowSub -->
                     <ul>
                         <li>
@@ -121,7 +122,6 @@
                         </li>
                     </ul>
 <!-- dtl:block:ConditionRowSub -->
-<!-- dtl:block:ConditionRowValue -->
                 </li>
 <!-- dtl:block:ConditionRow -->
             </ol>
