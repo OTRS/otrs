@@ -796,8 +796,7 @@ sub Run {
                         for my $Key ( sort keys %Values ) {
 
                             if ( $Values{$Key} ) {
-$Self->{LogObject}->Dumper($Values{$Key});
-$Self->{LogObject}->Dumper(ref $Values{$Key});
+
                                 if ( ref $Values{$Key} eq 'HASH' ) {
 
                                     $Self->{LayoutObject}->Block(
