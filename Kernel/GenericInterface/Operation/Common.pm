@@ -12,7 +12,7 @@ package Kernel::GenericInterface::Operation::Common;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 use Kernel::System::User;
 use Kernel::System::Auth;

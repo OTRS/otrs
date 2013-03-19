@@ -12,8 +12,6 @@ package Kernel::System::Web::UploadCache;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Web::UploadCache - an upload file system cache

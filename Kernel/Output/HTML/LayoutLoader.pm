@@ -12,7 +12,7 @@ package Kernel::Output::HTML::LayoutLoader;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 use Kernel::System::Loader;
 

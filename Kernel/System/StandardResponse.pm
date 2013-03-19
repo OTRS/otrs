@@ -12,8 +12,6 @@ package Kernel::System::StandardResponse;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::StandardResponse - auto response lib

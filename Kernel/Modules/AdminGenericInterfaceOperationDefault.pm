@@ -12,8 +12,6 @@ package Kernel::Modules::AdminGenericInterfaceOperationDefault;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 use Kernel::System::GenericInterface::Webservice;
 
 use Kernel::System::VariableCheck qw(:all);

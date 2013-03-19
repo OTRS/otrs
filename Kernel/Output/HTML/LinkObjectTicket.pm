@@ -15,8 +15,6 @@ use warnings;
 use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::Output::HTML::LinkObjectTicket - layout backend module

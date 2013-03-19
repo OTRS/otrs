@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::LinkObject;
 
-use vars qw($VERSION);
-
 =item LinkObjectTableCreate()
 
 create a output table

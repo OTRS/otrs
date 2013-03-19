@@ -12,8 +12,6 @@ package Kernel::System::Notification;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Notification - notification functions

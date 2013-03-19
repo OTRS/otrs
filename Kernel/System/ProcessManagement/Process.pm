@@ -16,8 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::DynamicField;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::Process - process lib

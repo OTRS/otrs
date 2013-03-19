@@ -14,7 +14,7 @@ use warnings;
 
 use Locale::Country qw(all_country_names);
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

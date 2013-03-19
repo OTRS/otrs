@@ -14,8 +14,6 @@ use warnings;
 
 use MIME::Base64;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::StdAttachment - std. attachment lib

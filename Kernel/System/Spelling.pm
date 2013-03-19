@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::FileTemp;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Spelling - spelling lib

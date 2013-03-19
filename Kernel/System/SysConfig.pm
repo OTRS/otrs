@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

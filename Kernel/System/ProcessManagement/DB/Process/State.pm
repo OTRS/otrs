@@ -12,8 +12,6 @@ package Kernel::System::ProcessManagement::DB::Process::State;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Process::State.pm

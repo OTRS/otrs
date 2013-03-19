@@ -24,7 +24,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

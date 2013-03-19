@@ -12,7 +12,7 @@ package Kernel::System::Loader;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 use Kernel::System::CacheInternal;
 

@@ -12,8 +12,6 @@ package Kernel::GenericInterface::Event::Handler;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 use Kernel::GenericInterface::Requester;
 use Kernel::Scheduler;
 use Kernel::System::GenericInterface::Webservice;

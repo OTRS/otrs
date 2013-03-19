@@ -12,8 +12,6 @@ package Kernel::System::EventHandler;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::EventHandler - event handler interface

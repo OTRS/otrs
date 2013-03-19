@@ -14,8 +14,6 @@ use warnings;
 
 use Net::SMTP::SSL;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

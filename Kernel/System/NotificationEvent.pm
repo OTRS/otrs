@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::Valid;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::NotificationEvent - to manage the notifications

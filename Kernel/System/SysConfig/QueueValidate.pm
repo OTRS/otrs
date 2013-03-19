@@ -15,7 +15,7 @@ use warnings;
 use Kernel::Config;
 use Kernel::System::Queue;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

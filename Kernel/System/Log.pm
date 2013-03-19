@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::Encode;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Log - global log interface

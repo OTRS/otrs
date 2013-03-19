@@ -19,8 +19,6 @@ use Unicode::Normalize;
 
 use Kernel::System::Encode;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Main - main object

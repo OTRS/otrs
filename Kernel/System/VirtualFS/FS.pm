@@ -17,8 +17,6 @@ use Time::HiRes qw();
 # to get it writable for the otrs group (just in case)
 umask 002;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -158,7 +156,6 @@ sub Write {
         Compress => $Self->{Compress},
         Crypt    => $Self->{Crypt},
         Mode     => $Param{Mode},
-        Version  => $VERSION,
     );
 
     return $BackendKey;

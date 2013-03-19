@@ -20,8 +20,6 @@ use Kernel::System::EmailParser;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Ticket::Article - sub module of Kernel::System::Ticket

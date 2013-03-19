@@ -20,8 +20,6 @@ use Kernel::System::ProcessManagement::DB::Transition;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

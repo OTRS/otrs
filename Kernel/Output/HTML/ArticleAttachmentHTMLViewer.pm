@@ -12,8 +12,6 @@ package Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

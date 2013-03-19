@@ -16,8 +16,6 @@ use Kernel::System::Signature;
 use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

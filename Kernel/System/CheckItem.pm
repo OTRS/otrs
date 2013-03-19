@@ -12,8 +12,6 @@ package Kernel::System::CheckItem;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::CheckItem - check items

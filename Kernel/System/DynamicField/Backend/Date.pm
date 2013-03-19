@@ -17,8 +17,6 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Backend::Date

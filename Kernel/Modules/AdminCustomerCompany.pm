@@ -16,8 +16,6 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::ReferenceData;
 use Kernel::System::Valid;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

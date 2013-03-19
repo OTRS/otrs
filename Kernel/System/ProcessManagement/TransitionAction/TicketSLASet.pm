@@ -16,8 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 use Kernel::System::SLA;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::TicketSLASet - A module to set the ticket SLA

@@ -12,7 +12,7 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

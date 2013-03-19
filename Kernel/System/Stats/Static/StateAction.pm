@@ -14,8 +14,6 @@ use warnings;
 
 use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

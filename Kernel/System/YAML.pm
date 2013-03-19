@@ -15,7 +15,7 @@ use warnings;
 use YAML::Any qw();
 use Encode qw();
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

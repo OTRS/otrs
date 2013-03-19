@@ -14,8 +14,6 @@ use warnings;
 
 use MIME::Base64;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -19,8 +19,6 @@ use Kernel::System::VariableCheck qw(:all);
 
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Activity.pm

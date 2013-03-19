@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Entity.pm

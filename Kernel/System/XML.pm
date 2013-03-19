@@ -16,8 +16,6 @@ use Digest::MD5;
 
 use Kernel::System::Cache;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::XML - xml lib

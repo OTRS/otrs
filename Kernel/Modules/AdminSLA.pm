@@ -16,8 +16,6 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::Valid;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

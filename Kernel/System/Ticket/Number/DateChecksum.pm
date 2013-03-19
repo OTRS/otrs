@@ -26,8 +26,6 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
     if ( !$JumpCounter ) {

@@ -12,7 +12,7 @@ package Kernel::Output::HTML::LayoutAJAX;
 use strict;
 use warnings;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =item BuildSelectionJSON()
 

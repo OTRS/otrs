@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::CacheInternal;
 use Kernel::System::Valid;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::SystemAddress - all system address functions

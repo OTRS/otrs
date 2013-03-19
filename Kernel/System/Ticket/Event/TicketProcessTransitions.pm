@@ -28,8 +28,6 @@ use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::Transition;
 use Kernel::System::ProcessManagement::TransitionAction;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

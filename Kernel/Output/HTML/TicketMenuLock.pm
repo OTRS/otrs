@@ -12,8 +12,6 @@ package Kernel::Output::HTML::TicketMenuLock;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -15,8 +15,6 @@ use warnings;
 use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Backend

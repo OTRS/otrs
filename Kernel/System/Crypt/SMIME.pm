@@ -12,8 +12,6 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::Crypt::SMIME - smime crypt backend lib

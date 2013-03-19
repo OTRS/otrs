@@ -16,8 +16,6 @@ use Kernel::System::Lock;
 use Kernel::System::State;
 use Kernel::System::Cache;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -16,8 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 use Kernel::System::State;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::TicketStateSet - A module to set the ticket state

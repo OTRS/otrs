@@ -17,7 +17,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::Time;
 use Kernel::System::Valid;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 =head1 NAME
 

@@ -17,8 +17,6 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::DynamicField::ObjectType::Ticket

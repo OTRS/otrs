@@ -12,8 +12,6 @@ package Kernel::System::AuthSession;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::AuthSession - global session interface

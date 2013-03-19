@@ -12,8 +12,6 @@ package Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
 

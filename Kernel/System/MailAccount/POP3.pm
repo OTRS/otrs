@@ -14,8 +14,6 @@ use warnings;
 use Net::POP3;
 use Kernel::System::PostMaster;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

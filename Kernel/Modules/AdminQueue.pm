@@ -18,8 +18,6 @@ use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

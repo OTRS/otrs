@@ -14,8 +14,6 @@ use warnings;
 
 use Net::SMTP::TLS::ButMaintained;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

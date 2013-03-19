@@ -12,8 +12,6 @@ package Kernel::System::DB::db2;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

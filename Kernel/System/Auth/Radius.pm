@@ -15,8 +15,6 @@ use warnings;
 
 use Authen::Radius;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

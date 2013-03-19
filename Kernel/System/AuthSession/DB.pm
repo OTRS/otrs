@@ -15,8 +15,6 @@ use warnings;
 use Digest::MD5;
 use Storable;
 
-use vars qw($VERSION);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

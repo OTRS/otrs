@@ -13,8 +13,6 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
 

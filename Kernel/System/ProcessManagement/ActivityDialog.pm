@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::ActivityDialog - activity dialog lib
