@@ -87,7 +87,12 @@ EOF
         exit 0;
     }
 }
+
+# Append a / to $DestDir if it does not end with / already.
+# With this File::Find will recurse into symlinked directories.
 my $DestDir = $ARGV[0];
+$DestDir .= '/' if substr($DestDir, -1, 1) ne '/';
+
 
 # check params
 if ( !$OtrsUser ) {
@@ -217,6 +222,7 @@ exit(0);
 
 sub MakeReadOnly {
     my $File = $_;
+
     if ( !$NotRoot ) {
         SafeChown( $AdminUserID, $AdminGroupID, $File );
     }
