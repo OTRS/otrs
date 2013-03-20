@@ -215,6 +215,18 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct StateID pending',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                State           => 'pending reminder',
+                PendingTimeDiff => 3600,
+            },
+        },
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {
@@ -236,6 +248,8 @@ for my $Test (@Tests) {
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
+            next ATTRIBUTE if $Attribute eq 'PendingTimeDiff';
+
             $Self->True(
                 $Ticket{$Attribute},
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
@@ -248,6 +262,15 @@ for my $Test (@Tests) {
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
                     . " $TicketID match expected value",
             );
+            if ( $Test->{Config}->{Config}->{PendingTimeDiff} ){
+                $Self->Is(
+                    $Ticket{UntilTime},
+                    $Test->{Config}->{Config}->{PendingTimeDiff},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: UntilTime for TicketID:"
+                    . " $TicketID match expected value",
+                    
+                );
+            }
         }
     }
     else {

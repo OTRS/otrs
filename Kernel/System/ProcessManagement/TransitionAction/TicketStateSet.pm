@@ -124,6 +124,11 @@ sub new {
             State  => 'open',
             # or
             StateID => 3,
+
+            PendingTimeDiff => 123                          # optional, used for pending states, difference in seconds from
+                                                            #   current time to desired penting time (e.g. a value of 3600 means
+                                                            #   that the pending time will be 1hr after the Transition Action is
+                                                            #   executed)
             UserID  => 123,                                 # optional, to override the UserID from the logged user
         }
     );
@@ -181,7 +186,8 @@ sub Run {
     }
 
     my $Success;
-
+    my %StateData;
+    
     # If Ticket's StateID is already the same as the Value we
     # should set it to, we got nothing to do and return success
     if (
@@ -199,6 +205,9 @@ sub Run {
         && $Param{Config}->{StateID} ne $Param{Ticket}->{StateID}
         )
     {
+        %StateData = $Self->{StateObject}->StateGet(
+            ID    => $Param{Config}->{StateID},
+        );
         $Success = $Self->{TicketObject}->TicketStateSet(
             TicketID => $Param{Ticket}->{TicketID},
             StateID  => $Param{Config}->{StateID},
@@ -233,6 +242,9 @@ sub Run {
         && $Param{Config}->{State} ne $Param{Ticket}->{State}
         )
     {
+        %StateData = $Self->{StateObject}->StateGet(
+            Name    => $Param{Config}->{State},
+        );
         $Success = $Self->{TicketObject}->TicketStateSet(
             TicketID => $Param{Ticket}->{TicketID},
             State    => $Param{Config}->{State},
@@ -255,6 +267,33 @@ sub Run {
             Message  => "Couldn't update Ticket State - can't find valid State parameter!",
         );
         return;
+    }
+
+    # set pending time
+    if ( $Success
+        && IsHashRefWithData(\%StateData)
+        && $StateData{TypeName} =~ m{\A pending}msxi 
+        && IsNumber( $Param{Config}->{PendingTimeDiff} ) 
+        ) 
+    {
+
+        # get current time
+        my $PendingTime = $Self->{TimeObject}->SystemTime();
+
+        # add PendingTimeDiff
+        $PendingTime += $Param{Config}->{PendingTimeDiff};
+
+        # convert pending time to time stamp
+        my $PendingTimeString = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $PendingTime,
+        );
+
+        # set pending time
+        $Self->{TicketObject}->TicketPendingTimeSet(
+            UserID   => $Param{UserID},
+            TicketID => $Param{Ticket}->{TicketID},
+            String   => $PendingTimeString,
+        );
     }
 
     return $Success;
