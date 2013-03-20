@@ -141,6 +141,8 @@ sub new {
             ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
                                                                         # sending gets muted, agent will still shown in To:
                                                                         # line of article
+
+            UserID => 123,                                              # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -182,6 +184,12 @@ sub Run {
             Message  => "Config has no values!",
         );
         return;
+    }
+
+    # override UserID if specified as a parameter in the TA config
+    if ( IsNumber( $Param{Config}->{UserID} ) ) {
+        $Param{UserID} = $Param{Config}->{UserID};
+        delete $Param{Config}->{UserID};
     }
 
     # Check ArticleType

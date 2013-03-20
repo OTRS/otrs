@@ -123,6 +123,7 @@ sub new {
             Lock  => 'lock',
             # or
             LockID => 1,
+            UserID => 123,                                          # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -162,6 +163,12 @@ sub Run {
             Message  => "Config has no values!",
         );
         return;
+    }
+
+    # override UserID if specified as a parameter in the TA config
+    if ( IsNumber( $Param{Config}->{UserID} ) ) {
+        $Param{UserID} = $Param{Config}->{UserID};
+        delete $Param{Config}->{UserID};
     }
 
     if ( !$Param{Config}->{LockID} && !$Param{Config}->{Lock} ) {

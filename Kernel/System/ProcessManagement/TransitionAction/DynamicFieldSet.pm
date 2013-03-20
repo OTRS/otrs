@@ -119,10 +119,15 @@ sub new {
         Config      => {
             MasterSlave => 'Master',
             Approved    => '1',
+            UserID      => 123,         # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
     Config is the Config Hash stored in a Process::TransitionAction's  Config key
+
+    If a Dynamic Field is named UserID (to avoid conficts) it must be set in the config as:
+    DynamicField_UserID => $Value,
+
     Returns:
 
     $DynamicFieldSetResult = 1; # 0
@@ -160,6 +165,18 @@ sub Run {
             Message  => "Config has no values!",
         );
         return;
+    }
+
+    # override UserID if specified as a parameter in the TA config
+    if ( IsNumber( $Param{Config}->{UserID} ) ) {
+        $Param{UserID} = $Param{Config}->{UserID};
+        delete $Param{Config}->{UserID};
+    }
+
+    # special case for DyanmicField UserID, convert form DynamicField_UserID to UserID
+    if (defined $Param{Config}->{DynamicField_UserID}) {
+        $Param{Config}->{UserID} = $Param{Config}->{DynamicField_UserID};
+        delete $Param{Config}->{DynamicField_UserID};
     }
 
     for my $CurrentDynamicField ( sort keys %{ $Param{Config} } ) {
