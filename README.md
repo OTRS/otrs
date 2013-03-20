@@ -34,11 +34,11 @@ Perl
 
 Webserver
 * Webserver with CGI support (CGI is not recommended)
-* Apache2+mod_perl2 or higher (recommended, mod_perl is really fast!)
+* Apache2 + mod_perl2 or higher (recommended, mod_perl is really fast!)
 * IIS6 or higher
 
 Databases
-* MySQL 4.1 or higher
+* MySQL 5.0 or higher
 * PostgreSQL 8.0 or higher
 * Oracle 10g or higher
 * Microsoft SQL Server 2005 or higher

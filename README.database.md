@@ -1,7 +1,7 @@
 Supported Database Systems
 ==========================
 
-- MySQL 4+
+- MySQL 5.0+
 - PostgreSQL 7+, 8.2+ recommended
 - MSSQL 2005+
 - Oracle
