@@ -487,13 +487,13 @@ sub Run {
             return $Output;
         }
 
-        # unlock ticket if agent is on vacation
+        # unlock ticket if agent is on vacation or invalid
         my $LockAction;
         if ( $Ticket{OwnerID} ) {
             my %User = $Self->{AgentUserObject}->GetUserData(
                 UserID => $Ticket{OwnerID},
             );
-            if ( %User && $User{OutOfOffice} && $User{OutOfOfficeMessage} ) {
+            if ( %User && ( $User{OutOfOfficeMessage} || $User{ValidID} ne '1' ) ) {
                 $LockAction = 'unlock';
             }
         }
