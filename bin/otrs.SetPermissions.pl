@@ -88,11 +88,7 @@ EOF
     }
 }
 
-# Append a / to $DestDir if it does not end with / already.
-# With this File::Find will recurse into symlinked directories.
 my $DestDir = $ARGV[0];
-$DestDir .= '/' if substr($DestDir, -1, 1) ne '/';
-
 
 # check params
 if ( !$OtrsUser ) {
@@ -130,12 +126,20 @@ print "Setting permissions on $DestDir\n";
 if ($Secure) {
 
     # In secure mode, make files read-only by default
-    find( \&MakeReadOnly, $DestDir );
+    find( \&MakeReadOnly, $DestDir . "/" ); # append / to follow symlinks
+
+    # Also change the toplevel directory/symlink itself
+    $_ = $DestDir;
+    MakeReadOnly();
 }
 else {
 
     # set all files writeable for webserver user (needed for package manager)
-    find( \&MakeWritable, $DestDir );
+    find( \&MakeWritable, $DestDir . "/" ); # append / to follow symlinks
+
+    # Also change the toplevel directory/symlink itself
+    $_ = $DestDir;
+    MakeWritable();
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {

@@ -1,4 +1,5 @@
 3.2.4 2013-??-??
+ - 2013-03-21 Fixed bug#1689 - Allow bin/SetPermissions.sh to follow symlink for OTRS_HOME.
  - 2013-03-21 Fixed bug#8981 - Tickets reopened via customer interface are locked to invalid agents.
  - 2013-03-19 Fixed bug#9242 - ProcessManagement: TransitionAction TicketStateSet does not allow to set a pending time.
  - 2013-03-19 Fixed bug#9247 - ProcessManagement: Transitions Actions always use actual user permissions.
