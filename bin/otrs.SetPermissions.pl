@@ -208,7 +208,6 @@ if ( !$Secure ) {
 
 # set owner rw and group ro
 @Dirs = (
-    "$DestDir/",
     "$DestDir/.procmailrc",
     "$DestDir/.fetchmailrc",
 );
