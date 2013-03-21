@@ -118,6 +118,11 @@ my @NeededModules = (
         Comment  => 'Recommended for faster xml handling.',
     },
     {
+        Module   => 'Email::Valid',
+        Required => 1,
+        Comment  => 'Required to check email addresses',
+    },
+    {
         Module   => 'Encode::HanExtra',
         Version  => '0.23',
         Required => 0,

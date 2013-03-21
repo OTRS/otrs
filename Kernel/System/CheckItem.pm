@@ -12,6 +12,8 @@ package Kernel::System::CheckItem;
 use strict;
 use warnings;
 
+use Email::Valid;
+
 =head1 NAME
 
 Kernel::System::CheckItem - check items
@@ -131,32 +133,7 @@ sub CheckEmail {
     my $Error = '';
 
     # email address syntax check
-    if (
-        $Param{Address}
-        !~ m{
-            ^
-            [a-zA-Z0-9_#]+
-            (?:
-                [a-zA-Z0-9_+\.&%-/=]*
-                [a-zA-Z0-9_'\.-]+
-            )?
-            @
-            (?:
-                (?:
-                    [a-zA-Z0-9]+
-                    ([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?
-                    \.+
-                    [a-zA-Z]{2,8}
-                )
-                |
-                (?:
-                    \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
-                )
-            )
-            $
-        }x
-        )
-    {
+    if ( !Email::Valid->address( $Param{Address} ) ) {
         $Error = "Invalid syntax";
         $Self->{ErrorType} = 'InvalidSyntax';
     }
