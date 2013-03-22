@@ -129,8 +129,7 @@ if ($Secure) {
     find( \&MakeReadOnly, $DestDir . "/" ); # append / to follow symlinks
 
     # Also change the toplevel directory/symlink itself
-    $_ = $DestDir;
-    MakeReadOnly();
+    MakeReadOnly($DestDir);
 }
 else {
 
@@ -138,8 +137,7 @@ else {
     find( \&MakeWritable, $DestDir . "/" ); # append / to follow symlinks
 
     # Also change the toplevel directory/symlink itself
-    $_ = $DestDir;
-    MakeWritable();
+    MakeWritable($DestDir);
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {
@@ -195,27 +193,25 @@ my @FileListScripts = (
     "$DestDir/scripts/otrs-scheduler-linux",
     "$DestDir/scripts/suse-rcotrs",
 );
-for (@FileListScripts) {
-    MakeExecutable();
+for my $ExecutableFile (@FileListScripts) {
+    MakeExecutable($ExecutableFile);
 }
 
 # set write permission for web installer
 if ( !$Secure ) {
     print "Setting permissions on Kernel/Config.pm\n";
-    $_ = "$DestDir/Kernel/Config.pm";
-    MakeWritable();
+    MakeWritable("$DestDir/Kernel/Config.pm");
 }
 
 # set owner rw and group ro
-@Dirs = (
+my @MailConfigFiles = (
     "$DestDir/.procmailrc",
     "$DestDir/.fetchmailrc",
 );
-for my $Dir (@Dirs) {
-    if ( -e $Dir ) {
-        print "Setting owner rw and group ro permissions on $Dir\n";
-        $_ = $Dir;
-        MakeReadOnly();
+for my $MailConfigFile (@MailConfigFiles) {
+    if ( -e $MailConfigFile ) {
+        print "Setting owner rw and group ro permissions on $MailConfigFile\n";
+        MakeReadOnly($MailConfigFile);
     }
 }
 
@@ -224,7 +220,7 @@ exit(0);
 ## no critic (ProhibitLeadingZeros)
 
 sub MakeReadOnly {
-    my $File = $_;
+    my $File = $File::Find::name || $_[0];
 
     if ( !$NotRoot ) {
         SafeChown( $AdminUserID, $AdminGroupID, $File );
@@ -240,7 +236,7 @@ sub MakeReadOnly {
 }
 
 sub MakeWritable {
-    my $File = $_;
+    my $File = $File::Find::name || $_[0];
     my $Mode;
 
     if ( -d $File ) {
@@ -260,7 +256,7 @@ sub MakeWritable {
 }
 
 sub MakeWritableSetGid {
-    my $File = $_;
+    my $File = $File::Find::name || $_[0];
     my $Mode;
 
     if ( -d $File ) {
@@ -280,7 +276,7 @@ sub MakeWritableSetGid {
 }
 
 sub MakeExecutable {
-    my $File = $_;
+    my $File = $File::Find::name || $_[0];
     my $Mode = ( lstat($File) )[2];
     if ( defined $Mode ) {
         $Mode |= 0111;
