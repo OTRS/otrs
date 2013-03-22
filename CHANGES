@@ -11,8 +11,9 @@
 
 3.1.14 2013-??-??
  - 2013-03-21 Fixed bug#9257 - No notifications to agents with out-of-office set but period not reached.
+ - 2013-03-18 Improved permission checks in LinkObject.
  - 2013-03-14 Fixed bug#9191 - When ticket types are restricted, first available type is selected 
-    in AgentTicketActionCommon-based screens.
+   in AgentTicketActionCommon-based screens.
  - 2013-03-12 Updated Turkish translation, thanks to Sefer Şimşek / Network Group!
  - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
  - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
