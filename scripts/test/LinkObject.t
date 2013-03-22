@@ -2919,6 +2919,52 @@ $Self->True(
     "Test $TestCount: LinkDeleteAll() - check success",
 );
 
+#
+# ObjectPermission tests
+#
+my @Tests = (
+    {
+        Name   => 'regular admin access',
+        Object => 'Ticket',
+        Key    => 1,
+        UserID => 1,
+        Result => 1,
+    },
+    {
+        Name   => 'user without permission',
+        Object => 'Ticket',
+        Key    => 1,
+        UserID => $UserIDs[0],
+        Result => undef,
+    },
+    {
+        Name   => 'dummy backend, deny admin',
+        Object => $ObjectNames[0],
+        Key    => 1,
+        UserID => 1,
+        Result => undef,
+    },
+    {
+        Name   => 'dummy backend, allow regular user',
+        Object => $ObjectNames[0],
+        Key    => 1,
+        UserID => $UserIDs[0],
+        Result => 1,
+    },
+);
+
+for my $Test (@Tests) {
+    my $Result = $LinkObject->ObjectPermission( %{$Test} );
+
+    $Self->Is(
+        $Result,
+        $Test->{Result},
+       "ObjectPermission - " . $Test->{Name},
+    );
+}
+
+
+
 # ------------------------------------------------------------ #
 # clean up link tests
 # ------------------------------------------------------------ #

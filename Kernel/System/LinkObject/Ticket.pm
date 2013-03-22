@@ -156,6 +156,39 @@ sub LinkListWithData {
     return 1;
 }
 
+=item ObjectPermission()
+
+checks read permission for a given object and UserID.
+
+    $Permission = $LinkObject->ObjectPermission(
+        Object  => 'Ticket',
+        Key     => 123,
+        UserID  => 1,
+    );
+
+=cut
+
+sub ObjectPermission {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Object Key UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    return $Self->{TicketObject}->TicketPermission(
+        Type     => 'ro',
+        TicketID => $Param{Key},
+        UserID   => $Param{UserID},
+    );
+}
+
 =item ObjectDescriptionGet()
 
 return a hash of object descriptions

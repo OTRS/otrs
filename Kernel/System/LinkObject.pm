@@ -2247,6 +2247,45 @@ sub StateList {
     return %StateList;
 }
 
+=item ObjectPermission()
+
+checks read permission for a given object and UserID.
+
+    $Permission = $LinkObject->ObjectPermission(
+        Object  => 'Ticket',
+        Key     => 123,
+        UserID  => 1,
+    );
+
+=cut
+
+sub ObjectPermission {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Object Key UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    my $BackendObject = $Self->_LoadBackend(
+        Object => $Param{Object},
+        UserID => $Param{UserID},
+    );
+
+    return if !$BackendObject;
+    return 1 if !$BackendObject->can('ObjectPermission');
+
+    return $BackendObject->ObjectPermission(
+        %Param,
+    );
+}
+
 =item ObjectDescriptionGet()
 
 return a hash of object descriptions
