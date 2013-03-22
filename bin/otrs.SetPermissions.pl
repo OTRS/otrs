@@ -186,16 +186,16 @@ print "Setting permissions on $DestDir/bin/*\n";
 find( \&MakeExecutable, "$DestDir/bin" );
 
 # set all scripts/* as executable
-print "Setting permissions on $DestDir/scripts/*.pl\n";
-my @FileListScripts = glob("$DestDir/scripts/*.pl");
+print "Setting permissions on $DestDir/scripts/\n";
+my @FileListScripts = (
+    glob("$DestDir/scripts/*.pl"),
+    glob("$DestDir/scripts/*.sh"),
+    glob("$DestDir/scripts/tools/*.pl"),
+    glob("$DestDir/scripts/auto_build/*.pl"),
+    "$DestDir/scripts/otrs-scheduler-linux",
+    "$DestDir/scripts/suse-rcotrs",
+);
 for (@FileListScripts) {
-    MakeExecutable();
-}
-
-# set all scripts/tools/* as executable
-print "Setting permissions on $DestDir/scripts/tools/*.pl\n";
-my @FileListTools = glob("$DestDir/scripts/tools/*.pl");
-for (@FileListTools) {
     MakeExecutable();
 }
 
