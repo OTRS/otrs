@@ -150,7 +150,7 @@ my @EmptyFiles = (
     "$DestDir/var/log/TicketCounter.log",
 );
 for my $File (@EmptyFiles) {
-    open( my $Fh, '>>', $File );    ## no critic
+    open( my $Fh, '>>', $File ) || die "Could not open $File: $!\n";    ## no critic
     print $Fh '';
     close $Fh;
 }
