@@ -14,7 +14,6 @@ Kernel/Language/*.old
 bin/cgi-bin/.htaccess
 var/virtualfs
 var/run
-var/log
 var/log/*.log
 var/OPM
 var/Stats
