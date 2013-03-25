@@ -4,6 +4,8 @@
 .settings
 .includepath
 .DS_Store
+*.swp
+*.swo
 
 # OTRS
 doc/manual/en
