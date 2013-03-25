@@ -543,7 +543,7 @@ sub Data {
         'Queues' => 'Queues',
         'Priority' => 'Priorität',
         'Priorities' => 'Prioritäten',
-        'Priority Update' => 'Priorität aktualisieren',
+        'Priority Update' => 'Änderung der Priorität',
         'Priority added!' => 'Priorität hinzugefügt!',
         'Priority updated!' => 'Priorität aktualisiert!',
         'Signature added!' => 'Signatur hinzugefügt!',
