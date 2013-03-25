@@ -69,11 +69,11 @@ my @Tests = (
         Valid => 0,
     },
     {
-        Email => 'foo=bar@192.1233.22.2',
+        Email => 'foo=bar@[192.1233.22.2]',
         Valid => 0,
     },
     {
-        Email => 'foo=bar@192.22.2',
+        Email => 'foo=bar@[192.22.2]',
         Valid => 0,
     },
 
@@ -123,9 +123,19 @@ my @Tests = (
         Valid => 1,
     },
     {
-        Email => 'foo=bar@192.123.22.2',
+        Email => 'foo=bar@[192.123.22.2]',
         Valid => 1,
     },
+    # Unicode domains
+    {
+        Email => 'mail@xn--f1aefnbl.xn--p1ai',
+        Valid => 1,
+    },
+    {
+        Email => 'mail@кц.рф', # must be converted to IDN
+        Valid => 0,
+    },
+
 );
 
 for my $Test (@Tests) {
