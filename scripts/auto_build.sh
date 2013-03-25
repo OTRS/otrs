@@ -143,8 +143,9 @@ rm -rf Kernel/Config.pm
 # remove development content
 rm -rf development
 
-# remove swap stuff
+# remove swap/temp stuff
 find -name ".#*" | xargs rm -rf
+find -name ".keep" | xargs rm -f
 
 # include pdf docs
 mkdir -p doc/manual/en
