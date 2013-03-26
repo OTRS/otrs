@@ -9,7 +9,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.19 2013-??-??
+3.0.19 2013-04-02
  - 2013-03-18 Improved permission checks in LinkObject.
 
 3.0.18 2013-03-12
