@@ -230,3 +230,9 @@ o Name:    CPAN Class::Inspector
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright 2002 - 2011 Adam Kennedy.
+
+o Name:    CPAN Email::Valid
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
