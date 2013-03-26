@@ -1,4 +1,4 @@
-3.2.4 2013-??-??
+3.2.4 2013-04-02
  - 2013-03-21 Fixed bug#9279 - Inaccurate German translation of ,,Priority Update''.
  - 2013-03-21 Fixed bug#9257 - No notifications to agents with out-of-office set but period not reached.
  - 2013-03-21 Fixed bug#1689 - Allow bin/SetPermissions.sh to follow symlink for OTRS_HOME.
