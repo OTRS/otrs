@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:27
+    # Last translation file sync: 2013-03-27 11:58:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,7 +229,7 @@ sub Data {
         'There is no acount with that user name.' => 'Não há conta com este nome de usuário.',
         'Please contact your administrator' => 'Por favor, contate seu administrador',
         'Logout' => 'Sair',
-        'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Funcionalidade não ativada!',
         'Agent updated!' => 'Atendente atualizado!',
         'Create Database' => 'Criar Banco de Dados',
@@ -1542,6 +1542,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4532,6 +4533,7 @@ sub Data {
         #
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
+        'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
 

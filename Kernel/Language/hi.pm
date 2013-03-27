@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:16
+    # Last translation file sync: 2013-03-27 11:58:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,7 +227,7 @@ sub Data {
         'There is no acount with that user name.' => 'ऐसे उपयोगकर्ता नाम के साथ कोई खाता नहीं है।',
         'Please contact your administrator' => 'कृपया अपने प्रशासक से संपर्क करें।',
         'Logout' => 'बाहर प्रवेश करें',
-        'Logout successful. Thank you for using OTRS!' => 'बाहर प्रवेश सफल। OTRS उपयोग करने के लिए धन्यवाद।',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'सुविधा सक्रिय नहीं है।',
         'Agent updated!' => 'प्रतिनिधि अद्यतन।',
         'Create Database' => 'आंकड़ाकोष बनाएँ',
@@ -1540,6 +1540,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4532,6 +4533,7 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
+        'Logout successful. Thank you for using OTRS!' => 'बाहर प्रवेश सफल। OTRS उपयोग करने के लिए धन्यवाद।',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

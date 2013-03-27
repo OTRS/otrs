@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:18
+    # Last translation file sync: 2013-03-27 11:58:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,7 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => 'Lépjen kapcsolatba a rendszergazdával',
         'Logout' => 'Kilépés',
-        'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Képesség nem aktív!',
         'Agent updated!' => 'Ügyintéző módosítva!',
         'Create Database' => 'Adatbázis létrehozása',
@@ -1543,6 +1543,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4532,6 +4533,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (munkaegység)',
+        'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Biztonságos üzemmódot le kell tíltani ahhoz, hogy a webes telepítővel újra lehessen dolgozni.',
 

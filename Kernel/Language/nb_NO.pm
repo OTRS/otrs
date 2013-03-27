@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:23
+    # Last translation file sync: 2013-03-27 11:58:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,7 +233,6 @@ sub Data {
         'There is no acount with that user name.' => 'Det finnes ingen konto med det brukernavnet',
         'Please contact your administrator' => 'Vennligst kontakt administratoren',
         'Logout' => 'Logg ut',
-        'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
         'Logout successful. Thank you for using %s!' => 'Utlogging utført.  Takk for at du brukte %s!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
         'Agent updated!' => 'Saksbehandler oppdatert',
@@ -1547,6 +1546,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4538,6 +4538,7 @@ sub Data {
         ' (work units)' => ' (arbeidsenheter)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
+        'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

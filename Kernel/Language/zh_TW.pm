@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:39
+    # Last translation file sync: 2013-03-27 11:58:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,7 +227,7 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => '注銷',
-        'Logout successful. Thank you for using OTRS!' => '成功注銷，謝謝使用!',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '該特性尚未激活!',
         'Agent updated!' => '',
         'Create Database' => '創建數據庫',
@@ -1540,6 +1540,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4529,6 +4530,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '工作單元',
+        'Logout successful. Thank you for using OTRS!' => '成功注銷，謝謝使用!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '為了重新用Web 界面安裝，安全模式必須disabled',
 

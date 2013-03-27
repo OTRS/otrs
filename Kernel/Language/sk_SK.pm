@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:29
+    # Last translation file sync: 2013-03-27 11:58:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -225,7 +225,6 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => 'Odhlásenie ',
-        'Logout successful. Thank you for using OTRS!' => 'Odhlásenie úspešné. Ďakujeme za používanie OTRS!',
         'Logout successful. Thank you for using %s!' => 'Odhlásenie úspešné. Ďakujeme za používanie %s!',
         'Feature not active!' => 'Funkcia neaktívna!',
         'Agent updated!' => '',
@@ -1539,6 +1538,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4527,6 +4527,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Logout successful. Thank you for using OTRS!' => 'Odhlásenie úspešné. Ďakujeme za používanie OTRS!',
 
     };
     # $$STOP$$

@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:22
+    # Last translation file sync: 2013-03-27 11:58:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -224,7 +224,6 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => 'Atteikties',
-        'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt OTRS problēmu pieteikumu sistēmu!',
         'Logout successful. Thank you for using %s!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt %s problēmu pieteikumu sistēmu!',
         'Feature not active!' => 'Papildiespēja nav aktivizēta!',
         'Agent updated!' => '',
@@ -1538,6 +1537,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4527,6 +4527,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (darba laika vienības)',
+        'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt OTRS problēmu pieteikumu sistēmu!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Lai pārinstalētu datus, lietojot pārlūkprogrammas instalātoru, drošajam režīmam (Secure Mode) ir jābūt izslēgtam.',
 

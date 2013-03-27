@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:02
+    # Last translation file sync: 2013-03-27 11:58:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -226,7 +226,7 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => 'Изход',
-        'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Функцията не е активна',
         'Agent updated!' => '',
         'Create Database' => 'Създаване на база данни',
@@ -1539,6 +1539,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4528,6 +4529,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (работни единици)',
+        'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
 
     };
     # $$STOP$$

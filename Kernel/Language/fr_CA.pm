@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:15
+    # Last translation file sync: 2013-03-27 11:58:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -232,7 +232,6 @@ sub Data {
         'There is no acount with that user name.' => 'Le nom d\'utilisateur ne correspond à aucun compte.',
         'Please contact your administrator' => 'Veuillez contacter votre administrateur',
         'Logout' => 'Déconnexion',
-        'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Le groupe OTRS vous remercie!',
         'Logout successful. Thank you for using %s!' => 'Déconnexion réussie. Le groupe %s vous remercie!',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée. ',
         'Agent updated!' => 'La mise à jour des renseignements de l\'agent a été effectuée.',
@@ -1546,6 +1545,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -6333,6 +6333,7 @@ sub Data {
         'Login failed! Your username or password was entered incorrectly.' =>
             'La connexion a échoué. Votre nom d\'utilisateur ou votre mot de passe sont erronés.',
         'Logout of customer panel' => 'Déconnection de la page client ',
+        'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Le groupe OTRS vous remercie!',
         'Lookup' => 'Consulter',
         'LoopProtection' => 'Protection anti-boucle (LoopProtection)',
         'Luxembourg' => 'Luxembourg',

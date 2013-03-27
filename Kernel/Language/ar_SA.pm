@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:01
+    # Last translation file sync: 2013-03-27 11:58:03
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,7 +227,6 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => 'تسجيل الخروج',
-        'Logout successful. Thank you for using OTRS!' => 'تم الخروج من النظام بنجاح. شكراً لإستخدامك OTRS!',
         'Logout successful. Thank you for using %s!' => 'تم الخروج من النظام بنجاح. شكراً لإستخدامك %s!',
         'Feature not active!' => 'الخاصية غير مفعلة!',
         'Agent updated!' => '',
@@ -1541,6 +1540,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4530,6 +4530,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (وحدات العمل) ',
+        'Logout successful. Thank you for using OTRS!' => 'تم الخروج من النظام بنجاح. شكراً لإستخدامك OTRS!',
 
     };
     # $$STOP$$

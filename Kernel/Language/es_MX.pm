@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:10
+    # Last translation file sync: 2013-03-27 11:58:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -225,7 +225,6 @@ sub Data {
         'There is no acount with that user name.' => 'No existe una cuenta para ese nombre de usuario',
         'Please contact your administrator' => 'Favor de contactar a su administrador',
         'Logout' => 'Cerrar Sesión',
-        'Logout successful. Thank you for using OTRS!' => 'Sesión terminada satisfactoriamente. ¡Gracias por utilizar OTRS!',
         'Logout successful. Thank you for using %s!' => 'Sesión terminada satisfactoriamente. ¡Gracias por utilizar %s!',
         'Feature not active!' => 'Funcionalidad inactiva.',
         'Agent updated!' => '¡Agente actualizado!',
@@ -1539,6 +1538,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4532,6 +4532,7 @@ sub Data {
             'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'Deshabilita el instalador web (http://yourhost.example.com/otrs/installer.pl), para prevenir que el sistema sufra un secuestro (hijack). Si se selecciona "No", el sistema puede ser reinstalado y la configuración básica actual se usará para pre-poblar las preguntas, en el script del instalador. Así mismo, al estar deshabilitado, es imposible hacer uso de: el agente genérico, el manejador de paquetes y la caja de consultas SQL (para evitar el uso de consultas dañinas, como DROP DATABASE, o para robar contraseñas).',
+        'Logout successful. Thank you for using OTRS!' => 'Sesión terminada satisfactoriamente. ¡Gracias por utilizar OTRS!',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Número máximo (en caracteres) de la tabla de información del cliente en la vista de filas.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

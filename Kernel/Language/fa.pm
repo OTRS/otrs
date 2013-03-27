@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:12
+    # Last translation file sync: 2013-03-27 11:58:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,7 @@ sub Data {
         'There is no acount with that user name.' => 'حساب کاربری با این نام کاربری موجود نیست.',
         'Please contact your administrator' => 'لطفا با مدیر تماس بگیرید',
         'Logout' => 'خروج ',
-        'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Agent updated!' => 'کارشناس به روز شد!',
         'Create Database' => 'ایجاد بانک',
@@ -1543,6 +1543,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4532,6 +4533,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '(واحد کار)',
+        'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'برای باز-نصب از طریق وب باید حالت امن غیر فعال گردد',
 

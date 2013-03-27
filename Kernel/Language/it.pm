@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:19
+    # Last translation file sync: 2013-03-27 11:58:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -232,7 +232,6 @@ sub Data {
         'There is no acount with that user name.' => 'Non esistono account con questo username.',
         'Please contact your administrator' => 'Si prega di contattare l\'amministratore',
         'Logout' => 'Esci',
-        'Logout successful. Thank you for using OTRS!' => 'Disconnessione avvenuta con successo. Grazie per aver usato OTRS!',
         'Logout successful. Thank you for using %s!' => 'Disconnessione avvenuta con successo. Grazie per aver usato %s!',
         'Feature not active!' => 'Funzione non attiva!',
         'Agent updated!' => 'Agente aggiornato!',
@@ -1546,6 +1545,7 @@ sub Data {
         'Configuration import' => 'Importa Configurazione',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Qui è possibile importare un file di configurazione per importare un processo a sistema. Il file deve essere in formato .yml come esportato dal modulo di export della gestione processi',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Carica la configurazione di processo',
         'Import process configuration' => 'Importa la configurazione di processo',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4537,6 +4537,7 @@ sub Data {
         ' (work units)' => ' (unità di lavoro)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
+        'Logout successful. Thank you for using OTRS!' => 'Disconnessione avvenuta con successo. Grazie per aver usato OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
 

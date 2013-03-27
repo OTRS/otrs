@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:26
+    # Last translation file sync: 2013-03-27 11:58:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -226,7 +226,6 @@ sub Data {
         'There is no acount with that user name.' => 'Não existe nenhuma conta com esse nome.',
         'Please contact your administrator' => 'Por favor contate o administrador',
         'Logout' => 'Sair',
-        'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',
         'Logout successful. Thank you for using %s!' => 'Saiu com sucesso. Obrigado por utilizar o %s!',
         'Feature not active!' => 'Característica não ativa!',
         'Agent updated!' => 'Agente atualizado',
@@ -1540,6 +1539,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4531,6 +4531,7 @@ sub Data {
         ' (work units)' => ' (unAntiguidades de trabalho)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite condições de pesquisa de tickets aumentadas no interface de agente . Com esta funcionalAntiguidade pode pesquisar com por ex. "(key1&&key2)" or "(key1||key2)".',
+        'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro necessita de estar inativo para re-instalar via browser',
 

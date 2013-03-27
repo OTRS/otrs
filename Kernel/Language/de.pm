@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:06
+    # Last translation file sync: 2013-03-27 11:58:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -225,7 +225,6 @@ sub Data {
         'There is no acount with that user name.' => 'Es gibt kein Benutzerkonto mit diesem Benutzernamen.',
         'Please contact your administrator' => 'Bitte kontaktieren Sie Ihren Administrator',
         'Logout' => 'Abmelden',
-        'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Agent updated!' => 'Agent aktualisiert!',
@@ -1539,6 +1538,7 @@ sub Data {
         'Configuration import' => 'Konfiguration importieren',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie vom Prozessmanagement auch exportiert wird.',
+        'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Upload process configuration' => 'Prozesskonfiguration hochladen',
         'Import process configuration' => 'Prozesskonfiguration importieren',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4531,6 +4531,7 @@ sub Data {
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Historic Time Range' => 'Historischer Zeitraum',
+        'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

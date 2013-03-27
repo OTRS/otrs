@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:03
+    # Last translation file sync: 2013-03-27 11:58:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -225,7 +225,7 @@ sub Data {
         'There is no acount with that user name.' => 'No hi ha cap compta amb aquest nom d\'usuari.',
         'Please contact your administrator' => 'Per favor contacti amb el seu administrador',
         'Logout' => 'Desconnectar-se',
-        'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Característica no activa',
         'Agent updated!' => 'Agent actualitzat!',
         'Create Database' => 'Crear Base de dades',
@@ -1538,6 +1538,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4529,6 +4530,7 @@ sub Data {
         ' (work units)' => ' (unitats de treball)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
+        'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
 

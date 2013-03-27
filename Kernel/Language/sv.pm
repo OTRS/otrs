@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:33
+    # Last translation file sync: 2013-03-27 11:58:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,7 +227,6 @@ sub Data {
         'There is no acount with that user name.' => 'Det finns inget konto med det användarnamnet',
         'Please contact your administrator' => 'Vänligen kontakta din administratör',
         'Logout' => 'Logga ut',
-        'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
         'Logout successful. Thank you for using %s!' => 'Utloggningen lyckades.  Tack för att du använde %s!',
         'Feature not active!' => 'Funktion inte aktiverad!',
         'Agent updated!' => 'Agent uppdaterad!',
@@ -1541,6 +1540,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4530,6 +4530,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (arbetsenheter)',
+        'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
         'New email ticket for %s' => 'Nytt e-postärende för %s',
         'New phone ticket for %s' => 'Nytt telefonärende för %s',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:36
+    # Last translation file sync: 2013-03-27 11:58:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -225,7 +225,6 @@ sub Data {
         'There is no acount with that user name.' => '',
         'Please contact your administrator' => '',
         'Logout' => 'Вийти',
-        'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',
         'Logout successful. Thank you for using %s!' => 'Вихід виконано. Дякуемо Вам, за використання %s!',
         'Feature not active!' => 'Функція не активована!',
         'Agent updated!' => '',
@@ -1539,6 +1538,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4528,6 +4528,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' ( робочі одиниці)',
+        'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Безпечний режим повинен бути відключений при переустановці через веб-інтерфейс',
 

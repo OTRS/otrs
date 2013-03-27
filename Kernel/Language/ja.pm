@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:20
+    # Last translation file sync: 2013-03-27 11:58:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -226,7 +226,7 @@ sub Data {
         'There is no acount with that user name.' => '該当ユーザー名のアカウントはありません。',
         'Please contact your administrator' => '管理者に連絡してください',
         'Logout' => 'ログアウト',
-        'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます！',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '機能が有効になっていません！',
         'Agent updated!' => '担当者更新！',
         'Create Database' => 'データベース作成',
@@ -1539,6 +1539,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4535,6 +4536,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケージ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パスワードの盗難を防ぐためです）。',
+        'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます！',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:24
+    # Last translation file sync: 2013-03-27 11:58:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -231,7 +231,6 @@ sub Data {
         'There is no acount with that user name.' => 'Deze gebruikersnaam is niet bekend.',
         'Please contact your administrator' => 'Neem contact op met uw beheerder',
         'Logout' => 'Uitloggen',
-        'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
         'Agent updated!' => 'Behandelaar aangepast.',
@@ -1545,6 +1544,7 @@ sub Data {
         'Configuration import' => 'Importeer configuratie',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Hier kunt u een proces importeren vanuit een configuratiebestand. Het bestand moet in .yml formaat zijn, zoals geëxporteerd door de procesbeheer-module.',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Upload procesconfiguratie',
         'Import process configuration' => 'Importeer procesconfiguratie',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4535,6 +4535,7 @@ sub Data {
         #
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
+        'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

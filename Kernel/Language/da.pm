@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:05
+    # Last translation file sync: 2013-03-27 11:58:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -226,7 +226,6 @@ sub Data {
         'There is no acount with that user name.' => 'Der er ingen konto med det brugernavn.',
         'Please contact your administrator' => 'Kontakt venligst din administrator',
         'Logout' => 'Log ud',
-        'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
         'Logout successful. Thank you for using %s!' => 'Du er nu logget ud. Tak fordi du bruger %s.',
         'Feature not active!' => 'Funktionen er ikke aktiv',
         'Agent updated!' => 'Agent opdateret',
@@ -1540,6 +1539,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4529,6 +4529,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (arbejdsenheder)',
+        'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
 

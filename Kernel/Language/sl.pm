@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:30
+    # Last translation file sync: 2013-03-27 11:58:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,7 +229,7 @@ sub Data {
         'There is no acount with that user name.' => 'Račun s tem uporabniškem imenom ne obstaja.',
         'Please contact your administrator' => 'Prosimo, obrnite se na vašega skrbnika',
         'Logout' => 'Odjava',
-        'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Funkcija ni aktivna!',
         'Agent updated!' => 'Posodobljen zaposlen',
         'Create Database' => 'Kreiraj bazo podatkov',
@@ -1542,6 +1542,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4530,6 +4531,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Varni način mora biti onemogočen zaradi ponovne instalacije preko weba.',
 

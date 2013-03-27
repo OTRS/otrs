@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-07 10:55:13
+    # Last translation file sync: 2013-03-27 11:58:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,7 +227,7 @@ sub Data {
         'There is no acount with that user name.' => 'Käyttäjätunnusta ei löydy.',
         'Please contact your administrator' => 'Ota yhteys ylläpitoon',
         'Logout' => 'Kirjaudu ulos',
-        'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ominaisuus ei käytössä!',
         'Agent updated!' => 'Agentti päivitetty!',
         'Create Database' => 'Luo tietokanta',
@@ -1540,6 +1540,7 @@ sub Data {
         'Configuration import' => 'Asetusten tuonti',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Voit lähettää asetustiedoston prosessin tuomiseksi järjestelmään. Tiedoston tulee olla .yml-muotoinen, kuten prosessin hallinnasta viety tieto on.',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Päivitä prosessin asetukset',
         'Import process configuration' => 'Tuo prosessin asetukset',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4529,6 +4530,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (esim. minuutteina)',
+        'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
 
     };
     # $$STOP$$

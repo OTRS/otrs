@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-12 11:32:18
+    # Last translation file sync: 2013-03-27 11:58:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -225,7 +225,7 @@ sub Data {
         'There is no acount with that user name.' => 'Bu kullanıcı adıyla bir hesap yok.',
         'Please contact your administrator' => 'Lütfen yöneticinizle irtibat kurun',
         'Logout' => 'Oturumu kapat',
-        'Logout successful. Thank you for using OTRS!' => 'Oturum kapatma başarılı! OTRS\'yi kullandığınız için teşekkür ederiz!',
+        'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Özellik etkin değil!',
         'Agent updated!' => 'Aracı güncellendi!',
         'Create Database' => 'Veritabanını Oluştur',
@@ -1538,6 +1538,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -4756,6 +4757,7 @@ sub Data {
         'Logfile too large, you need to reset it!' => 'Günlük dosyası çok büyük, boşaltmalısınız!',
         'Login failed! Your username or password was entered incorrectly.' =>
             'Oturum açılamadı! Kullanıcı adınız veya parolanız hatalı girildi.',
+        'Logout successful. Thank you for using OTRS!' => 'Oturum kapatma başarılı! OTRS\'yi kullandığınız için teşekkür ederiz!',
         'Lookup' => 'Ara',
         'Mail Management' => 'Posta Yönetimi',
         'Mailbox' => 'Posta kutusu',
