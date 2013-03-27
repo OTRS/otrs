@@ -4,6 +4,7 @@
 
 3.2.5 2013-??-??
  - 2013-03-27 Fixed bug#9295 - Article dynamic field is not searchable.
+ - 2013-03-27 Fixed bug#9288 - DynamicField Content overwrites TicketTitle for Links from Dynamic Fields.
 
 3.2.4 2013-04-02
  - 2013-03-21 Fixed bug#9279 - Inaccurate German translation of ,,Priority Update''.
