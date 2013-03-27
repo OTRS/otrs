@@ -1244,7 +1244,6 @@ sub _StoreActivityDialog {
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
-            Source => 'string',
         );
         $Self->{UploadCacheObject}->FormIDAddFile(
             FormID => $Self->{FormID},
@@ -1458,7 +1457,6 @@ sub _StoreActivityDialog {
                 # get submit attachment
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                     Param  => 'FileUpload',
-                    Source => 'String',
                 );
                 if (%UploadStuff) {
                     push @Attachments, \%UploadStuff;

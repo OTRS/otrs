@@ -103,7 +103,6 @@ sub Run {
         my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
-            Source => 'string',
         );
 
         my $OverwriteExistingEntities =  $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' );

@@ -1003,7 +1003,6 @@ sub Run {
         my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
-            Source => 'string',
         );
 
         # save package in upload cache

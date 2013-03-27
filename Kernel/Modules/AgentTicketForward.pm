@@ -747,7 +747,6 @@ sub SendEmail {
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
-            Source => 'string',
         );
         $Self->{UploadCacheObject}->FormIDAddFile(
             FormID => $GetParam{FormID},
@@ -803,7 +802,6 @@ sub SendEmail {
     # get submit attachment
     my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
         Param  => 'FileUpload',
-        Source => 'String',
     );
     if (%UploadStuff) {
         push @AttachmentData, \%UploadStuff;

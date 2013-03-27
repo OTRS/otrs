@@ -741,7 +741,6 @@ sub Run {
             if ( $Uploadfile = $Self->{ParamObject}->GetParam( Param => 'file_upload' ) ) {
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
                     Param    => 'file_upload',
-                    Source   => 'string',
                     Encoding => 'Raw'
                 );
                 if ( $UploadStuff{Content} =~ m{<otrs_stats>}x ) {
