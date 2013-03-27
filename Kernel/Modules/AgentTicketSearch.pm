@@ -88,7 +88,7 @@ sub new {
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => ['Ticket'],
+        ObjectType  => ['Ticket', 'Article'],
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
