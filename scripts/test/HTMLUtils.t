@@ -1448,6 +1448,20 @@ my $InlineImage
             ],
             }
     },
+    {
+        Name   => 'Win7 snipping tool',
+        Body   => 'Snipping Tool: <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAADJCAIAAABHdavEAAAgAElEQVR4nOx9d1gUWfZ27e63O0rnUJ2ISs5BRTFhzjo65uyYc4bOIFEUM9nsmHPOihkxkaGBJphQQM="> 456',
+        Result => {
+            Success => 1,
+            Body =>
+                qr|^Snipping Tool: <img alt="" src="cid:.*?"> 456$|,
+            Attachments => [
+                {
+                    ContentType => qr|^image/png;|,
+                },
+            ],
+            }
+    },
 );
 
 TEST:
