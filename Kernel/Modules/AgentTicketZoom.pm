@@ -1183,6 +1183,8 @@ sub MaskAgentZoom {
                                 Name => 'ProcessWidgetDynamicFieldLink',
                                 Data => {
                                     %Ticket,
+                                    # alias for ticket title, Title will be overwritten
+                                    TicketTitle    => $Ticket{Title},
                                     Value          => $Field->{Value},
                                     Title          => $Field->{Title},
                                     Link           => $Field->{Link},
@@ -1255,6 +1257,8 @@ sub MaskAgentZoom {
                     Name => 'ProcessWidgetDynamicFieldLink',
                     Data => {
                         %Ticket,
+                        # alias for ticket title, Title will be overwritten
+                        TicketTitle    => $Ticket{Title},
                         Value          => $Field->{Value},
                         Title          => $Field->{Title},
                         Link           => $Field->{Link},
@@ -1289,6 +1293,8 @@ sub MaskAgentZoom {
                 Name => 'TicketDynamicFieldLink',
                 Data => {
                     %Ticket,
+                    # alias for ticket title, Title will be overwritten
+                    TicketTitle    => $Ticket{Title},
                     Value          => $Field->{Value},
                     Title          => $Field->{Title},
                     Link           => $Field->{Link},
@@ -2195,6 +2201,8 @@ sub _ArticleItem {
                 Name => 'ArticleDynamicFieldLink',
                 Data => {
                     %Ticket,
+                    # alias for ticket title, Title will be overwritten
+                    TicketTitle                 => $Ticket{Title},
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
                     Link                        => $ValueStrg->{Link},
@@ -2230,6 +2238,9 @@ sub _ArticleItem {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleDynamicField' . $DynamicFieldConfig->{Name} . 'Link',
                 Data => {
+                    %Ticket,
+                    # alias for ticket title, Title will be overwritten
+                    TicketTitle                 => $Ticket{Title},
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
                     Link                        => $ValueStrg->{Link},
