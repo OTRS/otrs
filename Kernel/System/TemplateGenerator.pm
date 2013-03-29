@@ -345,14 +345,18 @@ sub Signature {
 
 generate sender address (FROM string) for emails
 
-my $Sender = $TemplateGeneratorObject->Sender(
+    my $Sender = $TemplateGeneratorObject->Sender(
         QueueID    => 123,
         UserID     => 123,
     );
 
 returns:
 
-    "John Doe at Super Support <support@example.com>"
+    John Doe at Super Support <support@example.com>
+
+and it returns the quoted real name if necessary
+
+    "John Doe, Support" <support@example.tld>
 
 =cut
 
@@ -616,7 +620,7 @@ sub AutoResponse {
         chomp $Param{OrigHeader}->{$_};
     }
 
-    # format body (only if longer the 86 chars)
+    # format body (only if longer than 86 chars)
     if ( $Param{OrigHeader}->{Body} ) {
         if ( length $Param{OrigHeader}->{Body} > 86 ) {
             my @Lines = split /\n/, $Param{OrigHeader}->{Body};
