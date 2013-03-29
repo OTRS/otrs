@@ -37,6 +37,10 @@ if (window.opener) {
 $TimeLong{"$Data{"Content"}"}
 <!-- dtl:block:TimeLong -->
 
+<!-- dtl:block:Date -->
+$Date{"$Data{"Content"}"}
+<!-- dtl:block:Date -->
+
 <!-- dtl:block:Checkbox -->
 <input type="checkbox" id="$QData{"Name"}" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}"/>
 &nbsp;<br/>

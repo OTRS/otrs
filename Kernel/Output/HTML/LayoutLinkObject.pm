@@ -784,6 +784,14 @@ sub _LinkObjectContentStringCreate {
         );
     }
 
+    elsif ( $Content->{Type} eq 'TimeLong' ) {
+        $Blockname = 'TimeLong';
+    }
+
+    elsif ( $Content->{Type} eq 'Date' ) {
+        $Blockname = 'Date';
+    }
+
     # prepare text
     elsif ( $Content->{Type} eq 'Text' || !$Content->{Type} ) {
 
