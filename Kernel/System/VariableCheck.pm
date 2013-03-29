@@ -284,7 +284,7 @@ sub IsIPv4Address {
 
         # allow numbers 0 to 255, no leading zeroes
         return if $Part !~ m{
-            \A (?: \d | [1-9] \d | [1] \d\{2\} | [2][0-4]\d | [2][5][0-5] ) \z
+            \A (?: \d | [1-9] \d | [1] \d{2} | [2][0-4]\d | [2][5][0-5] ) \z
         }xms;
     }
 
