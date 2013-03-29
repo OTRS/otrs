@@ -527,44 +527,8 @@ sub Run {
             }
         }
 
-        my %LinkMenuOutput;
-        if ( $Form{Mode} eq 'Normal' ) {
-            $LinkMenuOutput{Back} = 1;
-        }
-        if ( $LinkListWithData && %{$LinkListWithData} ) {
-            $LinkMenuOutput{Delete} = 1;
-        }
-
-        # output link menu
-        if (%LinkMenuOutput) {
-
-            # output the link menu block
-            $Self->{LayoutObject}->Block(
-                Name => 'LinkMenu',
-            );
-        }
-
-        # output back link
-        if ( $LinkMenuOutput{Back} ) {
-
-            # output the link menu back block
-            $Self->{LayoutObject}->Block(
-                Name => 'LinkMenuBack',
-                Data => \%Form,
-            );
-        }
-
-        # output link seperator
-        if ( $LinkMenuOutput{Back} && $LinkMenuOutput{Delete} ) {
-
-            # output the link menu seperator block
-            $Self->{LayoutObject}->Block(
-                Name => 'LinkMenuSeperator',
-            );
-        }
-
         # output delete link
-        if ( $LinkMenuOutput{Delete} ) {
+        if ( $LinkListWithData && %{$LinkListWithData} ) {
 
             # output the link menu delete block
             $Self->{LayoutObject}->Block(
