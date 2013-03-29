@@ -141,7 +141,7 @@ else {
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {
-        SafeChown( $OtrsUserID, $OtrsGroupID, $DestDir );
+        SafeChown( $OtrsUserID, $WebGroupID, $DestDir );
     }
 }
 
@@ -227,10 +227,10 @@ sub MakeReadOnly {
     }
     my $Mode;
     if ( -d $File ) {
-        $Mode = 0755;
+        $Mode = 0750;
     }
     else {
-        $Mode = 0644;
+        $Mode = 0640;
     }
     SafeChmod( $Mode, $File );
 }
@@ -240,10 +240,10 @@ sub MakeWritable {
     my $Mode;
 
     if ( -d $File ) {
-        $Mode = 0775;
+        $Mode = 0770;
     }
     else {
-        $Mode = 0664;
+        $Mode = 0660;
     }
     if ($NotRoot) {
         $Mode |= 2;
@@ -260,10 +260,10 @@ sub MakeWritableSetGid {
     my $Mode;
 
     if ( -d $File ) {
-        $Mode = 02775;
+        $Mode = 02770;
     }
     else {
-        $Mode = 0664;
+        $Mode = 0660;
     }
     if ($NotRoot) {
         $Mode |= 2;
@@ -279,7 +279,7 @@ sub MakeExecutable {
     my $File = $File::Find::name || $_[0];
     my $Mode = ( lstat($File) )[2];
     if ( defined $Mode ) {
-        $Mode |= 0111;
+        $Mode |= 0110;
         SafeChmod( $Mode, $File );
     }
 }

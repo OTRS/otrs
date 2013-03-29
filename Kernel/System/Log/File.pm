@@ -12,8 +12,6 @@ package Kernel::System::Log::File;
 use strict;
 use warnings;
 
-umask "002";
-
 sub new {
     my ( $Type, %Param ) = @_;
 

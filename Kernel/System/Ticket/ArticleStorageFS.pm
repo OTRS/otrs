@@ -18,9 +18,6 @@ use Time::HiRes qw();
 
 use Kernel::System::VariableCheck qw(:all);
 
-# to get it writable for the otrs group (just in case)
-umask 002;
-
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
 
@@ -40,7 +37,7 @@ sub ArticleStorageInit {
     my $PermissionCheckDirectory
         = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
     my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/" . $PermissionCheckDirectory;
-    if ( File::Path::mkpath( $Path, 0, 0775 ) ) {    ## no critic
+    if ( File::Path::mkpath( $Path, 0, 0770 ) ) {    ## no critic
         rmdir $Path;
     }
     else {
@@ -243,14 +240,14 @@ sub ArticleWritePlain {
     }
 
     # write article to fs 1:1
-    File::Path::mkpath( [$Path], 0, 0775 );    ## no critic
+    File::Path::mkpath( [$Path], 0, 0770 );    ## no critic
 
     # write article to fs
     my $Success = $Self->{MainObject}->FileWrite(
         Location   => "$Path/plain.txt",
         Mode       => 'binmode',
         Content    => \$Param{Email},
-        Permission => '664',
+        Permission => '660',
     );
     return if !$Success;
 
@@ -307,7 +304,7 @@ sub ArticleWriteAttachment {
 
     # write attachment to backend
     if ( !-d $Param{Path} ) {
-        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) {    ## no critic
+        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create $Param{Path}: $!",
@@ -322,7 +319,7 @@ sub ArticleWriteAttachment {
         Filename   => "$Param{Filename}.content_type",
         Mode       => 'binmode',
         Content    => \$Param{ContentType},
-        Permission => '664',
+        Permission => 660,
     );
     return if !$SuccessContentType;
 
@@ -338,7 +335,7 @@ sub ArticleWriteAttachment {
             Filename   => "$Param{Filename}.content_id",
             Mode       => 'binmode',
             Content    => \$Param{ContentID},
-            Permission => '664',
+            Permission => 660,
         );
     }
 
@@ -349,7 +346,7 @@ sub ArticleWriteAttachment {
             Filename   => "$Param{Filename}.content_alternative",
             Mode       => 'binmode',
             Content    => \$Param{ContentAlternative},
-            Permission => '664',
+            Permission => 660,
         );
     }
 
@@ -359,7 +356,7 @@ sub ArticleWriteAttachment {
         Filename   => $Param{Filename},
         Mode       => 'binmode',
         Content    => \$Param{Content},
-        Permission => '664',
+        Permission => 660,
     );
     return if !$SuccessContent;
 

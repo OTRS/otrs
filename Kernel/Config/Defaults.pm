@@ -24,6 +24,9 @@ use utf8;
 # Do not use require VERSION as it leaks variables.
 use 5.008_006;
 
+# make any created files readable by owner and group, not by others
+umask 0007;
+
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
 use FindBin qw($Bin);

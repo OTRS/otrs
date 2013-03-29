@@ -14,9 +14,6 @@ use warnings;
 
 use Time::HiRes qw();
 
-# to get it writable for the otrs group (just in case)
-umask 002;
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -31,7 +28,7 @@ sub new {
 
     # get data dir
     $Self->{DataDir}    = $Self->{ConfigObject}->Get('Home') . '/var/virtualfs';
-    $Self->{Permission} = '664';
+    $Self->{Permission} = '660';
 
     # create data dir
     if ( !-d $Self->{DataDir} ) {
@@ -45,7 +42,7 @@ sub new {
         = "check_permissions_${$}_" . ( int rand 1_000_000_000 ) . "_${Seconds}_${Microseconds}";
     my $Path = "$Self->{DataDir}/$PermissionCheckDirectory";
 
-    if ( mkdir( $Path, 0755 ) ) {
+    if ( mkdir( $Path, 0750 ) ) {
         rmdir $Path;
     }
     else {

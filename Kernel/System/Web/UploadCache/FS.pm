@@ -86,21 +86,21 @@ sub FormIDAddFile {
         Filename   => "$Param{FormID}.$Param{Filename}",
         Content    => \$Param{Content},
         Mode       => 'binmode',
-        Permission => '644',
+        Permission => '640',
     );
     return if !$Self->{MainObject}->FileWrite(
         Directory  => $Self->{TempDir},
         Filename   => "$Param{FormID}.$Param{Filename}.ContentType",
         Content    => \$Param{ContentType},
         Mode       => 'binmode',
-        Permission => '644',
+        Permission => '640',
     );
     return if !$Self->{MainObject}->FileWrite(
         Directory  => $Self->{TempDir},
         Filename   => "$Param{FormID}.$Param{Filename}.ContentID",
         Content    => \$ContentID,
         Mode       => 'binmode',
-        Permission => '644',
+        Permission => '640',
     );
     return 1;
 }

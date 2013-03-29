@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 # to get it readable for the webserver user and writable for otrs
 # group (just in case)
 
-umask 002;
+umask 007;
 
 use Getopt::Std;
 use Kernel::Config;

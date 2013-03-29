@@ -321,7 +321,7 @@ sub _ProcessFailed {
         Content    => \$Content,
         Mode       => 'binmode',
         Type       => 'Local',
-        Permission => '644',
+        Permission => '640',
     );
 }
 

@@ -272,7 +272,7 @@ sub _ProcessFailed {
         Content    => \$Param{Email},
         Mode       => 'binmode',
         Type       => 'Local',
-        Permission => '644',
+        Permission => '640',
     );
 }
 
