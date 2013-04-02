@@ -4,6 +4,7 @@
  - 2013-03-27 Fixed bug#9288 - DynamicField Content overwrites TicketTitle for Links from Dynamic Fields.
 
 3.2.4 2013-04-02
+ - 2013-04-02 Fixed bug#9198 - Linked search with fulltext AND additional attributes.
  - 2013-03-21 Fixed bug#9279 - Inaccurate German translation of ,,Priority Update''.
  - 2013-03-21 Fixed bug#9257 - No notifications to agents with out-of-office set but period not reached.
  - 2013-03-21 Fixed bug#1689 - Allow bin/SetPermissions.sh to follow symlink for OTRS_HOME.
@@ -451,6 +452,7 @@
     NotificationEvent definitions.
 
 3.1.14 2013-??-??
+ - 2013-04-02 Fixed bug#9198 - Linked search with fulltext AND additional attributes.
  - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
  - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
  - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
