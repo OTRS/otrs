@@ -9,7 +9,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.15 2013-04-02
+3.1.15 2013-??-??
+ - 2013-04-02 Fixed bug#9198 - Linked search with fulltext AND additional attributes.
  - 2013-03-27 Fixed bug#9295 - Article dynamic field is not searchable.
 
 3.1.14 2013-04-02
