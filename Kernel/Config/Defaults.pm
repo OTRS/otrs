@@ -20,9 +20,8 @@ use strict;
 use warnings;
 use utf8;
 
-# Perl 5.8.6 is the required minimum version to use OTRS.
-# Do not use require VERSION as it leaks variables.
-use 5.008_006;
+# Perl 5.10.0 is the required minimum version to use OTRS.
+use 5.010_000;
 
 # make any created files readable by owner and group, not by others
 umask 0007;
