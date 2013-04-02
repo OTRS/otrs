@@ -58,6 +58,9 @@
         <div class="Field">
             <input type="text" name="Fulltext" value="$QData{"Fulltext"}" class="W50pc" />
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
+            <div class="FieldExplanation">
+                $Text{"Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name."}
+            </div>
         </div>
         <div class="Clear"></div>
         <label for="TicketNumber" id="LabelTicketNumber">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}:</label>
