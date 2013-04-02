@@ -236,8 +236,3 @@ o Name:    CPAN Email::Valid
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
   Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
-
-o Name:    CPAN version
-  Web:     n/a
-  License: # This module can be distributed under the same terms as Perl.
-  Note:    # Copyright (C) 2004-2010 John Peacock
