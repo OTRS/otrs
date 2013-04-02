@@ -2,7 +2,7 @@ Software requirements
 =====================
 
 Mandatory:
-* Perl 5.8.8 or higher (not Perl6)
+* Perl 5.10.0 or higher (not Perl6)
 * Database (e. g. MySQL, PostgreSQL)
 * Webserver
 * a few Perl modules (see step 2 of the chapter "Installation" for details)
