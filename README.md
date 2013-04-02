@@ -30,7 +30,7 @@ including process design, implementation, customization, application support, an
 Software requirements
 =====================
 Perl
-* Perl 5.8.8 or higher
+* Perl 5.10.0 or higher
 
 Webserver
 * Webserver with CGI support (CGI is not recommended)
