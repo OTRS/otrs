@@ -107,15 +107,9 @@ my @NeededModules = (
         Required => 1,
     },
     {
-        Module   => 'Digest::SHA::PurePerl',
-        Version  => '5.48',
-        Required => 1,
-        Comment  => 'Required to authenticate users and customers using SHA-1 or SHA-2 methods',
-    },
-    {
         Module   => 'Digest::SHA',
-        Required => 0,
-        Comment  => 'Recommended for faster xml handling.',
+        Required => 1,
+        Comment  => 'Required to authenticate users and customers using SHA-1.',
     },
     {
         Module   => 'Encode::HanExtra',

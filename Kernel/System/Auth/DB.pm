@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Digest::SHA;
 
 use Kernel::System::Valid;
 
@@ -123,14 +124,7 @@ sub Auth {
         # sha256 pw
         elsif ( $GetPw =~ m{\A .{64} \z}xms ) {
 
-            my $SHAObject;
-            if ( $Self->{MainObject}->Require('Digest::SHA') ) {
-                $SHAObject = Digest::SHA->new('sha256');
-            }
-            else {
-                $Self->{MainObject}->Require('Digest::SHA::PurePerl');
-                $SHAObject = Digest::SHA::PurePerl->new('sha256');
-            }
+            my $SHAObject = Digest::SHA->new('sha256');
 
             # encode output, needed by sha256_hex() only non utf8 signs
             $Self->{EncodeObject}->EncodeOutput( \$Pw );
@@ -142,14 +136,7 @@ sub Auth {
         # sha1 pw
         else {
 
-            my $SHAObject;
-            if ( $Self->{MainObject}->Require('Digest::SHA') ) {
-                $SHAObject = Digest::SHA->new('sha1');
-            }
-            else {
-                $Self->{MainObject}->Require('Digest::SHA::PurePerl');
-                $SHAObject = Digest::SHA::PurePerl->new('sha1');
-            }
+            my $SHAObject = Digest::SHA->new('sha1');
 
             # encode output, needed by sha1_hex() only non utf8 signs
             $Self->{EncodeObject}->EncodeOutput( \$Pw );

@@ -1,5 +1,6 @@
 3.3.0.beta1 2013-??-??
- - 2013-04-02 Changed required Perl version to 5.10.0.
+ - 2013-04-03 Removed Digest::SHA::PurePerl as Digest::SHA is core in perl 5.10.
+ - 2013-04-02 Changed required perl version to 5.10.0.
  - 2013-03-29 Fixed bug#8967 - Can't use Date or Timestamps in LinkObject.
  - 2013-03-29 Fixed bug#9058 - AgentLinkObject.pm refers to non-existing dtl blocks.
  - 2013-03-29 Fixed bug#7716 - Improve permissions on OTRS files.
