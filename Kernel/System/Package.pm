@@ -21,8 +21,6 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
-use vars qw($S);
-
 =head1 NAME
 
 Kernel::System::Package - to manage application packages/modules
