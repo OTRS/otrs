@@ -8,36 +8,6 @@
 # --
 
 <!-- dtl:block:ConfigureMail-->
-<div class="Center">
-    <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
-        <li class="Highlighted NoLink First">
-            <span>
-                <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
-            </span>
-        </li>
-        <li class="Highlighted NoLink">
-            <span>
-                <a href="#">$Text{"Step %s", "2"}<span>$Text{"Database Settings"}</span></a>
-            </span>
-        </li>
-        <li class="Highlighted Active NoLink">
-            <span>
-                <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
-            </span>
-        </li>
-        <li>
-            <span>
-                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
-            </span>
-        </li>
-        <li class="Last">
-            <span>
-                <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
-            </span>
-        </li>
-    </ul>
-</div>
-
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormMail">
         <input type="hidden" name="Action" value="Installer"/>

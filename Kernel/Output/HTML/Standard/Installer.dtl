@@ -27,36 +27,49 @@
         </noscript>
     </div>
 
-<!-- dtl:block:Intro -->
+<!-- dtl:block:Steps -->
     <div class="Center">
-        <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
-            <li class="First">
+        <ul id="ProgressBar" class="ProgressBarElements$QData{"Steps"}" SpacingTop SpacingBottom">
+<!-- dtl:block:StepLicense -->
+            <li class="First $QData{"Highlight"} $QData{"Active"}">
                 <span>
-                    <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
+                    <a href="#">$Text{"Step %s", "$QData{"Step"}"}<span>$Text{"License"}</span></a>
                 </span>
             </li>
-            <li>
+<!-- dtl:block:StepLicense -->
+<!-- dtl:block:StepDatabase -->
+            <li class="$QData{"Highlight"} $QData{"Active"}">
                 <span>
-                    <a href="#">$Text{"Step %s", "2"}<span>$Text{"Database Settings"}</span></a>
+                    <a href="#">$Text{"Step %s", "$QData{"Step"}"}<span>$Text{"Database Settings"}</span></a>
                 </span>
             </li>
-            <li>
+<!-- dtl:block:StepDatabase -->
+<!-- dtl:block:StepGeneral -->
+            <li class="$QData{"Highlight"} $QData{"Active"}">
                 <span>
-                    <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
+                    <a href="#">$Text{"Step %s", "$QData{"Step"}"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
                 </span>
             </li>
-            <li>
+<!-- dtl:block:StepGeneral -->
+<!-- dtl:block:StepRegistration -->
+            <li class="$QData{"Highlight"} $QData{"Active"}">
                 <span>
-                    <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
+                    <a href="#">$Text{"Step %s", "$QData{"Step"}"}<span>$Text{"Registration"}</span></a>
                 </span>
             </li>
-            <li class="Last">
+<!-- dtl:block:StepRegistration -->
+<!-- dtl:block:StepFinish -->
+            <li class="Last $QData{"Highlight"} $QData{"Active"}">
                 <span>
-                    <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
+                    <a href="#">$Text{"Step %s", "$QData{"Step"}"}<span>$Text{"Finish"}</span></a>
                 </span>
             </li>
+<!-- dtl:block:StepFinish -->
         </ul>
     </div>
+<!-- dtl:block:Steps -->
+
+<!-- dtl:block:Intro -->
     <div class="W33pc SpacingTop SpacingBottom CenterBox">
         <div class="WidgetSimple SpacingTop" id="WebInstallerBox">
             <div class="Header">
@@ -123,7 +136,7 @@
             <form action="$Env{"CGIHandle"}" method="post">
                 <input type="hidden" name="Action" value="Installer"/>
                 <input type="hidden" name="Subaction" value="License"/>
-                <button class="Primary" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                <button class="Primary" type="submit">$Text{"Next"}</button>
             </form>
         </div>
     </div>
@@ -132,6 +145,12 @@
 $Include{"InstallerLicense"}
 
 $Include{"InstallerDBStart"}
+
+$Include{"InstallerDBmysql"}
+
+$Include{"InstallerDBmssql"}
+
+$Include{"InstallerDBpostgresql"}
 
 $Include{"InstallerDBResult"}
 

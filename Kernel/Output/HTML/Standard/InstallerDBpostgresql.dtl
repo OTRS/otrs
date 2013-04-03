@@ -1,0 +1,105 @@
+# --
+# InstallerDBpostgresql.dtl - provides the form to configure postgresql
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:DatabasePostgreSQL -->
+<div class="W50pc SpacingTop SpacingBottom CenterBox">
+    <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
+        <input type="hidden" name="Action"    value="Installer"/>
+        <input type="hidden" name="Subaction" value="DBCreate"/>
+        <input type="hidden" name="DBType"    value="postgresql"/>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>
+            </div>
+
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="DBUser">$Text{"User"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBUser" name="DBUser" class="W50pc" autocomplete="off"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBPassword">$Text{"Password"}:</label>
+                    <div class="Field">
+                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="DBHost">$Text{"Host"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W50pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <button class="Primary" type="button" id="ButtonCheckDB">$Text{"Check database settings"}</button>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden HideMe">
+                    <h4>
+                        $Text{"Database-User"} ($Text{"New"})
+                    </h4>
+
+                    <label for="OTRSDBUser">$Text{"User"}:</label>
+                    <div class="Field">
+                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W50pc" autocomplete="off"/>
+                        <p class="FieldExplanation">
+                            $Text{"A new database user with limited rights will be created for this OTRS system."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="OTRSDBPassword">$Text{"Password"}:</label>
+                    <div class="Field">
+                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="hot" class="W50pc" autocomplete="off"/>
+                        <p class="FieldExplanation">
+                            $Text{"default 'hot'"}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <h4>
+                        $Text{"Database"}
+                    </h4>
+
+                    <label for="DBName">$Text{"Name"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W50pc"/>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden ErrorMsg">
+                    <h4>$Text{"Result of database check"}</h4>
+
+                    <div class="Field">
+                        <p id="FormDBResultMessage" class="Error"></p>
+                        <p id="FormDBResultComment" class="FieldExplanation"></p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <div class="Hidden Center HideMe">
+                    <button class="Primary" type="submit" id="FormDBSubmit" disabled="disabled">$Text{"Next"}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ButtonCheckDB').bind('click',Core.Installer.CheckDBData);
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:DatabasePostgreSQL -->

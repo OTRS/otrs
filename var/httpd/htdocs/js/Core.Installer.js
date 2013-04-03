@@ -31,7 +31,7 @@ InstallerDBStart
         var Data = Core.AJAX.SerializeForm( $('#FormDB') );
         Data += 'CheckMode=DB;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckDBDataCallback );
-        $('input[name=Subaction]').val('DB');
+        $('input[name=Subaction]').val('DBCreate');
     };
 
 
@@ -47,7 +47,7 @@ InstallerDBStart
             $('fieldset.ErrorMsg').show();
         }
         else {
-            alert(Core.Config.Get('Installer.CheckDBDataLabel'));
+            $('#ButtonCheckDB').hide();
             $('#FormDBSubmit').removeAttr('disabled');
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe').show();

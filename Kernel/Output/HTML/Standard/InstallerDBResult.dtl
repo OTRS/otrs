@@ -8,36 +8,6 @@
 # --
 
 <!-- dtl:block:DatabaseResult -->
-<div class="Center">
-    <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
-        <li class="Highlighted NoLink First">
-            <span>
-                <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
-            </span>
-        </li>
-        <li class="Highlighted Active NoLink">
-            <span>
-                <a href="#">$Text{"Step %s", "2"}<span>$Text{"Database Settings"}</span></a>
-            </span>
-        </li>
-        <li>
-            <span>
-                <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
-            </span>
-        </li>
-        <li>
-            <span>
-                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
-            </span>
-        </li>
-        <li class="Last">
-            <span>
-                <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
-            </span>
-        </li>
-    </ul>
-</div>
-
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
@@ -55,15 +25,15 @@
                     <div class="Field">
 
 <!-- dtl:block:DatabaseResultItemDone -->
-                        <p class="Confirmation"><strong>$Text{"Done"}.</strong></p>
+                        <p class="Confirmation"><strong><img src="$Config{"Frontend::ImagePath"}/icons/tick.png" /> $Text{"Done"}.</strong></p>
 <!-- dtl:block:DatabaseResultItemDone -->
 
 <!-- dtl:block:DatabaseResultItemFalse -->
-                        <p class="Error"><strong>$Text{"False"}! :-(</strong></p>
+                        <p class="Error"><img src="$Config{"Frontend::ImagePath"}/icons/cross.png" /><strong>$Text{"Error"}! :-(</strong></p>
 <!-- dtl:block:DatabaseResultItemFalse -->
 
 <!-- dtl:block:DatabaseResultItemMessage -->
-                        <p class="FieldExplanation">---==> $QData{"Message"}</p>
+                        <p class="FieldExplanation">$QData{"Message"}</p>
 <!-- dtl:block:DatabaseResultItemMessage -->
 
                     </div>
@@ -80,7 +50,7 @@
 
 <!-- dtl:block:DatabaseResultNext -->
                     <input type="hidden" name="Subaction" value="System"/>
-                    <button class="Primary" type="submit" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                    <button class="Primary" type="submit">$Text{"Next"}</button>
 <!-- dtl:block:DatabaseResultNext -->
 
                 </div>

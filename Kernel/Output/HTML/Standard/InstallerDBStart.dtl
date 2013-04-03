@@ -8,36 +8,6 @@
 # --
 
 <!-- dtl:block:DatabaseStart -->
-<div class="Center">
-    <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
-        <li class="Highlighted NoLink First">
-            <span>
-                <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
-            </span>
-        </li>
-        <li class="Highlighted Active NoLink">
-            <span>
-                <a href="#">$Text{"Step %s", "2"}<span>$Text{"Database Settings"}</span></a>
-            </span>
-        </li>
-        <li>
-            <span>
-                <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
-            </span>
-        </li>
-        <li>
-            <span>
-                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
-            </span>
-        </li>
-        <li class="Last">
-            <span>
-                <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
-            </span>
-        </li>
-    </ul>
-</div>
-
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
         <input type="hidden" name="Action"    value="Installer"/>
@@ -50,119 +20,19 @@
 
             <div class="Content">
                 <fieldset class="TableLike">
-                    <label for="DBUser">$Text{"User"}:</label>
-                    <div class="Field">
-                        <input type="text" id="DBUser" name="DBUser" value="root" class="W25pc" autocomplete="off"/>
-                        <p class="FieldExplanation">
-                            $Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation."}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="DBPassword">$Text{"Password"}:</label>
-                    <div class="Field">
-                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W25pc" autocomplete="off"/>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="DBHost">$Text{"Host"}:</label>
-                    <div class="Field">
-                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W25pc"/>
-                    </div>
-                    <div class="Clear"></div>
-
                     <label for="DBType">$Text{"Type"}:</label>
                     <div class="Field">
                         $Data{"SelectDBType"}
-                        <p class="FieldExplanation">
-                            $Text{"Currently only MySQL is supported in the web installer."}
-                            $Text{"If you want to install OTRS on another database type, please refer to the file README.database."}
-                        </p>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
 
-                <fieldset class="TableLike Hidden HideMe">
-                    <h4>
-                        $Text{"Database-User"} ($Text{"New"})
-                    </h4>
-
-                    <label for="OTRSDBUser">$Text{"User"}:</label>
-                    <div class="Field">
-                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc" autocomplete="off"/>
-                        <p class="FieldExplanation">
-                            $Text{"A new database user with limited rights will be created for this OTRS system."}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="OTRSDBPassword">$Text{"Password"}:</label>
-                    <div class="Field">
-                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="hot" class="W25pc" autocomplete="off"/>
-                        <p class="FieldExplanation">
-                            $Text{"default 'hot'"}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="OTRSDBConnectHost">$Text{"DB host"}:</label>
-                    <div class="Field">
-                        <input type="text" id="OTRSDBConnectHost" name="OTRSDBConnectHost" value="localhost" class="W25pc"/>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <h4>
-                        $Text{"Database"}
-                    </h4>
-
-                    <label for="DBName">$Text{"Name"}:</label>
-                    <div class="Field">
-                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W25pc"/>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label>$Text{"Action"}:</label>
-                    <div class="Field">
-                        <div>
-                            <label for="DBActionCreate">$Text{"Create"}</label>
-                            <input type="radio" id="DBActionCreate" name="DBAction" checked="checked" value="Create"/>
-                        </div>
-                        <div>
-                            <label for="DBActionDelete">$Text{"Delete"}</label>
-                            <input type="radio" id="DBActionDelete" name="DBAction" value="Delete"/>
-                        </div>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-
-                <fieldset class="TableLike CheckDB">
-                    <div id="InstallerContinueWithJS" class="Field">
-                        <button class="Primary" type="button" id="ButtonCheckDB" value="$Text{"Check database settings"}">$Text{"Check database settings"}</button>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-
-                <fieldset class="TableLike Hidden ErrorMsg">
-                    <h4>$Text{"Result of database check"}</h4>
-
-                    <div class="Field">
-                        <p id="FormDBResultMessage" class="Error"></p>
-                        <p id="FormDBResultComment" class="FieldExplanation"></p>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-
-                <div class="Hidden Center HideMe">
-                    <button class="Primary" type="submit" id="FormDBSubmit" disabled="disabled" value="$Text{"Next..."}">$Text{"Next..."}</button>
+                <div class="Center">
+                    <button class="Primary" type="submit" id="FormDBSubmit">$Text{"Next"}</button>
                 </div>
+                <div class="Clear"></div>
             </div>
         </div>
     </form>
 </div>
-
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    $('#ButtonCheckDB').bind('click',Core.Installer.CheckDBData);
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <!-- dtl:block:DatabaseStart -->
