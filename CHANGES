@@ -8,7 +8,8 @@
     and hard-coded to use /tmp.
 
 3.2.5 2013-??-??
- - 2013-04-04 Fixed bug#9306 - Auto Response fails when ticket is created from Customer Interface and 
+ - 2013-04-04 Updated Brazilian Portugese translation, thanks to Alexandre!
+ - 2013-04-04 Fixed bug#9306 - Auto Response fails when ticket is created from Customer Interface and
     last name contains a comma.
  - 2013-04-04 Fixed bug#9308 - Impossible to create a new stats report with absolute period.
  - 2013-04-03 Fixed bug#9307 - Packages not compatible with 3.2.4 listed as available in Package Manager.
