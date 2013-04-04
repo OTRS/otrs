@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:39
+    # Last translation file sync: 2013-04-04 19:16:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2353,6 +2353,8 @@ sub Data {
         'Output' => '搜索结果显示为',
         'Fulltext' => '全文',
         'Remove' => '删除',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => '客户登录用户名',
         'Created in Queue' => '创建队列',
         'Lock state' => '锁定状态',

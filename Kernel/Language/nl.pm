@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:26
+    # Last translation file sync: 2013-04-04 19:16:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2354,6 +2354,8 @@ sub Data {
         'Output' => 'Uitvoeren naar',
         'Fulltext' => 'Volledig',
         'Remove' => 'Verwijderen',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Klant login',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',

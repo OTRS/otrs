@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:15
+    # Last translation file sync: 2013-04-04 19:15:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2350,6 +2350,8 @@ sub Data {
         'Output' => 'Vastausmuoto',
         'Fulltext' => 'Kokosana',
         'Remove' => 'Poista',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Asiakkaan kirjautumistunnus',
         'Created in Queue' => 'Luotu jonossa',
         'Lock state' => 'Lukitustila',

@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:04
+    # Last translation file sync: 2013-04-04 19:15:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2349,6 +2349,8 @@ sub Data {
         'Output' => 'Формат на резултата',
         'Fulltext' => 'Пълнотекстово',
         'Remove' => '',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Логин на клиент-потребител',
         'Created in Queue' => 'Създаден в опашка',
         'Lock state' => '',

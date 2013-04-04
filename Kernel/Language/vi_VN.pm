@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:38
+    # Last translation file sync: 2013-04-04 19:16:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2347,6 +2347,8 @@ sub Data {
         'Output' => 'Kết quả từ',
         'Fulltext' => 'Toàn bộ văn bản',
         'Remove' => '',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Đăng nhập người dùng khách hàng',
         'Created in Queue' => 'Đã tạo trong hàng đợi',
         'Lock state' => '',
