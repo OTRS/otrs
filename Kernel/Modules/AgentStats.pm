@@ -949,7 +949,6 @@ sub Run {
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Time{ $Limit . 'Year' },
                             $Time{ $Limit . 'Month' },
-                            $Time{ $Limit . 'Week' },
                             $Time{ $Limit . 'Day' },
                             $Time{ $Limit . 'Hour' },
                             $Time{ $Limit . 'Minute' },

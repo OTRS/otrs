@@ -8,6 +8,7 @@
     and hard-coded to use /tmp.
 
 3.2.5 2013-??-??
+ - 2013-04-04 Fixed bug#9308 - Impossible to create a new stats report with absolute period.
  - 2013-04-03 Fixed bug#9307 - Packages not compatible with 3.2.4 listed as available in Package Manager.
  - 2013-04-02 Fixed bug#9198 - Linked search with fulltext AND additional attributes.
  - 2013-03-28 Fixed bug#9298 - version.pm not found on perl 5.8.x.
