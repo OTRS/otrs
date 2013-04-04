@@ -220,7 +220,7 @@ exit(0);
 ## no critic (ProhibitLeadingZeros)
 
 sub MakeReadOnly {
-    my $File = $File::Find::name || $_[0];
+    my $File = defined $_ ? $_ : $_[0]; # $_ is set by Find::File
 
     if ( !$NotRoot ) {
         SafeChown( $AdminUserID, $AdminGroupID, $File );
@@ -236,7 +236,7 @@ sub MakeReadOnly {
 }
 
 sub MakeWritable {
-    my $File = $File::Find::name || $_[0];
+    my $File = defined $_ ? $_ : $_[0];
     my $Mode;
 
     if ( -d $File ) {
@@ -256,7 +256,7 @@ sub MakeWritable {
 }
 
 sub MakeWritableSetGid {
-    my $File = $File::Find::name || $_[0];
+    my $File = defined $_ ? $_ : $_[0];
     my $Mode;
 
     if ( -d $File ) {
@@ -276,7 +276,7 @@ sub MakeWritableSetGid {
 }
 
 sub MakeExecutable {
-    my $File = $File::Find::name || $_[0];
+    my $File = defined $_ ? $_ : $_[0];
     my $Mode = ( lstat($File) )[2];
     if ( defined $Mode ) {
         $Mode |= 0111;
