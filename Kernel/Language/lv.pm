@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:24
+    # Last translation file sync: 2013-04-04 19:15:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2347,6 +2347,8 @@ sub Data {
         'Output' => 'Rezultātu forma',
         'Fulltext' => 'Pilnais teksts',
         'Remove' => '',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Klienta pieteikšanās sistēmā',
         'Created in Queue' => 'Izveidots rindā',
         'Lock state' => '',

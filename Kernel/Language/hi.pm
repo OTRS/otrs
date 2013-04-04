@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-27 11:58:18
+    # Last translation file sync: 2013-04-04 19:15:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2350,6 +2350,8 @@ sub Data {
         'Output' => 'आउटपुट',
         'Fulltext' => 'पूर्ण पाठ',
         'Remove' => 'हटायें',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'ग्राहक प्रयोक्ता प्रवेश',
         'Created in Queue' => 'श्रेणी में बनाया गया',
         'Lock state' => 'लॉक स्थिति',
