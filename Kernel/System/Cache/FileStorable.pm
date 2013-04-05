@@ -75,9 +75,12 @@ sub Set {
     my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
 
     if ( !-e $CacheDirectory ) {
-        ## no critic
-        if ( !File::Path::mkpath( $CacheDirectory, 0, 0775 ) ) {
-            ## use critic
+
+        # Create directory. This could fail if another process creates the
+        #   same directory, so don't use the return value.
+        File::Path::mkpath( $CacheDirectory, 0, 0775 ); ## no critic
+
+        if ( !-e $CacheDirectory ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create directory '$CacheDirectory': $!",
