@@ -28,7 +28,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use File::Find;
+use File::Find qw();
 use Getopt::Long;
 
 print "bin/otrs.SetPermissions.pl - set OTRS file permissions\n";
@@ -126,7 +126,7 @@ print "Setting permissions on $DestDir\n";
 if ($Secure) {
 
     # In secure mode, make files read-only by default
-    find( \&MakeReadOnly, $DestDir . "/" ); # append / to follow symlinks
+    File::Find::find( { wanted => \&MakeReadOnly, no_chdir => 1 }, $DestDir . "/" ); # append / to follow symlinks
 
     # Also change the toplevel directory/symlink itself
     MakeReadOnly($DestDir);
@@ -134,7 +134,7 @@ if ($Secure) {
 else {
 
     # set all files writeable for webserver user (needed for package manager)
-    find( \&MakeWritable, $DestDir . "/" ); # append / to follow symlinks
+    File::Find::find( { wanted => \&MakeWritable, no_chdir => 1 }, $DestDir . "/" ); # append / to follow symlinks
 
     # Also change the toplevel directory/symlink itself
     MakeWritable($DestDir);
@@ -177,11 +177,11 @@ for my $Dir (@Dirs) {
         mkdir $Dir;
     }
 }
-find( \&MakeWritableSetGid, @Dirs );
+File::Find::find( { wanted => \&MakeWritableSetGid, no_chdir => 1 }, @Dirs );
 
 # set all bin/* as executable
 print "Setting permissions on $DestDir/bin/*\n";
-find( \&MakeExecutable, "$DestDir/bin" );
+File::Find::find( { wanted => \&MakeExecutable, no_chdir => 1 }, "$DestDir/bin" );
 
 # set all scripts/* as executable
 print "Setting permissions on $DestDir/scripts/\n";
@@ -199,7 +199,7 @@ for my $ExecutableFile (@FileListScripts) {
 
 # set write permission for web installer
 if ( !$Secure ) {
-    print "Setting permissions on Kernel/Config.pm\n";
+    print "Setting permissions on $DestDir/Kernel/Config.pm\n";
     MakeWritable("$DestDir/Kernel/Config.pm");
 }
 
@@ -220,7 +220,8 @@ exit(0);
 ## no critic (ProhibitLeadingZeros)
 
 sub MakeReadOnly {
-    my $File = defined $_ ? $_ : $_[0]; # $_ is set by Find::File
+    my $File = $File::Find::name;
+    $File = $_[0] if !defined $File;
 
     if ( !$NotRoot ) {
         SafeChown( $AdminUserID, $AdminGroupID, $File );
@@ -236,7 +237,8 @@ sub MakeReadOnly {
 }
 
 sub MakeWritable {
-    my $File = defined $_ ? $_ : $_[0];
+    my $File = $File::Find::name;
+    $File = $_[0] if !defined $File;
     my $Mode;
 
     if ( -d $File ) {
@@ -256,7 +258,8 @@ sub MakeWritable {
 }
 
 sub MakeWritableSetGid {
-    my $File = defined $_ ? $_ : $_[0];
+    my $File = $File::Find::name;
+    $File = $_[0] if !defined $File;
     my $Mode;
 
     if ( -d $File ) {
@@ -276,7 +279,8 @@ sub MakeWritableSetGid {
 }
 
 sub MakeExecutable {
-    my $File = defined $_ ? $_ : $_[0];
+    my $File = $File::Find::name;
+    $File = $_[0] if !defined $File;
     my $Mode = ( lstat($File) )[2];
     if ( defined $Mode ) {
         $Mode |= 0111;
