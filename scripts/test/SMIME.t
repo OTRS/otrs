@@ -94,7 +94,7 @@ if ( !$CryptObject ) {
             "No such $CertPath directory!",
         );
     }
-    elsif ( !-w $CertPath ) {
+    elsif ( !-r $CertPath ) {
         $Self->False(
             1,
             "$CertPath not writable!",
