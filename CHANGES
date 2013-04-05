@@ -1,4 +1,4 @@
-3.2.5 2013-??-??
+3.2.5 2013-04-09
  - 2013-04-04 Fixed bug#9313 - No such file or directory in otrs.SetPermission.pl.
  - 2013-04-04 Updated Brazilian Portugese translation, thanks to Alexandre!
  - 2013-04-04 Fixed bug#9306 - Auto Response fails when ticket is created from Customer Interface and
