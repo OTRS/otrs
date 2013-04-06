@@ -1,4 +1,9 @@
 3.2.6 2013-??-??
+ - 2013-04-08 Fixed bug#9244 - Process Management: Transitions on Activities does not scale well
+ - 2013-04-08 Fixed bug#9287 - Process Management: strange placement of target point for new transitions.
+ - 2013-04-08 Fixed bug#9294 - Process Management: Activity hover window not displayed properly if 
+    activity is very close to bottom canvas border.
+ - 2013-04-08 Fixed bug#9314 - Process Management: Unexpected redirection after creating a new process.
  - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
 
 3.2.5 2013-04-09
