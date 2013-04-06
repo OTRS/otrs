@@ -392,7 +392,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
                 if (Activity) {
                     // Create dummy activity to use for initial transition
-                    TargetNS.Canvas.CreateActivityDummy();
+                    TargetNS.Canvas.CreateActivityDummy(Activity);
 
                     // Create transition between this Activity and DummyElement
                     TargetNS.Canvas.CreateTransition(Activity, 'Dummy', EntityID);

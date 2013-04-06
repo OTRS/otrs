@@ -154,10 +154,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 if (TargetNS.DragActivityItem) {
                     $(this).addClass('ReadyToDrop');
                 }
+                $(this).addClass('Hovered');
             })
             .bind('mouseleave.Activity', function() {
                 $('#DiagramTooltip').hide();
                 $(this).removeClass('ReadyToDrop').find('.DiagramDeleteLink').remove();
+                $(this).removeClass('Hovered');
             })
             .bind('dblclick.Activity', function() {
                 var Path = Core.Config.Get('Config.PopupPathActivity') + "EntityID=" + EntityID + ";ID=" + ActivityID;
@@ -187,17 +189,39 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         Elements[EntityID] = $('#' + EntityID);
     };
 
-    TargetNS.CreateActivityDummy = function () {
-        if (!$('#Dummy').length) {
-            $('#Canvas').append('<div class="Activity" id="Dummy"><span>Dummy</span></div>').find('#Dummy').css({
-                top: '10px',
-                left: '10px'
-            });
+    TargetNS.CreateActivityDummy = function (StartActivityID) {
+        var StartActivityPosition, DummyPosition, CanvasSize = {},
+            Activities = Core.Agent.Admin.ProcessManagement.ProcessData.Activity;
+
+        if ($('#Dummy').length) {
+            $('#Dummy').remove();
         }
+
+        CanvasSize.width = $('#Canvas').width();
+        CanvasSize.height = $('#Canvas').height();
+
+        // get position of start activity to calculate position of dummy
+        StartActivityPosition = $('#' + StartActivityID).position();
+        DummyPosition = StartActivityPosition;
+        DummyPosition.top += 120;
+        DummyPosition.left += 150;
+
+        // check if DummyPosition is out of canvas and correct position
+        if ((CanvasSize.width - 85) <= DummyPosition.left) {
+            DummyPosition.left -= 250;
+        }
+        if ((CanvasSize.height - 115) <= DummyPosition.top) {
+            DummyPosition.top -= 240;
+        }
+
+        $('#Canvas').append('<div class="Activity" id="Dummy"><span>Dummy</span></div>').find('#Dummy').css({
+            top: DummyPosition.top,
+            left: DummyPosition.left
+        });
     };
 
     TargetNS.ShowTransitionTooltip = function (Connection, StartActivity, EndActivity) {
-        var $tooltip = $('#DiagramTooltip'),
+        var $Tooltip = $('#DiagramTooltip'),
             $Element = $(Connection.canvas),
             $TitleElement = $Element.clone(),
             text,
@@ -206,7 +230,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             ElementID = Connection.id,
             CurrentProcessEntityID = $('#ProcessEntityID').val(),
             PathInfo = Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
-            AssignedTransitionActions = [];
+            AssignedTransitionActions = [],
+            CanvasWidth, CanvasHeight,
+            TooltipWidth, TooltipHeight;
+
 
         $TitleElement.find('a').remove();
         text = '<h4>' + EscapeHTML($TitleElement.text()) + '</h4>';
@@ -215,19 +242,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             return false;
         }
 
-        if (!$tooltip.length) {
-            $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
+        if (!$Tooltip.length) {
+            $Tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
         }
-        else if ($tooltip.is(':visible')) {
-            $tooltip.hide();
+        else if ($Tooltip.is(':visible')) {
+            $Tooltip.hide();
         }
-
-        // calculate tooltip position
-        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-        position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 30;
-
-        // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
-        position.y = parseInt($Element.css('top'), 10) + 15;
 
         $.each(PathInfo, function(Activity, Transition) {
             if (Activity === StartActivity && typeof Transition[ElementID] !== 'undefined' && typeof Transition[ElementID].TransitionAction !== 'undefined') {
@@ -248,8 +268,44 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
         text += "</ul>";
 
-        $tooltip
-            .html(text)
+        $Tooltip.html(text)
+
+        // calculate tooltip position
+        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
+        //position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 30;
+        //
+        // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
+        //position.y = parseInt($Element.css('top'), 10) + 15;
+
+        // calculate tooltip position
+        // if activity box is at the right border of the canvas, switch tooltip to the left side of the box
+        CanvasWidth = $('#Canvas').width();
+        TooltipWidth = $Tooltip.width();
+
+        // If activity does not fit in canvas, generate tooltip on the left side
+        if (CanvasWidth < (parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + TooltipWidth)) {
+            // x: x-coordinate of element within canvas - width of tooltip
+            position.x = parseInt($Element.css('left'), 10) - TooltipWidth - 5;
+        }
+        // otherwise put tooltip on the right side (default behaviour)
+        else {
+            // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
+            position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 40;
+        }
+
+        // if activity box is at the bottom border of the canvas, set tooltip y-coordinate to the top as far as needed
+        CanvasHeight = $('#Canvas').height();
+        TooltipHeight = $Tooltip.height();
+
+        // y-coordinate
+        if (parseInt($Element.css('top'), 10) + TooltipHeight + 15 > CanvasHeight) {
+            position.y = CanvasHeight - TooltipHeight - 15;
+        }
+        else {
+            position.y = parseInt($Element.css('top'), 10) + 15;    
+        }
+
+        $Tooltip
             .css('top', position.y)
             .css('left', position.x)
             .show();
@@ -263,7 +319,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             ActivityDialogs,
             ElementID = $Element.attr('id'),
             CanvasWidth,
-            TooltipWidth;
+            CanvasHeight,
+            TooltipWidth,
+            TooltipHeight;
 
         if (typeof Activity[$Element.attr('id')] === 'undefined') {
             return false;
@@ -315,11 +373,20 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // otherwise put tooltip on the right side (default behaviour)
         else {
             // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-            position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 10;
+            position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 15;
         }
 
+        // if activity box is at the bottom border of the canvas, set tooltip y-coordinate to the top as far as needed
+        CanvasHeight = $('#Canvas').height();
+        TooltipHeight = $Tooltip.height();
+
         // y-coordinate
-        position.y = parseInt($Element.css('top'), 10) + 10;
+        if (parseInt($Element.css('top'), 10) + TooltipHeight + 10 > CanvasHeight) {
+            position.y = CanvasHeight - TooltipHeight - 10;
+        }
+        else {
+            position.y = parseInt($Element.css('top'), 10) + 10;    
+        }
 
         $Tooltip
             .css('top', position.y)
@@ -471,12 +538,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
+    TargetNS.LastTransitionDetails = {};
+
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             ProcessEntityID = $('#ProcessEntityID').val(),
             Path = Config.Process[ProcessEntityID].Path,
-            StartActivity, EndActivity, OldActivity, Connection;
+            StartActivity, EndActivity, OldActivity, Connection,
+            PopupPath;
 
         StartActivity = Elements[StartElement];
         if (EndElement === "Dummy") {
@@ -500,9 +570,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         }
 
+        PopupPath = Core.Config.Get('Config.PopupPathPath') + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + EntityID + ";StartActivityID=" + StartElement;
+
         Connection = jsPlumb.connect({
             connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ],
             paintStyle: { strokeStyle: "#000", lineWidth: 2 },
+            hoverPaintStyle: { strokeStyle: "#FF9922", lineWidth: 2 },
             source: StartActivity,
             target: EndActivity,
             anchor: 'Continuous',
@@ -518,6 +591,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 [ "PlainArrow", { location: -15, width: 20, length: 15 } ],
                 [ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: EntityID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
+                        TargetNS.LastTransitionDetails = {
+                            LabelOverlay: labelOverlay,
+                            StartElement: StartElement,
+                            EndElement: EndElement
+                        };
                         TargetNS.HighlightTransitionLabel(labelOverlay, StartElement, EndElement);
                         originalEvent.stopPropagation();
                         return false;
@@ -532,6 +610,40 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             parameters: {
                 "TransitionID": EntityID
             }
+        });
+
+        Connection.bind('mouseenter', function (ActiveConnection) {
+            var Overlays = Connection.getOverlays();
+            $.each(Overlays, function (Id, Overlay) {
+                if (Overlay.type !== 'Label') {
+                    return;
+                }
+
+                // add class to label
+                $(Overlay.canvas).addClass('Hovered');
+            });
+        });
+
+        Connection.bind('mouseexit', function (ActiveConnection) {
+            var Overlays = Connection.getOverlays();
+            $.each(Overlays, function (Id, Overlay) {
+                if (Overlay.type !== 'Label') {
+                    return;
+                }
+
+                // remove hover class from label
+                $(Overlay.canvas).removeClass('Hovered');                    
+            });
+        });
+
+        Connection.bind('dblclick', function(Connection, Event) {
+            var EndActivity = Connection.endpoints[1];
+            if (EndActivity !== 'Dummy') {
+                Core.Agent.Admin.ProcessManagement.ShowOverlay();
+                Core.UI.Popup.OpenPopup(PopupPath, 'Path');
+            }
+            Event.stopPropagation();
+            return false;
         });
     };
 
@@ -567,6 +679,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
         }
 
+        // highlight label
+        $(Connection.canvas).addClass('Hovered');
+        Connection.component.setPaintStyle({ strokeStyle: "#FF9922", lineWidth: '2' });
+
         // show tooltip with assigned transition actions
         TargetNS.ShowTransitionTooltip(Connection, StartActivity, EndActivity);
 
@@ -586,6 +702,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             $(Connection.canvas).removeClass('ReadyToDrop');
             TargetNS.DragTransitionActionTransition = {};
         }
+        $(Connection.canvas).removeClass('Hovered');
+        Connection.component.setPaintStyle({ strokeStyle: "#000", lineWidth: '2' });
     };
 
     TargetNS.DragActivityItem = false;
@@ -640,7 +758,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     else {
 
                         // Create dummy activity to use for initial transition
-                        TargetNS.CreateActivityDummy();
+                        TargetNS.CreateActivityDummy(StartActivityID);
 
                         // Create transition between this Activity and DummyElement
                         TargetNS.CreateTransition(StartActivityID, 'Dummy', TransitionID);
@@ -653,6 +771,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
 
         TargetNS.MakeDraggable();
+
+        $('div.TransitionLabel')
+            .delegate('a.Delete', 'mouseenter', function () {
+                TargetNS.HighlightTransitionLabel(TargetNS.LastTransitionDetails.LabelOverlay, TargetNS.LastTransitionDetails.StartElement, TargetNS.LastTransitionDetails.EndElement);
+            })
+            .delegate('a.Delete', 'mouseleave', function () {
+                TargetNS.UnHighlightTransitionLabel(TargetNS.LastTransitionDetails.LabelOverlay);
+            });
     };
 
     TargetNS.MakeDraggable = function() {
@@ -716,6 +842,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
                 // Correct transition arrows
                 Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
+                Data.connection.setHoverPaintStyle({ strokeStyle: "#FF9922", lineWidth: 2 });
                 Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
 
             }
@@ -762,10 +889,16 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 // Correcting connection: setting parameters and overlays
                 Data.connection.setParameter('TransitionID', TransitionID);
                 Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
+                Data.connection.setHoverPaintStyle({ strokeStyle: "#FF9922", lineWidth: 2 });
                 Data.connection.addOverlay([ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ]);
                 Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
                 Data.connection.addOverlay([ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: {
                     mouseenter: function(labelOverlay, originalEvent) {
+                        TargetNS.LastTransitionDetails = {
+                            LabelOverlay: labelOverlay,
+                            StartElement: Data.sourceId,
+                            EndElement: Data.targetId
+                        };
                         TargetNS.HighlightTransitionLabel(labelOverlay, Data.sourceId, Data.targetId);
                     },
                     mouseexit: function(labelOverlay, originalEvent) {

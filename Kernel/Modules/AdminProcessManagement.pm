@@ -1196,8 +1196,12 @@ sub Run {
             );
         }
 
-        # return to overview
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        # redirect to process edit screen
+        return $Self->{LayoutObject}->Redirect(
+            OP =>
+                "Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID"
+        );
+
     }
 
     # ------------------------------------------------------------ #

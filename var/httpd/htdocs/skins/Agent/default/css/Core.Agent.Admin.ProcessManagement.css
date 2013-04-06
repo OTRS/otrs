@@ -331,6 +331,11 @@ em.EntityID {
     z-index: 103;
 }
 
+#Canvas .Activity.Hovered {
+    border-color: #FF9922;
+    z-index: 104;
+}
+
 #Canvas .Activity.Highlighted {
     background-color: #555;
     color: #fff;
@@ -415,6 +420,11 @@ em.EntityID {
     user-select: none;
     max-width: 150px;
     text-align: center;
+}
+
+#Canvas .TransitionLabel.Hovered {
+    border-color: #FF9922;
+    z-index: 104;
 }
 
 #Canvas .TransitionLabel:hover {
