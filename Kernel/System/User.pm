@@ -868,36 +868,58 @@ sub UserList {
     my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || 'Short';
-    if ( $Param{Valid} ) {
-        $Param{Valid} = 1;
+    
+    # set valid option
+    my $Valid = $Param{Valid};
+    if ( !defined $Valid || $Valid ) {
+        $Valid = 1;
     }
     else {
-        $Param{Valid} = 0;
+        $Valid = 0;
     }
 
     # check cache
-    my $CacheKey = 'UserList::' . $Type . '::' . $Param{Valid};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $CacheKey = 'UserList::' . $Valid;
+    my $Cache    = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
+    );
     return %{$Cache} if $Cache;
-
+    
+    my $SelectStr;
     if ( $Type eq 'Short' ) {
-        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+        $SelectStr = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
     else {
-        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+        $SelectStr = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " last_name, first_name, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
+    
+    # sql query
+    if ($Valid) {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
+                . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+        );
+    }
+    else {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable}",
+        );
+    }
 
-    my %Users = $Self->{DBObject}->GetTableData(
-        What  => $Param{What},
-        Table => $Self->{ConfigObject}->{DatabaseUserTable},
-        Clamp => 1,
-        Valid => $Param{Valid},
-    );
-
-    # check vacation option
+    # fetch the result
+    my %Users;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( $Type eq 'Short' ) {
+            $Users{ $Row[0] } = $Row[1];
+        }
+        else {
+            $Users{ $Row[0] } = "$Row[1], $Row[2] ($Row[3])";
+        }
+    }
+     # check vacation option
     for my $UserID ( sort keys %Users ) {
         next if !$UserID;
 
@@ -910,7 +932,10 @@ sub UserList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Users );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Users,
+    );
 
     return %Users;
 }
