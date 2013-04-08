@@ -24,11 +24,20 @@ http://doc.otrs.org/.
 Professional Services
 =====================
 
-Whether you need help in configuring or customizing OTRS or you want to be on the safe side, don't hesitate to contact us: We offer a wide range of professional services such as  world-wide enterprise support, consulting and engineering including process design, implementation, customization, application support, and fully managed service.
+Whether you need help in configuring or customizing OTRS or you want to be on the safe side,
+don't hesitate to contact us: We offer a wide range of professional services such as
+world-wide enterprise support, consulting and engineering including process design,
+implementation, customization, application support, and fully managed service.
 
-Our [Service Contracts](http://www.otrs.com/en/solutions/service-contracts/) guarantee instant help and professional support as well as support assessment and last but not least free access to [OTRS Feature Add-ons](http://www.otrs.com/en/solutions/subscriptions/otrsfeatureadd-ons/) - useful additional features for your OTRS.
+Our [Service Contracts](http://www.otrs.com/en/solutions/service-contracts/) guarantee instant help
+and professional support as well as support assessment and last but not least free access to
+[OTRS Feature Add-ons](http://www.otrs.com/en/solutions/subscriptions/otrsfeatureadd-ons/) -
+useful additional features for your OTRS.
 
-The [OTRS Group](http://www.otrs.com/) offers specific [training programs](http://www.otrs.com/en/solutions/training/) in different countries. You can either participate in one of our public OTRS Administrator trainings which take place regularly, or benefit from an inhouse training that covers all the specific needs of your company.
+The [OTRS Group](http://www.otrs.com/) offers specific
+[training programs](http://www.otrs.com/en/solutions/training/) in different countries.
+You can either participate in one of our public OTRS Administrator trainings which take place regularly,
+or benefit from an inhouse training that covers all the specific needs of your company.
 
 
 Software requirements
