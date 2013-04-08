@@ -377,6 +377,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 Activity,
                 Path = TargetNS.ProcessData.Process[ProcessEntityID].Path;
 
+            // if a dummy activity exists, another transition was placed to the canvas but not yet
+            // connected to an end point. One cannot place to unconnected transitions on the canvas.
+            if ($('#Dummy').length) {
+              alert(Core.Agent.Admin.ProcessManagement.Localization.UnconnectedTransition);
+              return;
+            }
+
             if (typeof Entity !== 'undefined') {
                 // Check if mouse position is within an activity
                 // If yes, add the Dialog to the Activity
