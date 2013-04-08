@@ -58,18 +58,28 @@ sub Run {
         );
     }
 
-    # permission check
-    my $Permission = $Self->{LinkObject}->ObjectPermission(
-        Object => $Form{SourceObject},
-        Key    => $Form{SourceKey},
-        UserID => $Self->{UserID},
-    );
+    # check if this is a temporary ticket link used while creating a new ticket
+    my $TemporarySourceTicketLink;
+    if ( $Form{Mode} eq 'Temporary' && $Form{SourceObject} eq 'Ticket' && $Form{SourceKey} =~ m{ \A \d+ \. \d+ }xms ) {
+        $TemporarySourceTicketLink = 1;
+    }
 
-    if ( !$Permission ) {
-        return $Self->{LayoutObject}->NoPermission(
-            WithHeaderMessage    => 'You need ro permission!',
-            WithHeader => 'yes',
+    # do the permission check only if it is no temporary ticket link used while creating a new ticket
+    if ( !$TemporarySourceTicketLink ) {
+
+        # permission check
+        my $Permission = $Self->{LinkObject}->ObjectPermission(
+            Object => $Form{SourceObject},
+            Key    => $Form{SourceKey},
+            UserID => $Self->{UserID},
         );
+
+        if ( !$Permission ) {
+            return $Self->{LayoutObject}->NoPermission(
+                WithHeaderMessage => 'You need ro permission!',
+                WithHeader => 'yes',
+            );
+        }
     }
 
     # get form params
@@ -353,13 +363,23 @@ sub Run {
                         $TargetKey    = $TargetKeyOrg;
                     }
 
-                    my $AddPermission = $Self->{LinkObject}->ObjectPermission(
-                        Object => $TargetObject,
-                        Key    => $TargetKey,
-                        UserID => $Self->{UserID},
-                    );
+                    # check if this is a temporary ticket link used while creating a new ticket
+                    my $TemporaryTargetTicketLink;
+                    if ( $Form{Mode} eq 'Temporary' && $TargetObject eq 'Ticket' && $TargetKey =~ m{ \A \d+ \. \d+ }xms ) {
+                        $TemporaryTargetTicketLink = 1;
+                    }
 
-                    next TARGETKEYORG if !$AddPermission;
+                    # do the permission check only if it is no temporary ticket link used while creating a new ticket
+                    if ( !$TemporaryTargetTicketLink ) {
+
+                        my $AddPermission = $Self->{LinkObject}->ObjectPermission(
+                            Object => $TargetObject,
+                            Key    => $TargetKey,
+                            UserID => $Self->{UserID},
+                        );
+
+                        next TARGETKEYORG if !$AddPermission;
+                    }
 
                     # add links to database
                     my $Success = $Self->{LinkObject}->LinkAdd(
