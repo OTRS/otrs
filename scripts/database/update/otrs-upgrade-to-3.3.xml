@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+
+<!-- Fix bug#8490 - no history record for title update -->
+<Insert Table="ticket_history_type">
+    <Data Key="id" Type="AutoIncrement">50</Data>
+    <Data Key="name" Type="Quote">TitleUpdate</Data>
+    <Data Key="valid_id">1</Data>
+    <Data Key="create_by">1</Data>
+    <Data Key="create_time">current_timestamp</Data>
+    <Data Key="change_by">1</Data>
+    <Data Key="change_time">current_timestamp</Data>
+</Insert>
+
+</database>

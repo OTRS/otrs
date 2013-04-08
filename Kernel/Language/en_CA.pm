@@ -92,6 +92,7 @@ sub Data {
         'History::EscalationUpdateTimeStop' => 'Escalation update time finished',
         'History::EscalationSolutionTimeStop' => 'Escalation solution time finished',
         'History::ArchiveFlagUpdate' => 'Archive state changed: "%s"',
+        'History::TitleUpdate' => 'Title updated: Old: "%s", New: "%s"',
         # There's a difference between May (short) and May (long) in some languages, not in en
         'May_long' => 'May',
         #CustomerUser fields

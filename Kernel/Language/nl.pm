@@ -816,6 +816,7 @@ sub Data {
         'History::SystemRequest' => 'SystemRequest: "%s"',
         'History::ResponsibleUpdate' => 'Nieuwe verantwoordelijke is "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Archiefstatus veranderd: "%s"',
+        'History::TitleUpdate' => 'Title gewijzigd van "%s" naar "%s"',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',

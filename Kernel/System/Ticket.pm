@@ -1533,6 +1533,14 @@ sub TicketTitleUpdate {
         Bind => [ \$Param{Title}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # history insert
+    $Self->HistoryAdd(
+        TicketID     => $Param{TicketID},
+        HistoryType  => 'TitleUpdate',
+        Name         => "\%\%$Ticket{Title}\%\%$Param{Title}",
+        CreateUserID => $Param{UserID},
+    );
+
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 

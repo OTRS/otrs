@@ -69,7 +69,7 @@ In this case the RPM update automatically restores the old configuration files.
 6. Own themes
 -------------
 
-Note: The OTRS themes between 3.1 and 3.2 are NOT compatible, so don't use your old themes!
+Note: The OTRS themes between 3.2 and 3.3 are NOT compatible, so don't use your old themes!
 
 Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.dtl` (default: `OTRS_HOME=/opt/otrs`)
 
@@ -119,15 +119,15 @@ MySQL:
 
     shell> bin/otrs.CheckDB.pl
 
-    shell> cat scripts/DBUpdate-to-3.2.mysql.sql | mysql -p -f -u root otrs
+    shell> cat scripts/DBUpdate-to-3.3.mysql.sql | mysql -p -f -u root otrs
 
 PostgreSQL 8.2+:
 
-    shell> cat scripts/DBUpdate-to-3.2.postgresql.sql | psql otrs
+    shell> cat scripts/DBUpdate-to-3.3.postgresql.sql | psql otrs
 
 PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-to-3.2.postgresql_before_8_2.sql | psql otrs
+    shell> cat scripts/DBUpdate-to-3.3.postgresql_before_8_2.sql | psql otrs
 
 
  NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
@@ -140,7 +140,7 @@ PostgreSQL, older versions:
 
  Run the migration script (as user `otrs`, NOT as `root`):
 
-    shell> scripts/DBUpdate-to-3.2.pl
+    shell> scripts/DBUpdate-to-3.3.pl
 
  Do not continue the upgrading process if this script did not work properly for you.
  Otherwise data loss may occur.

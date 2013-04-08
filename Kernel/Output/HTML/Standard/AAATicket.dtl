@@ -317,3 +317,4 @@ $Text{"History::Unsubscribe"}
 $Text{"History::SystemRequest"}
 $Text{"History::ResponsibleUpdate"}
 $Text{"History::ArchiveFlagUpdate"}
+$Text{"History::TicketTitleUpdate"}

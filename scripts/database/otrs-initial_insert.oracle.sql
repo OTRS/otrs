@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-08-17 05:45:01
+--  driver: oracle, generated: 2013-03-27 16:42:56
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -680,6 +680,12 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('TitleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
