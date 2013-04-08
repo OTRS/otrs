@@ -125,7 +125,7 @@ sub Run {
             = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
 
         # use customer login instead of email address if applicable
-        if ( $Param{SelectedCustomerUser} ne q{} ) {
+        if ( $Param{SelectedCustomerUser} ne '' ) {
             $Param{CustomerUserID} = $Param{SelectedCustomerUser};
         }
 
@@ -258,13 +258,13 @@ sub Form {
         # get ticket data
         my %TicketData = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         if ( $TicketData{CustomerUserID} || $Param{CustomerUserID} ) {
-            %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Param{CustomerUserID}
-                    || $TicketData{CustomerUserID},
-                );
+            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Param{CustomerUserID} || $TicketData{CustomerUserID},
+            );
         }
         $TicketCustomerID = $TicketData{CustomerID};
+        $Param{SelectedCustomerUser} = $TicketData{CustomerUserID};
+
         $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(
             Data => \%CustomerUserData,
             Max  => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
