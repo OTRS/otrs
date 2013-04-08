@@ -879,7 +879,7 @@ sub UserList {
     }
 
     # check cache
-    my $CacheKey = 'UserList::' . $Valid;
+    my $CacheKey = 'UserList::' . $Type . '::' . $Valid;
     my $Cache    = $Self->{CacheInternalObject}->Get(
         Key => $CacheKey,
     );
