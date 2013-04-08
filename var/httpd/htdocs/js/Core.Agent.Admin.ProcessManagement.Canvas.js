@@ -268,7 +268,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
         text += "</ul>";
 
-        $Tooltip.html(text)
+        $Tooltip.html(text);
 
         // calculate tooltip position
         // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
@@ -302,7 +302,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             position.y = CanvasHeight - TooltipHeight - 15;
         }
         else {
-            position.y = parseInt($Element.css('top'), 10) + 15;    
+            position.y = parseInt($Element.css('top'), 10) + 15;
         }
 
         $Tooltip
@@ -385,7 +385,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             position.y = CanvasHeight - TooltipHeight - 10;
         }
         else {
-            position.y = parseInt($Element.css('top'), 10) + 10;    
+            position.y = parseInt($Element.css('top'), 10) + 10;
         }
 
         $Tooltip
@@ -632,7 +632,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 }
 
                 // remove hover class from label
-                $(Overlay.canvas).removeClass('Hovered');                    
+                $(Overlay.canvas).removeClass('Hovered');
             });
         });
 
