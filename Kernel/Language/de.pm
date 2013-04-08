@@ -2385,7 +2385,7 @@ sub Data {
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
-        'There are currently no dialogs available for this process activity.' => 'Für diese Prozess-Aktivität stehen derzeit keine Dialoge zur Verfügung.',
+        'There are no dialogs available at this point in the process.' => 'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
         'Article Filter' => 'Artikelfilter',
         'Add Filter' => 'Filter hinzufügen',
