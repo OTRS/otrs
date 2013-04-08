@@ -223,7 +223,7 @@
                     <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
 <!-- dtl:block:ActivityDialog -->
 <!-- dtl:block:NoActivityDialog -->
-                    <li>$Text{"There are no further steps in this process"}</li>
+                    <li>$Text{"There are no dialogs available at this point in the process."}</li>
 <!-- dtl:block:NoActivityDialog -->
                 </ul>
 <!-- dtl:block:NextActivities -->

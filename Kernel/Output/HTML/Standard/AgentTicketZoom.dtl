@@ -401,7 +401,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 <!-- dtl:block:ActivityDialog -->
                     </ul>
 <!-- dtl:block:NoActivityDialogs -->
-                    <span class="ActionMessage">$Text{"There are currently no dialogs available for this process activity."}</span>
+                    <span class="ActionMessage">$Text{"There are no dialogs available at this point in the process."}</span>
 <!-- dtl:block:NoActivityDialogs -->
                     <div class="Clear"></div>
                 </div>
