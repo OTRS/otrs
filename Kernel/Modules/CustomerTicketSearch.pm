@@ -222,6 +222,11 @@ sub Run {
     # show result page
     if ( $Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate} ) {
 
+        # fill up profile name (e.g. with last-search)
+        if ( !$Self->{Profile} || !$Self->{SaveProfile} ) {
+            $Self->{Profile} = 'last-search';
+        }
+
         # store search URL in LastScreenOverview to make sure the
         # customer can use the "back" link as expected
         my $URL
@@ -233,11 +238,6 @@ sub Run {
             Key       => 'LastScreenOverview',
             Value     => $URL,
         );
-
-        # fill up profile name (e.g. with last-search)
-        if ( !$Self->{Profile} || !$Self->{SaveProfile} ) {
-            $Self->{Profile} = 'last-search';
-        }
 
         # save search profile (under last-search or real profile name)
         $Self->{SaveProfile} = 1;
