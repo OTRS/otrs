@@ -23,7 +23,7 @@ $Include{"AgentCustomerSearch"}
             <div class="SidebarColumn">
                 <div id="CustomerInfo" class="WidgetSimple">
                     <div class="Header">
-                        <h2>$Text{"Customer Data"}: $QData{"CustomerID"}</h2>
+                        <h2>$Text{"Customer Information"}</h2>
                     </div>
                     <div class="Content">
                         $Data{"Table"}
@@ -37,7 +37,7 @@ $Include{"AgentCustomerSearch"}
                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                         <input type="hidden" name="Subaction" value="Update"/>
                         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                        <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value=""/>
+                        <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"SelectedCustomerUser"}"/>
                         <fieldset class="TableLike FixedLabel">
                             <label for="CustomerAutoComplete">$Text{"Customer user"}:</label>
                             <div class="Field">
