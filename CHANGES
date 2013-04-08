@@ -7,6 +7,9 @@
  - 2013-03-27 Fixed bug#8962 - RequestObject GetUploadAll Source 'File' option is unused
     and hard-coded to use /tmp.
 
+3.2.6 2013-??-??
+ - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
+
 3.2.5 2013-04-09
  - 2013-04-04 Fixed bug#9313 - No such file or directory in otrs.SetPermission.pl.
  - 2013-04-04 Updated Brazilian Portugese translation, thanks to Alexandre!
