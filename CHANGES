@@ -10,7 +10,7 @@
 # --
 
 3.1.15 2013-??-??
- - 2013-04-09 Fixed bug#9182 - Customer Search Function -> If you go into a ticket and go back you got not the search results
+ - 2013-04-09 Fixed bug#9182 - Customer Search Function -> If you go into a ticket and go back you got not the search results.
  - 2013-04-02 Fixed bug#9198 - Linked search with fulltext AND additional attributes.
  - 2013-03-27 Fixed bug#9295 - Article dynamic field is not searchable.
  - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
