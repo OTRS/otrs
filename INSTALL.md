@@ -25,7 +25,7 @@ installation.
 If you want to deploy on Windows we ship an installer that automatically
 installs OTRS, Apache (a webserver), Perl including all modules, MySQL, and
 sets up the cron jobs for you. Please refer to
-http://doc.otrs.org/3.1/en/html/installation.html#installation-on-windows
+http://doc.otrs.org/3.2/en/html/installation.html#installation-on-windows
 for detailed instructions.
 
 The OTRS system user in this example is "otrs" and the installation
@@ -230,7 +230,7 @@ Notes
 =====
 
 We advise you to read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/3.1/en/html/performance-tuning.html.
+http://doc.otrs.org/3.2/en/html/performance-tuning.html.
 
 If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).
