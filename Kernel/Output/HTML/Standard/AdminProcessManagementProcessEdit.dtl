@@ -319,7 +319,8 @@ Core.Agent.Admin.ProcessManagement.Localization = {
         StartEventCapChange: "$Text{"The Start Event cannot loose the Start Transition!"}",
         RemoveActivityMsg: "$Text{"Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving."}",
         RemoveTransitionMsg: "$Text{"Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving."}",
-        NoDialogsAssigned: "$Text{"No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here."}"
+        NoDialogsAssigned: "$Text{"No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here."}",
+        UnconnectedTransition: "$Text{"An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition."}"
 };
 //]]></script>
 <!-- dtl:js_on_document_complete -->
