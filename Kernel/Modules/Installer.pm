@@ -313,7 +313,7 @@ sub Run {
         my $DBType = $Self->{ParamObject}->GetParam( Param => 'DBType' );
 
         # use non-instantiated module to generate a password
-        my $GeneratedPassword = Kernel::System::User->GenerateRandomPassword();
+        my $GeneratedPassword = Kernel::System::User->GenerateRandomPassword( Size => 16 );
 
         if ( $DBType eq 'mysql' ) {
             my $Output =
@@ -327,7 +327,7 @@ sub Run {
                     Item     => 'Configure MySQL',
                     Step     => $StepCounter,
                     Password => $GeneratedPassword,
-               	},
+                },
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
@@ -958,6 +958,14 @@ MAILTEXT
             };
         }
 
+        # set a generated password for the 'root@localhost' account
+        $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+        my $Password = $Self->{UserObject}->GenerateRandomPassword( Size => 16 );
+        $Self->{UserObject}->SetPassword(
+            UserLogin => 'root@localhost',
+            PW        => $Password,
+        );
+
         # remove installer file with preconfigured options
         if ( -f "$Self->{Path}/var/tmp/installer.json" ) {
             unlink "$Self->{Path}/var/tmp/installer.json";
@@ -1005,6 +1013,7 @@ MAILTEXT
                 Host       => $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN'),
                 OTRSHandle => $OTRSHandle,
                 Webserver  => $Webserver,
+                Password   => $Password,
             },
         );
         if ($Webserver) {
@@ -1062,8 +1071,16 @@ sub ReConfigure {
 
             # replace config with %Param
             for my $Key ( sort keys %Param ) {
-                $NewConfig =~
-                    s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+
+             # database passwords can contain characters like '@' or '$' and should be single-quoted
+                if ( $Key eq 'DatabasePw' ) {
+                    $NewConfig =~
+                        s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                }
+                else {
+                    $NewConfig =~
+                        s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+                }
             }
             $Config .= $NewConfig;
         }
