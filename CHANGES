@@ -10,12 +10,14 @@
     and hard-coded to use /tmp.
 
 3.2.6 2013-??-??
+ - 2013-04-09 Added parameter "-t dbonly" to backup.pl to only backup the database
+    (if files are backed up otherwise).
  - 2013-04-09 Fixed bug#9302 - Process Management: Misleading description for activities without dialogs.
  - 2013-04-08 Fixed bug#9182 - Customer Search Function -> If you go into a ticket and go back you got not the search results
  - 2013-04-08 Fixed bug#9297 - customer information widget losing data
  - 2013-04-08 Fixed bug#9244 - Process Management: Transitions on Activities does not scale well
  - 2013-04-08 Fixed bug#9287 - Process Management: strange placement of target point for new transitions.
- - 2013-04-08 Fixed bug#9294 - Process Management: Activity hover window not displayed properly if 
+ - 2013-04-08 Fixed bug#9294 - Process Management: Activity hover window not displayed properly if
     activity is very close to bottom canvas border.
  - 2013-04-08 Fixed bug#9314 - Process Management: Unexpected redirection after creating a new process.
  - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.

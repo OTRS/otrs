@@ -41,17 +41,16 @@ use Date::Pcalc qw(Today Today_and_Now Add_Delta_Days);
 
 # get options
 my %Opts;
-my $Compress    = '';
-my $CompressCMD = '';
-my $FullBackup  = 0;
-my $DB          = '';
-my $DBDump      = '';
+my $Compress     = '';
+my $CompressCMD  = '';
+my $DB           = '';
+my $DBDump       = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
     print
-        "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
+        "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup|dbonly]\n";
     exit 1;
 }
 
@@ -76,7 +75,13 @@ else {
 }
 
 # check backup type
-if ( $Opts{t} && $Opts{t} =~ m/no/i ) {
+my $DBOnlyBackup = 0;
+my $FullBackup   = 0;
+
+if ( $Opts{t} && $Opts{t} eq 'dbonly' ) {
+    $DBOnlyBackup = 1;
+}
+elsif ( $Opts{t} && $Opts{t} eq 'nofullbackup' ) {
     $FullBackup = 0;
 }
 else {
@@ -208,36 +213,41 @@ else {
 }
 
 # backup application
-if ($FullBackup) {
-    print "Backup $Directory/Application.tar.gz ... ";
-    my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache ";
-    if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
-        print "done\n";
-    }
-    else {
-        die "failed\n";
-    }
+if ($DBOnlyBackup) {
+    print "Backup of filesystem data disabled by parameter dbonly ... \n";
 }
-
-# backup vardir
 else {
-    print "Backup $Directory/VarDir.tar.gz ... ";
-    if ( !system("tar -czf $Directory/VarDir.tar.gz var/") ) {
-        print "done\n";
+    if ($FullBackup) {
+        print "Backup $Directory/Application.tar.gz ... ";
+        my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache ";
+        if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
+            print "done\n";
+        }
+        else {
+            die "failed\n";
+        }
     }
-    else {
-        die "failed\n";
-    }
-}
 
-# backup datadir
-if ( $ArticleDir !~ m/\Q$Home\E/ ) {
-    print "Backup $Directory/DataDir.tar.gz ... ";
-    if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
-        print "done\n";
-    }
+    # backup vardir
     else {
-        die "failed\n";
+        print "Backup $Directory/VarDir.tar.gz ... ";
+        if ( !system("tar -czf $Directory/VarDir.tar.gz var/") ) {
+            print "done\n";
+        }
+        else {
+            die "failed\n";
+        }
+    }
+
+    # backup datadir
+    if ( $ArticleDir !~ m/\Q$Home\E/ ) {
+        print "Backup $Directory/DataDir.tar.gz ... ";
+        if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
+            print "done\n";
+        }
+        else {
+            die "failed\n";
+        }
     }
 }
 
