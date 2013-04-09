@@ -677,10 +677,11 @@ sub Run {
         }
 
         my @SystemIDs = map { sprintf "%02d", $_ } ( 0 .. 99 );
+
         $Param{SystemIDString} = $Self->{LayoutObject}->BuildSelection(
             Data       => \@SystemIDs,
             Name       => 'SystemID',
-            SelectedID => $Self->{ConfigObject}->Get('SystemID'),
+            SelectedID => $SystemIDs[ int( rand(100) ) ],    # random system ID
         );
         $Param{LanguageString} = $Self->{LayoutObject}->BuildSelection(
             Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
