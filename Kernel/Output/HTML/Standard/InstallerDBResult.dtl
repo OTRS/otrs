@@ -25,11 +25,11 @@
                     <div class="Field">
 
 <!-- dtl:block:DatabaseResultItemDone -->
-                        <p class="Confirmation"><strong><img src="$Config{"Frontend::ImagePath"}/icons/tick.png" /> $Text{"Done"}.</strong></p>
+                        <p class="Confirmation"><img src="$Config{"Frontend::ImagePath"}/icons/tick.png" alt="$Text{"Done"}" /></p>
 <!-- dtl:block:DatabaseResultItemDone -->
 
 <!-- dtl:block:DatabaseResultItemFalse -->
-                        <p class="Error"><img src="$Config{"Frontend::ImagePath"}/icons/cross.png" /><strong>$Text{"Error"}! :-(</strong></p>
+                        <p class="Error"><img src="$Config{"Frontend::ImagePath"}/icons/cross.png" />$Text{"Error"}! :-(</p>
 <!-- dtl:block:DatabaseResultItemFalse -->
 
 <!-- dtl:block:DatabaseResultItemMessage -->
@@ -45,7 +45,7 @@
 
 <!-- dtl:block:DatabaseResultBack -->
                     <input type="hidden" name="Subaction" value="Start"/>
-                    <button class="Primary" type="submit" value="$Text{"...Back"}">$Text{"...Back"}</button>
+                    <button class="Primary" type="submit">$Text{"Back"}</button>
 <!-- dtl:block:DatabaseResultBack -->
 
 <!-- dtl:block:DatabaseResultNext -->
