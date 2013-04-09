@@ -291,6 +291,15 @@ sub FixedTimeSet {
 
     $TimeToSave = CORE::time() if (!defined $TimeToSave);
     $FixedTime = $TimeToSave;
+
+    # This is needed to reload the time object to get a hold of the overrides.
+    if ( $INC{'Kernel/System/Time.pm'} ) {
+        no warnings 'redefine';
+        delete $INC{'Kernel/System/Time.pm'};
+        require 'Kernel/System/Time.pm';
+    }
+
+    return $FixedTime;
 }
 
 =item FixedTimeUnset()
@@ -303,6 +312,8 @@ sub FixedTimeUnset {
     my ($Self) = @_;
 
     undef $FixedTime;
+
+    return;
 }
 
 =item FixedTimeAddSeconds()
