@@ -98,8 +98,9 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <div class="Hidden Center HideMe">
-                    <button class="Primary" type="submit" id="FormDBSubmit" disabled="disabled">$Text{"Next"}</button>
+                <div class="Center">
+                    <button type="button" id="ButtonBack">$Text{"Back"}</button>
+                    <button class="Primary HideMe" type="submit" id="FormDBSubmit" disabled="disabled">$Text{"Next"}</button>
                 </div>
             </div>
         </div>
@@ -109,6 +110,9 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ButtonCheckDB').bind('click',Core.Installer.CheckDBData);
+    $('#ButtonBack').bind('click', function() {
+        parent.history.back();
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:DatabaseMSSQL -->
