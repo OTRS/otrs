@@ -19,6 +19,7 @@ use Kernel::System::JSON;
 use Kernel::System::MailAccount;
 use Kernel::System::ReferenceData;
 use Kernel::System::SysConfig;
+use Kernel::System::User;
 use Kernel::System::XML;
 
 use vars qw(%INC);
@@ -311,6 +312,9 @@ sub Run {
 
         my $DBType = $Self->{ParamObject}->GetParam( Param => 'DBType' );
 
+        # use non-instantiated module to generate a password
+        my $GeneratedPassword = Kernel::System::User->GenerateRandomPassword();
+
         if ( $DBType eq 'mysql' ) {
             my $Output =
                 $Self->{LayoutObject}->Header(
@@ -320,9 +324,10 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMySQL',
                 Data => {
-                    Item => 'Configure MySQL',
-                    Step => $StepCounter,
-                    }
+                    Item     => 'Configure MySQL',
+                    Step     => $StepCounter,
+                    Password => $GeneratedPassword,
+               	},
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
@@ -344,8 +349,9 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMSSQL',
                 Data => {
-                    Item => 'Database',
-                    Step => $StepCounter,
+                    Item     => 'Database',
+                    Step     => $StepCounter,
+                    Password => $GeneratedPassword,
                 },
             );
 
@@ -368,8 +374,9 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabasePostgreSQL',
                 Data => {
-                    Item => 'Database',
-                    Step => $StepCounter,
+                    Item     => 'Database',
+                    Step     => $StepCounter,
+                    Password => $GeneratedPassword,
                 },
             );
 
