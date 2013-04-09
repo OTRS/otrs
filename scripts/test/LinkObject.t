@@ -2959,11 +2959,9 @@ for my $Test (@Tests) {
     $Self->Is(
         $Result,
         $Test->{Result},
-       "ObjectPermission - " . $Test->{Name},
+        "ObjectPermission - " . $Test->{Name},
     );
 }
-
-
 
 # ------------------------------------------------------------ #
 # clean up link tests

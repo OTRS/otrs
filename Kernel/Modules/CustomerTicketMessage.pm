@@ -455,7 +455,7 @@ sub Run {
         }
 
         # create article
-        my $FullName  = $Self->{CustomerUserObject}->CustomerName(
+        my $FullName = $Self->{CustomerUserObject}->CustomerName(
             UserLogin => $Self->{UserLogin},
         );
         my $From      = "\"$FullName\" <$Self->{UserEmail}>";

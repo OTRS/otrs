@@ -262,13 +262,13 @@ for my $Test (@Tests) {
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
                     . " $TicketID match expected value",
             );
-            if ( $Test->{Config}->{Config}->{PendingTimeDiff} ){
+            if ( $Test->{Config}->{Config}->{PendingTimeDiff} ) {
                 $Self->Is(
                     $Ticket{UntilTime},
                     $Test->{Config}->{Config}->{PendingTimeDiff},
                     "$ModuleName - Test:'$Test->{Name}' | Attribute: UntilTime for TicketID:"
-                    . " $TicketID match expected value",
-                    
+                        . " $TicketID match expected value",
+
                 );
             }
         }

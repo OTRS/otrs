@@ -471,14 +471,14 @@ sub WorkingTime {
             );
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
-                $Zone = $Zone * 3600;    # 60 * 60
+                $Zone             = $Zone * 3600;                # 60 * 60
                 $Param{StartTime} = $Param{StartTime} + $Zone;
                 $Param{StopTime}  = $Param{StopTime} + $Zone;
             }
         }
     }
 
-    my %LDay  = (
+    my %LDay = (
         1 => 'Mon',
         2 => 'Tue',
         3 => 'Wed',
@@ -615,7 +615,7 @@ sub DestinationTime {
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
             $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
-            $Zone = $Zone * 3600;    # 60 * 60
+            $Zone = $Zone * 3600;                                                          # 60 * 60
             $Param{StartTime} = $Param{StartTime} + $Zone;
         }
     }
@@ -624,7 +624,7 @@ sub DestinationTime {
     my $FirstTurn       = 1;
     $Param{Time}++;
 
-    my %LDay  = (
+    my %LDay = (
         1 => 'Mon',
         2 => 'Tue',
         3 => 'Wed',
@@ -640,7 +640,7 @@ sub DestinationTime {
         $LoopCounter++;
         last if $LoopCounter > 100;
 
-        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;  ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
 
@@ -665,9 +665,11 @@ sub DestinationTime {
             $DestinationTime = $DestinationTime + 60 * 60 * 24;
             $FirstTurn       = 0;
         }
+
         # Regular day with working hours
         else {
             for my $H ( $Hour .. 23 ) {
+
                 # Check if we have a working hour
                 if ( grep { $H == $_ } @{ $TimeWorkingHours->{ $LDay{$WDay} } } ) {
                     if ( $Param{Time} > 60 * 60 ) {
@@ -696,6 +698,7 @@ sub DestinationTime {
                         last;
                     }
                 }
+
                 # Not a working hour
                 else {
                     if ($FirstTurn) {

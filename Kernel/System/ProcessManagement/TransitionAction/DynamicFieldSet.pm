@@ -174,7 +174,7 @@ sub Run {
     }
 
     # special case for DyanmicField UserID, convert form DynamicField_UserID to UserID
-    if (defined $Param{Config}->{DynamicField_UserID}) {
+    if ( defined $Param{Config}->{DynamicField_UserID} ) {
         $Param{Config}->{UserID} = $Param{Config}->{DynamicField_UserID};
         delete $Param{Config}->{DynamicField_UserID};
     }

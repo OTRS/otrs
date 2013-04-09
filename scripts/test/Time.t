@@ -20,15 +20,14 @@ use Kernel::System::Time;
 my $ConfigObject = Kernel::Config->new();
 
 $ConfigObject->Set(
-    Key => 'TimeZone::Calendar9',
+    Key   => 'TimeZone::Calendar9',
     Value => '-1',
 );
 
 $ConfigObject->Set(
-    Key => 'TimeZone::Calendar8',
+    Key   => 'TimeZone::Calendar8',
     Value => '+1',
 );
-
 
 my $TimeObject = Kernel::System::Time->new(
     %{$Self},
@@ -420,52 +419,52 @@ my @DestinationTime = (
     # Behaviour tests
     {
         Name            => 'Test weekend',
-        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTime       => '2013-03-16 10:00:00',    # Saturday
         StartTimeSystem => '',
         Diff            => 60 * 1,
-        EndTime         => '2013-03-18 08:01:00', # Monday
+        EndTime         => '2013-03-18 08:01:00',    # Monday
         EndTimeSystem   => '',
     },
     {
         Name            => 'Test weekend -1',
-        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTime       => '2013-03-16 10:00:00',    # Saturday
         Calendar        => 9,
         StartTimeSystem => '',
         Diff            => 60 * 1,
-        EndTime         => '2013-03-18 09:01:00', # Monday
+        EndTime         => '2013-03-18 09:01:00',    # Monday
         EndTimeSystem   => '',
     },
     {
         Name            => 'Test weekend +1',
-        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTime       => '2013-03-16 10:00:00',    # Saturday
         Calendar        => 8,
         StartTimeSystem => '',
         Diff            => 60 * 1,
-        EndTime         => '2013-03-18 07:01:00', # Monday
+        EndTime         => '2013-03-18 07:01:00',    # Monday
         EndTimeSystem   => '',
     },
     {
         Name            => 'Test weekend',
-        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTime       => '2013-03-16 10:00:00',    # Saturday
         StartTimeSystem => '',
         Diff            => 60 * 60 * 1,
-        EndTime         => '2013-03-18 09:00:00', # Monday
+        EndTime         => '2013-03-18 09:00:00',    # Monday
         EndTimeSystem   => '',
     },
     {
         Name            => 'Test weekend',
-        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTime       => '2013-03-16 10:00:00',    # Saturday
         StartTimeSystem => '',
         Diff            => 60 * 60 * 13,
-        EndTime         => '2013-03-18 21:00:00', # Monday
+        EndTime         => '2013-03-18 21:00:00',    # Monday
         EndTimeSystem   => '',
     },
     {
         Name            => 'Test weekend',
-        StartTime       => '2013-03-16 10:00:00', # Saturday
+        StartTime       => '2013-03-16 10:00:00',    # Saturday
         StartTimeSystem => '',
         Diff            => 60 * 60 * 14 + 60 * 1,
-        EndTime         => '2013-03-19 09:01:00', # Monday
+        EndTime         => '2013-03-19 09:01:00',    # Monday
         EndTimeSystem   => '',
     },
 );

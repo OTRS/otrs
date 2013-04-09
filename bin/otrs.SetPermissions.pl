@@ -126,7 +126,10 @@ print "Setting permissions on $DestDir\n";
 if ($Secure) {
 
     # In secure mode, make files read-only by default
-    File::Find::find( { wanted => \&MakeReadOnly, no_chdir => 1 }, $DestDir . "/" ); # append / to follow symlinks
+    File::Find::find(
+        { wanted => \&MakeReadOnly, no_chdir => 1 },
+        $DestDir . "/"
+    );    # append / to follow symlinks
 
     # Also change the toplevel directory/symlink itself
     MakeReadOnly($DestDir);
@@ -134,7 +137,10 @@ if ($Secure) {
 else {
 
     # set all files writeable for webserver user (needed for package manager)
-    File::Find::find( { wanted => \&MakeWritable, no_chdir => 1 }, $DestDir . "/" ); # append / to follow symlinks
+    File::Find::find(
+        { wanted => \&MakeWritable, no_chdir => 1 },
+        $DestDir . "/"
+    );    # append / to follow symlinks
 
     # Also change the toplevel directory/symlink itself
     MakeWritable($DestDir);
@@ -177,11 +183,17 @@ for my $Dir (@Dirs) {
         mkdir $Dir;
     }
 }
-File::Find::find( { wanted => \&MakeWritableSetGid, no_chdir => 1 }, @Dirs );
+File::Find::find(
+    { wanted => \&MakeWritableSetGid, no_chdir => 1 },
+    @Dirs
+);
 
 # set all bin/* as executable
 print "Setting permissions on $DestDir/bin/*\n";
-File::Find::find( { wanted => \&MakeExecutable, no_chdir => 1 }, "$DestDir/bin" );
+File::Find::find(
+    { wanted => \&MakeExecutable, no_chdir => 1 },
+    "$DestDir/bin"
+);
 
 # set all scripts/* as executable
 print "Setting permissions on $DestDir/scripts/\n";

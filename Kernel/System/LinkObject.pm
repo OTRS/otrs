@@ -2278,7 +2278,7 @@ sub ObjectPermission {
         UserID => $Param{UserID},
     );
 
-    return if !$BackendObject;
+    return   if !$BackendObject;
     return 1 if !$BackendObject->can('ObjectPermission');
 
     return $BackendObject->ObjectPermission(
