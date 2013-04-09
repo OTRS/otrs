@@ -511,9 +511,9 @@ sub _ShowEdit {
             Name => 'OverallConditionLinking',
             ID   => 'OverallConditionLinking',
             Sort => 'AlphanumericKey',
-            Translation   => 1,
-            Class         => 'W50pc',
-            SelectedID    => $TransitionData->{Config}->{ConditionLinking},
+            Translation => 1,
+            Class       => 'W50pc',
+            SelectedID  => $TransitionData->{Config}->{ConditionLinking},
         );
 
         my @Conditions = sort keys %{ $TransitionData->{Config}->{Condition} };
@@ -526,9 +526,9 @@ sub _ShowEdit {
                 Data => [ 'and', 'or', 'xor' ],
                 Name => "ConditionLinking[$Condition]",
                 Sort => 'AlphanumericKey',
-                Translation   => 1,
-                Class         => 'W50pc',
-                SelectedID    => $ConditionData{Type},
+                Translation => 1,
+                Class       => 'W50pc',
+                SelectedID  => $ConditionData{Type},
             );
 
             $Self->{LayoutObject}->Block(
@@ -554,10 +554,10 @@ sub _ShowEdit {
                         'Regexp' => 'Regexp',
                         'Module' => 'Transition Validation Module'
                     },
-                    Name          => "ConditionFieldType[$Condition][$Field]",
-                    Sort          => 'AlphanumericKey',
-                    Translation   => 1,
-                    SelectedID    => $FieldData{Type},
+                    Name        => "ConditionFieldType[$Condition][$Field]",
+                    Sort        => 'AlphanumericKey',
+                    Translation => 1,
+                    SelectedID  => $FieldData{Type},
                 );
 
                 # show fields

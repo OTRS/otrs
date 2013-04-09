@@ -493,7 +493,7 @@ sub _SendNotificationToRecipients {
         # do not send email to self if AgentSelfNotification is set to No
         if (
             !$Self->{ConfigObject}->Get('AgentSelfNotifyOnAction')
-            && lc($Recipient->{Email}) eq lc($CurrentUser{UserEmail})
+            && lc( $Recipient->{Email} ) eq lc( $CurrentUser{UserEmail} )
             )
         {
             next RECIPIENT;

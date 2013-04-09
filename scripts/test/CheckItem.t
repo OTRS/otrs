@@ -126,13 +126,14 @@ my @Tests = (
         Email => 'foo=bar@[192.123.22.2]',
         Valid => 1,
     },
+
     # Unicode domains
     {
         Email => 'mail@xn--f1aefnbl.xn--p1ai',
         Valid => 1,
     },
     {
-        Email => 'mail@кц.рф', # must be converted to IDN
+        Email => 'mail@кц.рф',    # must be converted to IDN
         Valid => 0,
     },
 

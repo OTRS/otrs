@@ -41,14 +41,14 @@ use Date::Pcalc qw(Today Today_and_Now Add_Delta_Days);
 
 # get options
 my %Opts;
-my $Compress     = '';
-my $CompressCMD  = '';
-my $DB           = '';
-my $DBDump       = '';
+my $Compress    = '';
+my $CompressCMD = '';
+my $DB          = '';
+my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup|dbonly]\n";
     exit 1;

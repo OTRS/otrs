@@ -89,9 +89,10 @@ my @Tests = (
         AuthResult => $UserRand1,
     },
     {
-        Password   => "a" x 64, # max length for plain
+        Password   => "a" x 64,     # max length for plain
         AuthResult => $UserRand1,
     },
+
     # SQL security tests
     {
         Password   => "'UNION'",

@@ -187,7 +187,7 @@ sub Run {
 
     my $Success;
     my %StateData;
-    
+
     # If Ticket's StateID is already the same as the Value we
     # should set it to, we got nothing to do and return success
     if (
@@ -206,7 +206,7 @@ sub Run {
         )
     {
         %StateData = $Self->{StateObject}->StateGet(
-            ID    => $Param{Config}->{StateID},
+            ID => $Param{Config}->{StateID},
         );
         $Success = $Self->{TicketObject}->TicketStateSet(
             TicketID => $Param{Ticket}->{TicketID},
@@ -243,7 +243,7 @@ sub Run {
         )
     {
         %StateData = $Self->{StateObject}->StateGet(
-            Name    => $Param{Config}->{State},
+            Name => $Param{Config}->{State},
         );
         $Success = $Self->{TicketObject}->TicketStateSet(
             TicketID => $Param{Ticket}->{TicketID},
@@ -270,11 +270,12 @@ sub Run {
     }
 
     # set pending time
-    if ( $Success
-        && IsHashRefWithData(\%StateData)
-        && $StateData{TypeName} =~ m{\A pending}msxi 
-        && IsNumber( $Param{Config}->{PendingTimeDiff} ) 
-        ) 
+    if (
+        $Success
+        && IsHashRefWithData( \%StateData )
+        && $StateData{TypeName} =~ m{\A pending}msxi
+        && IsNumber( $Param{Config}->{PendingTimeDiff} )
+        )
     {
 
         # get current time

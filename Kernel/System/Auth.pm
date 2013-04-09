@@ -190,8 +190,8 @@ sub Auth {
 
         # configured auth sync backend
         my $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule::UseSyncBackend$Count");
-        if (! defined $AuthSyncBackend) {
-          $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule{$Count}::UseSyncBackend");
+        if ( !defined $AuthSyncBackend ) {
+            $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule{$Count}::UseSyncBackend");
         }
 
     # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)

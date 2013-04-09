@@ -29,7 +29,7 @@ my $StartSystemTime = $TimeObject->SystemTime();
 
 {
     my $HelperObject = Kernel::System::UnitTest::Helper->new(
-        %{ $Self },
+        %{$Self},
         UnitTestObject => $Self,
     );
 
