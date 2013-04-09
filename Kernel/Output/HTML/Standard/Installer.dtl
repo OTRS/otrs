@@ -127,7 +127,7 @@
             </div>
             <div class="Clear"></div>
             <div class="Center LayoutGrid Content">
-                <p>$Text{"Web site"}: <a href="http://otrs.com" target="_blank">http://otrs.com/</a></p>
+                <p>$Text{"Web site"}: <a href="http://otrs.com" target="_blank">www.otrs.com</a></p>
                 <p>$Text{"Email"}: <a href="mailto:otrsteam@otrs.com">otrsteam@otrs.com</a></p>
             </div>
             <div class="Clear"></div>
