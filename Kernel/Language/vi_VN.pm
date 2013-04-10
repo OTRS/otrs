@@ -237,7 +237,7 @@ sub Data {
         'Database' => 'Cơ sở dữ liệu',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Cần đăng nhập!',
         'Password is needed!' => 'Cần mật khẩu!',
         'Take this Customer' => 'Chấp nhận khách hàng này',

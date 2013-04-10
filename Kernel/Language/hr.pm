@@ -242,7 +242,7 @@ sub Data {
         'Database' => 'Baza podataka (DB)',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Potrebna je prijava!',
         'Password is needed!' => 'Potrebna je lozinka!',
         'Take this Customer' => 'Uzmi ovog korisnika',

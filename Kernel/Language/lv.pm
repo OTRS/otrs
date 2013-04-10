@@ -237,7 +237,7 @@ sub Data {
         'Database' => 'Datubāze',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Vispirms jāpiesakās sistēmā!',
         'Password is needed!' => 'Parole ir obligāta!',
         'Take this Customer' => 'Ņemt šo klientu',

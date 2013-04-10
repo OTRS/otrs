@@ -239,7 +239,7 @@ sub Data {
         'Database' => 'データベース',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'ログインしてください！',
         'Password is needed!' => 'パスワードを入力してください！',
         'Take this Customer' => 'この顧客を選択',

@@ -240,7 +240,7 @@ sub Data {
         'Database' => 'Baza danych',
         'Configure Mail' => 'Skonfiguruj pocztę',
         'Database deleted.' => 'Baza danych usunięta.',
-        'Database setup succesful!' => 'Baza danych pomyślnie utworzona!',
+        'Database setup successful!' => 'Baza danych pomyślnie utworzona!',
         'Login is needed!' => 'Wymagane zalogowanie!',
         'Password is needed!' => 'Wymagane hasło!',
         'Take this Customer' => 'Użyj tego klienta',

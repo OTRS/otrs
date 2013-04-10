@@ -245,7 +245,7 @@ sub Data {
         'Database' => 'Base de donnée',
         'Configure Mail' => 'Configurer Mail',
         'Database deleted.' => 'Base de données effacée.',
-        'Database setup succesful!' => 'Mise en place Base de données réussie!',
+        'Database setup successful!' => 'Mise en place Base de données réussie!',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis !',
         'Take this Customer' => 'Choisir ce client',

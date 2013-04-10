@@ -240,7 +240,7 @@ sub Data {
         'Database' => 'Databas',
         'Configure Mail' => 'Konfigurera mail',
         'Database deleted.' => 'Databas borttagen.',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Inloggning krävs!',
         'Password is needed!' => 'Lösenord krävs!',
         'Take this Customer' => 'Välj denna kund',

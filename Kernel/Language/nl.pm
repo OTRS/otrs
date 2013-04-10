@@ -244,7 +244,7 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Configureer mail',
         'Database deleted.' => 'Database verwijderd.',
-        'Database setup succesful!' => 'Database-installatie afgerond.',
+        'Database setup successful!' => 'Database-installatie afgerond.',
         'Login is needed!' => 'Inloggen is nodig.',
         'Password is needed!' => 'Een wachtwoord is vereist.',
         'Take this Customer' => 'Selecteer deze klant',

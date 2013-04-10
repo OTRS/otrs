@@ -246,7 +246,7 @@ sub Data {
         'Database' => 'Имя базы данных',
         'Configure Mail' => 'Конфигурировать почту',
         'Database deleted.' => 'База данных удалена.',
-        'Database setup succesful!' => 'База данных настроена успешно!',
+        'Database setup successful!' => 'База данных настроена успешно!',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'Take this Customer' => 'Выбрать этого клиента',

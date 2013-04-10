@@ -222,13 +222,10 @@ $Text{"Install OTRS"}
 $Text{"Intro"}
 $Text{"License"}
 $Text{"Error"}
-$Text{"Create Database"}
 $Text{"Database"}
-$Text{"System Settings"}
 $Text{"Configure Mail"}
 $Text{"Finished"}
 $Text{"Database deleted."}
-$Text{"Database setup succesful!"}
 
 # misc
 $Text{"Login is needed!"}

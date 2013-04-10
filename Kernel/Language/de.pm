@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Datenbank',
         'Configure Mail' => 'E-Mail konfigurieren',
         'Database deleted.' => 'Datenbank ausgewählt.',
-        'Database setup succesful!' => 'Datenbankeinrichtung erfolgreich!',
+        'Database setup successful!' => 'Datenbankeinrichtung erfolgreichi configuriert!',
         'Login is needed!' => 'Login wird benötigt!',
         'Password is needed!' => 'Passwort wird benötigt!',
         'Take this Customer' => 'Kunden übernehmen',

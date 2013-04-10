@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Ім\'я бази даних',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Необхідно ввести ім\'я користувача!',
         'Password is needed!' => 'Необхідно ввести пароль!',
         'Take this Customer' => 'Обрати клієнта',

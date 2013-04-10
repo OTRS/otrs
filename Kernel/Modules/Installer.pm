@@ -609,7 +609,6 @@ sub Run {
 
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemDone',
-                Data => {},
             );
 
         }
@@ -627,7 +626,6 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseResultItemDone',
-            Data => {},
         );
 
         # if running under PerlEx, reload the application (and thus the configuration)
@@ -640,20 +638,13 @@ sub Run {
         }
 
         $Self->{LayoutObject}->Block(
-            Name => 'DatabaseResultItemMessage',
-            Data => {
-                Message => $Self->{LayoutObject}->{LanguageObject}->Get(
-                    'Database setup successful!'
-                ),
-            },
+            Name => 'DatabaseResultSuccess',
         );
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseResultNext',
-            Data => {},
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
-            Data         => {},
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

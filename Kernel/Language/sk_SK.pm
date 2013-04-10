@@ -238,7 +238,7 @@ sub Data {
         'Database' => '',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => '',
         'Password is needed!' => 'Je potrebné heslo.',
         'Take this Customer' => 'Použi tohto klienta.',
