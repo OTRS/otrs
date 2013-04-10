@@ -28,6 +28,8 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use Getopt::Long;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -38,25 +40,34 @@ use Kernel::System::User;
 use Kernel::System::Group;
 
 # create common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.AddUser',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
 my %Options;
-use Getopt::Std;
-getopt( 'flpge', \%Options );
-unless ( $ARGV[0] ) {
+GetOptions(
+    \%Options,
+    'f=s',
+    'l=s',
+    'p=s',
+    'g=s@',
+    'e=s'
+);
+
+if ( !$ARGV[0] ) {
     print
-        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
+        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname]... [-e email] username\n";
     print "\tif you define -g with a valid group name then the user will be added that group\n";
+    print "\tyou can define multiple groups line this: \"-g admin -g users\"\n";
     print "\n";
     exit;
 }
@@ -75,28 +86,41 @@ $Param{UserPw}        = $Options{p};
 $Param{UserLogin}     = $ARGV[0];
 $Param{UserEmail}     = $Options{e};
 
-if ( $Param{UID} = $CommonObject{UserObject}->UserAdd( %Param, ChangeUserID => 1 ) ) {
-    print "User added. user  id is $Param{UID}\n";
-}
-
+my %Groups;
 if ( $Options{g} ) {
+    my %GroupList = reverse $CommonObject{GroupObject}->GroupList();
 
-    $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+    GROUP:
+    for my $Group ( @{ $Options{g} } ) {
 
-    $Param{Group} = $Options{g};
-
-    if ( $Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
-        print "Found Group.. GID is $Param{GID}", "\n";
-    }
-    else {
-        print "Failed to get Group ID. Perhaps non-existent group..\n";
-    }
-    if ( $CommonObject{GroupObject}->GroupMemberAdd( %Param, Permission => { 'rw' => 1 } ) ) {
-        print "User added to group\n";
-    }
-    else {
-        print "Failed to add user to group\n";
+        if ( !$GroupList{$Group} ) {
+            die "Group '$Group' does not exist.\n";
+        }
+        $Groups{ $GroupList{$Group} } = $Group;
     }
 }
 
-exit(0);
+if ( $Param{UID} = $CommonObject{UserObject}->UserAdd( %Param, ChangeUserID => 1 ) ) {
+    print "User $Param{UserLogin} added. User id is $Param{UID}.\n";
+}
+else {
+    die "User not added!\n";
+}
+
+for my $GroupID ( keys %Groups ) {
+
+    my $Success = $CommonObject{GroupObject}->GroupMemberAdd(
+        UID        => $Param{UID},
+        GID        => $GroupID,
+        Permission => { 'rw' => 1 },
+        UserID     => $Param{UserID},
+    );
+    if ($Success) {
+        print "User added to group '$Groups{$GroupID}'\n";
+    }
+    else {
+        die "Failed to add user to group '$Groups{$GroupID}'.\n";
+    }
+}
+
+exit;
