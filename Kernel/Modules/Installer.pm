@@ -13,6 +13,8 @@ use strict;
 use warnings;
 
 use DBI;
+use Net::Domain qw(hostfqdn);
+
 use Kernel::System::DB;
 use Kernel::System::Email;
 use Kernel::System::JSON;
@@ -657,7 +659,7 @@ sub Run {
         return $Output;
     }
 
-    # do system settings
+    # show system settings page, pre-install packages
     elsif ( $Self->{Subaction} eq 'System' ) {
 
         # create new DB object in order to setup sysconfig object
@@ -696,17 +698,8 @@ sub Run {
             HTMLQuote  => 0,
             SelectedID => $Self->{LayoutObject}->{UserLanguage},
         );
-        $Param{LogModuleString} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                'Kernel::System::Log::SysLog' => 'Syslog',
-                'Kernel::System::Log::File'   => 'File',
-            },
-            Name       => 'LogModule',
-            HTMLQuote  => 0,
-            SelectedID => $Self->{ConfigObject}->Get('LogModule'),
-        );
 
-        # build the select field for the InstallerDBStart.dtl
+        # build the selection field for the MX check
         $Param{SelectCheckMXRecord} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 1 => 'Yes',
@@ -716,11 +709,15 @@ sub Run {
             SelectedID => '1',
         );
 
+        # read FQDN using Net::Domain and prepopulate the field
+        $Param{FQDN} = hostfqdn();
+
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
                 . $Self->{LayoutObject}->{LanguageObject}->Get('System Settings')
             );
+
         $Self->{LayoutObject}->Block(
             Name => 'System',
             Data => {
@@ -729,6 +726,24 @@ sub Run {
                 %Param,
             },
         );
+
+        if ( !$Self->{Options}->{SkipLog} ) {
+            warn "Skipping log";
+            $Param{LogModuleString} = $Self->{LayoutObject}->BuildSelection(
+                Data => {
+                    'Kernel::System::Log::SysLog' => 'Syslog',
+                    'Kernel::System::Log::File'   => 'File',
+                },
+                Name       => 'LogModule',
+                HTMLQuote  => 0,
+                SelectedID => $Self->{ConfigObject}->Get('LogModule'),
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'LogModule',
+                Data => \%Param,
+            );
+        }
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
             Data         => {},

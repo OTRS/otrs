@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- dtl:block:System-->
+<!--dtl:block:System-->
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
@@ -31,7 +31,7 @@
 
                     <label for="FQDN">$Text{"System FQDN"}:</label>
                     <div class="Field">
-                        <input type="text" id="FQDN" name="FQDN" value="$Config{"FQDN"}" class="W33pc"/>
+                        <input type="text" id="FQDN" name="FQDN" value="$QData{"FQDN"}" class="W33pc"/>
                         <p class="FieldExplanation">
                             $Text{"Fully qualified domain name of your system."}
                         </p>
@@ -53,6 +53,7 @@
                     </div>
                     <div class="Clear"></div>
 
+<!--dtl:block:LogModule-->
                     <h4>
                         $Text{"Log"}
                     </h4>
@@ -67,14 +68,27 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="LogModule::LogFile">$Text{"LogFile"}:</label>
-                    <div class="Field">
-                        <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
-                        <p class="FieldExplanation">
-                            $Text{"Log file location is only needed for File-LogModule!"}
-                        </p>
+                    <div class="Row Row_LogFile Hidden">
+                        <label for="LogModule::LogFile">$Text{"LogFile"}:</label>
+                        <div class="Field">
+                            <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
+                        </div>
+                        <div class="Clear"></div>
                     </div>
-                    <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+// Show only Log File Location field if log module File is selected
+$('select#LogModule').bind('change', function(){
+    if (/Kernel::System::Log::File/.test($(this).val())) {
+        $('.Row_LogFile').show();
+    }
+    else {
+        $('.Row_LogFile').hide();
+    }
+}).trigger('change');
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!--dtl:block:LogModule-->
 
                     <h4>
                         $Text{"Webfrontend"}
@@ -107,4 +121,4 @@
         </div>
     </form>
 </div>
-<!-- dtl:block:System-->
+<!--dtl:block:System-->
