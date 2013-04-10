@@ -70,10 +70,10 @@
 <!-- dtl:block:Steps -->
 
 <!-- dtl:block:Intro -->
-    <div class="W33pc SpacingTop SpacingBottom CenterBox">
+    <div class="W950px SpacingTop SpacingBottom CenterBox">
         <div class="WidgetSimple SpacingTop" id="WebInstallerBox">
             <div class="Header">
-                <h2 class="Center">$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
+                <h2>$Text{"Welcome to %s", "$Config{"ProductName"}"}</h2>
             </div>
             <div class="LayoutGrid Content">
                 <div class="Size1of2">
@@ -81,14 +81,14 @@
                     <p>OTRS Inc.</p>
                     <p>19925 Stevens Creek Blvd.</p>
                     <p>Cupertino, CA 95014-2358</p>
-                    <p>$Text{"Phone"}: +1 (415) 3660178</p>
+                    <p>$Text{"Phone"}: <a href="tel:+14153360178">+1 (415) 3660178</a></p>
                 </div>
                 <div class="Size1of2">
                     <h4>Germany</h4>
                     <p>OTRS AG</p>
                     <p>Norsk-Data-Str. 1</p>
                     <p>61352 Bad Homburg</p>
-                    <p>$Text{"Phone"}: +49 (0) 6172 681988 0</p>
+                    <p>$Text{"Phone"}: <a href="tel:+4961726819880">+49 (0) 6172 681988 0</a></p>
                 </div>
             </div>
             <div class="Clear"></div>
@@ -98,14 +98,14 @@
                     <p>OTRS S.A. de C.V.</p>
                     <p>Oso 127 - 105, Col. Del Valle</p>
                     <p>03100 Mexico, D.F.</p>
-                    <p>$Text{"Phone"}: +52 55 5524 3171 </p>
+                    <p>$Text{"Phone"}: <a href="tel:+525555243171">+52 55 5524 3171</a></p>
                 </div>
                 <div class="Size1of2">
                     <h4>The Netherlands</h4>
                     <p>OTRS B.V.</p>
                     <p>Schipholweg 103</p>
                     <p>2316 XC  Leiden</p>
-                    <p>$Text{"Phone"}: +31 (0)71 8200 255</p>
+                    <p>$Text{"Phone"}: <a href="tel:+31718200255">+31 (0)71 8200 255</a></p>
                 </div>
             </div>
             <div class="Clear"></div>
@@ -115,18 +115,18 @@
                     <p>OTRS Solution Shd Bdn</p>
                     <p>No 17-1B, Jalan Puteri 2/7, Bandar Puteri, 47100 Puchong</p>
                     <p>Selangor</p>
-                    <p>$Text{"Phone"}: +603 8065 3323</p>
+                    <p>$Text{"Phone"}: <a href="tel:+60380653323">+603 8065 3323</a></p>
                 </div>
                 <div class="Size1of2">
                     <h4>Hong Kong</h4>
                     <p>OTRS Ltd</p>
                     <p>Rm 406, 4/F, Boss Commercial Centre</p>
                     <p>28 Ferry Street, Jordon</p>
-                    <p>$Text{"Phone"}: +852 3690 1503</p>
+                    <p>$Text{"Phone"}: <a href="tel:+85236901503">+852 3690 1503</a></p>
                 </div>
             </div>
             <div class="Clear"></div>
-            <div class="Center LayoutGrid Content">
+            <div class="LayoutGrid Content">
                 <p>$Text{"Web site"}: <a href="http://otrs.com" target="_blank">www.otrs.com</a></p>
                 <p>$Text{"Email"}: <a href="mailto:otrsteam@otrs.com">otrsteam@otrs.com</a></p>
             </div>

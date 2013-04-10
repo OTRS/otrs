@@ -28,4 +28,16 @@ div.License {
    margin: auto;
 }
 
+div.DBItem {
+   padding: 2px;
+   margin-left: 350px;
+}
+
+div.Result {
+   color: #049e35;
+   font-size: 16px;
+   font-weight: bold;
+   padding: 8px 8px 10px;
+}
+
 } /* end @media */

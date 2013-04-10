@@ -8,7 +8,7 @@
 # --
 
 <!-- dtl:block:DatabasePostgreSQL -->
-<div class="W50pc SpacingTop SpacingBottom CenterBox">
+<div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
         <input type="hidden" name="Action"    value="Installer"/>
         <input type="hidden" name="Subaction" value="DBCreate"/>

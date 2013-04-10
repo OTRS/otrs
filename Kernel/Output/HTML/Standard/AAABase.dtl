@@ -214,6 +214,7 @@ $Text{"Logout"}
 $Text{"Logout successful. Thank you for using %s!"}
 $Text{"Feature not active!"}
 $Text{"Agent updated!"}
+$Text{"Database Selection"}
 $Text{"Create Database"}
 $Text{"System Settings"}
 $Text{"Mail Configuration"}

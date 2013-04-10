@@ -8,7 +8,7 @@
 # --
 
 <!-- dtl:block:License -->
-<div class="W75pc SpacingTop SpacingBottom CenterBox">
+<div class="W950px SpacingTop SpacingBottom CenterBox">
     <div class="WidgetSimple">
         <div class="Header">
             <h2>$Text{"$Data{"Item"}"} ($Data{"Step"})</h2>

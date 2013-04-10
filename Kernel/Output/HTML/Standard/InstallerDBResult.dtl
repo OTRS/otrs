@@ -7,8 +7,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!--dtl:block:DatabaseResult-->
-<div class="W50pc SpacingTop SpacingBottom CenterBox">
+<!-- dtl:block:DatabaseResult -->
+<div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
 
@@ -18,42 +18,39 @@
             </div>
 
             <div class="Content">
-                <fieldset class="TableLike">
-
-<!--dtl:block:DatabaseResultItem-->
-                    <label>$QData{"Item"}:</label>
-                    <div class="Field">
-<!--dtl:block:DatabaseResultItemDone-->
-                        <p class="Confirmation"><img src="$Config{"Frontend::ImagePath"}/icons/tick.png" alt="$Text{"Done"}" /></p>
-<!--dtl:block:DatabaseResultItemDone-->
-<!--dtl:block:DatabaseResultItemFalse-->
-                        <p class="Error"><img src="$Config{"Frontend::ImagePath"}/icons/cross.png" />$Text{"Error"}! :-(</p>
-<!--dtl:block:DatabaseResultItemFalse-->
-<!--dtl:block:DatabaseResultItemMessage-->
-                        <p class="FieldExplanation">$QData{"Message"}</p>
-<!--dtl:block:DatabaseResultItemMessage-->
-                    </div>
-                    <div class="Clear"></div>
-<!--dtl:block:DatabaseResultItem-->
-                </fieldset>
-<!--dtl:block:DatabaseResultSuccess-->
-                <div class="Center">
+<!-- dtl:block:DatabaseResultItem -->
+                <div class="DBItem">
+<!-- dtl:block:DatabaseResultItemDone -->
+                    <img src="$Config{"Frontend::ImagePath"}/icons/tick.png" alt="$Text{"Done"}" />
+<!-- dtl:block:DatabaseResultItemDone -->
+<!-- dtl:block:DatabaseResultItemFalse -->
+                    <img src="$Config{"Frontend::ImagePath"}/icons/cross.png" alt="$Text{"Error"}" />
+<!-- dtl:block:DatabaseResultItemFalse -->
+                    $QData{"Item"}
+<!-- dtl:block:DatabaseResultItemMessage -->
+                    <p>$QData{"Message"}</p>
+<!-- dtl:block:DatabaseResultItemMessage -->
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:DatabaseResultItem -->
+<!-- dtl:block:DatabaseResultSuccess -->
+                <div class="Center Result">
                     <p class="">$Text{"Database setup successful!"}</p>
                 </div>
-<!--dtl:block:DatabaseResultSuccess-->
+<!-- dtl:block:DatabaseResultSuccess -->
                 <div class="Center">
-<!--dtl:block:DatabaseResultBack-->
+<!-- dtl:block:DatabaseResultBack -->
                     <input type="hidden" name="Subaction" value="Start"/>
                     <button class="Primary" type="submit">$Text{"Back"}</button>
-<!--dtl:block:DatabaseResultBack-->
+<!-- dtl:block:DatabaseResultBack -->
 
-<!--dtl:block:DatabaseResultNext-->
+<!-- dtl:block:DatabaseResultNext -->
                     <input type="hidden" name="Subaction" value="System"/>
                     <button class="Primary" type="submit">$Text{"Next"}</button>
-<!--dtl:block:DatabaseResultNext-->
+<!-- dtl:block:DatabaseResultNext -->
                 </div>
             </div>
         </div>
     </form>
 </div>
-<!--dtl:block:DatabaseResult-->
+<!-- dtl:block:DatabaseResult -->

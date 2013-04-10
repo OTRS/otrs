@@ -248,12 +248,12 @@ sub Run {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('Create Database')
+                . $Self->{LayoutObject}->{LanguageObject}->Get('Database Selection')
             );
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseStart',
             Data => {
-                Item         => 'Create Database',
+                Item         => 'Database Selection',
                 Step         => $StepCounter,
                 SelectDBType => $Param{SelectDBType},
                 }
