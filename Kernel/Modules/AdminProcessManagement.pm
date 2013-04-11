@@ -415,26 +415,50 @@ sub Run {
             }
         }
 
+        # Try to find Entities correctly in YAML
+        my $DelimiterBefore = '(^|\s|\'|"|:)';
+        my $DelimiterAfter  = '($|\s|\'|"|:)';
+
         # layout: search and replace ocurrences of old Activity ids by the new ones
         my $Layout = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Layout} );
         for my $OldEntityID ( sort keys %ActivityMapping ) {
-            $Layout =~ s{\Q$OldEntityID\E}{$ActivityMapping{$OldEntityID}}xmsg;
+            $Layout =~ s{
+                $DelimiterBefore
+                \Q$OldEntityID\E
+                $DelimiterAfter
+            }{$1$ActivityMapping{$OldEntityID}$2}xmsg;
         }
         $Layout = $Self->{YAMLObject}->Load( Data => $Layout );
 
         # config: search and replace ocurrences of old object ids by the new ones
         my $Config = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Config} );
         for my $OldEntityID ( sort keys %ActivityMapping ) {
-            $Config =~ s{\Q$OldEntityID\E}{$ActivityMapping{$OldEntityID}}xmsg;
+            $Config =~ s{
+                $DelimiterBefore
+                \Q$OldEntityID\E
+                $DelimiterAfter
+            }{$1$ActivityMapping{$OldEntityID}$2}xmsg;
         }
         for my $OldEntityID ( sort keys %ActivityDialogMapping ) {
-            $Config =~ s{\Q$OldEntityID\E}{$ActivityDialogMapping{$OldEntityID}}xmsg;
+            $Config =~ s{
+                $DelimiterBefore
+                \Q$OldEntityID\E
+                $DelimiterAfter
+            }{$1$ActivityDialogMapping{$OldEntityID}$2}xmsg;
         }
         for my $OldEntityID ( sort keys %TransitionMapping ) {
-            $Config =~ s{\Q$OldEntityID\E}{$TransitionMapping{$OldEntityID}}xmsg;
+            $Config =~ s{
+                $DelimiterBefore
+                \Q$OldEntityID\E
+                $DelimiterAfter
+            }{$1$TransitionMapping{$OldEntityID}$2}xmsg;
         }
         for my $OldEntityID ( sort keys %TransitionActionMapping ) {
-            $Config =~ s{\Q$OldEntityID\E}{$TransitionActionMapping{$OldEntityID}}xmsg;
+            $Config =~ s{
+                $DelimiterBefore
+                \Q$OldEntityID\E
+                $DelimiterAfter
+            }{$1$TransitionActionMapping{$OldEntityID}$2}xmsg;
         }
         $Config = $Self->{YAMLObject}->Load( Data => $Config );
 
