@@ -98,7 +98,7 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <div class="Center">
+                <div class="Spacing Right">
                     <button type="button" id="ButtonBack">$Text{"Back"}</button>
                     <button class="Primary HideMe" type="submit" id="FormDBSubmit" disabled="disabled">$Text{"Next"}</button>
                 </div>

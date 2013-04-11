@@ -47,7 +47,7 @@
 
                     <label for="Email" class="Mandatory"><span class="Marker">*</span> $Text{"Email"}:</label>
                     <div class="Field">
-                        <input type="text" id="Email" name="Email" value="" class="W50pc"/>
+                        <input type="email" id="Email" name="Email" value="" class="W50pc"/>
                     </div>
                     <div class="Clear"></div>
 
