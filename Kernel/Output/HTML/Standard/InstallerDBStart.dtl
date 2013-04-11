@@ -27,7 +27,7 @@
                     <div class="Clear"></div>
                 </fieldset>
 
-                <div class="Center">
+                <div class="Spacing Right">
                     <button class="Primary" type="submit" id="FormDBSubmit">$Text{"Next"}</button>
                 </div>
                 <div class="Clear"></div>
