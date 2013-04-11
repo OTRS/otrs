@@ -52,10 +52,12 @@
                             <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required $QData{"FileUploadInvalid"}"/>
                             <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                            <fieldset class="SpacingTop">
-                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
-                                <label for="OverwriteExistingEntities">$Text{"Overwrite existing entities"}</label>
-                            </fieldset>
+# Disable this because there are problems with the import logic.
+#                            <fieldset class="SpacingTop">
+#                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
+#                                <label for="OverwriteExistingEntities">$Text{"Overwrite existing entities"}</label>
+#                            </fieldset>
+#
                             <button class="CallForAction Plus Fullsize Center" type="submit" value="$Text{"Upload process configuration"}">
                                 <span>$Text{"Import process configuration"}</span>
                             </button>
