@@ -422,44 +422,31 @@ sub Run {
 
         # layout: search and replace ocurrences of old Activity ids by the new ones
         my $Layout = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Layout} );
-        for my $OldEntityID ( sort keys %ActivityMapping ) {
+        # Process all mapping entries at once with one big regex. Otherwise there might be errors
+        #   with duplicated keys like ( A4 => A6, A6 => A11). In this case, A4 would also incorrectly
+        #   be converted to A11.
+        if (%ActivityMapping) {
+            my $OldEntityIDs = '(' . join('|', map { quotemeta($_) } sort keys %ActivityMapping ) . ')';
             $Layout =~ s{
                 $DelimiterBefore
-                \Q$OldEntityID\E
+                $OldEntityIDs
                 $DelimiterAfter
-            }{$1$ActivityMapping{$OldEntityID}$2}xmsg;
+            }{$1$ActivityMapping{$2}$3}xmsg;
         }
         $Layout = $Self->{YAMLObject}->Load( Data => $Layout );
 
         # config: search and replace ocurrences of old object ids by the new ones
         my $Config = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Config} );
-        for my $OldEntityID ( sort keys %ActivityMapping ) {
+        # Process all mappings at once: see comment above.
+        my %Mapping = (%ActivityMapping, %ActivityDialogMapping,
+            %TransitionMapping, %TransitionActionMapping);
+        if (%Mapping) {
+            my $OldEntityIDs = '(' . join('|', map { quotemeta($_) } sort keys %Mapping ) . ')';
             $Config =~ s{
                 $DelimiterBefore
-                \Q$OldEntityID\E
+                $OldEntityIDs
                 $DelimiterAfter
-            }{$1$ActivityMapping{$OldEntityID}$2}xmsg;
-        }
-        for my $OldEntityID ( sort keys %ActivityDialogMapping ) {
-            $Config =~ s{
-                $DelimiterBefore
-                \Q$OldEntityID\E
-                $DelimiterAfter
-            }{$1$ActivityDialogMapping{$OldEntityID}$2}xmsg;
-        }
-        for my $OldEntityID ( sort keys %TransitionMapping ) {
-            $Config =~ s{
-                $DelimiterBefore
-                \Q$OldEntityID\E
-                $DelimiterAfter
-            }{$1$TransitionMapping{$OldEntityID}$2}xmsg;
-        }
-        for my $OldEntityID ( sort keys %TransitionActionMapping ) {
-            $Config =~ s{
-                $DelimiterBefore
-                \Q$OldEntityID\E
-                $DelimiterAfter
-            }{$1$TransitionActionMapping{$OldEntityID}$2}xmsg;
+            }{$1$Mapping{$2}$3}xmsg;
         }
         $Config = $Self->{YAMLObject}->Load( Data => $Config );
 
