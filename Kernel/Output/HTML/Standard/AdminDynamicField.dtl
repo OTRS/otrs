@@ -22,7 +22,7 @@
                 <ul class="ActionList">
 <!-- dtl:block:ActionAddDynamicField -->
                     <li>
-                        <h3>$Text{"$Data{"ObjectType"}"}</h3>
+                        <h3><label for="$QData{"SelectName"}">$Text{"$Data{"ObjectType"}"}</label></h3>
                         $Data{"AddDynamicFieldStrg"}
                         <div class="FieldExplanation">
                             <p>$Text{"Add new field for object"}: $Text{"$Data{"ObjectType"}"}</p>
