@@ -441,12 +441,12 @@
                 <p class="SpacingTop">
                     $Text{"Example response"}:
                 </p>
-                $Text{"Subject"}:
-                <input type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/>
+                <label for="SubjectExample">$Text{"Subject"}</label>:
+                <input type="text" name="SubjectExample" id="SubjectExample" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/>
                 <br/>
-                $Text{"Text"}:
+                <label for="ResponseExample">$Text{"Text"}</label>:
                 <br/>
-                <textarea rows="12" cols="70" name="Response">
+                <textarea rows="12" cols="70" name="ResponseExample" id="ResponseExample">
 
 Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
 
