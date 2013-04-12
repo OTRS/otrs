@@ -125,11 +125,19 @@ if ($Secure) {
 
     # In secure mode, make files read-only by default
     find( \&makeReadOnly, $DestDir );
+
+    # Also change the toplevel directory/symlink itself
+    $_ = $DestDir;
+    makeReadOnly();
 }
 else {
 
     # set all files writeable for webserver user (needed for package manager)
     find( \&makeWritable, $DestDir );
+
+    # Also change the toplevel directory/symlink itself
+    $_ = $DestDir;
+    makeWritable();
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {
