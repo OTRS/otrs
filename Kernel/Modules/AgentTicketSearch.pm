@@ -346,8 +346,13 @@ sub Run {
             }
 
             # insert new profile params
+<<<<<<< HEAD
             for my $Key ( keys %GetParam ) {
                 next if !$GetParam{$Key};
+=======
+            for my $Key ( sort keys %GetParam ) {
+                next if !defined $GetParam{$Key};
+>>>>>>> 6390976... Fixed bug#8960 - AgentTicketSearch.pm SearchProfile problem.
                 $Self->{SearchProfileObject}->SearchProfileAdd(
                     Base      => 'TicketSearch',
                     Name      => $Self->{Profile},
@@ -2154,8 +2159,13 @@ sub Run {
             CloseTimeSearchType   => 'TicketClose',
             ArticleTimeSearchType => 'ArticleCreate',
         );
+<<<<<<< HEAD
         for my $Key ( keys %Map ) {
             next if !$GetParamBackup{$Key};
+=======
+        for my $Key ( sort keys %Map ) {
+            next if !defined $GetParamBackup{$Key};
+>>>>>>> 6390976... Fixed bug#8960 - AgentTicketSearch.pm SearchProfile problem.
             if ( $GetParamBackup{$Key} eq 'TimePoint' ) {
                 $GetParamBackup{ $Map{$Key} . 'TimePoint' } = 1;
             }
