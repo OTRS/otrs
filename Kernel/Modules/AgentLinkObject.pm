@@ -81,7 +81,7 @@ sub Run {
 
         if ( !$Permission ) {
             return $Self->{LayoutObject}->NoPermission(
-                WithHeaderMessage => 'You need ro permission!',
+                Message    => 'You need ro permission!',
                 WithHeader => 'yes',
             );
         }
@@ -374,7 +374,8 @@ sub Run {
                         $TemporaryTargetTicketLink = 1;
                     }
 
-                    # do the permission check only if it is no temporary ticket link used while creating a new ticket
+                    # do the permission check only if it is no temporary ticket link
+                    # used while creating a new ticket
                     if ( !$TemporaryTargetTicketLink ) {
 
                         my $AddPermission = $Self->{LinkObject}->ObjectPermission(
