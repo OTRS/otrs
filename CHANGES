@@ -1,4 +1,6 @@
 3.2.6 2013-??-??
+ - 2013-04-12 Fixed bug#9264 - Dynamic ticket text fields are displayed with value "1" if enabled 
+    and displayed by default in ticket search screen.
  - 2013-04-12 Fixed bug#8960 - AgentTicketSearch.pm SearchProfile problem.
  - 2013-04-12 Fixed bug#9328 - Notification event does not work on process ticket.
  - 2013-04-11 Fixed broken process import.
