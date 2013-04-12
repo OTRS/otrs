@@ -266,6 +266,14 @@ sub _SendNotificationToRecipients {
         DynamicFields => 0,
     );
 
+    # If the ticket has no articles yet, get the raw ticket data
+    if (!%Article) {
+        %Article = $Self->{TicketObject}->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+        );
+    }
+
     # get recipients by Recipients
     my @Recipients;
     if ( $Param{Notification}->{Data}->{Recipients} ) {
@@ -297,11 +305,15 @@ sub _SendNotificationToRecipients {
                 # ArticleLastCustomerArticle() returns the lastest customer article but if there
                 # is no customer acticle, it returns the latest agent article. In this case
                 # notification must not be send to the "From", but to the "To" article field.
-                if ( $Article{SenderType} eq 'customer' ) {
-                    $Recipient{Email} = $Article{From};
-                }
-                else {
-                    $Recipient{Email} = $Article{To};
+
+                # Check if we actually do have an article
+                if ( defined $Article{SenderType} ) {
+                    if ( $Article{SenderType} eq 'customer' ) {
+                        $Recipient{Email} = $Article{From};
+                    }
+                    else {
+                        $Recipient{Email} = $Article{To};
+                    }
                 }
                 $Recipient{Type} = 'Customer';
 
