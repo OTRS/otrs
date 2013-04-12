@@ -365,7 +365,7 @@ sub Run {
 
             # insert new profile params
             for my $Key ( sort keys %GetParam ) {
-                next if !$GetParam{$Key};
+                next if !defined $GetParam{$Key};
                 $Self->{SearchProfileObject}->SearchProfileAdd(
                     Base      => 'TicketSearch',
                     Name      => $Self->{Profile},
@@ -2062,7 +2062,7 @@ sub Run {
             ArticleTimeSearchType    => 'ArticleCreate',
         );
         for my $Key ( sort keys %Map ) {
-            next if !$GetParamBackup{$Key};
+            next if !defined $GetParamBackup{$Key};
             if ( $GetParamBackup{$Key} eq 'TimePoint' ) {
                 $GetParamBackup{ $Map{$Key} . 'TimePoint' } = 1;
             }
