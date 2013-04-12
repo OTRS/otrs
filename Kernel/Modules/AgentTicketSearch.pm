@@ -1339,6 +1339,7 @@ sub Run {
                 for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
                     next if !$Self->{Config}->{Defaults}->{$Key};
                     next if $Key eq 'DynamicField';
+                    next if $Key =~ /^Search_DynamicField_/;
 
                     if ( $Key =~ /^(Ticket|Article)(Create|Change|Close|Escalation)/ ) {
                         my @Items = split /;/, $Self->{Config}->{Defaults}->{$Key};
