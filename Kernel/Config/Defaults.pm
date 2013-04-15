@@ -171,6 +171,7 @@ sub LoadDefaults {
         ja      => 'Japanese (&#x65e5;&#x672c;&#x8a9e)',
         lt      => 'Lietuvi&#371; kalba',
         lv      => 'Latvijas',
+        ms      => 'Malay',
         nl      => 'Nederlands',
         nb_NO   => 'Norsk bokm&aring;l',
         pt_BR   => 'Portugu&ecirc;s Brasileiro',
