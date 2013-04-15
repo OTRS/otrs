@@ -2,8 +2,6 @@
 # Kernel/Language/de.pm - provides Malay language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.324.2.1 2012/08/17 12:07:55 mg Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
