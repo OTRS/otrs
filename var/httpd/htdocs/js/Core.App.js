@@ -104,7 +104,7 @@ Core.App = (function (TargetNS) {
      * @return {String} The escaped selector
      */
     TargetNS.EscapeSelector = function (Selector) {
-        return Selector.replace(/(:|\.|\[|\])/g,'\\$1');
+        return Selector.replace(/(#|:|\.|\[|\])/g,'\\$1');
     };
 
     /**
