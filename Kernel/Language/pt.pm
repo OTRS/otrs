@@ -239,7 +239,7 @@ sub Data {
         'Database' => 'Base de dados',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Entrada necessária',
         'Password is needed!' => 'Palavra-passe indispensável!',
         'Take this Customer' => 'Fique com este Cliente',

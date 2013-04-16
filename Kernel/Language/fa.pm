@@ -243,7 +243,7 @@ sub Data {
         'Database' => 'پایگاه داده',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'Take this Customer' => 'این مشترک را بگیر',

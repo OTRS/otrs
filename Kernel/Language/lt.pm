@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Duomenų bazė',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Reikia prisijungimo vardo!',
         'Password is needed!' => 'Reikia slaptažodžio!',
         'Take this Customer' => 'Imti šį klientą',

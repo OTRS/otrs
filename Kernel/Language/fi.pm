@@ -240,7 +240,7 @@ sub Data {
         'Database' => 'Tietokanta',
         'Configure Mail' => 'Sähköpostin asetukset',
         'Database deleted.' => 'Tietokanta poistettu.',
-        'Database setup succesful!' => 'Tietokanta asennettu onnistuneesti!',
+        'Database setup successful!' => 'Tietokanta asennettu onnistuneesti!',
         'Login is needed!' => 'Käyttäjätunnus on pakollinen!',
         'Password is needed!' => 'Salasana on pakollinen!',
         'Take this Customer' => 'Valitse tämä asiakas',

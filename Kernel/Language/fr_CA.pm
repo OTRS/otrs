@@ -245,7 +245,7 @@ sub Data {
         'Database' => 'Base de données',
         'Configure Mail' => 'Configuration de la messagerie',
         'Database deleted.' => 'Base de données effacée.',
-        'Database setup succesful!' => 'Configuration de la base de données réussie!',
+        'Database setup successful!' => 'Configuration de la base de données réussie!',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis.',
         'Take this Customer' => 'Choisir ce client',
@@ -4737,7 +4737,7 @@ sub Data {
         '-Patch' => 'Corrigé',
         '. In case you want to improve your performance, close not needed open tickets.' =>
             'Si vous souhaiteriez améliorer la performance, fermez les demandes qui ne sont pas nécessaires.',
-        '. Private certificate succesfuly deleted' => 'Certification privée supprimée',
+        '. Private certificate successfuly deleted' => 'Certification privée supprimée',
         '1 * Normal (ca. 25 sec)' => '1 * Normal (ca. 25 s)',
         '2 minutes' => '2 minutes',
         '200 (Advanced)' => '200 (Avancé)',

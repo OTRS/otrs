@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Base de dades',
         'Configure Mail' => 'Configurar el correu',
         'Database deleted.' => 'Base de dades esborrada.',
-        'Database setup succesful!' => 'Base de dades de configurada amb èxit!',
+        'Database setup successful!' => 'Base de dades de configurada amb èxit!',
         'Login is needed!' => 'Es requereix login',
         'Password is needed!' => 'Falta la contrasenya!',
         'Take this Customer' => 'Utilitzar aquest client',

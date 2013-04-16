@@ -239,7 +239,7 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Konfigurer Mail',
         'Database deleted.' => 'Database slettet.',
-        'Database setup succesful!' => 'Database konfigureret!',
+        'Database setup successful!' => 'Database konfigureret!',
         'Login is needed!' => 'Login er påkrævet',
         'Password is needed!' => 'Adgangskode er påkrævet',
         'Take this Customer' => 'Tag denne kunde',
