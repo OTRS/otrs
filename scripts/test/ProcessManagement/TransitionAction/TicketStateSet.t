@@ -25,6 +25,9 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     UnitTestObject             => $Self,
     RestoreSystemConfiguration => 0,
 );
+
+$HelperObject->FixedTimeSet();
+
 my $ConfigObject = Kernel::Config->new();
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
