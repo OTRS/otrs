@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:05
+    # Last translation file sync: 2013-04-16 07:17:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -236,6 +236,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Вы успешно вышли из системы. Благодарим за пользование системой %s !',
         'Feature not active!' => 'Функция не активирована!',
         'Agent updated!' => 'Агент обновлен!',
+        'Database Selection' => '',
         'Create Database' => 'Создать базу',
         'System Settings' => 'Системные параметры',
         'Mail Configuration' => 'Конфигурация почты',
@@ -246,7 +247,6 @@ sub Data {
         'Database' => 'Имя базы данных',
         'Configure Mail' => 'Конфигурировать почту',
         'Database deleted.' => 'База данных удалена.',
-        'Database setup successful!' => 'База данных настроена успешно!',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'Take this Customer' => 'Выбрать этого клиента',
@@ -818,6 +818,7 @@ sub Data {
         'History::SystemRequest' => 'Системный запрос (%s)',
         'History::ResponsibleUpdate' => 'Новый ответственный теперь «%s» (ID=%s)',
         'History::ArchiveFlagUpdate' => 'Архивный статус изменен: «%s»',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Вск',
@@ -1110,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        '(work units)' => '',
+        ' (work units)' => ' (рабочие единицы)',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1546,7 +1547,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1673,6 +1673,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2257,7 +2259,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Изменить клиента заявки',
-        'Customer Data' => 'Учетные данные клиента',
         'Customer user' => 'Учетная запись клиента',
 
         # Template: AgentTicketEmail
@@ -2391,7 +2392,8 @@ sub Data {
         'Linked Objects' => 'Связанные объекты',
         'Article(s)' => 'сообщений',
         'Change Queue' => 'Сменить очередь',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Фильтр сообщений',
         'Add Filter' => 'Добавить фильтр',
@@ -2513,7 +2515,6 @@ sub Data {
         'Expand article' => 'Развернуть сообщение',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Ответить',
 
         # Template: CustomerWarning
@@ -2611,22 +2612,25 @@ sub Data {
             'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
 
         # Template: InstallerDBResult
-        'False' => 'Облом',
+        'Database setup successful!' => 'База данных настроена успешно!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Если для администратора базы данных установлен пароль, укажите его здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Информацию по этой теме можно найти в документации по используемой базе данных',
-        'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Если вы хотите инсталлировать OTRS с другим типом базы данных, обратитесь к файлу README.database.',
-        'Database-User' => 'Пользователь базы данных',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Проверить настройки БД',
+        'Database User' => '',
         'New' => 'Новое',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Для этой системы OTRS будет создан новый пользователь базы данных с ограниченными правами.',
-        'default \'hot\'' => 'По умолчанию: «hot»',
-        'DB host' => 'БД--- сервер',
-        'Check database settings' => 'Проверить настройки БД',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => 'Результат проверки базы данных',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2660,7 +2664,6 @@ sub Data {
         'LogModule' => 'Модуль журнала ',
         'Log backend to use.' => 'Какой бэкенд использовать для собственно записи журнала.',
         'LogFile' => 'Файл журнала',
-        'Log file location is only needed for File-LogModule!' => 'Указание расположения файла журнала требуется только для ',
         'Webfrontend' => 'Веб-интерфейс',
         'Default language' => 'Язык по умолчанию',
         'Default language.' => 'Язык по умолчанию.',
@@ -4537,7 +4540,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4680,6 +4682,8 @@ sub Data {
             'Создать новые группы для назначения прав доступа группам агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
         'Create your first Ticket' => 'Добавить первую заявку',
         'CreateTicket' => 'Создание заявки',
+        'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
+        'Customer Data' => 'Учетные данные клиента',
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
         'Customer State Notify' => 'Извещать клиента об изменении статуса',
@@ -4695,6 +4699,8 @@ sub Data {
         'CustomerUser' => 'Клиент',
         'D' => 'D',
         'DB connect host' => 'Сервер базы данных',
+        'DB host' => 'БД--- сервер',
+        'Database-User' => 'Пользователь базы данных',
         'Days' => 'Дни',
         'Default Charset' => 'Кодировка по умолчанию',
         'Default Language' => 'Язык по умолчанию',
@@ -4730,6 +4736,7 @@ sub Data {
         'Expand View' => 'Подробно',
         'Explanation' => 'Пояснение',
         'Export Config' => 'Экспорт конфигурации',
+        'False' => 'Облом',
         'FileManager' => 'Управление файлами',
         'Filelist' => 'Список файлов',
         'Filtername' => 'Имя фильтра',
@@ -4770,10 +4777,14 @@ sub Data {
             'Если агент заблокировал заявку и не отправил ответ клиенту в течение установленного времени, то заявка автоматически разблокируется и станет доступной для остальных агентов.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Если ничего не выбрано, то заявки будут недоступны для пользователя',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Если для администратора базы данных установлен пароль, укажите его здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Информацию по этой теме можно найти в документации по используемой базе данных',
         'If you need the sum of every column select yes.' => 'Если вам необходим показ суммы по каждому столбцу, выберите «Да»',
         'If you need the sum of every row select yes' => 'Если вам необходим показ суммы по каждой строке, выберите «Да»',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' =>
             'Если вы используете регулярные выражения, вы можете использовать переменные в () как [***] при установке значений',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Если вы хотите инсталлировать OTRS с другим типом базы данных, обратитесь к файлу README.database.',
         'Image' => 'Значок',
         'Important' => 'Важно',
         'In this form you can select the basic specifications.' => 'В данной форме вы можете выбрать основные требования.',
@@ -4800,6 +4811,7 @@ sub Data {
         'Load Settings' => 'Применить конфигурацию из файла',
         'Lock it to work on it!' => 'Заблокировать, чтобы рассмотреть заявку!',
         'Locked tickets' => 'Заблокированные заявки',
+        'Log file location is only needed for File-LogModule!' => 'Указание расположения файла журнала требуется только для ',
         'Logfile' => 'Файл журнала',
         'Logfile too large, you need to reset it!' => 'Файл журнала слишком большой, вам нужно очистить его!',
         'Login failed! Your username or password was entered incorrectly.' =>
@@ -5110,6 +5122,7 @@ sub Data {
         'Your own Ticket' => 'Ваша собственная заявка',
         'auto responses set!' => 'Установленных автоответов',
         'customer realname' => 'Имя клиента',
+        'default \'hot\'' => 'По умолчанию: «hot»',
         'delete' => 'удалить',
         'down' => 'вниз',
         'false' => 'нет',

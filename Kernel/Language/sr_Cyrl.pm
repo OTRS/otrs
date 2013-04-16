@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:07
+    # Last translation file sync: 2013-04-16 07:17:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,6 +228,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Успешно сте се одјавили! Хвала што сте користили "%s"!',
         'Feature not active!' => 'Функција није активна!',
         'Agent updated!' => 'Ажуриран оператер',
+        'Database Selection' => '',
         'Create Database' => 'Креирај базу података',
         'System Settings' => 'Системска подешавања',
         'Mail Configuration' => 'Подешавање мејла',
@@ -238,7 +239,6 @@ sub Data {
         'Database' => 'База података',
         'Configure Mail' => 'Подешавање мејла',
         'Database deleted.' => 'Обрисана база',
-        'Database setup successful!' => 'Успешно инсталирање базе',
         'Login is needed!' => 'Потребна је пријава!',
         'Password is needed!' => 'Потребна је лозинка!',
         'Take this Customer' => 'Узми овог корисника',
@@ -810,6 +810,7 @@ sub Data {
         'History::SystemRequest' => 'Системски захтев',
         'History::ResponsibleUpdate' => 'Нови одговорни је "%s" (ИД=%s).',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'нед',
@@ -1102,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
-        '(work units)' => '',
+        ' (work units)' => ' (елементи посла)',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Промена корисника за тикет',
-        'Customer Data' => 'Подаци о кориснику',
         'Customer user' => 'Корисник',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Повезани објекти',
         'Article(s)' => 'Чланак/Чланци',
         'Change Queue' => 'Промени Ред',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Филтер чланка',
         'Add Filter' => 'Додај Филтер',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => 'Рашири чланак',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Одговори',
 
         # Template: CustomerWarning
@@ -2603,22 +2604,25 @@ sub Data {
             'Прескакање овог корака аутоматски прескачете и регистрацију ваше "OTRS" инсталације. јесте ли сигурни да желите да наставите?',
 
         # Template: InstallerDBResult
-        'False' => '"False"',
+        'Database setup successful!' => 'Успешно инсталирање базе',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Ако сте подесили "root" лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
-        'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
-        'Database-User' => 'Корисник базе података',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Проверите подешавања базе',
+        'Database User' => '',
         'New' => 'Нов',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Нови корисника базе са ограниченим правима ће бити креиран за овај "OTRS" систем',
-        'default \'hot\'' => 'подразумевано \'hot\'',
-        'DB host' => 'Назив или адреса ДБ-Сервера',
-        'Check database settings' => 'Проверите подешавања базе',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => 'Резултат провере базе података',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2652,7 +2656,6 @@ sub Data {
         'LogModule' => 'Модул дневника',
         'Log backend to use.' => 'Систем који се користи за дневник.',
         'LogFile' => 'Датотека дневника',
-        'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једно неопходно Модулу дневника!',
         'Webfrontend' => 'Мрежни интерфејс',
         'Default language' => 'Подразумевани језик',
         'Default language.' => 'Подразумевани језик',
@@ -4529,10 +4532,20 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (елементи посла)',
+        'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
+        'Customer Data' => 'Подаци о кориснику',
+        'DB host' => 'Назив или адреса ДБ-Сервера',
+        'Database-User' => 'Корисник базе података',
+        'False' => '"False"',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Ако сте подесили "root" лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
+        'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једно неопходно Модулу дневника!',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се одјавили! Хвала што сте користили "OTRS"!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
+        'default \'hot\'' => 'подразумевано \'hot\'',
 
     };
     # $$STOP$$

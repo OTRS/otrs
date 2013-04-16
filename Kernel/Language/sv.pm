@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:09
+    # Last translation file sync: 2013-04-16 07:17:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,6 +230,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Utloggningen lyckades.  Tack för att du använde %s!',
         'Feature not active!' => 'Funktion inte aktiverad!',
         'Agent updated!' => 'Agent uppdaterad!',
+        'Database Selection' => '',
         'Create Database' => 'Skapa databas',
         'System Settings' => 'Systeminställningar',
         'Mail Configuration' => 'Mailkonfiguration',
@@ -240,7 +241,6 @@ sub Data {
         'Database' => 'Databas',
         'Configure Mail' => 'Konfigurera mail',
         'Database deleted.' => 'Databas borttagen.',
-        'Database setup successful!' => '',
         'Login is needed!' => 'Inloggning krävs!',
         'Password is needed!' => 'Lösenord krävs!',
         'Take this Customer' => 'Välj denna kund',
@@ -812,6 +812,7 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'sön',
@@ -1104,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lägg till anteckning',
         'Time units' => 'Tidsenheter',
-        '(work units)' => '',
+        ' (work units)' => ' (arbetsenheter)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Meddela agent/kund angående ändringar',
         'CMD' => 'CMD',
@@ -1540,7 +1541,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1667,6 +1667,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2251,7 +2253,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Ändra kund för ärende',
-        'Customer Data' => 'Kunddata',
         'Customer user' => '',
 
         # Template: AgentTicketEmail
@@ -2385,7 +2386,8 @@ sub Data {
         'Linked Objects' => '',
         'Article(s)' => '',
         'Change Queue' => '',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => '',
@@ -2507,7 +2509,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => '',
 
         # Template: CustomerWarning
@@ -2605,22 +2606,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Om du har ett root-lösenord för databasen måste det anges här. Annars lämnar du fältet tomt. Av säkerhetssjäl rekommenderar vi dig att du har ett rootlösenord. För mer information hänvisas du till databasdokumentationen.',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Database-User' => 'Databas-Användare',
+        'Check database settings' => '',
+        'Database User' => '',
         'New' => 'Nytt',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => 'default \'hot\'',
-        'DB host' => '',
-        'Check database settings' => '',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2658,6 @@ sub Data {
         'LogModule' => 'LoggningsModul',
         'Log backend to use.' => '',
         'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webb-gränssnitt',
         'Default language' => '',
         'Default language.' => '',
@@ -4531,12 +4534,16 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbetsenheter)',
+        'Customer Data' => 'Kunddata',
+        'Database-User' => 'Databas-Användare',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Om du har ett root-lösenord för databasen måste det anges här. Annars lämnar du fältet tomt. Av säkerhetssjäl rekommenderar vi dig att du har ett rootlösenord. För mer information hänvisas du till databasdokumentationen.',
         'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
         'New email ticket for %s' => 'Nytt e-postärende för %s',
         'New phone ticket for %s' => 'Nytt telefonärende för %s',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Säkert läge måste slås av för att kunna ominstallera via webb-installeraren.',
+        'default \'hot\'' => 'default \'hot\'',
 
     };
     # $$STOP$$

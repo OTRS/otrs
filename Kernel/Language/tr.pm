@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:10
+    # Last translation file sync: 2013-04-16 07:17:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,6 +228,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Özellik etkin değil!',
         'Agent updated!' => 'Aracı güncellendi!',
+        'Database Selection' => '',
         'Create Database' => 'Veritabanını Oluştur',
         'System Settings' => 'Sistem Ayarları',
         'Mail Configuration' => 'E-posta ayarları',
@@ -238,7 +239,6 @@ sub Data {
         'Database' => 'Veritabanı',
         'Configure Mail' => 'E-posta ayarla',
         'Database deleted.' => 'Veritabanı silindi.',
-        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
         'Login is needed!' => 'Oturum açmanız gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'Take this Customer' => 'Bu Müşteriyi al',
@@ -810,6 +810,7 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Paz',
@@ -1102,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        '(work units)' => '',
+        ' (work units)' => ' (iş birimi)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Biletin müşterisini değiştir',
-        'Customer Data' => 'Müşteri Verisi',
         'Customer user' => 'Müşteri hesabı',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Bağlantılı Nesneler',
         'Article(s)' => 'Makale(ler)',
         'Change Queue' => 'Kuyruk Değiştir',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Makale Filtresi',
         'Add Filter' => 'Filtre ekle',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => 'Makaleyi genişlet',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Cevapla',
 
         # Template: CustomerWarning
@@ -2603,22 +2604,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '',
-        'Database-User' => 'Veritabanı kullanıcısı',
+        'Check database settings' => '',
+        'Database User' => '',
         'New' => 'Yeni',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => 'varsayılan \'host\'',
-        'DB host' => '',
-        'Check database settings' => '',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2652,7 +2656,6 @@ sub Data {
         'LogModule' => 'Günlük Bileşeni',
         'Log backend to use.' => '',
         'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web Önyüzü',
         'Default language' => '',
         'Default language.' => '',
@@ -4529,7 +4532,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',
@@ -4646,6 +4648,7 @@ sub Data {
             'Farklı aracı gruplarının (örneğin satınalma bölümü, destek bölümü, satış bölümü, ...) erişim izinlerini düzenlemek için yeni grupları oluştur.',
         'CreateTicket' => 'Bilet Oluştur',
         'Current Impact Rating' => 'Şu Andaki Etki Oranı',
+        'Customer Data' => 'Müşteri Verisi',
         'Customer Move Notify' => 'Müşteri Taşıma Bildirimi',
         'Customer Owner Notify' => 'Müşteri Sahip Bildirimi',
         'Customer State Notify' => 'Müşteri Durum Bildirimi',
@@ -4664,6 +4667,7 @@ sub Data {
         'DB Admin Password' => 'Veritabanı Yöneticisi Parolası',
         'DB Admin User' => 'Veritabanı Yöneticisi Kullanıcı',
         'DB connect host' => 'Veritabanına bağlanan sunucu',
+        'Database-User' => 'Veritabanı kullanıcısı',
         'Default' => 'Öntanımlı',
         'Default Charset' => 'Öntanımlı karakter kümesi',
         'Default Language' => 'Öntanımlı dil',
@@ -5003,6 +5007,7 @@ sub Data {
         'Your language' => 'Diliniz',
         'Your own Ticket' => 'Kendi Biletiniz',
         'customer realname' => 'müşterinin gerçek adı',
+        'default \'hot\'' => 'varsayılan \'host\'',
         'down' => 'aşağı',
         'false' => 'false',
         'for agent firstname' => 'aracı adı için',

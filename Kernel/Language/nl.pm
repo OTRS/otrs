@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:01
+    # Last translation file sync: 2013-04-16 07:17:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -234,6 +234,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
         'Agent updated!' => 'Behandelaar aangepast.',
+        'Database Selection' => '',
         'Create Database' => 'Database aanmaken',
         'System Settings' => 'Systeemconfiguratie',
         'Mail Configuration' => 'E-mailconfiguratie',
@@ -244,7 +245,6 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Configureer mail',
         'Database deleted.' => 'Database verwijderd.',
-        'Database setup successful!' => 'Database-installatie afgerond.',
         'Login is needed!' => 'Inloggen is nodig.',
         'Password is needed!' => 'Een wachtwoord is vereist.',
         'Take this Customer' => 'Selecteer deze klant',
@@ -816,7 +816,7 @@ sub Data {
         'History::SystemRequest' => 'SystemRequest: "%s"',
         'History::ResponsibleUpdate' => 'Nieuwe verantwoordelijke is "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Archiefstatus veranderd: "%s"',
-        'History::TitleUpdate' => 'Title gewijzigd van "%s" naar "%s"',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',
@@ -1109,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        '(work units)' => '(in minuten)',
+        ' (work units)' => '',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1545,7 +1545,6 @@ sub Data {
         'Configuration import' => 'Importeer configuratie',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Hier kunt u een proces importeren vanuit een configuratiebestand. Het bestand moet in .yml formaat zijn, zoals geëxporteerd door de procesbeheer-module.',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Upload procesconfiguratie',
         'Import process configuration' => 'Importeer procesconfiguratie',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1673,6 +1672,8 @@ sub Data {
         'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
             'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            '',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -2256,7 +2257,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Wijzig klant van een ticket',
-        'Customer Data' => 'Klantgegevens',
         'Customer user' => 'Klant',
 
         # Template: AgentTicketEmail
@@ -2390,7 +2390,8 @@ sub Data {
         'Linked Objects' => 'Gekoppelde objecten',
         'Article(s)' => 'Interactie(s)',
         'Change Queue' => 'Wijzig wachtrij',
-        'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => 'Dit item heeft nog geen interacties.',
         'Article Filter' => 'Filter interacties',
         'Add Filter' => 'Nieuw filter',
@@ -2512,7 +2513,6 @@ sub Data {
         'Expand article' => 'Toon interactie',
         'Information' => 'Informatie',
         'Next Steps' => 'Volgende stappen',
-        'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
         'Reply' => 'Beantwoord',
 
         # Template: CustomerWarning
@@ -2610,22 +2610,25 @@ sub Data {
             'Als u deze stap overslaat dan slaat u ook de registratie van uw OTRS-systeem over. Weet u zeker dat u wilt doorgaan?',
 
         # Template: InstallerDBResult
-        'False' => 'Fout',
+        'Database setup successful!' => 'Database-installatie afgerond.',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',
-        'Currently only MySQL is supported in the web installer.' => 'Alleen MySQL wordt ondersteund door de web installer.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Als u OTRS op een ander type database wilt installeren, kijk dan in het bestand README.database voor instructies.',
-        'Database-User' => 'OTRS database gebruiker',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Test database instellingen',
+        'Database User' => '',
         'New' => 'Nieuw',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor deze OTRS omgeving.',
-        'default \'hot\'' => 'Standaard \'hot\'',
-        'DB host' => 'Database host',
-        'Check database settings' => 'Test database instellingen',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => 'Resultaat van database test',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2659,7 +2662,6 @@ sub Data {
         'LogModule' => 'Logmodule',
         'Log backend to use.' => 'Te gebruiken logbestand.',
         'LogFile' => 'Logbestand',
-        'Log file location is only needed for File-LogModule!' => 'Locatie logbestand is alleen nodig voor de File-Log module.',
         'Webfrontend' => 'Web Frontend',
         'Default language' => 'Standaard taal',
         'Default language.' => 'Standaard taal.',
@@ -4536,13 +4538,28 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        '(work units)' => '(in minuten)',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
+        'Currently only MySQL is supported in the web installer.' => 'Alleen MySQL wordt ondersteund door de web installer.',
+        'Customer Data' => 'Klantgegevens',
+        'DB host' => 'Database host',
+        'Database-User' => 'OTRS database gebruiker',
+        'False' => 'Fout',
+        'History::TitleUpdate' => 'Title gewijzigd van "%s" naar "%s"',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Als u OTRS op een ander type database wilt installeren, kijk dan in het bestand README.database voor instructies.',
+        'Log file location is only needed for File-LogModule!' => 'Locatie logbestand is alleen nodig voor de File-Log module.',
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
+        'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
+        'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
+        'default \'hot\'' => 'Standaard \'hot\'',
 
     };
     # $$STOP$$

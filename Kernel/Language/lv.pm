@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:59
+    # Last translation file sync: 2013-04-16 07:17:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,6 +227,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt %s problēmu pieteikumu sistēmu!',
         'Feature not active!' => 'Papildiespēja nav aktivizēta!',
         'Agent updated!' => '',
+        'Database Selection' => '',
         'Create Database' => 'Izveidot datubāzi',
         'System Settings' => 'Sistēmas iestatījumi',
         'Mail Configuration' => '',
@@ -237,7 +238,6 @@ sub Data {
         'Database' => 'Datubāze',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup successful!' => '',
         'Login is needed!' => 'Vispirms jāpiesakās sistēmā!',
         'Password is needed!' => 'Parole ir obligāta!',
         'Take this Customer' => 'Ņemt šo klientu',
@@ -809,6 +809,7 @@ sub Data {
         'History::SystemRequest' => 'Sistēmas pieprasījums (%s).',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Sv',
@@ -1101,7 +1102,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Time units' => 'Laika vienības',
-        '(work units)' => '',
+        ' (work units)' => ' (darba laika vienības)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Izmaiņu gadījumā nosūtīt paziņojumus aģentam/klientam',
         'CMD' => 'Komanda',
@@ -1537,7 +1538,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1664,6 +1664,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2248,7 +2250,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Mainīt pieteikuma klientu',
-        'Customer Data' => 'Klienta dati',
         'Customer user' => '',
 
         # Template: AgentTicketEmail
@@ -2382,7 +2383,8 @@ sub Data {
         'Linked Objects' => '',
         'Article(s)' => '',
         'Change Queue' => '',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => '',
@@ -2504,7 +2506,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => '',
 
         # Template: CustomerWarning
@@ -2602,22 +2603,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Ja datubāzei ir iestatīta \'root\' parole, ievadiet to šeit. Ja nav, atstājiet lauku tukšu. Drošības apsvērumu dēļ mēs iesakām datubāzei iestatīt \'root\'paroli. Papildinformāciju meklējiet savas datubāzes dokumentācijā.',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Database-User' => 'Datubāzes lietotāja parole',
+        'Check database settings' => '',
+        'Database User' => '',
         'New' => 'Jauna',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => 'noklusētais \'hot\'',
-        'DB host' => '',
-        'Check database settings' => '',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2651,7 +2655,6 @@ sub Data {
         'LogModule' => 'Žurnāla modulis',
         'Log backend to use.' => '',
         'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Pārlūka priekšpuse',
         'Default language' => '',
         'Default language.' => '',
@@ -4528,10 +4531,14 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (darba laika vienības)',
+        'Customer Data' => 'Klienta dati',
+        'Database-User' => 'Datubāzes lietotāja parole',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Ja datubāzei ir iestatīta \'root\' parole, ievadiet to šeit. Ja nav, atstājiet lauku tukšu. Drošības apsvērumu dēļ mēs iesakām datubāzei iestatīt \'root\'paroli. Papildinformāciju meklējiet savas datubāzes dokumentācijā.',
         'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt OTRS problēmu pieteikumu sistēmu!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Lai pārinstalētu datus, lietojot pārlūkprogrammas instalātoru, drošajam režīmam (Secure Mode) ir jābūt izslēgtam.',
+        'default \'hot\'' => 'noklusētais \'hot\'',
 
     };
     # $$STOP$$

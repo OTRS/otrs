@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:50
+    # Last translation file sync: 2013-04-16 07:17:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,6 +230,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ominaisuus ei käytössä!',
         'Agent updated!' => 'Agentti päivitetty!',
+        'Database Selection' => '',
         'Create Database' => 'Luo tietokanta',
         'System Settings' => 'Järjestelmäasetukset',
         'Mail Configuration' => 'Sähköpostiasetukset',
@@ -240,7 +241,6 @@ sub Data {
         'Database' => 'Tietokanta',
         'Configure Mail' => 'Sähköpostin asetukset',
         'Database deleted.' => 'Tietokanta poistettu.',
-        'Database setup successful!' => 'Tietokanta asennettu onnistuneesti!',
         'Login is needed!' => 'Käyttäjätunnus on pakollinen!',
         'Password is needed!' => 'Salasana on pakollinen!',
         'Take this Customer' => 'Valitse tämä asiakas',
@@ -812,6 +812,7 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Su',
@@ -1104,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
-        '(work units)' => '',
+        ' (work units)' => ' (esim. minuutteina)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1540,7 +1541,6 @@ sub Data {
         'Configuration import' => 'Asetusten tuonti',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Voit lähettää asetustiedoston prosessin tuomiseksi järjestelmään. Tiedoston tulee olla .yml-muotoinen, kuten prosessin hallinnasta viety tieto on.',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Päivitä prosessin asetukset',
         'Import process configuration' => 'Tuo prosessin asetukset',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1667,6 +1667,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2251,7 +2253,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Vaihda tiketin asiakasta',
-        'Customer Data' => 'Asiakastieto',
         'Customer user' => 'Asiakaskäyttäjä',
 
         # Template: AgentTicketEmail
@@ -2385,7 +2386,8 @@ sub Data {
         'Linked Objects' => 'Aiheeseen liittyvät',
         'Article(s)' => 'Artikkelit',
         'Change Queue' => 'Vaihda jonoa',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Artikkelisuodatin',
         'Add Filter' => 'Lisää suodatin',
@@ -2507,7 +2509,6 @@ sub Data {
         'Expand article' => 'Laajenna artikkeli',
         'Information' => 'Tiedot',
         'Next Steps' => 'Seuraavat vaiheet',
-        'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
         'Reply' => 'Vastaus',
 
         # Template: CustomerWarning
@@ -2605,22 +2606,25 @@ sub Data {
             'Tämän vaiheen ohittaminen ohittaa OTRS:n rekisteröimisen. Haluatko varmasti jatkaa?',
 
         # Template: InstallerDBResult
-        'False' => 'Virhe',
+        'Database setup successful!' => 'Tietokanta asennettu onnistuneesti!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
-        'Database-User' => 'Tietokantakäyttäjä',
+        'Check database settings' => 'Tarkista tietokanta-asetukset',
+        'Database User' => '',
         'New' => 'Uusi',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => 'oletuspalvelin',
-        'DB host' => '',
-        'Check database settings' => 'Tarkista tietokanta-asetukset',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => 'Tietokannan tarkistuksen tulos',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2658,6 @@ sub Data {
         'LogModule' => 'LokiModuuli',
         'Log backend to use.' => 'Käytettävä logijärjestelmä.',
         'LogFile' => 'Logitiedosto',
-        'Log file location is only needed for File-LogModule!' => 'Lokitiedoston sijainti tarvitaan vain File-LogModulille',
         'Webfrontend' => 'Webnäkymä',
         'Default language' => 'Oletuskieli',
         'Default language.' => 'Oletuskieli.',
@@ -4531,8 +4534,16 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (esim. minuutteina)',
+        'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
+        'Customer Data' => 'Asiakastieto',
+        'Database-User' => 'Tietokantakäyttäjä',
+        'False' => 'Virhe',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
+        'Log file location is only needed for File-LogModule!' => 'Lokitiedoston sijainti tarvitaan vain File-LogModulille',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
+        'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
+        'default \'hot\'' => 'oletuspalvelin',
 
     };
     # $$STOP$$

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-15 13:32:02
+    # Last translation file sync: 2013-04-16 07:17:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,6 +230,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
         'Agent updated!' => 'Ejen dikemaskini!',
+        'Database Selection' => '',
         'Create Database' => 'Mencipta pangkalan data',
         'System Settings' => 'Pengaturan sistem',
         'Mail Configuration' => 'Konfigurasi mel',
@@ -240,7 +241,6 @@ sub Data {
         'Database' => 'Pangkalan data',
         'Configure Mail' => 'Konfigurasi emel',
         'Database deleted.' => 'Pangkalan data dipadam.',
-        'Database setup succesful!' => 'Penubuhan pangkalan data berjaya!',
         'Login is needed!' => 'Log masuk diperlukan!',
         'Password is needed!' => 'Kata laluan diperlukan!',
         'Take this Customer' => 'Ambil pelanggan ini',
@@ -812,6 +812,7 @@ sub Data {
         'History::SystemRequest' => 'Systemanfrage (%s).',
         'History::ResponsibleUpdate' => 'Pengurus baru "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Status berubah Arkib: "%s"',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Ahd',
@@ -1104,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        '(work units)' => '',
+        ' (work units)' => ' (unit bekerja)',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -2605,22 +2606,25 @@ sub Data {
             'Jika anda melangkau langkah ini, pendaftaran sistem OTRS anda juga dilangkau. Anda benar-benar mahu meneruskan?',
 
         # Template: InstallerDBResult
-        'False' => 'Salah',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Jika kata laluan akar telah ditetapkan untuk pangkalan data, ia mesti dimasukkan di sini. Jika tiada password yang ditetapkan, bidang mesti ditinggalkan kosong. Atas sebab-sebab keselamatan, kami mencadangkan untuk menetapkan kata laluan akar. Untuk maklumat lanjut, lihat dokumentasi untuk pangkalan data anda.',
-        'Currently only MySQL is supported in the web installer.' => 'Kini hanya MySQL disokong pada pemasangan Web.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jika anda ingin memasang OTRS pada pangkalan data lain, sila baca fail README.database.',
-        'Database-User' => 'Pengguna database',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Semak tetapan database',
+        'Database User' => '',
         'New' => 'Baru',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Seorang pengguna pangkalan data baru dengan keistimewaan yang terhad dicipta pada sistem OTRS ini.',
-        'default \'hot\'' => 'asal \'hot\'',
-        'DB host' => '',
-        'Check database settings' => 'Semak tetapan database',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => 'Hasil semakan database',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2658,6 @@ sub Data {
         'LogModule' => 'log modul',
         'Log backend to use.' => 'Log backend untuk digunakan.',
         'LogFile' => 'Log Fail',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webfrontend',
         'Default language' => 'Bahasa asal',
         'Default language.' => 'Bahasa asal.',
@@ -4531,17 +4534,19 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unit bekerja)',
         '","18' => '","18',
         '","26' => '","26',
         '","30' => '","30',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface ejen. Dengan fungsi ini, anda boleh tetapkan carian menggunakan kondisi seperti "(key1&&key2)" atau "(key1||key2)".',
         'Companies' => 'Syarikat',
+        'Currently only MySQL is supported in the web installer.' => 'Kini hanya MySQL disokong pada pemasangan Web.',
         'Customer Data' => 'Data pelanggan',
         'DB--- host' => 'Hos DB---',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
             'DIKECAM! Penetapan ini tidak digunakan lagi dan akan dikeluarkan dalam OTRS versi masa depan.',
+        'Database setup succesful!' => 'Penubuhan pangkalan data berjaya!',
+        'Database-User' => 'Pengguna database',
         'Defines the default sender type of the article for this operation.' =>
             'Mentakrifkan jenis penghantar asal untuk artikel operasi ini.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
@@ -4559,10 +4564,15 @@ sub Data {
         'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Medan Dinamik ditunjukkan dalam skrin tiket zum dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
         'Example for free text' => 'Contoh untuk teks bebas',
+        'False' => 'Salah',
         'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
             'Jika "DB" dipilih untuk SessionModule, kolum untuk pengecam dalam jadual sesi mesti ditentukan.',
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
             'Jika "DB" dipilih untuk SessionModule, kolum untuk nilai di dallam jadual sesi mesti ditentukan.',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Jika kata laluan akar telah ditetapkan untuk pangkalan data, ia mesti dimasukkan di sini. Jika tiada password yang ditetapkan, bidang mesti ditinggalkan kosong. Atas sebab-sebab keselamatan, kami mencadangkan untuk menetapkan kata laluan akar. Untuk maklumat lanjut, lihat dokumentasi untuk pangkalan data anda.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jika anda ingin memasang OTRS pada pangkalan data lain, sila baca fail README.database.',
         'Invalid SessionID!' => 'IDSesi tidak sah!',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             'Senarai fail IE6-specific CSS untuk sentiasa dimuatkan untuk paparan pelanggan.',
@@ -4586,6 +4596,7 @@ sub Data {
         'To protect your privacy, active or/and remote content has blocked.' =>
             'Untuk melindungi privasi anda, aktif dan / atau kandungan jauh telah disekat.',
         'Your language' => 'Bahasa anda',
+        'default \'hot\'' => 'asal \'hot\'',
 
     };
     # $$STOP$$

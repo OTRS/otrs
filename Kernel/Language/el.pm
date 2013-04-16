@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:44
+    # Last translation file sync: 2013-04-16 07:17:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,6 +230,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το %s!',
         'Feature not active!' => 'Μη ενεργή επιλογή!',
         'Agent updated!' => 'Ενημέρωση Συνεργάτη',
+        'Database Selection' => '',
         'Create Database' => 'Δημιουργία Βάσης',
         'System Settings' => 'Ρυθμίσεις Συστήματος',
         'Mail Configuration' => 'Ρυθμίσεις Email',
@@ -240,7 +241,6 @@ sub Data {
         'Database' => 'Βάση Δεδομένων',
         'Configure Mail' => 'Ρυθμιση Email',
         'Database deleted.' => 'Η βαση διαγραφηκε',
-        'Database setup successful!' => '',
         'Login is needed!' => 'Απαιτείται Σύνδεση !',
         'Password is needed!' => 'Ο κωδικός είναι απαραίτητος!',
         'Take this Customer' => 'Πάρε αυτόν τον πελάτη',
@@ -812,6 +812,7 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s).',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Κυρ',
@@ -1104,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Προσθήκη Σημείωσης',
         'Time units' => 'Μονάδες Χρόνου',
-        '(work units)' => '',
+        ' (work units)' => ' (μονάδες εργασίας)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Διαταγή',
@@ -1544,7 +1545,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1671,6 +1671,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2256,7 +2258,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Αλλαγή παραλήπτη του μηνύματος',
-        'Customer Data' => 'Δεδομένα Πελάτη',
         'Customer user' => '',
 
         # Template: AgentTicketEmail
@@ -2390,7 +2391,8 @@ sub Data {
         'Linked Objects' => 'Συνδεμένα Αντικείμενα',
         'Article(s)' => 'Αρθρ(α)',
         'Change Queue' => 'Αλλαγή Ουράς',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Φίλτρο Αρθορου',
         'Add Filter' => 'Προσθηκη Φιλτρου',
@@ -2512,7 +2514,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => '',
 
         # Template: CustomerWarning
@@ -2610,22 +2611,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '',
-        'Database-User' => 'Ονομα χρήστη βάσης',
+        'Check database settings' => '',
+        'Database User' => '',
         'New' => 'Νέο',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => 'Προεπιλογή \'hot\'',
-        'DB host' => '',
-        'Check database settings' => '',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2659,7 +2663,6 @@ sub Data {
         'LogModule' => '',
         'Log backend to use.' => '',
         'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web Interface',
         'Default language' => '',
         'Default language.' => '',
@@ -4537,8 +4540,10 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (μονάδες εργασίας)',
+        'Customer Data' => 'Δεδομένα Πελάτη',
+        'Database-User' => 'Ονομα χρήστη βάσης',
         'Logout successful. Thank you for using OTRS!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το OTRS!',
+        'default \'hot\'' => 'Προεπιλογή \'hot\'',
 
     };
     # $$STOP$$

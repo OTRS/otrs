@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:43
+    # Last translation file sync: 2013-04-16 07:17:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,6 +228,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Agent updated!' => 'Agent aktualisiert!',
+        'Database Selection' => '',
         'Create Database' => 'Datenbank erstellen',
         'System Settings' => 'System Einstellungen',
         'Mail Configuration' => 'Mail-Konfiguration',
@@ -238,7 +239,6 @@ sub Data {
         'Database' => 'Datenbank',
         'Configure Mail' => 'E-Mail konfigurieren',
         'Database deleted.' => 'Datenbank ausgewählt.',
-        'Database setup successful!' => 'Datenbankeinrichtung erfolgreichi configuriert!',
         'Login is needed!' => 'Login wird benötigt!',
         'Password is needed!' => 'Passwort wird benötigt!',
         'Take this Customer' => 'Kunden übernehmen',
@@ -810,6 +810,7 @@ sub Data {
         'History::SystemRequest' => 'Systemanfrage (%s).',
         'History::ResponsibleUpdate' => 'Neuer Verantwortlicher ist "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Archivstatus geändert: "%s"',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'So',
@@ -1102,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        '(work units)' => 'Arbeitseinheiten',
+        ' (work units)' => ' (Arbeitseinheiten)',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => 'Konfiguration importieren',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie vom Prozessmanagement auch exportiert wird.',
-        'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Upload process configuration' => 'Prozesskonfiguration hochladen',
         'Import process configuration' => 'Prozesskonfiguration importieren',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -2251,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Ändern des Kundenkontakts des Tickets',
-        'Customer Data' => 'Kunden-/Kontakt-Daten',
         'Customer user' => 'Kontakt',
 
         # Template: AgentTicketEmail
@@ -2385,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
-        'There are no dialogs available at this point in the process.' => 'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
+        'There are no dialogs available at this point in the process.' =>
+            'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
         'Article Filter' => 'Artikelfilter',
         'Add Filter' => 'Filter hinzufügen',
@@ -2507,7 +2507,6 @@ sub Data {
         'Expand article' => 'Artikel aufklappen',
         'Information' => 'Information',
         'Next Steps' => 'Nächste Schritte',
-        'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Reply' => 'Antworten',
 
         # Template: CustomerWarning
@@ -2605,22 +2604,25 @@ sub Data {
             'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',
 
         # Template: InstallerDBResult
-        'False' => 'Falsch',
+        'Database setup successful!' => 'Datenbankeinrichtung erfolgreich konfiguriert!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Falls ein Root-Passwort für die Datenbank gesetzt ist, muss es hier eingegeben werden. Ist kein Passwort gesetzt, muss das Feld leer gelassen werden. Aus Sicherheitsgründen empfehlen wir ein Root-Passwort zu setzen. Weitere Informationen hierzu finden Sie in der Dokumentation Ihrer Datenbank.',
-        'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Wenn Sie OTRS auf einer anderen Datenbank installieren möchten, lesen Sie bitte die Datei README.database.',
-        'Database-User' => 'Benutzername der Datenbank',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Datenbankeinstellungen prüfen',
+        'Database User' => '',
         'New' => 'Neu',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Ein neuer Datenbank-Benutzer mit beschränkten Rechten wird für dieses OTRS-System erstellt.',
-        'default \'hot\'' => 'voreingestellt \'hot\'',
-        'DB host' => 'Datenbank-Host',
-        'Check database settings' => 'Datenbankeinstellungen prüfen',
+        'Repeat Password' => '',
+        'Generated password' => 'Generiertes Passwort',
         'Result of database check' => 'Ergebnis der Datenbankprüfung',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2656,6 @@ sub Data {
         'LogModule' => 'Protokollmodul',
         'Log backend to use.' => 'Protokoll-Backend, welches verwendet werden soll.',
         'LogFile' => 'Protokolldatei',
-        'Log file location is only needed for File-LogModule!' => 'Die Angabe der Protokolldatei wird nur für das File-Log-Backend benötigt.',
         'Webfrontend' => 'Web-Oberfläche',
         'Default language' => 'Standardsprache',
         'Default language.' => 'Standardsprache.',
@@ -4531,18 +4532,31 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (Arbeitseinheiten)',
+        '(work units)' => 'Arbeitseinheiten',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
+        'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',
+        'Customer Data' => 'Kunden-/Kontakt-Daten',
+        'DB host' => 'Datenbank-Host',
+        'Database-User' => 'Benutzername der Datenbank',
+        'False' => 'Falsch',
         'Historic Time Range' => 'Historischer Zeitraum',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Falls ein Root-Passwort für die Datenbank gesetzt ist, muss es hier eingegeben werden. Ist kein Passwort gesetzt, muss das Feld leer gelassen werden. Aus Sicherheitsgründen empfehlen wir ein Root-Passwort zu setzen. Weitere Informationen hierzu finden Sie in der Dokumentation Ihrer Datenbank.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Wenn Sie OTRS auf einer anderen Datenbank installieren möchten, lesen Sie bitte die Datei README.database.',
+        'Log file location is only needed for File-LogModule!' => 'Die Angabe der Protokolldatei wird nur für das File-Log-Backend benötigt.',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
+        'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'State Historic' => 'Historischer Status',
         'State Type Historic' => 'Historischer Status-Typ',
+        'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
+        'default \'hot\'' => 'voreingestellt \'hot\'',
 
     };
     # $$STOP$$

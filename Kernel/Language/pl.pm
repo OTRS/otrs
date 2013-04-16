@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:02
+    # Last translation file sync: 2013-04-16 07:17:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,6 +230,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Wylogowanie zakończone! Dziękujemy za używanie %s!',
         'Feature not active!' => 'Funkcja nie aktywna!',
         'Agent updated!' => 'Agent został zaktualizowany!',
+        'Database Selection' => '',
         'Create Database' => 'Stwórz bazę danych',
         'System Settings' => 'Ustawienia systemu',
         'Mail Configuration' => 'Konfiguracja poczty',
@@ -240,7 +241,6 @@ sub Data {
         'Database' => 'Baza danych',
         'Configure Mail' => 'Skonfiguruj pocztę',
         'Database deleted.' => 'Baza danych usunięta.',
-        'Database setup successful!' => 'Baza danych pomyślnie utworzona!',
         'Login is needed!' => 'Wymagane zalogowanie!',
         'Password is needed!' => 'Wymagane hasło!',
         'Take this Customer' => 'Użyj tego klienta',
@@ -812,6 +812,7 @@ sub Data {
         'History::SystemRequest' => 'Żądanie systemowe (%s).',
         'History::ResponsibleUpdate' => 'Zmieniono osobę odpowiedzialną na "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Zmiana statusu archiwizacji: "%s"',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Nie',
@@ -1104,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Jednostek czasu',
-        '(work units)' => '',
+        ' (work units)' => ' (jednostek roboczych)',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -1540,7 +1541,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1667,6 +1667,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2251,7 +2253,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Zmień klienta dla zgłoszenia',
-        'Customer Data' => 'Dane klienta',
         'Customer user' => 'Użytkownik klienta',
 
         # Template: AgentTicketEmail
@@ -2385,7 +2386,8 @@ sub Data {
         'Linked Objects' => 'Połączone elementy',
         'Article(s)' => 'Wiadomość(ci)',
         'Change Queue' => 'Zmień kolejkę',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtr artykułów',
         'Add Filter' => 'Dodaj filtr',
@@ -2507,7 +2509,6 @@ sub Data {
         'Expand article' => 'Rozwiń artykuł',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Odpowiedz',
 
         # Template: CustomerWarning
@@ -2605,22 +2606,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => 'Fałsz',
+        'Database setup successful!' => 'Baza danych pomyślnie utworzona!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Jeżeli masz hasło administratora bazy danych wpisz je tutaj. Jeżeli nie, zostaw pole puste. Ze względów bezpieczeństwa zalecamy ustawienie hasła administratora bazy danych. Po szczegóły sięgnij do dokumentacji bazy danych.',
-        'Currently only MySQL is supported in the web installer.' => 'Obecnie instalator web wspiera jedynie bazę danych MySQL.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jeśli chcesz zainstalować OTRS na innym silniku baz danych, prosimy o zapoznanie się z treścią pliku README.database.',
-        'Database-User' => 'Użytkownik bazy danych',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Sprawdź ustawienia bazy danych',
+        'Database User' => '',
         'New' => 'Nowe',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Dla tego systemu OTRS utworzony zostanie nowy użytkownik bazy danych z ograniczonymi uprawnieniami.',
-        'default \'hot\'' => 'domyślne \'hot\'',
-        'DB host' => 'Serwer baz danych',
-        'Check database settings' => 'Sprawdź ustawienia bazy danych',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => 'Wynik sprawdzenia bazy danych',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2658,6 @@ sub Data {
         'LogModule' => 'Moduł logowania',
         'Log backend to use.' => 'Używany moduł logowania',
         'LogFile' => 'Plik log',
-        'Log file location is only needed for File-LogModule!' => 'Położenie pliku logów jest potrzebne tylko dla modułu Plik (File)',
         'Webfrontend' => 'Interfejs webowy',
         'Default language' => 'Domyślny język',
         'Default language.' => 'Domyślny język.',
@@ -4531,10 +4534,20 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (jednostek roboczych)',
+        'Currently only MySQL is supported in the web installer.' => 'Obecnie instalator web wspiera jedynie bazę danych MySQL.',
+        'Customer Data' => 'Dane klienta',
+        'DB host' => 'Serwer baz danych',
+        'Database-User' => 'Użytkownik bazy danych',
+        'False' => 'Fałsz',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Jeżeli masz hasło administratora bazy danych wpisz je tutaj. Jeżeli nie, zostaw pole puste. Ze względów bezpieczeństwa zalecamy ustawienie hasła administratora bazy danych. Po szczegóły sięgnij do dokumentacji bazy danych.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jeśli chcesz zainstalować OTRS na innym silniku baz danych, prosimy o zapoznanie się z treścią pliku README.database.',
+        'Log file location is only needed for File-LogModule!' => 'Położenie pliku logów jest potrzebne tylko dla modułu Plik (File)',
         'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakończone! Dziękujemy za używanie OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Tryb bezpieczny musi być wyłączony aby reinstalować przy użyciu instalatora web.',
+        'default \'hot\'' => 'domyślne \'hot\'',
 
     };
     # $$STOP$$

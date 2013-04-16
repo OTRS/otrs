@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:41
+    # Last translation file sync: 2013-04-16 07:17:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -234,6 +234,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání %s!',
         'Feature not active!' => 'Funkce je neaktivní!',
         'Agent updated!' => '',
+        'Database Selection' => '',
         'Create Database' => 'Vytvořit Databazi',
         'System Settings' => 'Nastavení systému',
         'Mail Configuration' => 'Nastavení pošty',
@@ -244,7 +245,6 @@ sub Data {
         'Database' => 'Databáze',
         'Configure Mail' => 'Nastavit poštu',
         'Database deleted.' => 'Databáze smazána.',
-        'Database setup successful!' => 'Databáze úspěšně nastavena!',
         'Login is needed!' => 'Vyžadováno přihlášení!',
         'Password is needed!' => 'Vyžadováno heslo!',
         'Take this Customer' => 'Vybrat tohoto Zákazníka',
@@ -816,6 +816,7 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Ne',
@@ -1108,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        '(work units)' => '',
+        ' (work units)' => '(jednotky práce)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1544,7 +1545,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1671,6 +1671,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2255,7 +2257,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Změnit klienta tiketu',
-        'Customer Data' => 'Data Zákazníka',
         'Customer user' => '',
 
         # Template: AgentTicketEmail
@@ -2389,7 +2390,8 @@ sub Data {
         'Linked Objects' => 'Připojené objekty',
         'Article(s)' => 'Zpráva(y)',
         'Change Queue' => 'Změnit frontu',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => '',
@@ -2511,7 +2513,6 @@ sub Data {
         'Expand article' => '',
         'Information' => 'Informace',
         'Next Steps' => 'Další kroky',
-        'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
         'Reply' => 'Odpovědět',
 
         # Template: CustomerWarning
@@ -2609,22 +2610,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'Database setup successful!' => 'Databáze úspěšně nastavena!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '',
-        'Database-User' => 'Uživatel',
+        'Check database settings' => '',
+        'Database User' => '',
         'New' => 'Nové',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => 'výchozí \'hot\'',
-        'DB host' => '',
-        'Check database settings' => '',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2658,7 +2662,6 @@ sub Data {
         'LogModule' => 'Log Modul',
         'Log backend to use.' => '',
         'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webove rozhraní',
         'Default language' => '',
         'Default language.' => '',
@@ -4535,9 +4538,10 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '(jednotky práce)',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
         'CreateTicket' => 'Vytvořit Tiket',
+        'Customer Data' => 'Data Zákazníka',
+        'Database-User' => 'Uživatel',
         'Due Date' => 'Datum splatnosti',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Logout successful. Thank you for using OTRS!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání OTRS!',
@@ -4545,10 +4549,12 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Bezpečnostní Mód musí být deaktivován za účelem Reinstalu pomocí Web-Installeru.',
         'Split' => 'Rozdělit',
+        'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
         'Ticket Information' => 'Informace o tiketu',
         'TicketFreeFields' => 'Volná pole Tiketu',
         'TicketZoom' => 'Zobrazení tiketu',
         'View the source for this Article' => 'Zobrazit zdroj zprávy',
+        'default \'hot\'' => 'výchozí \'hot\'',
         'empty answer' => '0_Prázdná odpověd',
 
     };

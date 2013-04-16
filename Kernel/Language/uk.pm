@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:11
+    # Last translation file sync: 2013-04-16 07:17:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,6 +228,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Вихід виконано. Дякуемо Вам, за використання %s!',
         'Feature not active!' => 'Функція не активована!',
         'Agent updated!' => '',
+        'Database Selection' => '',
         'Create Database' => 'Створити базу',
         'System Settings' => 'Системні параметри',
         'Mail Configuration' => '',
@@ -238,7 +239,6 @@ sub Data {
         'Database' => 'Ім\'я бази даних',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup successful!' => '',
         'Login is needed!' => 'Необхідно ввести ім\'я користувача!',
         'Password is needed!' => 'Необхідно ввести пароль!',
         'Take this Customer' => 'Обрати клієнта',
@@ -810,6 +810,7 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Нд.',
@@ -1102,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
-        '(work units)' => '',
+        ' (work units)' => ' ( робочі одиниці)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Змінити клієнта заявки',
-        'Customer Data' => 'Облікові дані клієнта',
         'Customer user' => 'Користувач клієнта',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Зв\'язані Об\'єкти',
         'Article(s)' => 'Заявка(и)',
         'Change Queue' => 'Перемінити черга',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => 'Додати фільтр',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Відповісти',
 
         # Template: CustomerWarning
@@ -2603,22 +2604,25 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Якщо для адміністратора бази даних установлений пароль, укажіть його тут. Якщо ні, залиште поле порожнім. З міркувань безпеки ми рекомендуємо створити пароль адміністратора. Інформацію із цієї теми можна знайти в документації по використовуваній базі даних',
-        'Currently only MySQL is supported in the web installer.' => '',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             '',
-        'Database-User' => 'Користувач бази даних',
+        'Check database settings' => '',
+        'Database User' => '',
         'New' => 'Новий',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'default \'hot\'' => ' За замовчуванням: «hot»',
-        'DB host' => '',
-        'Check database settings' => '',
+        'Repeat Password' => '',
+        'Generated password' => '',
         'Result of database check' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2652,7 +2656,6 @@ sub Data {
         'LogModule' => '',
         'Log backend to use.' => '',
         'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Веб-інтерфейс',
         'Default language' => '',
         'Default language.' => '',
@@ -4529,10 +4532,14 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' ( робочі одиниці)',
+        'Customer Data' => 'Облікові дані клієнта',
+        'Database-User' => 'Користувач бази даних',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Якщо для адміністратора бази даних установлений пароль, укажіть його тут. Якщо ні, залиште поле порожнім. З міркувань безпеки ми рекомендуємо створити пароль адміністратора. Інформацію із цієї теми можна знайти в документації по використовуваній базі даних',
         'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Безпечний режим повинен бути відключений при переустановці через веб-інтерфейс',
+        'default \'hot\'' => ' За замовчуванням: «hot»',
 
     };
     # $$STOP$$
