@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
-# Copyright (C) 2012 Csaba Németh <csaba@sopron.hu>
+# Copyright (C) 2013 Csaba Németh <csaba@sopron.hu>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2230,7 +2230,7 @@ sub Data {
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Csoportos jegy-művelet',
         'Send Email' => 'Email küldése',
-        'Merge to' => 'Egyesíti',
+        'Merge to' => 'Egyesítő',
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => 'Legrégebbihez egyesíti',
         'Link together' => 'Összekapcsol',
@@ -2250,7 +2250,7 @@ sub Data {
         'Address book' => 'Címjegyzék',
         'Pending Date' => 'Várakozás dátuma',
         'for pending* states' => 'várakozó* státuszhoz',
-        'Date Invalid!' => '',
+        'Date Invalid!' => 'Hibás dátum!',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'A jegyhez tartozó ügyfél megváltoztatása',
@@ -2300,7 +2300,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Keresési beállítások módosítása',
-        'Tickets per page' => '',
+        'Tickets per page' => 'Hibajegy oldalanként',
 
         # Template: AgentTicketOverviewPreview
 
@@ -2345,7 +2345,7 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Kereső sablon',
-        'Create Template' => '',
+        'Create Template' => 'Sablon létrehozás',
         'Create New' => 'Új létrehozása',
         'Profile link' => '',
         'Save changes in template' => '',
