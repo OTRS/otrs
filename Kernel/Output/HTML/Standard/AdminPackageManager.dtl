@@ -229,7 +229,7 @@
                 </div>
                 <div class="Content">
                     <p class="FieldExplanation">
-                        $Text{"Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:"}
+                        $Text{"Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:"}
                         <a href="http://add-ons.otrs.com/">http://add-ons.otrs.com</a>.
                     </p>
                     <p class="FieldExplanation Center">
