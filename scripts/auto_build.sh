@@ -34,7 +34,7 @@ PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 RPM_BUILD="rpmbuild"
 #RPM_BUILD="rpm"
 
-SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.4.4.opm"
+SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.4.5.opm"
 #IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.1.1.opm"
 MANUAL_EN="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.2/en/pdf/otrs_admin_book.pdf"
 #MANUAL_DE="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.2/de/pdf/otrs_admin_book.pdf"
