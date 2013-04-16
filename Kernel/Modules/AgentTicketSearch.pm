@@ -86,11 +86,6 @@ sub new {
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
-    for my $Field ( sort keys %{ $Self->{DynamicFieldFilter} } ) {
-        if ( $Self->{DynamicFieldFilter}->{$Field} == 2 ) {
-            $Self->{Config}->{Defaults}->{ 'Search_DynamicField_' . $Field } = 1;
-        }
-    }
 
     # get the ticket dynamic fields for CSV display
     $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -1339,7 +1334,6 @@ sub Run {
                 for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
                     next if !$Self->{Config}->{Defaults}->{$Key};
                     next if $Key eq 'DynamicField';
-                    next if $Key =~ /^Search_DynamicField_/;
 
                     if ( $Key =~ /^(Ticket|Article)(Create|Change|Close|Escalation)/ ) {
                         my @Items = split /;/, $Self->{Config}->{Defaults}->{$Key};
@@ -2111,10 +2105,21 @@ sub Run {
 
         # if no attribute is shown, show fulltext search
         if ( !$Profile ) {
-            if ( $Self->{Config}->{Defaults} ) {
-                for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
+
+            # Merge regular show/hide settings and the settings for the dynamic fields
+            my %Defaults = %{ $Self->{Config}->{Defaults} || {} };
+            for my $DynamicField (sort keys %{ $Self->{Config}->{DynamicField} || {} }) {
+                if ($Self->{Config}->{DynamicField}->{$DynamicField} == 2) {
+                    $Defaults{"Search_DynamicField_$DynamicField"} = 1;
+                }
+            }
+
+            if ( %Defaults ) {
+                for my $Key ( sort keys %Defaults ) {
+                    next if $Key eq 'DynamicField'; # Ignore entry for DF config
                     next if $AlreadyShown{$Key};
                     $AlreadyShown{$Key} = 1;
+
                     $Self->{LayoutObject}->Block(
                         Name => 'SearchAJAXShow',
                         Data => {
