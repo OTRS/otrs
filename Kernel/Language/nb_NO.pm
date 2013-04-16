@@ -246,7 +246,7 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Konfigurer e-post',
         'Database deleted.' => 'Databasen fjernet',
-        'Database setup succesful!' => 'Konfigurasjon av databasen var vellykket',
+        'Database setup successful!' => 'Konfigurasjon av databasen var vellykket',
         'Login is needed!' => 'Innlogging kreves',
         'Password is needed!' => 'Passord er påkrevd!',
         'Take this Customer' => 'Velg denne kunden',

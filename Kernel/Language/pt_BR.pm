@@ -242,7 +242,7 @@ sub Data {
         'Database' => 'Banco de Dados',
         'Configure Mail' => 'Configurar E-mail',
         'Database deleted.' => 'Banco de dados apagado.',
-        'Database setup succesful!' => 'Sucesso na configuração do banco de dados!',
+        'Database setup successful!' => 'Sucesso na configuração do banco de dados!',
         'Login is needed!' => 'Nome de usuário é obrigatório!',
         'Password is needed!' => 'Senha é obrigatória!',
         'Take this Customer' => 'Atenda este Cliente',

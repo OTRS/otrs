@@ -240,7 +240,7 @@ sub Data {
         'Database' => 'Pangkalan data',
         'Configure Mail' => 'Konfigurasi emel',
         'Database deleted.' => 'Pangkalan data dipadam.',
-        'Database setup succesful!' => 'Penubuhan pangkalan data berjaya!',
+        'Database setup successful!' => 'Penubuhan pangkalan data berjaya!',
         'Login is needed!' => 'Log masuk diperlukan!',
         'Password is needed!' => 'Kata laluan diperlukan!',
         'Take this Customer' => 'Ambil pelanggan ini',

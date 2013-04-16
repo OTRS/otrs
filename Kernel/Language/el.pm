@@ -240,7 +240,7 @@ sub Data {
         'Database' => 'Βάση Δεδομένων',
         'Configure Mail' => 'Ρυθμιση Email',
         'Database deleted.' => 'Η βαση διαγραφηκε',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Απαιτείται Σύνδεση !',
         'Password is needed!' => 'Ο κωδικός είναι απαραίτητος!',
         'Take this Customer' => 'Πάρε αυτόν τον πελάτη',

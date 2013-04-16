@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Andmebaas',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Esmalt logi sisse!',
         'Password is needed!' => 'Sisesta parool!',
         'Take this Customer' => 'Kasuta seda klienti',

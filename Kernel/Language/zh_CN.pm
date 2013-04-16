@@ -243,7 +243,7 @@ sub Data {
         'Database' => '数据库',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'Take this Customer' => '取得这个客户',

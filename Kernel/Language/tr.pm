@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Veritabanı',
         'Configure Mail' => 'E-posta ayarla',
         'Database deleted.' => 'Veritabanı silindi.',
-        'Database setup succesful!' => 'Veritabanı kurulumu başarılı!',
+        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
         'Login is needed!' => 'Oturum açmanız gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'Take this Customer' => 'Bu Müşteriyi al',

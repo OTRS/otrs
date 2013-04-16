@@ -244,7 +244,7 @@ sub Data {
         'Database' => 'Databáze',
         'Configure Mail' => 'Nastavit poštu',
         'Database deleted.' => 'Databáze smazána.',
-        'Database setup succesful!' => 'Databáze úspěšně nastavena!',
+        'Database setup successful!' => 'Databáze úspěšně nastavena!',
         'Login is needed!' => 'Vyžadováno přihlášení!',
         'Password is needed!' => 'Vyžadováno heslo!',
         'Take this Customer' => 'Vybrat tohoto Zákazníka',

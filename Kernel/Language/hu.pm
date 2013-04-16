@@ -243,7 +243,7 @@ sub Data {
         'Database' => 'Adatbázis',
         'Configure Mail' => '',
         'Database deleted.' => 'Adatbázis törölve.',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'Belépés szükséges!',
         'Password is needed!' => 'Jelszó szükséges!',
         'Take this Customer' => 'Átveszi ez az ügyfél',

@@ -238,7 +238,7 @@ sub Data {
         'Database' => 'Baza podataka',
         'Configure Mail' => 'Podešavanje mejla',
         'Database deleted.' => 'Obrisana baza',
-        'Database setup succesful!' => 'Uspešno instaliranje baze',
+        'Database setup successful!' => 'Uspešno instaliranje baze',
         'Login is needed!' => 'Potrebna je prijava!',
         'Password is needed!' => 'Potrebna je lozinka!',
         'Take this Customer' => 'Uzmi ovog korisnika',

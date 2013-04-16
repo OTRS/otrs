@@ -240,7 +240,7 @@ sub Data {
         'Database' => '數據庫',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => '需要先登錄!',
         'Password is needed!' => '需要密碼!',
         'Take this Customer' => '取得這個客戶',

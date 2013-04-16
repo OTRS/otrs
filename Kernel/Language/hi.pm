@@ -240,7 +240,7 @@ sub Data {
         'Database' => 'आंकड़ाकोष',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup succesful!' => '',
+        'Database setup successful!' => '',
         'Login is needed!' => 'प्रवेश आवश्यक है।',
         'Password is needed!' => 'कूटशब्द आवश्यक है।',
         'Take this Customer' => 'यह ग्राहक लें।',

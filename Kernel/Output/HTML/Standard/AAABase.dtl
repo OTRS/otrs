@@ -228,7 +228,8 @@ $Text{"System Settings"}
 $Text{"Configure Mail"}
 $Text{"Finished"}
 $Text{"Database deleted."}
-$Text{"Database setup succesful!"}
+$Text{"Database setup successful!"}
+$Text{"Generated password"}
 
 # misc
 $Text{"Login is needed!"}
