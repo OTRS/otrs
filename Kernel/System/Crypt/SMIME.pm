@@ -727,19 +727,19 @@ sub CertificateRemove {
     }
 
     my $Message   = "Certificate successfully removed";
-    my $Succesful = 1;
+    my $Success = 1;
 
     # remove certificate
     my $Cert = unlink "$Self->{CertPath}/$Param{Filename}";
     if ( !$Cert ) {
         $Message = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!",
-            $Succesful = 0;
+            $Success = 0;
     }
 
-    $Message .= ". Private certificate succesfuly deleted" if ($PrivateExists);
+    $Message .= ". Private certificate successfully deleted" if ($PrivateExists);
 
     %Result = (
-        Successful => $Succesful,
+        Successful => $Success,
         Message    => $Message,
     );
     return %Result;

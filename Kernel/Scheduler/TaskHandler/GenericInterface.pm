@@ -126,7 +126,7 @@ sub Run {
         };
     }
 
-    # log and exit succesfully
+    # log and exit successfully
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message  => 'GenericInterface task executed correctly!',

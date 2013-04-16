@@ -60,7 +60,7 @@ if ( $CommonObject{DBObject} ) {
         $Check++;
     }
     if ( !$Check ) {
-        print "Connection succesful, no initial inserts found.\n";
+        print "Connection successful, but no initial inserts are found!\n";
         exit(1);
     }
     else {

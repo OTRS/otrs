@@ -1300,10 +1300,10 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         my $Response = $CryptObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
-            "NormalizePrivateSecret: CheckCertPath() executed succesfully with true",
+            "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
-        # output details if process was not succesfull
+        # output details if process was not successful
         if ( !$Response->{Success} ) {
             $Self->True(
                 0,
@@ -1366,10 +1366,10 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $Response = $CryptObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
-            "NormalizePrivateSecret: CheckCertPath() executed succesfully with true",
+            "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
-        # output details if process was not succesfull
+        # output details if process was not successful
         if ( !$Response->{Success} ) {
             $Self->True(
                 0,
@@ -1439,10 +1439,10 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $Response = $CryptObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
-            "NormalizePrivateSecret: CheckCertPath() executed succesfully with true",
+            "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
-        # output details if process was not succesfull
+        # output details if process was not successfull
         if ( !$Response->{Success} ) {
             $Self->True(
                 0,
@@ -2098,10 +2098,10 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             my $Response = $CryptObject->CheckCertPath();
             $Self->True(
                 $Response->{Success},
-                "Re-Hash $Test->{Name}: CheckCertPath() executed succesfully with true",
+                "Re-Hash $Test->{Name}: CheckCertPath() executed successfully with true",
             );
 
-            # output details if process was not succesfull
+            # output details if process was not successfull
             if ( !$Response->{Success} ) {
                 $Self->True(
                     0,

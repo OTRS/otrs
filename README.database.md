@@ -138,4 +138,4 @@ If you have PostgresSQL 8.1 or earlier, activate the legacy driver by uncommenti
 
 
 Now save the file and run $OTRS_HOME/bin/otrs.CheckDB.pl to see if the connection
-is succesful. If this is working, you can log in to OTRS using the web frontend.
+is successful. If this is working, you can log in to OTRS using the web frontend.

@@ -4545,7 +4545,7 @@ sub Data {
         'DB--- host' => 'Hos DB---',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
             'DIKECAM! Penetapan ini tidak digunakan lagi dan akan dikeluarkan dalam OTRS versi masa depan.',
-        'Database setup succesful!' => 'Penubuhan pangkalan data berjaya!',
+        'Database setup successful!' => 'Penubuhan pangkalan data berjaya!',
         'Database-User' => 'Pengguna database',
         'Defines the default sender type of the article for this operation.' =>
             'Mentakrifkan jenis penghantar asal untuk artikel operasi ini.',
