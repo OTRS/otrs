@@ -69,7 +69,7 @@
                     <div class="Field">
                         <input type="password" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off"/>
                         <p class="FieldExplanation">
-                            $Text{"Generated password"}: $QData{"Password"}
+                            $Text{"Generated password"}: <span="Emphasis">$QData{"Password"}</span>
                         </p>
                     </div>
                     <div class="Clear"></div>

@@ -40,4 +40,9 @@ div.Result {
    padding: 8px 8px 10px;
 }
 
+span.Emphasis {
+    color: #049e35;
+    font-weight: bold;
+}
+
 } /* end @media */

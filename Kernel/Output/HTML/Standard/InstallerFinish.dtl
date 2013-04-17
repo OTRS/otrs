@@ -54,7 +54,7 @@
 
                     <label>$Text{"Password"}:</label>
                     <div class="Field">
-                        $QData{"Password"} 
+                        <span class="Emphasis">$QData{"Password"}</span> 
                     </div>
                     <div class="Clear"></div>
 
