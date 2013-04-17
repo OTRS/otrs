@@ -30,7 +30,8 @@ var/httpd/htdocs/skins/Agent/ivory/css-cache/*
 var/httpd/htdocs/skins/Agent/slim/css-cache/*
 var/httpd/htdocs/skins/Customer/default/css-cache/*
 var/httpd/htdocs/skins/Customer/ivory/css-cache/*
-var/sessions/*
+var/sessions/Data*
+var/sessions/State*
 var/articles/*
 
 # Fred
