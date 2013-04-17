@@ -120,13 +120,6 @@ my %MD5SumOf = (
     xls => '39fae660239f62bb0e4a29fe14ff5663',
 );
 
-# on Win32 we have Windows style line endings for the .txt file.
-# this causes a different md5sum then when run on Linux.
-
-if ( $^O =~ 'MSWin' ) {
-    $MD5SumOf{txt} = '930d6f64fb8949ce4ddceb4ab45b1d2e';
-}
-
 for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
