@@ -232,7 +232,7 @@ sub ObjectDescriptionGet {
     # get ticket
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID      => $Param{Key},
-        UserID        => 1,
+        UserID        => $Param{UserID},
         DynamicFields => 0,
     );
 
