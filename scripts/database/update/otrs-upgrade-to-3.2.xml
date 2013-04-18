@@ -11,31 +11,6 @@
     <ColumnDrop Name="ticket_answered"/>
 </TableAlter>
 
-<!-- Drop unneeded indices in the article_flags table -->
-<!-- First drop the foreign key constraings to work around a MySQL issue, see bug#9092. -->
-<TableAlter Name="article_flag">
-    <ForeignKeyDrop ForeignTable="article">
-        <Reference Local="article_id" Foreign="id"/>
-    </ForeignKeyDrop>
-    <ForeignKeyDrop ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-    </ForeignKeyDrop>
-</TableAlter>
-<!-- Now drop the indices. -->
-<TableAlter Name="article_flag">
-    <IndexDrop Name="article_flag_create_by"/>
-    <IndexDrop Name="article_flag_article_id_article_key"/>
-</TableAlter>
-<!-- Now recreate the foreign key constraints. -->
-<TableAlter Name="article_flag">
-    <ForeignKeyCreate ForeignTable="article">
-        <Reference Local="article_id" Foreign="id"/>
-    </ForeignKeyCreate>
-    <ForeignKeyCreate ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-    </ForeignKeyCreate>
-</TableAlter>
-
 <!-- Drop unneeded field group_id from ticket table -->
 <TableAlter Name="ticket">
     <!-- First drop index using it -->

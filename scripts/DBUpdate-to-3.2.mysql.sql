@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-02-07 11:23:44
+#  driver: mysql, generated: 2013-04-18 03:27:01
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -22,22 +22,6 @@ DROP INDEX ticket_answered ON ticket;
 #  alter table ticket
 # ----------------------------------------------------------
 ALTER TABLE ticket DROP ticket_answered;
-#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
-#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
-SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'article_flag' AND constraint_name = 'FK_article_flag_article_id_id');
-SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE article_flag DROP FOREIGN KEY FK_article_flag_article_id_id', 'SELECT ''INFO: Foreign key constraint FK_article_flag_article_id_id does not exist, skipping.''' );
-PREPARE FKStatement FROM @FKSQLStatement;
-EXECUTE FKStatement;
-#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
-#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
-SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'article_flag' AND constraint_name = 'FK_article_flag_create_by_id');
-SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE article_flag DROP FOREIGN KEY FK_article_flag_create_by_id', 'SELECT ''INFO: Foreign key constraint FK_article_flag_create_by_id does not exist, skipping.''' );
-PREPARE FKStatement FROM @FKSQLStatement;
-EXECUTE FKStatement;
-DROP INDEX article_flag_create_by ON article_flag;
-DROP INDEX article_flag_article_id_article_key ON article_flag;
-ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
-ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 DROP INDEX ticket_queue_view ON ticket;
 # ----------------------------------------------------------
 #  alter table ticket

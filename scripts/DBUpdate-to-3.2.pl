@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 9;
+    my $Steps = 10;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -103,6 +103,10 @@ EOF
     print "Step $Step of $Steps: Dropping obsolete columns from article_search... ";
     _DropArticleSearchColumns($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
+
+    print "Step $Step of $Steps: Dropping unused indexes on article_flag... ";
+    _DropArticleFlagIndexes($CommonObject) || die;
     $Step++;
 
     print "Step $Step of $Steps: Migration cache backend configuration... ";
@@ -418,6 +422,79 @@ sub _DropArticleSearchColumns {
     }
     return 1;
 }
+=item _DropArticleFlagIndexes($CommonObject)
+
+this will check if there are indexes present on article_flags that are no longer needed.
+If the OTRS system was upgraded from 2.4 > 3.0 > 3.1 we'll not have these indexes.
+If the OTRS system was installed at 3.0 or 3.1 and then upgraded we do have these.
+
+    _DropArticleFlagIndexes($CommonObject);
+
+=cut
+
+sub _DropArticleFlagIndexes {
+
+    my $CommonObject = shift;
+
+    my $XMLString = <<DATABASEXML;
+<database Name="otrs">
+<!-- Drop unneeded indices in the article_flags table -->
+<!-- First drop the foreign key constraints to work around a MySQL issue, see bug#9092. -->
+<TableAlter Name="article_flag">
+    <ForeignKeyDrop ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ForeignKeyDrop ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+    </ForeignKeyDrop>
+</TableAlter>
+<!-- Now drop the indices. -->
+<TableAlter Name="article_flag">
+    <IndexDrop Name="article_flag_create_by"/>
+    <IndexDrop Name="article_flag_article_id_article_key"/>
+</TableAlter>
+<!-- Now recreate the foreign key constraints. -->
+<TableAlter Name="article_flag">
+    <ForeignKeyCreate ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKeyCreate>
+    <ForeignKeyCreate ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+    </ForeignKeyCreate>
+</TableAlter>
+</database>
+DATABASEXML
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = Kernel::System::XML->new( %{$CommonObject} );
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $CommonObject->{DBObject}->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        print $SQL . "\n";
+        my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
+        if ( $Success ) {
+            print "OK\n";
+        }
+        else {
+            print "Index was not present\n";
+        }
+    }
+    return 1;    
+}
+
 
 =item _MigrateCacheConfiguration($CommonObject)
 

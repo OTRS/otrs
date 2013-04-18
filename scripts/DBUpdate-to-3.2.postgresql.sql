@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-02-07 11:23:44
+--  driver: postgresql, generated: 2013-04-18 03:27:01
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -23,12 +23,6 @@ DROP INDEX ticket_answered;
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP ticket_answered;
-ALTER TABLE article_flag DROP CONSTRAINT FK_article_flag_article_id_id;
-ALTER TABLE article_flag DROP CONSTRAINT FK_article_flag_create_by_id;
-DROP INDEX article_flag_create_by;
-DROP INDEX article_flag_article_id_article_key;
-ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
-ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 DROP INDEX ticket_queue_view;
 -- ----------------------------------------------------------
 --  alter table ticket

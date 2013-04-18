@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2013-02-07 11:23:44
+--  driver: db2, generated: 2013-04-18 03:27:01
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -37,18 +37,6 @@ DROP INDEX ticket_answered;
 ALTER TABLE ticket DROP ticket_answered;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
-
-ALTER TABLE article_flag DROP CONSTRAINT FK_article_flag_article_id_id;
-
-ALTER TABLE article_flag DROP CONSTRAINT FK_article_flag_create_by_id;
-
-DROP INDEX article_flag_create_by;
-
-DROP INDEX article_flag_article_id_articlf0;
-
-ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
-
-ALTER TABLE article_flag ADD CONSTRAINT FK_article_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 DROP INDEX ticket_queue_view;
 
