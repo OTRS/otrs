@@ -199,8 +199,10 @@ sub Run {
         my %ActivityDialogMapping;
         for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
 
-            my @ExistingADs = @{ $Self->{ActivityDialogObject}
-                    ->ActivityDialogListGet( UserID => $Self->{UserID} ) || [] };
+            my @ExistingADs = @{
+                $Self->{ActivityDialogObject}
+                    ->ActivityDialogListGet( UserID => $Self->{UserID} ) || []
+            };
             @ExistingADs = grep {
                 $_->{EntityID} eq
                     $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{EntityID}
@@ -251,8 +253,10 @@ sub Run {
         my %TransitionActionMapping;
         for my $TransitionActionEntityID ( sort keys %{ $ProcessData->{TransitionActions} } ) {
 
-            my @ExistingTAs = @{ $Self->{TransitionActionObject}
-                    ->TransitionActionListGet( UserID => $Self->{UserID} ) || [] };
+            my @ExistingTAs = @{
+                $Self->{TransitionActionObject}
+                    ->TransitionActionListGet( UserID => $Self->{UserID} ) || []
+            };
             @ExistingTAs = grep {
                 $_->{EntityID} eq
                     $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{EntityID}
@@ -307,8 +311,10 @@ sub Run {
         for my $TransitionEntityID ( sort keys %{ $ProcessData->{Transitions} } ) {
 
             my @ExistingTs
-                = @{ $Self->{TransitionObject}->TransitionListGet( UserID => $Self->{UserID} )
-                    || [] };
+                = @{
+                $Self->{TransitionObject}->TransitionListGet( UserID => $Self->{UserID} )
+                    || []
+                };
             @ExistingTs = grep {
                 $_->{EntityID} eq $ProcessData->{Transitions}->{$TransitionEntityID}->{EntityID}
             } @ExistingTs;
@@ -421,11 +427,13 @@ sub Run {
 
         # layout: search and replace ocurrences of old Activity ids by the new ones
         my $Layout = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Layout} );
-        # Process all mapping entries at once with one big regex. Otherwise there might be errors
-        #   with duplicated keys like ( A4 => A6, A6 => A11). In this case, A4 would also incorrectly
-        #   be converted to A11.
+
+       # Process all mapping entries at once with one big regex. Otherwise there might be errors
+       #   with duplicated keys like ( A4 => A6, A6 => A11). In this case, A4 would also incorrectly
+       #   be converted to A11.
         if (%ActivityMapping) {
-            my $OldEntityIDs = '(' . join('|', map { quotemeta($_) } sort keys %ActivityMapping ) . ')';
+            my $OldEntityIDs
+                = '(' . join( '|', map { quotemeta($_) } sort keys %ActivityMapping ) . ')';
             $Layout =~ s{
                 $DelimiterBefore
                 $OldEntityIDs
@@ -436,11 +444,14 @@ sub Run {
 
         # config: search and replace ocurrences of old object ids by the new ones
         my $Config = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Config} );
+
         # Process all mappings at once: see comment above.
-        my %Mapping = (%ActivityMapping, %ActivityDialogMapping,
-            %TransitionMapping, %TransitionActionMapping);
+        my %Mapping = (
+            %ActivityMapping,   %ActivityDialogMapping,
+            %TransitionMapping, %TransitionActionMapping
+        );
         if (%Mapping) {
-            my $OldEntityIDs = '(' . join('|', map { quotemeta($_) } sort keys %Mapping ) . ')';
+            my $OldEntityIDs = '(' . join( '|', map { quotemeta($_) } sort keys %Mapping ) . ')';
             $Config =~ s{
                 $DelimiterBefore
                 $OldEntityIDs
@@ -851,7 +862,8 @@ sub Run {
                                             );
 
                                             for my $SubSubKey (
-                                                sort keys %{ $Values{$Key}->{$SubKey} } )
+                                                sort keys %{ $Values{$Key}->{$SubKey} }
+                                                )
                                             {
 
                                                 $Self->{LayoutObject}->Block(
@@ -970,7 +982,8 @@ sub Run {
         for my $Activity (@Path) {
 
             for my $Transition (
-                sort keys %{ $ProcessData->{Process}->{Config}->{Path}->{$Activity} } )
+                sort keys %{ $ProcessData->{Process}->{Config}->{Path}->{$Activity} }
+                )
             {
                 my $TransitionActionString;
                 if (
@@ -1783,8 +1796,10 @@ sub Run {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
-                for my $ElementData ( sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
-                    @{$ElementList} )
+                for my $ElementData (
+                    sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
+                    @{$ElementList}
+                    )
                 {
 
                     my $AvailableIn = '';
@@ -1984,8 +1999,10 @@ sub _ShowEdit {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
-                for my $ElementData ( sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
-                    @{$ElementList} )
+                for my $ElementData (
+                    sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
+                    @{$ElementList}
+                    )
                 {
 
                     my $AvailableIn = '';

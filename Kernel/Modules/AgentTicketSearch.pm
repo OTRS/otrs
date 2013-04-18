@@ -2108,15 +2108,15 @@ sub Run {
 
             # Merge regular show/hide settings and the settings for the dynamic fields
             my %Defaults = %{ $Self->{Config}->{Defaults} || {} };
-            for my $DynamicField (sort keys %{ $Self->{Config}->{DynamicField} || {} }) {
-                if ($Self->{Config}->{DynamicField}->{$DynamicField} == 2) {
+            for my $DynamicField ( sort keys %{ $Self->{Config}->{DynamicField} || {} } ) {
+                if ( $Self->{Config}->{DynamicField}->{$DynamicField} == 2 ) {
                     $Defaults{"Search_DynamicField_$DynamicField"} = 1;
                 }
             }
 
-            if ( %Defaults ) {
+            if (%Defaults) {
                 for my $Key ( sort keys %Defaults ) {
-                    next if $Key eq 'DynamicField'; # Ignore entry for DF config
+                    next if $Key eq 'DynamicField';    # Ignore entry for DF config
                     next if $AlreadyShown{$Key};
                     $AlreadyShown{$Key} = 1;
 

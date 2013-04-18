@@ -267,7 +267,7 @@ sub _SendNotificationToRecipients {
     );
 
     # If the ticket has no articles yet, get the raw ticket data
-    if (!%Article) {
+    if ( !%Article ) {
         %Article = $Self->{TicketObject}->TicketGet(
             TicketID      => $Param{TicketID},
             DynamicFields => 0,
