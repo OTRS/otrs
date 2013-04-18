@@ -422,6 +422,7 @@ sub _DropArticleSearchColumns {
     }
     return 1;
 }
+
 =item _DropArticleFlagIndexes($CommonObject)
 
 this will check if there are indexes present on article_flags that are no longer needed.
@@ -485,16 +486,15 @@ DATABASEXML
     for my $SQL ( @SQL, @SQLPost ) {
         print $SQL . "\n";
         my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
-        if ( $Success ) {
+        if ($Success) {
             print "OK\n";
         }
         else {
             print "Index was not present\n";
         }
     }
-    return 1;    
+    return 1;
 }
-
 
 =item _MigrateCacheConfiguration($CommonObject)
 
