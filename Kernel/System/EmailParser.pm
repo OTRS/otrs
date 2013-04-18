@@ -731,15 +731,6 @@ sub PartsAttachments {
             $PartData{Charset} = '';
         }
 
-        # convert the file name in utf-8 if utf-8 is used
-        if ( $PartData{Charset} ) {
-            $PartData{Filename} = $Self->{EncodeObject}->Convert2CharsetInternal(
-                Text  => $PartData{Filename},
-                From  => $PartData{Charset},
-                Check => 1,
-            );
-        }
-
         # check if reserved filename file-1 or file-2 is already used
         for my $Count ( 1 .. 2 ) {
             if ( $PartData{Filename} eq "file-$Count" ) {
