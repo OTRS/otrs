@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:20
+    # Last translation file sync: 2013-04-18 14:11:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -234,7 +234,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání %s!',
         'Feature not active!' => 'Funkce je neaktivní!',
         'Agent updated!' => '',
-        'Database Selection' => '',
         'Create Database' => 'Vytvořit Databazi',
         'System Settings' => 'Nastavení systému',
         'Mail Configuration' => 'Nastavení pošty',
@@ -245,6 +244,8 @@ sub Data {
         'Database' => 'Databáze',
         'Configure Mail' => 'Nastavit poštu',
         'Database deleted.' => 'Databáze smazána.',
+        'Database setup successful!' => 'Databáze úspěšně nastavena!',
+        'Generated password' => '',
         'Login is needed!' => 'Vyžadováno přihlášení!',
         'Password is needed!' => 'Vyžadováno heslo!',
         'Take this Customer' => 'Vybrat tohoto Zákazníka',
@@ -816,7 +817,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Ne',
@@ -1109,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        ' (work units)' => '(jednotky práce)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1462,7 +1462,7 @@ sub Data {
         'Install' => 'Instalovat',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online Schránka',
         'Vendor' => 'Prodavač',
@@ -2610,25 +2610,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Databáze úspěšně nastavena!',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '',
+        'Database-User' => 'Uživatel',
         'New' => 'Nové',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'výchozí \'hot\'',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2662,6 +2659,7 @@ sub Data {
         'LogModule' => 'Log Modul',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webove rozhraní',
         'Default language' => '',
         'Default language.' => '',
@@ -4538,10 +4536,10 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '(jednotky práce)',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
         'CreateTicket' => 'Vytvořit Tiket',
         'Customer Data' => 'Data Zákazníka',
-        'Database-User' => 'Uživatel',
         'Due Date' => 'Datum splatnosti',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Logout successful. Thank you for using OTRS!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání OTRS!',
@@ -4554,7 +4552,6 @@ sub Data {
         'TicketFreeFields' => 'Volná pole Tiketu',
         'TicketZoom' => 'Zobrazení tiketu',
         'View the source for this Article' => 'Zobrazit zdroj zprávy',
-        'default \'hot\'' => 'výchozí \'hot\'',
         'empty answer' => '0_Prázdná odpověd',
 
     };

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:43
+    # Last translation file sync: 2013-04-18 14:11:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Успешно сте се одјавили! Хвала што сте користили "%s"!',
         'Feature not active!' => 'Функција није активна!',
         'Agent updated!' => 'Ажуриран оператер',
-        'Database Selection' => '',
         'Create Database' => 'Креирај базу података',
         'System Settings' => 'Системска подешавања',
         'Mail Configuration' => 'Подешавање мејла',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'База података',
         'Configure Mail' => 'Подешавање мејла',
         'Database deleted.' => 'Обрисана база',
+        'Database setup successful!' => 'Успешно инсталирање базе',
+        'Generated password' => '',
         'Login is needed!' => 'Потребна је пријава!',
         'Password is needed!' => 'Потребна је лозинка!',
         'Take this Customer' => 'Узми овог корисника',
@@ -810,7 +811,6 @@ sub Data {
         'History::SystemRequest' => 'Системски захтев',
         'History::ResponsibleUpdate' => 'Нови одговорни је "%s" (ИД=%s).',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'нед',
@@ -1103,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
-        ' (work units)' => ' (елементи посла)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -1456,8 +1456,8 @@ sub Data {
         'Install' => 'Инсталирај',
         'Install Package' => 'Инсталирај пакет',
         'Update repository information' => 'Ажурирај информације о спремишту',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Мрежно спремиште',
         'Vendor' => 'Продавац',
         'Module documentation' => 'Документација кодула',
@@ -2604,25 +2604,22 @@ sub Data {
             'Прескакање овог корака аутоматски прескачете и регистрацију ваше "OTRS" инсталације. јесте ли сигурни да желите да наставите?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Успешно инсталирање базе',
+        'False' => '"False"',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Проверите подешавања базе',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Ако сте подесили "root" лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
+        'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
+        'Database-User' => 'Корисник базе података',
         'New' => 'Нов',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Нови корисника базе са ограниченим правима ће бити креиран за овај "OTRS" систем',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'подразумевано \'hot\'',
+        'DB host' => 'Назив или адреса ДБ-Сервера',
+        'Check database settings' => 'Проверите подешавања базе',
         'Result of database check' => 'Резултат провере базе података',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2656,6 +2653,7 @@ sub Data {
         'LogModule' => 'Модул дневника',
         'Log backend to use.' => 'Систем који се користи за дневник.',
         'LogFile' => 'Датотека дневника',
+        'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једно неопходно Модулу дневника!',
         'Webfrontend' => 'Мрежни интерфејс',
         'Default language' => 'Подразумевани језик',
         'Default language.' => 'Подразумевани језик',
@@ -4532,20 +4530,13 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
+        ' (work units)' => ' (елементи посла)',
         'Customer Data' => 'Подаци о кориснику',
-        'DB host' => 'Назив или адреса ДБ-Сервера',
-        'Database-User' => 'Корисник базе података',
-        'False' => '"False"',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Ако сте подесили "root" лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
-        'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једно неопходно Модулу дневника!',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се одјавили! Хвала што сте користили "OTRS"!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
-        'default \'hot\'' => 'подразумевано \'hot\'',
 
     };
     # $$STOP$$

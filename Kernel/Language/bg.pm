@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:18
+    # Last translation file sync: 2013-04-18 14:11:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,7 +229,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Функцията не е активна',
         'Agent updated!' => '',
-        'Database Selection' => '',
         'Create Database' => 'Създаване на база данни',
         'System Settings' => 'Системни настройки',
         'Mail Configuration' => '',
@@ -240,6 +239,8 @@ sub Data {
         'Database' => 'База данни',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Логин-а е задължителен',
         'Password is needed!' => 'Паролата е задължителна',
         'Take this Customer' => 'Използвай този клиент',
@@ -811,7 +812,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Нед',
@@ -1104,7 +1104,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
-        ' (work units)' => ' (работни единици)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1457,7 +1457,7 @@ sub Data {
         'Install' => 'Инсталиране',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online Repository',
         'Vendor' => 'Доставчик',
@@ -2605,25 +2605,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '',
+        'Database-User' => 'Потребител на СУБД',
         'New' => 'Нови',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'по подразбиране',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2657,6 +2654,7 @@ sub Data {
         'LogModule' => 'Журнален модул',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web-зона',
         'Default language' => '',
         'Default language.' => '',
@@ -4533,10 +4531,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (работни единици)',
         'Customer Data' => 'Данни за потребителя',
-        'Database-User' => 'Потребител на СУБД',
         'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
-        'default \'hot\'' => 'по подразбиране',
 
     };
     # $$STOP$$

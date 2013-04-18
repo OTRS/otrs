@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:49
+    # Last translation file sync: 2013-04-18 14:11:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '該特性尚未激活!',
         'Agent updated!' => '',
-        'Database Selection' => '',
         'Create Database' => '創建數據庫',
         'System Settings' => '數據庫設置 ',
         'Mail Configuration' => '',
@@ -241,6 +240,8 @@ sub Data {
         'Database' => '數據庫',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => '需要先登錄!',
         'Password is needed!' => '需要密碼!',
         'Take this Customer' => '取得這個客戶',
@@ -812,7 +813,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '星期日',
@@ -1105,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '增加注解',
         'Time units' => '時間單元',
-        ' (work units)' => '工作單元',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '發送代理/客戶通知變更',
         'CMD' => '命令',
@@ -1458,7 +1458,7 @@ sub Data {
         'Install' => '安裝',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => '在線知識庫',
         'Vendor' => '提供者',
@@ -2606,25 +2606,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            '如果您的數據庫有設置 root 密碼, 請在這裡輸入, 否則, 請保留空白. 出於安全考慮, 我們建議您為 root 設置一個密碼, 更多信息請參考數據庫幫助文檔.',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Database-User' => '數據庫用戶名稱',
         'New' => '新',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => '默認密碼 \'hot\'',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2658,6 +2655,7 @@ sub Data {
         'LogModule' => '日志模塊',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web 前端',
         'Default language' => '',
         'Default language.' => '',
@@ -4534,14 +4532,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '工作單元',
         'Customer Data' => '客戶數據',
-        'Database-User' => '數據庫用戶名稱',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            '如果您的數據庫有設置 root 密碼, 請在這裡輸入, 否則, 請保留空白. 出於安全考慮, 我們建議您為 root 設置一個密碼, 更多信息請參考數據庫幫助文檔.',
         'Logout successful. Thank you for using OTRS!' => '成功注銷，謝謝使用!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '為了重新用Web 界面安裝，安全模式必須disabled',
-        'default \'hot\'' => '默認密碼 \'hot\'',
 
     };
     # $$STOP$$

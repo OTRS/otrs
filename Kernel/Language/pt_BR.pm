@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:40
+    # Last translation file sync: 2013-04-18 14:11:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -232,7 +232,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Funcionalidade não ativada!',
         'Agent updated!' => 'Atendente atualizado!',
-        'Database Selection' => '',
         'Create Database' => 'Criar Banco de Dados',
         'System Settings' => 'Configurações de Sistema',
         'Mail Configuration' => 'Configuração de E-mail',
@@ -243,6 +242,8 @@ sub Data {
         'Database' => 'Banco de Dados',
         'Configure Mail' => 'Configurar E-mail',
         'Database deleted.' => 'Banco de dados apagado.',
+        'Database setup successful!' => 'Sucesso na configuração do banco de dados!',
+        'Generated password' => '',
         'Login is needed!' => 'Nome de usuário é obrigatório!',
         'Password is needed!' => 'Senha é obrigatória!',
         'Take this Customer' => 'Atenda este Cliente',
@@ -814,7 +815,6 @@ sub Data {
         'History::SystemRequest' => 'Requisição de sistema (%s).',
         'History::ResponsibleUpdate' => 'Novo responsável é "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Estado de arquivamento alterado: "%s"',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -1107,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de Tempo',
-        ' (work units)' => '',
+        '(work units)' => '(unidades de trabalho)',
         'Ticket Commands' => 'Comandos-Chamado',
         'Send agent/customer notifications on changes' => 'Enviar Notificações De Alterações Para Atendente/Cliente',
         'CMD' => 'Comando',
@@ -1460,8 +1460,8 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Pacote',
         'Update repository information' => 'Atualizar Informação De Repositório',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Não encontrou uma funcionalidade necessária? O Grupo OTRS fornece Add-Ons exclusivos aos assinantes:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Repositório Online',
         'Vendor' => 'Fornecedor',
         'Module documentation' => 'Documentação do Módulo',
@@ -2608,25 +2608,22 @@ sub Data {
             'Ignorar esta etapa irá pular automaticaente o registro do seu OTRS. Tem certeza de que quer continuar?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Sucesso na configuração do banco de dados!',
+        'False' => 'Falso',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Verificar configurações de banco de dados',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Se você tiver definido uma senha de root para o seu banco de dados, ela deve ser inserida aqui. Se não, deixe este campo vazio. Por razões de segurança, é recomendável definir uma senha de root. Para obter mais informações, consulte a documentação do seu banco de dados.',
+        'Currently only MySQL is supported in the web installer.' => 'Atualmente, apenas o MySQL é suportado pelo instalador web.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Se você quiser instalar o OTRS em outro tipo de banco de dados, consulte o arquivo README.database.',
+        'Database-User' => 'Usuário do Banco',
         'New' => 'Nova',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Um novo usuário de banco de dados com direitos limitados será criado para este sistema OTRS.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'padrão \'quente\'',
+        'DB host' => 'Servidor do Banco',
+        'Check database settings' => 'Verificar configurações de banco de dados',
         'Result of database check' => 'Resultado da verificação de banco de dados',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2660,6 +2657,7 @@ sub Data {
         'LogModule' => 'Módulo REGISTRO',
         'Log backend to use.' => 'Protocolo de back-end a ser usado.',
         'LogFile' => 'Arquivo de registro',
+        'Log file location is only needed for File-LogModule!' => 'A especificação da localização do arquivo de registro é necessária apenas para o módulo de arquivo-registro.',
         'Webfrontend' => 'Interface Web',
         'Default language' => 'Idioma Padrão',
         'Default language.' => 'Idioma Padrão.',
@@ -4536,25 +4534,16 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '(unidades de trabalho)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
-        'Currently only MySQL is supported in the web installer.' => 'Atualmente, apenas o MySQL é suportado pelo instalador web.',
         'Customer Data' => 'Dados do Cliente',
-        'DB host' => 'Servidor do Banco',
-        'Database-User' => 'Usuário do Banco',
-        'False' => 'Falso',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Se você tiver definido uma senha de root para o seu banco de dados, ela deve ser inserida aqui. Se não, deixe este campo vazio. Por razões de segurança, é recomendável definir uma senha de root. Para obter mais informações, consulte a documentação do seu banco de dados.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Se você quiser instalar o OTRS em outro tipo de banco de dados, consulte o arquivo README.database.',
-        'Log file location is only needed for File-LogModule!' => 'A especificação da localização do arquivo de registro é necessária apenas para o módulo de arquivo-registro.',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Não encontrou uma funcionalidade necessária? O Grupo OTRS fornece Add-Ons exclusivos aos assinantes:',
         'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
         'There are currently no steps available for this process.' => 'Não há ações disponíveis para esse processo atualmente.',
         'There are no further steps in this process' => 'Não há mais passos nesse processo',
-        'default \'hot\'' => 'padrão \'quente\'',
 
     };
     # $$STOP$$

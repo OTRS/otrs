@@ -83,7 +83,6 @@ sub Data {
         'History::EscalationUpdateTimeStop' => 'Escalation update time finished',
         'History::EscalationSolutionTimeStop' => 'Escalation solution time finished',
         'History::ArchiveFlagUpdate' => 'Archive state changed: "%s"',
-        'History::TitleUpdate' => 'Title updated: Old: "%s", New: "%s"',
         #CustomerUser fields
         'Title{CustomerUser}' => 'Title',
         'Firstname{CustomerUser}' => 'First name',

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:32
+    # Last translation file sync: 2013-04-18 14:11:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,7 +233,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Képesség nem aktív!',
         'Agent updated!' => 'Ügyintéző módosítva!',
-        'Database Selection' => '',
         'Create Database' => 'Adatbázis létrehozása',
         'System Settings' => 'Rendszerbeállítások',
         'Mail Configuration' => '',
@@ -244,6 +243,8 @@ sub Data {
         'Database' => 'Adatbázis',
         'Configure Mail' => '',
         'Database deleted.' => 'Adatbázis törölve.',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Belépés szükséges!',
         'Password is needed!' => 'Jelszó szükséges!',
         'Take this Customer' => 'Átveszi ez az ügyfél',
@@ -815,7 +816,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Vas',
@@ -1108,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idő egységek',
-        ' (work units)' => ' (munkaegység)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Küldjön változatásokról értesítést az ügyintézőnek/ügyfélnek',
         'CMD' => 'PARANCS',
@@ -1461,7 +1461,7 @@ sub Data {
         'Install' => 'Telepítés',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'On-line csomagtároló',
         'Vendor' => 'Terjesztő',
@@ -2609,25 +2609,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Ha be van állítva adatbázis root jelszó, akkor azt itt kell megadni. Ha nem hagyja üresen a mezőt. Biztonsági megfontolásokból javasoljuk hogy használjon root jelszót. További információt talál az adatbázis dokumentációban.',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Database-User' => 'Adatbázis felhasználó',
         'New' => 'Új',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'alapértelmezett',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2661,6 +2658,7 @@ sub Data {
         'LogModule' => 'Log modul',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webes felhasználói felület',
         'Default language' => '',
         'Default language.' => '',
@@ -4537,14 +4535,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (munkaegység)',
         'Customer Data' => 'Ügyfél adatok',
-        'Database-User' => 'Adatbázis felhasználó',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Ha be van állítva adatbázis root jelszó, akkor azt itt kell megadni. Ha nem hagyja üresen a mezőt. Biztonsági megfontolásokból javasoljuk hogy használjon root jelszót. További információt talál az adatbázis dokumentációban.',
         'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Biztonságos üzemmódot le kell tíltani ahhoz, hogy a webes telepítővel újra lehessen dolgozni.',
-        'default \'hot\'' => 'alapértelmezett',
 
     };
     # $$STOP$$

@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:29
+    # Last translation file sync: 2013-04-18 14:11:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -235,7 +235,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Déconnexion réussie. Le groupe %s vous remercie!',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée. ',
         'Agent updated!' => 'La mise à jour des renseignements de l\'agent a été effectuée.',
-        'Database Selection' => '',
         'Create Database' => 'Créer la base de données',
         'System Settings' => 'Paramètres du système',
         'Mail Configuration' => 'Configuration des courriels',
@@ -246,6 +245,8 @@ sub Data {
         'Database' => 'Base de données',
         'Configure Mail' => 'Configuration de la messagerie',
         'Database deleted.' => 'Base de données effacée.',
+        'Database setup successful!' => 'Configuration de la base de données réussie.',
+        'Generated password' => '',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis.',
         'Take this Customer' => 'Choisir ce client',
@@ -817,7 +818,6 @@ sub Data {
         'History::SystemRequest' => 'Requête système',
         'History::ResponsibleUpdate' => 'Mise à jour du responsable',
         'History::ArchiveFlagUpdate' => 'Mise à jour de l\'indicateur d\'archivage',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Dim',
@@ -1110,7 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => ' Unité de travail',
+        '(work units)' => '',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -1463,8 +1463,8 @@ sub Data {
         'Install' => 'Installer',
         'Install Package' => 'Installer un paquet',
         'Update repository information' => 'Mettre à jour les informations du référentiel',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Vous ne trouvez pas la fonctionnalité recherchée? Le groupe OTRS offre à ses clients inscrits des compagnons exclusifs à l\'adresse suivante : ',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Référentiels en ligne',
         'Vendor' => 'Vendeur ',
         'Module documentation' => 'Documents relatifs au module',
@@ -2611,25 +2611,22 @@ sub Data {
             'En passant cette étape, l\'enregistrement de votre OTRS sera systématiquement éviter. Souhaitez-vous poursuivre cette action?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Configuration de la base de données réussie.',
+        'False' => 'Faux',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Vérifier la configuration de la base de données',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Si vous avez attribué un mot de passe résident à votre base de données, il doit être saisi ici. Sinon, laissez ce champ vide. Pour des raisons de sécurité, nous vous recommandons d\'attribuer un mot de passe au compte résident. Pour de plus amples renseignements,consultez la documentation de votre gestionnaire de base de données.',
+        'Currently only MySQL is supported in the web installer.' => 'Pour le moment, seul MySQL est supporté par cet installateur web.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Si vous souhaitez installer OTRS dans un autre type de base de données, veuillez consulter le fichier « Lisez-moi.base » de données.',
+        'Database-User' => 'Nom de l\'utilisateur de la base de donnée',
         'New' => 'Nouvelle',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Un nouvel utilisateur de la base de données avec des droits limités sera créé pour ce système OTRS.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => '« hot » par défaut',
+        'DB host' => 'Base de données - hôte',
+        'Check database settings' => 'Vérifier la configuration de la base de données',
         'Result of database check' => 'Résultat du contrôle de la base de données',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2663,6 +2660,7 @@ sub Data {
         'LogModule' => 'Module de journalisation',
         'Log backend to use.' => 'Journal à utiliser',
         'LogFile' => 'Fichier journal',
+        'Log file location is only needed for File-LogModule!' => 'L\'emplacement du fichier journal est nécessaire seulement pour le fichier du module de journalisation',
         'Webfrontend' => 'L\'avant-plan Web',
         'Default language' => 'Langue par défaut',
         'Default language.' => 'Langue par défaut.',
@@ -4598,6 +4596,7 @@ sub Data {
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... Failed' => ' $WrongCertificate->{NewHash}.$NewIndex ... Échec',
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... OK' => ' $WrongCertificate->{NewHash}.$NewIndex ... OK',
         ' $WrongPrivateKeyFile.P to $NewPrivateKeyFile.P!' => ' $WrongPrivateKeyFile.P à $NewPrivateKeyFile.P!',
+        ' (work units)' => ' Unité de travail',
         ' >> Can\'t write $Self->{LogFile}: $! <<\n' => ' >> Il n\'est pas possible d\'écrire $Self->{LogFile}: $! \n',
         ' Article->Charset parameters are required!' => ' Article->Charset parameters (Article - Paramètres du jeu de caractères) sont nécessaires.',
         ' Bytes' => ' Octets',
@@ -5202,7 +5201,6 @@ sub Data {
         'Creating tables \'otrs-schema.mysql.sql\'' => 'Créer les tables \'otrs-schema.mysql.sql\'.',
         'Croatia' => 'Croatie, République de',
         'Curacao' => 'Curacao',
-        'Currently only MySQL is supported in the web installer.' => 'Pour le moment, seul MySQL est supporté par cet installateur web.',
         'Customer Data' => 'Renseignements du client ',
         'Customer Move Notify' => 'Notification lors d\'un changement de file',
         'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
@@ -5239,7 +5237,6 @@ sub Data {
         'DB Host' => 'Hôte de la base de données',
         'DB Type' => 'Type de base de données',
         'DB connect host' => 'Hôte de la base de donnée',
-        'DB host' => 'Base de données - hôte',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
             'ABANDONNÉ! Le réglage n\'est plus utilisé et sera retiré d\'une version future de OTRS.',
         'Data is not a hash reference.' => 'La donnée n\'est pas une référence de hachage.',
@@ -5247,7 +5244,6 @@ sub Data {
             'La base de données $Row[0] is $Row[1] large de laquelle $Row[2] provient.',
         'Database Backend' => 'Base de données de l\'arrière-plan',
         'Database size is $Row[0] GB.' => 'La taille de la base de données est de $Row[0] Gb.',
-        'Database-User' => 'Nom de l\'utilisateur de la base de donnée',
         'DateChecksum' => 'Date de la somme de contrôle (DateChecksum)',
         'Days' => 'Jours',
         'Dear <OTRS_CUSTOMER_REALNAME>,
@@ -5363,6 +5359,8 @@ sub Data {
             'Détermine les textes des champs « destinataire » (À : ) de la demande téléphonique et « expéditeur » (De :) de la demande par courriel dans l\'interface agent. En ce qui concerne les files « NewQueueSelectionType », le champ « <Queue> » affiche les noms des files et les champs « <Realname> <<Email>> » affichent le nom et le courriel du destinataire dans l\'adresse système (SystemAddress).',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "&lt;Queue&gt;" shows the names of the queues, and for SystemAddress, "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the receipent.' =>
             'Détermine les textes des champs « destinataire » (À : ) de la demande téléphonique et « expéditeur » (De :) de la demande par courriel dans l\'interface agent. En ce qui concerne les files « NewQueueSelectionType », le champ « <Queue> » affiche les noms des files et les champs « <Realname> <<Email>> » affichent le nom et le courriel du destinataire dans l\'adresse système (SystemAddress).',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Vous ne trouvez pas la fonctionnalité recherchée? Le groupe OTRS offre à ses clients inscrits des compagnons exclusifs à l\'adresse suivante : ',
         'Diff' => 'Fichier Diff',
         'Directory \'$DirOfSQLFiles\' not found!' => 'Le répertoire \'$DirOfSQLFiles\' n\'a pa été trouvé.',
         'Directory \'$Self->{Path}\' doesn\'t exist!' => 'Le répertoire \'$Self->{Path}\' n\'existe pas.',
@@ -5481,7 +5479,6 @@ sub Data {
         'FAQ-State' => 'État de la FAQ',
         'FQDN \'$FQDN\' looks good.' => 'FQDN \'$FQDN\' semble bon.',
         'Falkland Islands (Malvinas)' => 'Iles Malouines (Malvinas)',
-        'False' => 'Faux',
         'Faroe Islands' => 'Iles Féroé',
         'Fatal Error' => 'Erreur fatale',
         'Fax{CustomerUser}' => 'Fax{CustomerUser}',
@@ -6224,16 +6221,12 @@ sub Data {
             'Si rien n\'est sélectionné, ce groupe n\'aura aucun droit (les demandes ne seront pas accessibles pour l\'utilisateur).',
         'If there is an article added, such as a follow-up via e-mail or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
             'Si un article est ajouté, par exemple un suivi par courriel ou par l\'intermédiaire du portail du client, le délai d\'escalade est remis à zéro. Si aucun courriel externe ou numéro téléphone de client n\'est ajouté à une demande dans le temps imparti, la demande est escaladée.',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Si vous avez attribué un mot de passe résident à votre base de données, il doit être saisi ici. Sinon, laissez ce champ vide. Pour des raisons de sécurité, nous vous recommandons d\'attribuer un mot de passe au compte résident. Pour de plus amples renseignements,consultez la documentation de votre gestionnaire de base de données.',
         'If you need the sum of every column select yes.' => 'Si vous avez besoin de la somme de chaque colonne, choisissez « Oui ».',
         'If you need the sum of every row select yes' => 'Si vous avez besoin de la somme de chaque ligne, choisissez « Oui ».',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' =>
             'Si vous utilisez une expression rationnelle, vous pouvez également utiliser la valeur correspondante entre () comme [***] dans le règlage « Set ».',
         'If you want to account time, please provide Subject and Text!' =>
             'Si vous souhaitez comptabiliser le temps, veuillez fournir un sujet et un texte.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Si vous souhaitez installer OTRS dans un autre type de base de données, veuillez consulter le fichier « Lisez-moi.base » de données.',
         'If you want to install OTRS on other database systems, please refer to the file README.database.' =>
             'Si vous souhaitez installer OTRS sur une autre base de données, merci de se référer au fichier README.database.',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig' =>
@@ -6339,7 +6332,6 @@ sub Data {
         'Lock it to work on it!' => 'Verrouillez-le pour y travailler!',
         'Lock: $GetParam{\'X-OTRS-FollowUp-Lock\'}\n' => 'Verrou : $GetParam{\'X-OTRS-FollowUp-Lock\'}\n',
         'Lock: lock\n' => 'Verrou :  lock\n',
-        'Log file location is only needed for File-LogModule!' => 'L\'emplacement du fichier journal est nécessaire seulement pour le fichier du module de journalisation',
         'Logfile' => 'fichier journal',
         'Logfile just needed for File-LogModule!' => 'Fichier journal nécessaire pour le module de journalisation (File-LogModule).',
         'Logfile too large, you need to reset it!' => 'Fichier journal trop lourd, une réinitialisation est nécessaire.',
@@ -7597,7 +7589,6 @@ sub Data {
         'customer\'' => '\'Client\'',
         'cyan' => 'cyan',
         'default' => 'Par défaut',
-        'default \'hot\'' => '« hot » par défaut',
         'default follow up (after a ticket follow up has been added)' => 'Suivi par défaut (après l\'ajout d\'un suivi de demande)',
         'default reject (after follow up and rejected of a closed ticket)' =>
             'Rejet par défaut (après le suivi et le rejet d\'une demande fermée).',

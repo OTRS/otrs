@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:41
+    # Last translation file sync: 2013-04-18 14:11:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -236,7 +236,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Вы успешно вышли из системы. Благодарим за пользование системой %s !',
         'Feature not active!' => 'Функция не активирована!',
         'Agent updated!' => 'Агент обновлен!',
-        'Database Selection' => '',
         'Create Database' => 'Создать базу',
         'System Settings' => 'Системные параметры',
         'Mail Configuration' => 'Конфигурация почты',
@@ -247,6 +246,8 @@ sub Data {
         'Database' => 'Имя базы данных',
         'Configure Mail' => 'Конфигурировать почту',
         'Database deleted.' => 'База данных удалена.',
+        'Database setup successful!' => 'База данных настроена успешно!',
+        'Generated password' => '',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'Take this Customer' => 'Выбрать этого клиента',
@@ -818,7 +819,6 @@ sub Data {
         'History::SystemRequest' => 'Системный запрос (%s)',
         'History::ResponsibleUpdate' => 'Новый ответственный теперь «%s» (ID=%s)',
         'History::ArchiveFlagUpdate' => 'Архивный статус изменен: «%s»',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Вск',
@@ -1111,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1464,8 +1464,8 @@ sub Data {
         'Install' => 'Установить',
         'Install Package' => 'Установить пакет',
         'Update repository information' => 'Обновить информацию репозитория',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Онлайновый репозиторий',
         'Vendor' => 'Изготовитель',
         'Module documentation' => 'Документация модуля',
@@ -2612,25 +2612,22 @@ sub Data {
             'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'База данных настроена успешно!',
+        'False' => 'Облом',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Проверить настройки БД',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Если для администратора базы данных установлен пароль, укажите его здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Информацию по этой теме можно найти в документации по используемой базе данных',
+        'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Если вы хотите инсталлировать OTRS с другим типом базы данных, обратитесь к файлу README.database.',
+        'Database-User' => 'Пользователь базы данных',
         'New' => 'Новое',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Для этой системы OTRS будет создан новый пользователь базы данных с ограниченными правами.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'По умолчанию: «hot»',
+        'DB host' => 'БД--- сервер',
+        'Check database settings' => 'Проверить настройки БД',
         'Result of database check' => 'Результат проверки базы данных',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2664,6 +2661,7 @@ sub Data {
         'LogModule' => 'Модуль журнала ',
         'Log backend to use.' => 'Какой бэкенд использовать для собственно записи журнала.',
         'LogFile' => 'Файл журнала',
+        'Log file location is only needed for File-LogModule!' => 'Указание расположения файла журнала требуется только для ',
         'Webfrontend' => 'Веб-интерфейс',
         'Default language' => 'Язык по умолчанию',
         'Default language.' => 'Язык по умолчанию.',
@@ -4540,6 +4538,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4682,7 +4681,6 @@ sub Data {
             'Создать новые группы для назначения прав доступа группам агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
         'Create your first Ticket' => 'Добавить первую заявку',
         'CreateTicket' => 'Создание заявки',
-        'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
         'Customer Data' => 'Учетные данные клиента',
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
@@ -4699,13 +4697,13 @@ sub Data {
         'CustomerUser' => 'Клиент',
         'D' => 'D',
         'DB connect host' => 'Сервер базы данных',
-        'DB host' => 'БД--- сервер',
-        'Database-User' => 'Пользователь базы данных',
         'Days' => 'Дни',
         'Default Charset' => 'Кодировка по умолчанию',
         'Default Language' => 'Язык по умолчанию',
         'Delete this ticket!' => 'Удалить заявку!',
         'Detail' => 'Подробно',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно составления письма',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4736,7 +4734,6 @@ sub Data {
         'Expand View' => 'Подробно',
         'Explanation' => 'Пояснение',
         'Export Config' => 'Экспорт конфигурации',
-        'False' => 'Облом',
         'FileManager' => 'Управление файлами',
         'Filelist' => 'Список файлов',
         'Filtername' => 'Имя фильтра',
@@ -4777,14 +4774,10 @@ sub Data {
             'Если агент заблокировал заявку и не отправил ответ клиенту в течение установленного времени, то заявка автоматически разблокируется и станет доступной для остальных агентов.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Если ничего не выбрано, то заявки будут недоступны для пользователя',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Если для администратора базы данных установлен пароль, укажите его здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Информацию по этой теме можно найти в документации по используемой базе данных',
         'If you need the sum of every column select yes.' => 'Если вам необходим показ суммы по каждому столбцу, выберите «Да»',
         'If you need the sum of every row select yes' => 'Если вам необходим показ суммы по каждой строке, выберите «Да»',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' =>
             'Если вы используете регулярные выражения, вы можете использовать переменные в () как [***] при установке значений',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Если вы хотите инсталлировать OTRS с другим типом базы данных, обратитесь к файлу README.database.',
         'Image' => 'Значок',
         'Important' => 'Важно',
         'In this form you can select the basic specifications.' => 'В данной форме вы можете выбрать основные требования.',
@@ -4811,7 +4804,6 @@ sub Data {
         'Load Settings' => 'Применить конфигурацию из файла',
         'Lock it to work on it!' => 'Заблокировать, чтобы рассмотреть заявку!',
         'Locked tickets' => 'Заблокированные заявки',
-        'Log file location is only needed for File-LogModule!' => 'Указание расположения файла журнала требуется только для ',
         'Logfile' => 'Файл журнала',
         'Logfile too large, you need to reset it!' => 'Файл журнала слишком большой, вам нужно очистить его!',
         'Login failed! Your username or password was entered incorrectly.' =>
@@ -5122,7 +5114,6 @@ sub Data {
         'Your own Ticket' => 'Ваша собственная заявка',
         'auto responses set!' => 'Установленных автоответов',
         'customer realname' => 'Имя клиента',
-        'default \'hot\'' => 'По умолчанию: «hot»',
         'delete' => 'удалить',
         'down' => 'вниз',
         'false' => 'нет',

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:38
+    # Last translation file sync: 2013-04-18 14:11:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Wylogowanie zakończone! Dziękujemy za używanie %s!',
         'Feature not active!' => 'Funkcja nie aktywna!',
         'Agent updated!' => 'Agent został zaktualizowany!',
-        'Database Selection' => '',
         'Create Database' => 'Stwórz bazę danych',
         'System Settings' => 'Ustawienia systemu',
         'Mail Configuration' => 'Konfiguracja poczty',
@@ -241,6 +240,8 @@ sub Data {
         'Database' => 'Baza danych',
         'Configure Mail' => 'Skonfiguruj pocztę',
         'Database deleted.' => 'Baza danych usunięta.',
+        'Database setup successful!' => 'Baza danych pomyślnie utworzona!',
+        'Generated password' => '',
         'Login is needed!' => 'Wymagane zalogowanie!',
         'Password is needed!' => 'Wymagane hasło!',
         'Take this Customer' => 'Użyj tego klienta',
@@ -812,7 +813,6 @@ sub Data {
         'History::SystemRequest' => 'Żądanie systemowe (%s).',
         'History::ResponsibleUpdate' => 'Zmieniono osobę odpowiedzialną na "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Zmiana statusu archiwizacji: "%s"',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Nie',
@@ -1105,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Jednostek czasu',
-        ' (work units)' => ' (jednostek roboczych)',
+        '(work units)' => '',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -1458,8 +1458,8 @@ sub Data {
         'Install' => 'Instaluj',
         'Install Package' => 'Instaluj pakiet',
         'Update repository information' => 'Zaktualizuj informację o repozytoriach',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Nie znalazłeś potrzebnej funkcjonalności? OTRS Group udostępnia swoim subskrybującym klientom dodatki:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Baza on-line',
         'Vendor' => 'Wydawca',
         'Module documentation' => 'Dokumentacja modułu',
@@ -2606,25 +2606,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Baza danych pomyślnie utworzona!',
+        'False' => 'Fałsz',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Sprawdź ustawienia bazy danych',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Jeżeli masz hasło administratora bazy danych wpisz je tutaj. Jeżeli nie, zostaw pole puste. Ze względów bezpieczeństwa zalecamy ustawienie hasła administratora bazy danych. Po szczegóły sięgnij do dokumentacji bazy danych.',
+        'Currently only MySQL is supported in the web installer.' => 'Obecnie instalator web wspiera jedynie bazę danych MySQL.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jeśli chcesz zainstalować OTRS na innym silniku baz danych, prosimy o zapoznanie się z treścią pliku README.database.',
+        'Database-User' => 'Użytkownik bazy danych',
         'New' => 'Nowe',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Dla tego systemu OTRS utworzony zostanie nowy użytkownik bazy danych z ograniczonymi uprawnieniami.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'domyślne \'hot\'',
+        'DB host' => 'Serwer baz danych',
+        'Check database settings' => 'Sprawdź ustawienia bazy danych',
         'Result of database check' => 'Wynik sprawdzenia bazy danych',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2658,6 +2655,7 @@ sub Data {
         'LogModule' => 'Moduł logowania',
         'Log backend to use.' => 'Używany moduł logowania',
         'LogFile' => 'Plik log',
+        'Log file location is only needed for File-LogModule!' => 'Położenie pliku logów jest potrzebne tylko dla modułu Plik (File)',
         'Webfrontend' => 'Interfejs webowy',
         'Default language' => 'Domyślny język',
         'Default language.' => 'Domyślny język.',
@@ -4534,20 +4532,13 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Obecnie instalator web wspiera jedynie bazę danych MySQL.',
+        ' (work units)' => ' (jednostek roboczych)',
         'Customer Data' => 'Dane klienta',
-        'DB host' => 'Serwer baz danych',
-        'Database-User' => 'Użytkownik bazy danych',
-        'False' => 'Fałsz',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Jeżeli masz hasło administratora bazy danych wpisz je tutaj. Jeżeli nie, zostaw pole puste. Ze względów bezpieczeństwa zalecamy ustawienie hasła administratora bazy danych. Po szczegóły sięgnij do dokumentacji bazy danych.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jeśli chcesz zainstalować OTRS na innym silniku baz danych, prosimy o zapoznanie się z treścią pliku README.database.',
-        'Log file location is only needed for File-LogModule!' => 'Położenie pliku logów jest potrzebne tylko dla modułu Plik (File)',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Nie znalazłeś potrzebnej funkcjonalności? OTRS Group udostępnia swoim subskrybującym klientom dodatki:',
         'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakończone! Dziękujemy za używanie OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Tryb bezpieczny musi być wyłączony aby reinstalować przy użyciu instalatora web.',
-        'default \'hot\'' => 'domyślne \'hot\'',
 
     };
     # $$STOP$$

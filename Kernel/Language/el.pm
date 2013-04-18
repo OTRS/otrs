@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:23
+    # Last translation file sync: 2013-04-18 14:11:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το %s!',
         'Feature not active!' => 'Μη ενεργή επιλογή!',
         'Agent updated!' => 'Ενημέρωση Συνεργάτη',
-        'Database Selection' => '',
         'Create Database' => 'Δημιουργία Βάσης',
         'System Settings' => 'Ρυθμίσεις Συστήματος',
         'Mail Configuration' => 'Ρυθμίσεις Email',
@@ -241,6 +240,8 @@ sub Data {
         'Database' => 'Βάση Δεδομένων',
         'Configure Mail' => 'Ρυθμιση Email',
         'Database deleted.' => 'Η βαση διαγραφηκε',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Απαιτείται Σύνδεση !',
         'Password is needed!' => 'Ο κωδικός είναι απαραίτητος!',
         'Take this Customer' => 'Πάρε αυτόν τον πελάτη',
@@ -812,7 +813,6 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s).',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Κυρ',
@@ -1105,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Προσθήκη Σημείωσης',
         'Time units' => 'Μονάδες Χρόνου',
-        ' (work units)' => ' (μονάδες εργασίας)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Διαταγή',
@@ -1462,7 +1462,7 @@ sub Data {
         'Install' => 'Εγκατάσταση',
         'Install Package' => 'Εγκατάσταση Πακετου',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online αποθηκευτικός χώρος',
         'Vendor' => 'Κατασκευαστής',
@@ -2611,25 +2611,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '',
+        'Database-User' => 'Ονομα χρήστη βάσης',
         'New' => 'Νέο',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'Προεπιλογή \'hot\'',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2663,6 +2660,7 @@ sub Data {
         'LogModule' => '',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web Interface',
         'Default language' => '',
         'Default language.' => '',
@@ -4540,10 +4538,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (μονάδες εργασίας)',
         'Customer Data' => 'Δεδομένα Πελάτη',
-        'Database-User' => 'Ονομα χρήστη βάσης',
         'Logout successful. Thank you for using OTRS!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το OTRS!',
-        'default \'hot\'' => 'Προεπιλογή \'hot\'',
 
     };
     # $$STOP$$

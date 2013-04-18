@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:48
+    # Last translation file sync: 2013-04-18 14:11:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,7 +233,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '该特性尚未激活!',
         'Agent updated!' => '服务人员已被更新！',
-        'Database Selection' => '',
         'Create Database' => '创建数据库',
         'System Settings' => '数据库设置 ',
         'Mail Configuration' => '邮件配置',
@@ -244,6 +243,8 @@ sub Data {
         'Database' => '数据库',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'Take this Customer' => '取得这个客户',
@@ -815,7 +816,6 @@ sub Data {
         'History::SystemRequest' => '历史：系统请求',
         'History::ResponsibleUpdate' => '历史：负责人更新',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '日',
@@ -1108,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '工作单元',
+        '(work units)' => '',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1461,7 +1461,7 @@ sub Data {
         'Install' => '安装',
         'Install Package' => '安装软件包',
         'Update repository information' => '更新软件仓库信息',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => '在线软件仓库',
         'Vendor' => '提供者',
@@ -2609,25 +2609,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '出错',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => '测试数据库设置',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
+        'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '如果使用其他数据库安装OTRS，请参考README文档。',
+        'Database-User' => '数据库用户名',
         'New' => '新建',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库用户',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => '默认密码 \'hot\'',
+        'DB host' => '数据库服务器',
+        'Check database settings' => '测试数据库设置',
         'Result of database check' => '数据库检查结果',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2661,6 +2658,7 @@ sub Data {
         'LogModule' => '日志模块',
         'Log backend to use.' => '日志后台使用。',
         'LogFile' => '日志文件',
+        'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Webfrontend' => 'Web 前端',
         'Default language' => '默认语言',
         'Default language.' => '默认语言',
@@ -4537,20 +4535,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
+        ' (work units)' => '工作单元',
         'Customer Data' => '客户数据',
-        'DB host' => '数据库服务器',
-        'Database-User' => '数据库用户名',
-        'False' => '出错',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '如果使用其他数据库安装OTRS，请参考README文档。',
-        'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
-        'default \'hot\'' => '默认密码 \'hot\'',
 
     };
     # $$STOP$$

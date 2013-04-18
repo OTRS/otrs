@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:47
+    # Last translation file sync: 2013-04-18 14:11:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -227,7 +227,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Đăng xuất thành công! Cảm ơn bạn đã sử dụng %s!',
         'Feature not active!' => 'Tính năng không hoạt động!',
         'Agent updated!' => '',
-        'Database Selection' => '',
         'Create Database' => 'Tạo cơ sở dữ liệu',
         'System Settings' => 'Thiết đặt hệ thống',
         'Mail Configuration' => '',
@@ -238,6 +237,8 @@ sub Data {
         'Database' => 'Cơ sở dữ liệu',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Cần đăng nhập!',
         'Password is needed!' => 'Cần mật khẩu!',
         'Take this Customer' => 'Chấp nhận khách hàng này',
@@ -809,7 +810,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Chủ nhật',
@@ -1102,7 +1102,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
         'Time units' => 'Các đơn vị thời gian',
-        ' (work units)' => ' (các đơn vị làm việc)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1455,7 +1455,7 @@ sub Data {
         'Install' => 'Cài đặt',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Kho trực tuyến',
         'Vendor' => 'Người bán',
@@ -2603,25 +2603,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '',
+        'Database-User' => 'Người dùng cơ sở dữ liệu',
         'New' => 'Mới',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'mặc định \'hot\'',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2655,6 +2652,7 @@ sub Data {
         'LogModule' => 'Mô đun bản ghi',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Mặt ngoài web',
         'Default language' => '',
         'Default language.' => '',
@@ -4531,10 +4529,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (các đơn vị làm việc)',
         'Customer Data' => 'Dữ liệu khách hàng',
-        'Database-User' => 'Người dùng cơ sở dữ liệu',
         'Logout successful. Thank you for using OTRS!' => 'Đăng xuất thành công! Cảm ơn bạn đã sử dụng OTRS!',
-        'default \'hot\'' => 'mặc định \'hot\'',
 
     };
     # $$STOP$$

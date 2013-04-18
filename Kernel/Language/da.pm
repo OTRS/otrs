@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:21
+    # Last translation file sync: 2013-04-18 14:11:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,7 +229,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Du er nu logget ud. Tak fordi du bruger %s.',
         'Feature not active!' => 'Funktionen er ikke aktiv',
         'Agent updated!' => 'Agent opdateret',
-        'Database Selection' => '',
         'Create Database' => 'Opret database',
         'System Settings' => 'Systemindstillinger',
         'Mail Configuration' => 'Mail-konfiguration',
@@ -240,6 +239,8 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Konfigurer Mail',
         'Database deleted.' => 'Database slettet.',
+        'Database setup successful!' => 'Database konfigureret!',
+        'Generated password' => '',
         'Login is needed!' => 'Login er påkrævet',
         'Password is needed!' => 'Adgangskode er påkrævet',
         'Take this Customer' => 'Tag denne kunde',
@@ -811,7 +812,6 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s)',
         'History::ResponsibleUpdate' => 'Ny ansvarlig er "%s" (ID=%s)',
         'History::ArchiveFlagUpdate' => 'Arkivflag opdateret',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Søn',
@@ -1104,7 +1104,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
-        ' (work units)' => ' (arbejdsenheder)',
+        '(work units)' => '',
         'Ticket Commands' => 'Sagskommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
         'CMD' => 'CMD',
@@ -1457,7 +1457,7 @@ sub Data {
         'Install' => 'Installation',
         'Install Package' => 'Installer pakke',
         'Update repository information' => 'Opdater information i repositoriet',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online lagerdepot',
         'Vendor' => 'Leverandør',
@@ -2605,25 +2605,22 @@ sub Data {
             'Hvis du springer dette trin over, bliver OTRS ikke registreret. Er du sikker på, du vil fortsætte?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Database konfigureret!',
+        'False' => 'Falsk',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Tjek database-konfiguration',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Hvis du har sat et root kodeord til din database skal du taste det her. Hvis ikke, lad feltet være tomt. Af sikkerhedsmæssige årsager anbefaler vi at sætte et root kodeord. For mere information henviser vi til documentationen for din database.',
+        'Currently only MySQL is supported in the web installer.' => 'Pt. understøttes kun MySQL af web-installeren.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Hvis du vil installere OTRS på en anden database-type, tjek venligst filen README.database.',
+        'Database-User' => 'Database-bruger',
         'New' => 'Ny',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'En ny database-bruger med begrænsede rettigheder vil blive oprettet til dette OTRS-system.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'standard \'hot\'',
+        'DB host' => 'DB--- server',
+        'Check database settings' => 'Tjek database-konfiguration',
         'Result of database check' => 'Resultat af database-konfigurationstjek',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2657,6 +2654,7 @@ sub Data {
         'LogModule' => 'LogModul',
         'Log backend to use.' => 'Brug denne log-backend.',
         'LogFile' => 'Logfil',
+        'Log file location is only needed for File-LogModule!' => 'Logfilens lokation skal kun bruges i forbindelse med File-LogModule!',
         'Webfrontend' => 'Webfrontend',
         'Default language' => 'Standardsprog',
         'Default language.' => 'Standardsprog.',
@@ -4533,20 +4531,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Pt. understøttes kun MySQL af web-installeren.',
+        ' (work units)' => ' (arbejdsenheder)',
         'Customer Data' => 'Kundedata',
-        'DB host' => 'DB--- server',
-        'Database-User' => 'Database-bruger',
-        'False' => 'Falsk',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Hvis du har sat et root kodeord til din database skal du taste det her. Hvis ikke, lad feltet være tomt. Af sikkerhedsmæssige årsager anbefaler vi at sætte et root kodeord. For mere information henviser vi til documentationen for din database.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Hvis du vil installere OTRS på en anden database-type, tjek venligst filen README.database.',
-        'Log file location is only needed for File-LogModule!' => 'Logfilens lokation skal kun bruges i forbindelse med File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
-        'default \'hot\'' => 'standard \'hot\'',
 
     };
     # $$STOP$$

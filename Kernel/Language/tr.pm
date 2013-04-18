@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:46
+    # Last translation file sync: 2013-04-18 14:11:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Özellik etkin değil!',
         'Agent updated!' => 'Aracı güncellendi!',
-        'Database Selection' => '',
         'Create Database' => 'Veritabanını Oluştur',
         'System Settings' => 'Sistem Ayarları',
         'Mail Configuration' => 'E-posta ayarları',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'Veritabanı',
         'Configure Mail' => 'E-posta ayarla',
         'Database deleted.' => 'Veritabanı silindi.',
+        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
+        'Generated password' => '',
         'Login is needed!' => 'Oturum açmanız gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'Take this Customer' => 'Bu Müşteriyi al',
@@ -810,7 +811,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Paz',
@@ -1103,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        ' (work units)' => ' (iş birimi)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -1456,8 +1456,8 @@ sub Data {
         'Install' => 'Yükle',
         'Install Package' => 'Paketi yükle',
         'Update repository information' => 'Depo bilgilerini güncelle',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Gerekli özelliği bulamadınızmı? OTRS grubu üye müşterilerimize seçkin eklentileri sunar.',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Çevrimiçi Depo',
         'Vendor' => 'Sağlayıcı',
         'Module documentation' => '',
@@ -2604,25 +2604,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
+        'False' => '',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => '',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '',
+        'Database-User' => 'Veritabanı kullanıcısı',
         'New' => 'Yeni',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'varsayılan \'host\'',
+        'DB host' => '',
+        'Check database settings' => '',
         'Result of database check' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2656,6 +2653,7 @@ sub Data {
         'LogModule' => 'Günlük Bileşeni',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web Önyüzü',
         'Default language' => '',
         'Default language.' => '',
@@ -4532,6 +4530,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',
@@ -4667,13 +4666,14 @@ sub Data {
         'DB Admin Password' => 'Veritabanı Yöneticisi Parolası',
         'DB Admin User' => 'Veritabanı Yöneticisi Kullanıcı',
         'DB connect host' => 'Veritabanına bağlanan sunucu',
-        'Database-User' => 'Veritabanı kullanıcısı',
         'Default' => 'Öntanımlı',
         'Default Charset' => 'Öntanımlı karakter kümesi',
         'Default Language' => 'Öntanımlı dil',
         'Delete old database' => 'Eski veritabanını sil',
         'Delete this ticket!' => 'Bu bileti sil!',
         'Detail' => 'Detay',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Gerekli özelliği bulamadınızmı? OTRS grubu üye müşterilerimize seçkin eklentileri sunar.',
         'Diff' => 'Fark',
         'Discard all changes and return to the compose screen' => 'Tüm değişiklikleri geri al ve oluşturma ekranına geri dön',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -5007,7 +5007,6 @@ sub Data {
         'Your language' => 'Diliniz',
         'Your own Ticket' => 'Kendi Biletiniz',
         'customer realname' => 'müşterinin gerçek adı',
-        'default \'hot\'' => 'varsayılan \'host\'',
         'down' => 'aşağı',
         'false' => 'false',
         'for agent firstname' => 'aracı adı için',

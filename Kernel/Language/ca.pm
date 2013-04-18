@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:19
+    # Last translation file sync: 2013-04-18 14:11:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Característica no activa',
         'Agent updated!' => 'Agent actualitzat!',
-        'Database Selection' => '',
         'Create Database' => 'Crear Base de dades',
         'System Settings' => 'Configuració del sistema',
         'Mail Configuration' => 'Configuració de correu.',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'Base de dades',
         'Configure Mail' => 'Configurar el correu',
         'Database deleted.' => 'Base de dades esborrada.',
+        'Database setup successful!' => 'Base de dades de configurada amb èxit!',
+        'Generated password' => '',
         'Login is needed!' => 'Es requereix login',
         'Password is needed!' => 'Falta la contrasenya!',
         'Take this Customer' => 'Utilitzar aquest client',
@@ -810,7 +811,6 @@ sub Data {
         'History::SystemRequest' => 'Petició de sistema',
         'History::ResponsibleUpdate' => 'Actualització del responsable',
         'History::ArchiveFlagUpdate' => 'Actualització de l\'opció d\'arxiu',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Diu',
@@ -1103,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        ' (work units)' => ' (unitats de treball)',
+        '(work units)' => '',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -1456,7 +1456,7 @@ sub Data {
         'Install' => 'Instal·lar',
         'Install Package' => 'Instal·lar paquet',
         'Update repository information' => 'Actualització de la informació del repositori',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Repositori en línia',
         'Vendor' => 'Venedor',
@@ -2604,25 +2604,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Base de dades de configurada amb èxit!',
+        'False' => 'Fals',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Comprovar la configuració de la base de dades',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Si la seva base de dades té una contrasenya per a root, ha d\'introduir-la aquí. Si no, deixi aquest camp en blanc. Per raons de seguretat és recomanable posar una contrasenya a l\'usuari root. Per a més informació per favor refereixi\'s a la documentació de la seva base de dades.',
+        'Currently only MySQL is supported in the web installer.' => 'Actualment només se suporta MySQL en l\'instal·lador web.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Si desitja instal·lar *OTRS en un altre tipus de bases de dades, per favor consulti l\'arxiu README.database.',
+        'Database-User' => 'Usuari-Base de dades',
         'New' => 'Nou',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Un nou usuari de base de dades amb drets limitats serà creat per a aquest sistema OTRS.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'per defecte \'hot\'',
+        'DB host' => 'BD--- servidor',
+        'Check database settings' => 'Comprovar la configuració de la base de dades',
         'Result of database check' => 'Resultat de la verificació de bases de dades',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2656,6 +2653,7 @@ sub Data {
         'LogModule' => 'Mòdul de traces',
         'Log backend to use.' => 'Registre de servidor per usar.',
         'LogFile' => 'Arxiu de registre',
+        'Log file location is only needed for File-LogModule!' => 'La ubicació de l\'arxiu de registre només és necessària per a Arxiu-LogModule!',
         'Webfrontend' => 'Interfície web',
         'Default language' => 'Llengua per defecte',
         'Default language.' => 'Llengua per defecte.',
@@ -4532,22 +4530,13 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unitats de treball)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
-        'Currently only MySQL is supported in the web installer.' => 'Actualment només se suporta MySQL en l\'instal·lador web.',
         'Customer Data' => 'Informació del client',
-        'DB host' => 'BD--- servidor',
-        'Database-User' => 'Usuari-Base de dades',
-        'False' => 'Fals',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Si la seva base de dades té una contrasenya per a root, ha d\'introduir-la aquí. Si no, deixi aquest camp en blanc. Per raons de seguretat és recomanable posar una contrasenya a l\'usuari root. Per a més informació per favor refereixi\'s a la documentació de la seva base de dades.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Si desitja instal·lar *OTRS en un altre tipus de bases de dades, per favor consulti l\'arxiu README.database.',
-        'Log file location is only needed for File-LogModule!' => 'La ubicació de l\'arxiu de registre només és necessària per a Arxiu-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
-        'default \'hot\'' => 'per defecte \'hot\'',
 
     };
     # $$STOP$$

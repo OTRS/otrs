@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:28
+    # Last translation file sync: 2013-04-18 14:11:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ominaisuus ei käytössä!',
         'Agent updated!' => 'Agentti päivitetty!',
-        'Database Selection' => '',
         'Create Database' => 'Luo tietokanta',
         'System Settings' => 'Järjestelmäasetukset',
         'Mail Configuration' => 'Sähköpostiasetukset',
@@ -241,6 +240,8 @@ sub Data {
         'Database' => 'Tietokanta',
         'Configure Mail' => 'Sähköpostin asetukset',
         'Database deleted.' => 'Tietokanta poistettu.',
+        'Database setup successful!' => 'Tietokanta asennettu onnistuneesti!',
+        'Generated password' => '',
         'Login is needed!' => 'Käyttäjätunnus on pakollinen!',
         'Password is needed!' => 'Salasana on pakollinen!',
         'Take this Customer' => 'Valitse tämä asiakas',
@@ -812,7 +813,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Su',
@@ -1105,7 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
-        ' (work units)' => ' (esim. minuutteina)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1458,7 +1458,7 @@ sub Data {
         'Install' => 'Asenna',
         'Install Package' => 'Asenna paketti',
         'Update repository information' => 'Päivitä',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online ohjelmistojakelu',
         'Vendor' => 'Valmistaja',
@@ -2606,25 +2606,22 @@ sub Data {
             'Tämän vaiheen ohittaminen ohittaa OTRS:n rekisteröimisen. Haluatko varmasti jatkaa?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Tietokanta asennettu onnistuneesti!',
+        'False' => 'Virhe',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => 'Tarkista tietokanta-asetukset',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
+        'Database-User' => 'Tietokantakäyttäjä',
         'New' => 'Uusi',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'oletuspalvelin',
+        'DB host' => '',
+        'Check database settings' => 'Tarkista tietokanta-asetukset',
         'Result of database check' => 'Tietokannan tarkistuksen tulos',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2658,6 +2655,7 @@ sub Data {
         'LogModule' => 'LokiModuuli',
         'Log backend to use.' => 'Käytettävä logijärjestelmä.',
         'LogFile' => 'Logitiedosto',
+        'Log file location is only needed for File-LogModule!' => 'Lokitiedoston sijainti tarvitaan vain File-LogModulille',
         'Webfrontend' => 'Webnäkymä',
         'Default language' => 'Oletuskieli',
         'Default language.' => 'Oletuskieli.',
@@ -4534,16 +4532,10 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
+        ' (work units)' => ' (esim. minuutteina)',
         'Customer Data' => 'Asiakastieto',
-        'Database-User' => 'Tietokantakäyttäjä',
-        'False' => 'Virhe',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
-        'Log file location is only needed for File-LogModule!' => 'Lokitiedoston sijainti tarvitaan vain File-LogModulille',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
         'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
-        'default \'hot\'' => 'oletuspalvelin',
 
     };
     # $$STOP$$

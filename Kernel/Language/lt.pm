@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:34
+    # Last translation file sync: 2013-04-18 14:11:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Sėkmingai atsijungta! Ačiū, kad naudojatės %s!',
         'Feature not active!' => 'Funkcija/ypatybė neaktyvuota!',
         'Agent updated!' => 'Agentas atnaujintas!',
-        'Database Selection' => '',
         'Create Database' => 'Sukurti duomenų bazę',
         'System Settings' => 'Sistemos nustatymai',
         'Mail Configuration' => 'Pašto konfigūracija',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'Duomenų bazė',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Reikia prisijungimo vardo!',
         'Password is needed!' => 'Reikia slaptažodžio!',
         'Take this Customer' => 'Imti šį klientą',
@@ -810,7 +811,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => 'Naujas atsakingas asmuo yra "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'S',
@@ -1103,7 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Archyvuoti pasirinktas triktis',
         'Add Note' => 'Pridėti pastabą',
         'Time units' => 'Laiko vienetai',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'Trikčių komandos',
         'Send agent/customer notifications on changes' => 'Įvykus pasikeitimams siųsti perspėjimus agentams/klientams',
         'CMD' => 'CMD',
@@ -1456,7 +1456,7 @@ sub Data {
         'Install' => 'Įdiegti',
         'Install Package' => 'Įdiegti paketą',
         'Update repository information' => 'Atnaujinti saugyklos informaciją',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Prieinamos (įjungtos) saugyklos',
         'Vendor' => 'Tiekėjas/pardavėjas',
@@ -2604,25 +2604,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => 'Neigiama',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Patikrinti duomenų bazės nustatymus',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Čia turi būti įvestas Jūsų duomenų bazės root naudotojo slaptažodis, jeigu toks yra nustatytas, jeigu ne, tai palikite šį laukelį tuščią. Dėl saugumo, mes, nerekomenduojame naudoti root slaptažodžio. Daugiau informacijos rasite savo duomenų bazės dokumentacijoje.',
+        'Currently only MySQL is supported in the web installer.' => 'Šiuo metu web-įdiegimo sąsajoje palaikomas tik MySQL.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jeigu OTRS diegimui norite naudoti kitokį duombazės tipą skaitykite failą README.database',
+        'Database-User' => 'Duomenų bazės naudotojas',
         'New' => 'Naujas',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų bazės naudotojas.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'standartiškai \'hot\'',
+        'DB host' => 'Duomenų bazės serveris',
+        'Check database settings' => 'Patikrinti duomenų bazės nustatymus',
         'Result of database check' => 'Duomenų bazės nustatymų patikrinimo rezultatas',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2656,6 +2653,7 @@ sub Data {
         'LogModule' => 'Žurnalo modulis (log module)',
         'Log backend to use.' => 'Žurnalo posistemė.',
         'LogFile' => 'Žurnalo failas',
+        'Log file location is only needed for File-LogModule!' => 'Žurnalizavimo failo vieta (log file location) yra reikalinga tik File-LogModule!',
         'Webfrontend' => 'Web sąsaja',
         'Default language' => 'Standartinė kalba',
         'Default language.' => 'Standartinė kalba.',
@@ -4532,20 +4530,10 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Šiuo metu web-įdiegimo sąsajoje palaikomas tik MySQL.',
         'Customer Data' => 'Kliento duomenys',
-        'DB host' => 'Duomenų bazės serveris',
-        'Database-User' => 'Duomenų bazės naudotojas',
-        'False' => 'Neigiama',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Čia turi būti įvestas Jūsų duomenų bazės root naudotojo slaptažodis, jeigu toks yra nustatytas, jeigu ne, tai palikite šį laukelį tuščią. Dėl saugumo, mes, nerekomenduojame naudoti root slaptažodžio. Daugiau informacijos rasite savo duomenų bazės dokumentacijoje.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jeigu OTRS diegimui norite naudoti kitokį duombazės tipą skaitykite failą README.database',
-        'Log file location is only needed for File-LogModule!' => 'Žurnalizavimo failo vieta (log file location) yra reikalinga tik File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Sėkmingai atsijungta! Ačiū, kad naudojatės OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Norint įdiegti iš naujo, naudojant web-diegyklę, saugus režimas turi būti išjungtas.',
-        'default \'hot\'' => 'standartiškai \'hot\'',
 
     };
     # $$STOP$$

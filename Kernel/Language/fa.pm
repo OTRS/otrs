@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-16 07:17:27
+    # Last translation file sync: 2013-04-18 14:11:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,7 +233,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Agent updated!' => 'کارشناس به روز شد!',
-        'Database Selection' => '',
         'Create Database' => 'ایجاد بانک',
         'System Settings' => 'تنظیمات سیستم',
         'Mail Configuration' => 'پیکربندی پست الکترونیک',
@@ -244,6 +243,8 @@ sub Data {
         'Database' => 'پایگاه داده',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'Take this Customer' => 'این مشترک را بگیر',
@@ -815,7 +816,6 @@ sub Data {
         'History::SystemRequest' => 'سابقه::درخواست سیستم',
         'History::ResponsibleUpdate' => 'سابقه::به روزرسانی مسئولیت',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'یکشنبه',
@@ -1108,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
-        ' (work units)' => '(واحد کار)',
+        '(work units)' => '',
         'Ticket Commands' => 'دستورهای درخواست',
         'Send agent/customer notifications on changes' => 'آگاه کردن کارشناس/مشتری به هنگام ایجاد تغییرات',
         'CMD' => 'CMD',
@@ -1461,7 +1461,7 @@ sub Data {
         'Install' => 'نصب',
         'Install Package' => 'نصب بسته',
         'Update repository information' => 'به‌روز رسانی اطلاعات مخزن',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
         'Vendor' => 'عرضه‌کننده',
@@ -2609,25 +2609,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => 'نادرست',
 
         # Template: InstallerDBStart
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'کنترل تنظیمات پایگاه داده',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'در صورتی که کاربر root در بانک اطلاعاتی رمز عبور دارد، آنرا در این قسمت وارد نمائید.برای امنیت بیشتر پیشنهاد میکنیم برای این کاربر رمز عبور وارد نمائید',
+        'Currently only MySQL is supported in the web installer.' => 'هم اکنون فقط MySQL در نصب‌کننده تحت وب پشتیبانی می‌شود.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'اگر می‌خواهید که نرم‌افزار را روی نوع دیگری از پایگاه داده نصب کنید، لطفا به فایل RAEDME.database. مراجعه نمایید.',
+        'Database-User' => 'نام کاربری بانک اطلاعاتی',
         'New' => 'جدید',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'یک کاربر برای پایگاه داده با دسترسی‌های محدود برای این سیستم ساخته خواهند شد.',
-        'Repeat Password' => '',
-        'Generated password' => '',
+        'default \'hot\'' => 'پیش فرض \'hot\'',
+        'DB host' => 'میزبان--- پایگاه داده',
+        'Check database settings' => 'کنترل تنظیمات پایگاه داده',
         'Result of database check' => 'نتیجه کنترل پایگاه داده',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2661,6 +2658,7 @@ sub Data {
         'LogModule' => 'ماژول ثبت وقایع',
         'Log backend to use.' => '',
         'LogFile' => 'فایل ثبت وقایع',
+        'Log file location is only needed for File-LogModule!' => 'محل فایل ثبت وقایع فقط برای File-LogModule مورد نیاز است!',
         'Webfrontend' => 'محیط کار وب',
         'Default language' => 'زبان پیش‌فرض',
         'Default language.' => 'زبان پیش‌فرض',
@@ -4537,20 +4535,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'هم اکنون فقط MySQL در نصب‌کننده تحت وب پشتیبانی می‌شود.',
+        ' (work units)' => '(واحد کار)',
         'Customer Data' => 'اطلاعات مشترک',
-        'DB host' => 'میزبان--- پایگاه داده',
-        'Database-User' => 'نام کاربری بانک اطلاعاتی',
-        'False' => 'نادرست',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'در صورتی که کاربر root در بانک اطلاعاتی رمز عبور دارد، آنرا در این قسمت وارد نمائید.برای امنیت بیشتر پیشنهاد میکنیم برای این کاربر رمز عبور وارد نمائید',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'اگر می‌خواهید که نرم‌افزار را روی نوع دیگری از پایگاه داده نصب کنید، لطفا به فایل RAEDME.database. مراجعه نمایید.',
-        'Log file location is only needed for File-LogModule!' => 'محل فایل ثبت وقایع فقط برای File-LogModule مورد نیاز است!',
         'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'برای باز-نصب از طریق وب باید حالت امن غیر فعال گردد',
-        'default \'hot\'' => 'پیش فرض \'hot\'',
 
     };
     # $$STOP$$
