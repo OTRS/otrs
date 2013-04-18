@@ -13,11 +13,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Cache;
-use Kernel::System::CheckItem;
-use Kernel::System::Time;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 0.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,15 +27,13 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject EncodeObject)
+        qw(DBObject ConfigObject LogObject CustomerCompanyMap MainObject EncodeObject)
         )
     {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     # create additional objects
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
-    $Self->{TimeObject}      = Kernel::System::Time->new( %{$Self} );
     $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
 
     # config options
@@ -56,12 +53,14 @@ sub new {
     }
 
     # charset settings
-    my $DatabasePreferences = $Self->{CustomerCompanyMap}->{Params} || {};
     $Self->{SourceCharset} = $Self->{CustomerCompanyMap}->{Params}->{SourceCharset} || '';
     $Self->{DestCharset} = $Self->{CustomerCompanyMap}->{Params}->{DestCharset} || '';
     $Self->{CharsetConvertForce} = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
+
+    # db connection settings, disable Encode utf8 if source db is no utf8
+    my %DatabasePreferences;
     if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences->{Encode} = 0;
+        $DatabasePreferences{Encode} = 0;
     }
 
     # create cache object, but only if CacheTTL is set in customer config
@@ -102,45 +101,104 @@ sub new {
 sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
-
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Users = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType} . '_CustomerCompanyList',
-            Key  => "CustomerCompany::$Valid" . ( $Param{Search} || '' ),
-        );
-        return %{$Users} if ref $Users eq 'HASH';
-    }
-
-    # do not use valid option if no valid option is used
-    if ( !$Self->{CustomerCompanyValid} ) {
+    # check needed stuff
+    my $Valid = 1;
+    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
     }
 
-    my %Companies = $Self->{DBObject}->GetTableData(
-        What  => "$Self->{CustomerCompanyMap}->{CustomerCompanyListFields}",
-        Table => $Self->{CustomerCompanyTable},
-        Clamp => 1,
-        Valid => $Valid,
+    my $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
+    my $CacheKey = "CustomerCompanyList::${Valid}::" . ( $Param{Search} || '' );
+
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Data = $Self->{CacheObject}->Get(
+            Type => $CacheType,
+            Key  => $CacheKey,
+        );
+        return %{$Data} if ref $Data eq 'HASH';
+    }
+
+    # what is the result
+    my $What = join(",", @{ $Self->{CustomerCompanyMap}->{CustomerCompanyListFields} });
+
+    # add valid option if required
+    my $SQL;
+    if ($Valid) {
+        $SQL
+            .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    }
+
+    # where
+    if ( $Param{Search} ) {
+
+        my @Parts = split /\+/, $Param{Search}, 6;
+        for my $Part (@Parts) {
+            $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
+            $Part =~ s/\*/%/g;
+            $Part =~ s/%%/%/g;
+
+            if ( defined $SQL ) {
+                $SQL .= " AND ";
+            }
+
+            my $CustomerCompanySearchFields
+                = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
+
+            if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
+
+                my @SQLParts;
+                my $QuotedPart = $Self->{DBObject}->Quote($Part);
+                for my $Field ( @{$CustomerCompanySearchFields} ) {
+                    if ( $Self->{CaseInsensitive} ) {
+                        push @SQLParts, "$Field LIKE '$QuotedPart'";
+                    }
+                    else {
+                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
+                    }
+                }
+                if (@SQLParts) {
+                    $SQL .= join( ' OR ', @SQLParts );
+                }
+            }
+        }
+    }
+    $SQL = $Self->_ConvertTo($SQL);
+
+    # sql
+    my $CompleteSQL
+        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
+    $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
+
+    # ask database
+    $Self->{DBObject}->Prepare(
+        SQL   => $CompleteSQL,
+        Limit => 50000,
     );
+
+    # fetch the result
+    my %List;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        my $CustomerCompanyID = shift @Row;
+        $List{$CustomerCompanyID} = join( ' ', map { $Self->_ConvertFrom($_) } @Row );
+    }
 
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
-            Key   => "CustomerCompanyList::$Valid",
-            Value => \%Companies,
-            TTL   => $Self->{CustomerCompanyMap}->{CacheTTL},
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => \%List,
+            TTL   => $Self->{CacheTTL},
         );
     }
-    return %Companies;
+
+    return %List;
 }
 
 sub CustomerCompanyGet {
     my ( $Self, %Param ) = @_;
-
-    my %Data;
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
@@ -183,7 +241,7 @@ sub CustomerCompanyGet {
     $SQL = $Self->_ConvertTo($SQL);
 
     # get initial data
-    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
     # fetch the result
     my %Data;

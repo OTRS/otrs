@@ -242,7 +242,7 @@ sub CustomerCompanyUpdate {
     }
 
     # check if company exists
-    my %Company = $Self->CustomerCompanyDataGet( Company => $Param{CustomerCompanyID} );
+    my %Company = $Self->CustomerCompanyGet( CustomerID => $Param{CustomerCompanyID} );
     if ( !%Company ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
