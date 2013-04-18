@@ -9,7 +9,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.15 2013-??-??
+3.1.15 2013-04-23
  - 2013-04-15 Added Malay translation.
  - 2013-04-12 Fixed bug#8960 - AgentTicketSearch.pm SearchProfile problem.
  - 2013-04-09 Fixed bug#9182 - Customer Search Function -> If you go into a ticket and go back you got not the search results.
