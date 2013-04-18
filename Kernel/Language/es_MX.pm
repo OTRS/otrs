@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:47
+    # Last translation file sync: 2013-04-18 14:11:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -239,6 +239,7 @@ sub Data {
         'Configure Mail' => '',
         'Database deleted.' => '',
         'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Inicio de sesión requerido.',
         'Password is needed!' => 'Contraseña requerida.',
         'Take this Customer' => 'Utilizar este cliente',
@@ -1455,7 +1456,7 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Paquete',
         'Update repository information' => 'Actualizar la información del repositorio',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Repositorio Online',
         'Vendor' => 'Vendedor',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Cambiar cliente del ticket',
-        'Customer Data' => 'Información del cliente',
         'Customer user' => 'Cliente',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Objetos Enlazados',
         'Article(s)' => 'Artículo(s)',
         'Change Queue' => 'Cambiar Fila',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtro de Artículos',
         'Add Filter' => 'Añadir Filtro',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Responder',
 
         # Template: CustomerWarning
@@ -4532,6 +4533,7 @@ sub Data {
         ' (work units)' => ' (unidades de trabajo)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
+        'Customer Data' => 'Información del cliente',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'Deshabilita el instalador web (http://yourhost.example.com/otrs/installer.pl), para prevenir que el sistema sufra un secuestro (hijack). Si se selecciona "No", el sistema puede ser reinstalado y la configuración básica actual se usará para pre-poblar las preguntas, en el script del instalador. Así mismo, al estar deshabilitado, es imposible hacer uso de: el agente genérico, el manejador de paquetes y la caja de consultas SQL (para evitar el uso de consultas dañinas, como DROP DATABASE, o para robar contraseñas).',
         'Logout successful. Thank you for using OTRS!' => 'Sesión terminada satisfactoriamente. ¡Gracias por utilizar OTRS!',

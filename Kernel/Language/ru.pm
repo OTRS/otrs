@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:05
+    # Last translation file sync: 2013-04-18 14:11:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -247,6 +247,7 @@ sub Data {
         'Configure Mail' => 'Конфигурировать почту',
         'Database deleted.' => 'База данных удалена.',
         'Database setup successful!' => 'База данных настроена успешно!',
+        'Generated password' => '',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'Take this Customer' => 'Выбрать этого клиента',
@@ -1463,8 +1464,8 @@ sub Data {
         'Install' => 'Установить',
         'Install Package' => 'Установить пакет',
         'Update repository information' => 'Обновить информацию репозитория',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Онлайновый репозиторий',
         'Vendor' => 'Изготовитель',
         'Module documentation' => 'Документация модуля',
@@ -1546,7 +1547,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1673,6 +1673,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2257,7 +2259,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Изменить клиента заявки',
-        'Customer Data' => 'Учетные данные клиента',
         'Customer user' => 'Учетная запись клиента',
 
         # Template: AgentTicketEmail
@@ -2391,7 +2392,8 @@ sub Data {
         'Linked Objects' => 'Связанные объекты',
         'Article(s)' => 'сообщений',
         'Change Queue' => 'Сменить очередь',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Фильтр сообщений',
         'Add Filter' => 'Добавить фильтр',
@@ -2513,7 +2515,6 @@ sub Data {
         'Expand article' => 'Развернуть сообщение',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Ответить',
 
         # Template: CustomerWarning
@@ -4680,6 +4681,7 @@ sub Data {
             'Создать новые группы для назначения прав доступа группам агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
         'Create your first Ticket' => 'Добавить первую заявку',
         'CreateTicket' => 'Создание заявки',
+        'Customer Data' => 'Учетные данные клиента',
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
         'Customer State Notify' => 'Извещать клиента об изменении статуса',
@@ -4700,6 +4702,8 @@ sub Data {
         'Default Language' => 'Язык по умолчанию',
         'Delete this ticket!' => 'Удалить заявку!',
         'Detail' => 'Подробно',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно составления письма',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>

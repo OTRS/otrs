@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:54
+    # Last translation file sync: 2013-04-18 14:11:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -243,6 +243,7 @@ sub Data {
         'Configure Mail' => '',
         'Database deleted.' => '',
         'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Potrebna je prijava!',
         'Password is needed!' => 'Potrebna je lozinka!',
         'Take this Customer' => 'Uzmi ovog korisnika',
@@ -1459,7 +1460,7 @@ sub Data {
         'Install' => 'Instaliraj',
         'Install Package' => 'Instaliraj paket',
         'Update repository information' => 'Ažuriraj informacije o spremištu',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Mrežno spremište',
         'Vendor' => 'Snabdjevač',
@@ -1542,7 +1543,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1669,6 +1669,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2253,7 +2255,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Promjena korisnika za karticu',
-        'Customer Data' => 'Podaci o korisniku',
         'Customer user' => 'Korisnik',
 
         # Template: AgentTicketEmail
@@ -2387,7 +2388,8 @@ sub Data {
         'Linked Objects' => 'Povezani objekti',
         'Article(s)' => 'Članak/ci',
         'Change Queue' => 'Promijeni rep',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtar članka',
         'Add Filter' => 'Dodaj filtar',
@@ -2509,7 +2511,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Odgovori',
 
         # Template: CustomerWarning
@@ -4534,6 +4535,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (elementi posla)',
+        'Customer Data' => 'Podaci o korisniku',
         'Logout successful. Thank you for using OTRS!' => 'Uspješno ste se odjavili! Hvala što ste koristili OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '"Siguran način" mora biti isključen radi reinstalacije putem weba.',

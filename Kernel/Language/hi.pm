@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:53
+    # Last translation file sync: 2013-04-18 14:11:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -241,6 +241,7 @@ sub Data {
         'Configure Mail' => '',
         'Database deleted.' => '',
         'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'प्रवेश आवश्यक है।',
         'Password is needed!' => 'कूटशब्द आवश्यक है।',
         'Take this Customer' => 'यह ग्राहक लें।',
@@ -1457,7 +1458,7 @@ sub Data {
         'Install' => 'स्थापित',
         'Install Package' => 'संकुल स्थापित करें',
         'Update repository information' => 'कोष जानकारी अद्यतन करें',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'ऑनलाइन कोष',
         'Vendor' => 'विक्रेता',
@@ -1540,7 +1541,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1667,6 +1667,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2251,7 +2253,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'टिकट के ग्राहक बदलें',
-        'Customer Data' => 'ग्राहक आंकड़ा',
         'Customer user' => 'ग्राहक उपयोगकर्ता',
 
         # Template: AgentTicketEmail
@@ -2385,7 +2386,8 @@ sub Data {
         'Linked Objects' => 'लिंक्ड वस्तु',
         'Article(s)' => 'अनुच्छेद',
         'Change Queue' => 'श्रेणी बदलें',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'अनुच्छेद निस्पादक',
         'Add Filter' => 'निस्पादक जोड़ें',
@@ -2507,7 +2509,6 @@ sub Data {
         'Expand article' => 'अनुच्छेद का विस्तार करें',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'जवाब देना',
 
         # Template: CustomerWarning
@@ -4533,6 +4534,7 @@ sub Data {
         #
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
+        'Customer Data' => 'ग्राहक आंकड़ा',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
         'Logout successful. Thank you for using OTRS!' => 'बाहर प्रवेश सफल। OTRS उपयोग करने के लिए धन्यवाद।',

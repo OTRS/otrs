@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:56
+    # Last translation file sync: 2013-04-18 14:11:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -246,6 +246,7 @@ sub Data {
         'Configure Mail' => 'Configurazione Mail',
         'Database deleted.' => 'Database Cancellato',
         'Database setup successful!' => 'Configurazione database terminata con successo',
+        'Generated password' => '',
         'Login is needed!' => 'Devi fare il login',
         'Password is needed!' => 'La password è richiesta',
         'Take this Customer' => 'Prendi questo Cliente',
@@ -1462,8 +1463,8 @@ sub Data {
         'Install' => 'Installa',
         'Install Package' => 'Installa pacchetto',
         'Update repository information' => 'Aggiorna informazioni sui repository',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Archivio Online',
         'Vendor' => 'Fornitore',
         'Module documentation' => 'Documentazione sul modulo',
@@ -1545,7 +1546,6 @@ sub Data {
         'Configuration import' => 'Importa Configurazione',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Qui è possibile importare un file di configurazione per importare un processo a sistema. Il file deve essere in formato .yml come esportato dal modulo di export della gestione processi',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Carica la configurazione di processo',
         'Import process configuration' => 'Importa la configurazione di processo',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1673,6 +1673,8 @@ sub Data {
         'The Start Event cannot loose the Start Transition!' => 'L\'evento di inizio non può perdere la Transizione d\'inizio!',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
             'Non ci sono interazioni assegnate. Selezionana una interazione dalla lista sulla sinistra e trascinala qui.',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
+            '',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -2256,7 +2258,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Modifica il cliente della richiesta',
-        'Customer Data' => 'Dati del cliente',
         'Customer user' => 'Utente cliente',
 
         # Template: AgentTicketEmail
@@ -2390,7 +2391,8 @@ sub Data {
         'Linked Objects' => 'Oggetti collegati',
         'Article(s)' => 'Articoli',
         'Change Queue' => 'Cambia coda',
-        'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => 'Questo oggetto non ha ancora articoli',
         'Article Filter' => 'Filtro articoli',
         'Add Filter' => 'Aggiungi filtro',
@@ -2512,7 +2514,6 @@ sub Data {
         'Expand article' => 'Espandi l\'articolo',
         'Information' => 'Informazione',
         'Next Steps' => 'Prossime attività',
-        'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
         'Reply' => 'Risposta',
 
         # Template: CustomerWarning
@@ -4539,9 +4540,14 @@ sub Data {
         ' (work units)' => ' (unità di lavoro)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
+        'Customer Data' => 'Dati del cliente',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
         'Logout successful. Thank you for using OTRS!' => 'Disconnessione avvenuta con successo. Grazie per aver usato OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
+        'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
+        'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
 
     };
     # $$STOP$$

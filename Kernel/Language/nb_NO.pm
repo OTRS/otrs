@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:00
+    # Last translation file sync: 2013-04-18 14:11:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -247,6 +247,7 @@ sub Data {
         'Configure Mail' => 'Konfigurer e-post',
         'Database deleted.' => 'Databasen fjernet',
         'Database setup successful!' => 'Konfigurasjon av databasen var vellykket',
+        'Generated password' => '',
         'Login is needed!' => 'Innlogging kreves',
         'Password is needed!' => 'Passord er påkrevd!',
         'Take this Customer' => 'Velg denne kunden',
@@ -1463,8 +1464,8 @@ sub Data {
         'Install' => 'Installer',
         'Install Package' => 'Installer pakke',
         'Update repository information' => 'Oppdater pakkelager-informasjon',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Pakkelager på nettet',
         'Vendor' => 'Forhandler',
         'Module documentation' => 'Modul-dokumentasjon',
@@ -1546,7 +1547,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1673,6 +1673,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2257,7 +2259,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Endre kunde på sak',
-        'Customer Data' => 'Kundeinformasjon',
         'Customer user' => 'Kunde',
 
         # Template: AgentTicketEmail
@@ -2391,7 +2392,8 @@ sub Data {
         'Linked Objects' => 'Koblede objekter',
         'Article(s)' => 'Innlegg',
         'Change Queue' => 'Bytt kø',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Artikkelfilter',
         'Add Filter' => 'Legg til filter',
@@ -2513,7 +2515,6 @@ sub Data {
         'Expand article' => 'Utvid artikkel',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Svar',
 
         # Template: CustomerWarning
@@ -4540,6 +4541,9 @@ sub Data {
         ' (work units)' => ' (arbeidsenheter)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
+        'Customer Data' => 'Kundeinformasjon',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
         'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',

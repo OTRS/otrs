@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:13
+    # Last translation file sync: 2013-04-18 14:11:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -244,6 +244,7 @@ sub Data {
         'Configure Mail' => '',
         'Database deleted.' => '',
         'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'Take this Customer' => '取得这个客户',
@@ -1460,7 +1461,7 @@ sub Data {
         'Install' => '安装',
         'Install Package' => '安装软件包',
         'Update repository information' => '更新软件仓库信息',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => '在线软件仓库',
         'Vendor' => '提供者',
@@ -1543,7 +1544,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1670,6 +1670,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2254,7 +2256,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => '修改票单所属客户',
-        'Customer Data' => '客户数据',
         'Customer user' => '客户用户',
 
         # Template: AgentTicketEmail
@@ -2388,7 +2389,8 @@ sub Data {
         'Linked Objects' => '已连接的对象',
         'Article(s)' => '文章',
         'Change Queue' => '改变队列',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => '文章过滤器',
         'Add Filter' => '新增过滤器',
@@ -2510,7 +2512,6 @@ sub Data {
         'Expand article' => '展开文章',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => '回复',
 
         # Template: CustomerWarning
@@ -4535,6 +4536,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '工作单元',
+        'Customer Data' => '客户数据',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',

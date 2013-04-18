@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:08
+    # Last translation file sync: 2013-04-18 14:11:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -239,6 +239,7 @@ sub Data {
         'Configure Mail' => 'Podešavanje mejla',
         'Database deleted.' => 'Obrisana baza',
         'Database setup successful!' => 'Uspešno instaliranje baze',
+        'Generated password' => '',
         'Login is needed!' => 'Potrebna je prijava!',
         'Password is needed!' => 'Potrebna je lozinka!',
         'Take this Customer' => 'Uzmi ovog korisnika',
@@ -1455,8 +1456,8 @@ sub Data {
         'Install' => 'Instaliraj',
         'Install Package' => 'Instaliraj paket',
         'Update repository information' => 'Ažuriraj informacije o spremištu',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Niste pronašli potrebnu funkciju? "OTRS Group" za svoje pretplaćene korisnike ima ekskluzivne dodatke:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Mrežno spremište',
         'Vendor' => 'Prodavac',
         'Module documentation' => 'Dokumentacija kodula',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Promena korisnika za tiket',
-        'Customer Data' => 'Podaci o korisniku',
         'Customer user' => 'Korisnik',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Povezani objekti',
         'Article(s)' => 'Članak/Članci',
         'Change Queue' => 'Promeni Red',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filter članka',
         'Add Filter' => 'Dodaj Filter',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => 'Raširi članak',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Odgovori',
 
         # Template: CustomerWarning
@@ -4530,6 +4531,9 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (elementi posla)',
+        'Customer Data' => 'Podaci o korisniku',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Niste pronašli potrebnu funkciju? "OTRS Group" za svoje pretplaćene korisnike ima ekskluzivne dodatke:',
         'Logout successful. Thank you for using OTRS!' => 'Uspešno ste se odjavili! Hvala što ste koristili "OTRS"!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Siguran mod mora biti isključen radi reinstalacije preko "web" procedure.',

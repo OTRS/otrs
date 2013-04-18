@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:03
+    # Last translation file sync: 2013-04-18 14:11:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -240,6 +240,7 @@ sub Data {
         'Configure Mail' => '',
         'Database deleted.' => '',
         'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Entrada necessária',
         'Password is needed!' => 'Palavra-passe indispensável!',
         'Take this Customer' => 'Fique com este Cliente',
@@ -1456,7 +1457,7 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar pacote',
         'Update repository information' => 'Atualizar informação do repositório',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Repositório Online',
         'Vendor' => 'Fabricante',
@@ -1539,7 +1540,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1666,6 +1666,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2250,7 +2252,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Modificar o cliente do ticket',
-        'Customer Data' => 'Dados do Cliente',
         'Customer user' => 'Utilizador do cliente',
 
         # Template: AgentTicketEmail
@@ -2384,7 +2385,8 @@ sub Data {
         'Linked Objects' => 'Objetos ligados',
         'Article(s)' => 'Artigo(s)',
         'Change Queue' => 'Mudar fila',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtro de artigo',
         'Add Filter' => 'Adicionar filtro',
@@ -2506,7 +2508,6 @@ sub Data {
         'Expand article' => 'Expandir artigo',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Responder',
 
         # Template: CustomerWarning
@@ -4533,6 +4534,7 @@ sub Data {
         ' (work units)' => ' (unAntiguidades de trabalho)',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite condições de pesquisa de tickets aumentadas no interface de agente . Com esta funcionalAntiguidade pode pesquisar com por ex. "(key1&&key2)" or "(key1||key2)".',
+        'Customer Data' => 'Dados do Cliente',
         'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro necessita de estar inativo para re-instalar via browser',

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:50
+    # Last translation file sync: 2013-04-18 14:11:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -241,6 +241,7 @@ sub Data {
         'Configure Mail' => 'Sähköpostin asetukset',
         'Database deleted.' => 'Tietokanta poistettu.',
         'Database setup successful!' => 'Tietokanta asennettu onnistuneesti!',
+        'Generated password' => '',
         'Login is needed!' => 'Käyttäjätunnus on pakollinen!',
         'Password is needed!' => 'Salasana on pakollinen!',
         'Take this Customer' => 'Valitse tämä asiakas',
@@ -1457,7 +1458,7 @@ sub Data {
         'Install' => 'Asenna',
         'Install Package' => 'Asenna paketti',
         'Update repository information' => 'Päivitä',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online ohjelmistojakelu',
         'Vendor' => 'Valmistaja',
@@ -1540,7 +1541,6 @@ sub Data {
         'Configuration import' => 'Asetusten tuonti',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Voit lähettää asetustiedoston prosessin tuomiseksi järjestelmään. Tiedoston tulee olla .yml-muotoinen, kuten prosessin hallinnasta viety tieto on.',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Päivitä prosessin asetukset',
         'Import process configuration' => 'Tuo prosessin asetukset',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1667,6 +1667,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2251,7 +2253,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Vaihda tiketin asiakasta',
-        'Customer Data' => 'Asiakastieto',
         'Customer user' => 'Asiakaskäyttäjä',
 
         # Template: AgentTicketEmail
@@ -2385,7 +2386,8 @@ sub Data {
         'Linked Objects' => 'Aiheeseen liittyvät',
         'Article(s)' => 'Artikkelit',
         'Change Queue' => 'Vaihda jonoa',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Artikkelisuodatin',
         'Add Filter' => 'Lisää suodatin',
@@ -2507,7 +2509,6 @@ sub Data {
         'Expand article' => 'Laajenna artikkeli',
         'Information' => 'Tiedot',
         'Next Steps' => 'Seuraavat vaiheet',
-        'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
         'Reply' => 'Vastaus',
 
         # Template: CustomerWarning
@@ -4532,7 +4533,9 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (esim. minuutteina)',
+        'Customer Data' => 'Asiakastieto',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
+        'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
 
     };
     # $$STOP$$

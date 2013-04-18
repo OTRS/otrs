@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:52
+    # Last translation file sync: 2013-04-18 14:11:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -245,7 +245,8 @@ sub Data {
         'Database' => 'Base de données',
         'Configure Mail' => 'Configuration de la messagerie',
         'Database deleted.' => 'Base de données effacée.',
-        'Database setup successful!' => 'Configuration de la base de données réussie!',
+        'Database setup successful!' => 'Configuration de la base de données réussie.',
+        'Generated password' => '',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis.',
         'Take this Customer' => 'Choisir ce client',
@@ -1462,8 +1463,8 @@ sub Data {
         'Install' => 'Installer',
         'Install Package' => 'Installer un paquet',
         'Update repository information' => 'Mettre à jour les informations du référentiel',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Vous ne trouvez pas la fonctionnalité recherchée? Le groupe OTRS offre à ses clients inscrits des compagnons exclusifs à l\'adresse suivante : ',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Référentiels en ligne',
         'Vendor' => 'Vendeur ',
         'Module documentation' => 'Documents relatifs au module',
@@ -1545,7 +1546,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1672,6 +1672,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2256,7 +2258,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Modifier le client de la demande no ',
-        'Customer Data' => 'Renseignements du client ',
         'Customer user' => 'Client utilisateur ',
 
         # Template: AgentTicketEmail
@@ -2390,7 +2391,8 @@ sub Data {
         'Linked Objects' => 'Objets liés',
         'Article(s)' => 'Article(s)',
         'Change Queue' => 'Changer de file',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtre pour les articles',
         'Add Filter' => 'Ajouter un filtre',
@@ -2512,7 +2514,6 @@ sub Data {
         'Expand article' => 'Développer l\'article',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Répondre',
 
         # Template: CustomerWarning
@@ -5200,6 +5201,7 @@ sub Data {
         'Creating tables \'otrs-schema.mysql.sql\'' => 'Créer les tables \'otrs-schema.mysql.sql\'.',
         'Croatia' => 'Croatie, République de',
         'Curacao' => 'Curacao',
+        'Customer Data' => 'Renseignements du client ',
         'Customer Move Notify' => 'Notification lors d\'un changement de file',
         'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
         'Customer State Notify' => 'Notification lors d\'un changement d\'état',
@@ -5241,7 +5243,6 @@ sub Data {
         'Database $Row[0] is $Row[1] large, of which $Row[2] is available.' =>
             'La base de données $Row[0] is $Row[1] large de laquelle $Row[2] provient.',
         'Database Backend' => 'Base de données de l\'arrière-plan',
-        'Database setup successful!' => 'Configuration de la base de données réussie.',
         'Database size is $Row[0] GB.' => 'La taille de la base de données est de $Row[0] Gb.',
         'DateChecksum' => 'Date de la somme de contrôle (DateChecksum)',
         'Days' => 'Jours',
@@ -5358,6 +5359,8 @@ sub Data {
             'Détermine les textes des champs « destinataire » (À : ) de la demande téléphonique et « expéditeur » (De :) de la demande par courriel dans l\'interface agent. En ce qui concerne les files « NewQueueSelectionType », le champ « <Queue> » affiche les noms des files et les champs « <Realname> <<Email>> » affichent le nom et le courriel du destinataire dans l\'adresse système (SystemAddress).',
         'Determines the strings that will be shown as receipent (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "&lt;Queue&gt;" shows the names of the queues, and for SystemAddress, "&lt;Realname&gt; &lt;&lt;Email&gt;&gt;" shows the name and email of the receipent.' =>
             'Détermine les textes des champs « destinataire » (À : ) de la demande téléphonique et « expéditeur » (De :) de la demande par courriel dans l\'interface agent. En ce qui concerne les files « NewQueueSelectionType », le champ « <Queue> » affiche les noms des files et les champs « <Realname> <<Email>> » affichent le nom et le courriel du destinataire dans l\'adresse système (SystemAddress).',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Vous ne trouvez pas la fonctionnalité recherchée? Le groupe OTRS offre à ses clients inscrits des compagnons exclusifs à l\'adresse suivante : ',
         'Diff' => 'Fichier Diff',
         'Directory \'$DirOfSQLFiles\' not found!' => 'Le répertoire \'$DirOfSQLFiles\' n\'a pa été trouvé.',
         'Directory \'$Self->{Path}\' doesn\'t exist!' => 'Le répertoire \'$Self->{Path}\' n\'existe pas.',

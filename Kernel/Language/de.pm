@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:43
+    # Last translation file sync: 2013-04-18 14:11:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1456,8 +1456,8 @@ sub Data {
         'Install' => 'Installieren',
         'Install Package' => 'Paket installieren',
         'Update repository information' => 'Verzeichnis aktualisieren',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Kunden mit Wartungsvertrag:',
         'Online Repository' => 'Online-Verzeichnis',
         'Vendor' => 'Anbieter',
         'Module documentation' => 'Moduldokumentation',
@@ -1539,7 +1539,6 @@ sub Data {
         'Configuration import' => 'Konfiguration importieren',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie vom Prozessmanagement auch exportiert wird.',
-        'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Upload process configuration' => 'Prozesskonfiguration hochladen',
         'Import process configuration' => 'Prozesskonfiguration importieren',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -2252,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Ändern des Kundenkontakts des Tickets',
-        'Customer Data' => 'Kunden-/Kontakt-Daten',
         'Customer user' => 'Kontakt',
 
         # Template: AgentTicketEmail
@@ -2386,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
-        'There are no dialogs available at this point in the process.' => 'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
+        'There are no dialogs available at this point in the process.' =>
+            'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
         'Article Filter' => 'Artikelfilter',
         'Add Filter' => 'Filter hinzufügen',
@@ -2508,7 +2507,6 @@ sub Data {
         'Expand article' => 'Artikel aufklappen',
         'Information' => 'Information',
         'Next Steps' => 'Nächste Schritte',
-        'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Reply' => 'Antworten',
 
         # Template: CustomerWarning
@@ -4535,14 +4533,19 @@ sub Data {
         ' (work units)' => ' (Arbeitseinheiten)',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
+        'Customer Data' => 'Kunden-/Kontakt-Daten',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
         'Historic Time Range' => 'Historischer Zeitraum',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
+        'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'State Historic' => 'Historischer Status',
         'State Type Historic' => 'Historischer Status-Typ',
+        'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
 
     };

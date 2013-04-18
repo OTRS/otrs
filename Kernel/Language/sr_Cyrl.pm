@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:16:07
+    # Last translation file sync: 2013-04-18 14:11:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -239,6 +239,7 @@ sub Data {
         'Configure Mail' => 'Подешавање мејла',
         'Database deleted.' => 'Обрисана база',
         'Database setup successful!' => 'Успешно инсталирање базе',
+        'Generated password' => '',
         'Login is needed!' => 'Потребна је пријава!',
         'Password is needed!' => 'Потребна је лозинка!',
         'Take this Customer' => 'Узми овог корисника',
@@ -1455,8 +1456,8 @@ sub Data {
         'Install' => 'Инсталирај',
         'Install Package' => 'Инсталирај пакет',
         'Update repository information' => 'Ажурирај информације о спремишту',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Мрежно спремиште',
         'Vendor' => 'Продавац',
         'Module documentation' => 'Документација кодула',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Промена корисника за тикет',
-        'Customer Data' => 'Подаци о кориснику',
         'Customer user' => 'Корисник',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Повезани објекти',
         'Article(s)' => 'Чланак/Чланци',
         'Change Queue' => 'Промени Ред',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Филтер чланка',
         'Add Filter' => 'Додај Филтер',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => 'Рашири чланак',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Одговори',
 
         # Template: CustomerWarning
@@ -4530,6 +4531,9 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (елементи посла)',
+        'Customer Data' => 'Подаци о кориснику',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се одјавили! Хвала што сте користили "OTRS"!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',

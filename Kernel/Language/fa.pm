@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:49
+    # Last translation file sync: 2013-04-18 14:11:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -244,6 +244,7 @@ sub Data {
         'Configure Mail' => '',
         'Database deleted.' => '',
         'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'Take this Customer' => 'این مشترک را بگیر',
@@ -1460,7 +1461,7 @@ sub Data {
         'Install' => 'نصب',
         'Install Package' => 'نصب بسته',
         'Update repository information' => 'به‌روز رسانی اطلاعات مخزن',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
         'Vendor' => 'عرضه‌کننده',
@@ -1543,7 +1544,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1670,6 +1670,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2254,7 +2256,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'تغییر مشترک',
-        'Customer Data' => 'اطلاعات مشترک',
         'Customer user' => 'مشترک',
 
         # Template: AgentTicketEmail
@@ -2388,7 +2389,8 @@ sub Data {
         'Linked Objects' => 'آبجکت‌های مرتبط شده',
         'Article(s)' => 'مطلب (ها)',
         'Change Queue' => 'تغییر صف درخواست',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'فیلتر مطلب',
         'Add Filter' => 'افزودن فیلتر',
@@ -2510,7 +2512,6 @@ sub Data {
         'Expand article' => 'گسترش مطلب',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'پاسخ',
 
         # Template: CustomerWarning
@@ -4535,6 +4536,7 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '(واحد کار)',
+        'Customer Data' => 'اطلاعات مشترک',
         'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'برای باز-نصب از طریق وب باید حالت امن غیر فعال گردد',

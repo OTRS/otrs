@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-15 13:32:02
+    # Last translation file sync: 2013-04-18 14:11:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -241,6 +241,7 @@ sub Data {
         'Configure Mail' => 'Konfigurasi emel',
         'Database deleted.' => 'Pangkalan data dipadam.',
         'Database setup successful!' => 'Penubuhan pangkalan data berjaya!',
+        'Generated password' => '',
         'Login is needed!' => 'Log masuk diperlukan!',
         'Password is needed!' => 'Kata laluan diperlukan!',
         'Take this Customer' => 'Ambil pelanggan ini',
@@ -1457,8 +1458,8 @@ sub Data {
         'Install' => 'Pasang',
         'Install Package' => 'Pasang Pakej',
         'Update repository information' => 'Kemaskini maklumat repositori',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Tidak mencari ciri-ciri yang diperlukan? OTRS Kumpulan menyediakan pelanggan langganan mereka dengan eksklusif Tambahan:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'repositori talian',
         'Vendor' => 'Penjual',
         'Module documentation' => 'dokumentasi modul',
@@ -4550,6 +4551,8 @@ sub Data {
             'Mentakrifkan kriteria susunan asal untuk kesemua aturan yang dipamerkan dalam paparan aturan, selepas susunan berdasarkan keutamaan telah dilakukan.',
         'Defines which article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             'Mentakrifkan jenis artikel yang mana harus di kembangkan semasa memasuki overview. Jika tiada yang ditakrifkan, arikel yang terkini akan di kembangkan.',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Tidak mencari ciri-ciri yang diperlukan? OTRS Kumpulan menyediakan pelanggan langganan mereka dengan eksklusif Tambahan:',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'Lumpuhkan pemasangan web (http://hostanda.contoh.com/otrs/installer.pl), untuk megelakkan dari sistem diceroboh. Jika di set ke "No", sistem akan dipasangkan semula dan konfigurasi asas semasa akan digunakan untuk pra-mengisi soalan dalam skrip pemasangan. Jika tidak aktif, ia juga akan lumpuhkan GenericAgent, PackageManager dan kotak SQL (untuk mengelakkan penggunaan queries yang merosakkan, seperti DROP DATABASE, dan juga untuk mencuri katalaluan pengguna).',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>

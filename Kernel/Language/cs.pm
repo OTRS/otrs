@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:41
+    # Last translation file sync: 2013-04-18 14:11:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -245,6 +245,7 @@ sub Data {
         'Configure Mail' => 'Nastavit poštu',
         'Database deleted.' => 'Databáze smazána.',
         'Database setup successful!' => 'Databáze úspěšně nastavena!',
+        'Generated password' => '',
         'Login is needed!' => 'Vyžadováno přihlášení!',
         'Password is needed!' => 'Vyžadováno heslo!',
         'Take this Customer' => 'Vybrat tohoto Zákazníka',
@@ -1461,7 +1462,7 @@ sub Data {
         'Install' => 'Instalovat',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online Schránka',
         'Vendor' => 'Prodavač',
@@ -1544,7 +1545,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1671,6 +1671,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2255,7 +2257,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Změnit klienta tiketu',
-        'Customer Data' => 'Data Zákazníka',
         'Customer user' => '',
 
         # Template: AgentTicketEmail
@@ -2389,7 +2390,8 @@ sub Data {
         'Linked Objects' => 'Připojené objekty',
         'Article(s)' => 'Zpráva(y)',
         'Change Queue' => 'Změnit frontu',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => '',
         'Add Filter' => '',
@@ -2511,7 +2513,6 @@ sub Data {
         'Expand article' => '',
         'Information' => 'Informace',
         'Next Steps' => 'Další kroky',
-        'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
         'Reply' => 'Odpovědět',
 
         # Template: CustomerWarning
@@ -4538,6 +4539,7 @@ sub Data {
         ' (work units)' => '(jednotky práce)',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
         'CreateTicket' => 'Vytvořit Tiket',
+        'Customer Data' => 'Data Zákazníka',
         'Due Date' => 'Datum splatnosti',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Logout successful. Thank you for using OTRS!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání OTRS!',
@@ -4545,6 +4547,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Bezpečnostní Mód musí být deaktivován za účelem Reinstalu pomocí Web-Installeru.',
         'Split' => 'Rozdělit',
+        'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
         'Ticket Information' => 'Informace o tiketu',
         'TicketFreeFields' => 'Volná pole Tiketu',
         'TicketZoom' => 'Zobrazení tiketu',

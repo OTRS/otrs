@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-04 19:15:46
+    # Last translation file sync: 2013-04-18 14:11:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -239,6 +239,7 @@ sub Data {
         'Configure Mail' => 'Configurar Correo',
         'Database deleted.' => 'Base de Datos eliminada.',
         'Database setup successful!' => 'Base de datos configurada con √©xito!',
+        'Generated password' => '',
         'Login is needed!' => 'Inicio de sesi√≥n requerido.',
         'Password is needed!' => 'Contrase√±a requerida.',
         'Take this Customer' => 'Utilizar este cliente',
@@ -1455,7 +1456,7 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Paquete',
         'Update repository information' => 'Actualizar la informaci√≥n del repositorio',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Repositorio Online',
         'Vendor' => 'Vendedor',
@@ -1538,7 +1539,6 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1665,6 +1665,8 @@ sub Data {
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
+            '',
+        'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
 
         # Template: AdminProcessManagementProcessNew
@@ -2249,7 +2251,6 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Cambiar cliente del ticket',
-        'Customer Data' => 'Informaci√≥n del cliente',
         'Customer user' => 'Cliente',
 
         # Template: AgentTicketEmail
@@ -2383,7 +2384,8 @@ sub Data {
         'Linked Objects' => 'Objetos Enlazados',
         'Article(s)' => 'Art√≠culo(s)',
         'Change Queue' => 'Cambiar Fila',
-        'There are currently no steps available for this process.' => '',
+        'There are no dialogs available at this point in the process.' =>
+            '',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtro de Art√≠culos',
         'Add Filter' => 'A√±adir Filtro',
@@ -2505,7 +2507,6 @@ sub Data {
         'Expand article' => '',
         'Information' => '',
         'Next Steps' => '',
-        'There are no further steps in this process' => '',
         'Reply' => 'Responder',
 
         # Template: CustomerWarning
@@ -4740,6 +4741,7 @@ sub Data {
         'Create your first Ticket' => 'Cree su primer ticket.',
         'Create/Expires' => 'Creaci√≥n/Caducidad',
         'CreateTicket' => 'CrearTicket',
+        'Customer Data' => 'Informaci√≥n del cliente',
         'Customer Move Notify' => 'Notificar al Cliente al Mover',
         'Customer Owner Notify' => 'Notificar al Propietario al Mover',
         'Customer State Notify' => 'Notificaci√≥n de estado al Cliente',
