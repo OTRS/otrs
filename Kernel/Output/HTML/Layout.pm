@@ -1764,7 +1764,7 @@ convert ascii to html string
 also string ref is possible
 
     my $HTMLStringRef = $LayoutObject->Ascii2Html(
-        Text => \$Sting,
+        Text => \$String,
     );
 
 =cut

@@ -295,7 +295,7 @@ for my $Test (@Tests) {
     # copy string to leave the original untouched
     my $String = $Test->{String};
 
-    # start sting preparation
+    # start string preparation
     my $StringRef = $CheckItemObject->StringClean(
         StringRef => \$String,
         %{ $Test->{Params} },
@@ -382,7 +382,7 @@ for my $Test (@Tests) {
     # copy string to leave the original untouched
     my $String = $Test->{String};
 
-    # start sting preparation
+    # start string preparation
     my ( $StringRef, $Found ) = $CheckItemObject->CreditCardClean( StringRef => \$String );
 
     # check result
