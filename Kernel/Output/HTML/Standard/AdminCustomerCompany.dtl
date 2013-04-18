@@ -41,7 +41,17 @@
 <!-- dtl:block:ActionSearch -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus"><span>$Text{"Add customer company"}</span></a>
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+
+                            <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer company"}</span></button>
+                            <br/>
+                            <label class="InvisibleText" for="Source">$Text{"Select"}</label>
+                            $Data{"SourceOption"}
+                        </form>
                     </li>
 <!-- dtl:block:ActionAdd -->
                 </ul>

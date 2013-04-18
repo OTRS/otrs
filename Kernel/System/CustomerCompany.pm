@@ -97,7 +97,7 @@ sub new {
         # next if backend is not used
         next if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
 
-        my $GenericModule = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Module};
+        my $GenericModule = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Module} || 'Kernel::System::CustomerCompany::DB';
         if ( !$Self->{MainObject}->Require($GenericModule) ) {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
@@ -251,6 +251,40 @@ sub CustomerCompanyUpdate {
         return;
     }
     return $Self->{ $Company{Source} }->CustomerCompanyUpdate(%Param);
+}
+
+=item CustomerCompanySourceList()
+
+return customer company source list
+
+    my %List = $CustomerCompanyObject->CustomerCompanySourceList(
+        ReadOnly => 0 # optional, 1 returns only RO backends, 0 returns writable, if not passed returns all backends
+    );
+
+=cut
+
+sub CustomerCompanySourceList {
+    my ( $Self, %Param ) = @_;
+
+    my %Data;
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+
+        # next if backend is not used
+        next SOURCE if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
+        if ( defined $Param{ReadOnly} ) {
+            my $BackendConfig = $Self->{ConfigObject}->Get("CustomerCompany$Count");
+            if ( $Param{ReadOnly} ) {
+                next SOURCE if !$BackendConfig->{ReadOnly};
+            }
+            else {
+                next SOURCE if $BackendConfig->{ReadOnly};
+            }
+        }
+        $Data{"CustomerCompany$Count"} = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Name}
+            || "No Name $Count";
+    }
+    return %Data;
 }
 
 =item CustomerCompanyList()
