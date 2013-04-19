@@ -1078,8 +1078,9 @@ sub ReConfigure {
             # replace config with %Param
             for my $Key ( sort keys %Param ) {
 
-             # database passwords can contain characters like '@' or '$' and should be single-quoted
-                if ( $Key eq 'DatabasePw' ) {
+                # database passwords can contain characters like '@' or '$' and should be single-quoted
+                # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
+                if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $NewConfig =~
                         s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
                 }

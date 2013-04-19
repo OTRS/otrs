@@ -2420,7 +2420,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,11}$">16777216</String>
+            <String Regex="^[0-9]{1,11}$">24000000</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1" ConfigLevel="200">
