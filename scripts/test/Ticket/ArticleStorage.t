@@ -177,6 +177,107 @@ for my $Backend (qw(DB FS)) {
     }
 }
 
+# filename collision checks
+for my $Backend (qw(DB FS)) {
+    $ConfigObject->Set(
+        Key   => 'Ticket::StorageModule',
+        Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
+    );
+    $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
+
+    # Store file 2 times
+    my $FileName = "[Terminology Guide äöß].pdf";
+    my $Content                = '123';
+    my $FileNew                = $FileName;
+    my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+        Content     => $Content,
+        Filename    => $FileNew,
+        ContentType => 'image/png',
+        ArticleID   => $ArticleID,
+        UserID      => 1,
+    );
+    $Self->True(
+        $ArticleWriteAttachment,
+        "$Backend ArticleWriteAttachment() - $FileNew",
+    );
+
+    $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+        Content     => $Content,
+        Filename    => $FileNew,
+        ContentType => 'image/png',
+        ArticleID   => $ArticleID,
+        UserID      => 1,
+    );
+    $Self->True(
+        $ArticleWriteAttachment,
+        "$Backend ArticleWriteAttachment() - $FileNew",
+    );
+
+    my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
+    my $TargetFilename = '[Terminology Guide äöß]';
+
+    if ( $Backend eq 'FS' ) {
+
+        $TargetFilename = '_Terminology_Guide_äöß_';
+
+        # Mac OS (HFS+) will store all filenames as NFD internally.
+        if ( $^O eq 'darwin' ) {
+            $TargetFilename = Unicode::Normalize::NFD($TargetFilename);
+        }
+    }
+
+    $Self->IsDeeply(
+        \%AttachmentIndex,
+        {
+            '1' => {
+                'ContentAlternative' => '',
+                'ContentID' => '',
+                'ContentType' => 'image/png',
+                'Filename' => "$TargetFilename-1.pdf",
+                'Filesize' => '3 Bytes',
+                'FilesizeRaw' => '3'
+            },
+            '2' => {
+                'ContentAlternative' => '',
+                'ContentID' => '',
+                'ContentType' => 'image/png',
+                'Filename' => "$TargetFilename.pdf",
+                'Filesize' => '3 Bytes',
+                'FilesizeRaw' => '3'
+            },
+        },
+        "$Backend ArticleAttachmentIndex"
+    );
+
+    my $Delete = $TicketObject->ArticleDeleteAttachment(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
+    $Self->True(
+        $Delete,
+        "$Backend ArticleDeleteAttachment()",
+    );
+
+    %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
+    $Self->IsDeeply(
+        \%AttachmentIndex,
+        {},
+        "$Backend ArticleAttachmentIndex() after delete"
+    );
+}
+
 # the ticket is no longer needed
 $TicketObject->TicketDelete(
     TicketID => $TicketID,

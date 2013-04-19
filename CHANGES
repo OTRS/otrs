@@ -9,6 +9,9 @@
  - 2013-03-27 Fixed bug#8962 - RequestObject GetUploadAll Source 'File' option is unused
     and hard-coded to use /tmp.
 
+3.2.7 2013-??.??
+ - 2013-04-18 Fixed bug#8599 - Problem with "[]" characters in name of attachment file.
+
 3.2.6 2013-04-23
  - 2013-04-18 Fixed bug#9310 - AgentTicketProcess has the same shortkey "o" as AgentTicketQueue.
  - 2013-04-18 Fixed bug#9280 - Database upgrade procedure problems when upgrading database to 3.2 that

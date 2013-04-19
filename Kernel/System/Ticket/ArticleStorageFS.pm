@@ -15,6 +15,7 @@ use warnings;
 use File::Path qw();
 use MIME::Base64 qw();
 use Time::HiRes qw();
+use Unicode::Normalize qw();
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -278,6 +279,14 @@ sub ArticleWriteAttachment {
 
     # strip dots from filenames
     $Param{Filename} =~ s/^\.//g;
+
+    # Perform FilenameCleanup here already to check for
+    #   conflicting existing attachment files correctly
+    $Param{Filename} = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $Param{Filename},
+        Type     => 'Local',
+    );
+
     my $NewFileName = $Param{Filename};
     my %UsedFile;
     my %Index = $Self->ArticleAttachmentIndex(
@@ -285,11 +294,14 @@ sub ArticleWriteAttachment {
         UserID    => $Param{UserID},
     );
     if ( !$Param{Force} ) {
+        # Normalize filenames to find file names which are identical but in a different unicode form.
+        #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
+        #   Without this, the same file might be overwritten because the strings are not equal.
         for ( sort keys %Index ) {
-            $UsedFile{ $Index{$_}->{Filename} } = 1;
+            $UsedFile{ Unicode::Normalize::NFC( $Index{$_}->{Filename} ) } = 1;
         }
         for ( my $i = 1; $i <= 50; $i++ ) {
-            if ( exists $UsedFile{$NewFileName} ) {
+            if ( exists $UsedFile{ Unicode::Normalize::NFC( $NewFileName ) } ) {
                 if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
                     $NewFileName = "$1-$i.$2";
                 }
