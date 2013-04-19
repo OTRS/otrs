@@ -174,9 +174,10 @@ my @Dirs = (
     "$DestDir/var/stats",
     "$DestDir/var/sessions",
 
-    # CSS cache directories
+    # CSS and JS cache directories must be writable
     "$DestDir/var/httpd/htdocs/skins/Agent",
     "$DestDir/var/httpd/htdocs/skins/Customer",
+    "$DestDir/var/httpd/htdocs/js/js-cache",
 );
 for my $Dir (@Dirs) {
     if ( !-e $Dir ) {
