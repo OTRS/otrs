@@ -32,7 +32,7 @@ var/httpd/htdocs/skins/Customer/default/css-cache/*
 var/httpd/htdocs/skins/Customer/ivory/css-cache/*
 var/sessions/Data*
 var/sessions/State*
-var/articles/*
+var/article/*
 
 # Fred
 Fred.sopm
