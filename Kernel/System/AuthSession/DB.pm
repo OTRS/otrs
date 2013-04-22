@@ -625,13 +625,16 @@ sub _SQLCreate {
     elsif ( $Self->{DBType} eq 'oracle' ) {
 
         # define row
-        my $SQL = 'INSERT ALL ';
+        my $SQL = '';
         my @Bind;
+        my $Counter = 0;
 
         KEY:
         for my $Key ( sort keys %{ $Param{Data} } ) {
 
             next KEY if !$Key;
+
+            $Counter++;
 
             my $Value      = $Param{Data}->{$Key};
             my $Serialized = 0;
@@ -663,23 +666,47 @@ sub _SQLCreate {
                 $Serialized = 1;
             }
 
+            $SQL ||= 'INSERT ALL ';
+            $SQL .= "INTO $Self->{SessionTable} "
+                . "(session_id, data_key, data_value, serialized) VALUES (?,?,?,?) ";
+
             push @Bind, \$Param{SessionID};
             push @Bind, \$Key;
             push @Bind, \$Value;
             push @Bind, \$Serialized;
 
-            $SQL .= "INTO $Self->{SessionTable} "
-                . "(session_id, data_key, data_value, serialized) VALUES (?,?,?,?) ";
+            # split SQLs with more than 4k charecters
+            next KEY if $Counter < 40;
+
+            # copy bind to be able to clean the array reference
+            my @BindCopy = @Bind;
+
+            $SQL .= 'SELECT * FROM dual';
+
+            my %Row = (
+                SQL  => $SQL,
+                Bind => \@BindCopy,
+            );
+    
+            push @{ $Param{SQLs} }, \%Row;
+            
+            # clean variable
+            $SQL  = '';
+            @Bind = ();
+            $Counter = 0;
         }
 
-        $SQL .= 'SELECT * FROM dual';
+        if ( $SQL && @Bind ) {
 
-        my %Row = (
-            SQL  => $SQL,
-            Bind => \@Bind,
-        );
-
-        push @{ $Param{SQLs} }, \%Row;
+            $SQL .= 'SELECT * FROM dual';
+    
+            my %Row = (
+                SQL  => $SQL,
+                Bind => \@Bind,
+            );
+    
+            push @{ $Param{SQLs} }, \%Row;
+        }
 
         return 1;
     }
