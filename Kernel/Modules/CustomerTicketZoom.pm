@@ -363,7 +363,7 @@ sub Run {
             $GetParam{FollowUpVisible} = 'Visible';
             $Error{AttachmentUpload}   = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => "file_upload",
+                Param => "file_upload",
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
@@ -586,7 +586,7 @@ sub Run {
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param => 'file_upload',
         );
         if (%UploadStuff) {
             push @AttachmentData, \%UploadStuff;
@@ -899,9 +899,12 @@ sub _Mask {
 
     # ticket owner
     if ( $Self->{Config}->{AttributesView}->{Owner} ) {
+        my $OwnerName = $Self->{AgentUserObject}->UserName(
+            UserID => $Param{OwnerID},
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Owner',
-            Data => \%Param,
+            Data => { OwnerName => $OwnerName },
         );
     }
 
@@ -912,9 +915,12 @@ sub _Mask {
         $Self->{Config}->{AttributesView}->{Responsible}
         )
     {
+        my $ResponsibleName = $Self->{AgentUserObject}->UserName(
+            UserID => $Param{ResponsibleID},
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Responsible',
-            Data => \%Param,
+            Data => { ResponsibleName => $ResponsibleName },
         );
     }
 

@@ -656,11 +656,11 @@ sub ShowTicketStatus {
     );
 
     if ( $Self->{Owner} ) {
-        my %Owner = $Self->{AgentUserObject}->GetUserData( UserID => $Ticket{OwnerID} );
+        my $OwnerName = $Self->{AgentUserObject}->UserName( UserID => $Ticket{OwnerID} );
         $Self->{LayoutObject}->Block(
             Name => 'RecordOwner',
             Data => {
-                %Owner,
+                OwnerName => $OwnerName,
             },
         );
     }

@@ -109,7 +109,7 @@
                     </td>
                     <td class="Status">$Text{"$Data{"State"}"}</td>
 <!-- dtl:block:RecordOwner -->
-                    <td class="Owner">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</td>
+                    <td class="Owner">$QData{"OwnerName"}</td>
 <!-- dtl:block:RecordOwner -->
 <!-- dtl:block:RecordQueue -->
                     <td class="Queue" title="$Data{"Queue"}">$QData{"Queue","20"}</td>
