@@ -201,7 +201,7 @@ for my $Backend (qw(DB FS)) {
     );
     $Self->True(
         $ArticleWriteAttachment,
-        "$Backend ArticleWriteAttachment() - $FileNew",
+        "$Backend ArticleWriteAttachment() - collision check created $FileNew",
     );
 
     $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
@@ -213,7 +213,7 @@ for my $Backend (qw(DB FS)) {
     );
     $Self->True(
         $ArticleWriteAttachment,
-        "$Backend ArticleWriteAttachment() - $FileNew",
+        "$Backend ArticleWriteAttachment() - collision check created $FileNew second time",
     );
 
     my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
@@ -233,27 +233,39 @@ for my $Backend (qw(DB FS)) {
         }
     }
 
+    $Self->Is(
+        scalar keys %AttachmentIndex,
+        2,
+        "$Backend ArticleWriteAttachment() - collision check number of attachments",
+    );
+
+    my ($Entry1) = grep { $AttachmentIndex{$_}->{Filename} eq "$TargetFilename.pdf"} keys %AttachmentIndex;
+    my ($Entry2) = grep { $AttachmentIndex{$_}->{Filename} eq "$TargetFilename-1.pdf"} keys %AttachmentIndex;
+
     $Self->IsDeeply(
-        \%AttachmentIndex,
+        $AttachmentIndex{$Entry1},
         {
-            '1' => {
-                'ContentAlternative' => '',
-                'ContentID' => '',
-                'ContentType' => 'image/png',
-                'Filename' => "$TargetFilename-1.pdf",
-                'Filesize' => '3 Bytes',
-                'FilesizeRaw' => '3'
-            },
-            '2' => {
-                'ContentAlternative' => '',
-                'ContentID' => '',
-                'ContentType' => 'image/png',
-                'Filename' => "$TargetFilename.pdf",
-                'Filesize' => '3 Bytes',
-                'FilesizeRaw' => '3'
-            },
+            'ContentAlternative' => '',
+            'ContentID' => '',
+            'ContentType' => 'image/png',
+            'Filename' => "$TargetFilename.pdf",
+            'Filesize' => '3 Bytes',
+            'FilesizeRaw' => '3'
         },
-        "$Backend ArticleAttachmentIndex"
+        "$Backend ArticleAttachmentIndex - collision check entry 1",
+    );
+
+    $Self->IsDeeply(
+        $AttachmentIndex{$Entry2},
+        {
+            'ContentAlternative' => '',
+            'ContentID' => '',
+            'ContentType' => 'image/png',
+            'Filename' => "$TargetFilename-1.pdf",
+            'Filesize' => '3 Bytes',
+            'FilesizeRaw' => '3'
+        },
+        "$Backend ArticleAttachmentIndex - collision check entry 2",
     );
 
     my $Delete = $TicketObject->ArticleDeleteAttachment(
