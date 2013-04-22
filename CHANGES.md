@@ -1,4 +1,5 @@
 #3.2.7 2013-??.??
+ - 2013-04-22 Fixed bug#[9349](http://bugs.otrs.org/show_bug.cgi?id=9349) - SQL wanings on oracle DB if more than 4k charecters are sent to the database.
  - 2013-04-22 Fixed bug#[9353](http://bugs.otrs.org/show_bug.cgi?id=9353) - Customer Ticket Zoom shows owner login name instead of full name.
  - 2013-04-18 Fixed bug#[8599](http://bugs.otrs.org/show_bug.cgi?id=8599) - Problem with "[]" characters in name of attachment file.
 
