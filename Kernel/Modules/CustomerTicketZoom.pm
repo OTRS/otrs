@@ -901,9 +901,12 @@ sub _Mask {
 
     # ticket owner
     if ( $Self->{Config}->{AttributesView}->{Owner} ) {
+        my $OwnerName = $Self->{AgentUserObject}->UserName(
+            UserID => $Param{OwnerID},
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Owner',
-            Data => \%Param,
+            Data => { OwnerName => $OwnerName },
         );
     }
 
@@ -914,9 +917,12 @@ sub _Mask {
         $Self->{Config}->{AttributesView}->{Responsible}
         )
     {
+        my $ResponsibleName = $Self->{AgentUserObject}->UserName(
+            UserID => $Param{ResponsibleID},
+        );
         $Self->{LayoutObject}->Block(
             Name => 'Responsible',
-            Data => \%Param,
+            Data => { ResponsibleName => $ResponsibleName },
         );
     }
 
