@@ -68,3 +68,8 @@ var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 Perl/Critic
 TidyAll
 scripts/test/OTRSCodePolicy.t
+
+# ITSM
+var/stats/*.xml.installed
+bin/CodeInstall.pl
+bin/DatabaseInstall.pl
