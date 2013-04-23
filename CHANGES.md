@@ -10,6 +10,7 @@
     and hard-coded to use /tmp.
 
 #3.2.7 2013-??.??
+ - 2013-04-23 Fixed bug#[9060](http://bugs.otrs.org/show_bug.cgi?id=9060) - OTRS_CUSTOMER_BODY overwritten in Agent::Move Notifications.
  - 2013-04-23 Fixed bug#[7856](http://bugs.otrs.org/show_bug.cgi?id=7856) - Statistics only use non archived tickets.
  - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
  - 2013-04-22 Fixed bug#[9349](http://bugs.otrs.org/show_bug.cgi?id=9349) - SQL warnings on Oracle DB if more than 4k characters are sent to the database.
