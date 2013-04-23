@@ -8,6 +8,8 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+3.1.16 ????-??-??
+ - 2013-04-23 Fixed bug#9072 - Reply to email-internal includes customer users email in Cc. field.
 
 3.1.15 2013-04-23
  - 2013-04-15 Added Malay translation.
