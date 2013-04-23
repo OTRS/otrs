@@ -169,7 +169,7 @@ sub Run {
     for (
         qw(
         From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
-        ArticleID TimeUnits Year Month Day Hour Minute FormID ReplyAll
+        ArticleID ArticleTypeID TimeUnits Year Month Day Hour Minute FormID ReplyAll
         )
         )
     {
@@ -759,7 +759,7 @@ sub Run {
 
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
-            ArticleType    => 'email-external',
+            ArticleTypeID  => $GetParam{ArticleTypeID},
             SenderType     => 'agent',
             TicketID       => $Self->{TicketID},
             HistoryType    => 'SendAnswer',
@@ -1197,7 +1197,9 @@ sub Run {
         }
 
         # use customer database email
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress') ) {
+        # do not add customer email to cc, if article type is email-internal
+        my $DataArticleType = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress') && $DataArticleType !~ m{internal} ) {
 
             # check if customer is in recipient list
             if ( $Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i ) {
@@ -1517,6 +1519,27 @@ sub _Mask {
         %State,
         %Param,
     );
+
+    #  get article type
+    my %ArticleTypes;
+    my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
+    for my $ArticleTypeID (@ArticleTypesPossible) {
+        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $ArticleTypeID ) } = $ArticleTypeID;
+    }
+
+    my $ArticleTypeIDSelected = $Param{ArticleTypeID};
+    if ( $Self->{GetParam}->{ArticleTypeID} ) {
+
+        # set param ArticleType
+        $ArticleTypeIDSelected = $Self->{GetParam}->{ArticleTypeID};
+    }
+
+    $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data       => \%ArticleTypes,
+        Name       => 'ArticleTypeID',
+        SelectedID => $ArticleTypeIDSelected,
+    );
+
 
     # build customer search autocomplete field
     my $AutoCompleteConfig
