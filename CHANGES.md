@@ -1,4 +1,5 @@
 #3.2.7 2013-??.??
+ - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
  - 2013-04-22 Fixed bug#[9349](http://bugs.otrs.org/show_bug.cgi?id=9349) - SQL warnings on Oracle DB if more than 4k characters are sent to the database.
  - 2013-04-22 Fixed bug#[9353](http://bugs.otrs.org/show_bug.cgi?id=9353) - Customer Ticket Zoom shows owner login name instead of full name.
  - 2013-04-18 Fixed bug#[8599](http://bugs.otrs.org/show_bug.cgi?id=8599) - Problem with "[]" characters in name of attachment file.
@@ -488,6 +489,7 @@
     NotificationEvent definitions.
 
 #3.1.14 2013-??-??
+ - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
  - 2013-03-02 Fixed bug#[9214](http://bugs.otrs.org/show_bug.cgi?id=9214) - IE10: impossible to open links from rich text articles.
  - 2013-03-01 Fixed bug#[9218](http://bugs.otrs.org/show_bug.cgi?id=9218) - Cannot use special characters in TicketHook.
  - 2013-02-28 Fixed bug#[9056](http://bugs.otrs.org/show_bug.cgi?id=9056) - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
