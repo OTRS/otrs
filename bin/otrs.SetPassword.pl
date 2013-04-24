@@ -118,6 +118,6 @@ sub Usage {
     print "Usage: otrs.SetPassword [--customer | --agent] user [password]\n";
     print "\n";
     print "\tIf you do not specify --customer, --agent is assumed.\n";
-    print "\theIf you do not specify a password, the script will generate one.\n\n";
+    print "\tIf you do not specify a password, the script will generate one.\n\n";
     exit 1;
 }
