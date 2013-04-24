@@ -1,4 +1,6 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-04-24 Added support to bin/otrs.SetPassword.pl to set passwords for customers
+    and to generate passwords for logins.
  - 2013-04-08 Fixed bug#[8490](http://bugs.otrs.org/show_bug.cgi?id=8490) - No History record added when changing ticket title.
  - 2013-04-08 Removed File::Temp as it is core in perl 5.6.1 and up.
  - 2013-04-03 Removed Digest::SHA::PurePerl as Digest::SHA is core in perl 5.10.
