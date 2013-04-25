@@ -455,6 +455,26 @@ sub GetObjectAttributes {
         push @ObjectAttributes, \%ObjectAttribute;
     }
 
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+        my %ObjectAttribute = (
+            Name             => 'Archive Search',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'SearchInArchive',
+            Block            => 'SelectField',
+            Translation      => 1,
+            Values           => {
+                ArchivedTickets    => 'Archived tickets',
+                NotArchivedTickets => 'Unarchived tickets',
+                AllTickets         => 'All tickets',
+            },
+        );
+
+        push @ObjectAttributes, \%ObjectAttribute;
+    }
+
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
@@ -569,6 +589,19 @@ sub GetStatElement {
                 $Param{$ParameterName}
                     = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
+        }
+    }
+
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+        $Param{SearchInArchive} ||= '';
+        if ( $Param{SearchInArchive} eq 'AllTickets' ) {
+            $Param{ArchiveFlags} = [ 'y', 'n' ];
+        }
+        elsif ( $Param{SearchInArchive} eq 'ArchivedTickets' ) {
+            $Param{ArchiveFlags} = ['y'];
+        }
+        else {
+            $Param{ArchiveFlags} = ['n'];
         }
     }
 

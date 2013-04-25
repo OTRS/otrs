@@ -1,4 +1,6 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-04-24 Added support to bin/otrs.SetPassword.pl to set passwords for customers
+    and to generate passwords for logins.
  - 2013-04-08 Fixed bug#[8490](http://bugs.otrs.org/show_bug.cgi?id=8490) - No History record added when changing ticket title.
  - 2013-04-08 Removed File::Temp as it is core in perl 5.6.1 and up.
  - 2013-04-03 Removed Digest::SHA::PurePerl as Digest::SHA is core in perl 5.10.
@@ -10,6 +12,9 @@
     and hard-coded to use /tmp.
 
 #3.2.7 2013-??.??
+ - 2013-04-23 Fixed bug#[9362](http://bugs.otrs.org/show_bug.cgi?id=9362) - cannot redirect to external url containing & caracter.
+ - 2013-04-23 Fixed bug#[9060](http://bugs.otrs.org/show_bug.cgi?id=9060) - OTRS_CUSTOMER_BODY overwritten in Agent::Move Notifications.
+ - 2013-04-23 Fixed bug#[7856](http://bugs.otrs.org/show_bug.cgi?id=7856) - Statistics only use non archived tickets.
  - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
  - 2013-04-22 Fixed bug#[9349](http://bugs.otrs.org/show_bug.cgi?id=9349) - SQL warnings on Oracle DB if more than 4k characters are sent to the database.
  - 2013-04-22 Fixed bug#[9353](http://bugs.otrs.org/show_bug.cgi?id=9353) - Customer Ticket Zoom shows owner login name instead of full name.

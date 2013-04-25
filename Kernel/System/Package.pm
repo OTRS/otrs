@@ -1570,12 +1570,6 @@ sub PackageBuild {
                 $XML .= $Self->_Encode( $OldParam{Content} ) . "</$TagSub>\n";
             }
         }
-        else {
-
-#            $XML .= "  <$Tag></$Tag>\n";
-#            $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Ref data in tag $Tag!");
-#            return;
-        }
     }
 
     # don't use Build* in index mode
@@ -1750,7 +1744,7 @@ sub PackageParse {
 
     $Self->{EncodeObject}->EncodeOutput( \$CookedString );
 
-    # create cecksum
+    # create checksum
     my $Checksum = $Self->{MainObject}->MD5sum(
         String => \$CookedString,
     );
@@ -1883,7 +1877,7 @@ sub PackageParse {
         }
     }
 
-    # return package structur
+    # return package structure
     my %Return = %{ $Self->{Package} };
     undef $Self->{Package};
 
@@ -2014,7 +2008,7 @@ sub PackageInstallDefaultFiles {
 
         next LOCATION if !$ContentSCALARRef;
 
-        # install package (use eval to be save)
+        # install package (use eval to be safe)
         eval {
             $Self->PackageInstall( String => ${$ContentSCALARRef} );
         };
@@ -2110,7 +2104,7 @@ sub _Code {
         return;
     }
 
-    # code exec
+    # execute code
     CODE:
     for my $Code ( @{ $Param{Code} } ) {
 
@@ -2287,7 +2281,7 @@ sub _CheckVersion {
     # if it is not an external package, and the versions are different
     # we want to add a 0 at the end of the shorter version number
     # (1.2.3 will be modified to 1.2.3.0)
-    # This is important to compare with a test releaseversion number
+    # This is important to compare with a test-release version number
     if ( !$Param{ExternalPackage} && $Parts{VersionNewNum} ne $Parts{VersionInstalledNum} ) {
 
         TYPE:
@@ -2498,7 +2492,7 @@ sub _PackageFileCheck {
         return;
     }
 
-    # check if one of this files is already intalled by an other package
+    # check if one of the files is already installed by another package
     PACKAGE:
     for my $Package ( $Self->RepositoryList() ) {
 
@@ -2568,7 +2562,7 @@ sub _FileInstall {
         }
         else {
 
-            # check if we reinstall the same file, create a .save it not the same one
+            # check if we reinstall the same file, create a .save if it is not the same
             my $Save = 0;
             if ( $Param{Reinstall} && !-e "$RealFile.save" ) {
 
@@ -2579,7 +2573,7 @@ sub _FileInstall {
                 );
                 if ( $Content && ${$Content} ne $Param{File}->{Content} ) {
 
-                    # check if it's framework file, create .save file
+                    # check if it's a framework file, create .save file
                     my %File = $Self->_ReadDistArchive( Home => $Home );
                     if ( $File{ $Param{File}->{Location} } ) {
                         $Save = 1;
@@ -2686,7 +2680,7 @@ sub _FileRemove {
         }
     }
 
-    # check if it's framework file and if $RealFile.(backup|save) exists
+    # check if it's a framework file and if $RealFile.(backup|save) exists
     # then do not remove it!
     my %File = $Self->_ReadDistArchive( Home => $Home );
     if ( $File{ $Param{File}->{Location} } && ( !-e "$RealFile.backup" && !-e "$RealFile.save" ) ) {

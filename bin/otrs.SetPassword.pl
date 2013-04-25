@@ -28,12 +28,13 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Getopt::Std;
+use Getopt::Long;
 
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::DB;
+use Kernel::System::CustomerUser;
 use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::Time;
@@ -49,31 +50,54 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
-my %Opts;
-getopt( 'h', \%Opts );
-if ( $Opts{h} ) {
-    print "$0 - set a new agent password\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
-    print "usage: otrs.SetPassword user password\n";
+my %Options;
+GetOptions(
+    \%Options,
+    'agent',
+    'customer',
+    'h',
+);
+
+my $Login = shift;
+my $Pw    = shift;
+
+if ( $Options{h} || !$Login ) {
+    Usage();
+}
+
+my $Type = $Options{customer} ? 'customer' : 'user';
+my %AccountList;
+
+# define which object we need to operate on, default to UserObject
+# search if login exists
+if ( $Type eq 'customer' ) {
+    $CommonObject{AccountObject} = Kernel::System::CustomerUser->new(%CommonObject);
+    %AccountList = $CommonObject{AccountObject}->CustomerSearch(
+        UserLogin => $Login,
+    );
+}
+else {
+    $CommonObject{AccountObject} = Kernel::System::User->new(%CommonObject);
+    %AccountList = $CommonObject{AccountObject}->UserSearch(
+        UserLogin => $Login,
+    );
+}
+
+# exit if no login matches
+if ( !scalar %AccountList ) {
+    print "No $Type found with login '$Login'!\n";
     exit 1;
 }
 
-my $User = shift;
-my $Pw   = shift;
-
-if ( !$User ) {
-    print STDERR "ERROR: need user ARG[1]\n";
-    exit 1;
-}
+# if no password has been provided, generate one
 if ( !$Pw ) {
-    print STDERR "ERROR: need password ARG[1]\n";
-    exit 1;
+    $Pw = $CommonObject{AccountObject}->GenerateRandomPassword( Size => 12 );
+    print "Generated password '$Pw'\n";
 }
 
-my $Result = $CommonObject{UserObject}->SetPassword(
-    UserLogin => $User,
+my $Result = $CommonObject{AccountObject}->SetPassword(
+    UserLogin => $Login,
     PW        => $Pw,
 );
 
@@ -82,5 +106,18 @@ if ( !$Result ) {
     exit 1;
 }
 
+print "Set password for $Type '$Login'.\n";
 print "Done.\n";
 exit 0;
+
+sub Usage {
+
+    print "\n";
+    print "$0 - set a new password\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Usage: otrs.SetPassword [--customer | --agent] user [password]\n";
+    print "\n";
+    print "\tIf you do not specify --customer, --agent is assumed.\n";
+    print "\tIf you do not specify a password, the script will generate one.\n\n";
+    exit 1;
+}
