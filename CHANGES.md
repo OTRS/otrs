@@ -12,6 +12,7 @@
     and hard-coded to use /tmp.
 
 #3.2.7 2013-??.??
+ - 2013-04-23 Fixed bug#[9362](http://bugs.otrs.org/show_bug.cgi?id=9362) - cannot redirect to external url containing & caracter.
  - 2013-04-23 Fixed bug#[9060](http://bugs.otrs.org/show_bug.cgi?id=9060) - OTRS_CUSTOMER_BODY overwritten in Agent::Move Notifications.
  - 2013-04-23 Fixed bug#[7856](http://bugs.otrs.org/show_bug.cgi?id=7856) - Statistics only use non archived tickets.
  - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
