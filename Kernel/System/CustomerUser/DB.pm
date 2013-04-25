@@ -240,6 +240,7 @@ sub CustomerSearch {
             Value        => $Search,
             SearchPrefix => $Self->{SearchPrefix},
             SearchSuffix => $Self->{SearchSuffix},
+            CaseSensitive => $Self->{CaseSensitive},
         ) . ' ';
     }
     elsif ( $Param{PostMasterSearch} ) {
@@ -418,6 +419,7 @@ sub CustomerIDList {
             Value        => $SearchTermEscaped,
             SearchPrefix => $Self->{SearchPrefix},
             SearchSuffix => $Self->{SearchSuffix},
+            CaseSensitive => $Self->{CaseSensitive},
         );
         $SQL .= ' ';
     }
