@@ -1293,13 +1293,20 @@ sub _Mask {
             Size         => 1,
             PossibleNone => 1,
         );
-        my %UserHash;
+        my @OldOwners;
+        my %SeenOldOwner;
         if (@OldUserInfo) {
             my $Counter = 1;
             for my $User ( reverse @OldUserInfo ) {
-                next if $UserHash{ $User->{UserID} };
-                $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                    . "$User->{UserFirstname} ($User->{UserLogin})";
+
+                # skip if old owner is already in the list
+                next if $SeenOldOwner{ $User->{UserID} };
+                $SeenOldOwner{ $User->{UserID} } = 1;
+                push @OldOwners, {
+                    Key   => $User->{UserID},
+                    Value => "$Counter: $User->{UserLastname} "
+                        . "$User->{UserFirstname} ($User->{UserLogin})"
+                };
                 $Counter++;
             }
         }
@@ -1314,12 +1321,13 @@ sub _Mask {
 
         # build string
         $Param{OldOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%UserHash,
+            Data         => \@OldOwners,
             SelectedID   => $OldOwnerSelectedID,
             Name         => 'OldOwnerID',
             Class        => $Param{OldOwnerInvalid} || ' ',
             PossibleNone => 1,
         );
+
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
             $Param{'NewOwnerType::Old'} = 'checked = "checked"';
         }
@@ -1516,25 +1524,27 @@ sub _Mask {
                 TicketID => $Self->{TicketID},
             );
 
-            my %UserHash;
+            my @InvolvedAgents;
+            my %SeenInvolvedAgents;
             my $Counter = 1;
 
             USER:
             for my $User ( reverse @UserIDs ) {
 
-                next USER if $UserHash{ $User->{UserID} };
+                next USER if $SeenInvolvedAgents{ $User->{UserID} };
 
-                $UserHash{ $User->{UserID} }
-                    = "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})";
-            }
-            continue {
+                push @InvolvedAgents, {
+                    Key => $User->{UserID},
+                    Value =>
+                        "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})"
+                };
                 $Counter++;
             }
 
             my $InvolvedAgentSize
                 = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => \%UserHash,
+                Data       => \@InvolvedAgents,
                 SelectedID => $Self->{InvolvedUserID},
                 Name       => 'InvolvedUserID',
                 Multiple   => 1,
