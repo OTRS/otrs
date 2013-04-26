@@ -238,11 +238,11 @@
  - 2013-01-04 Fixed bug#[9015](http://bugs.otrs.org/show_bug.cgi?id=9015) - otrs.CheckModules.pl reports module as not installed
     if prerequisite is missing.
  - 2013-01-04 Follow-up fix for bug#[8805](http://bugs.otrs.org/show_bug.cgi?id=8805) - Cron missing as RPM dependency on Red Hat Enterprise Linux.
-    Changed dependency on 'anacron' to 'vixie-cron' on RHEL5.
+    Changed dependency on `anacron` to `vixie-cron` on RHEL5.
  - 2013-01-04 Removed CPAN module Net::IMAP::Simple::SSL, this can be handled by
     Net::IMAP::Simple now.
  - 2013-01-04 Updated CPAN module Net::IMAP::Simple to version 1.2034.
- - 2013-01-04 Configured mod\_deflate in bundled Apache configuration file.
+ - 2013-01-04 Configured `mod_deflate` in bundled Apache configuration file.
 
 #3.2.0.beta5 2013-01-08
  - 2013-01-02 Fixed bug#[9020](http://bugs.otrs.org/show_bug.cgi?id=9020) - Generic Ticket Connector does not support attachments with
@@ -332,7 +332,7 @@
     internal error in TicketZoom.
  - 2012-11-07 Fixed handling of scalar refs in the new DB based session backend.
  - 2012-11-07 Fixed race condition in new DB based session backend.
- - 2012-11-07 Changed default setting for 'Ticket::Frontend::ZoomRichTextForce'.
+ - 2012-11-07 Changed default setting for `Ticket::Frontend::ZoomRichTextForce`.
     Now OTRS will display HTML emails as HTML by default, even if RichText is not
     activated for composing new messages. This helps for devices which cannot
     use RichText for editing, but are able to display HTML content, such as certain
@@ -531,7 +531,7 @@
  - 2013-01-07 Updated CKEditor to version 3.6.6.
  - 2013-01-07 Updated Polish translation, thanks to Pawel @ ib.pl!
  - 2013-01-04 Follow-up fix for bug#[8805](http://bugs.otrs.org/show_bug.cgi?id=8805) - Cron missing as RPM dependency on Red Hat Enterprise Linux.
-    Changed dependency on 'anacron' to 'vixie-cron' on RHEL5.
+    Changed dependency on `anacron` to `vixie-cron` on RHEL5.
  - 2013-01-02 Fixed bug#[9020](http://bugs.otrs.org/show_bug.cgi?id=9020) - Generic Ticket Connector does not support attachments with
     ContentType without charset.
  - 2013-01-02 Fixed bug#[8545](http://bugs.otrs.org/show_bug.cgi?id=8545) - Attachment download not possible if pop up of another action is open.
@@ -831,7 +831,7 @@
     causes errors with LayoutObject BuildSelection function.
  - 2012-03-01 Fixed bug#[8277](http://bugs.otrs.org/show_bug.cgi?id=8277) - DynamicField Values not deleted when ticket is deleted.
  - 2012-02-28 Fixed bug#[8274](http://bugs.otrs.org/show_bug.cgi?id=8274) - Dynamic Fields ACLs does not work correctly at Ticket Split.
- - 2012-02-28 Improved #7526 - Fixed handling of special characters (, ), &, - within statistics.
+ - 2012-02-28 Improved #[7526](http://bugs.otrs.org/show_bug.cgi?id=7526) - Fixed handling of special characters (, ), &, - within statistics.
  - 2012-02-27 Fixed bug#[8255](http://bugs.otrs.org/show_bug.cgi?id=8255) - TicketSearch in DynamicFields doesn't support ExtendedSearchCondition.
  - 2012-02-25 Fixed bug#[8258](http://bugs.otrs.org/show_bug.cgi?id=8258) - DynamicField date value is reset to NULL.
  - 2012-02-23 Fixed bug#[8214](http://bugs.otrs.org/show_bug.cgi?id=8214) - OTRS Init script on Red Hat / SUSE fails to check scheduler.
@@ -1057,7 +1057,7 @@
  - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This
     needs to be activated for such older installations in Kernel/Config.pm
     as follows:
-```
+```perl
     $Self->{DatabasePostgresqlBefore82} = 1;
 ```
  - 2011-09-09 Updated CPAN module Mozilla::CA to version 20110904.
@@ -1143,7 +1143,7 @@
  - 2011-02-28 Added feature bug#[6894](http://bugs.otrs.org/show_bug.cgi?id=6894). Events for escalations.
  - 2011-02-24 Fixed bug#[6867](http://bugs.otrs.org/show_bug.cgi?id=6867). CustomerCompany external source requires
     change\_time and create\_time columns.
- - 2011-02-07 Fixed Bug#2452 - SMIME encoded E-Mails are not decrypted properly by OTRS.
+ - 2011-02-07 Fixed bug#[2452](http://bugs.otrs.org/show_bug.cgi?id=2452) - SMIME encoded E-Mails are not decrypted properly by OTRS.
  - 2011-02-02 Fixed bug#[3125](http://bugs.otrs.org/show_bug.cgi?id=3125) - No translation for ticket-state in notifications.
  - 2011-02-02 Fixed bug#[6618](http://bugs.otrs.org/show_bug.cgi?id=6618) - TicketIndex can not be created if queue name
      of \> 70 characters exists.
@@ -1642,7 +1642,7 @@
  - 2010-11-24 Fixed bug#[6189](http://bugs.otrs.org/show_bug.cgi?id=6189) - IE9: ticket overview table headers behave incorrectly.
  - 2010-11-24 Fixed bug#[6382](http://bugs.otrs.org/show_bug.cgi?id=6382) - otrs.ArticleStorageSwitch.pl script not working.
  - 2010-11-24 Fixed bug#[6378](http://bugs.otrs.org/show_bug.cgi?id=6378) - The error messages are displayed incorrectly in the action list.
- - 2010-11-23 Fixed Bug#6314 - Upgrade 2.4.x -\> 3.0.x - older tickets in database
+ - 2010-11-23 Fixed bug#[6314](http://bugs.otrs.org/show_bug.cgi?id=6314) - Upgrade 2.4.x -\> 3.0.x - older tickets in database
     are marked as unread.
  - 2010-11-23 Fixed bug#[6360](http://bugs.otrs.org/show_bug.cgi?id=6360) - Bulk Action link all to ticket number doesn't link anything.
  - 2010-11-23 Fixed bug#[6286](http://bugs.otrs.org/show_bug.cgi?id=6286) - Adding a phone call outbound does indicate an unread article.
@@ -1651,13 +1651,13 @@
  - 2010-11-23 Fixed bug#[6273](http://bugs.otrs.org/show_bug.cgi?id=6273) - IE7: Alert dialog display problems.
  - 2010-11-23 Fixed bug#[6260](http://bugs.otrs.org/show_bug.cgi?id=6260) - RichTextEditor Action for Inline-Image Upload is hard coded.
  - 2010-11-23 Fixed bug#[6371](http://bugs.otrs.org/show_bug.cgi?id=6371) - Opening the customer ticket zoom shows a browser error message.
- - 2010-11-23 Fixed Bug#6308 - Ticket search templates are not saved in agent interface.
- - 2010-11-23 Fixed Bug#6359 - Documentation fixes.
- - 2010-11-23 Fixed Bug#6368 - Change search options does not work in customer interface.
- - 2010-11-23 Fixed Bug#6346 - Upgrading script 2.4 -\> 3.0 may cause corruption of
+ - 2010-11-23 Fixed bug#[6308](http://bugs.otrs.org/show_bug.cgi?id=6308) - Ticket search templates are not saved in agent interface.
+ - 2010-11-23 Fixed bug#[6359](http://bugs.otrs.org/show_bug.cgi?id=6359) - Documentation fixes.
+ - 2010-11-23 Fixed bug#[6368](http://bugs.otrs.org/show_bug.cgi?id=6368) - Change search options does not work in customer interface.
+ - 2010-11-23 Fixed bug#[6346](http://bugs.otrs.org/show_bug.cgi?id=6346) - Upgrading script 2.4 -\> 3.0 may cause corruption of
     the configuration files (ZZZAuto.pm and ZZZAAuto.pm).
- - 2010-11-23 Fixed Bug#6357 - Customer search URL contains ampersands (&) instead of semicolons (;).
- - 2010-11-22 Fixed Bug#6358 - No custom CSS or JS is loaded from public module registration settings.
+ - 2010-11-23 Fixed bug#[6357](http://bugs.otrs.org/show_bug.cgi?id=6357) - Customer search URL contains ampersands (&) instead of semicolons (;).
+ - 2010-11-22 Fixed bug#[6358](http://bugs.otrs.org/show_bug.cgi?id=6358) - No custom CSS or JS is loaded from public module registration settings.
  - 2010-11-22 Fixed bug#[6355](http://bugs.otrs.org/show_bug.cgi?id=6355) - $HOME/bin/otrs.LoaderCache.pl cron job unhappy with
     files in var/httpd/htdocs/skins/Customer/.
  - 2010-11-22 Fixed bug#[6352](http://bugs.otrs.org/show_bug.cgi?id=6352) - var/cron/cache schedules nonexistent $HOME/bin/otrs.CacheDelete.pl.
@@ -2118,7 +2118,7 @@
  - 2010-07-01 Streamlined messages in AgentTicketBulk.
  - 2010-07-01 Added option to ticket bulk action to define if tickets for bulk
     action need to get locked for current agent or not.
-     o Config Name: Ticket::Frontend::AgentTicketBulk###RequiredLock
+     * Config Name: Ticket::Frontend::AgentTicketBulk###RequiredLock  
     Thanks to Jeroen van Meeuwen!
  - 2010-06-22 Improved otrs.CheckModules.pl script.
  - 2010-06-22 Updated CPAN module Authen::SASL to version 2.15.
@@ -2151,24 +2151,24 @@
     You can now also send a notification to agens in a certain group or role.
  - 2010-05-19 Implemented bug#[4337](http://bugs.otrs.org/show_bug.cgi?id=4337) - Added lock state to ticket search.
  - 2010-05-19 Reworked Kernel::System::Ticket API to have more intuitive
-    wording (is still compat. to OTRS 1.x and 2.x).
-    CustomerPermission()  -\> TicketCustomerPermission()
-    InvolvedAgents()      -\> TicketInvolvedAgentsList()
-    LockIsTicketLocked()  -\> TicketLockGet()
-    LockSet()             -\> TicketLockSet()
-    MoveList()            -\> TicketMoveList()
-    MoveTicket()          -\> TicketQueueSet()
-    MoveQueueList()       -\> TicketMoveQueueList()
-    OwnerList()           -\> TicketOwnerList()
-    OwnerSet()            -\> TicketOwnerSet()
-    Permission()          -\> TicketPermission()
-    PriorityList()        -\> TicketPriorityList()
-    PrioritySet()         -\> TicketPrioritySet()
-    ResponsibleList()     -\> TicketResponsibleList()
-    ResponsibleSet()      -\> TicketResponsibleSet()
-    SetCustomerData()     -\> TicketCustomerSet()
-    StateList()           -\> TicketStateList()
-    StateSet()            -\> TicketStateSet()
+    wording (is still compat. to OTRS 1.x and 2.x).  
+    CustomerPermission()  -\> TicketCustomerPermission()  
+    InvolvedAgents()      -\> TicketInvolvedAgentsList()  
+    LockIsTicketLocked()  -\> TicketLockGet()  
+    LockSet()             -\> TicketLockSet()  
+    MoveList()            -\> TicketMoveList()  
+    MoveTicket()          -\> TicketQueueSet()  
+    MoveQueueList()       -\> TicketMoveQueueList()  
+    OwnerList()           -\> TicketOwnerList()  
+    OwnerSet()            -\> TicketOwnerSet()  
+    Permission()          -\> TicketPermission()  
+    PriorityList()        -\> TicketPriorityList()  
+    PrioritySet()         -\> TicketPrioritySet()  
+    ResponsibleList()     -\> TicketResponsibleList()  
+    ResponsibleSet()      -\> TicketResponsibleSet()  
+    SetCustomerData()     -\> TicketCustomerSet()  
+    StateList()           -\> TicketStateList()  
+    StateSet()            -\> TicketStateSet()  
  - 2010-05-14 Fixed bug#[4199](http://bugs.otrs.org/show_bug.cgi?id=4199) - Hard limit of 200 services defined in front-end files.
  - 2010-05-12 Renamed core module 'Kernel/System/StdResponse.pm' to 'Kernel/System/StandardResponse.pm'.
  - 2010-05-12 Fixed bug#[4940](http://bugs.otrs.org/show_bug.cgi?id=4940) - SQL Improvement, deleted not needed GROUP BY statement.
@@ -2186,28 +2186,28 @@
  - 2010-04-07 Fixed bug#[5118](http://bugs.otrs.org/show_bug.cgi?id=5118) - Printing an article should indicate that
     only 1 article is printed not the whole ticket.
  - 2010-04-06 made command line scripts consistent. They now all
-     have the format 'otrs.DoThis.pl'. Also, SetPermissions.sh is removed
-     because we already have otrs.SetPermissions.pl.
-    otrs.mkStats.pl                 -\>  otrs.GenerateStats.pl
-    otrs.addGroup.pl                -\>  otrs.AddGroup.pl
-    otrs.addQueue.pl                -\>  otrs.AddQueue.pl
-    otrs.addRole.pl                 -\>  otrs.AddRole.pl
-    otrs.addRole2Group.pl           -\>  otrs.AddRole2Group.pl
-    otrs.addUser.pl                 -\>  otrs.AddUser.pl
-    otrs.addUser2Group.pl           -\>  otrs.AddUser2Group.pl
-    otrs.addUser2Role.pl            -\>  otrs.AddUser2Role.pl
-    otrs.checkModules.pl            -\>  otrs.CheckModules.pl
-    otrs.CreateNewTranslationFile.pl-\>  otrs.CreateTranslationFile.pl
-    otrs.getConfig.pl               -\>  otrs.GetConfig.pl
-    otrs.getTicketThread.pl         -\>  otrs.GetTicketThread.pl
-    otrs.setPassword.pl             -\>  otrs.SetPassword.pl
-    otrs.StatsExportToOPM.pl        -\>  otrs.ExportStatsToOPM.pl
-    opm.pl                          -\>  otrs.PackageManager.pl
+     have the format `otrs.DoThis.pl`. Also, SetPermissions.sh is removed
+     because we already have otrs.SetPermissions.pl.  
+    otrs.mkStats.pl                 -\>  otrs.GenerateStats.pl  
+    otrs.addGroup.pl                -\>  otrs.AddGroup.pl  
+    otrs.addQueue.pl                -\>  otrs.AddQueue.pl  
+    otrs.addRole.pl                 -\>  otrs.AddRole.pl  
+    otrs.addRole2Group.pl           -\>  otrs.AddRole2Group.pl  
+    otrs.addUser.pl                 -\>  otrs.AddUser.pl  
+    otrs.addUser2Group.pl           -\>  otrs.AddUser2Group.pl  
+    otrs.addUser2Role.pl            -\>  otrs.AddUser2Role.pl  
+    otrs.checkModules.pl            -\>  otrs.CheckModules.pl  
+    otrs.CreateNewTranslationFile.pl-\>  otrs.CreateTranslationFile.pl  
+    otrs.getConfig.pl               -\>  otrs.GetConfig.pl  
+    otrs.getTicketThread.pl         -\>  otrs.GetTicketThread.pl  
+    otrs.setPassword.pl             -\>  otrs.SetPassword.pl  
+    otrs.StatsExportToOPM.pl        -\>  otrs.ExportStatsToOPM.pl  
+    opm.pl                          -\>  otrs.PackageManager.pl  
  - 2010-03-24 Reworked Kernel::System::Encode API to have more intuitive
     wording (is still compat. to OTRS 1.x and 2.x).
-    EncodeInternalUsed() -\> CharsetInternal()
-    Encode()             -\> EncodeInput()
-    Decode()             -\> Convert2CharsetInternal()
+    EncodeInternalUsed() -\> CharsetInternal()  
+    Encode()             -\> EncodeInput()  
+    Decode()             -\> Convert2CharsetInternal()  
  - 2010-03-24 Fixed bug#[5130](http://bugs.otrs.org/show_bug.cgi?id=5130) - Incorrect check for 'NoOutOfOffice' in
     GetUserData().
  - 2010-03-22 Fixed bug#[5161](http://bugs.otrs.org/show_bug.cgi?id=5161) - Envelope-To Header gets ignored for email
@@ -2232,10 +2232,10 @@
  - 2010-02-22 Fixed bug#[5020](http://bugs.otrs.org/show_bug.cgi?id=5020) - Framework version for stats export is outdated.
  - 2010-02-21 Extended QueryCondition() of Kernel::System::DB to allow
     also "some praise" expression as "some&&praise", to be compat. just add
-    "Extended =\> 1" to QueryCondition(). Short summary:
+`Extended => 1` to QueryCondition(). Short summary:  
         some praise   -\> search for "some" and "praise" in a text (order of words
-                         is not importand)
-        "some praise" -\> search for "some praise" in a text as one string
+                         is not importand)  
+        "some praise" -\> search for "some praise" in a text as one string  
  - 2010-02-16 Extended QueryCondition() of Kernel::System::DB to allow
     also "some praise" expression for search conditions to search this string
     1:1 in database.
@@ -2251,12 +2251,12 @@
  - 2010-02-10 Fixed bug#[4828](http://bugs.otrs.org/show_bug.cgi?id=4828) - In SysConfig, changed "Registration" to
     "Registrierung" in German description.
  - 2010-02-07 Fixed bug#[4918](http://bugs.otrs.org/show_bug.cgi?id=4918) - Delete only expired cache items by using
-    e. g. "bin/otrs.CacheDelete.pl --expired".
+    e. g. `bin/otrs.CacheDelete.pl --expired`.
  - 2010-02-01 Added Kernel::System::Cache::FileStorable backend module for
     Kernel::System::Cache which is working with binary for dump and eval of
     perl data structures (a little bit faster the dump/eval in pure perl).
     Perl's Storable module is included in perl distibution it self.
- - 2010-01-26 IPC session backend (Kernel::System::AuthSession::IPC) is not
+ - 2010-01-26 IPC session backend (`Kernel::System::AuthSession::IPC`) is not
     longer supported. Increased performance of DB and FS backend (only sync
     session data to storage at end of a session).
  - 2010-01-25 Added agent preferences for max. shown tickets a page in
@@ -2266,7 +2266,7 @@
     and customer interface).
  - 2010-01-15 Fixed bug#[4651](http://bugs.otrs.org/show_bug.cgi?id=4651) - Dashboard upcoming events does not look up
     statetypes for Pending Reminder.
- - 2010-01-14 Removed not needed tool scripts/sync\_node.sh.
+ - 2010-01-14 Removed not needed tool `scripts/sync_node.sh`.
  - 2010-01-13 Added ticket fulltext search to dashboard.
  - 2010-01-06 Added dashboard widget for displaying external content via iframe.
  - 2009-12-31 Added cpan module for JSON support (version 2.16), removed JSON
@@ -2278,8 +2278,9 @@
  - 2009-12-23 Renamed inconsistent module name Kernel::System::Config to
     Kernel::System::SysConfig.
  - 2009-12-23 Added support for multiple Kernel::System::Ticket::Custom
-    backends. Can now be defined via config key 'Ticket::CustomModule', e. g.
-```
+    backends. Can now be defined via config key `Ticket::CustomModule`, e. g.
+
+```xml
 <ConfigItem Name="Ticket::CustomModule###001-CustomModule" Required="0" Valid="0">
    <Description Lang="en">A module with custom functions to redefine ....</Description>
    <Description Lang="de">Ein Modul mit angepassten Funktionen das ...</Description>
@@ -2290,6 +2291,7 @@
    </Setting>
 </ConfigItem>
 ```
+
  - 2009-12-21 Added the ability to hide the Queue, SLA and/or Service in
     the Customer interface.
  - 2009-12-15 Changed rich text editor from FCKEditor 2.6.4.1 to CKEditor 3.0.1
@@ -2326,10 +2328,10 @@
  - 2009-11-27 Switched AutoCompletion and Dialog from YUI to jQuery.
  - 2009-11-25 Switched to XHTML doctype
     - not all of the generated HTML is valid yet, but much
-    - from now on, ";" will be used as a query parameter separator in URLs
-        (old: index.pl?Action=AgentExample&Subaction=Test,
-        new: index.pl?Action=AgentExample;Subaction=Test)
-    - made some self-closing tags actually close themselves (e.g. \<img .../\>)
+    - from now on, ";" will be used as a query parameter separator in URLs  
+        (old: index.pl?Action=AgentExample&Subaction=Test,  
+        new: index.pl?Action=AgentExample;Subaction=Test)  
+    - made some self-closing tags actually close themselves (e.g.`<img .../>`)
     - made some tags and attributes used lowercase
  - 2009-11-25 Updated CPAN module CGI to version 3.48.
  - 2009-11-23 Only database configuration is now saved in Config.pm.
@@ -2339,9 +2341,9 @@
     saved.
  - 2009-11-11 Added feature/config option (Ticket::SubjectFormat) for subject
     format.
-     o 'Left'  means '[TicketHook#:12345] Some Subject',
-     o 'Right' means 'Some Subject [TicketHook#:12345]',
-     o 'None'  means 'Some Subject' (without any ticket number ins subject).
+     - 'Left'  means '[TicketHook#:12345] Some Subject',
+     - 'Right' means 'Some Subject [TicketHook#:12345]',
+     - 'None'  means 'Some Subject' (without any ticket number ins subject).
 
     In the last case you should enable PostmasterFollowupSearchInRaw or
     PostmasterFollowUpSearchInReferences to recognize followups based on email
@@ -2350,39 +2352,43 @@
  - 2009-11-11 Moved from prototype js to jQuery
     (removed var/httpd/htdocs/js/prototype.js added
     var/httpd/htdocs/js/jquery-1.3.2.min.js).
- - 2009-11-03 Renamed some files in the bin/ directory
-    CheckSum.pl                     -\>  otrs.CheckSum.pl
-    CleanUp.pl                      -\>  otrs.CleanUp.pl
-    Cron4Win32.pl                   -\>  otrs.Cron4Win32.pl
-    CryptPassword.pl                -\>  otrs.CryptPassword.pl
-    DeleteSessionIDs.pl             -\>  otrs.DeleteSessionIDs.pl
-    GenericAgent.pl                 -\>  otrs.GenericAgent.pl
-    mkStats.pl                      -\>  otrs.mkStats.pl
-    otrs.addGroup                   -\>  otrs.addGroup.pl
-    otrs.addQueue                   -\>  otrs.addQueue.pl
-    otrs.addRole                    -\>  otrs.addRole.pl
-    otrs.addRole2Group              -\>  otrs.addRole2Group.pl
-    otrs.addUser                    -\>  otrs.addUser.pl
-    otrs.addUser2Group              -\>  otrs.addUser2Group.pl
-    otrs.addUser2Role               -\>  otrs.addUser2Role.pl
-    otrs.checkModules               -\>  otrs.checkModules.pl
-    otrs.CreateNewTranslationFile   -\>  otrs.CreateNewTranslationFile.pl
-    otrs.getConfig                  -\>  otrs.getConfig.pl
-    otrs.getTicketThread            -\>  otrs.getTicketThread.pl
-    otrs.setPassword                -\>  otrs.setPassword.pl
-    PendingJobs.pl                  -\>  otrs.PendingJobs.pl
-    PostMaster.pl                   -\>  otrs.PostMaster.pl
-    PostMasterClient.pl             -\>  otrs.PostMasterClient.pl
-    PostMasterDaemon.pl             -\>  otrs.PostMasterDaemon.pl
-    PostMasterMailbox.pl            -\>  otrs.PostMasterMailbox.pl
-    PostMasterPOP3.pl               -\>  otrs.PostMasterPOP3.pl
-    RebuildTicketIndex.pl           -\>  otrs.RebuildTicketIndex.pl
-    SetPermissions.pl               -\>  otrs.SetPermissions.pl
-    StatsExportToOPM.pl             -\>  otrs.StatsExportToOPM.pl
-    UnitTest.pl                     -\>  otrs.UnitTest.pl
-    UnlockTickets.pl                -\>  otrs.UnlockTickets.pl
-    xml2sql.pl                      -\>  otrs.xml2sql.pl
-    XMLMaster.pl                    -\>  otrs.XMLMaster.pl
+ - 2009-11-03 Renamed some files in the bin/ directory  
+
+```
+    CheckSum.pl                     -\>  otrs.CheckSum.pl  
+    CleanUp.pl                      -\>  otrs.CleanUp.pl  
+    Cron4Win32.pl                   -\>  otrs.Cron4Win32.pl  
+    CryptPassword.pl                -\>  otrs.CryptPassword.pl  
+    DeleteSessionIDs.pl             -\>  otrs.DeleteSessionIDs.pl  
+    GenericAgent.pl                 -\>  otrs.GenericAgent.pl  
+    mkStats.pl                      -\>  otrs.mkStats.pl  
+    otrs.addGroup                   -\>  otrs.addGroup.pl  
+    otrs.addQueue                   -\>  otrs.addQueue.pl  
+    otrs.addRole                    -\>  otrs.addRole.pl  
+    otrs.addRole2Group              -\>  otrs.addRole2Group.pl  
+    otrs.addUser                    -\>  otrs.addUser.pl  
+    otrs.addUser2Group              -\>  otrs.addUser2Group.pl  
+    otrs.addUser2Role               -\>  otrs.addUser2Role.pl  
+    otrs.checkModules               -\>  otrs.checkModules.pl  
+    otrs.CreateNewTranslationFile   -\>  otrs.CreateNewTranslationFile.pl  
+    otrs.getConfig                  -\>  otrs.getConfig.pl  
+    otrs.getTicketThread            -\>  otrs.getTicketThread.pl  
+    otrs.setPassword                -\>  otrs.setPassword.pl  
+    PendingJobs.pl                  -\>  otrs.PendingJobs.pl  
+    PostMaster.pl                   -\>  otrs.PostMaster.pl  
+    PostMasterClient.pl             -\>  otrs.PostMasterClient.pl  
+    PostMasterDaemon.pl             -\>  otrs.PostMasterDaemon.pl  
+    PostMasterMailbox.pl            -\>  otrs.PostMasterMailbox.pl  
+    PostMasterPOP3.pl               -\>  otrs.PostMasterPOP3.pl  
+    RebuildTicketIndex.pl           -\>  otrs.RebuildTicketIndex.pl  
+    SetPermissions.pl               -\>  otrs.SetPermissions.pl  
+    StatsExportToOPM.pl             -\>  otrs.StatsExportToOPM.pl  
+    UnitTest.pl                     -\>  otrs.UnitTest.pl  
+    UnlockTickets.pl                -\>  otrs.UnlockTickets.pl  
+    xml2sql.pl                      -\>  otrs.xml2sql.pl  
+    XMLMaster.pl                    -\>  otrs.XMLMaster.pl  
+```
+
  - 2009-10-26 Added CGI.pm back to packaged versions (auto\_build.sh).
  - 2009-10-14 Pending Date of tickets can be max. 1 year in the future.
  - 2009-10-14 Fixed bug#[1731](http://bugs.otrs.org/show_bug.cgi?id=1731) - Show last login time of agent and customer
@@ -2523,7 +2529,7 @@
  - 2010-02-12 Fixed bug#[4936](http://bugs.otrs.org/show_bug.cgi?id=4936) - Kernel::System::Main::FileWrite has race condition.
  - 2010-02-11 Fixed bug#[4442](http://bugs.otrs.org/show_bug.cgi?id=4442) - Customer search fails when there is a space
     in the name.
- - 2010-02-11 Fixed bug#[4822](http://bugs.otrs.org/show_bug.cgi?id=4822) - No fulltext search with more then one word
+ - 2010-02-11 Fixed bug#[4822](http://bugs.otrs.org/show_bug.cgi?id=4822) - No fulltext search with more than one word
     for FAQ.
  - 2010-02-10 Fixed bug#[4889](http://bugs.otrs.org/show_bug.cgi?id=4889) - Inline images from Lotus Notes are not
     displayed in ticket zoom.
@@ -2553,7 +2559,7 @@
  - 2010-01-15 Fixed bug#[4758](http://bugs.otrs.org/show_bug.cgi?id=4758) - Dashboard RSS feeds doesn't display XML
     encoded entities correctly.
  - 2010-01-13 Fixed bug#[4754](http://bugs.otrs.org/show_bug.cgi?id=4754) - Multiple tickets with a huge POP3 Mailbox
-    - more then 2000 email in the box ("Deep recursion on subroutine").
+    - more than 2000 email in the box ("Deep recursion on subroutine").
  - 2010-01-13 Fixed bug#[4713](http://bugs.otrs.org/show_bug.cgi?id=4713) - In ticket overview, after adding view=30 - no
     tickets are visible.
  - 2010-01-12 Upgrade of cpan Net::IMAP::Simple from 1.17 to 1.1910.
@@ -2680,8 +2686,10 @@
     text is being shown, even if the text/plain MIME part is available.
     Added new config option to force rich text viewing in ticket zoom.
 
-     SysConfig -\> Ticket -\> Frontend::Agent::Ticket::ViewZoom -\>
-      -=\> Ticket::Frontend::ZoomRichTextForce
+```
+     SysConfig -> Ticket -> Frontend::Agent::Ticket::ViewZoom ->
+      -=> Ticket::Frontend::ZoomRichTextForce
+```
 
  - 2009-09-28 Fixed bug#[4269](http://bugs.otrs.org/show_bug.cgi?id=4269) - Softwareerror in stats module after uninstall
     ITSMIncidentProblemManagement
@@ -2929,7 +2937,7 @@
     Yiye Huang and Qingjiu Jia!
  - 2009-07-18 Fixed bug#[4004](http://bugs.otrs.org/show_bug.cgi?id=4004) - Can not search for customer strings like
     "St. Peters", I always get the result of "St.+Peters" which is much
-     more then I want. Please make it working like in OTRS 2.3.
+     more than I want. Please make it working like in OTRS 2.3.
  - 2009-07-18 Fixed bug#[3991](http://bugs.otrs.org/show_bug.cgi?id=3991) - Link in HTML Article opens in iframe.
  - 2009-07-18 Renamed Kernel/System/HTML2Ascii.pm to
     Kernel/System/HTMLUtils.pm, because of better naming.
@@ -2946,11 +2954,9 @@
     for internal queues.
  - 2009-07-15 Fixed bug#[3663](http://bugs.otrs.org/show_bug.cgi?id=3663) - Responsible Notification does not happen
     for pending reached.
-    Added config optio to be compat. to old OTRS versions.
-
+    Added config optio to be compat. to old OTRS versions.  
     --\>\> SysConfig -\> Ticket -\> Core::Ticket -\>
              Ticket::PendingNotificationNotToResponsible \<\<--
-
  - 2009-07-15 Updated Italian translation, thanks to Giordano Bianchi,
     Emiliano Coletti and Alessandro Faraldi!
  - 2009-07-14 Fixed bug#[3983](http://bugs.otrs.org/show_bug.cgi?id=3983) - bin/PendingJobs.pl is not sendign reminder
@@ -3117,8 +3123,9 @@
  - 2009-04-09 Improved email send functionality to properly format emails
     with alternative parts and inline images.
  - 2009-04-09 Added enhancement bug#[3514](http://bugs.otrs.org/show_bug.cgi?id=3514) - RegExp support in ACLs. Now you
-    can use RegExp in ACLs like the followin example:
-```
+    can use RegExp in ACLs like the following example:
+
+```perl
     $Self->{TicketAcl}->{'ACL-Name-1'} = {
        # match properties
        Properties => {
@@ -3136,16 +3143,15 @@
        },
     };
 ```
-    Starting with "[RegExp]" in value area means the following will be a regexp
+Starting with "[RegExp]" in value area means the following will be a regexp
     content.
 
-    This ACL will match all Queues with starting "Misc" and all services with
+This ACL will match all Queues with starting "Misc" and all services with
     starting "t1" and "t2". So you do not longer need to write every full queue
     names to the array list.
 
-    o Usage of [RegExp] results in case-sensitive matching.
-    o Usage of [regexp] results in case-insensitive matching.
-
+   Usage of [RegExp] results in case-sensitive matching.  
+   Usage of [regexp] results in case-insensitive matching.
  - 2009-04-08 Updated CPAN module CGI to version 3.43.
  - 2009-04-07 Changed default config size of IPC-Log (LogSystemCacheSize)
     to 64k (160k is not working on darwin).
@@ -3218,9 +3224,10 @@
     back to old behavior.
  - 2009-01-05 Moved to new auth sync layer. Splited auth and agent
     sync into two module layers. For example:
-```
+
     [Kernel/Config.pm]
 
+```perl
     # agent authentication against http basic auth
     $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasic';
 
@@ -3230,14 +3237,13 @@
     $Self->{'AuthSyncModule::LDAP::BaseDN'} = 'dc=otrs, dc=org';
     $Self->{'AuthSyncModule::LDAP::UID'} = 'uid';
     $Self->{'AuthSyncModule::LDAP::SearchUserDN'} = 'uid=sys, ou=user, dc=otrs, dc=org';
-    $Self->{'AuthSyncModule::LDAP::SearchUserPw'} = 'some\_pass';
+    $Self->{'AuthSyncModule::LDAP::SearchUserPw'} = 'some_pass';
     $Self->{'AuthSyncModule::LDAP::UserSyncMap'} = {
         # DB -> LDAP
         UserFirstname => 'givenName',
         UserLastname  => 'sn',
         UserEmail     => 'mail',
     };
-    [...]
 ```
  - 2008-12-28 Added daemon support to bin/PostMasterMailbox.pl and
     bin/GenericAgent.pl by using "-b \<BACKGROUND\_INTERVAL\_IN\_MIN\>".
@@ -3593,12 +3599,13 @@
     Example you can use customer user attributes in ACL properties in
     this case to create an list of possible queues in the customer
     interface for creating or moving tickets.
-```
+
+```perl
     $Self->{TicketAcl}->{'ACL-Name-Test'} = {
         # match properties
         Properties => {
             CustomerUser => {
-                UserCustomerID => ['some\_customer\_id'],
+                UserCustomerID => ['some_customer_id'],
             },
         }
         # possible properties
@@ -3664,7 +3671,8 @@
  - 2008-06-01 Fixed bug#[2956](http://bugs.otrs.org/show_bug.cgi?id=2956) - Not working ticket escalation by using SLAs.
  - 2008-06-01 Added sub sorting to Kernel::System::Ticket::TicketSearch()
     and improved unit test. Example:
-```
+
+```perl
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         Result  => 'ARRAY',
         Title   => '%sort/order by test%',
@@ -3674,6 +3682,7 @@
         UserID  => 1,
     );
 ```
+
  - 2008-05-28 Fixed bug#[2891](http://bugs.otrs.org/show_bug.cgi?id=2891) - Typo in Bounce Customer notification
     'information'.
  - 2008-05-22 Upgraded Mail::Tools from version 2.02 to 2.03 from CPAN.
@@ -3781,11 +3790,11 @@
 
  - 2008-03-25 Added enhancement for agent and customer HTTPBasicAuth to strip
     parts of REMOTE\_USER or HTTP\_REMOTE\_USER by using a regexp. Example to
-    strip @example.com of login.
-```
+    strip @example.com of login.  
     [Kernel/Config.pm]
 
-    # In case you need to replace some part of the REMOTE\_USER, you can
+```perl
+    # In case you need to replace some part of the REMOTE_USER, you can
     # use the following RegExp ($1 will be new login).
     $Self->{'AuthModule::HTTPBasicAuth::ReplaceRegExp'} = '^(.+?)@.+?$';
 ```
@@ -3798,20 +3807,20 @@
     So the database customer is now improved to set all database attributes
     in CustomerUser config. For example this is the solution to prevent
     the sybase error message:
-```
+
+```perl
     $Self->{CustomerUser} = {
         Name   => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
             DSN       => 'DBI:sybase:yourdsn',
-            User      => 'some\_user',
-            Password  => 'some\_password',
-            Table     => 'customer\_user',
+            User      => 'some_user',
+            Password  => 'some_password',
+            Table     => 'customer_user',
             Attribute => {},
         },
-    [...]
 ```
-    For more info see: http://www.perlmonks.org/index.pl?node\_id=663835
+For more info see: http://www.perlmonks.org/index.pl?node_id=663835
  - 2008-03-17 Fixed bug#[2197](http://bugs.otrs.org/show_bug.cgi?id=2197) - utf8 problems with auto generated
     Kernel/Config/Files/ZZZAuto.pm and Kernel/Config/Files/ZZZAAuto.pm
     (non ascii signs and utf8 stamps).
@@ -3826,23 +3835,25 @@
  - 2008-03-09 Improved API of Cache core module (Kernel::System::Cache), added
     type param to define the type of cached object/data (so also a better
     storage is possible because you can manage each cache type object/data it
-    self, e. g. if file system backend is used in differend sub directories).
+    self, e. g. if file system backend is used in differend sub directories).  
 
-    API Example (old):
-        $CacheObject-\>Set(
-            Key   =\> 'SomeKey',
-            Value =\> 'Some Value',
-            TTL   =\> 24\*60\*60,     # in sec. in this case 24h
+API Example (old):
+```perl
+        $CacheObject->Set(
+            Key   => 'SomeKey',
+            Value => 'Some Value',
+            TTL   => 24*60*60,     # in sec. in this case 24h
         );
-
-    API Example (new):
-        $CacheObject-\>Set(
-            Type  =\> 'ObjectName', # only A-z chars usable
-            Key   =\> 'SomeKey',
-            Value =\> 'Some Value',
-            TTL   =\> 24\*60\*60,     # in sec. in this case 24h
+```
+API Example (new):
+```perl
+        $CacheObject->Set(
+            Type  => 'ObjectName', # only A-z chars usable
+            Key   => 'SomeKey',
+            Value => 'Some Value',
+            TTL   => 24*60*60,     # in sec. in this case 24h
         );
-
+```
  - 2008-03-06 Fixed use of uninitialized value in Log.pm (visible when
     executed in ModPerl environment).
  - 2008-03-02 Added title of object to div tag of linked objects to have an
@@ -3888,7 +3899,7 @@
     mssql backend not possible (improved Kernel::System::DB API with database
     preferences option "NoLikeInLargeText").
  - 2007-12-28 Improved config file mechanism generated by SysConfig to improve
-    speed in mod\_perl is used (about 0.2%-4% speed improvement, depends
+    speed in `mod_perl` is used (about 0.2%-4% speed improvement, depends
     on which shown site).
     Note: Kernel/Config/Files/ZZZAuto.pm and Kernel/Config/Files/ZZZAAuto.pm
     generated by OTRS 2.3 or higher is not longer compat. to OTRS 2.2 and
@@ -3910,10 +3921,11 @@
  - 2007-12-11 Fixed bug#[2479](http://bugs.otrs.org/show_bug.cgi?id=2479) - Unable to retrieve attachments bigger than
     3Mb (on Oracle DB). Changed default read size from 4 MB to 40 MB in
     Kernel/System/DB/oracle.pm:
-```
+
+```perl
     $Self->{'DB::Attribute'}      = {
         LongTruncOk => 1,
-        LongReadLen => 40 \* 1024 \* 1024,
+        LongReadLen => 40 * 1024 * 1024,
     };
 ```
  - 2007-12-10 Updated MIME::Tools to current CPAN version 5.425.
@@ -3970,7 +3982,7 @@
  - 2008-07-18 Fixed reopend bug#[2330](http://bugs.otrs.org/show_bug.cgi?id=2330) - Cron.sh restart \<OTRS\_USER\> doesn't
     work.
  - 2008-07-16 Fixed bug#[2967](http://bugs.otrs.org/show_bug.cgi?id=2967) - Stats module, illegal division by zero at
-    ../..//Kernel/System/Stats.pm line 1581
+    ../../Kernel/System/Stats.pm line 1581
  - 2008-07-16 Fixed bug#[3079](http://bugs.otrs.org/show_bug.cgi?id=3079) - Default CheckEmailInvalidAddress regexp
     rejects mail to MobileMe (me.com) accounts.
  - 2008-07-08 Fixed bug#[3062](http://bugs.otrs.org/show_bug.cgi?id=3062) - Not possible to search for Customer Company
@@ -3996,7 +4008,8 @@
  - 2008-05-15 Fixed bug#[2870](http://bugs.otrs.org/show_bug.cgi?id=2870) - Customer-Frontend: No Access to Company Tickets
     (CustomerIDCheck fails).
  - 2008-05-09 Added new catalonian language translation, thanks to Antonio Linde!
- - 2008-05-08 Fixed bug#[2683](http://bugs.otrs.org/show_bug.cgi?id=2683) - $QData{"OrigFrom"} in Reply leads to wrong
+ - 2008-05-08 Fixed bug#[2683](http://bugs.otrs.org/show_bug.cgi?id=2683) - 
+ ```$QData{"OrigFrom"}``` in Reply leads to wrong
     quote in email answer if sender is agent (To of origin email is used).
  - 2008-05-08 Fixed bug#[2604](http://bugs.otrs.org/show_bug.cgi?id=2604) - Response Format - Date of Original Mail is
     missing.
@@ -4114,7 +4127,7 @@
  - 2008-02-06 Fixed bug#[1716](http://bugs.otrs.org/show_bug.cgi?id=1716) - Wrong escalation time calculation on
     wintertime/summertime switch.
  - 2008-02-01 Fixed ticket# 2008012242000417 - View performance problems
-    if more then 1000 customer companies are in the database available.
+    if more than 1000 customer companies are in the database available.
 
 #2.2.5 2008-01-28
  - 2008-01-25 Fixed bug#[2645](http://bugs.otrs.org/show_bug.cgi?id=2645) - SLA selection doesn't change when customer is
@@ -4166,7 +4179,7 @@
     3 MB (on Oracle DB). Changed default read size from 4 MB to 15 MB in
     Kernel/System/DB/oracle.pm:
 
-```
+```perl
       $Self->{'DB::Attribute'}      = {
         LongTruncOk => 1,
         LongReadLen => 15 * 1024 * 1024,
@@ -4346,9 +4359,10 @@
     problem after updating to 2.2.0).
     --\>Because of this fact you need to add to new column to the ticket table.\<--
 
-    ALTER TABLE ticket ADD escalation\_response\_time INTEGER;
-    ALTER TABLE ticket ADD escalation\_solution\_time INTEGER;
-
+```sql
+    ALTER TABLE ticket ADD escalation_response_time INTEGER;  
+    ALTER TABLE ticket ADD escalation_solution_time INTEGER;  
+```
  - 2007-07-26 Fixed bug#[2061](http://bugs.otrs.org/show_bug.cgi?id=2061) - UserSyncLDAPMap does not work properly after
     upgrade to 2.2. The reason is, that we cleaned up this config option and
     the new one from Kernel/Config/Defaults.pm need to be used. We also added
@@ -4357,22 +4371,24 @@
 
     If you use UserSyncLDAPMap you need to reconfigure it!
 
-    Old style (till 2.1):
-```
-    $Self-\>{UserSyncLDAPMap} = {
-        # DB -\> LDAP
-        Firstname =\> 'givenName',
-        Lastname =\> 'sn',
-        Email =\> 'mail',
+Old style (till 2.1):
+
+```perl
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        Firstname => 'givenName',
+        Lastname => 'sn',
+        Email => 'mail',
     };
 ```
-    New style (beginning with 2.2):
-```
-    $Self-\>{UserSyncLDAPMap} = {
-        # DB -\> LDAP
-        UserFirstname =\> 'givenName',
-        UserLastname =\> 'sn',
-        UserEmail =\> 'mail',
+New style (beginning with 2.2):
+
+```perl
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        UserFirstname => 'givenName',
+        UserLastname => 'sn',
+        UserEmail => 'mail',
     };
 ```
  - 2007-07-25 Added missing OTRS 2.2 sql update scripts for mssql and maxdb
@@ -4458,54 +4474,53 @@
  - 2007-05-21 Update german translation.
  - 2007-05-21 Improved check of needed stuff in SLAAdd() function in
     Kernel/System/SLA.pm.
- - 2007-05-21 Sync HTML style of admin masks. No functionality changed.
-    Kernel/Output/HTML/Standard/AdminAttachmentForm.dtl
-    Kernel/Output/HTML/Standard/AdminAutoResponseForm.dtl
-    Kernel/Output/HTML/Standard/AdminCustomerCompanyForm.dtl
-    Kernel/Output/HTML/Standard/AdminCustomerUserForm.dtl
-    Kernel/Output/HTML/Standard/AdminGenericAgent.dtl
-    Kernel/Output/HTML/Standard/AdminGroupForm.dtl
-    Kernel/Output/HTML/Standard/AdminLog.dtl
-    Kernel/Output/HTML/Standard/AdminNotificationForm.dtl
-    Kernel/Output/HTML/Standard/AdminPGPForm.dtl
-    Kernel/Output/HTML/Standard/AdminPOP3.dtl
-    Kernel/Output/HTML/Standard/AdminPackageManager.dtl
-    Kernel/Output/HTML/Standard/AdminPerformanceLog.dtl
-    Kernel/Output/HTML/Standard/AdminPostMasterFilter.dtl
-    Kernel/Output/HTML/Standard/AdminQueueForm.dtl
-    Kernel/Output/HTML/Standard/AdminResponseForm.dtl
-    Kernel/Output/HTML/Standard/AdminRoleForm.dtl
-    Kernel/Output/HTML/Standard/AdminSLA.dtl
-    Kernel/Output/HTML/Standard/AdminSMIMEForm.dtl
-    Kernel/Output/HTML/Standard/AdminSalutationForm.dtl
-    Kernel/Output/HTML/Standard/AdminService.dtl
-    Kernel/Output/HTML/Standard/AdminSession.dtl
-    Kernel/Output/HTML/Standard/AdminSignatureForm.dtl
-    Kernel/Output/HTML/Standard/AdminStateForm.dtl
-    Kernel/Output/HTML/Standard/AdminSysConfig.dtl
-    Kernel/Output/HTML/Standard/AdminSystemAddressForm.dtl
-    Kernel/Output/HTML/Standard/AdminTypeForm.dtl
-    Kernel/Output/HTML/Standard/AdminUserForm.dtl
+ - 2007-05-21 Sync HTML style of admin masks. No functionality changed.  
+    Kernel/Output/HTML/Standard/AdminAttachmentForm.dtl  
+    Kernel/Output/HTML/Standard/AdminAutoResponseForm.dtl  
+    Kernel/Output/HTML/Standard/AdminCustomerCompanyForm.dtl  
+    Kernel/Output/HTML/Standard/AdminCustomerUserForm.dtl  
+    Kernel/Output/HTML/Standard/AdminGenericAgent.dtl  
+    Kernel/Output/HTML/Standard/AdminGroupForm.dtl  
+    Kernel/Output/HTML/Standard/AdminLog.dtl  
+    Kernel/Output/HTML/Standard/AdminNotificationForm.dtl  
+    Kernel/Output/HTML/Standard/AdminPGPForm.dtl  
+    Kernel/Output/HTML/Standard/AdminPOP3.dtl  
+    Kernel/Output/HTML/Standard/AdminPackageManager.dtl  
+    Kernel/Output/HTML/Standard/AdminPerformanceLog.dtl  
+    Kernel/Output/HTML/Standard/AdminPostMasterFilter.dtl  
+    Kernel/Output/HTML/Standard/AdminQueueForm.dtl  
+    Kernel/Output/HTML/Standard/AdminResponseForm.dtl  
+    Kernel/Output/HTML/Standard/AdminRoleForm.dtl  
+    Kernel/Output/HTML/Standard/AdminSLA.dtl  
+    Kernel/Output/HTML/Standard/AdminSMIMEForm.dtl  
+    Kernel/Output/HTML/Standard/AdminSalutationForm.dtl  
+    Kernel/Output/HTML/Standard/AdminService.dtl  
+    Kernel/Output/HTML/Standard/AdminSession.dtl  
+    Kernel/Output/HTML/Standard/AdminSignatureForm.dtl  
+    Kernel/Output/HTML/Standard/AdminStateForm.dtl  
+    Kernel/Output/HTML/Standard/AdminSysConfig.dtl  
+    Kernel/Output/HTML/Standard/AdminSystemAddressForm.dtl  
+    Kernel/Output/HTML/Standard/AdminTypeForm.dtl  
+    Kernel/Output/HTML/Standard/AdminUserForm.dtl  
  - 2007-05-21 Changes max shown escalated tickets in queue view to 30
     (to improved spped of escalation view in queue view).
  - 2007-05-21 Fixed double ContentType in ArticleAttachment() of attachment
     backends (Kernel/System/Ticket/ArticleStorage(DB|FS).pm).
- - 2007-05-21 Sync of all configurable frontend modules. No functionality
-    changed.
-    Kernel/Modules/AgentTicketClose.pm
-    Kernel/Modules/AgentTicketFreeText.pm
-    Kernel/Modules/AgentTicketNote.pm
-    Kernel/Modules/AgentTicketOwner.pm
-    Kernel/Modules/AgentTicketPending.pm
-    Kernel/Modules/AgentTicketPriority.pm
-    Kernel/Modules/AgentTicketResponsible.pm
-    Kernel/Output/HTML/Standard/AgentTicketClose.dtl
-    Kernel/Output/HTML/Standard/AgentTicketFreeText.dtl
-    Kernel/Output/HTML/Standard/AgentTicketNote.dtl
-    Kernel/Output/HTML/Standard/AgentTicketOwner.dtl
-    Kernel/Output/HTML/Standard/AgentTicketPending.dtl
-    Kernel/Output/HTML/Standard/AgentTicketPriority.dtl
-    Kernel/Output/HTML/Standard/AgentTicketResponsible.dtl
+ - 2007-05-21 Sync of all configurable frontend modules. No functionality changed.  
+    Kernel/Modules/AgentTicketClose.pm  
+    Kernel/Modules/AgentTicketFreeText.pm  
+    Kernel/Modules/AgentTicketNote.pm  
+    Kernel/Modules/AgentTicketOwner.pm  
+    Kernel/Modules/AgentTicketPending.pm  
+    Kernel/Modules/AgentTicketPriority.pm  
+    Kernel/Modules/AgentTicketResponsible.pm  
+    Kernel/Output/HTML/Standard/AgentTicketClose.dtl  
+    Kernel/Output/HTML/Standard/AgentTicketFreeText.dtl  
+    Kernel/Output/HTML/Standard/AgentTicketNote.dtl  
+    Kernel/Output/HTML/Standard/AgentTicketOwner.dtl  
+    Kernel/Output/HTML/Standard/AgentTicketPending.dtl  
+    Kernel/Output/HTML/Standard/AgentTicketPriority.dtl  
+    Kernel/Output/HTML/Standard/AgentTicketResponsible.dtl  
  - 2007-05-21 Fixed bug#[1898](http://bugs.otrs.org/show_bug.cgi?id=1898) - Invalid services and slas was shown in agent
     masks.
  - 2007-05-16 Improved check of needed Charset param in Send() function to
@@ -4582,14 +4597,13 @@
  - 2007-03-20 Added support of new set ticket pending time over X-OTRS-Header
     X-OTRS-State-PendingTime and X-OTRS-FollowUp-State-PendingTime.
  - 2007-03-20 Rewrite of Kernel::System::User module (cleanup of used params
-    for UserAdd() and UserUpdate()).
+    for UserAdd() and UserUpdate()).  
+    If you use this API, you need to change your custom implemention!  
+    Note If you use UserSyncLDAPMap you need to reconfigure it!  
 
-    If you use this API, you need to change your custom implemention!
+Old:
 
-    Note If you use UserSyncLDAPMap you need to reconfigure it!
-
-    Old:
-```
+```perl
     $Self->{UserSyncLDAPMap} = {
         # DB -> LDAP
         Firstname => 'givenName',
@@ -4597,8 +4611,9 @@
         Email => 'mail',
     };
 ```
-    New:
-```
+
+New:
+```perl
     $Self->{UserSyncLDAPMap} = {
         # DB -> LDAP
         UserFirstname => 'givenName',
@@ -4614,26 +4629,29 @@
     size.
  - 2007-03-08 Improved Prepare() of Kernel::System::DB to fetch also rows
    between 10 and 30 (with start option of result). For example:
-```
-   $DBObject-\>Prepare(
-       SQL =\> "SELECT id, name FROM table",
-       Start =\> 10,
-       Limit =\> 20,
+
+```perl
+   $DBObject->Prepare(
+       SQL => "SELECT id, name FROM table",
+       Start => 10,
+       Limit => 20,
    );
 ```
  - 2007-03-08 Improved XML database database backend for \<Insert\>. Content
     in xml attribut is not longer allowed, use the content instead. Now it's
-    also possible to use new lines (\n) or more lines as content.
+    also possible to use new lines (\n) or more lines as content.   
 
-    Old style:
-```
+Old style:
+
+```xml
     <Insert Table="table_name">
         <Data Key="name_a" Value="Some Message A." Type="Quote"/>
         <Data Key="name_b" Value="Some Message B." Type="Quote"/>
     </Insert>
 ```
-    New style:
-```
+New style:
+
+```xml
     <Insert Table="table_name">
         <Data Key="name_a" Type="Quote">Some Message A.</Data>
         <Data Key="name_b" Type="Quote">Some Message B.</Data>
@@ -4642,10 +4660,8 @@
  - 2007-03-08 Moved from scripts/database/initial\_insert.sql to database depend
     initial insert files located under scripts/database/otrs-initial\_insert.\*.sql.
     This files are generated from scripts/database/otrs-initial\_insert.xml.
-
     Note: The scripts/database/initial\_insert.sql exists not longer, use
     scripts/database/otrs-initial\_insert.\*.sql from now on for installations.
-
  - 2007-03-08 Fixed bug#[1017](http://bugs.otrs.org/show_bug.cgi?id=1017) - script initial\_insert.sql, ampersand and oracle.
  - 2007-03-08 Fixed enhacement bug#[1668](http://bugs.otrs.org/show_bug.cgi?id=1668) - removed unnecessary dependency for
     fetchmail from .srpms.
@@ -4734,10 +4750,10 @@
     to Fabricio Luiz Machado!
  - 2007-03-14 fixed bug#[1650](http://bugs.otrs.org/show_bug.cgi?id=1650) - crypt/sign bug in AgentTicketCompose screen
  - 2007-03-14 fixed bug#[1659](http://bugs.otrs.org/show_bug.cgi?id=1659) - Uploading and Saving Pictures in MSSQL won't
-    work with bigger Files (~700KB)
-
-```
+    work with bigger Files (~700KB)  
     ->MSSQL ONLY<- You also need to change some tables by using: ->MSSQL ONLY<-
+
+```sql
         ALTER TABLE web_upload_cache ALTER COLUMN content TEXT NOT NULL;
         ALTER TABLE article_plain ALTER COLUMN body TEXT NOT NULL;
         ALTER TABLE article_attachment ALTER COLUMN content TEXT NOT NULL;
@@ -5348,7 +5364,7 @@
     \<-\> User
  - 2005-08-19 Added new config parameter to include a envelope from
     header in outgoing notifications for customer and agents:
-```
+```perl
    $Self->{"SendmailNotificationEnvelopeFrom"} = '';
 ```
  - 2005-08-19 fixed bug#[846](http://bugs.otrs.org/show_bug.cgi?id=846) - empty envelope from on notifications
@@ -5472,14 +5488,14 @@
  - 2005-07-03 added ticket free time feature - take care, you need to
     alter the ticket table:
 
-```
+```mysql
     ALTER TABLE ticket ADD freetime1 DATETIME;
     ALTER TABLE ticket ADD freetime2 DATETIME;
 ```
 
 new config options are:
 
-```
+```perl
     $Self->{"TicketFreeTimeKey1"} = 'Termin1';
     $Self->{"TicketFreeTimeDiff1"} = 0;
     $Self->{"TicketFreeTimeKey2"} = 'Termin2';
@@ -5526,7 +5542,6 @@ new config options are:
  - 2005-05-07 fixed bug#[647](http://bugs.otrs.org/show_bug.cgi?id=647) - Allow setting of default language for FAQs
  - 2005-05-07 fixed bug#[686](http://bugs.otrs.org/show_bug.cgi?id=686) - defect attachments on download with firefox
  - 2005-05-07 added html access keys for nav bar
-
 ```
     general:
     h = home
@@ -5567,26 +5582,25 @@ new config options are:
     to AgentTicket\* (cleanup)
  - 2005-02-15 renamed \_all\_ ticket config options! and moved to
     own config files:
-      o Kernel/Config/Files/Ticket.pm
-      o Kernel/Config/Files/TicketPostMaster.pm
+      - Kernel/Config/Files/Ticket.pm
+      - Kernel/Config/Files/TicketPostMaster.pm
     --\>\> old ticket config setting will not longer work \<\<--
  - 2005-02-11 imporved agent ticket search with created options
     (berated by user, created in queue)
  - 2004-12-04 moved PGP and SMIME stuff to Kernel/System/Email.pm
     to be more generic
- - 2004-11-27 added config option TicketHookDivider
-
-```
+ - 2004-11-27 added config option TicketHookDivider  
     [Kernel/Config.pm]
+
+```perl
     # (the divider between TicketHook# and number)
     $Self->{TicketHookDivider} = ': ';
 #    $Self->{TicketHookDivider} = '';
-    [...]
 ```
  - 2004-11-24 renamed from bin/SendStats.pl to bin/mkStats.pl and added
     fs output e. g.
 
-```
+```bash
     shell\> bin/mkStats.pl -m NewTickets -p 'Month=1&Year=2003' -r me@host.com -b text
     NOTICE: Email sent to 'me@host.com'
     shell\> bin/mkStats.pl -m NewTickets -p 'Month=1&Year=2003'  -o /data/dir
@@ -5608,25 +5622,23 @@ new config options are:
     Kernel/System/Web/Request.pm
  - 2004-11-07 added LOWER() in sql like queries to search, now searches
     are case insensitive in postgresql and maxdb
- - 2004-11-04 added new feature so show ticket history reverse
-
-```
+ - 2004-11-04 added new feature so show ticket history reverse  
     [Kernel/Config.pm]
+
+```perl
     # Agent::HistoryOrder
     # (show history order reverse) [normal|reverse]
     $Self->{'Agent::HistoryOrder'} = 'normal';
 #    $Self->{'Agent::HistoryOrder'} = 'reverse';
-    [...]
 ```
- - 2004-11-04 added "show no escalation" group feature
-
-```
+ - 2004-11-04 added "show no escalation" group feature  
     [Kernel/Config.pm]
+
+```perl
     # AgentNoEscalationGroup
     # (don't show escalated tickets in frontend for agents who are writable
     # in this group)
     $Self->{AgentNoEscalationGroup} = 'some_group';
-    [...]
 ```
  - 2004-11-04 renamed session to sessions table (oracle compat.)
  - 2004-11-04 updated to CGI 3.05
@@ -5643,7 +5655,7 @@ new config options are:
  - 2004-10-06 reworked all agent and customer notifications in database
     (use scripts/DBUpdate-to-2.0.\*.sql)
  - 2004-10-06 added new config options for email address check
-```
+```perl
     # CheckEmailValidAddress
     # (regexp of valid email addresses)
     $Self->{CheckEmailValidAddress} = '^(root@localhost|admin@localhost)$';
@@ -5653,9 +5665,9 @@ new config options are:
     $Self->{CheckEmailInvalidAddress} = '@(anywhere|demo|example|foo)\.(..|...)$';
 ```
  - 2004-10-01 added global working time configuration for escalation
-    and unlock calculation:
-```
+    and unlock calculation:  
     [Kernel/Config.pm]
+```perl
     # TimeWorkingHours
     # (counted hours for working time used)
     $Self->{TimeWorkingHours} = {
@@ -5698,7 +5710,6 @@ new config options are:
           },
         },
     };
-    [...]
 ```
  - 2004-10-01 improved ticket escalation, added new ticket table col.
     use scripts/DBUpdate-to-2.0.\*.sql
@@ -5708,10 +5719,9 @@ new config options are:
  - 2004-09-16 added frontend module registry, so no frontend module
     will be longer accessable till the module is registry. For example
     a registered frontend module with navigation icon in Agent nav bar
-    (navigation bar will be build automatically, based on permissions):
-
-```
+    (navigation bar will be build automatically, based on permissions):  
     [Kernel/Config.pm]
+```perl
     $Self->{'Frontend::Module'}->{'AgentPhone'} = {
         Group => ['users', 'admin'],
         Description => 'Create new Phone Ticket',
@@ -5734,12 +5744,11 @@ new config options are:
  - 2004-09-10 changed the agent notification to all subscriped agents
     if there is an follow up from the customer and the ticket is unlocked.
     This is different to OTRS \<= 1.3. So if you don't want this, you can
-    use the following config option to disable this (link in OTRS 1.3)
-
-```
+    use the following config option to disable this (link in OTRS 1.3)  
     [Kernel/Config.pm]
+
+```perl
      $Self->{PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner} = 1;
-    [...]
 ```
  - 2004-09-10 added Kernel::System::SearchProfile to manage object
     search profiles
@@ -5834,16 +5843,15 @@ new config options are:
 
 #1.3.0 beta1 2004-08-18
  - 2004-08-11 added feature to send fulltext reqests to a
-    mirror database
-
-```
+    mirror database  
     [Kernel/Config.pm]
+
+```perl
     # AgentUtil::DB::*
     # (if you want to use a mirror database for agent ticket fulltext search)
     $Self->{'AgentUtil::DB::DSN'} = "DBI:mysql:database=mirrordb;host=mirrordbhost";
     $Self->{'AgentUtil::DB::User'} = "some_user";
     $Self->{'AgentUtil::DB::Password'} = "some_password";
-    [...]
 ```
  - 2004-08-10 added Radius auth modules for agent and customer
     interface
@@ -5863,10 +5871,10 @@ new config options are:
  - 2004-08-01 fixed bug#[450](http://bugs.otrs.org/show_bug.cgi?id=450) - Spelling mistake in default FAQ entry
  - 2004-08-01 fixed bug#[460](http://bugs.otrs.org/show_bug.cgi?id=460) - Patch to add params hash to LDAP bind
     in Kernel/System/User.pm.
- - 2004-07-30 added references, in-reply-to follow up check
-
-```
+ - 2004-07-30 added references, in-reply-to follow up check  
     [Kernel/Config.pm]
+
+```perl
     # PostmasterFollowUpSearchInReferences
     # (If no ticket number in subject, otrs also looks in In-Reply-To
     # and References for follow up checks)
@@ -5885,21 +5893,21 @@ new config options are:
     bin/CryptPassword.pl to crypt passwords).
  - 2004-06-10 added generic agent web interface
  - 2004-06-03 improved language translation with custom translation
-    files:
-    Kernel/Language/$Locale.pm (default)
+    files:  
+    Kernel/Language/$Locale.pm (default)  
     Kernel/Language/$Locale\_$Action.pm (translation for otrs modules like
-     file manager, calendar, ...)
-    Kernel/Language/$Locale\_Custom.pm (own changes,updates)
+     file manager, calendar, ...)  
+    Kernel/Language/$Locale\_Custom.pm (own changes,updates)  
  - 2004-05-18 added html application output filter option, e. g. to
     filter java script of the application or to manipulate the html
     output of the application.
-    (see alos Kernel/Config/Defaults.pm -\> Frontend::Output::PostFilter)
+    (see also Kernel/Config/Defaults.pm -\> Frontend::Output::PostFilter)
  - 2004-05-04 added ticket history log on ticket link update and
     notification info if link ticket number doesn't exists.
  - 2004-05-03 added PreApplicationModule examples to Kernel/Config.pm
  - 2004-04-30 added multi customer id support to Kernel/System/CustomerUser.pm,
     Kernel/System/CustomerUser/DB.pm and Kernel/System/CustomerUser/LDAP.pm.
-    So one customer can have more then one customer id.
+    So one customer can have more than one customer id.
  - 2004-04-22 added notification module for customer panel
     (customer.pl) like for existing agent (index.pl)
  - 2004-04-20 added PreApplicationModule (index.pl) and
@@ -5938,7 +5946,7 @@ new config options are:
     and std. responses
  - 2004-03-08 added TimeZone feature - e. g. config option
     "$Self-\>{TimeZone} = +5;" in Kernel/Config.pm
- - 2004-03-05 added Include funtion to dtl tags - Thanks to Bozhin Zafirov!
+ - 2004-03-05 added Include function to dtl tags - Thanks to Bozhin Zafirov!
     - moved to central css dtl file (Kernel/Output/HTML/\*/css.dtl and
       Kernel/Output/HTML/\*/customer-css.dtl)
  - 2004-02-29 improved database handling of large objects (use DBI
@@ -6029,7 +6037,7 @@ new config options are:
  - 2004-01-23 fixed customer-user \<-\> group problem added the following
     to Kernel/Config.pm
 
-```
+```perl
     # CustomerGroupSupport (0 = compat. to OTRS 1.1 or lower)
     # (if this is 1, the you need to set the group \<-\> customer user
     # relations! http://host/otrs/index.pl?Action=AdminCustomerUserGroup
@@ -6046,6 +6054,7 @@ new config options are:
     return false if on param (e. g. Queue or State) doesn't exist
     (problem was, that if a queue name dosn't exist, then the
     GenericAgent gets tickets from all queues!).
+
 #1.2.0 beta1 2004-01-22
  - 2004-01-22 internationalization of agent notification messages
     configurable over admin interface (attention, agent notificatins
@@ -6109,7 +6118,7 @@ new config options are:
     Kernel/Output/HTML/NotificationUIDCheck.pm
     are default modules to configure over Kernel/Config.pm
 
-```
+```perl
     $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
         Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
     };
@@ -6117,8 +6126,8 @@ new config options are:
         Module => 'Kernel::Output::HTML::NotificationUIDCheck',
     };
 ```
-    So it's alos possible to create your own agent notifications
-    like motd od escalation infos.
+So it's also possible to create your own agent notifications
+    like motd or escalation infos.
  - 2003-11-26 added group \<-\> customer user support - so it's
     possible that you can define the customer queues for new tickets
  - 2003-11-26 added modules for ticket permission checks
@@ -6128,10 +6137,10 @@ new config options are:
     Kernel/System/Ticket/CustomerPermission/GroupCheck.pm
     So it's possible to write own perission check modules!
     Example: Don't allow agents to change the priority if the state
-    of the ticket is 'open' and in a specific queue.
-    Example ofKernel/Config.pm:
+    of the ticket is 'open' and in a specific queue.  
+    Example of Kernel/Config.pm:
 
-```
+```perl
     # Module Name: 1-OwnerCheck
     # (if the current owner is already the user, grant access)
     $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
@@ -6151,10 +6160,10 @@ new config options are:
     ticket". So you can select the next screen after creating a new
     phone ticket.
  - 2003-11-02 improved GenericAgent.pl to work also with ticket
-    priorities (search and change).
+    priorities (search and change).  
     Example for Kernel/Config/GenericAgent.pm:
 
-```
+```perl
     # ---
     # [name of job] -\> move all tickets from abc to experts and change priority
     # ---
@@ -6170,10 +6179,10 @@ new config options are:
     },
 ```
  - 2003-11-02 added delete option to Admin-\>StdAttachment menu
- - 2003-11-01 added PostMaster(POP3).pl filter options like procmail.
+ - 2003-11-01 added PostMaster(POP3).pl filter options like procmail.  
     Example for Kernel/Config.pm:
 
-```
+```perl
     # Job Name: 1-Match
     # (block/ignore all spam email with From: noreply@)
     $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
@@ -6186,14 +6195,14 @@ new config options are:
         },
     };
 ```
-    Available modules are Kernel::System::PostMaster::Filter::Match
+Available modules are Kernel::System::PostMaster::Filter::Match
     and Kernel::System::PostMaster::Filter::CMD. See more to use it
     on http://doc.otrs.org/.
  - 2003-10-29 added bin/CleanUp.pl to clean up of all tmp data
     like ipc, database or fs session and log stuff (added CleanUp()
     to Kernel::System::AuthSession::\* and Kernel::System::Log).
  - 2003-10-27 added "-c Kernel::Config::GenericAgentJobModule"
-    option to GenericAgent.pl to use it with more then one
+    option to GenericAgent.pl to use it with more than one
     (Kernel::Config::GenericAgent) job file. For example you will be
     able to have Kernel::Config::Delete and Kernel::Config::Move or
     other job files to execute it on different times.
@@ -6206,8 +6215,7 @@ new config options are:
  - 2003-08-28 improved GenericAgent to use From, To, Cc, Subject and
     Body for ticket selection - example:
 
-```
-    [...]
+```perl
    'delete all tickets with subject "VIRUS 32" in queue abc' => {
       # get all tickets with this properties
       Queue => 'abc',
@@ -6218,7 +6226,6 @@ new config options are:
         Delete => 1,
       },
    },
-   [...]
 ```
  - 2003-07-31 added "Show closed Ticket/Don't show closed Ticket" link
     to customer panel show my tickets overview
@@ -6239,14 +6246,12 @@ new config options are:
  - 2003-05-20 added array for source queue selection to bin/GenericAgent.pl
     for example, use this job for more queues:
 
-```
-    [...]
+```perl
     'move tickets from tricky to experts' => {
       # get all tickets with this properties
       Queue => ['tricky', 'tricky1'],
       States => ['new', 'open'],
       Locks => ['unlock'],
-    [...]
 ```
  - 2003-05-13 removed UNIQUE (not needed!) in pop3\_account table
 
@@ -6257,7 +6262,7 @@ new config options are:
  - 2003-09-39 added Czech translation file - Tomas Krmela!
  - 2003-09-29 added Polish translation file - Tomasz Melissa!
  - 2003-09-16 fixed order of user checking/adding in rpm spec files
- - 2003-08-22 fixed ascii2html convert fucktion for "\n" -\> "\<br\>\n" and
+ - 2003-08-22 fixed ascii2html convert function for "\n" -\> "\<br\>\n" and
     "  " -\> " &nbsp;".
  - 2003-08-22 fixed customer user lookup for PostMaster\*.pl based on
     senders email address (set customer id and customer user)
@@ -6266,7 +6271,7 @@ new config options are:
  - 2003-07-12 fixed bug#[182](http://bugs.otrs.org/show_bug.cgi?id=182) - Error when modify an queue without a queue-name
  - 2003-07-12 removed "PerlInitHandler Apache::StatINC" (Reload %INC files
      perl modules) from scripts/apache-httpd.include.conf because of many error
-      message in apache error log
+      message in apache error log  
     -=\> apache reload is still needed when perl modules changed on disk \<=-
  - 2003-07-12 improved performance of Kernel/System/Ticket/ArticleStorageDB.pm
     with large objects
@@ -6285,17 +6290,17 @@ new config options are:
 
 #1.1.2 2003-05-31
  - 2003-06-01 improved Kernel/System/Ticket/Number/\*.pm (ticket number
-    generator modules) to work with non existing var/log/TicketCounter.log.
+    generator modules) to work with non existing var/log/TicketCounter.log.  
      -=\> So var/log/TicketCounter.log will be removed from the CVS and
      tar.gz updates will be much easier! (TicketCounter.log will not be
      reseted on tar-update of OTRS update)
  - 2003-06-01 added Resent-To email header check for queue sorting of
     new ticket - http://lists.otrs.org/pipermail/otrs/2003-May/001845.html
  - 2003-05-30 added "PerlInitHandler Apache::Reload" (Reload %INC files
-     perl modules) to scripts/apache2-httpd.include.conf
+     perl modules) to scripts/apache2-httpd.include.conf  
     -=\> no apache reload is needed when perl modules is updated on disk \<=-
  - 2003-05-30 added "PerlInitHandler Apache::StatINC" (Reload %INC files
-     perl modules) to scripts/apache-httpd.include.conf
+     perl modules) to scripts/apache-httpd.include.conf  
     -=\> no apache reload is needed when perl modules is updated on disk \<=-
  - 2003-05-29 fixed create ticket (without priority selection) via
     customer panel and changed priority names.
@@ -6303,7 +6308,7 @@ new config options are:
  - 2003-05-19 improved text formatting of "long" messages in QueueView
     TicketZoom, TicketPlain and TicketSearch
  - 2003-05-18 fixed small logic bugs in Kernel/System/PostMaster\*
-    improved debug options for bin/PostMaster.pl and bin/PostMasterPOP3.pl
+    improved debug options for bin/PostMaster.pl and bin/PostMasterPOP3.pl  
      -=\> just used -d1 (1-3) for debug level of Kernel/System/PostMaster\*
  - 2003-05-18 added customer data lookup for PostMaster\*.pl based on
     senders email address (set customer id and customer user)
@@ -6311,8 +6316,8 @@ new config options are:
  - 2003-05-13 added russian translation! Thanks to Serg V Kravchenko!
  - 2003-05-13 added config options for shown customer info size
 
-```
-    $Self-\>{ShowCustomerInfo(Zoom|Queue|Phone)MaxSize}
+```perl
+    $Self->{ShowCustomerInfo(Zoom|Queue|Phone)MaxSize}
 ```
  - 2003-05-08 fixed ignored user comment in admin area
  - 2003-05-04 added missing StateUpdate (table ticket\_history\_type)
@@ -6375,15 +6380,13 @@ new config options are:
     with 'UserAttr' (UID for posixGroups objectclass and DN for non
     posixGroups objectclass) on group access check. Config options now:
 
-```
-    [...]
+```perl
     $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
     $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
     # for ldap posixGroups objectclass (just uid)
     $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
     # for non ldap posixGroups objectclass (with full user dn)
     $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
-    [...]
 ```
  - 2003-03-24 added agent feature to be also customer of one ticket
  - 2003-03-24 added UncountedUnlockTime config options - e.g. don't
@@ -6413,8 +6416,7 @@ new config options are:
  - 2003-03-05 added sendmail backends (Kernel::System::Email::Sendmail
     and Kernel::System::Email::SMTP) - for win32 user. New config options:
 
-```
-    [...]
+```perl
       $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
       $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -t -i -f ';
 
@@ -6422,7 +6424,6 @@ new config options are:
       $Self->{'SendmailModule::Host'} = 'mail.example.com';
       $Self->{'SendmailModule::AuthUser'} = '';
       $Self->{'SendmailModule::AuthPassword'} = '';
-    [...]
 ```
  - 2003-03-05 added "view all articles" config option for ticket zoom
     view (TicketZoomExpand default is 0) - new dtl templates for ticket
@@ -6602,10 +6603,10 @@ new config options are:
  - added config support for AgentPreferences module (Kernel/Config/Preferences.pm)
  - added AgentStatusView module (overview of all open tickets) - (Thanks to Phil Davis)!
  - added support of generic session id name (e. g. SessionID, OTRS, ...)
- - added more flexibility for option string in Kernel::Modules::AgentPhone
-
-```
+ - added more flexibility for option string in Kernel::Modules::AgentPhone  
     [Kernel::Config::Phone]
+
+```perl
       # PhoneViewASP -> useful for ASP
       # (Possible to create in all queue? Not only queue which
       # the own groups) [0|1]
@@ -6624,7 +6625,6 @@ new config options are:
         '1' => 'First Queue!',
         '2' => 'Second Queue!',
       };
-    [...]
 ```
  - added attachment support for agent compose answer
  - added Kernel::Modules::AdminEmail feature - a admin can send (via admin
@@ -6737,10 +6737,10 @@ new config options are:
  - added display support for HTML-only emails
  - added generic database and webserver to scripts/suse-rcotrs script
  - added PostgreSQL (7.2 or higher) support (use OpenTRS-schema.postgresql.sql)
- - fixed bug[12] fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12
- - fixed bug[11] typos - http://bugs.otrs.org/show_bug.cgi?id=11
- - fixed bug[10] user\_preferences table  - http://bugs.otrs.org/show_bug.cgi?id=10
- - fixed bug[9] LoopProtection!!! Can't open'/opt/OpenTRS/var/log/LoopProtection-xyz.log':
+ - fixed bug#[12](http://bugs.otrs.org/show_bug.cgi?id=12) fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12
+ - fixed bug#[11](http://bugs.otrs.org/show_bug.cgi?id=11) typos - http://bugs.otrs.org/show_bug.cgi?id=11
+ - fixed bug#[10](http://bugs.otrs.org/show_bug.cgi?id=10) user\_preferences table  - http://bugs.otrs.org/show_bug.cgi?id=10
+ - fixed bug#[9](http://bugs.otrs.org/show_bug.cgi?id=9) LoopProtection!!! Can't open'/opt/OpenTRS/var/log/LoopProtection-xyz.log':
     No such file or directory! - http://bugs.otrs.org/show_bug.cgi?id=9
  - fixed HTML table bug in AdminArea::Queue (just with Netscape)
  - fixed SQL table preferences bug (use script/DBUpdate.mysql.sql)
@@ -6756,7 +6756,7 @@ new config options are:
      * added bin/UnlockTickets.pl with --timeout and --all options
  - added command line tool (bin/DeleteSessionIDs.pl) to delete expired or all session
     ids via command line or cron - options are --help, --expired and --all
- - fixed bug[7] (http://bugs.otrs.org/show_bug.cgi?id=7 - space in Installer.pm
+ - fixed bug#[7](http://bugs.otrs.org/show_bug.cgi?id=7) - space in Installer.pm
     lets creating of database otrs in MySQL fail) by Stefan Schmidt.
  - added URL (screen) recovery after session timeout and possibility to send
     links without session id. Example: Shows you the ticket after OTRS
