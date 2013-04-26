@@ -23,7 +23,15 @@ $ConfigObject->Set(
     Value => 0,
 );
 
+my $DatabaseCaseInsensitive = $Self->{DBObject}->{Backend}->{'DB::CaseInsensitive'};
+my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
+
 my $CustomerUserObject = Kernel::System::CustomerUser->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+my $CacheObject = Kernel::System::Cache->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
@@ -165,7 +173,89 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerSearch() - CustomerID - $UserID",
     );
 
+    # START CaseSensitive
+    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = 1;
+    $CustomerUserObject = Kernel::System::CustomerUser->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
+    $CacheObject->CleanUp();
+    # Customer Search
+    %List = $CustomerUserObject->CustomerSearch(
+        Search => lc($UserRand . '-Customer-Update-Id'),
+        ValidID    => 1,
+    );
+    if ($DatabaseCaseInsensitive) {
+
+        $Self->True(
+            $List{$UserID},
+            "CustomerSearch() - CustomerID - $UserID (CaseSensitive = 1)",
+        );
+    }
+    else {
+
+        $Self->False(
+            $List{$UserID},
+            "CustomerSearch() - CustomerID - $UserID (CaseSensitive = 1)",
+        );
+    }
+
+    # CustomerIDList
     my @List = $CustomerUserObject->CustomerIDList(
+        SearchTerm => lc($UserRand . '-Customer-Update-Id'),
+        ValidID    => 1,
+    );
+
+    if ($DatabaseCaseInsensitive) {
+
+        $Self->IsDeeply(
+            \@List,
+            [ $UserRand . '-Customer-Update-Id' ],
+            "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 1)",
+        );
+    }
+    else {
+
+        $Self->IsNotDeeply(
+            \@List,
+            [ $UserRand . '-Customer-Update-Id' ],
+            "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 1)",
+        );
+    }
+
+    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = 0;
+    $CustomerUserObject = Kernel::System::CustomerUser->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
+    $CacheObject->CleanUp();
+
+    # Customer Search
+    %List = $CustomerUserObject->CustomerSearch(
+        Search => lc($UserRand . '-Customer-Update-Id'),
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID - $UserID (CaseSensitive = 0)",
+    );
+
+    # CustomerIDList
+    my @List = $CustomerUserObject->CustomerIDList(
+        SearchTerm => lc($UserRand . '-Customer-Update-Id'),
+        ValidID    => 1,
+    );
+
+    $Self->IsDeeply(
+        \@List,
+        [ $UserRand . '-Customer-Update-Id' ],
+        "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 0)",
+    );
+
+    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = $CustomerDatabaseCaseSensitiveDefault;
+    # END CaseSensitive
+
+    @List = $CustomerUserObject->CustomerIDList(
         ValidID => 1,
     );
 
