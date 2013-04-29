@@ -197,8 +197,8 @@ sub Form {
                     Type => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => 'Sorry, you need to be the ticket owner to perform this action.',
-                    Comment => 'Please change the owner first.',
+                    Message => $Self->{LayoutObject}->{LanguageObject}->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -1505,7 +1505,12 @@ sub _GetExtendedParams {
                 || '';
             if ($CustomerElement) {
 
-                $GetParam{To} .= $CustomerElement . ',';
+                if ( $GetParam{To} ) {
+                    $GetParam{To} .= ', ' . $CustomerElement;
+                }
+                else {
+                    $GetParam{To} = $CustomerElement;
+                }
 
                 # check email address
                 my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
@@ -1567,7 +1572,12 @@ sub _GetExtendedParams {
 
             if ($CustomerElementCc) {
 
-                $GetParam{Cc} .= $CustomerElementCc . ',';
+                if ( $GetParam{Cc} ) {
+                    $GetParam{Cc} .= ', ' . $CustomerElementCc;
+                }
+                else {
+                    $GetParam{Cc} = $CustomerElementCc;
+                }
 
                 # check email address
                 my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
@@ -1629,7 +1639,12 @@ sub _GetExtendedParams {
 
             if ($CustomerElementBcc) {
 
-                $GetParam{Bcc} .= $CustomerElementBcc . ',';
+                if ( $GetParam{Bcc} ) {
+                    $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
+                }
+                else {
+                    $GetParam{Bcc} = $CustomerElementBcc;
+                }
 
                 # check email address
                 my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
