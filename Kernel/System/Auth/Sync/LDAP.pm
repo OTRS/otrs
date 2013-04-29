@@ -248,8 +248,8 @@ sub Sync {
         # add new user
         if ( %SyncUser && !$UserID ) {
             $UserID = $Self->{UserObject}->UserAdd(
-                UserSalutation => 'Mr/Mrs',
-                UserLogin      => $Param{User},
+                UserTitle    => 'Mr/Mrs',
+                UserLogin    => $Param{User},
                 %SyncUser,
                 UserType     => 'User',
                 ValidID      => 1,

@@ -1,4 +1,5 @@
 #3.2.7 2013-??.??
+ - 2013-04-29 Fixed bug#[9371](http://bugs.otrs.org/show_bug.cgi?id=9371) - UserSalutation field in LDAP.pm fix.
  - 2013-04-29 Fixed bug#[8997](http://bugs.otrs.org/show_bug.cgi?id=8997) - Owner warnings translatable.
  - 2013-04-29 Fixed bug#[9375](http://bugs.otrs.org/show_bug.cgi?id=9375) - Extra colon at the end of recipient lists in forwarded message.
  - 2013-04-29 Updated Polish translation file, thanks to ib.pl!
