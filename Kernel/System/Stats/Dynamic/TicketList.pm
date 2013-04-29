@@ -1004,6 +1004,12 @@ sub GetStatTable {
         TicketAttributes => \%TicketAttributes,
     );
 
+    # find out if dynamic fields are required
+    my $NeedDynamicFields = 0;
+    for my $ParameterName ( sort keys %TicketAttributes ) {
+        $NeedDynamicFields = 1 if ( $ParameterName =~ m{\A DynamicField_ }xms );
+    }
+
     # generate the ticket list
     my @StatArray;
     for my $TicketID (@TicketIDs) {
@@ -1012,7 +1018,7 @@ sub GetStatTable {
             TicketID      => $TicketID,
             UserID        => 1,
             Extended      => $Extended,
-            DynamicFields => 1,
+            DynamicFields => $NeedDynamicFields,
         );
 
         # add the accounted time if needed
