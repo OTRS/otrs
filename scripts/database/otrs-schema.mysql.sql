@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-11-07 17:21:16
+#  driver: mysql, generated: 2013-04-29 14:53:47
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1217,9 +1217,9 @@ CREATE TABLE dynamic_field_value (
     value_date DATETIME NULL,
     value_int BIGINT NULL,
     PRIMARY KEY(id),
-    INDEX index_field_values (field_id, object_id),
-    INDEX index_search_date (field_id, value_date),
-    INDEX index_search_int (field_id, value_int)
+    INDEX dynamic_field_value_field_values (object_id),
+    INDEX dynamic_field_value_search_date (field_id, value_date),
+    INDEX dynamic_field_value_search_int (field_id, value_int)
 );
 # ----------------------------------------------------------
 #  create table dynamic_field

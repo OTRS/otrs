@@ -205,6 +205,9 @@ sub DynamicFieldAdd {
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicField',
     );
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicFieldValue',
+    );
 
     my $DynamicField = $Self->DynamicFieldGet(
         Name => $Param{Name},
@@ -439,6 +442,9 @@ sub DynamicFieldUpdate {
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicField',
     );
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicFieldValue',
+    );
 
     # re-order field list if a change in the order was made
     if ( $Reorder && $ChangedOrder ) {
@@ -504,6 +510,9 @@ sub DynamicFieldDelete {
     # delete cache
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicField',
+    );
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicFieldValue',
     );
 
     return 1;

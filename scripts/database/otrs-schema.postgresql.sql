@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-11-07 17:21:16
+--  driver: postgresql, generated: 2013-04-29 14:53:47
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -1219,9 +1219,9 @@ CREATE TABLE dynamic_field_value (
     value_int INTEGER NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX index_field_values ON dynamic_field_value (field_id, object_id);
-CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);
-CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
+CREATE INDEX dynamic_field_value_field_values ON dynamic_field_value (object_id);
+CREATE INDEX dynamic_field_value_search_date ON dynamic_field_value (field_id, value_date);
+CREATE INDEX dynamic_field_value_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------
 --  create table dynamic_field
 -- ----------------------------------------------------------

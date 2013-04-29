@@ -1854,16 +1854,15 @@
     <Column Name="value_int" Required="false" Type="BIGINT" />
 
     <!-- search objects with certain field content -->
-    <Index Name="index_search_date">
+    <Index Name="dynamic_field_value_search_date">
         <IndexColumn Name="field_id"/>
         <IndexColumn Name="value_date"/>
     </Index>
-    <Index Name="index_search_int">
+    <Index Name="dynamic_field_value_search_int">
         <IndexColumn Name="field_id"/>
         <IndexColumn Name="value_int"/>
     </Index>
-    <Index Name="index_field_values">
-        <IndexColumn Name="field_id"/>
+    <Index Name="dynamic_field_value_field_values">
         <IndexColumn Name="object_id"/>
     </Index>
     <ForeignKey ForeignTable="dynamic_field">

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-11-07 17:21:15
+--  driver: db2, generated: 2013-04-29 14:53:46
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1388,11 +1388,11 @@ CREATE TABLE dynamic_field_value (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX index_field_values ON dynamic_field_value (field_id, object_id);
+CREATE INDEX dynamic_field_value_field_values ON dynamic_field_value (object_id);
 
-CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);
+CREATE INDEX dynamic_field_value_search_date ON dynamic_field_value (field_id, value_date);
 
-CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
+CREATE INDEX dynamic_field_value_search_int ON dynamic_field_value (field_id, value_int);
 
 -- ----------------------------------------------------------
 --  create table dynamic_field
