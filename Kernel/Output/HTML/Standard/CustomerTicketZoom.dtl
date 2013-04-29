@@ -180,7 +180,7 @@
                     <li><span class="Key">$Text{"Owner"}:</span> $QData{"OwnerName"}</li>
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
-                    <li><span class="Key">$Text{"Responsible"}:</span> $QData{"ResponsibleName"}/li>
+                    <li><span class="Key">$Text{"Responsible"}:</span> $QData{"ResponsibleName"}</li>
 <!-- dtl:block:Responsible -->
 <!-- dtl:block:ProcessData -->
                     <li><span class="Key">$Text{"Process"}:</span> <span title="$QData{"Process"}">$QData{"Process"}</span></li>
