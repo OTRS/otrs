@@ -142,6 +142,7 @@ $Text{"Ticket Object"}
 $Text{"No such Ticket Number "%s"! Can't link it!"}
 $Text{"You don't have write access to this ticket."}
 $Text{"Sorry, you need to be the ticket owner to perform this action."}
+$Text{"Please change the owner first."}
 $Text{"Ticket selected."}
 $Text{"Ticket is locked by another agent."}
 $Text{"Ticket locked."}
