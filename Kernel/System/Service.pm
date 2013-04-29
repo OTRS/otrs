@@ -134,7 +134,7 @@ sub ServiceList {
     # read cache
     my $CacheKey = 'ServiceList::' . $Param{Valid};
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return %{$Cache} if $Cache;
+    return %{$Cache} if ref $Cache eq 'HASH';
 
     # ask database
     $Self->{DBObject}->Prepare(
@@ -397,7 +397,7 @@ sub ServiceGet {
     # check cached results
     my $CacheKey = 'Cache::ServiceGet::' . $Param{ServiceID};
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return %{$Cache} if $Cache;
+    return %{$Cache} if ref $Cache eq 'HASH';
 
     # get service from db
     $Self->{DBObject}->Prepare(
@@ -939,10 +939,10 @@ sub CustomerUserServiceMemberList {
     # check cache
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ( $Param{Result} eq 'HASH' ) {
-        return %{$Cache} if $Cache;
+        return %{$Cache} if ref $Cache eq 'HASH';
     }
     else {
-        return @{$Cache} if $Cache;
+        return @{$Cache} if ref $Cache eq 'ARRAY';
     }
 
     # db quote
@@ -1137,7 +1137,7 @@ sub ServiceParentsGet {
     # read cache
     my $CacheKey = 'ServiceParentsGet::' . $Param{ServiceID};
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return %{$Cache} if $Cache;
+    return $Cache if ref $Cache;
 
     # get the list of services
     my $ServiceList = $Self->ServiceListGet(
