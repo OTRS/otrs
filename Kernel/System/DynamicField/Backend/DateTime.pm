@@ -212,7 +212,8 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldText';
+    # Bug#9358: Class 'DateSelection' is needed for CustomerInterface
+    my $FieldClass = 'DynamicFieldText DateSelection';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
