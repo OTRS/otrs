@@ -1050,6 +1050,17 @@ $Self->IsDeeply(
     "ServiceParentsListGet - for ServiceGrandFather"
 );
 
+$ServiceParents = $ServiceObject->ServiceParentsGet(
+    ServiceID => $ServiceGrandFatherID,
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $ServiceParents,
+    [],
+    "ServiceParentsListGet - for ServiceGrandFather (cached)"
+);
+
 # get the parents for father
 $ServiceParents = $ServiceObject->ServiceParentsGet(
     ServiceID => $ServiceFatherID,
@@ -1062,6 +1073,17 @@ $Self->IsDeeply(
     "ServiceParentsGet - for ServiceFather"
 );
 
+$ServiceParents = $ServiceObject->ServiceParentsGet(
+    ServiceID => $ServiceFatherID,
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $ServiceParents,
+    [$ServiceGrandFatherID],
+    "ServiceParentsGet - for ServiceFather (cached)"
+);
+
 # get the parents for son
 $ServiceParents = $ServiceObject->ServiceParentsGet(
     ServiceID => $ServiceSonID,
@@ -1072,6 +1094,17 @@ $Self->IsDeeply(
     $ServiceParents,
     [ $ServiceGrandFatherID, $ServiceFatherID ],
     "ServiceParentsGet - for ServiceSon"
+);
+
+$ServiceParents = $ServiceObject->ServiceParentsGet(
+    ServiceID => $ServiceSonID,
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $ServiceParents,
+    [ $ServiceGrandFatherID, $ServiceFatherID ],
+    "ServiceParentsGet - for ServiceSon (cached)"
 );
 
 # set new added services to invalid
