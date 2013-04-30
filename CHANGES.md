@@ -1,4 +1,5 @@
 #3.2.7 2013-??.??
+ - 2013-04-30 Fixed postmaster filter edit screen layout.
  - 2013-04-30 Fixed bug#[9358](http://bugs.otrs.org/show_bug.cgi?id=9358) - Date/Time DynamicFields are broken in CustomerInterface.
  - 2013-04-30 Fixed bug#[9384](http://bugs.otrs.org/show_bug.cgi?id=9384) - Problem with Method ServiceParentsGet of ServiceObject.
  - 2013-04-29 Fixed bug#[9371](http://bugs.otrs.org/show_bug.cgi?id=9371) - UserSalutation field in LDAP.pm fix.
