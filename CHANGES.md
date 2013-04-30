@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-04-30 Added possibility to specify relative dates for X-OTRS-FollowUp-State-PendingTime in postmaster filters.
  - 2013-04-29 Fixed bug#[9339](http://bugs.otrs.org/show_bug.cgi?id=9339) - Poor stat generation preformance with dynamic fields.
  - 2013-04-24 Added support to bin/otrs.SetPassword.pl to set passwords for customers
     and to generate passwords for logins.
