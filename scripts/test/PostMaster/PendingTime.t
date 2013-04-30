@@ -24,6 +24,7 @@ my $ConfigObject = Kernel::Config->new();
 my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
 my %NeededXHeaders = (
+    'X-OTRS-PendingTime' => 1,
     'X-OTRS-FollowUp-PendingTime' => 1,
 );
 
@@ -47,10 +48,17 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '2021-01-01 00:00:00',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '2022-01-01 00:00:00',
         },
-        Check => {
+        CheckNewTicket => {
+            RealTillTimeNotUsed => $TimeObject->TimeStamp2SystemTime(
+                String => '2021-01-01 00:00:00'
+            ),
+        },
+        CheckFollowUp => {
             RealTillTimeNotUsed => $TimeObject->TimeStamp2SystemTime(
                 String => '2022-01-01 00:00:00'
             ),
@@ -62,10 +70,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '2022-01- 00:00:00',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '2022-01- 00:00:00',
         },
-        Check => {
+        CheckNewTicket => {
+            RealTillTimeNotUsed => 0,
+        },
+        CheckFollowUp => {
             RealTillTimeNotUsed => 0,
         },
     },
@@ -75,10 +88,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+60s',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30s',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 60,
+        },
+        CheckFollowUp => {
             UntilTime => 30,
         },
     },
@@ -88,10 +106,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+60',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 60,
+        },
+        CheckFollowUp => {
             UntilTime => 30,
         },
     },
@@ -101,10 +124,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '60',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '30',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 60,
+        },
+        CheckFollowUp => {
             UntilTime => 30,
         },
     },
@@ -114,10 +142,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+60m',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30m',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 60 * 60,
+        },
+        CheckFollowUp => {
             UntilTime => 30 * 60,
         },
     },
@@ -127,10 +160,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+60h',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30h',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 60 * 60 * 60,
+        },
+        CheckFollowUp => {
             UntilTime => 30 * 60 * 60,
         },
     },
@@ -140,10 +178,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+60d',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30d',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 60 * 60 * 60 * 24,
+        },
+        CheckFollowUp => {
             UntilTime => 30 * 60 * 60 * 24,
         },
     },
@@ -153,10 +196,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+30y',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30y',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 0,
+        },
+        CheckFollowUp => {
             UntilTime => 0,
         },
     },
@@ -166,10 +214,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+30y',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30y',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 0,
+        },
+        CheckFollowUp => {
             UntilTime => 0,
         },
     },
@@ -179,10 +232,15 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
+            'X-OTRS-State'             => 'pending reminder',
+            'X-OTRS-State-PendingTime' => '+30s +30m',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30s +30m',
         },
-        Check => {
+        CheckNewTicket => {
+            UntilTime => 0,
+        },
+        CheckFollowUp => {
             UntilTime => 0,
         },
     },
@@ -243,6 +301,26 @@ Some Content in Body
         DynamicFields => 1,
     );
 
+    for my $Key ( sort keys %{ $Test->{CheckNewTicket} } ) {
+
+        # fuzzy check
+        if ( $Key eq 'UntilTime' ) {
+            $Self->True(
+                abs( $Ticket{$Key} - $Test->{CheckNewTicket}->{$Key} ) < 5,
+                "$Test->{Name} - NewTicket - Check result value $Key does not differ more than 5s",
+            );
+        }
+
+        # exact check
+        else {
+            $Self->Is(
+                $Ticket{$Key},
+                $Test->{CheckNewTicket}->{$Key},
+                "$Test->{Name} - NewTicket - Check result value $Key",
+            );
+        }
+    }
+
     my $Subject = 'Subject: ' . $TicketObject->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
         Subject      => 'test',
@@ -288,13 +366,13 @@ Some Content in Body
         DynamicFields => 1,
     );
 
-    for my $Key ( sort keys %{ $Test->{Check} } ) {
+    for my $Key ( sort keys %{ $Test->{CheckFollowUp} } ) {
 
         # fuzzy check
         if ( $Key eq 'UntilTime' ) {
             $Self->True(
-                abs( $Ticket{$Key} - $Test->{Check}->{$Key} ) < 5,
-                "$Test->{Name} - Check result value $Key does not differ more than 5s",
+                abs( $Ticket{$Key} - $Test->{CheckFollowUp}->{$Key} ) < 5,
+                "$Test->{Name} - FollowUp - Check result value $Key does not differ more than 5s",
             );
         }
 
@@ -302,8 +380,8 @@ Some Content in Body
         else {
             $Self->Is(
                 $Ticket{$Key},
-                $Test->{Check}->{$Key},
-                "$Test->{Name} - Check result value $Key",
+                $Test->{CheckFollowUp}->{$Key},
+                "$Test->{Name} - FollowUp - Check result value $Key",
             );
         }
     }
