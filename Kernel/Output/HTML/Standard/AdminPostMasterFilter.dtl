@@ -55,9 +55,9 @@
     </div>
 
     <div class="ContentColumn">
-        <div class="WidgetSimple">
 
 <!-- dtl:block:OverviewResult -->
+        <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"List"}</h2>
             </div>
@@ -86,9 +86,11 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:OverviewUpdate -->
+        <div class="WidgetSimple">
             <div class="Header">
 <!-- dtl:block:HeaderAdd -->
                 <h2>$Text{"Add PostMaster Filter"}</h2>
@@ -244,41 +246,40 @@
                     </fieldset>
                 </form>
             </div>
-
-            <div class="WidgetSimple SpacingTop">
-                <div class="Header">
-                    <h2>$Text{"Example"}</h2>
-                </div>
-                <div class="Content">
-                    <fieldset class="TableLike">
-                        <h4>$Text{"Filter Condition"}</h4>
-
-                        <label for="MatchHeaderExample">$Text{"Header"} 1:</label>
-                        <div class="Field">
-                            <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc">
-                                <option selected="selected" value="To">To</option>
-                            </select>
-                            <label for="MatchValueExample">$Text{"Value"} 1:</label>
-                            <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <h4>$Text{"Set Email Headers"}</h4>
-
-                        <label for="SetHeaderExample">$Text{"Header"} 1:</label>
-                        <div class="Field">
-                            <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc">
-                                <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
-                            </select>
-                            <label for="SetValueExample">$Text{"Value"} 1:</label>
-                            <input type="text" name="SetValueExample" id="SetValueExample" value="SomeQueue" class="W33pc" maxlength="50"/>
-                        </div>
-                        <div class="Clear"></div>
-                    </fieldset>
-                </div>
-            </div>
-<!-- dtl:block:OverviewUpdate -->
         </div>
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>$Text{"Example"}</h2>
+            </div>
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <h4>$Text{"Filter Condition"}</h4>
+
+                    <label for="MatchHeaderExample">$Text{"Header"} 1:</label>
+                    <div class="Field">
+                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc">
+                            <option selected="selected" value="To">To</option>
+                        </select>
+                        <label for="MatchValueExample">$Text{"Value"} 1:</label>
+                        <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <h4>$Text{"Set Email Headers"}</h4>
+
+                    <label for="SetHeaderExample">$Text{"Header"} 1:</label>
+                    <div class="Field">
+                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc">
+                            <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
+                        </select>
+                        <label for="SetValueExample">$Text{"Value"} 1:</label>
+                        <input type="text" name="SetValueExample" id="SetValueExample" value="SomeQueue" class="W33pc" maxlength="50"/>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+<!-- dtl:block:OverviewUpdate -->
     </div>
     <div class="Clear"></div>
 </div>
