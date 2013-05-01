@@ -426,6 +426,11 @@ for my $Test (@Tests) {
             '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b><div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">test</div> </div>',
         Name => 'DocumentCleanup - blockquote'
     },
+    {
+        Input => '<head><base href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
+        Result => '<head></head>',
+        Name => 'DocumentCleanup - base tag',
+    }
 );
 
 for my $Test (@Tests) {

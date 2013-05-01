@@ -1,4 +1,5 @@
 #3.2.7 2013-??.??
+ - 2013-05-01 Fixed bug#[8880](http://bugs.otrs.org/show_bug.cgi?id=8880) - No inline image shown if HTML email contains 'base' tag.
  - 2013-04-30 Fixed bug#[9374](http://bugs.otrs.org/show_bug.cgi?id=9374) - Add more functions to rich text editor.
  - 2013-04-30 Fixed postmaster filter edit screen layout.
  - 2013-04-30 Fixed bug#[9358](http://bugs.otrs.org/show_bug.cgi?id=9358) - Date/Time DynamicFields are broken in CustomerInterface.
