@@ -236,10 +236,10 @@ sub CustomerSearch {
         my $Search = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Search} );
 
         $SQL .= $Self->{DBObject}->QueryCondition(
-            Key          => $Self->{CustomerUserMap}->{CustomerUserSearchFields},
-            Value        => $Search,
-            SearchPrefix => $Self->{SearchPrefix},
-            SearchSuffix => $Self->{SearchSuffix},
+            Key           => $Self->{CustomerUserMap}->{CustomerUserSearchFields},
+            Value         => $Search,
+            SearchPrefix  => $Self->{SearchPrefix},
+            SearchSuffix  => $Self->{SearchSuffix},
             CaseSensitive => $Self->{CaseSensitive},
         ) . ' ';
     }
@@ -415,10 +415,10 @@ sub CustomerIDList {
 
         $SQL .= ' AND ';
         $SQL .= $Self->{DBObject}->QueryCondition(
-            Key          => $Self->{CustomerID},
-            Value        => $SearchTermEscaped,
-            SearchPrefix => $Self->{SearchPrefix},
-            SearchSuffix => $Self->{SearchSuffix},
+            Key           => $Self->{CustomerID},
+            Value         => $SearchTermEscaped,
+            SearchPrefix  => $Self->{SearchPrefix},
+            SearchSuffix  => $Self->{SearchSuffix},
             CaseSensitive => $Self->{CaseSensitive},
         );
         $SQL .= ' ';

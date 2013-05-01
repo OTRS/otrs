@@ -294,14 +294,15 @@ sub ArticleWriteAttachment {
         UserID    => $Param{UserID},
     );
     if ( !$Param{Force} ) {
-        # Normalize filenames to find file names which are identical but in a different unicode form.
-        #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
-        #   Without this, the same file might be overwritten because the strings are not equal.
+
+       # Normalize filenames to find file names which are identical but in a different unicode form.
+       #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
+       #   Without this, the same file might be overwritten because the strings are not equal.
         for ( sort keys %Index ) {
             $UsedFile{ Unicode::Normalize::NFC( $Index{$_}->{Filename} ) } = 1;
         }
         for ( my $i = 1; $i <= 50; $i++ ) {
-            if ( exists $UsedFile{ Unicode::Normalize::NFC( $NewFileName ) } ) {
+            if ( exists $UsedFile{ Unicode::Normalize::NFC($NewFileName) } ) {
                 if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
                     $NewFileName = "$1-$i.$2";
                 }

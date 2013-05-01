@@ -838,14 +838,14 @@ sub NotificationAgent {
 
     # replace place holder stuff
     $Notification{Body} = $Self->_Replace(
-        RichText    => $Self->{RichText},
-        Text        => $Notification{Body},
-        RecipientID => $Param{RecipientID},
-        Data        => $Param{CustomerMessageParams},
-        TicketID    => $Param{TicketID},
-        UserID      => $Param{UserID},
-        Language    => $Language,
-        LastCustomerArticle     => \%Article,
+        RichText            => $Self->{RichText},
+        Text                => $Notification{Body},
+        RecipientID         => $Param{RecipientID},
+        Data                => $Param{CustomerMessageParams},
+        TicketID            => $Param{TicketID},
+        UserID              => $Param{UserID},
+        Language            => $Language,
+        LastCustomerArticle => \%Article,
     );
     $Notification{Subject} = $Self->_Replace(
         RichText    => 0,
@@ -1326,20 +1326,24 @@ sub _Replace {
         # replace <OTRS_CUSTOMER_EMAIL[]> tags
         $Tag = $Start . 'OTRS_CUSTOMER_EMAIL';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
+
             # This tag should include the message body
             # of the last customer message.
-            # 
-            # In $Data{Body} it may happen that 
+            #
+            # In $Data{Body} it may happen that
             # the currents article Body gets passed down here.
-            # 
+            #
             # So we have to use the Body of the $Param{Article}
             # hash holding the article of the last customer message.
             my $CustomerEmailBody = $Data{Body};
 
-            if ( $Param{LastCustomerArticle} 
+            if (
+                $Param{LastCustomerArticle}
                 && ref $Param{LastCustomerArticle} eq 'HASH'
-                && $Param{LastCustomerArticle}->{Body} 
-                && length $Param{LastCustomerArticle}->{Body} ) {
+                && $Param{LastCustomerArticle}->{Body}
+                && length $Param{LastCustomerArticle}->{Body}
+                )
+            {
                 $CustomerEmailBody = $Param{LastCustomerArticle}->{Body};
             }
 

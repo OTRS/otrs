@@ -396,7 +396,6 @@ sub GetObjectAttributes {
         push @ObjectAttributes, \%ObjectAttribute;
     }
 
-
     if ( $Self->{ConfigObject}->Get('Stats::UseAgentElementInStats') ) {
 
         my @ObjectAttributeAdd = (

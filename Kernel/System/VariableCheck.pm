@@ -60,13 +60,13 @@ The functions can be grouped as follows:
 
 =over 4
 
-=item L<IsString()>
+=item * L</IsString()>
 
-=item L<IsStringWithData()>
+=item * L</IsStringWithData()>
 
-=item L<IsArrayRefWithData()>
+=item * L</IsArrayRefWithData()>
 
-=item L<IsHashRefWithData()>
+=item * L</IsHashRefWithData()>
 
 =back
 
@@ -74,11 +74,11 @@ The functions can be grouped as follows:
 
 =over 4
 
-=item L<IsNumber()>
+=item * L</IsNumber()>
 
-=item L<IsInteger()>
+=item * L</IsInteger()>
 
-=item L<IsPositiveInteger()>
+=item * L</IsPositiveInteger()>
 
 =back
 
@@ -86,11 +86,11 @@ The functions can be grouped as follows:
 
 =over 4
 
-=item L<IsIPv4Address()>
+=item * L</IsIPv4Address()>
 
-=item L<IsIPv6Address()>
+=item * L</IsIPv6Address()>
 
-=item L<IsMD5Sum()>
+=item * L</IsMD5Sum()>
 
 =back
 

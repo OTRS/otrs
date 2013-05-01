@@ -99,7 +99,7 @@ sub new {
 
 sets a dynamic field value. This is represented by one or more rows in the dynamic_field_value
 table, each storing one text, date and int field. Please see how they will be returned by
-L<ValueGet()>.
+L</ValueGet()>.
 
     my $Success = $DynamicFieldValueObject->ValueSet(
         FieldID  => $FieldID,                 # ID of the dynamic field

@@ -421,7 +421,7 @@ sub True {
 
 test for a scalar value that evaluates to false.
 
-It has the same interface as L<True()>, but tests
+It has the same interface as L</True()>, but tests
 for a false value instead.
 
 =cut
@@ -506,7 +506,7 @@ sub Is {
 
 compares two scalar values for inequality.
 
-It has the same interface as L<Is()>, but tests
+It has the same interface as L</Is()>, but tests
 for inequality instead.
 
 =cut
@@ -612,7 +612,7 @@ sub IsDeeply {
 
 compares two data structures for inequality.
 
-It has the same interface as L<IsDeeply()>, but tests
+It has the same interface as L</IsDeeply()>, but tests
 for inequality instead.
 
 =cut

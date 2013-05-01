@@ -24,14 +24,14 @@ Inherit from this class if you want to use events there.
     use Kernel::System::EventHandler;
     push @ISA, 'Kernel::System::EventHandler';
 
-In your class, have to call L<EventHandlerInit()> first.
+In your class, have to call L</EventHandlerInit()> first.
 
-Then, to register events as they occur, use the L<EventHandler()>
+Then, to register events as they occur, use the L</EventHandler()>
 method. It will call the event handler modules which are registered
 for the given event, or queue them for later execution (so-called
 'Transaction' events).
 
-In the destructor, you should add a call to L<EventHandlerTransaction()>
+In the destructor, you should add a call to L</EventHandlerTransaction()>
 to make sure that also 'Transaction' events will be executed correctly.
 This is only neccessary if you use 'Transaction' events in your class.
 

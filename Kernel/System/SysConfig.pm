@@ -266,7 +266,7 @@ sub Download {
 
 upload of config changes. Pass the contents of
 the file Kernel/Config/Files/ZZZAuto.pm here, as
-read by L<Download()>.
+read by L</Download()>.
 
 Warning: this will replace the existing user
 configuration changes.
