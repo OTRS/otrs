@@ -4136,10 +4136,10 @@ sub RichTextDocumentServe {
             $End = '"' . $End;
         }
 
-        # find matching attachment and replace it with runtlime url to image
+        # find matching attachment and replace it with runtime url to image
         for my $AttachmentID (  sort keys %{ $Param{Attachments} }) {
             next if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
-            $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
+            $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
             last;
         }
 
@@ -4176,7 +4176,7 @@ sub RichTextDocumentServe {
         }
 
         # return new runtime url
-        $ContentID = $AttachmentLink . $AttachmentID . ';' . $SessionID;
+        $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
         $Start . $ContentID . $End;
     }egxi;
     }
