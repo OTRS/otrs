@@ -62,7 +62,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
+                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -81,7 +81,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
+                '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -100,7 +100,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;;SessionID=123\">",
+                "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;SessionID=123\">",
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -119,7 +119,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
+                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -138,7 +138,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123" />',
+                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -157,7 +157,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
+                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123\' />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -176,7 +176,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
+                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123\' />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
