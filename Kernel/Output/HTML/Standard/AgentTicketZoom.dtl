@@ -295,6 +295,7 @@
                 <h2>$QData{"ArticleCount"} $Text{"Article(s)"}</h2>
                 <div class="AdditionalInformation">
                     $Text{"Age"}: $Data{"Age"} &ndash; $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
+					<a href="?Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}">@</a>
 <!-- dtl:block:CreatedBy -->
                     $Text{"by"} $QData{"CreatedByUser"}
 <!-- dtl:block:CreatedBy -->
