@@ -1,5 +1,5 @@
 # --
-# Kernel/System/CheckItem.pm - the global spelling module
+# Kernel/System/CheckItem.pm - module to check and manipulate strings
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -169,7 +169,7 @@ sub CheckEmail {
                 $Resolver->nameservers($Nameserver);
             }
 
-            # A recorde lookup
+            # A-record lookup
             my $Packet = $Resolver->send( $Host, 'A' );
             if ( !$Packet ) {
                 $Self->{ErrorType} = 'InvalidDNS';
@@ -179,13 +179,8 @@ sub CheckEmail {
                     Message  => "DNS problem: " . $Resolver->errorstring(),
                 );
             }
-            elsif ( $Packet->header()->ancount() ) {
 
-                # OK
-                # print STDERR "OK A $Host ".$Packet->header->ancount()."\n";
-            }
-
-            # mx recorde lookup
+            # mx record lookup
             else {
                 my $Packet = $Resolver->send( $Host, 'MX' );
                 if ( !$Packet ) {
@@ -195,11 +190,6 @@ sub CheckEmail {
                         Priority => 'error',
                         Message  => "DNS problem: " . $Resolver->errorstring(),
                     );
-                }
-                elsif ( $Packet->header()->ancount() ) {
-
-                    # OK
-                    # print STDERR "OK MX $Host ".$Packet->header->ancount()."\n";
                 }
                 else {
                     $Error = "no mail exchanger (mx) found!";
@@ -329,7 +319,7 @@ sub CreditCardClean {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (L<http://otrs.org/>).
+This software is part of the OTRS project (L<http://otrs.com/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
