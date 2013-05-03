@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-04-29 14:48:37
+--  driver: postgresql, generated: 2013-05-03 02:53:40
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -14,4 +14,15 @@ DROP INDEX index_search_int;
 CREATE INDEX dynamic_field_value_search_int ON dynamic_field_value (field_id, value_int);
 DROP INDEX index_field_values;
 CREATE INDEX dynamic_field_value_field_values ON dynamic_field_value (object_id);
+DROP INDEX article_message_id;
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ADD a_message_id_md5 VARCHAR (32) NULL;
+CREATE INDEX article_message_id_md5 ON article (a_message_id_md5);
+DROP INDEX article_search_message_id;
+-- ----------------------------------------------------------
+--  alter table article_search
+-- ----------------------------------------------------------
+ALTER TABLE article_search DROP a_message_id;
 SET standard_conforming_strings TO ON;

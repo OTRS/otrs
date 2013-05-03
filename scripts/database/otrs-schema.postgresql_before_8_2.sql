@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2013-04-29 14:53:47
+--  driver: postgresql_before_8_2, generated: 2013-05-03 02:53:20
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -529,6 +529,7 @@ CREATE TABLE article (
     a_cc VARCHAR (3800) NULL,
     a_subject VARCHAR (3800) NULL,
     a_message_id VARCHAR (3800) NULL,
+    a_message_id_md5 VARCHAR (32) NULL,
     a_in_reply_to VARCHAR (3800) NULL,
     a_references VARCHAR (3800) NULL,
     a_content_type VARCHAR (250) NULL,
@@ -544,7 +545,7 @@ CREATE TABLE article (
 );
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX article_article_type_id ON article (article_type_id);
-CREATE INDEX article_message_id ON article (a_message_id);
+CREATE INDEX article_message_id_md5 ON article (a_message_id_md5);
 CREATE INDEX article_ticket_id ON article (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_search
@@ -558,14 +559,12 @@ CREATE TABLE article_search (
     a_to VARCHAR (3800) NULL,
     a_cc VARCHAR (3800) NULL,
     a_subject VARCHAR (3800) NULL,
-    a_message_id VARCHAR (3800) NULL,
     a_body VARCHAR NOT NULL,
     incoming_time INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
 CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
 CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
-CREATE INDEX article_search_message_id ON article_search (a_message_id);
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_plain

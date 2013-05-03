@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-04-29 14:53:47
+--  driver: oracle, generated: 2013-05-03 02:53:20
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -870,6 +870,7 @@ CREATE TABLE article (
     a_cc VARCHAR2 (3800) NULL,
     a_subject VARCHAR2 (3800) NULL,
     a_message_id VARCHAR2 (3800) NULL,
+    a_message_id_md5 VARCHAR2 (32) NULL,
     a_in_reply_to VARCHAR2 (3800) NULL,
     a_references VARCHAR2 (3800) NULL,
     a_content_type VARCHAR2 (250) NULL,
@@ -902,7 +903,7 @@ CREATE INDEX FK_article_create_by ON article (create_by);
 CREATE INDEX FK_article_valid_id ON article (valid_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX article_article_type_id ON article (article_type_id);
-CREATE INDEX article_message_id ON article (a_message_id);
+CREATE INDEX article_message_id_md5 ON article (a_message_id_md5);
 CREATE INDEX article_ticket_id ON article (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_search
@@ -916,14 +917,12 @@ CREATE TABLE article_search (
     a_to VARCHAR2 (3800) NULL,
     a_cc VARCHAR2 (3800) NULL,
     a_subject VARCHAR2 (3800) NULL,
-    a_message_id VARCHAR2 (3800) NULL,
     a_body CLOB NOT NULL,
     incoming_time NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
 CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
 CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
-CREATE INDEX article_search_message_id ON article_search (a_message_id);
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_plain

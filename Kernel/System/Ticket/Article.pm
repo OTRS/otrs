@@ -113,7 +113,7 @@ sub ArticleCreate {
         return;
     }
 
-    # lockups if no ids!!!
+    # lookups if no ids are passed
     if ( $Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Param{ArticleTypeID} = $Self->ArticleTypeLookup( ArticleType => $Param{ArticleType} );
     }
@@ -243,6 +243,11 @@ sub ArticleCreate {
     my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Index ? 0 : 1;
 
+    # calculate MD5 of Message ID
+    if ( $Param{MessageID} ) {
+        $Param{MD5} = $Self->{MainObject}->MD5sum( String => $Param{MessageID} );
+    }
+
     # if the original article body contains just one pasted picture and no text, at this point of
     # the code the body is an empty string, Oracle databases will transform the empty string value
     # to NULL and will try to insert a NULL value in a field that should not be NULL. see bug 7533.
@@ -259,15 +264,16 @@ sub ArticleCreate {
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article '
             . '(ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, '
-            . 'a_cc, a_subject, a_message_id, a_in_reply_to, a_references, a_body, a_content_type, '
+            . 'a_cc, a_subject, a_message_id, a_message_id_md5, a_in_reply_to, a_references, a_body, a_content_type, '
             . 'content_path, valid_id, incoming_time, create_time, create_by, change_time, change_by) '
             . 'VALUES '
-            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{TicketID},  \$Param{ArticleTypeID}, \$Param{SenderTypeID},
-            \$Param{From},      \$Param{ReplyTo},       \$Param{To},
-            \$Param{Cc},        \$Param{Subject},       \$Param{MessageID},
-            \$Param{InReplyTo}, \$Param{References},    \$Param{Body},
+            \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
+            \$Param{From},     \$Param{ReplyTo},       \$Param{To},
+            \$Param{Cc},       \$Param{Subject},       \$Param{MessageID},
+            \$Param{MD5},
+            \$Param{InReplyTo}, \$Param{References}, \$Param{Body},
             \$Param{ContentType}, \$Self->{ArticleContentPath}, \$ValidID,
             \$IncomingTime, \$Param{UserID}, \$Param{UserID},
         ],
@@ -730,7 +736,7 @@ sub ArticleCreate {
 get ticket id of given message id
 
     my $TicketID = $TicketObject->ArticleGetTicketIDOfMessageID(
-        MessageID=> '<13231231.1231231.32131231@example.com>',
+        MessageID => '<13231231.1231231.32131231@example.com>',
     );
 
 =cut
@@ -743,11 +749,12 @@ sub ArticleGetTicketIDOfMessageID {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need MessageID!' );
         return;
     }
+    my $MD5 = $Self->{MainObject}->MD5sum( String => $Param{MessageID} );
 
     # sql query
     return if !$Self->{DBObject}->Prepare(
-        SQL   => 'SELECT ticket_id FROM article WHERE a_message_id = ?',
-        Bind  => [ \$Param{MessageID} ],
+        SQL   => 'SELECT ticket_id FROM article WHERE a_message_id_md5 = ?',
+        Bind  => [ \$MD5 ],
         Limit => 10,
     );
     my $TicketID;
@@ -763,11 +770,11 @@ sub ArticleGetTicketIDOfMessageID {
     # one found
     return $TicketID if $Count == 1;
 
-    # more then one found! that should not be, a message_id should be unique!
+    # more than one found! that should not be, a message_id should be unique!
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message  => "The MessageID '$Param{MessageID}' is in your database "
-            . "more then one time! That should not be, a message_id should be unique!",
+            . "more than one time! That should not be, a message_id should be unique!",
     );
     return;
 }

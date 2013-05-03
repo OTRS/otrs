@@ -36,5 +36,16 @@
 
 </TableAlter>
 
+<TableAlter Name="article">
+    <IndexDrop Name="article_message_id"/>
+    <ColumnAdd Name="a_message_id_md5" Required="false" Size="32" Type="VARCHAR"/>
+    <IndexCreate Name="article_message_id_md5">
+        <IndexColumn Name="a_message_id_md5"/>
+    </IndexCreate>
+</TableAlter>
+<TableAlter Name="article_search">
+    <IndexDrop Name="article_search_message_id"/>
+    <ColumnDrop Name="a_message_id"/>
+</TableAlter>
 
 </database>
