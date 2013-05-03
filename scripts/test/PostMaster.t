@@ -222,7 +222,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             );
 
             # get rand sender address
-            my $UserRand1 = 'example-user' . int rand 1000000 . '@example.com';
+            my $UserRand1 = 'example-user' . ( int rand 1000000 ) . '@example.com';
 
             for my $File (qw(1 2 3 5 6 11 17 18 21)) {
 
