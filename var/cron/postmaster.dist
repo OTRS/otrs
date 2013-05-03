@@ -8,5 +8,4 @@
 # --
 
 # check daily the spool directory of OTRS
-#10 0 * * * * [ -e /etc/init.d/otrs ] && /etc/init.d/otrs cleanup >> /dev/null; [ -e /etc/rc.d/init.d/otrs ] && /etc/rc.d/init.d/otrs cleanup >> /dev/null
-10 0 * * *  $HOME/bin/otrs.cleanup >> /dev/null
+10 0 * * *  $HOME/bin/otrs.ReprocessMails.pl >> /dev/null
