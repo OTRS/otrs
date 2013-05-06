@@ -419,9 +419,23 @@ sub Run {
 
         # CSV output
         if ( $GetParam{ResultForm} eq 'CSV' ) {
-            my @CSVHead;
-            my @CSVData;
 
+            # create head (actual head and head for data fill)
+            my @TmpCSVHead = @{ $Self->{Config}->{SearchCSVData} };
+            my @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
+
+            # include the selected dynamic fields in CVS results
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+                next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
+
+                push @TmpCSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
+                push @CSVHead, $DynamicFieldConfig->{Label};
+            }
+
+            my @CSVData;
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
@@ -488,22 +502,8 @@ sub Run {
                         $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID ),
                 );
 
-                # csv quote
-                if ( !@CSVHead ) {
-                    @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
-
-                    # include the selected dynamic fields in CVS results
-                    DYNAMICFIELD:
-                    for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
-                        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-                        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-                        next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
-
-                        push @CSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
-                    }
-                }
                 my @Data;
-                for my $Header (@CSVHead) {
+                for my $Header (@TmpCSVHead) {
 
                     # check if header is a dynamic field and get the value from dynamic field
                     # backend
