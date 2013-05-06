@@ -29,7 +29,7 @@ use Kernel::System::UnitTest::Helper;
 use Kernel::System::Type;
 use Kernel::System::Service;
 
-# skip SSL certiciate verification
+# skip SSL certificate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject             => $Self,
@@ -47,6 +47,11 @@ my $RandomID = int rand 1_000_000_000;
 # create local config object
 my $ConfigObject = Kernel::Config->new();
 
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # create time object
 my $TimeObject = Kernel::System::Time->new(
     %{$Self},
@@ -55,12 +60,6 @@ my $TimeObject = Kernel::System::Time->new(
 
 # get the start time for the test
 my $StartTime = $TimeObject->SystemTime();
-
-# disable CheckEmailInvalidAddress setting
-$ConfigObject->Set(
-    Key   => 'CheckEmailInvalidAddress',
-    Value => 0,
-);
 
 # new user object
 my $UserObject = Kernel::System::User->new(
