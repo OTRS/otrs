@@ -65,6 +65,50 @@ $Self->Is(
     'GetUserData() - UserEmail',
 );
 
+my %UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 0,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    $UserRand1,
+    "UserList valid 0",
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 1,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    $UserRand1,
+    "UserList valid 1",
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 0,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    $UserRand1,
+    "UserList valid 0 cached",
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 1,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    $UserRand1,
+    "UserList valid 1 cached",
+);
+
 my $Update = $UserObject->UserUpdate(
     UserID        => $UserID1,
     UserFirstname => 'Firstname Test2',
@@ -101,6 +145,50 @@ $Self->Is(
     $UserData{UserEmail} || '',
     $UserRand1 . '@example2.com',
     'GetUserData() - UserEmail',
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 0,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    $UserRand1 . "2",
+    "UserList valid 0",
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 1,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    undef,
+    "UserList valid 1",
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 0,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    $UserRand1 . "2",
+    "UserList valid 0 cached",
+);
+
+%UserList = $UserObject->UserList(
+    Type => 'Short',
+    Valid => 1,
+);
+
+$Self->Is(
+    $UserList{ $UserID1 },
+    undef,
+    "UserList valid 1 cached",
 );
 
 # check token support

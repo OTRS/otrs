@@ -424,25 +424,8 @@ sub UserAdd {
     $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
 
     # delete cache
-    my @CacheKeys = (
-        'GetUserData::User::' . $Param{UserLogin} . '::0::0',
-        'GetUserData::User::' . $Param{UserLogin} . '::0::1',
-        'GetUserData::User::' . $Param{UserLogin} . '::1::0',
-        'GetUserData::User::' . $Param{UserLogin} . '::1::1',
-        'GetUserData::UserID::' . $UserID . '::0::0',
-        'GetUserData::UserID::' . $UserID . '::0::1',
-        'GetUserData::UserID::' . $UserID . '::1::0',
-        'GetUserData::UserID::' . $UserID . '::1::1',
-        'UserLookup::Login::' . $UserID,
-        'UserLookup::ID::' . $Param{UserLogin},
-        'UserList::Short::0',
-        'UserList::Short::1',
-        'UserList::Long::0',
-        'UserList::Long::1',
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    $Self->{CacheInternalObject}->CleanUp();
+    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Group' );
 
     return $UserID;
 }
@@ -868,36 +851,58 @@ sub UserList {
     my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || 'Short';
-    if ( $Param{Valid} ) {
-        $Param{Valid} = 1;
+
+    # set valid option
+    my $Valid = $Param{Valid};
+    if ( !defined $Valid || $Valid ) {
+        $Valid = 1;
     }
     else {
-        $Param{Valid} = 0;
+        $Valid = 0;
     }
 
     # check cache
-    my $CacheKey = 'UserList::' . $Type . '::' . $Param{Valid};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $CacheKey = 'UserList::' . $Type . '::' . $Valid;
+    my $Cache    = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
+    my $SelectStr;
     if ( $Type eq 'Short' ) {
-        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+        $SelectStr = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
     else {
-        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+        $SelectStr = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
             . " last_name, first_name, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
 
-    my %Users = $Self->{DBObject}->GetTableData(
-        What  => $Param{What},
-        Table => $Self->{ConfigObject}->{DatabaseUserTable},
-        Clamp => 1,
-        Valid => $Param{Valid},
-    );
+    # sql query
+    if ($Valid) {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
+                . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+        );
+    }
+    else {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable}",
+        );
+    }
 
-    # check vacation option
+    # fetch the result
+    my %Users;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( $Type eq 'Short' ) {
+            $Users{ $Row[0] } = $Row[1];
+        }
+        else {
+            $Users{ $Row[0] } = "$Row[1], $Row[2] ($Row[3])";
+        }
+    }
+     # check vacation option
     for my $UserID ( sort keys %Users ) {
         next if !$UserID;
 
@@ -910,7 +915,10 @@ sub UserList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Users );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Users,
+    );
 
     return %Users;
 }
