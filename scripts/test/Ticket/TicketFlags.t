@@ -19,16 +19,19 @@ use Time::HiRes qw( usleep );
 use Kernel::Config;
 use Kernel::System::Ticket;
 use Kernel::System::User;
+use Kernel::System::UnitTest::Helper;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    UnitTestObject => $Self,
+    %{$Self},
+    RestoreSystemConfiguration => 0,
+);
 my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
     %{$Self},
 );
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
-    ConfigObject => $ConfigObject,
 );
 
 # create a new ticket
@@ -228,16 +231,8 @@ $Self->True(
 # create 2 new users
 my @UserIDs;
 for ( 1 .. 2 ) {
-    my $RandomNumber = rand(1000);
-
-    my $UserID = $UserObject->UserAdd(
-        UserFirstname => "MyExampleUserName$RandomNumber",
-        UserLastname  => "MyExampleUserLastName$RandomNumber",
-        UserLogin     => "example$RandomNumber",
-        UserEmail     => "myuser$RandomNumber\@mydomain.com",
-        ValidID       => 1,
-        ChangeUserID  => 1,
-    );
+    my $UserLogin = $HelperObject->TestUserCreate();
+    my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 
