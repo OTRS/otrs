@@ -615,7 +615,9 @@ $Data{"ArticleItems"}
     <a name="Article$QData{"ArticleID"}"></a>
     <div class="WidgetBox SpacingTop Expanded">
         <div class="LightRow Header">
-            <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
+            <div class="WidgetAction Toggle">
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}" title="$Text{"Show or hide the content"}"><span></span></a>
+            </div>
             <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
             <div class="AdditionalInformation SpacingLoader">
                 $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
