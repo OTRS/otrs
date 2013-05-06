@@ -565,6 +565,14 @@
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="SendmailEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Sendmail</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.</Description>
         <Group>Framework</Group>

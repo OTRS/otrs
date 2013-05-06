@@ -693,9 +693,14 @@ sub Send {
         $To .= ', ' . $SendmailBcc;
     }
 
-    # get sender
-    my @Sender   = Mail::Address->parse( $Param{From} );
-    my $RealFrom = $Sender[0]->address();
+    # set envelope sender for replies
+    my $RealFrom = $Self->{ConfigObject}->Get('SendmailEnvelopeFrom') || '';
+    if ( !$RealFrom ) {
+        my @Sender   = Mail::Address->parse( $Param{From} );
+        $RealFrom = $Sender[0]->address();
+    }
+
+    # set envelope sender for autoresponses and notifications
     if ( $Param{Loop} ) {
         $RealFrom = $Self->{ConfigObject}->Get('SendmailNotificationEnvelopeFrom') || '';
     }
