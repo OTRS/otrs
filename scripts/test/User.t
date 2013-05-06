@@ -16,7 +16,7 @@ use Kernel::System::User;
 
 my $ConfigObject = Kernel::Config->new();
 $ConfigObject->Set(
-    Key   => 'CheckEmailInvalidAddress',
+    Key   => 'CheckEmailAddresses',
     Value => 0,
 );
 
