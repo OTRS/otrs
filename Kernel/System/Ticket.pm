@@ -5382,7 +5382,7 @@ sub TicketMerge {
         UserID         => $Param{UserID},
         HistoryType    => 'AddNote',
         HistoryComment => '%%Note',
-        Subject        => 'Ticket Merged',
+        Subject        => $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeSubject') || 'Ticket Merged',
         Body           => $Body,
         NoAgentNotify  => 1,
     );

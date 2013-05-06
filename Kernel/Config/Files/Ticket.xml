@@ -3980,8 +3980,16 @@ $QData{"Body"}
             <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AutomaticMergeSubject" Required="1" Valid="1">
+        <Description Translatable="1">When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
+        <Setting>
+            <String Regex="">Ticket Merged</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AutomaticMergeText" Required="1" Valid="1">
-        <Description Translatable="1">When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).</Description>
+        <Description Translatable="1">When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>

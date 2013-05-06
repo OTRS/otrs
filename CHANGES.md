@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-04-30 Fixed bug#[9376](http://bugs.otrs.org/show_bug.cgi?id=9376) - Configurable automatic merge subject.
  - 2013-04-30 Fixed bug#[9372](http://bugs.otrs.org/show_bug.cgi?id=9372) - Configurable envelope sender address.
  - 2013-04-30 Added article link to every article box in ticket zoom.
  - 2013-04-30 Added possibility to specify relative dates for X-OTRS-State-PendingTime and X-OTRS-FollowUp-State-PendingTime in postmaster filters.
