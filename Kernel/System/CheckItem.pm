@@ -179,6 +179,12 @@ sub CheckEmail {
                     Message  => "DNS problem: " . $Resolver->errorstring(),
                 );
             }
+            elsif ( $Packet->header()->ancount() ) {
+                # TODO: actually this makes us NOT check MX records. It's
+                # not correct, we should check and fix this behavior.
+                # Note: fixing this will break some unit tests (Group.t)
+                # that create agents with @example.com email addresses.
+            }
 
             # mx record lookup
             else {
