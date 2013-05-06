@@ -32,18 +32,12 @@ my $RandomID = int rand 1_000_000_000;
 my $ConfigObject = Kernel::Config->new();
 
 # helper object
-# skip SSL certiciate verification
+# skip SSL certificate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject             => $Self,
     RestoreSystemConfiguration => 1,
     SkipSSLVerify              => 1,
-);
-
-# disable CheckEmailInvalidAddress setting
-$ConfigObject->Set(
-    Key   => 'CheckEmailInvalidAddress',
-    Value => 0,
 );
 
 # new user object
