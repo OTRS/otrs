@@ -1242,6 +1242,18 @@ sub Run {
             && $Self->{Config}->{SplitLinkType}->{Direction}
             )
         {
+            my $Access = $Self->{TicketObject}->TicketPermission(
+                Type     => 'ro',
+                TicketID => $GetParam{LinkTicketID},
+                UserID   => $Self->{UserID}
+            );
+
+            if ( !$Access ) {
+                return $Self->{LayoutObject}->NoPermission(
+                    Message    => "You need ro permission!",
+                    WithHeader => 'yes',
+                );
+            }
 
             my $SourceKey = $GetParam{LinkTicketID};
             my $TargetKey = $TicketID;
