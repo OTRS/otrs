@@ -163,7 +163,7 @@ sub CheckEmail {
         my $Resolver = Net::DNS::Resolver->new();
         if ($Resolver) {
 
-            # check if extra nameserver need to be used
+            # check if we need to use a specific name server
             my $Nameserver = $Self->{ConfigObject}->Get('CheckMXRecord::Nameserver');
             if ($Nameserver) {
                 $Resolver->nameservers($Nameserver);
@@ -180,18 +180,10 @@ sub CheckEmail {
                 );
             }
 
-            # mx record lookup
             else {
-                my $Packet = $Resolver->send( $Host, 'MX' );
-                if ( !$Packet ) {
-                    $Self->{ErrorType} = 'InvalidDNS';
-                    $Error = "DNS problem: " . $Resolver->errorstring();
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "DNS problem: " . $Resolver->errorstring(),
-                    );
-                }
-                else {
+                # mx record lookup
+                my @MXRecords = Net::DNS::mx( $Resolver, $Host );
+                if ( !@MXRecords ) {
                     $Error = "no mail exchanger (mx) found!";
                     $Self->{ErrorType} = 'InvalidMX';
                 }
