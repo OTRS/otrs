@@ -175,7 +175,23 @@ sub Run {
         my %Article;
         my %CustomerData;
         if ( $GetParam{ArticleID} ) {
-            %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID} );
+
+            my $Access = $Self->{TicketObject}->TicketPermission(
+                Type     => 'ro',
+                TicketID => $Self->{TicketID},
+                UserID   => $Self->{UserID}
+            );
+
+            if ( !$Access ) {
+                return $Self->{LayoutObject}->NoPermission(
+                    Message    => "You need ro permission!",
+                    WithHeader => 'yes',
+                );
+            }
+
+            %Article = $Self->{TicketObject}->ArticleGet(
+                ArticleID     => $GetParam{ArticleID},
+            );
 
             # Check if article is from the same TicketID as we checked permissions for.
             if ( $Article{TicketID} ne $Self->{TicketID} ) {

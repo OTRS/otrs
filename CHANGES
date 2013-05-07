@@ -10,7 +10,8 @@
 # --
 
 3.0.20 2013-xx-xx
- - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail. 
+ - 2013-05-07 Improved permission checks in AgentTicketPhone.
+ - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
  - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
 
 3.0.19 2013-04-02
