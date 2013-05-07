@@ -32,8 +32,6 @@ ul.Tablelike li {
     padding: 0 4px;
     min-height: 20px;
     background-color: #FFF;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
 }
 
@@ -46,7 +44,15 @@ ul.Tablelike li:nth-child(even) {
 }
 
 ul.Tablelike li:hover {
-    background: url(../img/table_small_hover_bg.png) repeat-x center;
+    background: #f3960d;
+    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
+    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
 
 ul.Tablelike li:hover a {
@@ -58,11 +64,15 @@ ul.Tablelike li.Header {;
     font-size: 11px;
     line-height: 20px;
     text-transform: uppercase;
-    background: #EEE url("../img/SmallDarkGradient.png") repeat-x;
+    background: #eeeeee;
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #BBB;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
     border-radius: 0;
 }
 
@@ -76,10 +86,14 @@ ul.Tablelike li.Header + li {
 .WidgetSimple {
     border: 1px solid #CCC;
     margin-bottom: 10px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
-    background: #eee url(../img/widget_bg_100.png) repeat-x;
+    background: #f1f1f1;
+    background: -moz-linear-gradient(top,  #f9f9f9 0%, #f1f1f1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#f1f1f1));
+    background: -webkit-linear-gradient(top,  #f9f9f9 0%,#f1f1f1 100%);
+    background: -o-linear-gradient(top,  #f9f9f9 0%,#f1f1f1 100%);
+    background: -ms-linear-gradient(top,  #f9f9f9 0%,#f1f1f1 100%);
+    background: linear-gradient(to bottom,  #f9f9f9 0%,#f1f1f1 100%);
 }
 
 .WidgetSimple > .Header,
@@ -87,10 +101,6 @@ ul.Tablelike li.Header + li {
     padding: 2px 5px 3px;
     border: 1px solid #FFF;
     border-bottom: 1px solid #CCC;
-    -webkit-border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topleft: 2px;
-    -moz-border-radius-topright: 2px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     position: relative;
@@ -98,8 +108,6 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple.Collapsed > .Header {
     border-bottom: none;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
@@ -113,10 +121,6 @@ ul.Tablelike li.Header + li {
     padding: 8px 8px 10px;
     border: 1px solid #FFF;
     border-bottom: none;
-    -webkit-border-bottom-right-radius: 2px;
-    -webkit-border-bottom-left-radius: 2px;
-    -moz-border-radius-bottomright: 2px;
-    -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
     overflow: auto;
@@ -194,7 +198,13 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetBox > .Content {
-    background: url(../img/gradient_lightdark.png) repeat-x;
+    background: #ffffff;
+    background: -moz-linear-gradient(top,  #ebebeb 0%, #ffffff 50%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(50%,#ffffff), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
+    background: -o-linear-gradient(top,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
+    background: -ms-linear-gradient(top,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
+    background: linear-gradient(to bottom,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
     min-height: 200px;
     border-left: 1px solid #C6C5C4;
     border-right: 1px solid #C6C5C4;
@@ -220,8 +230,6 @@ ul.Tablelike li.Header + li {
     background: #FFF;
     border-left: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
-    -webkit-border-bottom-left-radius: 2px;
-    -moz-border-radius-bottomleft: 2px;
     border-bottom-left-radius: 2px;
     position: absolute;
     display: none;
@@ -233,10 +241,6 @@ ul.Tablelike li.Header + li {
     padding: 0 2px 0 0;
     border-left: none;
     border-right: 1px solid #DDD;
-    -webkit-border-bottom-left-radius: 0;
-    -webkit-border-bottom-right-radius: 2px;
-    -moz-border-radius-bottomleft: 0;
-    -moz-border-radius-bottomright: 2px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 2px;
 }
@@ -338,14 +342,17 @@ ul.Tablelike li.Header + li {
 
 .CallForAction {
     padding: 0;
-    background: #F3F3F3 url(../img/SmallDarkGradient.png) repeat-x;
+    background: #f2f2f2;
+    background: -moz-linear-gradient(top,  #f2f2f2 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #f2f2f2 0%,#e0e0e0 100%);
     border: 1px solid #999;
     border-bottom: 1px solid #888;
     box-shadow: 0 1px 0 #E6E6E6;
-    -moz-box-shadow: 0 1px 0 #E6E6E6;
     -webkit-box-shadow: 0 1px 0 #E6E6E6;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     display: inline-block;
     cursor: pointer;
@@ -380,8 +387,6 @@ ul.Tablelike li.Header + li {
     font-weight: bold;
     border: 1px solid #FFF;
     border-bottom: none;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     display: block;
     text-shadow: 0 1px 0 #FFF;
@@ -390,7 +395,6 @@ ul.Tablelike li.Header + li {
 
 .CallForAction:active {
     background-color: #DDD;
-    -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
@@ -472,9 +476,6 @@ ul.Tablelike li.Header + li {
     padding: 4px 5px;
     font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
     border-color: #999;
-    -moz-border-radius: 3px 0 0 3px;
-    -webkit-border-top-right-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
     border-radius: 3px 0 0 3px;
     border-right: none;
     vertical-align: bottom;
@@ -483,11 +484,6 @@ ul.Tablelike li.Header + li {
 .RTL .SearchBox input[type='text']{
     border-left: none;
     border-right: 1px solid #999;
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -webkit-border-top-left-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
     border-radius: 0 3px 3px 0;
 }
 
@@ -506,11 +502,14 @@ ul.Tablelike li.Header + li {
     padding: 3px 3px 4px;
     color: #333;
     font: bold 11px/14px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    background: #F3F3F3 url(../img/SmallDarkGradient.png) repeat-x;
+    background: #f2f2f2;
+    background: -moz-linear-gradient(top,  #f2f2f2 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #f2f2f2 0%,#e0e0e0 100%);
     border: 1px solid #888;
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
     border-radius: 0 3px 3px 0;
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
@@ -519,11 +518,6 @@ ul.Tablelike li.Header + li {
 .RTL .SearchBox button {
     height: 25px;
     margin: 0 -4px 0 0;
-    -moz-border-radius: 3px 0 0 3px;
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 3px;
     border-radius: 3px 0 0 3px;
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
@@ -537,7 +531,13 @@ ul.Tablelike li.Header + li {
 
 .SearchBox button:active {
     padding: 4px 3px 3px;
-    background: #E4E4E4 url(../img/SmallDarkGradient.png) repeat-x;
+    background: #e4e4e4;
+    background: -moz-linear-gradient(top,  #e4e4e4 0%, #d1d1d1 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#d1d1d1));
+    background: -webkit-linear-gradient(top,  #e4e4e4 0%,#d1d1d1 100%);
+    background: -o-linear-gradient(top,  #e4e4e4 0%,#d1d1d1 100%);
+    background: -ms-linear-gradient(top,  #e4e4e4 0%,#d1d1d1 100%);
+    background: linear-gradient(to bottom,  #e4e4e4 0%,#d1d1d1 100%);
     outline: none;
 }
 
@@ -603,9 +603,13 @@ ul.Tablelike li.Header + li {
     border-width: 1px 0;
     border-color: #CCC;
     background-color: #EEE;
-    background: -moz-linear-gradient(top, #FFF, #EEE);
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#EEE));
-    background: linear-gradient(top, #FFF, #EEE);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 100%);
+
 }
 
 #ProgressBar li > span {
@@ -641,8 +645,6 @@ ul.Tablelike li.Header + li {
 
 #ProgressBar li:first-child, #ProgressBar li.First {
     border-left-width: 1px;
-    -moz-border-radius: 4px 0 0 4px;
-    -webkit-border-radius: 4px 0 0 4px;
     border-radius: 4px 0 0 4px;
 }
 
@@ -650,31 +652,28 @@ ul.Tablelike li.Header + li {
     border-left-width: 1px;
     padding-left: 14px;
     background: none;
-    -moz-border-radius: 4px 0 0 3px;
-    -webkit-border-radius: 4px 0 0 3px;
     border-radius: 4px 0 0 3px;
 }
 
 #ProgressBar li:last-child, #ProgressBar li.Last {
     border-right-width: 1px;
-    -moz-border-radius: 0 4px 4px 0;
-    -webkit-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
 }
 
 #ProgressBar li:last-child a, #ProgressBar li.Last a {
     border-right-width: 1px;
     padding-right: 14px;
-    -moz-border-radius: 0 4px 4px 0;
-    -webkit-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
 }
 
 #ProgressBar .Highlighted {
     background-color: #fbb42c;
-    background: -moz-linear-gradient(top, #ffdea3, #fbb42c 20%, #f6af1d 50%, #f3970d 50%, #e87f07 90%, #dd6a05);
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffdea3), color-stop(0.2, #fbb42c), color-stop(0.5, #f6af1d), color-stop(0.5, #f3970d), color-stop(0.9, #e87f07), to(#dd6a05));
-    background: linear-gradient(top, #ffdea3, #fbb42c 20%, #f6af1d 50%, #f3970d 50%, #e87f07 90%, #dd6a05);
+    background: -moz-linear-gradient(top,  #ffdea3 0%, #fbb42c 20%, #f6af1d 50%, #f3970d 50%, #e87f07 90%, #dd6a05 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdea3), color-stop(20%,#fbb42c), color-stop(50%,#f6af1d), color-stop(50%,#f3970d), color-stop(90%,#e87f07), color-stop(100%,#dd6a05));
+    background: -webkit-linear-gradient(top,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
+    background: -o-linear-gradient(top,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
+    background: -ms-linear-gradient(top,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
+    background: linear-gradient(to bottom,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
     border-top-color: #9b6937;
     border-bottom-color: #996634;
 }
@@ -710,29 +709,21 @@ ul.Tablelike li.Header + li {
 
 #ProgressBar .Active {
     border-right: 1px solid #9b6937;
-    -moz-border-radius: 0 4px 4px 0;
-    -webkit-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
     position: relative;
     z-index: 2;
 }
 
 #ProgressBar li:first-child.Active {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     border-radius: 4px;
 }
 
 #ProgressBar .Active a {
     border-right: 1px solid #f2bf5c;
-    -moz-border-radius: 0 4px 4px 0;
-    -webkit-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
 }
 
 #ProgressBar li:first-child.Active a {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     border-radius: 4px;
 }
 

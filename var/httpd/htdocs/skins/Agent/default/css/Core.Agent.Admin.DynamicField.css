@@ -16,17 +16,9 @@
  * @subsubsection     AdminDynamicFields
  */
 
-.Header li,
-.Header li:hover > a,
-.Header li.Active > a,
-.Header li:active > a {
-    background: url("../img/controlrow_sprite.png") no-repeat scroll 0 0 transparent;
-}
-
 .Header li {
     margin-left: -3px;
     padding-left: 2px;
-    background-position: 0 25px;
     float: left;
     position: relative;
 }
@@ -38,7 +30,13 @@
 }
 
 .Header li:hover {
-    background-position: 0 0;
+    background: #F3970D;
+    background: -moz-linear-gradient(top,  #fdf0df 0%, #fbb948 15%, #f6ad3e 50%, #f3970d 50%, #e88007 96%, #dd6905 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdf0df), color-stop(15%,#fbb948), color-stop(50%,#f6ad3e), color-stop(50%,#f3970d), color-stop(96%,#e88007), color-stop(100%,#dd6905));
+    background: -webkit-linear-gradient(top,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
+    background: -o-linear-gradient(top,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
+    background: -ms-linear-gradient(top,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
+    background: linear-gradient(to bottom,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
 }
 
 .Header li.Active,
@@ -49,21 +47,11 @@
 }
 
 .WidgetSimple > .DynamicFieldsContent {
-    -moz-border-radius-bottomleft: 2px;
-    -moz-border-radius-bottomright: 2px;
-    border-color: #FFFFFF #FFFFFF -moz-use-text-color;
-    border-style: none solid solid none;
-    border-width: 1px 1px 1px 1px medium;
     overflow: auto;
     padding: 0px 8px 10px;
 }
 
 .WidgetSimple > .DynamicFieldsPagination {
-    -moz-border-radius-bottomleft: 2px;
-    -moz-border-radius-bottomright: 2px;
-    border-color: #FFFFFF #FFFFFF -moz-use-text-color;
-    border-style: none solid solid none;
-    border-width: 1px 1px 1px 1px medium;
     overflow: auto;
     padding: 0px 8px 0px;
 }

@@ -16,9 +16,15 @@
  */
 #Navigation {
     height: 23px;
-    background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 -50px;
     width: 100%;
     position: relative;
+    background: #d3d5d5;
+    background: -moz-linear-gradient(top,  #d3d5d5 0%, #c3c5c5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3d5d5), color-stop(100%,#c3c5c5));
+    background: -webkit-linear-gradient(top,  #d3d5d5 0%,#c3c5c5 100%);
+    background: -o-linear-gradient(top,  #d3d5d5 0%,#c3c5c5 100%);
+    background: -ms-linear-gradient(top,  #d3d5d5 0%,#c3c5c5 100%);
+    background: linear-gradient(to bottom,  #d3d5d5 0%,#c3c5c5 100%);
     border-top: 1px solid #EEE;
     border-bottom: 1px solid #979999;
     clear: both;
@@ -38,14 +44,10 @@
     left: 1px;
     min-width: 140px;
     display: none;
-    -moz-box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
     -webkit-box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
     box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
     border: 1px solid #bbb;
     border-top: 1px solid #999;
-    -moz-border-radius: 0px 0px 5px 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 5px;
     border-radius: 0px 0px 5px 5px;
 }
 
@@ -99,9 +101,6 @@
 
 #Navigation > ul > li > ul .Footer {
     border-top: 0px;
-    -moz-border-radius: 0px 0px 5px 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 5px;
     border-radius: 0px 0px 5px 5px;
     padding-bottom: 0px;
     padding-top: 2px;
@@ -118,8 +117,16 @@
 }
 
 #Navigation li:active {
-    margin-top: -1px;
-    background: url(../img/tabs_active_bg.png) no-repeat top left;
+    margin-top: -2px;
+    background: #949494;
+    background: -moz-linear-gradient(top,  #949494 0%, #c4c4c4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#949494), color-stop(100%,#c4c4c4));
+    background: -webkit-linear-gradient(top,  #949494 0%,#c4c4c4 100%);
+    background: -o-linear-gradient(top,  #949494 0%,#c4c4c4 100%);
+    background: -ms-linear-gradient(top,  #949494 0%,#c4c4c4 100%);
+    background: linear-gradient(to bottom,  #949494 0%,#c4c4c4 100%);
+    border-top: 1px solid #727272;
+    border-left: 1px solid #727272;
 }
 
 #Navigation .Selected + li {
@@ -134,15 +141,24 @@
     padding-top: 7px;
     padding-bottom: 3px;
     color: #222;
-    background: url(../img/tabs_isolator.png) no-repeat bottom right;
     text-shadow: 0 1px 0 #DADDDD;
 }
 
 #Navigation .Selected,
 #Navigation .Selected:active {
     margin-top: -1px;
-    background: url(../img/tabs_active_bg.png) no-repeat bottom left;
+    background: #343435;
+    background: -moz-linear-gradient(top,  #343435 0%, #565656 50%, #333333 50%, #333333 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#343435), color-stop(50%,#565656), color-stop(50%,#333333), color-stop(100%,#333333));
+    background: -webkit-linear-gradient(top,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
+    background: -o-linear-gradient(top,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
+    background: -ms-linear-gradient(top,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
+    background: linear-gradient(to bottom,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
     border-bottom: 1px solid #666;
+}
+
+#Navigation .Selected:active {
+    margin-top: -2px;
 }
 
 #Navigation .Selected > a {
@@ -171,7 +187,13 @@
 .MessageBox,
 .ActionRow {
     font-size: 11px;
-    background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 0;
+    background: #f0f2f2;
+    background: -moz-linear-gradient(top,  #f0f2f2 0%, #e6e7e7 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f2f2), color-stop(100%,#e6e7e7));
+    background: -webkit-linear-gradient(top,  #f0f2f2 0%,#e6e7e7 100%);
+    background: -o-linear-gradient(top,  #f0f2f2 0%,#e6e7e7 100%);
+    background: -ms-linear-gradient(top,  #f0f2f2 0%,#e6e7e7 100%);
+    background: linear-gradient(to bottom,  #f0f2f2 0%,#e6e7e7 100%);
     border-top: 1px solid #F0F2F2;
     border-bottom: 1px solid #B8BBBB;
     overflow: hidden;
@@ -204,19 +226,21 @@
 
 #BottomActionRow {
     padding: 5px 9px;
-    background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 0;
+    background: #f4f4f4;
+    background: -moz-linear-gradient(top,  #f4f4f4 0%, #dedfdf 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#dedfdf));
+    background: -webkit-linear-gradient(top,  #f4f4f4 0%,#dedfdf 100%);
+    background: -o-linear-gradient(top,  #f4f4f4 0%,#dedfdf 100%);
+    background: -ms-linear-gradient(top,  #f4f4f4 0%,#dedfdf 100%);
+    background: linear-gradient(to bottom,  #f4f4f4 0%,#dedfdf 100%);
     border: 1px solid #B8BBBB;
     border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
 }
 
 .TicketView #BottomActionRow,
 .RTL .TicketView #BottomActionRow {
     padding: 0;
     border-radius: 0;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
     border-left: none;
     border-right: none;
 }
@@ -331,10 +355,7 @@
     color: #666;
     background: #FFF;
     border: 1px solid #BBB;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     border-radius: 8px;
-    -moz-box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
     -webkit-box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
     box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
 }

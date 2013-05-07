@@ -13,7 +13,6 @@
 
 .Login {
     padding: 34px 0;
-    background: url(../img/body_bg.png) repeat-x;
 }
 
 .Login p {
@@ -199,13 +198,14 @@
     padding: 5px 8px 4px;
     color: #FFF;
     background: #D41111;
-    background: -moz-linear-gradient(center top , #F00, #D41111);
-    background: -webkit-gradient(linear,top left, top bottom, from(#F00), to(#D41111));
+    background: -moz-linear-gradient(top,  #ff0000 0%, #d41111 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff0000), color-stop(100%,#d41111));
+    background: -webkit-linear-gradient(top,  #ff0000 0%,#d41111 100%);
+    background: -o-linear-gradient(top,  #ff0000 0%,#d41111 100%);
+    background: -ms-linear-gradient(top,  #ff0000 0%,#d41111 100%);
+    background: linear-gradient(to bottom,  #ff0000 0%,#d41111 100%);
     border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     box-shadow: 1px 1px 0 #DDD;
-    -moz-box-shadow: 1px 1px 0 #DDD;
     -webkit-box-shadow: 1px 1px 0 #DDD;
     cursor: default;
 }

@@ -26,7 +26,6 @@ select[multiple=multiple] {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
-    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
     -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
     box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
 }

@@ -22,7 +22,6 @@
     height: 100%;
     background-color: #000;
     opacity: 0.5;
-    -moz-opacity: 0.5;
     filter: alpha(opacity = 50);
     z-index: 3500;
 }
@@ -35,11 +34,8 @@
     z-index: 3501;
     min-width: 150px;
     background: #FFF;
-    -moz-box-shadow: 2px 2px 5px #000;
     -webkit-box-shadow: 2px 2px 5px #000;
     box-shadow: 2px 2px 5px #000;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     border-radius: 8px;
 }
 
@@ -48,12 +44,14 @@
     display: block;
     position: relative;
     height: 25px;
-    background: #888 url(../img/GradientSmall.png) repeat-x;
+    background: #dcdcdc;
+    background: -moz-linear-gradient(top,  #f1f1f1 0%, #dcdcdc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#dcdcdc));
+    background: -webkit-linear-gradient(top,  #f1f1f1 0%,#dcdcdc 100%);
+    background: -o-linear-gradient(top,  #f1f1f1 0%,#dcdcdc 100%);
+    background: -ms-linear-gradient(top,  #f1f1f1 0%,#dcdcdc 100%);
+    background: linear-gradient(to bottom,  #f1f1f1 0%,#dcdcdc 100%);
     border-bottom: 1px solid #CCC;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
@@ -93,13 +91,15 @@
 
 .Dialog > .Content > .ContentFooter {
     padding: 6px 0 5px;
-    background: #888 url(../img/GradientSmall.png) repeat-x;
+    background: #d2d2d2;
+    background: -moz-linear-gradient(top,  #f1f1f1 0%, #d2d2d2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#d2d2d2));
+    background: -webkit-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
+    background: -o-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
+    background: -ms-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
+    background: linear-gradient(to bottom,  #f1f1f1 0%,#d2d2d2 100%);
     min-height: 20px;
     border-top: 1px solid #CCC;
-    -webkit-border-bottom-right-radius: 8px;
-    -webkit-border-bottom-left-radius: 8px;
-    -moz-border-radius-bottomright: 8px;
-    -moz-border-radius-bottomleft: 8px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
 }
@@ -108,12 +108,14 @@
     padding: 6px 0 5px;
     display: block;
     position: relative;
-    background: #888 url(../img/GradientSmall.png) repeat-x;
+    background: #d2d2d2;
+    background: -moz-linear-gradient(top,  #f1f1f1 0%, #d2d2d2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#d2d2d2));
+    background: -webkit-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
+    background: -o-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
+    background: -ms-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
+    background: linear-gradient(to bottom,  #f1f1f1 0%,#d2d2d2 100%);
     border-top: 1px solid #CCC;
-    -webkit-border-bottom-right-radius: 8px;
-    -webkit-border-bottom-left-radius: 8px;
-    -moz-border-radius-bottomright: 8px;
-    -moz-border-radius-bottomleft: 8px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
 }

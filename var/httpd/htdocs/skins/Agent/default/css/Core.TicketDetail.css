@@ -120,13 +120,19 @@ div.Headline .Flag {
 .ControlRow .Icons a {
     width: 26px;
     height: 24px;
-    background: url(../img/zoom_active2.png) no-repeat 0 -32px;
     display: block;
     float: left;
 }
 
 .ControlRow .Icons a.Active {
-    background-position: 0 0;
+    background: #5e5e5e;
+    background: -moz-linear-gradient(top,  #5e5e5e 0%, #7e7e7e 50%, #5d5d5d 50%, #5c5c5c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5e5e5e), color-stop(50%,#7e7e7e), color-stop(50%,#5d5d5d), color-stop(100%,#5c5c5c));
+    background: -webkit-linear-gradient(top,  #5e5e5e 0%,#7e7e7e 50%,#5d5d5d 50%,#5c5c5c 100%);
+    background: -o-linear-gradient(top,  #5e5e5e 0%,#7e7e7e 50%,#5d5d5d 50%,#5c5c5c 100%);
+    background: -ms-linear-gradient(top,  #5e5e5e 0%,#7e7e7e 50%,#5d5d5d 50%,#5c5c5c 100%);
+    background: linear-gradient(to bottom,  #5e5e5e 0%,#7e7e7e 50%,#5d5d5d 50%,#5c5c5c 100%);
+    border-left: 1px solid #000;
 }
 
 .ControlRow .Icons a span {
@@ -252,68 +258,84 @@ div.Headline .Flag {
 /*
 * Customer artcle types
 */
-.UseArticleColors .customer-webrequest > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .customer-email-external > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .customer-note-external > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
-}
+.UseArticleColors .customer-webrequest > td,
+.UseArticleColors .customer-email-external > td,
+.UseArticleColors .customer-note-external > td,
 .UseArticleColors .customer-phone > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
+    background: white !important;
 }
 
 /*
 * Agent article types
 */
 .UseArticleColors .agent-phone > td {
-    background: green url(../img/gradient_light.png) repeat-x !important;
+    background: #d1e8d1 !important;
+    background: -moz-linear-gradient(top,  #d1e8d1 0%, #c5e2c5 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8d1), color-stop(100%,#c5e2c5)) !important;
+    background: -webkit-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
+    background: -o-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
+    background: -ms-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
+    background: linear-gradient(to bottom,  #d1e8d1 0%,#c5e2c5 100%) !important;
 }
 .UseArticleColors .agent-email-external > td {
-    background: green url(../img/gradient_light.png) repeat-x !important;
+    background: #d1e8d1 !important;
+    background: -moz-linear-gradient(top,  #d1e8d1 0%, #c5e2c5 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8d1), color-stop(100%,#c5e2c5)) !important;
+    background: -webkit-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
+    background: -o-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
+    background: -ms-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
+    background: linear-gradient(to bottom,  #d1e8d1 0%,#c5e2c5 100%) !important;
 }
 .UseArticleColors .agent-email-internal > td {
-    background: red url(../img/gradient_light.png) repeat-x !important;
+    background: #ffd1d1 !important;
+    background: -moz-linear-gradient(top,  #ffd1d1 0%, #ffc5c5 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffd1d1), color-stop(100%,#ffc5c5)) !important;
+    background: -webkit-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
+    background: -o-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
+    background: -ms-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
+    background: linear-gradient(to bottom,  #ffd1d1 0%,#ffc5c5 100%) !important;
 }
 .UseArticleColors .agent-note-external > td {
-    background: black url(../img/gradient_light.png) repeat-x !important;
+    background: #d1d1d1 !important;
+    background: -moz-linear-gradient(top,  #d1d1d1 0%, #c5c5c5 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1d1d1), color-stop(100%,#c5c5c5)) !important;
+    background: -webkit-linear-gradient(top,  #d1d1d1 0%,#c5c5c5 100%) !important;
+    background: -o-linear-gradient(top,  #d1d1d1 0%,#c5c5c5 100%) !important;
+    background: -ms-linear-gradient(top,  #d1d1d1 0%,#c5c5c5 100%) !important;
+    background: linear-gradient(to bottom,  #d1d1d1 0%,#c5c5c5 100%) !important;
 }
 .UseArticleColors .agent-note-internal > td {
-    background: red url(../img/gradient_light.png) repeat-x !important;
+    background: #ffd1d1 !important;
+    background: -moz-linear-gradient(top,  #ffd1d1 0%, #ffc5c5 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffd1d1), color-stop(100%,#ffc5c5)) !important;
+    background: -webkit-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
+    background: -o-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
+    background: -ms-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
+    background: linear-gradient(to bottom,  #ffd1d1 0%,#ffc5c5 100%) !important;
 }
 
 /*
 * System article types
 */
-.UseArticleColors .system-note-internal > td {
-    background: yellow url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .system-note-external > td {
-    background: yellow url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .system-note-report > td {
-    background: yellow url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .system-email-external > td {
-    background: yellow url(../img/gradient_light.png) repeat-x !important;
-}
+.UseArticleColors .system-note-internal > td,
+.UseArticleColors .system-note-external > td,
+.UseArticleColors .system-note-report > td,
+.UseArticleColors .system-email-external > td,
 .UseArticleColors .system-email-internal > td {
-    background: yellow url(../img/gradient_light.png) repeat-x !important;
+    background: #ffffd1 !important;
+    background: -moz-linear-gradient(top,  #ffffd1 0%, #ffffc5 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffd1), color-stop(100%,#ffffc5)) !important;
+    background: -webkit-linear-gradient(top,  #ffffd1 0%,#ffffc5 100%) !important;
+    background: -o-linear-gradient(top,  #ffffd1 0%,#ffffc5 100%) !important;
+    background: -ms-linear-gradient(top,  #ffffd1 0%,#ffffc5 100%) !important;
+    background: linear-gradient(to bottom,  #ffffd1 0%,#ffffc5 100%) !important;
 }
 
-.UseArticleColors .customer-webrequest > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .customer-email-external > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
-}
-.UseArticleColors .customer-note-external > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
-}
+.UseArticleColors .customer-webrequest > td,
+.UseArticleColors .customer-email-external > td,
+.UseArticleColors .customer-note-external > td,
 .UseArticleColors .customer-phone > td {
-    background: white url(../img/gradient_light.png) repeat-x !important;
+    background: white !important;
 }
 
 .UseArticleColors .agent-phone:hover > td,
@@ -330,10 +352,13 @@ div.Headline .Flag {
 .UseArticleColors .customer-email-external:hover > td,
 .UseArticleColors .customer-note-external:hover > td,
 .UseArticleColors .customer-phone:hover > td {
-    background: url(../img/table_small_hover_bg.png) repeat-x center !important;
-    background: -moz-linear-gradient(center top, #FFE7BD, #FBBA49 20%, #F6AD3E 51%, #F3960D 51%, #E98207 95%, #E07006) !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFE7BD), to(#E07006), color-stop(20%, #FBBA49), color-stop(51%, #F6AD3E), color-stop(51%, #F3960D), color-stop(95%, #E98207)) !important;
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
+    background: #f3960d !important;
+    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006)) !important;
+    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%) !important;
+    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%) !important;
+    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%) !important;
+    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%) !important;
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
     box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
 }

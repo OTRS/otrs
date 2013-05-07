@@ -12,7 +12,7 @@
  */
 body {
     font: 12px/14px Arial, sans-serif;
-    -webkit-text-stroke:1px transparent;
+    -webkit-text-stroke: 1px transparent;
 }
 
 .RTL {
@@ -63,7 +63,13 @@ strong {
 
 #Header {
     padding: 21px 34px 18px;
-    background: #A7AAAA url(../img/GradientSmall.png) repeat-x 0 0;
+    background: #d1d3d3;
+    background: -moz-linear-gradient(top,  #f4f5f5 0%, #d1d3d3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f5f5), color-stop(100%,#d1d3d3));
+    background: -webkit-linear-gradient(top,  #f4f5f5 0%,#d1d3d3 100%);
+    background: -o-linear-gradient(top,  #f4f5f5 0%,#d1d3d3 100%);
+    background: -ms-linear-gradient(top,  #f4f5f5 0%,#d1d3d3 100%);
+    background: linear-gradient(to bottom,  #f4f5f5 0%,#d1d3d3 100%);
     border-bottom: 1px solid #999;
     text-shadow: 0 1px 0 #EEE;
 }
@@ -89,7 +95,11 @@ strong {
     margin: 0;
     top: 17px;
     right: 21px;
-} .RTL #Header button { display: none; }
+}
+
+.RTL #Header button {
+    display: none;
+}
 
 /**
  * @subsection  Content
@@ -250,7 +260,13 @@ div.Clear {
 /* Vacation Days */
 td.Highlight a.ui-state-default {
     border: 1px solid #fad42e;
-    background: url(../img/datepicker_vacation_days.png) repeat-x;
+    background: #ffe45c;
+    background: -moz-linear-gradient(top,  #fff0a5 0%, #ffe45c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff0a5), color-stop(100%,#ffe45c));
+    background: -webkit-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
+    background: -o-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
+    background: -ms-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
+    background: linear-gradient(to bottom,  #fff0a5 0%,#ffe45c 100%);
 }
 
 /* Today */

@@ -141,7 +141,13 @@
  * @subsection  LayoutPopup
  */
 .LayoutPopup > .Header {
-    background: #E3E3E3 url(../img/gradient_light.png) repeat-x;
+    background: #f6f6f6;
+    background: -moz-linear-gradient(top,  #fafafa 0%, #f6f6f6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f6f6f6));
+    background: -webkit-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
+    background: -o-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
+    background: -ms-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
+    background: linear-gradient(to bottom,  #fafafa 0%,#f6f6f6 100%);
     padding: 5px 20px;
     border-bottom: 1px solid #999;
     margin-bottom: 10px;
@@ -183,7 +189,13 @@
 }
 
 .LayoutPopup > .Footer {
-    background: #DBDBDB url(../img/gradient_light.png) repeat-x;
+    background: #f6f6f6;
+    background: -moz-linear-gradient(top,  #fafafa 0%, #f6f6f6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f6f6f6));
+    background: -webkit-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
+    background: -o-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
+    background: -ms-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
+    background: linear-gradient(to bottom,  #fafafa 0%,#f6f6f6 100%);
     padding: 5px;
     border-top: 1px solid #999;
     text-align: center;

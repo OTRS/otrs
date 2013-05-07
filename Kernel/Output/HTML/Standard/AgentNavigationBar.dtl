@@ -11,25 +11,20 @@
 <!-- dtl:block:ItemArea -->
     <li id="nav-$QData{"NameForID"}" class="$QData{"CSS"}">
         <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Name"}"}$QData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
+        <span></span>
 <!-- dtl:block:ItemAreaSub -->
-        <div>
-            <div class="ShadowTop"></div>
-            <div class="Shadow">
-                <ul id="nav-$QData{"NameForID"}-container">
+        <ul id="nav-$QData{"NameForID"}-container">
 <!-- dtl:block:ItemAreaSubItem -->
-                    <li id="nav-$QData{"NameTop"}-$QData{"NameForID"}">
-                        <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Description"}"}$QData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
-                    </li>
+            <li id="nav-$QData{"NameTop"}-$QData{"NameForID"}">
+                <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Description"}"}$QData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
+            </li>
 <!-- dtl:block:ItemAreaSubItem -->
-                </ul>
-                <div class="Footer"></div>
-            </div>
-            <div class="ShadowBottom"></div>
-        </div>
+        </ul>
 <!-- dtl:block:ItemAreaSub -->
     </li>
 <!-- dtl:block:ItemArea -->
     <li id="nav-search">
         <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="$Env{"Baselink"}Action=AgentTicketSearch" title="$Text{"Search"}"><span class="SearchIcon">$Text{"Search"}</span></a>
+        <span></span>
     </li>
 </ul>

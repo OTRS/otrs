@@ -88,9 +88,6 @@
                 <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
             </div>
 <!-- dtl:block:MetaIcon -->
-<!--[if IE 7]>
-            <div class="ReallyStupidIE7Hack">&nbsp;</div>
-            <![endif]-->
 <!-- dtl:block:Meta -->
             <div class="Infos">
                 <h2>
@@ -296,8 +293,7 @@ $Data{"Body"}
                 </ul>
             </div>
 <!-- dtl:block:ArticlesPreviewArea -->
-
-            <div class="Shadow"></div>
+            <div class="Clear"></div>
         </div>
     </li>
 <!-- dtl:block:DocumentContent -->

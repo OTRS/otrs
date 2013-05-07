@@ -5874,19 +5874,6 @@ M
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Agent::Skin###001-ivory" Required="0" Valid="1">
-        <Description Translatable="1">Balanced white skin by Felix Niklas.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="InternalName">ivory</Item>
-                <Item Key="VisibleName">Ivory</Item>
-                <Item Key="Description">Balanced white skin by Felix Niklas</Item>
-                <Item Key="HomePage">www.felixniklas.de</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Loader::Agent::Skin###001-slim" Required="0" Valid="1">
         <Description Translatable="1">"Slim" Skin which tries to save screen space for power users.</Description>
         <Group>Framework</Group>

@@ -26,7 +26,13 @@ table.Overview {
 }
 
 .Overview thead {
-    background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 -31px;
+    background: #a7aaaa;
+    background: -moz-linear-gradient(top,  #a7aaaa 0%, #b6b6b6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a7aaaa), color-stop(100%,#b6b6b6));
+    background: -webkit-linear-gradient(top,  #a7aaaa 0%,#b6b6b6 100%);
+    background: -o-linear-gradient(top,  #a7aaaa 0%,#b6b6b6 100%);
+    background: -ms-linear-gradient(top,  #a7aaaa 0%,#b6b6b6 100%);
+    background: linear-gradient(to bottom,  #a7aaaa 0%,#b6b6b6 100%);
     display: none;
 }
 
@@ -79,12 +85,24 @@ table.Overview {
     color: #222;
     font-weight: 600;
     text-align: left;
-    background: url(../img/sortable_bg.png) no-repeat top right;
+    background: #c4c4c4;
+    background: url(../img/arrow_up.png) -moz-linear-gradient(top,  #c4c4c4 0%, #bababa 50%, #aaaaaa 50%, #a9a9a9 100%);
+    background: url(../img/arrow_up.png) -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4c4c4), color-stop(50%,#bababa), color-stop(50%,#aaaaaa), color-stop(100%,#a9a9a9));
+    background: url(../img/arrow_up.png) -webkit-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: url(../img/arrow_up.png) -o-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: url(../img/arrow_up.png) -ms-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: url(../img/arrow_up.png) linear-gradient(to bottom,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
     text-shadow: 0 1px 0 #BBB;
 }
 
 .Overview thead .SortDescending a {
-    background-position: bottom right;
+    background: #c4c4c4;
+    background: url(../img/arrow_down.png) -moz-linear-gradient(top,  #c4c4c4 0%, #bababa 50%, #aaaaaa 50%, #a9a9a9 100%);
+    background: url(../img/arrow_down.png) -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4c4c4), color-stop(50%,#bababa), color-stop(50%,#aaaaaa), color-stop(100%,#a9a9a9));
+    background: url(../img/arrow_down.png) -webkit-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: url(../img/arrow_down.png) -o-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: url(../img/arrow_down.png) -ms-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: url(../img/arrow_down.png) linear-gradient(to bottom,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
 }
 
 .Overview tbody {

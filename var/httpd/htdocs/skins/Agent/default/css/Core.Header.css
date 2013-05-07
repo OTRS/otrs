@@ -20,7 +20,15 @@
 #Header {
     height: 72px;
     padding: 10px 0 12px;
-    background: url(../img/header_bg.png) repeat-x;
+    background: #4a4a4a;
+    background: -moz-linear-gradient(top,  #000000 0%, #0f0f0f 1%, #4a4a4a 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(1%,#0f0f0f), color-stop(100%,#4a4a4a));
+    background: -webkit-linear-gradient(top,  #000000 0%,#0f0f0f 1%,#4a4a4a 100%);
+    background: -o-linear-gradient(top,  #000000 0%,#0f0f0f 1%,#4a4a4a 100%);
+    background: -ms-linear-gradient(top,  #000000 0%,#0f0f0f 1%,#4a4a4a 100%);
+    background: linear-gradient(to bottom,  #000000 0%,#0f0f0f 1%,#4a4a4a 100%);
+    border-bottom: 1px solid #4c4c4c;
+    box-shadow: inset 0px -1px 0px #DDD;
     color: #FFF;
     position: relative;
     z-index: 10;
@@ -297,69 +305,100 @@
 /**
  * @subsection      Main hover effect
  */
-#Navigation > li,
-#Navigation > li > a {
-    background: url(../img/navigation_sprite.png) repeat-x 0 0;
-}
-
 #Navigation > li {
-    padding-left: 2px;
-    padding-right: 0;
     float: left;
-    background-position: top left;
     position: relative;
-}
-
-.RTL #Navigation > li {
-    float: right;
+    background: #000000;
+    background: -moz-linear-gradient(top,  #000000 0%, #000000 11%, #3a3939 41%, #3a3939 50%, #000000 50%, #000000 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(11%,#000000), color-stop(41%,#3a3939), color-stop(50%,#3a3939), color-stop(50%,#000000), color-stop(100%,#000000));
+    background: -webkit-linear-gradient(top,  #000000 0%,#000000 11%,#3a3939 41%,#3a3939 50%,#000000 50%,#000000 100%);
+    background: -o-linear-gradient(top,  #000000 0%,#000000 11%,#3a3939 41%,#3a3939 50%,#000000 50%,#000000 100%);
+    background: -ms-linear-gradient(top,  #000000 0%,#000000 11%,#3a3939 41%,#3a3939 50%,#000000 50%,#000000 100%);
+    background: linear-gradient(to bottom,  #000000 0%,#000000 11%,#3a3939 41%,#3a3939 50%,#000000 50%,#000000 100%);
+    border: 1px solid #030303;
+    border-right: 1px solid #5f5f5f;
+    border-bottom: 1px solid #5f5f5f;
+    border-radius: 1px;
 }
 
 #Navigation > li > a {
-    height: 31px;
-    padding: 4px 26px 3px 4px;
+    display: block;
+    height: 24px;
+    padding: 3px 26px 5px 4px;
     font-size: 13px;
     font-weight: 600;
     line-height: 12px;
     color: #DDD;
-    background-position: top right;
     text-transform: uppercase;
-    display: block;
 }
 
 .RTL #Navigation > li > a {
     padding: 4px 4px 3px 26px;
 }
 
-#Navigation > li:hover {
-    background-position: left -38px;
-    background-color: #F2B13E;
-    cursor: pointer;
+#Navigation > li > span {
+    display: none;
 }
 
-#Navigation > li:hover > a {
+#Navigation > li:hover {
+    border-top: 1px solid #46260d;
+    border-left: 1px solid #46260d;
+    border-right: 1px solid #5f5f5f;
+    border-bottom: 1px solid #5f5f5f;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    cursor: pointer;
+    background: #e26e31;
+    background: -moz-linear-gradient(top,  #f2b13e 0%, #ed9b39 50%, #eb8435 50%, #e26e31 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2b13e), color-stop(50%,#ed9b39), color-stop(50%,#eb8435), color-stop(100%,#e26e31));
+    background: -webkit-linear-gradient(top,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    background: -o-linear-gradient(top,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    background: -ms-linear-gradient(top,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    background: linear-gradient(to bottom,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#Navigation > li:hover > a,
+#Navigation > li:active > a {
     color: #FFF;
-    background-position: right -38px;
-    background-color: #F2B13E;
+}
+
+#Navigation > li:hover > span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    top: 33px;
+    left: -1px;
+    border-top: none;
+    border-left: 1px solid #46260d;
+    border-right: 1px solid #5f5f5f;
+    border-bottom: 1px solid #5f5f5f;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    background-color: #e26e31;
 }
 
 #Navigation > li:active {
-    background-position: left -114px;
-}
-
-#Navigation > li:active > a {
-    background-position: right -114px;
+    background: #f0a43b;
+    background: -moz-linear-gradient(top,  #f0a43b 0%, #e37532 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0a43b), color-stop(100%,#e37532));
+    background: -webkit-linear-gradient(top,  #f0a43b 0%,#e37532 100%);
+    background: -o-linear-gradient(top,  #f0a43b 0%,#e37532 100%);
+    background: -ms-linear-gradient(top,  #f0a43b 0%,#e37532 100%);
+    background: linear-gradient(to bottom,  #f0a43b 0%,#e37532 100%);
 }
 
 #Navigation > .Selected {
-    background-position: left -76px;
-    background-color: #F92;
+    border: 1px solid #F92;
+    -webkit-box-shadow: inset 1px 1px 1px 0px #F92, inset -1px -1px 1px 0px #F92;
+    box-shadow: inset 1px 1px 1px 0px #F92, inset -1px -1px 1px 0px #F92;
     z-index: 90;
 }
 
 #Navigation > .Selected > a {
     color: #FFF;
-    background-position: right -76px;
-    background-color: #F92;
 }
 
 /**
@@ -384,161 +423,60 @@
  * @subsection      Navigation Second level
  */
 
-#Navigation > li > div {
+#Navigation > li > ul {
     display: none;
 }
 
-#Navigation > .Active > div {
+#Navigation > .Active > ul {
     position: absolute;
-    top: 27px;
-    left: -5px;
+    top: 33px;
+    left: -1px;
     display: block;
+    min-width: 240px;
+    padding: 1px 0px 5px 0px;
     z-index: 99;
+    background: #333;
+    -webkit-box-shadow: 3px 3px 15px 1px #222;
+    box-shadow: 3px 3px 15px 1px #222;
 }
 
-.RTL #Navigation > .Active > div {
+.RTL #Navigation > .Active > ul {
     left: auto;
     right: -9px;
 }
 
-#Navigation > .Active .ShadowTop {
-    height: 14px;
-    background: url(../img/navigation_shadow_top.png) no-repeat;
-    width: 254px;
-}
-
-.RTL #Navigation > .Active .ShadowTop {
-    background-position: top right;
-}
-
-#Navigation > .Active .Footer {
-    position: absolute;
-    bottom: 10px;
-    height: 8px;
-    width: 240px;
-    margin-left: 5px;
-    background: #333;
-}
-
-.RTL #Navigation > .Active .Footer {
-    margin-left: 0;
-    margin-right: 9px;
-}
-
-#Navigation > .Active .ShadowBottom {
-    height: 10px;
-    width: 254px;
-    background: url(../img/navigation_shadow_bottom.png) no-repeat;
-}
-
-#Navigation > .Active .Shadow {
-    width: 254px;
-    background: url(../img/navigation_shadow.png) repeat-y;
-}
-
-.RTL #Navigation > .Active .Shadow {
-    background-position: top right;
-}
-
-#Navigation > .Active .Shadow > ul {
-    position: relative;
-    top: -8px;
-    width: 240px;
-    margin-left: 5px;
-    margin-top: 1px;
-    background: #333;
-}
-
-.RTL #Navigation > .Active .Shadow > ul {
-    margin-right: 9px;
-}
-
-#Navigation > .Active .Shadow > ul > li {
+#Navigation > .Active > ul > li {
     font-size: 11px;
     line-height: 11px;
     margin-top: -1px;
     position: relative;
 }
 
-#Navigation > .Active .Shadow > ul > li:hover {
-    background: url(../img/navigation_hover.png) repeat-x;
+#Navigation > .Active > ul > li:hover {
+    background: #f2b13e;
+    background: -moz-linear-gradient(top,  #f2b13e 0%, #ed9b39 50%, #eb8435 50%, #e26e31 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2b13e), color-stop(50%,#ed9b39), color-stop(50%,#eb8435), color-stop(100%,#e26e31));
+    background: -webkit-linear-gradient(top,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    background: -o-linear-gradient(top,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    background: -ms-linear-gradient(top,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
+    background: linear-gradient(to bottom,  #f2b13e 0%,#ed9b39 50%,#eb8435 50%,#e26e31 100%);
 }
 
-#Navigation > .Active .Shadow > ul > li:hover > a {
+#Navigation > .Active > ul > li:hover > a {
     color: #000;
 }
 
-#Navigation > .Active .Shadow > ul > li:hover > a > span {
-    background-position: bottom;
-}
-
-#Navigation > .Active .Shadow > ul > li > a {
+#Navigation > .Active > ul > li > a {
     display: block;
     position: relative;
     color: #DDD;
-    padding: 4px 10px 4px 8px;
-    background: transparent url(../img/navigation_isolator.png) no-repeat top center;
+    padding: 5px 10px 4px 8px;
+    margin: 0px 4px 0px 4px;
+    border-bottom: 1px solid #888;
 }
 
-#Navigation > .Active .Shadow > ul > li:first-child > a {
-    background-image: none;
+#Navigation > .Active > ul > li:last-child > a {
+    border-bottom: none;
 }
-
-#Navigation > .Active .Shadow > ul > li > a > span {
-    display: block;
-    position: absolute;
-    background: url(../img/triangle_bg.png) no-repeat top;
-    height: 5px;
-    width: 9px;
-    right: 10px;
-    top: 7px;
-}
-
-.RTL #Navigation > .Active .Shadow > ul > li > a > span {
-    right: auto;
-    left: 10px;
-}
-
-/**
- * @subsection      Navigation Third and Fourth level
- */
-
-#Navigation > .Active li > div {
-    display: none;
-}
-
-#Navigation > .Active .Active > div {
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    display: block;
-}
-
-#Navigation > .Active .Active > div.Right {
-    left: 232px;
-}
-
-.RTL #Navigation > .Active .Active > div.Right {
-    left: -242px;
-}
-
-#Navigation > .Active .Active > div.Left {
-    left: -242px;
-}
-
-.RTL #Navigation > .Active .Active > div.Left {
-    left: 232px;
-}
-
-#Navigation > .Active .Active .Shadow > ul,
-#Navigation > .Active .Active .Footer {
-    background: #202020;
-}
-
-#Navigation > .Active .Active .Active .Shadow > ul,
-#Navigation > .Active .Active .Active .Footer {
-    background: #000;
-}
-
 
 } /* end @media */

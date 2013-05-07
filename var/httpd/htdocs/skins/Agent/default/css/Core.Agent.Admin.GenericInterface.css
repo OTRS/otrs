@@ -40,11 +40,15 @@
     height: auto;
     min-height: 25px;
     margin: 0 -1px;
-    background: #A7AAAA url("../img/GradientSmall.png") repeat-x 0 0;
+    background: #e5e6e6;
+    background: -moz-linear-gradient(top,  #f4f5f5 0%, #e5e6e6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f5f5), color-stop(100%,#e5e6e6));
+    background: -webkit-linear-gradient(top,  #f4f5f5 0%,#e5e6e6 100%);
+    background: -o-linear-gradient(top,  #f4f5f5 0%,#e5e6e6 100%);
+    background: -ms-linear-gradient(top,  #f4f5f5 0%,#e5e6e6 100%);
+    background: linear-gradient(to bottom,  #f4f5f5 0%,#e5e6e6 100%);
     position: relative;
     border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     overflow: hidden;
 }
 .GenericInterfaceWebserviceConfigPath h3 {

@@ -41,10 +41,6 @@
     border-bottom: 1px solid #C5C5C5;
 }
 
-.OverviewLarge > li:hover {
-    border-bottom: none;
-}
-
 .OverviewLarge > li ul.InlineActions {
     position: absolute;
     top: 0px;
@@ -59,13 +55,10 @@
     padding-left: 5px;
     height: 28px;
     float: right;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomleft: 5px;
     border-bottom-left-radius: 5px;
     cursor: auto;
-    box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
     -webkit-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
-    -moz-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
+    box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
 }
 
 .OverviewLarge > li ul.InlineActions li {
@@ -94,11 +87,6 @@
     background-color: transparent;
 }
 
-.OverviewLarge .ReallyStupidIE7Hack {
-    width: 1px;
-    height: 1px;
-}
-
 .OverviewLarge .Content {
     padding-top: 12px;
     position: relative;
@@ -110,17 +98,13 @@
 }
 
 .OverviewLarge > li:hover > .Content {
-    background: transparent url(../img/table_large_hover.png) repeat-x top;
-}
-
-.OverviewLarge > li .Shadow {
-    height: 9px;
-    clear: both;
-}
-
-.OverviewLarge > li:hover .Shadow {
-    background: transparent url(../img/table_large_hover.png) repeat-x bottom;
-    border-bottom: 1px solid #737373;
+    background: #F6A72B;
+    background: -moz-linear-gradient(top,  #ffcc76 0%, #fab236 10%, #f9c578 50%, #f6a72b 50%, #e88621 94%, #de721e 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffcc76), color-stop(10%,#fab236), color-stop(50%,#f9c578), color-stop(50%,#f6a72b), color-stop(94%,#e88621), color-stop(100%,#de721e));
+    background: -webkit-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+    background: -o-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+    background: -ms-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+    background: linear-gradient(to bottom,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
 }
 
 .OverviewLarge > li:hover .Infos table label {
@@ -299,8 +283,6 @@
     border-left: 1px solid #C1C1C1;
     border-bottom: 1px solid #BBB;
     border-top: 1px solid transparent;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 
@@ -321,8 +303,6 @@
     font-size: 12px;
     background: #E8E8E8;
     border: 1px solid #E1E1E1;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
 }
 
@@ -332,9 +312,14 @@
 
 .OverviewLarge .Preview li.Active h3 {
     margin-left: -1px;
-    background: #F3F3F3 url("../img/SmallDarkGradient.png") repeat-x;
+    background: #e0e0e0;
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
     border-color: #D7D7D7;
-    -moz-box-shadow: 0 1px 0 #E9E9E9;
     -webkit-box-shadow: 0 1px 0 #E9E9E9;
     box-shadow: 0 1px 0 #E9E9E9;
 }
@@ -350,9 +335,7 @@
 }
 
 .OverviewLarge li:hover .Preview li.Active h3 {
-    background-color: #EEE;
     border-color: #949494;
-    -moz-box-shadow: 0 1px 0 #5A5A5A;
     -webkit-box-shadow: 0 1px 0 #5A5A5A;
     box-shadow: 0 1px 0 #5A5A5A;
 }
@@ -405,10 +388,6 @@
     padding-top: 0;
     padding-bottom: 0;
     overflow: auto;
-    -webkit-border-bottom-right-radius: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-bottomleft: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }

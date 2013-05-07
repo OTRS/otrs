@@ -31,10 +31,6 @@
 
 .DataTable tbody td:first-child,
 .TableSmall tbody td:first-child {
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-bottomleft: 3px;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
@@ -42,37 +38,38 @@
 .DataTable tbody td.Last,
 .TableSmall tbody td.Last {
     border-right: none;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 3px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
 .DataTable tbody tr:hover td,
 .TableSmall tbody tr:hover td {
-    background: url(../img/table_small_hover_bg.png) repeat-x center;
-    background: -moz-linear-gradient(center top, #FFE7BD, #FBBA49 20%, #F6AD3E 51%, #F3960D 51%, #E98207 95%, #E07006);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFE7BD), to(#E07006), color-stop(20%, #FBBA49), color-stop(51%, #F6AD3E), color-stop(51%, #F3960D), color-stop(95%, #E98207));
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    background: #f3960d;
+    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
+    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
     box-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
 
 .DataTable tbody tr.Last:hover td,
 .TableSmall tbody tr.Last:hover td {
-    -moz-box-shadow: 0 0 0;
     -webkit-box-shadow: 0 0 0;
     box-shadow: 0 0 0;
 }
 
 .DataTable tbody tr:active td.Clickable,
 .TableSmall tbody tr:active td.Clickable {
-    background: url(../img/table_small_hover_bg.png) repeat-x center;
-    background: -moz-linear-gradient(center top, #FFE4B5, #FAA91C 20%, #EB8C0B 95%, #E37B09);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFE4B5), to(#E37B09), color-stop(20%, #FBB93D), color-stop(51%, #F6AB2D), color-stop(51%, #F49F13), color-stop(95%, #EB8C0B));
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    background: #eb8c0b;
+    background: -moz-linear-gradient(top,  #ffe4b5 0%, #faa91c 20%, #eb8c0b 95%, #e37b09 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe4b5), color-stop(20%,#faa91c), color-stop(95%,#eb8c0b), color-stop(100%,#e37b09));
+    background: -webkit-linear-gradient(top,  #ffe4b5 0%,#faa91c 20%,#eb8c0b 95%,#e37b09 100%);
+    background: -o-linear-gradient(top,  #ffe4b5 0%,#faa91c 20%,#eb8c0b 95%,#e37b09 100%);
+    background: -ms-linear-gradient(top,  #ffe4b5 0%,#faa91c 20%,#eb8c0b 95%,#e37b09 100%);
+    background: linear-gradient(to bottom,  #ffe4b5 0%,#faa91c 20%,#eb8c0b 95%,#e37b09 100%);
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
     box-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
@@ -109,7 +106,6 @@ table tr.MasterAction {
     border-top-color: #C0C0C0;
     clear: both;
     border-collapse: separate;
-    -moz-box-shadow: 0 1px 0 #FFF;
     -webkit-box-shadow: 0 1px 0 #FFF;
     box-shadow: 0 1px 0 #FFF;
 }
@@ -119,7 +115,13 @@ table tr.MasterAction {
 }
 
 .DataTable thead {
-    background: #EEE url("../img/SmallDarkGradient.png") repeat-x;
+    background: #eeeeee;
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
 }
 
 .DataTable thead th {
@@ -165,15 +167,26 @@ table tr.MasterAction {
 }
 
 .DataTable thead .SortAscending a {
-    background: url(../img/thead_sortup_bg.png) no-repeat center right;
+    background: #979797;
+    background: url(../img/arrow_up.png) no-repeat center right, -moz-linear-gradient(top,  #b2b2b2 0%, #adadad 50%, #979797 50%, #959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b2b2), color-stop(50%,#adadad), color-stop(50%,#979797), color-stop(100%,#959595));
+    background: url(../img/arrow_up.png) no-repeat center right, -webkit-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, -o-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, -ms-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
 }
 
 .DataTable thead .SortDescending a {
-    background: url(../img/thead_sortdown_bg.png) no-repeat center right;
+    background: #979797;
+    background: url(../img/arrow_down.png) no-repeat center right, -moz-linear-gradient(top,  #b2b2b2 0%, #adadad 50%, #979797 50%, #959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b2b2), color-stop(50%,#adadad), color-stop(50%,#979797), color-stop(100%,#959595));
+    background: url(../img/arrow_down.png) no-repeat center right, -webkit-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, -o-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, -ms-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
 }
 
 .DataTable tbody {
-    -moz-box-shadow: 0 1px 2px #E8E8E8 inset;
     -webkit-box-shadow: 0 1px 2px #E8E8E8 inset;
     box-shadow: 0 1px 2px #E8E8E8 inset;
 }
@@ -363,24 +376,48 @@ td.Attachment {
 
 .TableSmall thead .SortAscending a,
 .TableSmall thead .headerSortUp a {
-    background: url(../img/thead_sortup_bg.png) no-repeat center right;
+    background: #979797;
+    background: url(../img/arrow_up.png) no-repeat center right, -moz-linear-gradient(top,  #b2b2b2 0%, #adadad 50%, #979797 50%, #959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b2b2), color-stop(50%,#adadad), color-stop(50%,#979797), color-stop(100%,#959595));
+    background: url(../img/arrow_up.png) no-repeat center right, -webkit-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, -o-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, -ms-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center right, linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
     padding-right: 20px;
 }
 
 .RTL .TableSmall thead .SortAscending a,
 .RTL .TableSmall thead .headerSortUp a {
-    background: url(../img/thead_sortup_bg_rtl.png) no-repeat center left;
+    background: #979797;
+    background: url(../img/arrow_up.png) no-repeat center left, -moz-linear-gradient(top,  #b2b2b2 0%, #adadad 50%, #979797 50%, #959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center left, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b2b2), color-stop(50%,#adadad), color-stop(50%,#979797), color-stop(100%,#959595));
+    background: url(../img/arrow_up.png) no-repeat center left, -webkit-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center left, -o-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center left, -ms-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_up.png) no-repeat center left, linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
 }
 
 .TableSmall thead .SortDescending a,
 .TableSmall thead .headerSortDown a {
-    background: url(../img/thead_sortdown_bg.png) no-repeat center right;
+    background: #979797;
+    background: url(../img/arrow_down.png) no-repeat center right, -moz-linear-gradient(top,  #b2b2b2 0%, #adadad 50%, #979797 50%, #959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b2b2), color-stop(50%,#adadad), color-stop(50%,#979797), color-stop(100%,#959595));
+    background: url(../img/arrow_down.png) no-repeat center right, -webkit-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, -o-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, -ms-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center right, linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
     padding-right: 20px;
 }
 
 .RTL .TableSmall thead .SortDescending a,
 .RTL .TableSmall thead .headerSortDown a {
-    background: url(../img/thead_sortdown_bg_rtl.png) no-repeat center left;
+    background: #979797;
+    background: url(../img/arrow_down.png) no-repeat center left, -moz-linear-gradient(top,  #b2b2b2 0%, #adadad 50%, #979797 50%, #959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center left, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2b2b2), color-stop(50%,#adadad), color-stop(50%,#979797), color-stop(100%,#959595));
+    background: url(../img/arrow_down.png) no-repeat center left, -webkit-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center left, -o-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center left, -ms-linear-gradient(top,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
+    background: url(../img/arrow_down.png) no-repeat center left, linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
 }
 
 .TableSmall thead a span {

@@ -110,7 +110,7 @@ Core.Agent = (function (TargetNS) {
                     ClearSubnavCloseTimeout($Element);
                 }
                 // If element has subnavigation, prevent the link
-                if ($Target.closest('li').find('div').length) {
+                if ($Target.closest('li').find('ul').length) {
                     Event.preventDefault();
                     return false;
                 }
@@ -122,7 +122,7 @@ Core.Agent = (function (TargetNS) {
              */
             .each(function () {
                 var $Li = $(this),
-                    ARIAControlsID = $Li.children('div').children('div.Shadow').children('ul').attr('id');
+                    ARIAControlsID = $Li.children('ul').attr('id');
 
                 if (ARIAControlsID && ARIAControlsID.length) {
                     $Li.attr('aria-controls', ARIAControlsID).attr('aria-expanded', false);

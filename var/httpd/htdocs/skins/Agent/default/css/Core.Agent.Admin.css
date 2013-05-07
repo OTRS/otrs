@@ -50,10 +50,6 @@
     color: #F92;
     border: 1px solid transparent;
     border-bottom: none;
-    -webkit-border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topleft: 2px;
-    -moz-border-radius-topright: 2px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
 }
@@ -68,10 +64,6 @@
     line-height: 14px;
     border: 1px solid transparent;
     border-top: none;
-    -webkit-border-bottom-right-radius: 2px;
-    -webkit-border-bottom-left-radius: 2px;
-    -moz-border-radius-bottomright: 2px;
-    -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
 }

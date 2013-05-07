@@ -389,13 +389,8 @@ dd {
     margin: -2px 18px 0 10px;
     border: 1px solid #B9821C;
     background: #F39C19;
-    -webkit-border-bottom-right-radius: 4px;
-    -webkit-border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
-    -moz-border-radius-bottomleft: 4px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     position: relative;
@@ -411,10 +406,6 @@ dd {
     font-weight: bold;
     border-left: 1px solid #F6AF2F;
     border-right: 1px solid #F6AF2F;
-    -webkit-border-bottom-right-radius: 2px;
-    -webkit-border-bottom-left-radius: 2px;
-    -moz-border-radius-bottomright: 2px;
-    -moz-border-radius-bottomleft: 2px;
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
 }
@@ -558,8 +549,6 @@ tbody tr:hover span.UnreadArticles {
     color: #FFF;
     font-size: 11px;
     opacity: 0.8;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     border-radius: 8px;
     position: absolute;
 }
@@ -583,7 +572,13 @@ tbody tr:hover span.UnreadArticles {
 /* Vacation Days */
 td.Highlight a.ui-state-default {
     border: 1px solid #fad42e;
-    background: url(../img/datepicker_vacation_days.png) repeat-x;
+    background: #ffe45c;
+    background: -moz-linear-gradient(top,  #fff0a5 0%, #ffe45c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff0a5), color-stop(100%,#ffe45c));
+    background: -webkit-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
+    background: -o-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
+    background: -ms-linear-gradient(top,  #fff0a5 0%,#ffe45c 100%);
+    background: linear-gradient(to bottom,  #fff0a5 0%,#ffe45c 100%);
 }
 
 /* Today */

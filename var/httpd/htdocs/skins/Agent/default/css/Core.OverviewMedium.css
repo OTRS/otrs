@@ -55,13 +55,10 @@
     padding-left: 5px;
     height: 28px;
     float: right;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomleft: 5px;
     border-bottom-left-radius: 5px;
     cursor: auto;
     box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
     -webkit-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
-    -moz-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
 }
 
 .OverviewMedium li ul.InlineActions li {
@@ -92,22 +89,19 @@
 
 .OverviewMedium li div.Content {
     padding-top: 12px;
-    padding-bottom: 0;
+    padding-bottom: 12px;
     cursor: pointer;
     position: relative;
 }
 
-.OverviewMedium li div.Shadow {
-    height: 5px;
-    width: 100%;
-}
-
-.OverviewMedium li:hover div.Shadow {
-    background: transparent url(../img/table_medium_hover_bottom.png) repeat-x;
-}
-
 .OverviewMedium li:hover div.Content {
-    background: transparent url(../img/table_medium_hover.png) repeat-x;
+    background: #F6A72B;
+    background: -moz-linear-gradient(top,  #ffcc76 0%, #fab236 10%, #f9c578 50%, #f6a72b 50%, #e88621 94%, #de721e 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffcc76), color-stop(10%,#fab236), color-stop(50%,#f9c578), color-stop(50%,#f6a72b), color-stop(94%,#e88621), color-stop(100%,#de721e));
+    background: -webkit-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+    background: -o-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+    background: -ms-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+    background: linear-gradient(to bottom,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
 }
 
 .OverviewMedium li:hover div.Content .Infos a {

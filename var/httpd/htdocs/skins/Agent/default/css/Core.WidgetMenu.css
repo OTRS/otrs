@@ -16,22 +16,18 @@
  */
 .ControlRow {
     background: #bbbbbb;
-    background: -moz-linear-gradient(top, #ededed 0%, #bbbbbb 100%);
+    background: -moz-linear-gradient(top,  #ededed 0%, #bbbbbb 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#bbbbbb));
-    background: -webkit-linear-gradient(top, #ededed 0%,#bbbbbb 100%);
-    background: -o-linear-gradient(top, #ededed 0%,#bbbbbb 100%);
-    background: -ms-linear-gradient(top, #ededed 0%,#bbbbbb 100%);
-    background: linear-gradient(top, #ededed 0%,#bbbbbb 100%);
+    background: -webkit-linear-gradient(top,  #ededed 0%,#bbbbbb 100%);
+    background: -o-linear-gradient(top,  #ededed 0%,#bbbbbb 100%);
+    background: -ms-linear-gradient(top,  #ededed 0%,#bbbbbb 100%);
+    background: linear-gradient(to bottom,  #ededed 0%,#bbbbbb 100%);
     position: relative;
     overflow: hidden;
     border-left: 1px solid #D4D4D4;
     border-right: 1px solid #D4D4D4;
     border-top: 1px solid #F8F8F8;
     border-bottom: 1px solid #999999;
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     min-height: 24px;
@@ -52,17 +48,8 @@
     float: right;
 }
 
-.ControlRow li,
-.ControlRow li:hover > a,
-.ControlRow li.Active > a,
-.ControlRow li:active > a {
-    background: url(../img/controlrow_sprite.png) no-repeat;
-}
-
 .ControlRow li {
-    margin-left: -3px;
     padding-left: 2px;
-    background-position: 0 25px;
     float: left;
     position: relative;
 }
@@ -74,82 +61,56 @@
 }
 
 .ControlRow li:first-child {
-    -webkit-border-top-left-radius: 2px;
-    -moz-border-radius-topleft: 2px;
     border-top-left-radius: 2px;
 }
 
 .RTL .ControlRow li:first-child {
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topright: 2px;
     border-top-right-radius: 2px;
 }
 
 .ControlRow li:hover {
-    background-position: 0 0;
+    background: #F3970D;
+    background: -moz-linear-gradient(top,  #fdf0df 0%, #fbb948 12%, #f6ad3e 50%, #f3970d 50%, #e27306 97%, #dd6905 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdf0df), color-stop(12%,#fbb948), color-stop(50%,#f6ad3e), color-stop(50%,#f3970d), color-stop(97%,#e27306), color-stop(100%,#dd6905));
+    background: -webkit-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: -o-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: -ms-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: linear-gradient(to bottom,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
 }
 
 .ControlRow li.Active,
 .ControlRow li.Active:hover,
 .ControlRow li.Active:active {
+    background: #333333;
+    background: -moz-linear-gradient(top,  #333333 0%, #585959 50%, #333333 50%, #333333 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(50%,#585959), color-stop(50%,#333333), color-stop(100%,#333333));
+    background: -webkit-linear-gradient(top,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
+    background: -o-linear-gradient(top,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
+    background: -ms-linear-gradient(top,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
+    background: linear-gradient(to bottom,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
     padding-left: 2px;
-    background-position: 0 -50px;
 }
 
 .ControlRow li > a {
     padding: 7px 12px 7px 11px;
     color: #111;
     font-size: 11px;
-    background: url(../img/controlrow_isolator.png) no-repeat center right;
     display: block;
 }
 
 .RTL .ControlRow li > a {
     padding: 7px 11px 7px 12px;
-    background-position: left center;
-}
-
-.ControlRow li.Last > a {
-    background-position: 50px 50px; /* hide it, but dont set it to none */
-}
-
-.ControlRow li:last-child > a {
-    background-position: 50px 50px; /* hide it, but dont set it to none */
-}
-
-.ControlRow li.Last:hover > a {
-    background-position: right 0;
-}
-
-.ControlRow li:last-child:hover > a {
-    background-position: right 0;
 }
 
 .ControlRow li:hover > a {
-    background-position: right 0;
     color: #000;
-}
-
-.RTL .ControlRow li:hover > a {
-    background-position: left 0;
 }
 
 .ControlRow li.Active > a,
 .ControlRow li.Active:hover > a,
 .ControlRow li.Active:active > a {
     color: #FFF;
-    background-position: right -50px;
-    -webkit-border-top-left-radius: 2px;
-    -moz-border-radius-topleft: 2px;
     border-top-left-radius: 2px;
-}
-
-.ControlRow li:active {
-    background-position: 0 -25px;
-}
-
-.ControlRow li:active > a {
-    background-position: right -25px;
 }
 
 .ControlRow li > a > span {
@@ -328,7 +289,13 @@ ul.ContextFunctions li:last-child:hover > a {
  * @subsection  Control Row Action Row
  */
 .ActionRow {
-    background: #AAA url("../img/gradient_light.png") repeat-x;
+    background: #f0f0f0;
+    background: -moz-linear-gradient(top,  #f0f0f0 0%, #eaeaea 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#eaeaea));
+    background: -webkit-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
+    background: -o-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
+    background: -ms-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
+    background: linear-gradient(to bottom,  #f0f0f0 0%,#eaeaea 100%);
     border-top: 1px solid #D6D6D6;
     border-bottom: 1px solid #666;
     position: relative;
@@ -387,19 +354,21 @@ ul.ContextFunctions li:last-child:hover > a {
     display: block;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
 .Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
-    background: url("../img/action_hover.png") repeat-x 0 center;
-    background: -moz-linear-gradient(top, #FFE7BD, #FDC053 5px, #F6AD3E 50%, #F3980D 50%, #E77E06 95%, #DF6D05);
+    background: #F3970D;
+    background: -moz-linear-gradient(top,  #fdf0df 0%, #fbb948 12%, #f6ad3e 50%, #f3970d 50%, #e27306 97%, #dd6905 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdf0df), color-stop(12%,#fbb948), color-stop(50%,#f6ad3e), color-stop(50%,#f3970d), color-stop(97%,#e27306), color-stop(100%,#dd6905));
+    background: -webkit-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: -o-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: -ms-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: linear-gradient(to bottom,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
     border-left: 1px solid #F6AE2C;
     border-right: 1px solid #E2AD51;
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
     box-shadow: 0 1px 0 rgba(0,0,0,0.46);
 }
@@ -429,7 +398,6 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li.Inactive:hover a {
     background: none;
     border-color: transparent;
-    -moz-box-shadow: 0 0 0;
     -webkit-box-shadow: 0 0 0;
     box-shadow: 0 0 0;
 }
@@ -474,7 +442,6 @@ ul.ContextFunctions li:last-child:hover > a {
     color: #777;
     background: none;
     border-color: transparent;
-    -moz-box-shadow: 0 0 0;
     -webkit-box-shadow: 0 0 0;
     box-shadow: 0 0 0;
 }
@@ -497,21 +464,22 @@ ul.ContextFunctions li:last-child:hover > a {
  */
 
 .LightRow {
-    background: #999 url("../img/gradient_light.png") repeat-x;
     border: 1px solid #C6C5C4;
     border-bottom: 1px solid #7C7C7C;
 }
 
 .LightRow.Header {
+    background: #ededed;
+    background: -moz-linear-gradient(top,  #ededed 0%, #e7e7e7 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#e7e7e7));
+    background: -webkit-linear-gradient(top,  #ededed 0%,#e7e7e7 100%);
+    background: -o-linear-gradient(top,  #ededed 0%,#e7e7e7 100%);
+    background: -ms-linear-gradient(top,  #ededed 0%,#e7e7e7 100%);
+    background: linear-gradient(to bottom,  #ededed 0%,#e7e7e7 100%);
     padding-right: 5px;
-    -webkit-border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topleft: 2px;
-    -moz-border-radius-topright: 2px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     position: relative;
-    -moz-box-shadow: inset 0 -1px 0 #FFF;
     -webkit-box-shadow: inset 0 -1px 0 #FFF;
     box-shadow: inset 0 -1px 0 #FFF;
 }
@@ -523,13 +491,17 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Collapsed .LightRow.Header {
     border-bottom-color: #C6C5C4;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
 .LightRow.Bottom {
-    background-position: 0 -26px;
+    background: #e5e5e5;
+    background: -moz-linear-gradient(top,  #e5e5e5 0%, #dadada 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e5e5), color-stop(100%,#dadada));
+    background: -webkit-linear-gradient(top,  #e5e5e5 0%,#dadada 100%);
+    background: -o-linear-gradient(top,  #e5e5e5 0%,#dadada 100%);
+    background: -ms-linear-gradient(top,  #e5e5e5 0%,#dadada 100%);
+    background: linear-gradient(to bottom,  #e5e5e5 0%,#dadada 100%);
     border-top: 1px solid #F5F5F5;
     border-bottom: none;
     border-bottom: 1px solid #636363;
@@ -547,7 +519,6 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Collapsed .LightRow.Header {
-    -moz-box-shadow: 0 -1px 0 #DDD inset;
     -webkit-box-shadow: 0 -1px 0 #DDD inset;
     box-shadow: 0 -1px 0 #DDD inset;
     border-bottom-color: #AAA;

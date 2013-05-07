@@ -15,15 +15,18 @@ button,
     color: #333;
     font-size: 10px;
     font-weight: bold;
-    background: #DDD url(../img/button_bg.png) repeat-x;
+    background: #dedede;
+    background: -moz-linear-gradient(top,  #ffffff 0%, #dedede 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dedede));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#dedede 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#dedede 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#dedede 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#dedede 100%);
     border: 1px solid #AAA;
     border-bottom: 1px solid #999;
     box-shadow: 0 1px 0 #E6E6E6;
-    -moz-box-shadow: 0 1px 0 #E6E6E6;
     -webkit-box-shadow: 0 1px 0 #E6E6E6;
     border-radius: 11px;
-    -moz-border-radius: 11px;
-    -webkit-border-radius: 11px;
     text-shadow: 0 1px 0 #FFF;
     display: inline-block;
     cursor: pointer;
@@ -42,7 +45,13 @@ button:hover,
 
 button:active,
 .Button:active {
-    background: #000 url("../img/GradientSmall.png") repeat-x 0 0;
+    background: #eaeaea;
+    background: -moz-linear-gradient(top,  #eaeaea 0%, #3b3b3b 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#3b3b3b));
+    background: -webkit-linear-gradient(top,  #eaeaea 0%,#3b3b3b 100%);
+    background: -o-linear-gradient(top,  #eaeaea 0%,#3b3b3b 100%);
+    background: -ms-linear-gradient(top,  #eaeaea 0%,#3b3b3b 100%);
+    background: linear-gradient(to bottom,  #eaeaea 0%,#3b3b3b 100%);
     border-color: #888;
     outline: none;
     text-shadow: 0 1px 0 #D9D9D9;
@@ -56,13 +65,15 @@ button:active,
     line-height: 12px;
     font-weight: bold;
     background: #F9F9F9;
-    background: -moz-linear-gradient(top, #FFF, #EEE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#EEE));
+    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 100%);
     border: 1px solid #DDD;
     border-bottom: 1px solid #CCC;
     border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     text-shadow: 0 1px 0 #FFF;
 }
 
@@ -72,8 +83,12 @@ button:active,
 
 .SmallButton:active {
     background: #EEE;
-    background: -moz-linear-gradient(top, #CCC, #EEE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#CCC), to(#EEE));
+    background: -moz-linear-gradient(top,  #cccccc 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccccc), color-stop(100%,#eeeeee));
+    background: -webkit-linear-gradient(top,  #cccccc 0%,#eeeeee 100%);
+    background: -o-linear-gradient(top,  #cccccc 0%,#eeeeee 100%);
+    background: -ms-linear-gradient(top,  #cccccc 0%,#eeeeee 100%);
+    background: linear-gradient(to bottom,  #cccccc 0%,#eeeeee 100%);
     border-color: #CCC #CCC #D9D9D9;
     text-shadow: 0 1px 0 #EEE;
 }
@@ -123,7 +138,6 @@ select[multiple=multiple] {
     border-top-color: #C0C0C0;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
-    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
     -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
     box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
 }
@@ -141,7 +155,6 @@ input[type=text]:focus,
 input[type=email]:focus,
 input[type=password]:focus,
 textarea:focus {
-    -moz-box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
     -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
     box-shadow: 0 1px 2px #E8E8E8 inset, 0 0 3px #CCC;
 }
@@ -177,12 +190,14 @@ fieldset {
     margin: 8px 0 13px;
     padding-bottom: 5px;
     background: #F8F9F9;
-    background: -moz-linear-gradient(center top , #FFF, #F8F9F9);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#F8F9F9));
+    background: -moz-linear-gradient(top,  #ffffff 0%, #f8f9f9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f8f9f9));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#f8f9f9 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#f8f9f9 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#f8f9f9 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#f8f9f9 100%);
     border: 1px solid #EAEEEE;
     border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
 }
 
 fieldset div {
@@ -193,8 +208,6 @@ fieldset div:first-child {
     padding-top: 8px;
     border-top: 1px solid #FFF;
     border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
 }
 
 fieldset h2 {
@@ -205,8 +218,6 @@ fieldset h2 {
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #E8E9E9;
     border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
     text-shadow: 0 1px 0 #FFF;
 }
 
@@ -232,8 +243,12 @@ fieldset label {
     color: #333;
     font-size: 11px;
     background: #ECEEEE;
-    background: -moz-linear-gradient(center top , #F9F9F9, #ECEEEE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#ECEEEE));
+    background: -moz-linear-gradient(top,  #f9f9f9 0%, #eceeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#eceeee));
+    background: -webkit-linear-gradient(top,  #f9f9f9 0%,#eceeee 100%);
+    background: -o-linear-gradient(top,  #f9f9f9 0%,#eceeee 100%);
+    background: -ms-linear-gradient(top,  #f9f9f9 0%,#eceeee 100%);
+    background: linear-gradient(to bottom,  #f9f9f9 0%,#eceeee 100%);
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #CCC;
     border-right: 1px solid #CCC;
