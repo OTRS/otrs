@@ -44,7 +44,6 @@
 }
 
 .Dialog > .Header {
-    height: 25px;
     cursor: move;
     display: block;
     position: relative;
