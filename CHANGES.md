@@ -17,6 +17,7 @@
     and hard-coded to use /tmp.
 
 #3.2.7 2013-??.??
+ - 2013-05-07 Fixed bug#[9345](http://bugs.otrs.org/show_bug.cgi?id=9345) - OTRS exceeds 998 character limit in References Line of E-Mail Header.
  - 2013-05-07 Fixed bug#[7478](http://bugs.otrs.org/show_bug.cgi?id=7478) - Got an external answer to an internal mail.
  - 2013-05-07 Improved permission checks in AgentTicketPhone.
  - 2013-05-02 Fixed bug#[9360](http://bugs.otrs.org/show_bug.cgi?id=9360) - DynamicField Names shown in CSV output.
