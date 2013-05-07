@@ -64,10 +64,16 @@ sub Run {
 
         # check recipients
         next if !$Article->{To};
-        my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        
+        my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{To},
         );
-        for my $Email (@EmailAddresses) {
+        my @CcEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+            Line => $Article->{Cc},
+        );
+        my @EmailAdresses = ( @ToEmailAddresses, @CcEmailAddresses );
+
+        for my $Email (@EmailAdresses) {
             my $Recipient = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
