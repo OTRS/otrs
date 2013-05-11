@@ -19,6 +19,8 @@
     and hard-coded to use /tmp.
 
 #3.2.7 2013-??.??
+ - 2013-05-14 Fixed bug#[9419](http://bugs.otrs.org/show_bug.cgi?id=9419) - Process Management: List of available dialog fields lists Responsible 
+    even if feature is inactive.
  - 2013-05-11 Fixed bug#[9246](http://bugs.otrs.org/show_bug.cgi?id=9246) - ProcessManagement: TranstionAction error messages not sufficient enough.
  - 2013-05-07 Fixed bug#[9345](http://bugs.otrs.org/show_bug.cgi?id=9345) - OTRS exceeds 998 character limit in References Line of E-Mail Header.
  - 2013-05-07 Fixed bug#[7478](http://bugs.otrs.org/show_bug.cgi?id=7478) - Got an external answer to an internal mail.
