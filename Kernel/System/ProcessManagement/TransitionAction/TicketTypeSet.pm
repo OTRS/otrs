@@ -110,13 +110,17 @@ sub new {
     Run Data
 
     my $TicketTypeSetResult = $TicketTypeSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',
+        ActivityEntityID         => 'A123',
+        TransitionEntityID       => 'T123',
+        TransitionActionEntityID => 'TA123',
+        Config                   => {
             Type => 'Default',
             # or
             TypeID => 1,
-            UserID => 123,                                 # optional, to override the UserID from the logged user
+            UserID => 123,                      # optional, to override the UserID from the logged user
 
         }
     );
@@ -131,7 +135,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(UserID Ticket Config)) {
+    for my $Needed (
+        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
+            TransitionActionEntityID Config
+            )
+            )
+        {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -141,11 +150,16 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
+        ." Transition: $Param{TransitionEntityID}"
+        ." TransitionAction: $Param{TransitionActionEntityID} - ";
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -154,7 +168,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -168,7 +182,7 @@ sub Run {
     if ( !$Param{Config}->{TypeID} && !$Param{Config}->{Type} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Type or TypeID configured!",
+            Message  => $CommonMessage . "No Type or TypeID configured!",
         );
         return;
     }
@@ -176,7 +190,7 @@ sub Run {
     if ( !$Self->{ConfigObject}->Get('Ticket::Type') ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket::Type SysConfig setting is not enabled!",
+            Message  => $CommonMessage . "Ticket::Type SysConfig setting is not enabled!",
         );
         return;
     }
@@ -211,9 +225,19 @@ sub Run {
     }
 
     if ( !$Success ) {
+        my $CustomMessage;
+        if ( defined $Param{Config}->{Type} ) {
+            $CustomMessage = "Type: $Param{Config}->{Type},";
+        }
+        else {
+            $CustomMessage = "TypeID: $Param{Config}->{TypeID},";
+        }
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Ticket type could not be updated for Ticket: '
+            Message  => $CommonMessage
+                . 'Ticket type could not be updated to '
+                . $CustomMessage
+                . ' for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;

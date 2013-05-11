@@ -629,9 +629,13 @@ sub ProcessTransition {
             TicketObject => $Self->{TicketObject},
             );
         my $Success = $TransitionActionModuleObject->Run(
-            UserID => $Param{UserID},
-            Ticket => \%Data,
-            Config => $TransitionAction->{Config} || {},
+            UserID                   => $Param{UserID},
+            Ticket                   => \%Data,
+            ProcessEntityID          => $Param{ProcessEntityID},
+            ActivityEntityID         => $Param{ActivityEntityID},
+            TransitionEntityID       => $TransitionEntityID,
+            TransitionActionEntityID => $TransitionAction->{TransitionActionEntityID},
+            Config                   => $TransitionAction->{Config} || {},
         );
     }
 
