@@ -70,7 +70,7 @@ Core.Agent.Admin.Scheduler = (function (TargetNS) {
                 }
 
                 // show main dialog
-                Core.UI.Dialog.ShowContentDialog(HTML, 'Start Scheduler', '240px', 'Center', true, undefined, true);
+                Core.UI.Dialog.ShowContentDialog(HTML, 'Start Scheduler', '240px', 'Center', true);
 
                 // set submit button action
                 $('#SchedulerFormSubmit').bind('click', function() {

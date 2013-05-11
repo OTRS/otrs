@@ -175,7 +175,7 @@ Core.Config = (function (TargetNS) {
                 BrowserDetected = false;
             if ($.browser.mozilla) {
                 BrowserVersion = $.browser.version.split('.');
-                if (parseInt(BrowserVersion[0], 10) < 1 || (parseInt(BrowserVersion[0], 10) === 1 && parseInt(BrowserVersion[1], 10) < 9)) {
+                if (parseInt(BrowserVersion[0], 10) < 10) {
                     BrowserDetected = true;
                 }
             }
@@ -196,7 +196,22 @@ Core.Config = (function (TargetNS) {
         'Microsoft Internet Explorer 6': function () {
             return ($.browser.msie && $.browser.version === '6.0');
         },
-        // IE7 is allowed.
+        'Microsoft Internet Explorer 7': function () {
+            var detected = ($.browser.msie && $.browser.version === '7.0');
+
+            // IE8 in Compatibility Mode will claim to be IE7.
+            // See also http://msdn.microsoft.com/en-us/library/ms537503%28v=VS.85%29.aspx
+            if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/4.0/)) {
+                alert('Please turn off Compatibility Mode in Internet Explorer.');
+            }
+
+            // IE9 in Compatibility Mode will claim to be IE7.
+            if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/5.0/)) {
+                alert('Please turn off Compatibility Mode in Internet Explorer.');
+            }
+
+            return detected;
+        },
         'Konqueror (without WebKit engine)': function () {
             return ($.browser.webkit && navigator.vendor === 'KDE');
         },
@@ -206,7 +221,7 @@ Core.Config = (function (TargetNS) {
             BrowserDetected = false;
             if ($.browser.mozilla) {
                 BrowserVersion = $.browser.version.split('.');
-                if (parseInt(BrowserVersion[0], 10) < 1 || (parseInt(BrowserVersion[0], 10) === 1 && parseInt(BrowserVersion[1], 10) < 9)) {
+                if (parseInt(BrowserVersion[0], 10) < 10) {
                     BrowserDetected = true;
                 }
             }

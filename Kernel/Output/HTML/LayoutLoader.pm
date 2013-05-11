@@ -117,39 +117,6 @@ sub LoaderCreateAgentCSSCalls {
     {
         my @FileList;
 
-        # get global css for ie7
-        my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE7');
-        for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            push @FileList, @{ $CommonCSSIE7List->{$Key} };
-        }
-
-        # get toolbar module css for ie7
-        for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
-            if ( $ToolbarModuleSettings->{$Key}->{CSS_IE7} ) {
-                push @FileList, $ToolbarModuleSettings->{$Key}->{CSS_IE7};
-            }
-        }
-
-        # get customer user item css
-        for my $Key ( sort keys %{$CustomerUserItemSettings} ) {
-            if ( $CustomerUserItemSettings->{$Key}->{CSS_IE7} ) {
-                push @FileList, $CustomerUserItemSettings->{$Key}->{CSS_IE7};
-            }
-        }
-
-        $Self->_HandleCSSList(
-            List      => \@FileList,
-            DoMinify  => $DoMinify,
-            BlockName => 'CommonCSS_IE7',
-            SkinHome  => $SkinHome,
-            SkinType  => 'Agent',
-            Skin      => $SkinSelected,
-        );
-    }
-
-    {
-        my @FileList;
-
         # get global css for IE8
         my $CommonCSSIE8List = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS::IE8');
         for my $Key ( sort keys %{$CommonCSSIE8List} ) {
@@ -197,21 +164,6 @@ sub LoaderCreateAgentCSSCalls {
             List      => \@FileList,
             DoMinify  => $DoMinify,
             BlockName => 'ModuleCSS',
-            SkinHome  => $SkinHome,
-            SkinType  => 'Agent',
-            Skin      => $SkinSelected,
-        );
-    }
-
-    {
-        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE7} || [];
-
-        my @FileList = @{$AppCSSList};
-
-        $Self->_HandleCSSList(
-            List      => \@FileList,
-            DoMinify  => $DoMinify,
-            BlockName => 'ModuleCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Agent',
             Skin      => $SkinSelected,
@@ -364,37 +316,18 @@ sub LoaderCreateCustomerCSSCalls {
     }
 
     {
-        my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE7');
+        my $CommonCSSIE8List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE8');
 
         my @FileList;
 
-        for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            push @FileList, @{ $CommonCSSIE7List->{$Key} };
+        for my $Key ( sort keys %{$CommonCSSIE8List} ) {
+            push @FileList, @{ $CommonCSSIE8List->{$Key} };
         }
 
         $Self->_HandleCSSList(
             List      => \@FileList,
             DoMinify  => $DoMinify,
-            BlockName => 'CommonCSS_IE7',
-            SkinHome  => $SkinHome,
-            SkinType  => 'Customer',
-            Skin      => $SkinSelected,
-        );
-    }
-
-    {
-        my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE8');
-
-        my @FileList;
-
-        for my $Key ( sort keys %{$CommonCSSIE7List} ) {
-            push @FileList, @{ $CommonCSSIE7List->{$Key} };
-        }
-
-        $Self->_HandleCSSList(
-            List      => \@FileList,
-            DoMinify  => $DoMinify,
-            BlockName => 'CommonCSS_IE7',
+            BlockName => 'CommonCSS_IE8',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
             Skin      => $SkinSelected,
@@ -419,21 +352,6 @@ sub LoaderCreateCustomerCSSCalls {
             List      => \@FileList,
             DoMinify  => $DoMinify,
             BlockName => 'ModuleCSS',
-            SkinHome  => $SkinHome,
-            SkinType  => 'Customer',
-            Skin      => $SkinSelected,
-        );
-    }
-
-    {
-        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE7} || [];
-
-        my @FileList = @{$AppCSSList};
-
-        $Self->_HandleCSSList(
-            List      => \@FileList,
-            DoMinify  => $DoMinify,
-            BlockName => 'ModuleCSS_IE7',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
             Skin      => $SkinSelected,

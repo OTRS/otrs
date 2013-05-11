@@ -149,7 +149,6 @@ Core.UI.Dialog = (function (TargetNS) {
      *               PositionRight: value (default: undefined) Defines the right position of the dialog window
      *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
      *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
-     *               NotDraggableIE7: true|false (default: false) If true, the dialog is not draggable in IE7 (due to performance reasons)
      *               AllowAutoGrow: true|false (default: false) If true, the InnerContent of the dialog can resize until the max window height is reached,
      *                                                          If false (default), InnerContent of small dialogs does not resize over 200px
      *               Buttons: Array of Hashes with the following properties (buttons are placed in a div "footer" of the dialog):
@@ -342,8 +341,8 @@ Core.UI.Dialog = (function (TargetNS) {
         if ($Dialog.find('.Content .ContentFooter').length) {
             // change default Footer
             $Dialog.find('.Footer').addClass('ContentFooter');
-            // add special css for IE7
-            if ($.browser.msie && $.browser.version >= 7 && $.browser.version < 9) {
+            // add special css for IE8
+            if ($.browser.msie && $.browser.version === 8) {
                 $InnerContent = $Dialog.find('.Content .InnerContent');
                 InnerContentWidth = $InnerContent.width() + parseInt($InnerContent.css('padding-left'), 10) + parseInt($InnerContent.css('padding-right'), 10);
                 $Dialog.find('.Content .ContentFooter').width(InnerContentWidth);
@@ -385,19 +384,17 @@ Core.UI.Dialog = (function (TargetNS) {
         AdjustScrollableHeight(Params.AllowAutoGrow);
 
         // Add event-handling
-        if (!(Params.NotDraggableIE7 && $.browser.msie && parseInt($.browser.version, 10) === 7)) {
-            $Dialog.draggable({
-                containment: 'body',
-                handle: '.Header',
-                start: function(Event, UI) {
-                    // Hide any possibly existing tooltips as they will not be moved
-                    //  with this dialog.
-                    if (Core.Form && Core.Form.ErrorTooltips) {
-                        Core.Form.ErrorTooltips.HideTooltip();
-                    }
+        $Dialog.draggable({
+            containment: 'body',
+            handle: '.Header',
+            start: function(Event, UI) {
+                // Hide any possibly existing tooltips as they will not be moved
+                //  with this dialog.
+                if (Core.Form && Core.Form.ErrorTooltips) {
+                    Core.Form.ErrorTooltips.HideTooltip();
                 }
-            });
-        }
+            }
+        });
 
         // Add button events
         if (Params.Buttons) {
@@ -471,10 +468,9 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param PositionLeft The left position the dialog is positioned initially
      * @param Modal If defined and set to true, an overlay is shown for a modal dialog
      * @param Buttons The button array
-     * @param NotDraggableIE7 If true, the dialog is not draggable in IE7 (performance reasons)
      * @return nothing
      */
-    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons, NotDraggableIE7, AllowAutoGrow) {
+    TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons, AllowAutoGrow) {
         TargetNS.ShowDialog({
             HTML: HTML,
             Title: Title,
@@ -484,7 +480,6 @@ Core.UI.Dialog = (function (TargetNS) {
             PositionTop: PositionTop,
             PositionLeft: PositionLeft,
             Buttons: Buttons,
-            NotDraggableIE7: NotDraggableIE7,
             AllowAutoGrow: AllowAutoGrow
         });
     };

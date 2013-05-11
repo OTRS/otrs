@@ -30,12 +30,6 @@ $Include{"Copyright"}
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
-<!-- dtl:block:CommonCSS_IE7 -->
-<!--[if IE 7]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:CommonCSS_IE7 -->
-
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
     <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />

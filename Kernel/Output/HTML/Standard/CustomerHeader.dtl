@@ -37,12 +37,6 @@ $Include{"Copyright"}
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
-<!-- dtl:block:CommonCSS_IE7 -->
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:CommonCSS_IE7 -->
-
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 7]>
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
@@ -52,12 +46,6 @@ $Include{"Copyright"}
 <!-- dtl:block:ModuleCSS -->
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
 <!-- dtl:block:ModuleCSS -->
-
-<!-- dtl:block:ModuleCSS_IE7 -->
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:ModuleCSS_IE7 -->
 
 <!-- dtl:block:ModuleCSS_IE8 -->
 <!--[if IE 7]>

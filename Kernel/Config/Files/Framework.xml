@@ -5759,7 +5759,6 @@ M
                 <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.UI.js</Item>
-                <Item>Core.UI.IE7Fixes.js</Item>
                 <Item>Core.UI.Accordion.js</Item>
                 <Item>Core.UI.Datepicker.js</Item>
                 <Item>Core.UI.Resizable.js</Item>
@@ -5797,18 +5796,6 @@ M
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Customer::CommonCSS::IE7###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE7-specific CSS files to always be loaded for the customer interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
-        <Setting>
-            <Array>
-                <Item>Core.IE7.css</Item>
-                <Item>Core.Tooltip.IE7.css</Item>
-                <Item>Core.Dialog.IE7.css</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Loader::Customer::CommonCSS::IE8###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of IE8-specific CSS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
@@ -5837,7 +5824,6 @@ M
                 <Item>Core.AJAX.js</Item>
                 <Item>Core.App.js</Item>
                 <Item>Core.UI.js</Item>
-                <Item>Core.UI.IE7Fixes.js</Item>
                 <Item>Core.UI.Accessibility.js</Item>
                 <Item>Core.UI.Dialog.js</Item>
                 <Item>Core.UI.RichTextEditor.js</Item>

@@ -211,8 +211,7 @@ $('.DynamicFieldDelete').bind('click', function (Event) {
             CloseOnEscape: false,
             PositionTop: '20%',
             PositionLeft: 'Center',
-            Buttons: [],
-            NotDraggableIE7: true
+            Buttons: []
         });
 
         Core.AJAX.FunctionCall(

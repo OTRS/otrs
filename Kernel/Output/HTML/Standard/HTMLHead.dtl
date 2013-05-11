@@ -46,12 +46,6 @@ if (RefreshSeconds) {
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
-<!-- dtl:block:CommonCSS_IE7 -->
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:CommonCSS_IE7 -->
-
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
@@ -61,12 +55,6 @@ if (RefreshSeconds) {
 <!-- dtl:block:ModuleCSS -->
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
 <!-- dtl:block:ModuleCSS -->
-
-<!-- dtl:block:ModuleCSS_IE7 -->
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:ModuleCSS_IE7 -->
 
 <!-- dtl:block:ModuleCSS_IE8 -->
 <!--[if IE 7]>

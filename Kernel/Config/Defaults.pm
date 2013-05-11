@@ -846,10 +846,6 @@ sub LoadDefaults {
       'Core.Print.css'
     ];
 
-    # Customer Common CSS for IE7
-    $Self->{'Loader::Customer::CommonCSS::IE7'}->{'000-Framework'} =  [
-      'Core.IE7.css'
-    ];
     # Customer Common CSS for IE8
     $Self->{'Loader::Customer::CommonCSS::IE8'}->{'000-Framework'} =  [];
 
@@ -914,7 +910,6 @@ sub LoadDefaults {
       'Core.AJAX.js',
       'Core.App.js',
       'Core.UI.js',
-      'Core.UI.IE7Fixes.js',
       'Core.UI.Accordion.js',
       'Core.UI.Datepicker.js',
       'Core.UI.Resizable.js',

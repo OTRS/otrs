@@ -21,9 +21,6 @@ Core.Customer = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI', 'Core.UI')) {
         return;
     }
-    if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI.IE7Fixes', 'Core.UI.IE7Fixes')) {
-        return;
-    }
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.Form', 'Core.Form')) {
         return;
     }
@@ -52,9 +49,6 @@ Core.Customer = (function (TargetNS) {
         }
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
-        // init IE7 compat code (will only run on IE7)
-        Core.UI.IE7Fixes.InitIE7InputFocus('Focus');
-        Core.UI.IE7Fixes.InitIE7InputReadonly('Readonly');
     };
 
     /**

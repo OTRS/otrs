@@ -751,7 +751,6 @@ sub ConfigItemGet {
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
                             $Key2 eq 'CSS'
-                            || $Key2 eq 'CSS_IE7'
                             || $Key2 eq 'CSS_IE8'
                             || $Key2 eq 'JavaScript'
                             )
@@ -2168,7 +2167,6 @@ sub _XML2Perl {
                 for my $Key ( sort keys %{$Content} ) {
                     if (
                         $Key eq 'CSS'
-                        || $Key eq 'CSS_IE7'
                         || $Key eq 'CSS_IE8'
                         || $Key eq 'JavaScript'
                         )
