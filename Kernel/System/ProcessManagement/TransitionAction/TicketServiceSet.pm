@@ -119,13 +119,17 @@ sub new {
     Run Data
 
     my $TicketServiceSetResult = $TicketServiceSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
+        Config                   => {
             Service => 'MyService::Subservice',
             # or
             ServiceID => 123,
-            UserID    => 123,                               # optional, to override the UserID from the logged user
+            UserID    => 123,                   # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -149,11 +153,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -162,7 +191,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -176,7 +205,7 @@ sub Run {
     if ( !$Param{Config}->{ServiceID} && !$Param{Config}->{Service} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Service or ServiceID configured!",
+            Message  => $CommonMessage . "No Service or ServiceID configured!",
         );
         return;
     }
@@ -184,7 +213,7 @@ sub Run {
     if ( !$Param{Ticket}->{CustomerUserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "To set a service the ticket requires a customer!",
+            Message  => $CommonMessage . "To set a service the ticket requires a customer!",
         );
         return;
     }
@@ -223,7 +252,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'ServiceID '
+                Message  => $CommonMessage
+                    . 'ServiceID '
                     . $Param{Config}->{ServiceID}
                     . ' is not assigned to Customer User '
                     . $Param{Ticket}->{CustomerUserID}
@@ -241,7 +271,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket ServiceID '
+                Message  => $CommonMessage
+                    . 'Ticket ServiceID '
                     . $Param{Config}->{ServiceID}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -280,7 +311,8 @@ sub Run {
         if ( !$ServiceID ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Service '
+                Message  => $CommonMessage
+                    . 'Service '
                     . $Param{Config}->{Service}
                     . ' is invalid!'
             );
@@ -296,7 +328,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Service '
+                Message  => $CommonMessage
+                    . 'Service '
                     . $Param{Config}->{Service}
                     . ' is not assigned to Customer User '
                     . $Param{Ticket}->{CustomerUserID}
@@ -314,7 +347,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket Service '
+                Message  => $CommonMessage
+                    . 'Ticket Service '
                     . $Param{Config}->{Service}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -324,7 +358,8 @@ sub Run {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't update Ticket Service - can't find valid Service parameter!",
+            Message  => $CommonMessage
+                . "Couldn't update Ticket Service - can't find valid Service parameter!",
         );
         return;
     }

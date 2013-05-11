@@ -114,12 +114,16 @@ sub new {
     Run Data
 
     my $DynamicFieldSetResult = $DynamicFieldSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
+        Config                   => {
             MasterSlave => 'Master',
             Approved    => '1',
-            UserID      => 123,         # optional, to override the UserID from the logged user
+            UserID      => 123,                 # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -149,11 +153,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -162,7 +191,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -190,8 +219,8 @@ sub Run {
         if ( !IsHashRefWithData($DynamicFieldConfig) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't get DynamicField config for DynamicField"
-                    . " '$CurrentDynamicField'!",
+                Message  => $CommonMessage
+                    . "Can't get DynamicField config for DynamicField: '$CurrentDynamicField'!",
             );
             return;
         }
@@ -208,7 +237,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't set value '"
+                Message  => $CommonMessage
+                    . "Can't set value '"
                     . $Param{Config}->{$CurrentDynamicField}
                     . "' for DynamicField '$CurrentDynamicField',"
                     . "TicketID '" . $Param{Ticket}->{TicketID} . "'!",
