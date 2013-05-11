@@ -60,7 +60,6 @@ sub new {
         Queue       => 'QueueID',
         CustomerID  => 'CustomerID',
         Owner       => 'OwnerID',
-        Responsible => 'ResponsibleID',
         PendingTime => 'PendingTime',
         Title       => 'Title',
     };
@@ -71,8 +70,14 @@ sub new {
         $Self->{AvailableFields}->{SLA}     = 'SLAID';
     }
 
+    # add ticket type field, if option is activated in sysconfig.
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         $Self->{AvailableFields}->{Type} = 'TypeID';
+    }
+
+    # add responsible field, if option is activated in sysconfig.
+    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
+        $Self->{AvailableFields}->{Responsible} = 'ResponsibleID';
     }
 
     my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
