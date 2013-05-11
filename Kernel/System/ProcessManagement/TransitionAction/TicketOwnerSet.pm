@@ -110,13 +110,17 @@ sub new {
     Run Data
 
     my $TicketOwnerSetResult = $TicketOwnerSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',
+        ActivityEntityID         => 'A123',
+        TransitionEntityID       => 'T123',
+        TransitionActionEntityID => 'TA123',
+        Config                   => {
             Owner => 'root@localhost',
             # or
             OwnerID => 1,
-            UserID  => 123,                                 # optional, to override the UserID from the logged user
+            UserID  => 123,                     # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -132,7 +136,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(UserID Ticket Config)) {
+    for my $Needed (
+        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
+            TransitionActionEntityID Config
+            )
+            )
+        {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -142,11 +151,16 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
+        ." Transition: $Param{TransitionEntityID}"
+        ." TransitionAction: $Param{TransitionActionEntityID} - ";
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -155,7 +169,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -169,7 +183,7 @@ sub Run {
     if ( !$Param{Config}->{OwnerID} && !$Param{Config}->{Owner} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Owner or OwnerID configured!",
+            Message  => $CommonMessage . "No Owner or OwnerID configured!",
         );
         return;
     }
@@ -203,9 +217,19 @@ sub Run {
     }
 
     if ( !$Success ) {
+        my $CustomMessage;
+        if ( defined $Param{Config}->{Owner} ) {
+            $CustomMessage = "Owner: $Param{Config}->{Owner},";
+        }
+        else {
+            $CustomMessage = "OwnerID: $Param{Config}->{OwnerID},";
+        }
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Ticket owner could not be updated for Ticket: '
+            Message  => $CommonMessage
+                . 'Ticket owner could not be updated to '
+                . $CustomMessage
+                . ' for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;

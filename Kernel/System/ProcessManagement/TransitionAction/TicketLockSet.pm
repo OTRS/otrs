@@ -117,13 +117,17 @@ sub new {
     Run Data
 
     my $TicketLockSetResult = $TicketLockSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',
+        ActivityEntityID         => 'A123',
+        TransitionEntityID       => 'T123',
+        TransitionActionEntityID => 'TA123',
+        Config                   => {
             Lock  => 'lock',
             # or
             LockID => 1,
-            UserID => 123,                                          # optional, to override the UserID from the logged user
+            UserID => 123,                      # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -137,7 +141,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(UserID Ticket Config)) {
+    for my $Needed (
+        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
+            TransitionActionEntityID Config
+            )
+            )
+        {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -147,11 +156,16 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
+        ." Transition: $Param{TransitionEntityID}"
+        ." TransitionAction: $Param{TransitionActionEntityID} - ";
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -160,7 +174,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -174,7 +188,7 @@ sub Run {
     if ( !$Param{Config}->{LockID} && !$Param{Config}->{Lock} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Lock or LockID configured!",
+            Message  => $CommonMessage . "No Lock or LockID configured!",
         );
         return;
     }
@@ -207,7 +221,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket LockID '
+                Message  => $CommonMessage
+                    . 'Ticket LockID '
                     . $Param{Config}->{LockID}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -241,7 +256,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket Lock '
+                Message  => $CommonMessage
+                    . 'Ticket Lock '
                     . $Param{Config}->{Lock}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -251,7 +267,8 @@ sub Run {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't update Ticket Lock - can't find valid Lock parameter!",
+            Message  => $CommonMessage
+                . "Couldn't update Ticket Lock - can't find valid Lock parameter!",
         );
         return;
     }

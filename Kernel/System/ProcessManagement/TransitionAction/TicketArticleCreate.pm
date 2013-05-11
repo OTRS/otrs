@@ -110,9 +110,13 @@ sub new {
     Run Data
 
     my $TicketArticleCreateResult = $TicketArticleCreateActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',
+        ActivityEntityID         => 'A123',
+        TransitionEntityID       => 'T123',
+        TransitionActionEntityID => 'TA123',
+        Config                   => {
             # required:
             ArticleType      => 'note-internal',                        # note-external|phone|fax|sms|...
                                                                         #   excluding any email type
@@ -158,7 +162,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(UserID Ticket Config)) {
+    for my $Needed (
+        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
+            TransitionActionEntityID Config
+            )
+            )
+        {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -168,11 +177,16 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
+        ." Transition: $Param{TransitionEntityID}"
+        ." TransitionAction: $Param{TransitionActionEntityID} - ";
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -181,7 +195,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -196,7 +210,8 @@ sub Run {
     if ( $Param{Config}->{ArticleType} =~ m{\A email }msxi ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "ArticleType $Param{Config}->{ArticleType} is not supported",
+            Message  => $CommonMessage
+                . "ArticleType $Param{Config}->{ArticleType} is not supported",
         );
         return;
     }
@@ -210,7 +225,8 @@ sub Run {
     if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't create article for Ticket: "
+            Message  => $CommonMessage
+                . "Couldn't create article for Ticket: "
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;
