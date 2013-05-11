@@ -118,13 +118,17 @@ sub new {
     Run Data
 
     my $TicketSLASetResult = $TicketSLASetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
+        Config                   => {
             SLA => 'MySLA',
             # or
             SLAID  => 123,
-            UserID => 123,                                  # optional, to override the UserID from the logged user
+            UserID => 123,                      # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -148,11 +152,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -161,7 +190,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -175,7 +204,7 @@ sub Run {
     if ( !$Param{Config}->{SLAID} && !$Param{Config}->{SLA} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No SLA or SLAID configured!",
+            Message  => $CommonMessage . "No SLA or SLAID configured!",
         );
         return;
     }
@@ -183,7 +212,7 @@ sub Run {
     if ( !$Param{Ticket}->{ServiceID} && !$Param{Ticket}->{Service} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "To set a SLA the ticket requires a service!",
+            Message  => $CommonMessage . "To set a SLA the ticket requires a service!",
         );
         return;
     }
@@ -222,7 +251,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'SLAID '
+                Message  => $CommonMessage
+                    . 'SLAID '
                     . $Param{Config}->{SLAID}
                     . ' is not assigned to Service '
                     . $Param{Ticket}->{Service}
@@ -240,7 +270,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket SLAID '
+                Message  => $CommonMessage
+                    . 'Ticket SLAID '
                     . $Param{Config}->{SLAID}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -278,7 +309,8 @@ sub Run {
         if ( !$SLAID ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'SLA '
+                Message  => $CommonMessage
+                    . 'SLA '
                     . $Param{Config}->{SLA}
                     . ' is invalid!'
             );
@@ -294,7 +326,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'SLA '
+                Message  => $CommonMessage
+                    . 'SLA '
                     . $Param{Config}->{SLA}
                     . ' is not assigned to Service '
                     . $Param{Ticket}->{Service}
@@ -312,7 +345,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket SLA '
+                Message  => $CommonMessage
+                    . 'Ticket SLA '
                     . $Param{Config}->{SLA}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -322,7 +356,8 @@ sub Run {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't update Ticket SLA - can't find valid SLA parameter!",
+            Message  => $CommonMessage
+                . "Couldn't update Ticket SLA - can't find valid SLA parameter!",
         );
         return;
     }

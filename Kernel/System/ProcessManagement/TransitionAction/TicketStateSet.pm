@@ -118,18 +118,22 @@ sub new {
     Run Data
 
     my $TicketStateSetResult = $TicketStateSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
-            State  => 'open',
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
+        Config                   => {
+            State   => 'open',
             # or
             StateID => 3,
 
-            PendingTimeDiff => 123                          # optional, used for pending states, difference in seconds from
-                                                            #   current time to desired penting time (e.g. a value of 3600 means
-                                                            #   that the pending time will be 1hr after the Transition Action is
-                                                            #   executed)
-            UserID  => 123,                                 # optional, to override the UserID from the logged user
+            PendingTimeDiff => 123,             # optional, used for pending states, difference in seconds from
+                                                #   current time to desired penting time (e.g. a value of 3600 means
+                                                #   that the pending time will be 1hr after the Transition Action is
+                                                #   executed)
+            UserID  => 123,                     # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -153,11 +157,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -166,7 +195,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -180,7 +209,7 @@ sub Run {
     if ( !$Param{Config}->{StateID} && !$Param{Config}->{State} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No State or StateID configured!",
+            Message  => $CommonMessage . "No State or StateID configured!",
         );
         return;
     }
@@ -217,7 +246,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket StateID '
+                Message  => $CommonMessage
+                    . 'Ticket StateID '
                     . $Param{Config}->{StateID}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -254,7 +284,8 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket State '
+                Message  => $CommonMessage
+                    . 'Ticket State '
                     . $Param{Config}->{State}
                     . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
@@ -264,7 +295,8 @@ sub Run {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Couldn't update Ticket State - can't find valid State parameter!",
+            Message  => $CommonMessage
+                . "Couldn't update Ticket State - can't find valid State parameter!",
         );
         return;
     }

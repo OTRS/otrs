@@ -110,9 +110,13 @@ sub new {
     Run Data
 
     my $TicketCustomerSetResult = $TicketCustomerSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
+        Config                   => {
             CustomerID     => 'client123',
             # or
             CustomerUserID => 'client-user-123',
@@ -122,7 +126,7 @@ sub new {
             # or
             User           => 'client-user-123',
 
-            UserID => 123,                                  # optional, to override the UserID from the logged user
+            UserID => 123,                      # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -148,11 +152,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -161,7 +190,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -181,7 +210,7 @@ sub Run {
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No CustomerID/No or CustomerUserID/User configured!",
+            Message  => $CommonMessage . "No CustomerID/No or CustomerUserID/User configured!",
         );
         return;
     }
@@ -211,7 +240,10 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket CustomerID could not be updated for Ticket: '
+                Message  => $CommonMessage
+                    . 'Ticket CustomerID: '
+                    . $Param{Config}->{CustomerID} 
+                    . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
             return;
@@ -236,7 +268,10 @@ sub Run {
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'Ticket CustomerID could not be updated for Ticket: '
+                Message  => $CommonMessage
+                    . 'Ticket CustomerUserID: '
+                    . $Param{Config}->{CustomerUserID}
+                    . ' could not be updated for Ticket: '
                     . $Param{Ticket}->{TicketID} . '!',
             );
             return;
