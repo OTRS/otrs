@@ -218,7 +218,13 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Success = $ModuleObject->Run( %{ $Test->{Config} } );
+    my $Success = $ModuleObject->Run(
+        %{ $Test->{Config} },
+        ProcessEntityID          => 'P1',
+        ActivityEntityID         => 'A1',
+        TransitionEntityID       => 'T1',
+        TransitionActionEntityID => 'TA1',
+    );
 
     if ( $Test->{Success} ) {
 
