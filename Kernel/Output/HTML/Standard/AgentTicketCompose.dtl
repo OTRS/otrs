@@ -358,6 +358,12 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 
+                    <label for="ArticleTypeID">$Text{"Article type"}:</label>
+                    <div class="Field">
+                        $Data{"ArticleTypesStrg"}
+                    </div>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:DynamicField -->
                     <div class="Row Row_DynamicField_$QData{"Name"}">
                         $Data{"Label"}

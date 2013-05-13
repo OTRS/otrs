@@ -376,6 +376,27 @@ sub GetObjectAttributes {
         unshift @ObjectAttributes, \%ObjectAttribute1;
     }
 
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+        my %ObjectAttribute = (
+            Name             => 'Archive Search',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'SearchInArchive',
+            Block            => 'SelectField',
+            Translation      => 1,
+            Values           => {
+                ArchivedTickets    => 'Archived tickets',
+                NotArchivedTickets => 'Unarchived tickets',
+                AllTickets         => 'All tickets',
+            },
+        );
+
+        push @ObjectAttributes, \%ObjectAttribute;
+    }
+
+
     if ( $Self->{ConfigObject}->Get('Stats::UseAgentElementInStats') ) {
 
         my @ObjectAttributeAdd = (
@@ -527,6 +548,7 @@ sub GetObjectAttributes {
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
     my @StatArray;
+
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
         for my $Row ( sort keys %{ $Param{TableStructure} } ) {
@@ -827,6 +849,19 @@ sub _ReportingValues {
                 # add new search parameter
                 $TicketSearch{$ParameterName} = $DynamicFieldStatsSearchParameter;
             }
+        }
+    }
+
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+        $SearchAttributes->{SearchInArchive} ||= '';
+        if ( $SearchAttributes->{SearchInArchive} eq 'AllTickets' ) {
+            $TicketSearch{ArchiveFlags} = [ 'y', 'n' ];
+        }
+        elsif ( $SearchAttributes->{SearchInArchive} eq 'ArchivedTickets' ) {
+            $TicketSearch{ArchiveFlags} = ['y'];
+        }
+        else {
+            $TicketSearch{ArchiveFlags} = ['n'];
         }
     }
 

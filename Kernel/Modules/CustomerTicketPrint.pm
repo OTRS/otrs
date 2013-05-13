@@ -284,7 +284,7 @@ sub _PDFOutputTicketInfos {
     my %Page   = %{ $Param{PageData} };
 
     # create left table
-    my $TableLeft;
+    my $TableLeft = [];
 
     # add ticket data, respecting AttributesView configuration
     for my $Attribute (qw(State Priority Queue Owner)) {

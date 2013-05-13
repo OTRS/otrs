@@ -10,6 +10,6 @@
 # http redirect headers
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Status: 302 Found
-Location: $QData{"Redirect"}
+Location: $Data{"Redirect"}
 
 document <a href="$QData{"Redirect"}">moved</a>

@@ -42,6 +42,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             $('#CustomerID').val(Response.CustomerID);
             $('#ShowCustomerID').html(Response.CustomerID);
 
+            // Publish information for subscribers
+            Core.App.Publish('Event.Agent.CustomerSearch.GetCustomerInfo.Callback', [Response.CustomerID]);
+
             // show customer info
             $('#CustomerInfo .Content').html(Response.CustomerTableHTMLString);
 

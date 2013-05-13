@@ -110,11 +110,15 @@ sub new {
     Run Data
 
     my $TicketTitleSetResult = $TicketTitleSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
         Config      => {
             Title  => 'Some ticket title',
-            UserID => 123,                                  # optional, to override the UserID from the logged user
+            UserID => 123,                      # optional, to override the UserID from the logged user
 
         }
     );
@@ -139,11 +143,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -152,7 +181,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -167,7 +196,7 @@ sub Run {
     if ( !defined $Param{Config}->{Title} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Title configured!",
+            Message  => $CommonMessage . "No Title configured!",
         );
         return;
     }
@@ -192,7 +221,8 @@ sub Run {
     if ( !$Success ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Ticket title could not be updated for Ticket: '
+            Message  => $CommonMessage
+                . 'Ticket title could not be updated for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;

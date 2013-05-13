@@ -110,13 +110,17 @@ sub new {
     Run Data
 
     my $TicketQueueSetResult = $TicketQueueSetActionObject->Run(
-        UserID      => 123,
-        Ticket      => \%Ticket, # required
-        Config      => {
+        UserID                   => 123,
+        Ticket                   => \%Ticket,   # required
+        ProcessEntityID          => 'P123',     # optional
+        ActivityEntityID         => 'A123',     # optional
+        TransitionEntityID       => 'T123',     # optional
+        TransitionActionEntityID => 'TA123',    # optional
+        Config                   => {
             Queue => 'Misc',
             # or
             QueueID => 1,
-            UserID  => 123,                                 # optional, to override the UserID from the logged user
+            UserID  => 123,                     # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -142,11 +146,36 @@ sub Run {
         }
     }
 
+    # define a common message to output in case of any error
+    my $CommonMessage;
+    if ( $Param{ProcessEntityID} ) {
+        $CommonMessage .= "Process: $Param{ProcessEntityID}";
+    }
+    if ( $Param{ActivityEntityID} ) {
+        $CommonMessage .= " Activity: $Param{ActivityEntityID}";
+    }
+    if ( $Param{TransitionEntityID} ) {
+        $CommonMessage .= " Transition: $Param{TransitionEntityID}";
+    }
+    if ( $Param{TransitionActionEntityID} ) {
+        $CommonMessage .= " TransitionAction: $Param{TransitionActionEntityID}";
+    }
+    if ($CommonMessage) {
+
+        # add a separator
+        $CommonMessage .= " - ";
+    }
+    else{
+
+        # otherwise at least define it to prevent errors
+        $CommonMessage = '';
+    }
+
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Ticket has no values!",
+            Message  => $CommonMessage . "Ticket has no values!",
         );
         return;
     }
@@ -155,7 +184,7 @@ sub Run {
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config has no values!",
+            Message  => $CommonMessage . "Config has no values!",
         );
         return;
     }
@@ -169,7 +198,7 @@ sub Run {
     if ( !$Param{Config}->{QueueID} && !$Param{Config}->{Queue} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No Queue or QueueID configured!",
+            Message  => $CommonMessage . "No Queue or QueueID configured!",
         );
         return;
     }
@@ -203,9 +232,19 @@ sub Run {
     }
 
     if ( !$Success ) {
+        my $CustomMessage;
+        if ( defined $Param{Config}->{Queue} ) {
+            $CustomMessage = "Queue: $Param{Config}->{Queue},";
+        }
+        else {
+            $CustomMessage = "QueueID: $Param{Config}->{QueueID},";
+        }
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Ticket queue could not be updated for Ticket: '
+            Message  => $CommonMessage
+                . 'Ticket queue could not be updated to '
+                . $CustomMessage
+                . ' for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );
         return;

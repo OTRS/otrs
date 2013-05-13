@@ -3807,6 +3807,17 @@ Description>
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###ArticleTypes" Required="0" Valid="1">
+        <Description Translatable="1">Specifies the different article types that will be used in the system.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <Array>
+                <Item>email-external</Item>
+                <Item>email-internal</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Translatable="1">Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).</Description>
         <Group>Ticket</Group>
@@ -3830,7 +3841,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ComposeAddCustomerAddress" Required="1" Valid="1">
-        <Description Translatable="1">Adds customers email addresses to recipients in the ticket compose screen of the agent interface.</Description>
+        <Description Translatable="1">Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won't be added if the article type is email-internal.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>

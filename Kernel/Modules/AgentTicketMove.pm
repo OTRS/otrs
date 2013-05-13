@@ -118,8 +118,8 @@ sub Run {
                 Type => 'Small',
             );
             $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Sorry, you need to be the ticket owner to perform this action.",
-                Comment => 'Please change the owner first.',
+                Message => $Self->{LayoutObject}->{LanguageObject}->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
             );
 
             # show back link

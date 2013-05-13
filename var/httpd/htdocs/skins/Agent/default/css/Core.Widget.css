@@ -120,6 +120,17 @@ ul.Tablelike li.Header + li {
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
     overflow: auto;
+    /**
+     *   START IE9 Hover Bug Workaround
+     *   The problem occurs when you have a container that has a fixed width set, an overflow set to 
+     *   auto, content long enough to trigger the horizontal scroll and a hover style set 
+     *   on elements inside the container.
+     *   The container mysteriously increases in size.
+     *   (e.g. if you have installed OTRSDashboardOverviewFilters and many dynamic fields are
+     *   shown in the dashboard.)
+     */
+    min-height: 0%;
+    /* END IE9 Hover Bug Workaround */
 }
 
 .WidgetSimple.Collapsed > .Content {
