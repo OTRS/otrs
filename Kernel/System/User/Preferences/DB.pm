@@ -128,7 +128,7 @@ sub SearchPreferences {
     my $Value = $Param{Value} || '';
 
     my $Lower = '';
-    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+    if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
         $Lower = 'LOWER';
     }
 

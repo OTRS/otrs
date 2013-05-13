@@ -31,7 +31,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSingle'}          = '\'';
     $Self->{'DB::QuoteBack'}            = 0;
     $Self->{'DB::QuoteSemicolon'}       = '';
-    $Self->{'DB::CaseInsensitive'}      = 0;
+    $Self->{'DB::CaseSensitive'}        = 1;
     $Self->{'DB::QuoteUnderscoreStart'} = '\\';
     $Self->{'DB::QuoteUnderscoreEnd'}   = '';
     $Self->{'DB::LcaseLikeInLargeText'} = 1;

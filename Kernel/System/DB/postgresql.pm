@@ -39,7 +39,7 @@ sub LoadPreferences {
     #$Self->{'DB::QuoteUnderscoreStart'} = '\\\\';
     $Self->{'DB::QuoteUnderscoreStart'} = '\\';
     $Self->{'DB::QuoteUnderscoreEnd'}   = '';
-    $Self->{'DB::CaseInsensitive'}      = 0;
+    $Self->{'DB::CaseSensitive'}        = 1;
     $Self->{'DB::LikeEscapeString'}     = '';
 
     # dbi attributes

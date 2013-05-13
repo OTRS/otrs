@@ -777,7 +777,7 @@ sub TicketSearch {
         if (@CustomerIDs) {
 
             my $Lower = '';
-            if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+            if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
                 $Lower = 'LOWER';
             }
 

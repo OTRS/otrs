@@ -388,7 +388,7 @@ sub SystemAddressQueueID {
         return ${$Cached};
     }
 
-    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+    if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT queue_id FROM system_address WHERE "
                 . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "

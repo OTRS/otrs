@@ -23,7 +23,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $DatabaseCaseInsensitive = $Self->{DBObject}->{Backend}->{'DB::CaseInsensitive'};
+my $DatabaseCaseSensitive = $Self->{DBObject}->{Backend}->{'DB::CaseSensitive'};
 my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
 
 my $CustomerUserObject = Kernel::System::CustomerUser->new(
@@ -185,16 +185,16 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         Search => lc($UserRand . '-Customer-Update-Id'),
         ValidID    => 1,
     );
-    if ($DatabaseCaseInsensitive) {
+    
+    if ($DatabaseCaseSensitive) {
 
-        $Self->True(
+        $Self->False(
             $List{$UserID},
             "CustomerSearch() - CustomerID - $UserID (CaseSensitive = 1)",
         );
     }
     else {
-
-        $Self->False(
+        $Self->True(
             $List{$UserID},
             "CustomerSearch() - CustomerID - $UserID (CaseSensitive = 1)",
         );
@@ -206,17 +206,16 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ValidID    => 1,
     );
 
-    if ($DatabaseCaseInsensitive) {
+    if ($DatabaseCaseSensitive) {
 
-        $Self->IsDeeply(
+        $Self->IsNotDeeply(
             \@List,
             [ $UserRand . '-Customer-Update-Id' ],
             "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 1)",
         );
     }
     else {
-
-        $Self->IsNotDeeply(
+        $Self->IsDeeply(
             \@List,
             [ $UserRand . '-Customer-Update-Id' ],
             "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 1)",

@@ -33,7 +33,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSemicolon'}       = '';
     $Self->{'DB::QuoteUnderscoreStart'} = '[';
     $Self->{'DB::QuoteUnderscoreEnd'}   = ']';
-    $Self->{'DB::CaseInsensitive'}      = 1;
+    $Self->{'DB::CaseSensitive'}        = 0;
     $Self->{'DB::LikeEscapeString'}     = '';
 
     # dbi attributes

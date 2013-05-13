@@ -12,8 +12,8 @@ package Kernel::System::CustomerCompany;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
 use Kernel::System::Cache;
+use Kernel::System::Valid;
 
 use vars qw(@ISA);
 
@@ -152,7 +152,7 @@ sub new {
         = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
 
     # see if database is case sensitive
-    $Self->{CaseInsensitive} = $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') || 0;
+    $Self->{CaseSensitive} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CaseSensitive} || 0;
 
     if ( $Self->{ConfigObject}->Get('CustomerCompany')->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
@@ -312,11 +312,11 @@ sub CustomerCompanyGet {
 
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
     my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
-    if ( $Self->{CaseInsensitive} ) {
-        $SQL .= "$Self->{CustomerCompanyKey} = '$CustomerIDQuoted'";
+    if ( $Self->{CaseSensitive} ) {
+        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerIDQuoted')";
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerIDQuoted')";
+        $SQL .= "$Self->{CustomerCompanyKey} = '$CustomerIDQuoted'";
     }
     $SQL = $Self->_ConvertTo($SQL);
 
@@ -406,11 +406,11 @@ sub CustomerCompanyUpdate {
     }
 
     my $CustomerCompanyIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerCompanyID} );
-    if ( $Self->{CaseInsensitive} ) {
-        $SQL .= " WHERE $Self->{CustomerCompanyKey} = '$CustomerCompanyIDQuoted'";
+    if ( $Self->{CaseSensitive} ) {
+        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerCompanyIDQuoted')";
     }
     else {
-        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerCompanyIDQuoted')";
+        $SQL .= " WHERE $Self->{CustomerCompanyKey} = '$CustomerCompanyIDQuoted'";
     }
     $SQL = $Self->_ConvertTo($SQL);
 
@@ -513,11 +513,11 @@ sub CustomerCompanyList {
                 my @SQLParts;
                 my $QuotedPart = $Self->{DBObject}->Quote($Part);
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
-                    if ( $Self->{CaseInsensitive} ) {
-                        push @SQLParts, "$Field LIKE '$QuotedPart'";
+                    if ( $Self->{CaseSensitive} ) {
+                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
                     }
                     else {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
+                        push @SQLParts, "$Field LIKE '$QuotedPart'";
                     }
                 }
                 if (@SQLParts) {

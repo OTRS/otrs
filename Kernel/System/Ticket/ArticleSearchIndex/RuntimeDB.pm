@@ -148,7 +148,7 @@ sub _ArticleIndexQuerySQLExt {
             $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
 
             # check if database supports LIKE in large text types (in this case for body)
-            if ( $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+            if ( !$Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
                 $FullTextSQL .= " $Field LIKE '$Value'";
             }
             elsif ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {

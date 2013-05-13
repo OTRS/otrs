@@ -262,7 +262,7 @@ for my $Test (@Tests) {
     );
 
     if (
-        $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive')
+        !$Self->{DBObject}->GetDatabaseFunction('CaseSensitive')
         && $FieldNames{ lc $FieldName }
         )
     {
