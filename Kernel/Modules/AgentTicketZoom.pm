@@ -1105,7 +1105,8 @@ sub MaskAgentZoom {
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
             LayoutObject       => $Self->{LayoutObject},
-            ValueMaxChars => 18,    # limit for sidebar display
+            ValueMaxChars      => $Self->{ConfigObject}->
+                                    Get('Ticket::Frontend::DynamicFieldsZoomMaxSize')||18,    # limit for sidebar display
         );
 
         if (
