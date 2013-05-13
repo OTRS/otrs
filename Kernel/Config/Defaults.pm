@@ -1464,6 +1464,11 @@ Your OTRS Notification Master
 #            Password => '',
             Table => 'customer_company',
 #            ForeignDB => 0,    # set this to 1 if your table does not have create_time, create_by, change_time and change_by fields
+
+            # CaseSensitive will control if the SQL statements need LOWER()
+            #   function calls to work case insensitively. Setting this to
+            #   1 will improve performance dramatically on large databases.
+            CaseSensitive => 0,
         },
 
         # company unique id

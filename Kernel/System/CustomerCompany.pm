@@ -152,7 +152,7 @@ sub new {
         = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
 
     # see if database is case sensitive
-    $Self->{CaseInsensitive} = $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') || 0;
+    $Self->{CaseInsensitive} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CaseSensitive} ? 0 : 1;
 
     if ( $Self->{ConfigObject}->Get('CustomerCompany')->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
