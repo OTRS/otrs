@@ -9,6 +9,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.1.16 ????-??-??
+ - 2013-05-14 Fixed bug#7518 - Escalation Notify by not working properly (follow-up fix).
  - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
  - 2013-05-07 Improved permission checks in AgentTicketPhone.
  - 2013-05-02 Fixed bug#[9360](http://bugs.otrs.org/show_bug.cgi?id=9360) - DynamicField Names shown in CSV output.
