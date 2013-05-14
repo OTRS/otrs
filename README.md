@@ -48,7 +48,7 @@ Perl
 
 Webserver
 - Webserver with CGI support (CGI is not recommended)
-- Apache2 + mod_perl2 or higher (recommended, mod_perl is really fast!)
+- Apache2 + mod_perl2 or higher (recommended)
 - IIS6 or higher
 
 Databases
