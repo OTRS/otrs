@@ -1678,7 +1678,14 @@ sub _GetResponsible {
         Type  => 'Long',
         Valid => 1,
     );
-    if ( $Param{QueueID} && !$Param{AllUsers} ) {
+
+    # show all users
+    if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+
+    # show only users with responsible or rw pemissions in the queue
+    elsif ( $Param{QueueID} && !$Param{AllUsers} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID(
             QueueID => $Param{NewQueueID} || $Param{QueueID}
         );
@@ -1714,7 +1721,14 @@ sub _GetOwners {
         Type  => 'Long',
         Valid => 1,
     );
-    if ( $Param{QueueID} && !$Param{AllUsers} ) {
+
+    # show all users
+    if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+
+    # show only users with owner or rw pemissions in the queue
+    elsif ( $Param{QueueID} && !$Param{AllUsers} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID(
             QueueID => $Param{NewQueueID} || $Param{QueueID}
         );
