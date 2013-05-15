@@ -1981,8 +1981,11 @@ sub ObjectMatch {
         return;
     }
 
-    # do not perfom the action if the ObjectAttributes parameter is empty
+    # do not perform the action if the ObjectAttributes parameter is empty
     return if !IsHashRefWithData( $Param{ObjectAttributes} );
+
+    # do not perform the action if the field in the ObjectAttributes is not defined
+    return if !defined $Param{ObjectAttributed}->{ $Param{DynamicFieldConfig}->{Name} };
 
     # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
