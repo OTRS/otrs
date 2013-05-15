@@ -10,8 +10,8 @@
 <!-- dtl:block:DatabaseStart -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
-        <input type="hidden" name="Action"    value="Installer"/>
-        <input type="hidden" name="Subaction" value="DB"/>
+        <input type="hidden" name="Action"    value="Installer">
+        <input type="hidden" name="Subaction" value="DB">
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -25,6 +25,19 @@
                         $Data{"SelectDBType"}
                     </div>
                     <div class="Clear"></div>
+
+                    <label>$Text{"Install Type"}:</label>
+                    <div class="Field">
+                        <div>
+                            <input type="radio" id="DBInstallTypeCreateDB" name="DBInstallType" checked value="CreateDB">
+                            <label for="DBInstallTypeCreateDB">$Text{"Create a database for OTRS"}</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="DBInstallTypeUseDB" name="DBInstallType" value="UseDB">
+                            <label for="DBInstallTypeUseDB">$Text{"Use an existing database for OTRS"}</label>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
                 </fieldset>
 
                 <div class="Spacing Right">
@@ -35,4 +48,21 @@
         </div>
     </form>
 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+// Allow only CreateDB if database is not Oracle
+$('select#DBType').bind('change', function(){
+    if (/oracle/.test($(this).val())) {
+        $("#DBInstallTypeUseDB").attr("checked", true);
+        $("#DBInstallTypeUseDB").attr("disabled", "disabled");
+        $("#DBInstallTypeCreateDB").attr("disabled", "disabled");
+    }
+    else {
+        $("#DBInstallTypeUseDB").removeAttr("disabled");
+        $("#DBInstallTypeCreateDB").removeAttr("disabled");
+        $("#DBInstallTypeCreateDB").attr("checked", true);
+    }
+}).trigger('change');
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:DatabaseStart -->

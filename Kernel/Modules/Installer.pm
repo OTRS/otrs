@@ -228,8 +228,7 @@ sub Run {
             mysql      => "MySQL",
             postgresql => "PostgreSQL",
             mssql      => "SQL Server (Microsoft)",
-
-            #            oracle     => "Oracle",
+            oracle     => "Oracle",
         );
 
         # OTRS can only run on SQL Server if OTRS is on Windows as well
@@ -313,6 +312,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DB' ) {
 
         my $DBType = $Self->{ParamObject}->GetParam( Param => 'DBType' );
+        my $DBInstallType = $Self->{ParamObject}->GetParam( Param => 'DBInstallType' );
 
         # use non-instantiated module to generate a password
         my $GeneratedPassword = Kernel::System::User->GenerateRandomPassword( Size => 16 );
@@ -326,11 +326,20 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMySQL',
                 Data => {
-                    Item     => 'Configure MySQL',
-                    Step     => $StepCounter,
-                    Password => $GeneratedPassword,
+                    Item        => 'Configure MySQL',
+                    Step        => $StepCounter,
+                    InstallType => $DBInstallType,
                 },
             );
+            if ( $DBInstallType eq 'CreateDB' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseMySQLCreate',
+                    Data => {
+                        Password => $GeneratedPassword,
+                    },
+                );
+            } 
+
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
                 Data         => {
@@ -353,15 +362,25 @@ sub Run {
                 Data => {
                     Item     => 'Database',
                     Step     => $StepCounter,
-                    Password => $GeneratedPassword,
+                    InstallType => $DBInstallType,
                 },
             );
+
+            if ( $DBInstallType eq 'CreateDB' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseMSSQLCreate',
+                    Data => {
+                        Password => $GeneratedPassword,
+                    },
+                );
+            } 
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
                 Data         => {
                     Item => 'Configure Microsoft SQL Server',
                     Step => $StepCounter,
+                    InstallType => $DBInstallType,
                     }
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -378,9 +397,17 @@ sub Run {
                 Data => {
                     Item     => 'Database',
                     Step     => $StepCounter,
-                    Password => $GeneratedPassword,
+                    InstallType => $DBInstallType,
                 },
             );
+            if ( $DBInstallType eq 'CreateDB' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabasePostgreSQLCreate',
+                    Data => {
+                        Password => $GeneratedPassword,
+                    },
+                );
+            } 
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
@@ -1078,8 +1105,8 @@ sub ReConfigure {
             # replace config with %Param
             for my $Key ( sort keys %Param ) {
 
-                # database passwords can contain characters like '@' or '$' and should be single-quoted
-                # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
+             # database passwords can contain characters like '@' or '$' and should be single-quoted
+             # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $NewConfig =~
                         s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
@@ -1109,7 +1136,12 @@ sub ConnectToDB {
     my ( $Self, %Param ) = @_;
 
     # check params
-    for my $Key (qw (DBType OTRSDBUser DBHost OTRSDBPassword)) {
+    my @NeededKeys = qw ( DBType DBHost DBUser DBPassword );
+    if ( $Param{InstallType} eq 'CreateDB' ) {
+        push @NeededKeys, qw ( OTRSDBUser OTRSDBPassword );
+    }
+
+    for my $Key ( @NeededKeys ) {
         if ( !$Param{$Key} && $Key !~ /^(OTRSDBPassword)$/ ) {
             return (
                 Successful => 0,
