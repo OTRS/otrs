@@ -206,10 +206,9 @@ sub Run {
     else {
 
         # get params
-        for (qw(SQL Max)) {
-            $Param{SQL} = $Self->{ParamObject}->GetParam( Param => 'SQL' ) || 'SELECT * FROM ';
-            $Param{Max} = $Self->{ParamObject}->GetParam( Param => 'Max' ) || 40;
-        }
+        $Param{SQL} = $Self->{ParamObject}->GetParam( Param => 'SQL' ) || 'SELECT * FROM ';
+        $Param{Max} = $Self->{ParamObject}->GetParam( Param => 'Max' ) || 40;
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
