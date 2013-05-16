@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 13:06:52
+    # Last translation file sync: 2013-05-16 22:04:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,6 +228,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Agent updated!' => 'Agent aktualisiert!',
+        'Database Selection' => '',
         'Create Database' => 'Datenbank erstellen',
         'System Settings' => 'System Einstellungen',
         'Mail Configuration' => 'Mail-Konfiguration',
@@ -238,8 +239,6 @@ sub Data {
         'Database' => 'Datenbank',
         'Configure Mail' => 'E-Mail konfigurieren',
         'Database deleted.' => 'Datenbank ausgewählt.',
-        'Database setup successful!' => 'Datenbankeinrichtung erfolgreich!',
-        'Generated password' => 'Generiertes Passwort',
         'Login is needed!' => 'Login wird benötigt!',
         'Password is needed!' => 'Passwort wird benötigt!',
         'Take this Customer' => 'Kunden übernehmen',
@@ -346,8 +345,6 @@ sub Data {
         'Events' => 'Ereignisse',
         'Invalid Token!' => 'Ungültiger Token!',
         'more' => 'mehr',
-        'For more info see:' => 'Für mehr Informationen hier:',
-        'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
         'Collapse' => 'Zuklappen',
         'Shown' => 'Zeigen',
         'Shown customer users' => 'Angezeigte Kundenbenutzer',
@@ -357,6 +354,10 @@ sub Data {
         '7 Day Stats' => '7 Tage-Statistik',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Die Konfiguration des Prozessmanagements in der Datenbank ist nicht synchron mit der Systemkonfiguration, bitte synchronisieren Sie alle Prozesse.',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            'Paket wurde nicht von der OTRS Gruppe verifiziert! Es wird empfohlen dieses Paket nicht zu nutzen.',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '<br>Wenn Sie die Installation dieses Pakets fortführen, können folgende Probleme auftreten!<br><br>&nbsp;-Sicherheitsprobleme<br>&nbsp;-Stabilitätsprobleme<br>&nbsp;-Performanceprobleme<br><br>Bitte beachten Sie, dass Probleme im Zusammenhang mit diesem Paket nicht durch einen OTRS Servicevertrag abgedeckt sind!<br><br>',
         'Bold' => 'Fett',
         'Italic' => 'Kursiv',
         'Underline' => 'Unterstreichen',
@@ -812,6 +813,7 @@ sub Data {
         'History::SystemRequest' => 'Systemanfrage (%s).',
         'History::ResponsibleUpdate' => 'Neuer Verantwortlicher ist "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Archivstatus geändert: "%s"',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'So',
@@ -1104,7 +1106,6 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        '(work units)' => 'Arbeitseinheiten',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -2109,7 +2110,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Statistik löschen',
-        'Stat#' => 'Statistik Nr.',
         'Do you really want to delete this stat?' => 'Möchten Sie diese Statistik wirklich löschen?',
 
         # Template: AgentStatsEditRestrictions
@@ -2605,22 +2605,28 @@ sub Data {
             'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',
 
         # Template: InstallerDBResult
-        'False' => 'Falsch',
+        'Database setup successful!' => 'Datenbankeinrichtung erfolgreich!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Falls ein Root-Passwort für die Datenbank gesetzt ist, muss es hier eingegeben werden. Ist kein Passwort gesetzt, muss das Feld leer gelassen werden. Aus Sicherheitsgründen empfehlen wir ein Root-Passwort zu setzen. Weitere Informationen hierzu finden Sie in der Dokumentation Ihrer Datenbank.',
-        'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Wenn Sie OTRS auf einer anderen Datenbank installieren möchten, lesen Sie bitte die Datei README.database.',
-        'Database-User' => 'Benutzername der Datenbank',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Datenbankeinstellungen prüfen',
+        'Result of database check' => 'Ergebnis der Datenbankprüfung',
+        'Database User' => '',
         'New' => 'Neu',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Ein neuer Datenbank-Benutzer mit beschränkten Rechten wird für dieses OTRS-System erstellt.',
-        'default \'hot\'' => 'voreingestellt \'hot\'',
-        'DB host' => 'Datenbank-Host',
-        'Check database settings' => 'Datenbankeinstellungen prüfen',
-        'Result of database check' => 'Ergebnis der Datenbankprüfung',
+        'Repeat Password' => '',
+        'Generated password' => 'Generiertes Passwort',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2660,6 @@ sub Data {
         'LogModule' => 'Protokollmodul',
         'Log backend to use.' => 'Protokoll-Backend, welches verwendet werden soll.',
         'LogFile' => 'Protokolldatei',
-        'Log file location is only needed for File-LogModule!' => 'Die Angabe der Protokolldatei wird nur für das File-Log-Backend benötigt.',
         'Webfrontend' => 'Web-Oberfläche',
         'Default language' => 'Standardsprache',
         'Default language.' => 'Standardsprache.',
@@ -2832,7 +2837,6 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -3775,6 +3779,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3811,8 +3817,6 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4533,7 +4537,9 @@ sub Data {
         'View system log messages.' => 'System-Protokolleinträge anzeigen.',
         'Wear this frontend skin' => 'Diesen Skin verwenden',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4544,22 +4550,35 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (Arbeitseinheiten)',
+        '(work units)' => 'Arbeitseinheiten',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
+        'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',
         'Customer Data' => 'Kunden-/Kontakt-Daten',
+        'DB host' => 'Datenbank-Host',
+        'Database-User' => 'Benutzername der Datenbank',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
+        'False' => 'Falsch',
+        'For more info see:' => 'Für mehr Informationen hier:',
         'Historic Time Range' => 'Historischer Zeitraum',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Falls ein Root-Passwort für die Datenbank gesetzt ist, muss es hier eingegeben werden. Ist kein Passwort gesetzt, muss das Feld leer gelassen werden. Aus Sicherheitsgründen empfehlen wir ein Root-Passwort zu setzen. Weitere Informationen hierzu finden Sie in der Dokumentation Ihrer Datenbank.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Wenn Sie OTRS auf einer anderen Datenbank installieren möchten, lesen Sie bitte die Datei README.database.',
+        'Log file location is only needed for File-LogModule!' => 'Die Angabe der Protokolldatei wird nur für das File-Log-Backend benötigt.',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
         'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
+        'Stat#' => 'Statistik Nr.',
         'State Historic' => 'Historischer Status',
         'State Type Historic' => 'Historischer Status-Typ',
         'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
+        'default \'hot\'' => 'voreingestellt \'hot\'',
 
     };
     # $$STOP$$
