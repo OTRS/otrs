@@ -817,7 +817,7 @@ sub LinkQuote {
             )?
         )
         (                                          # $4
-            (?:
+            ?=(?:
                 [\?,;!\.\)] (?: \s | $ )           # \)\s this construct is because of bug# 2450
                 | \"
                 | \]
