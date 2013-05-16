@@ -1961,7 +1961,7 @@ sub ObjectMatch {
         return;
     }
 
-    # do not perfom the action if the ObjectAttributes parameter is empty
+    # do not perform the action if the ObjectAttributes parameter is empty
     return if !IsHashRefWithData( $Param{ObjectAttributes} );
 
     # set the dynamic field specific backend
