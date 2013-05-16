@@ -78,6 +78,18 @@
                         </p>
                     </div>
                     <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$("#FormDB").validate({
+    rules: {
+        OTRSDBPassword: "required",
+        RepeatOTRSDBPassword: {
+            equalTo: "#OTRSDBPassword"
+        }
+    }
+});
+//]]></script>
+<!--dtl:js_on_document_complete--> 
 <!-- dtl:block:DatabaseMySQLCreate -->
                     <h4>
                         $Text{"Database"}
