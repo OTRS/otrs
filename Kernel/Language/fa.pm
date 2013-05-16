@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:21
+    # Last translation file sync: 2013-05-16 22:34:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,6 +233,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Agent updated!' => 'کارشناس به روز شد!',
+        'Database Selection' => '',
         'Create Database' => 'ایجاد بانک',
         'System Settings' => 'تنظیمات سیستم',
         'Mail Configuration' => 'پیکربندی پست الکترونیک',
@@ -243,8 +244,6 @@ sub Data {
         'Database' => 'پایگاه داده',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup successful!' => '',
-        'Generated password' => '',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'Take this Customer' => 'این مشترک را بگیر',
@@ -351,8 +350,6 @@ sub Data {
         'Events' => 'رویدادها',
         'Invalid Token!' => 'کد بازیابی معتبر نیست',
         'more' => 'بیشتر',
-        'For more info see:' => 'برای کسب اطلاع بیشتر:',
-        'Package verification failed!' => 'وارسی بسته ناموفق بود',
         'Collapse' => 'باز کردن',
         'Shown' => 'نمایش داده شده',
         'Shown customer users' => '',
@@ -361,6 +358,10 @@ sub Data {
         'OTRS News' => 'اخبار سامانه پشتیبانی',
         '7 Day Stats' => 'گزارش ۷ روز',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'تو پر',
         'Italic' => 'کج',
@@ -655,6 +656,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '',
+        'Please change the owner first.' => '',
         'Ticket selected.' => '',
         'Ticket is locked by another agent.' => '',
         'Ticket locked.' => '',
@@ -816,6 +818,7 @@ sub Data {
         'History::SystemRequest' => 'سابقه::درخواست سیستم',
         'History::ResponsibleUpdate' => 'سابقه::به روزرسانی مسئولیت',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'یکشنبه',
@@ -1108,7 +1111,6 @@ sub Data {
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
-        '(work units)' => '',
         'Ticket Commands' => 'دستورهای درخواست',
         'Send agent/customer notifications on changes' => 'آگاه کردن کارشناس/مشتری به هنگام ایجاد تغییرات',
         'CMD' => 'CMD',
@@ -2113,7 +2115,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'گزارش حذف',
-        'Stat#' => 'شماره گزارش',
         'Do you really want to delete this stat?' => 'آیا از حذف این گزارش اطمینان دارید؟',
 
         # Template: AgentStatsEditRestrictions
@@ -2609,22 +2610,28 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => 'نادرست',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'در صورتی که کاربر root در بانک اطلاعاتی رمز عبور دارد، آنرا در این قسمت وارد نمائید.برای امنیت بیشتر پیشنهاد میکنیم برای این کاربر رمز عبور وارد نمائید',
-        'Currently only MySQL is supported in the web installer.' => 'هم اکنون فقط MySQL در نصب‌کننده تحت وب پشتیبانی می‌شود.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'اگر می‌خواهید که نرم‌افزار را روی نوع دیگری از پایگاه داده نصب کنید، لطفا به فایل RAEDME.database. مراجعه نمایید.',
-        'Database-User' => 'نام کاربری بانک اطلاعاتی',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'کنترل تنظیمات پایگاه داده',
+        'Result of database check' => 'نتیجه کنترل پایگاه داده',
+        'Database User' => '',
         'New' => 'جدید',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'یک کاربر برای پایگاه داده با دسترسی‌های محدود برای این سیستم ساخته خواهند شد.',
-        'default \'hot\'' => 'پیش فرض \'hot\'',
-        'DB host' => 'میزبان--- پایگاه داده',
-        'Check database settings' => 'کنترل تنظیمات پایگاه داده',
-        'Result of database check' => 'نتیجه کنترل پایگاه داده',
+        'Repeat Password' => '',
+        'Generated password' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2658,7 +2665,6 @@ sub Data {
         'LogModule' => 'ماژول ثبت وقایع',
         'Log backend to use.' => '',
         'LogFile' => 'فایل ثبت وقایع',
-        'Log file location is only needed for File-LogModule!' => 'محل فایل ثبت وقایع فقط برای File-LogModule مورد نیاز است!',
         'Webfrontend' => 'محیط کار وب',
         'Default language' => 'زبان پیش‌فرض',
         'Default language.' => 'زبان پیش‌فرض',
@@ -2720,8 +2726,11 @@ sub Data {
         'Go back to the previous page' => 'به صفحه قبل بازگرد',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ماژول ACL فقط زمانی که تمام درخواست‌های فرزند بسته شده باشد، اجازه بستن درخواست‌های والد را می‌دهد. ("وضعیت" نان می‌دهد که کدام وضعیت‌ها برای درخواست والدتا زمانی که تمام درخواست‌های فرزند بسته شده است، در دسترس می‌باشد.)',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'مکانیزم چشمک زدن را برای صف درخواستی که شامل قدیمی‌ترین درخواست می‌باشد فعال می‌کند.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2739,8 +2748,8 @@ sub Data {
         'Activates time accounting.' => 'محاسبه زمان را فعال می‌کند.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'پسوند سال و ماه به فایل ثبت وقایع می‌افزاید. برای هر ماه یک فایل ساخته خواهد شد.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'آدرس‌های ایمیل مشترکین را به صفحه ساختن درخواست در واسط کاربری مربوط به کارشناس می‌افزاید.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2822,6 +2831,7 @@ sub Data {
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'پاسخ‌ها <-> پیوست‌ها',
         'Auto Responses <-> Queues' => 'پاسخ خودکار <-> لیست درخواست',
         'Automated line break in text messages after x number of chars.' =>
@@ -2832,7 +2842,6 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2909,6 +2918,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'مشترکین <-> گروه‌ها',
         'Customers <-> Services' => 'مشترکین <-> خدمات',
         'Data used to export the search result in CSV format.' => 'داده استفاده شده برای ارسال نتایج جستجو به قالب CSV',
@@ -3627,8 +3637,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3636,6 +3644,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => 'فیلتر ایمیل‌های ورودی',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3772,6 +3784,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3808,8 +3822,6 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4398,6 +4410,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => 'پوسته',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4500,6 +4514,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'نمای کلی درخواست',
+        'TicketNumber' => '',
         'Tickets' => 'درخواست‌ها',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4517,6 +4532,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4525,7 +4542,9 @@ sub Data {
         'View system log messages.' => 'نمایش پیغام‌های ثبت وقایع سیستم',
         'Wear this frontend skin' => 'اعمال این پسته واسط',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4536,10 +4555,25 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '(واحد کار)',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'آدرس‌های ایمیل مشترکین را به صفحه ساختن درخواست در واسط کاربری مربوط به کارشناس می‌افزاید.',
+        'Currently only MySQL is supported in the web installer.' => 'هم اکنون فقط MySQL در نصب‌کننده تحت وب پشتیبانی می‌شود.',
         'Customer Data' => 'اطلاعات مشترک',
+        'DB host' => 'میزبان--- پایگاه داده',
+        'Database-User' => 'نام کاربری بانک اطلاعاتی',
+        'False' => 'نادرست',
+        'For more info see:' => 'برای کسب اطلاع بیشتر:',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'در صورتی که کاربر root در بانک اطلاعاتی رمز عبور دارد، آنرا در این قسمت وارد نمائید.برای امنیت بیشتر پیشنهاد میکنیم برای این کاربر رمز عبور وارد نمائید',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'اگر می‌خواهید که نرم‌افزار را روی نوع دیگری از پایگاه داده نصب کنید، لطفا به فایل RAEDME.database. مراجعه نمایید.',
+        'Log file location is only needed for File-LogModule!' => 'محل فایل ثبت وقایع فقط برای File-LogModule مورد نیاز است!',
         'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
+        'Package verification failed!' => 'وارسی بسته ناموفق بود',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'برای باز-نصب از طریق وب باید حالت امن غیر فعال گردد',
+        'Stat#' => 'شماره گزارش',
+        'default \'hot\'' => 'پیش فرض \'hot\'',
 
     };
     # $$STOP$$

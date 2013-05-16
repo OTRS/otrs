@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:29
+    # Last translation file sync: 2013-05-16 22:34:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -235,6 +235,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Disconnessione avvenuta con successo. Grazie per aver usato %s!',
         'Feature not active!' => 'Funzione non attiva!',
         'Agent updated!' => 'Agente aggiornato!',
+        'Database Selection' => '',
         'Create Database' => 'Crea database ',
         'System Settings' => 'Impostazioni di sistema',
         'Mail Configuration' => 'Configurazione della posta',
@@ -245,8 +246,6 @@ sub Data {
         'Database' => '',
         'Configure Mail' => 'Configurazione Mail',
         'Database deleted.' => 'Database Cancellato',
-        'Database setup successful!' => 'Configurazione database terminata con successo',
-        'Generated password' => '',
         'Login is needed!' => 'Devi fare il login',
         'Password is needed!' => 'La password è richiesta',
         'Take this Customer' => 'Prendi questo Cliente',
@@ -353,8 +352,6 @@ sub Data {
         'Events' => 'Eventi',
         'Invalid Token!' => 'Striga Invalida',
         'more' => 'di più',
-        'For more info see:' => 'Per maggior informazioni vedi:',
-        'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Collapse' => 'Collassa',
         'Shown' => 'Visualizzati',
         'Shown customer users' => 'Clienti visualizzati',
@@ -364,6 +361,10 @@ sub Data {
         '7 Day Stats' => 'Statistiche ultimi 7 Giorni',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Le informazioni di Process Management del database non sono sincronizzate con la configurazione, per cortesia effettuare la sincronizzazione',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Grassetto',
         'Italic' => 'Corsivo',
         'Underline' => 'Sottolinea',
@@ -657,6 +658,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Non hai accesso in modifica a questo ticket',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Spiacente, devi essere il proprietario del ticket per effettuare questa operazione.',
+        'Please change the owner first.' => '',
         'Ticket selected.' => 'Ticket Selezionato',
         'Ticket is locked by another agent.' => 'Il Ticket è assegnato ad un altro operatore',
         'Ticket locked.' => 'Ticket assegnato.',
@@ -818,6 +820,7 @@ sub Data {
         'History::SystemRequest' => 'Richiesta di sistema',
         'History::ResponsibleUpdate' => 'Aggiornamento responsabile',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -1110,7 +1113,6 @@ sub Data {
         'Archive selected tickets' => 'Archivia i ticket selezionati',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
-        '(work units)' => '',
         'Ticket Commands' => 'Comandi Ticket',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'CMD' => 'comando',
@@ -2115,7 +2117,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Elimina statistica',
-        'Stat#' => 'Numero Statistica#',
         'Do you really want to delete this stat?' => 'Si desidera veramente eliminare questa statistica?',
 
         # Template: AgentStatsEditRestrictions
@@ -2611,22 +2612,28 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => 'Falso',
+        'Database setup successful!' => 'Configurazione database terminata con successo',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',
-        'Currently only MySQL is supported in the web installer.' => 'Momentaneamente è supportato sulo MySQL dall\'installer web.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Se si desidera installare OTRS su un altro database, riferirsi al file README.database',
-        'Database-User' => 'Utente DB',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Controlla impostazioni database',
+        'Result of database check' => 'Risultato del controllo database',
+        'Database User' => '',
         'New' => 'Nuovi',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Verrà creato un nuovo database a permessi limitati per questo sistema OTRS',
-        'default \'hot\'' => '\'hot\' predefinito',
-        'DB host' => '',
-        'Check database settings' => 'Controlla impostazioni database',
-        'Result of database check' => 'Risultato del controllo database',
+        'Repeat Password' => '',
+        'Generated password' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2660,7 +2667,6 @@ sub Data {
         'LogModule' => 'Modulo di log',
         'Log backend to use.' => 'Backend di log da usare',
         'LogFile' => 'File di log',
-        'Log file location is only needed for File-LogModule!' => 'La posizione del file di log serve solo per File-LogModule!',
         'Webfrontend' => 'Interfaccia web',
         'Default language' => 'Lingua di default',
         'Default language.' => 'Lingua di default.',
@@ -2722,8 +2728,11 @@ sub Data {
         'Go back to the previous page' => 'Torna alla pagina precedente',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Modulo ACL che permette di chiudere ticket genitori solo se tutti i ticket figli sono già chiusi ("Stato" mostra quali stati non sono disponibili per il ticket padre finché non sono chiusi tutti i figli).',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Attiva il meccanismo di blinking della coda che contiene il ticket più vecchio.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2741,8 +2750,8 @@ sub Data {
         'Activates time accounting.' => 'Attiva Rendicontazione Tempo.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Aggiunge un suffisso con l\'attuale anno e mese nel log di OTRS. Verrà creato un log per ogni mese.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Aggiunge i giorni di vacanza singoli per il calendario indicato. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2824,6 +2833,7 @@ sub Data {
             'Permette agli amministratori di effettuare l\'accesso come altri utenti, tramite il pannelo di amministrazione.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permette di impostare un nuovo stato di ticket nella schermata di movimento ticket dell\'interfaccia degli agenti.',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Allegati <-> Risposte',
         'Auto Responses <-> Queues' => 'Risposte automatiche <-> Code',
         'Automated line break in text messages after x number of chars.' =>
@@ -2834,7 +2844,6 @@ sub Data {
             'Imposta automaticamente il proprietario di un ticket come responsabile del ticket (se la funzione di responsabilità è abilitata).',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Imposta automaticamente la responsabilità del ticket (se non è già impostata) dopo il primo cambio di proprietà.',
-        'Balanced white skin by Felix Niklas.' => 'Tema Balanced White by Felix Niklas.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Blocca tutte le email in entrata che non hanno un numero di ticket valdo nell\'oggetto con indirizzi Da: @esempio.com',
         'Builds an article index right after the article\'s creation.' =>
@@ -2911,6 +2920,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'Clienti <-> Gruppi',
         'Customers <-> Services' => 'Clienti <-> Servizi',
         'Data used to export the search result in CSV format.' => 'Dati usati per esportare i risultati di ricerca in formato CSV',
@@ -3629,8 +3639,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3638,6 +3646,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => 'Filtra email in ingresso',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3774,6 +3786,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3810,8 +3824,6 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4400,6 +4412,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => '',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4502,6 +4516,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Vista Globale delle richieste',
+        'TicketNumber' => '',
         'Tickets' => 'Richieste',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4519,6 +4534,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4527,7 +4544,9 @@ sub Data {
         'View system log messages.' => 'Visualizza SystemLog',
         'Wear this frontend skin' => 'Mantieni questa interfaccia',
         'Webservice path separator.' => 'Separatore percorsi dei WebService',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4538,16 +4557,31 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (unità di lavoro)',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
+        'Balanced white skin by Felix Niklas.' => 'Tema Balanced White by Felix Niklas.',
+        'Currently only MySQL is supported in the web installer.' => 'Momentaneamente è supportato sulo MySQL dall\'installer web.',
         'Customer Data' => 'Dati del cliente',
+        'Database-User' => 'Utente DB',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
+        'False' => 'Falso',
+        'For more info see:' => 'Per maggior informazioni vedi:',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Se si desidera installare OTRS su un altro database, riferirsi al file README.database',
+        'Log file location is only needed for File-LogModule!' => 'La posizione del file di log serve solo per File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Disconnessione avvenuta con successo. Grazie per aver usato OTRS!',
+        'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
+        'Stat#' => 'Numero Statistica#',
         'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
         'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
+        'default \'hot\'' => '\'hot\' predefinito',
 
     };
     # $$STOP$$

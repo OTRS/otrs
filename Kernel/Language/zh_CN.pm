@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:48
+    # Last translation file sync: 2013-05-16 22:34:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,6 +233,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '该特性尚未激活!',
         'Agent updated!' => '服务人员已被更新！',
+        'Database Selection' => '',
         'Create Database' => '创建数据库',
         'System Settings' => '数据库设置 ',
         'Mail Configuration' => '邮件配置',
@@ -243,8 +244,6 @@ sub Data {
         'Database' => '数据库',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup successful!' => '',
-        'Generated password' => '',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'Take this Customer' => '取得这个客户',
@@ -351,8 +350,6 @@ sub Data {
         'Events' => '事件',
         'Invalid Token!' => '非法的标记',
         'more' => '更多',
-        'For more info see:' => '更多信息请看',
-        'Package verification failed!' => '软件包验证失败',
         'Collapse' => '收起',
         'Shown' => '显示',
         'Shown customer users' => '',
@@ -361,6 +358,10 @@ sub Data {
         'OTRS News' => 'OTRS 新闻',
         '7 Day Stats' => '最近 7 天统计',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => '黑体',
         'Italic' => '斜体',
@@ -655,6 +656,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '',
+        'Please change the owner first.' => '',
         'Ticket selected.' => '',
         'Ticket is locked by another agent.' => '',
         'Ticket locked.' => '',
@@ -816,6 +818,7 @@ sub Data {
         'History::SystemRequest' => '历史：系统请求',
         'History::ResponsibleUpdate' => '历史：负责人更新',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '日',
@@ -1108,7 +1111,6 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        '(work units)' => '',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -2113,7 +2115,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '删除统计',
-        'Stat#' => '统计号',
         'Do you really want to delete this stat?' => '你确认要删除该统计?',
 
         # Template: AgentStatsEditRestrictions
@@ -2609,22 +2610,28 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '出错',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
-        'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '如果使用其他数据库安装OTRS，请参考README文档。',
-        'Database-User' => '数据库用户名',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => '测试数据库设置',
+        'Result of database check' => '数据库检查结果',
+        'Database User' => '',
         'New' => '新建',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库用户',
-        'default \'hot\'' => '默认密码 \'hot\'',
-        'DB host' => '数据库服务器',
-        'Check database settings' => '测试数据库设置',
-        'Result of database check' => '数据库检查结果',
+        'Repeat Password' => '',
+        'Generated password' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2658,7 +2665,6 @@ sub Data {
         'LogModule' => '日志模块',
         'Log backend to use.' => '日志后台使用。',
         'LogFile' => '日志文件',
-        'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Webfrontend' => 'Web 前端',
         'Default language' => '默认语言',
         'Default language.' => '默认语言',
@@ -2720,8 +2726,11 @@ sub Data {
         'Go back to the previous page' => '返回前一页',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2739,7 +2748,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -2822,6 +2831,7 @@ sub Data {
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => '附件 <-> 回复',
         'Auto Responses <-> Queues' => '自动回复 <-> 队列',
         'Automated line break in text messages after x number of chars.' =>
@@ -2832,7 +2842,6 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2909,6 +2918,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => '客户 <-> 群组',
         'Customers <-> Services' => '客户 <-> 服务',
         'Data used to export the search result in CSV format.' => '',
@@ -3627,8 +3637,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3636,6 +3644,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => '过滤收到的邮件.',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3772,6 +3784,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3808,8 +3822,6 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4398,6 +4410,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => '皮肤',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4500,6 +4514,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => '票单一览',
+        'TicketNumber' => '',
         'Tickets' => '票单',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4517,6 +4532,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4525,7 +4542,9 @@ sub Data {
         'View system log messages.' => '查看系统日志信息',
         'Wear this frontend skin' => '当前使用的皮肤',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4536,10 +4555,23 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '工作单元',
+        'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
         'Customer Data' => '客户数据',
+        'DB host' => '数据库服务器',
+        'Database-User' => '数据库用户名',
+        'False' => '出错',
+        'For more info see:' => '更多信息请看',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '如果使用其他数据库安装OTRS，请参考README文档。',
+        'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
+        'Package verification failed!' => '软件包验证失败',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
+        'Stat#' => '统计号',
+        'default \'hot\'' => '默认密码 \'hot\'',
 
     };
     # $$STOP$$

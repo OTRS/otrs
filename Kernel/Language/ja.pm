@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:30
+    # Last translation file sync: 2013-05-16 22:34:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,6 +229,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '機能が有効になっていません！',
         'Agent updated!' => '担当者更新！',
+        'Database Selection' => '',
         'Create Database' => 'データベース作成',
         'System Settings' => 'システム設定',
         'Mail Configuration' => 'メール設定',
@@ -239,8 +240,6 @@ sub Data {
         'Database' => 'データベース',
         'Configure Mail' => '',
         'Database deleted.' => '',
-        'Database setup successful!' => '',
-        'Generated password' => '',
         'Login is needed!' => 'ログインしてください！',
         'Password is needed!' => 'パスワードを入力してください！',
         'Take this Customer' => 'この顧客を選択',
@@ -347,8 +346,6 @@ sub Data {
         'Events' => 'イベント',
         'Invalid Token!' => '無効なトークンです',
         'more' => '続き',
-        'For more info see:' => '詳細情報：',
-        'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Collapse' => '',
         'Shown' => '表示',
         'Shown customer users' => '',
@@ -357,6 +354,10 @@ sub Data {
         'OTRS News' => 'OTRSニュース',
         '7 Day Stats' => '週間統計',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => '太字',
         'Italic' => '斜体',
@@ -651,6 +652,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '',
+        'Please change the owner first.' => '',
         'Ticket selected.' => '',
         'Ticket is locked by another agent.' => '',
         'Ticket locked.' => '',
@@ -812,6 +814,7 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s).',
         'History::ResponsibleUpdate' => 'New responsible is "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => '',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '日',
@@ -1104,7 +1107,6 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        '(work units)' => '',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -2109,7 +2111,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '統計を削除',
-        'Stat#' => '統計番号',
         'Do you really want to delete this stat?' => 'この統計を削除してよろしいですか？',
 
         # Template: AgentStatsEditRestrictions
@@ -2605,22 +2606,28 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '失敗',
+        'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'データベースのrootパスワードが設定されている場合、ここに入力する必要があります。されていない場合は空白にしてください。セキュリティ上の理由から、私たちはrootのパスワードを設定することをお勧めしません。詳しくはデータベースのマニュアルを参照してください。',
-        'Currently only MySQL is supported in the web installer.' => '現在のインストーラーはMySQLのみサポートしています。',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'もしOTRSに違うタイプのデータベースをインストールしたい場合、README.databaseファイルを参照してください。',
-        'Database-User' => 'データベースユーザー',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'データベース設定をチェック',
+        'Result of database check' => 'データベースチェックの結果',
+        'Database User' => '',
         'New' => '新規',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'このOTRSシステム用に限られた権限の新規データベースユーザーが作成されます。',
-        'default \'hot\'' => '既定パスワード \'hot\'',
-        'DB host' => 'データベース - ホスト',
-        'Check database settings' => 'データベース設定をチェック',
-        'Result of database check' => 'データベースチェックの結果',
+        'Repeat Password' => '',
+        'Generated password' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2661,6 @@ sub Data {
         'LogModule' => 'ログモジュール',
         'Log backend to use.' => 'ログバックエンドを使用するには',
         'LogFile' => 'ログファイル',
-        'Log file location is only needed for File-LogModule!' => 'File-LogModuleのためにログファイルの場所が必要です。',
         'Webfrontend' => 'Webフロントエンド',
         'Default language' => '既定の言語',
         'Default language.' => '既定の言語。',
@@ -2716,8 +2722,11 @@ sub Data {
         'Go back to the previous page' => '前のページへ戻る',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '親チケットについて、その全ての子チケットがすでにクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '最も古いチケットを含むキューの、点滅メカニズムを有効にします。',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2735,8 +2744,8 @@ sub Data {
         'Activates time accounting.' => 'タイム・アカウンティングを有効にします。',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'OTRSログ・ファイルに対して、実際の年と月による接尾辞を追加します。毎月のログファイルが作成されます。',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2818,6 +2827,7 @@ sub Data {
             '管理者が、ユーザ管理パネルを通じて、別のユーザとしてログインすることを許可します。',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '担当者インタフェースの移動チケット画面で、新しいチケット状態を設定することを許可します。',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => '添付ファイル <-> 応答',
         'Auto Responses <-> Queues' => '自動応答 <-> キュー',
         'Automated line break in text messages after x number of chars.' =>
@@ -2828,7 +2838,6 @@ sub Data {
             'チケット所有者を、自動的にそのチケットの責任者として設定します（チケット責任者機能が有効となっている場合）。',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '1人目の所有者のアップデートの後、自動的にチケットの責任者を設定します（もし、また設定されていなければ）。',
-        'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '件名に有効なチケット番号を持たない全ての受信メールを、From: @example.com addressを用いてブロックします。',
         'Builds an article index right after the article\'s creation.' =>
@@ -2905,6 +2914,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => '顧客 <-> グループ',
         'Customers <-> Services' => '顧客 <-> サービス',
         'Data used to export the search result in CSV format.' => '検索結果をCSVフォーマットでエクスポートするために使用されるデータです。',
@@ -3625,8 +3635,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '件名にチケット番号を持たないメールに関して、フォロー・アップのメール・チェックを行います。',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '件名にチケット番号を持たないメールに関して、フォロー・アップのplain/rawメール・チェックを行います。 ',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            'パワーユーザ用に画面スペースを省くための、実験的な“スリム”スキンです。',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '検索結果で、全ての項目ツリーをエクスポートします（システム・パフォーマンスに影響が出る場合があります）。',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3634,6 +3642,10 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             'もし、Kernel/Output/HTML/Standard/AgentInfo.dtl.の下に置かれた場合、Kernel::Modules::AgentInfoモジュールによって表示されるファイルです。',
         'Filter incoming emails.' => '受信メールフィルタ',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '送信Eメールのエンコードを強制します(7bit|8bit|quoted-printable|base64)。',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3770,6 +3782,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '有効にした場合、メイン・メニューの1つめのレベルのものが、マウスを乗せるだけで開きます（1回クリックの代わりに）。',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'ここで指定した文言（正規表現）にマッチした場合、オート・レスポンダーによりメッセージは送られません。',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3807,8 +3821,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースに対して、常にロードされるCSSファイルのリストです。',
         'List of CSS files to always be loaded for the customer interface.' =>
             '顧客インタフェースに対して、常にロードされるCSSファイルのリストです。',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
-            '顧客インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '担当者インタフェースに対して、常にロードされるIE8特有のCSSファイルのリストです。',
         'List of IE8-specific CSS files to always be loaded for the customer interface.' =>
@@ -4397,6 +4409,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '"Yes"に設定すると完全な記述による時間を表示し（days, hours, minutes)、"No"に設定すると最初の文字のみ表示します（d, h, m）。',
         'Skin' => 'スキン',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '1つのキューがキュー・ビューで選択され、チケットが優先度によってソートされた後に、チケットをソートします（昇順または降順）。Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top)。キーに関してキューIDを使用し、値（value）に関して0または1を使用してください。',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4499,6 +4513,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'チケット一覧',
+        'TicketNumber' => '',
         'Tickets' => 'チケット',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '保留中のステートを設定した場合、実際の時間に加えられる時間（秒）です。(default: 86400 = 1 day)',
@@ -4516,6 +4531,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'チケット属性がアップデートされた後に、チケット・エスカレーション・インデックスをアップデートします。',
         'Updates the ticket index accelerator.' => 'チケット・インデックス・アクセラレイタのアップです',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、コンポーズEメール回答にあるCCリスト上からCC受信者を使用します。',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4524,8 +4541,10 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'View system log messages.' => 'システムログメッセージを見る。',
         'Wear this frontend skin' => 'このフロントエンドスキンに変更。',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
-            '"Inform Sender"チェック・ボックスを設定することで、チケットが結合された際に顧客がEメールで通知されるようにできます。このテキスト領域では、担当者によって後から修正できる事前フォーマット化されたテキストを定義することができます。',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+            '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
@@ -4535,16 +4554,38 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (稼働時間)',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
+        'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
+        'Currently only MySQL is supported in the web installer.' => '現在のインストーラーはMySQLのみサポートしています。',
         'Customer Data' => '顧客情報',
+        'DB host' => 'データベース - ホスト',
+        'Database-User' => 'データベースユーザー',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケージ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パスワードの盗難を防ぐためです）。',
+        'Experimental "Slim" skin which tries to save screen space for power users.' =>
+            'パワーユーザ用に画面スペースを省くための、実験的な“スリム”スキンです。',
+        'False' => '失敗',
+        'For more info see:' => '詳細情報：',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'データベースのrootパスワードが設定されている場合、ここに入力する必要があります。されていない場合は空白にしてください。セキュリティ上の理由から、私たちはrootのパスワードを設定することをお勧めしません。詳しくはデータベースのマニュアルを参照してください。',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'もしOTRSに違うタイプのデータベースをインストールしたい場合、README.databaseファイルを参照してください。',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
+            '顧客インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
+        'Log file location is only needed for File-LogModule!' => 'File-LogModuleのためにログファイルの場所が必要です。',
         'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます！',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
+        'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'セキュアモードで実行中のため、Webインストーラーで再インストールするには無効にする必要があります。',
+        'Stat#' => '統計番号',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+            '"Inform Sender"チェック・ボックスを設定することで、チケットが結合された際に顧客がEメールで通知されるようにできます。このテキスト領域では、担当者によって後から修正できる事前フォーマット化されたテキストを定義することができます。',
+        'default \'hot\'' => '既定パスワード \'hot\'',
 
     };
    # $$STOP$$

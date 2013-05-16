@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:39
+    # Last translation file sync: 2013-05-16 22:34:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -236,6 +236,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Вы успешно вышли из системы. Благодарим за пользование системой %s !',
         'Feature not active!' => 'Функция не активирована!',
         'Agent updated!' => 'Агент обновлен!',
+        'Database Selection' => '',
         'Create Database' => 'Создать базу',
         'System Settings' => 'Системные параметры',
         'Mail Configuration' => 'Конфигурация почты',
@@ -246,8 +247,6 @@ sub Data {
         'Database' => 'Имя базы данных',
         'Configure Mail' => 'Конфигурировать почту',
         'Database deleted.' => 'База данных удалена.',
-        'Database setup successful!' => 'База данных настроена успешно!',
-        'Generated password' => '',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'Take this Customer' => 'Выбрать этого клиента',
@@ -354,8 +353,6 @@ sub Data {
         'Events' => 'События',
         'Invalid Token!' => 'Неверный токен !',
         'more' => 'далее',
-        'For more info see:' => 'Дополнительная информация находится по адресу:',
-        'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Collapse' => 'Свернуть',
         'Shown' => 'Показано',
         'Shown customer users' => '',
@@ -364,6 +361,10 @@ sub Data {
         'OTRS News' => 'Новости OTRS',
         '7 Day Stats' => 'Статистика за 7 дней',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Полужирный',
         'Italic' => 'Курсив',
@@ -658,6 +659,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'У вас нет прав на запись в эту заявку.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Извините, для выполнения этого действия вам необходимо быть владельцем заявки.',
+        'Please change the owner first.' => 'Пожалуйста, сначала измените владельца',
         'Ticket selected.' => 'Заявка выбрана.',
         'Ticket is locked by another agent.' => 'Заявка заблокирована другим агентом.',
         'Ticket locked.' => 'Заявка заблокирована.',
@@ -819,6 +821,7 @@ sub Data {
         'History::SystemRequest' => 'Системный запрос (%s)',
         'History::ResponsibleUpdate' => 'Новый ответственный теперь «%s» (ID=%s)',
         'History::ArchiveFlagUpdate' => 'Архивный статус изменен: «%s»',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Вск',
@@ -1111,7 +1114,6 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        '(work units)' => '',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -2116,7 +2118,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Удалить отчет',
-        'Stat#' => 'Отчет#',
         'Do you really want to delete this stat?' => 'Вы действительно хотите удалить этот отчет?',
 
         # Template: AgentStatsEditRestrictions
@@ -2612,22 +2613,28 @@ sub Data {
             'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
 
         # Template: InstallerDBResult
-        'False' => 'Облом',
+        'Database setup successful!' => 'База данных настроена успешно!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Если для администратора базы данных установлен пароль, укажите его здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Информацию по этой теме можно найти в документации по используемой базе данных',
-        'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Если вы хотите инсталлировать OTRS с другим типом базы данных, обратитесь к файлу README.database.',
-        'Database-User' => 'Пользователь базы данных',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Проверить настройки БД',
+        'Result of database check' => 'Результат проверки базы данных',
+        'Database User' => '',
         'New' => 'Новое',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Для этой системы OTRS будет создан новый пользователь базы данных с ограниченными правами.',
-        'default \'hot\'' => 'По умолчанию: «hot»',
-        'DB host' => 'БД--- сервер',
-        'Check database settings' => 'Проверить настройки БД',
-        'Result of database check' => 'Результат проверки базы данных',
+        'Repeat Password' => '',
+        'Generated password' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2661,7 +2668,6 @@ sub Data {
         'LogModule' => 'Модуль журнала ',
         'Log backend to use.' => 'Какой бэкенд использовать для собственно записи журнала.',
         'LogFile' => 'Файл журнала',
-        'Log file location is only needed for File-LogModule!' => 'Указание расположения файла журнала требуется только для ',
         'Webfrontend' => 'Веб-интерфейс',
         'Default language' => 'Язык по умолчанию',
         'Default language.' => 'Язык по умолчанию.',
@@ -2723,8 +2729,11 @@ sub Data {
         'Go back to the previous page' => 'Перейти на предыдущую страницу',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2742,7 +2751,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -2825,6 +2834,7 @@ sub Data {
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Прикрепленные файлы <-> Ответы',
         'Auto Responses <-> Queues' => 'Автоответы <-> Очередь',
         'Automated line break in text messages after x number of chars.' =>
@@ -2835,7 +2845,6 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2912,6 +2921,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'Клиенты <-> Группы',
         'Customers <-> Services' => 'Клиенты <-> Сервисы',
         'Data used to export the search result in CSV format.' => '',
@@ -3630,8 +3640,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3639,6 +3647,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => 'Фильтрация входящей почты.',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3775,6 +3787,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3811,8 +3825,6 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4401,6 +4413,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => 'Окрас',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4503,6 +4517,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Обзор заявок',
+        'TicketNumber' => '',
         'Tickets' => 'Заявки',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4520,6 +4535,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4528,7 +4545,9 @@ sub Data {
         'View system log messages.' => 'Просмотр системных сообщений.',
         'Wear this frontend skin' => 'Использовать этот окрас интерфейса',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4681,6 +4700,7 @@ sub Data {
             'Создать новые группы для назначения прав доступа группам агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
         'Create your first Ticket' => 'Добавить первую заявку',
         'CreateTicket' => 'Создание заявки',
+        'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
         'Customer Data' => 'Учетные данные клиента',
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
@@ -4697,6 +4717,8 @@ sub Data {
         'CustomerUser' => 'Клиент',
         'D' => 'D',
         'DB connect host' => 'Сервер базы данных',
+        'DB host' => 'БД--- сервер',
+        'Database-User' => 'Пользователь базы данных',
         'Days' => 'Дни',
         'Default Charset' => 'Кодировка по умолчанию',
         'Default Language' => 'Язык по умолчанию',
@@ -4734,11 +4756,13 @@ sub Data {
         'Expand View' => 'Подробно',
         'Explanation' => 'Пояснение',
         'Export Config' => 'Экспорт конфигурации',
+        'False' => 'Облом',
         'FileManager' => 'Управление файлами',
         'Filelist' => 'Список файлов',
         'Filtername' => 'Имя фильтра',
         'Follow up' => 'Ответ',
         'Follow up notification' => 'Уведомление об обновлениях',
+        'For more info see:' => 'Дополнительная информация находится по адресу:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Для очень сложных отчетов, возможно, необходимо использовать временный файл',
         'Form' => 'Форма',
@@ -4774,10 +4798,14 @@ sub Data {
             'Если агент заблокировал заявку и не отправил ответ клиенту в течение установленного времени, то заявка автоматически разблокируется и станет доступной для остальных агентов.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Если ничего не выбрано, то заявки будут недоступны для пользователя',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Если для администратора базы данных установлен пароль, укажите его здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Информацию по этой теме можно найти в документации по используемой базе данных',
         'If you need the sum of every column select yes.' => 'Если вам необходим показ суммы по каждому столбцу, выберите «Да»',
         'If you need the sum of every row select yes' => 'Если вам необходим показ суммы по каждой строке, выберите «Да»',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' =>
             'Если вы используете регулярные выражения, вы можете использовать переменные в () как [***] при установке значений',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Если вы хотите инсталлировать OTRS с другим типом базы данных, обратитесь к файлу README.database.',
         'Image' => 'Значок',
         'Important' => 'Важно',
         'In this form you can select the basic specifications.' => 'В данной форме вы можете выбрать основные требования.',
@@ -4804,6 +4832,7 @@ sub Data {
         'Load Settings' => 'Применить конфигурацию из файла',
         'Lock it to work on it!' => 'Заблокировать, чтобы рассмотреть заявку!',
         'Locked tickets' => 'Заблокированные заявки',
+        'Log file location is only needed for File-LogModule!' => 'Указание расположения файла журнала требуется только для ',
         'Logfile' => 'Файл журнала',
         'Logfile too large, you need to reset it!' => 'Файл журнала слишком большой, вам нужно очистить его!',
         'Login failed! Your username or password was entered incorrectly.' =>
@@ -4899,6 +4928,7 @@ sub Data {
         'Package' => 'Пакет',
         'Package not correctly deployed! You should reinstall the Package again!' =>
             'Пакет установлен некорректно! Вы должны переустановить пакет!',
+        'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Param 1' => 'Параметр 1',
         'Param 2' => 'Параметр 2',
         'Param 3' => 'Параметр 3',
@@ -4916,7 +4946,6 @@ sub Data {
             'Настройки прав доступа. Вы можете выбрать одну или несколько групп, чтобы отчет был видел для разных пользователей.',
         'Permissions to change the ticket owner in this group/queue.' => 'Права на смену владельца заявок в этой группе/очереди',
         'PhoneView' => 'Заявка по телефону',
-        'Please change the owner first.' => 'Пожалуйста, сначала измените владельца',
         'Please contact your admin' => 'Свяжитесь с администратором',
         'Please enter subject.' => 'Пожалуйста, введите тему.',
         'Please provide a name.' => 'Пожалуйста, введите имя.',
@@ -4998,6 +5027,7 @@ sub Data {
         'Source' => 'Источник',
         'Spell Check' => 'Проверка орфографии',
         'Split' => 'Разделить',
+        'Stat#' => 'Отчет#',
         'State Type' => 'Тип статуса',
         'Static-File' => 'Статический файл',
         'Stats-Area' => 'Статистика',
@@ -5114,6 +5144,7 @@ sub Data {
         'Your own Ticket' => 'Ваша собственная заявка',
         'auto responses set!' => 'Установленных автоответов',
         'customer realname' => 'Имя клиента',
+        'default \'hot\'' => 'По умолчанию: «hot»',
         'delete' => 'удалить',
         'down' => 'вниз',
         'false' => 'нет',

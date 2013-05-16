@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:14
+    # Last translation file sync: 2013-05-16 22:34:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,6 +229,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Du er nu logget ud. Tak fordi du bruger %s.',
         'Feature not active!' => 'Funktionen er ikke aktiv',
         'Agent updated!' => 'Agent opdateret',
+        'Database Selection' => '',
         'Create Database' => 'Opret database',
         'System Settings' => 'Systemindstillinger',
         'Mail Configuration' => 'Mail-konfiguration',
@@ -239,8 +240,6 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Konfigurer Mail',
         'Database deleted.' => 'Database slettet.',
-        'Database setup successful!' => 'Database konfigureret!',
-        'Generated password' => '',
         'Login is needed!' => 'Login er påkrævet',
         'Password is needed!' => 'Adgangskode er påkrævet',
         'Take this Customer' => 'Tag denne kunde',
@@ -347,8 +346,6 @@ sub Data {
         'Events' => 'Hændelser',
         'Invalid Token!' => 'Ugyldigt Token!',
         'more' => 'mere',
-        'For more info see:' => 'For mere information se:',
-        'Package verification failed!' => 'Pakkeverifikation fejlede!',
         'Collapse' => 'Sammenfold',
         'Shown' => 'Viste',
         'Shown customer users' => '',
@@ -357,6 +354,10 @@ sub Data {
         'OTRS News' => 'OTRS-nyheder',
         '7 Day Stats' => 'Sidste 7 dage',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Fed',
         'Italic' => 'Kursiv',
@@ -651,6 +652,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Du har ikke rettigheder til at ændre denne sag.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Du skal eje denne sag for at udføre handlingen.',
+        'Please change the owner first.' => '',
         'Ticket selected.' => 'Sag valgt.',
         'Ticket is locked by another agent.' => 'Sagen ejes af en anden agent.',
         'Ticket locked.' => 'Sag trukker.',
@@ -812,6 +814,7 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s)',
         'History::ResponsibleUpdate' => 'Ny ansvarlig er "%s" (ID=%s)',
         'History::ArchiveFlagUpdate' => 'Arkivflag opdateret',
+        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Søn',
@@ -1104,7 +1107,6 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
-        '(work units)' => '',
         'Ticket Commands' => 'Sagskommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
         'CMD' => 'CMD',
@@ -2109,7 +2111,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Slet rapport',
-        'Stat#' => 'Rapport',
         'Do you really want to delete this stat?' => 'Vil du virkelig slette denne rapport?',
 
         # Template: AgentStatsEditRestrictions
@@ -2605,22 +2606,28 @@ sub Data {
             'Hvis du springer dette trin over, bliver OTRS ikke registreret. Er du sikker på, du vil fortsætte?',
 
         # Template: InstallerDBResult
-        'False' => 'Falsk',
+        'Database setup successful!' => 'Database konfigureret!',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Hvis du har sat et root kodeord til din database skal du taste det her. Hvis ikke, lad feltet være tomt. Af sikkerhedsmæssige årsager anbefaler vi at sætte et root kodeord. For mere information henviser vi til documentationen for din database.',
-        'Currently only MySQL is supported in the web installer.' => 'Pt. understøttes kun MySQL af web-installeren.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Hvis du vil installere OTRS på en anden database-type, tjek venligst filen README.database.',
-        'Database-User' => 'Database-bruger',
+        'Install Type' => '',
+        'Create a database for OTRS' => '',
+        'Use an existing database for OTRS' => '',
+
+        # Template: InstallerDBmssql
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            '',
+        'Check database settings' => 'Tjek database-konfiguration',
+        'Result of database check' => 'Resultat af database-konfigurationstjek',
+        'Database User' => '',
         'New' => 'Ny',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'En ny database-bruger med begrænsede rettigheder vil blive oprettet til dette OTRS-system.',
-        'default \'hot\'' => 'standard \'hot\'',
-        'DB host' => 'DB--- server',
-        'Check database settings' => 'Tjek database-konfiguration',
-        'Result of database check' => 'Resultat af database-konfigurationstjek',
+        'Repeat Password' => '',
+        'Generated password' => '',
+
+        # Template: InstallerDBmysql
+
+        # Template: InstallerDBpostgresql
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2654,7 +2661,6 @@ sub Data {
         'LogModule' => 'LogModul',
         'Log backend to use.' => 'Brug denne log-backend.',
         'LogFile' => 'Logfil',
-        'Log file location is only needed for File-LogModule!' => 'Logfilens lokation skal kun bruges i forbindelse med File-LogModule!',
         'Webfrontend' => 'Webfrontend',
         'Default language' => 'Standardsprog',
         'Default language.' => 'Standardsprog.',
@@ -2716,8 +2722,11 @@ sub Data {
         'Go back to the previous page' => 'Gå tilbage til forrige side',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL-modul, der kun tillader lukning af hovedsager, hvis alle undersager allerede er lukkede ("Tilstand" viser hvilke tilstande, der ikke kan vælges for hovedsagen indtal alle undersager er lukkede).',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Aktiverer en blinkemekanisme for den kø, der indeholder den ældste sag.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2735,7 +2744,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -2818,6 +2827,7 @@ sub Data {
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Vedhæftede filer <-> Svar',
         'Auto Responses <-> Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
@@ -2828,7 +2838,6 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2905,6 +2914,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'Kunder <-> Grupper',
         'Customers <-> Services' => 'Kunder <-> Services',
         'Data used to export the search result in CSV format.' => 'Data brugt til at eksportere søgeresultatet i CSV-format.',
@@ -3623,8 +3633,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3632,6 +3640,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => '',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3768,6 +3780,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3804,8 +3818,6 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4394,6 +4406,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => '',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4496,6 +4510,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Sagsoversigt',
+        'TicketNumber' => '',
         'Tickets' => 'Sager',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4513,6 +4528,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4521,7 +4538,9 @@ sub Data {
         'View system log messages.' => 'Se systemets log',
         'Wear this frontend skin' => 'Brug dette skin',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4532,10 +4551,23 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (arbejdsenheder)',
+        'Currently only MySQL is supported in the web installer.' => 'Pt. understøttes kun MySQL af web-installeren.',
         'Customer Data' => 'Kundedata',
+        'DB host' => 'DB--- server',
+        'Database-User' => 'Database-bruger',
+        'False' => 'Falsk',
+        'For more info see:' => 'For mere information se:',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Hvis du har sat et root kodeord til din database skal du taste det her. Hvis ikke, lad feltet være tomt. Af sikkerhedsmæssige årsager anbefaler vi at sætte et root kodeord. For mere information henviser vi til documentationen for din database.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Hvis du vil installere OTRS på en anden database-type, tjek venligst filen README.database.',
+        'Log file location is only needed for File-LogModule!' => 'Logfilens lokation skal kun bruges i forbindelse med File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
+        'Package verification failed!' => 'Pakkeverifikation fejlede!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
+        'Stat#' => 'Rapport',
+        'default \'hot\'' => 'standard \'hot\'',
 
     };
     # $$STOP$$
