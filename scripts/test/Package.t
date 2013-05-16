@@ -108,6 +108,38 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
+my $Verification = $PackageObject->PackageVerify(
+    Package => $String,
+    Name    => 'Test',
+);
+
+$Self->Is(
+    $Verification,
+    'not_verified',
+    "PackageVerify() - package 'Test' is NOT verified",
+);
+
+my $Download = $PackageObject->PackageOnlineGet(
+    Source => 'http://ftp.otrs.org/pub/otrs/packages',
+    File   => 'Support-1.4.4.opm',
+);
+
+$Self->True(
+    $Download,
+    "PackageOnlineGet - get Support package from ftp.otrs.org",
+);
+
+$Verification = $PackageObject->PackageVerify(
+    Package => $Download,
+    Name    => 'Support',
+);
+
+$Self->Is(
+    $Verification,
+    'verified',
+    "PackageVerify() - package 'Support' is verified",
+);
+
 # check if the package is already installed - check by name
 my $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
 $Self->True(
