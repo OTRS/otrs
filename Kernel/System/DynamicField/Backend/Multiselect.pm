@@ -887,6 +887,8 @@ sub ObjectMatch {
     VALUE:
     for my $AttributeValue ( @{ $Param{ObjectAttributes}->{$FieldName} } ) {
 
+        next VALUE if !defined $AttributeValue;
+
         # only need to match one
         if ( $Param{Value} eq $AttributeValue ) {
             $Match = 1;
