@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:27:21
+    # Last translation file sync: 2013-05-16 22:41:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];

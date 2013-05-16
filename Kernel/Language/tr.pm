@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-03-12 11:24:04
+    # Last translation file sync: 2013-05-16 22:42:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -349,14 +349,16 @@ sub Data {
         'Events' => 'olgular',
         'Invalid Token!' => 'geçersiz simge',
         'more' => 'daha fazla',
-        'For more info see:' => 'daha geniş bilgi için bakınız',
-        'Package verification failed!' => 'paket doğrulaması hatalı',
         'Collapse' => 'daralt',
         'Shown' => '',
         'News' => 'yenilikler',
         'Product News' => 'Ürün Yenilikleri',
         'OTRS News' => 'OTRS Haberleri',
         '7 Day Stats' => '7 Günlük Durum',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Kalın',
         'Italic' => 'İtalik',
         'Underline' => 'Altı çizili',
@@ -1095,7 +1097,6 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        ' (work units)' => ' (iş birimi)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -1447,8 +1448,8 @@ sub Data {
         'Install' => 'Yükle',
         'Install Package' => 'Paketi yükle',
         'Update repository information' => 'Depo bilgilerini güncelle',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Gerekli özelliği bulamadınızmı? OTRS grubu üye müşterilerimize seçkin eklentileri sunar.',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Çevrimiçi Depo',
         'Vendor' => 'Sağlayıcı',
         'Module documentation' => '',
@@ -1891,7 +1892,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Durumu sil',
-        'Stat#' => 'İstatistik numarası',
         'Do you really want to delete this stat?' => 'Bu durumu gerçekten silmek istiyormusunuz?',
 
         # Template: AgentStatsEditRestrictions
@@ -2133,6 +2133,8 @@ sub Data {
         'Output' => 'Sonuç Formu',
         'Fulltext' => 'Tüm metin',
         'Remove' => 'Kaldır',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Müşteri Kullanıcı Oturum Açma',
         'Created in Queue' => 'Kuyrukta Oluşturuldu',
         'Lock state' => 'Kilit durumu',
@@ -2503,7 +2505,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -4215,6 +4217,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',
@@ -4356,6 +4359,8 @@ sub Data {
         'Delete old database' => 'Eski veritabanını sil',
         'Delete this ticket!' => 'Bu bileti sil!',
         'Detail' => 'Detay',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Gerekli özelliği bulamadınızmı? OTRS grubu üye müşterilerimize seçkin eklentileri sunar.',
         'Diff' => 'Fark',
         'Discard all changes and return to the compose screen' => 'Tüm değişiklikleri geri al ve oluşturma ekranına geri dön',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4388,6 +4393,7 @@ sub Data {
         'Filtername' => 'Süzgeç adı',
         'Follow up' => 'Takip',
         'Follow up notification' => 'Takip bildirimi',
+        'For more info see:' => 'daha geniş bilgi için bakınız',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Çok karmaşık istatistikler söz konusu olduğunda önceden hazırlanmış bir dosyayı da dahil etmek mümkündür.',
         'Frontend' => 'Önyüz',
@@ -4518,6 +4524,7 @@ sub Data {
         'Package' => 'Paket',
         'Package not correctly deployed! You should reinstall the Package again!' =>
             'Paket doğru şekilde yüklenmedi! Paketi yeniden yükleyin!',
+        'Package verification failed!' => 'paket doğrulaması hatalı',
         'Param 1' => 'Param 1',
         'Param 2' => 'Param 2',
         'Param 3' => 'Param 3',
@@ -4596,6 +4603,7 @@ sub Data {
         'Source' => 'Kaynak',
         'Spell Check' => 'Sözdizim Kontrolü',
         'Split' => 'Ayır',
+        'Stat#' => 'İstatistik numarası',
         'State Type' => 'Durum Tipi',
         'Static-File' => 'Sabit Dosya',
         'Stats-Area' => 'İstatistikler Alanı',

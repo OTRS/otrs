@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:39
+    # Last translation file sync: 2013-05-16 22:41:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -350,14 +350,16 @@ sub Data {
         'Events' => 'イベント',
         'Invalid Token!' => '無効なトークンです',
         'more' => '続き',
-        'For more info see:' => '詳細情報：',
-        'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Collapse' => '',
         'Shown' => '表示',
         'News' => 'ニュース',
         'Product News' => '製品ニュース',
         'OTRS News' => 'OTRSニュース',
         '7 Day Stats' => '週間統計',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => '太字',
         'Italic' => '斜体',
         'Underline' => '下線',
@@ -1096,7 +1098,6 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        ' (work units)' => ' (稼働時間)',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -1448,7 +1449,7 @@ sub Data {
         'Install' => 'インストール',
         'Install Package' => 'パッケージをインストール',
         'Update repository information' => 'リポジトリ情報を更新',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'オンラインリポジトリ',
         'Vendor' => 'ベンダー',
@@ -1892,7 +1893,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '統計を削除',
-        'Stat#' => '統計番号',
         'Do you really want to delete this stat?' => 'この統計を削除してよろしいですか？',
 
         # Template: AgentStatsEditRestrictions
@@ -2134,6 +2134,8 @@ sub Data {
         'Output' => '出力',
         'Fulltext' => '全文',
         'Remove' => '削除',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => '顧客ユーザーログイン',
         'Created in Queue' => 'キューで作成された',
         'Lock state' => 'ロックの状態',
@@ -2504,8 +2506,8 @@ sub Data {
         'Activates time accounting.' => 'タイム・アカウンティングを有効にします。',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'OTRSログ・ファイルに対して、実際の年と月による接尾辞を追加します。毎月のログファイルが作成されます。',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2569,8 +2571,8 @@ sub Data {
             'チケットに関して新規タイプを定義することを許可します（チケット責任者機能が有効となっている場合）。',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'チケットに関するサービスおよびSLA（例：email, desktop, network, ...)、およびSLAのエスカレーション属性を定義することを、許可します（チケット・サービス/SLA機能が有効となっている場合）。',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '顧客インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -2862,7 +2864,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'チケット検索画面で、デフォルトの表示されるチケット検索属性を定義します。',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3049,6 +3051,8 @@ sub Data {
             'ブラウザごとのファイル・アップロードの最大サイズ（バイト）を定義します。',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'セッションIDのための最大有効時間（秒）を定義します。',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
+            '',
         'Defines the maximum number of pages per PDF file.' => 'PDFファイルごとの最大ページ数を定義します。',
         'Defines the maximum size (in MB) of the log file.' => 'ログ・ファイルの最大サイズ（MB）を定義します。',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -3263,7 +3267,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3580,8 +3584,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースの検索結果で、表示されるチケットの最大数です。',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             '顧客インタフェースの検索結果で表示される、チケットの最大数です。',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'チケット･ズーム・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4219,6 +4221,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (稼働時間)',
         '%s Tickets affected! Do you really want to use this job?' => '%s のチケットは影響を受けます！このジョブを実行しますか？',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(回答を作成するときにメールアドレスのMXレコードチェックを行います。あなたのOTRSシステムがダイヤルアップ回線の場合はCheckMXRecordを使用しないでください $!)',
@@ -4282,6 +4285,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Added User "%s"' => '"%s" ユーザーを追加しました',
         'Additional ITSM Fields' => '追加のITSM分野',
         'Address' => 'アドレス',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'カレンダー・ナンバー1の一度だけの休日を追加します。数字は1～9までのシングル・デジットを使用してください（01～09ではない）。',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4351,6 +4356,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースにおける追加ITSMフィールド画面で、注釈の追加を許可します。',
         'Allows adding notes in the decision screen of the agent interface.' =>
             '担当者インタフェースにおける決定画面で、注釈の追加を許可します。',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
         'Answer' => '回答',
         'Article Create Times' => '記事作成時間',
         'Article created' => '記事作成日',
@@ -4912,6 +4919,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Follow up' => '追跡',
         'Follow up notification' => '追跡の通知',
         'For more info please check' => '詳しくは次をご確認ください >>',
+        'For more info see:' => '詳細情報：',
         'For quick help please submit your system information and create a support ticket at the vendor\'s site.' =>
             'すぐにヘルプが必要であれば、ベンダーサイトにてシステム情報を伝えサポート・チケットを作成してください。',
         'For very complex stats it is possible to include a hardcoded file.' =>
@@ -5032,6 +5040,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Max. displayed tickets' => 'チケット表示最大数',
         'Max. shown Tickets a page' => '1ページに表示するチケットの最大数',
         'Maximum number of one element' => '最大番号の１つの要素',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Media' => 'メディア',
         'Merge this ticket!' => 'このチケットを結合する',
         'Message for new Owner' => 'メッセージの新規所有者',
@@ -5148,6 +5158,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'パッケージが正しく展開されていません。パッケージを再インストールしてください！',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'パッケージが正しく展開されませんでした！ パッケージを再インストールしてください！',
+        'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Param 1' => 'Param 1',
         'Param 2' => 'Param 2',
         'Param 3' => 'Param 3',
@@ -5318,6 +5329,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Start Export' => 'エクスポート開始',
         'Start Import' => 'インポート開始',
         'Start support' => 'サポートを開始する',
+        'Stat#' => '統計番号',
         'State Machine' => '機器の状態',
         'State Type' => '状態のタイプ',
         'Static-File' => '静的ファイル',

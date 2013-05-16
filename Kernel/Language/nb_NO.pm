@@ -28,7 +28,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:40
+    # Last translation file sync: 2013-05-16 22:41:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -356,14 +356,16 @@ sub Data {
         'Events' => 'Hendelser',
         'Invalid Token!' => 'Ugyldig bevis!',
         'more' => 'mer',
-        'For more info see:' => 'For mer info se:',
-        'Package verification failed!' => 'Pakkevalidering feilet!',
         'Collapse' => 'Minimer',
         'Shown' => 'Vist',
         'News' => 'Nyheter',
         'Product News' => 'Produktnyheter',
         'OTRS News' => 'OTRS-nyheter',
         '7 Day Stats' => '7-dagers statistikk',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Halvfet',
         'Italic' => 'Kursiv',
         'Underline' => 'Understrek',
@@ -1102,7 +1104,6 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbeidsenheter)',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -1454,8 +1455,8 @@ sub Data {
         'Install' => 'Installer',
         'Install Package' => 'Installer pakke',
         'Update repository information' => 'Oppdater pakkelager-informasjon',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Pakkelager på nettet',
         'Vendor' => 'Forhandler',
         'Module documentation' => 'Modul-dokumentasjon',
@@ -1898,7 +1899,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Slett statistikk',
-        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => 'Vil du virkelig slette denne statistikken?',
 
         # Template: AgentStatsEditRestrictions
@@ -2140,6 +2140,8 @@ sub Data {
         'Output' => 'Resultat',
         'Fulltext' => 'Fulltekst',
         'Remove' => 'Fjern',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Kundebrukers login-navn',
         'Created in Queue' => 'Opprettet i kø',
         'Lock state' => 'Låsestatus',
@@ -2510,8 +2512,8 @@ sub Data {
         'Activates time accounting.' => 'Slår på tids-kontering',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Legger til år og måned på loggfilens navn. Dette gjør at man får én logg-fil per måned.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Legger til kunders epostadresser som mottakere under Opprett Sak for saksbehandlere.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2575,8 +2577,8 @@ sub Data {
             'Tillater å definere nye typer saker (dersom sakstype-funksjonaliteten er slått på).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Tillater å opprette tjenester og SLAer for saker (f.eks. epost, skrivebord, nettverk, ...) og eskaleringsattributter for SLAer (dersom tjenester/SLA er slått på).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker i kundeportalen. Med denne funksjonaliteten kan man søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -2868,7 +2870,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3055,6 +3057,8 @@ sub Data {
             'Definerer maksimal størrelse (i bytes) for filopplasting via nettleseren.',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Definerer maksimal gyldig tid (i sekunder) for en sesjons-ID.',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
+            '',
         'Defines the maximum number of pages per PDF file.' => 'Definerer maksimalt antall sider per PDF-fil.',
         'Defines the maximum size (in MB) of the log file.' => 'Definerer maksimal størrelse (i MB) for loggfilen.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -3267,7 +3271,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3584,8 +3588,6 @@ sub Data {
             'Maks. antall viste saker i søkeresultater (agentdelen)',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Maks. antall viste saker i søkeresultater (kundeportalen)',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i saksdetaljer-visningen.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4222,6 +4224,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (arbeidsenheter)',
         ' Param 1 value' => ' Verdi Parameter 1',
         ' Param 2 value' => ' Verdi Parameter 2',
         ' Param 3 value' => ' Verdi Parameter 3',
@@ -4292,6 +4295,8 @@ sub Data {
         'Added User "%s"' => 'Lagt til bruker «%s»',
         'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' =>
             'Legger årstall og måned til på loggfilens navn. Det vil bli opprettet én loggfil per måned.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Legger til kunders epostadresser som mottakere under Opprett Sak for saksbehandlere.',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Legger til ikke-gjentagende fridager for kalender nr 1. Vennligst bruk enkelttall mellom 1 og 9 (ikke 01 - 09).',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4356,6 +4361,8 @@ sub Data {
         'Allocate %s to' => 'Legg %s til',
         'Allocate CustomerUser to service' => 'Tilordne kundebruker til tjeneste',
         'Allocate services to CustomerUser' => 'Tilordne tjenester til kundebruker',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
         'An' => 'En',
         'Answer' => 'Ferdigsvar',
         'Artefact' => 'Artefakt',
@@ -4659,6 +4666,8 @@ sub Data {
         'Delete old database' => 'Slett gammel database',
         'Delete this ticket!' => 'Slett denne saken',
         'Detail' => 'Detalj',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
         'Diff' => 'Forskjell',
         'Discard all changes and return to the compose screen' => 'Forkast endringer og lukk vindu',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4701,6 +4710,7 @@ sub Data {
         'Firstname{CustomerUser}' => 'Fornavn',
         'Follow up' => 'Oppfølging',
         'Follow up notification' => 'Oppfølgings-merknad',
+        'For more info see:' => 'For mer info se:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'For veldig komplekse statistikker er det mulig å inkludere en hardkodet fil.',
         'Form' => 'Skjema',
@@ -4815,6 +4825,8 @@ sub Data {
         'Match' => 'Treff',
         'Max. displayed tickets' => 'Maks. antall viste saker',
         'Max. shown Tickets a page' => 'Maks. viste saker per side',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Merge this ticket!' => 'Flett denne saken',
         'Message for new Owner' => 'Melding til ny eier',
         'Message sent to' => 'Melding sendt til',
@@ -4914,6 +4926,7 @@ sub Data {
             'Pakken er ikke installert korrekt! Du bør re-installere pakken igjen!',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'Pakken er ikke installert korrekt. Du bør re-installere pakken!',
+        'Package verification failed!' => 'Pakkevalidering feilet!',
         'Param 1' => 'Parameter 1',
         'Param 1 key' => 'Nøkkel Parameter 1',
         'Param 2' => 'Parameter 2',
@@ -5026,6 +5039,7 @@ sub Data {
         'Source' => 'Kilde',
         'Spell Check' => 'Stavekontroll',
         'Split' => 'Splitt',
+        'Stat#' => 'Stat#',
         'State Type' => 'Status-type',
         'Static-File' => 'Statisk fil',
         'Stats-Area' => 'Statistikk-område',

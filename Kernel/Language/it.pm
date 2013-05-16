@@ -28,7 +28,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:38
+    # Last translation file sync: 2013-05-16 22:41:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -356,14 +356,16 @@ sub Data {
         'Events' => 'Eventi',
         'Invalid Token!' => 'Striga Invalida',
         'more' => 'di più',
-        'For more info see:' => 'Per maggior informazioni vedi:',
-        'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Collapse' => 'Collassa',
         'Shown' => 'Visualizzati',
         'News' => 'Notizie',
         'Product News' => 'Notizie Prodotto',
         'OTRS News' => 'Notizie OTRS',
         '7 Day Stats' => 'Statistiche 7 Giorni',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Grassetto',
         'Italic' => 'Corsivo',
         'Underline' => 'Sottolinea',
@@ -1102,7 +1104,6 @@ sub Data {
         'Archive selected tickets' => 'Archivia i ticket selezionati',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
-        ' (work units)' => ' (unità di lavoro)',
         'Ticket Commands' => 'Comandi Ticket',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'CMD' => 'comando',
@@ -1454,8 +1455,8 @@ sub Data {
         'Install' => 'Installa',
         'Install Package' => 'Installa pacchetto',
         'Update repository information' => 'Aggiorna informazioni sui repository',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Archivio Online',
         'Vendor' => 'Fornitore',
         'Module documentation' => 'Documentazione sul modulo',
@@ -1898,7 +1899,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Elimina statistica',
-        'Stat#' => 'Numero Statistica#',
         'Do you really want to delete this stat?' => 'Si desidera veramente eliminare questa statistica?',
 
         # Template: AgentStatsEditRestrictions
@@ -2140,6 +2140,8 @@ sub Data {
         'Output' => 'Tipo di risultato',
         'Fulltext' => 'Testo libero',
         'Remove' => 'Rimuovi',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Identificativo di Accesso del Cliente',
         'Created in Queue' => 'Creata nella Coda',
         'Lock state' => 'Blocca stato',
@@ -2510,8 +2512,8 @@ sub Data {
         'Activates time accounting.' => 'Attiva Rendicontazione Tempo.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Aggiunge un suffisso con l\'attuale anno e mese nel log di OTRS. Verrà creato un log per ogni mese.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2575,8 +2577,8 @@ sub Data {
             'Permette di definire nuovi tipi di ticket (se è abilitata la funzione ticket type)',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Permette di definire servizi e SLA per i ticket (e.g. email, desktop, network, ...), e attributi di scalo per gli SLA (se è abilitata la funzione servizio/SLA)',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia dei clienti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -2868,7 +2870,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3054,6 +3056,8 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
@@ -3267,7 +3271,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3583,8 +3587,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4222,6 +4224,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unità di lavoro)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets affetti! Vuoi veramente usare questo ? ',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Controlla il record MX per i domini degli indirizzi email quando si compone un messaggio. Non usare se il vostro server con OTRS ha una connessione dial-up!)',
@@ -4271,6 +4274,8 @@ sub Data {
         'Add a note to this ticket!' => 'Aggiungi una nota a questa richiesta',
         'Add note to ticket' => 'Aggiungi una nota alla richiesta',
         'Added User "%s"' => 'Utente "%s" aggiunto',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Aggiunge i giorni di vacanza singoli per il calendario numero 1. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4329,6 +4334,8 @@ sub Data {
         'All tickets which are escalated!' => 'Tutti i tickets in gestione!',
         'Allocate CustomerUser to service' => 'Associa utente a servizio',
         'Allocate services to CustomerUser' => 'assegna servizio a utente ',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
         'Answer' => 'Risposta',
         'Artefact' => 'Artefatto',
         'Article Create Times' => 'Tempo di creazione Articolo',
@@ -4448,6 +4455,8 @@ sub Data {
         'Delete old database' => 'Cancella il vecchio database',
         'Delete this ticket!' => 'Cancella questa richiesta',
         'Detail' => 'Dettaglio',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
         'Discard all changes and return to the compose screen' => 'Annulla tutte le modifiche e torna alla composizione del messaggio',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
             'Effettua lo smistamento o filtra la posta in ingresso in base all\'X-Header! Sono accettate anche espressioni regolari.',
@@ -4478,6 +4487,7 @@ sub Data {
         'Filtername' => 'Nome del filtro',
         'Follow up' => 'Risposta',
         'Follow up notification' => 'Notifica di risposta',
+        'For more info see:' => 'Per maggior informazioni vedi:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Per statistiche complesse si possono includere file statici precompilati',
         'Forward ticket: ' => 'Inoltra ticket: ',
@@ -4619,6 +4629,7 @@ sub Data {
             'Errore ! si deve reinstallare il Pacchetto! ',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'Pacchetto non installato correttamente! Dovresti reinstallarlo!',
+        'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Param 1' => 'Parametro 1',
         'Param 2' => 'Parametro 2',
         'Param 3' => 'Parametro 3',
@@ -4704,6 +4715,7 @@ sub Data {
         'Source' => 'catalogo',
         'Spell Check' => 'Verifica ortografica',
         'Split' => 'Spezza',
+        'Stat#' => 'Numero Statistica#',
         'State Type' => 'Tipologia stato',
         'Static-File' => 'File fisso',
         'Stats-Area' => 'Area Statistiche',

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-15 13:24:54
+    # Last translation file sync: 2013-05-16 22:41:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -348,14 +348,16 @@ sub Data {
         'Events' => 'Acara',
         'Invalid Token!' => 'Tanda tidak sah!',
         'more' => 'lagi',
-        'For more info see:' => 'Untuk maklumat lanjut lihat:',
-        'Package verification failed!' => 'Pengesahan pakej gagal',
         'Collapse' => 'Tumbang',
         'Shown' => 'Ditunjukkan',
         'News' => 'Berita',
         'Product News' => 'Berita produk',
         'OTRS News' => 'Berita OTRS',
         '7 Day Stats' => 'Statistik 7 hari',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Bold',
         'Italic' => 'Italic',
         'Underline' => 'Garisan Bawah',
@@ -1094,7 +1096,6 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        ' (work units)' => ' (unit bekerja)',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -1446,8 +1447,8 @@ sub Data {
         'Install' => 'Pasang',
         'Install Package' => 'Pasang Pakej',
         'Update repository information' => 'Kemaskini maklumat repositori',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Tidak mencari ciri-ciri yang diperlukan? OTRS Kumpulan menyediakan pelanggan langganan mereka dengan eksklusif Tambahan:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'repositori talian',
         'Vendor' => 'Penjual',
         'Module documentation' => 'dokumentasi modul',
@@ -1890,7 +1891,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Padam stat',
-        'Stat#' => 'Nombor Statistik.',
         'Do you really want to delete this stat?' => 'Adakah anda benar-benar mahu untuk memadam stat ini?',
 
         # Template: AgentStatsEditRestrictions
@@ -2504,8 +2504,8 @@ sub Data {
         'Activates time accounting.' => 'Mengaktifkan perakaunan masa.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Tambah akhiran dengan tahun sebenar dan bulan untuk fail log OTRS. Satu fail log bagi setiap bulan akan diwujudkan.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Tambah alamat emel pelanggan kepada penerima dalam skrin mengarang tiket dalam interface ejen.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Tambah satu percutian hari masa untuk menunjukkan kalendar. Sila menggunakan corak digit tunggal bagi nombor 1-9 (bukannya 01-09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4216,6 +4216,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unit bekerja)',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Tambah alamat emel pelanggan kepada penerima dalam skrin mengarang tiket dalam interface ejen.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface ejen. Dengan fungsi ini, anda boleh tetapkan carian menggunakan kondisi seperti "(key1&&key2)" atau "(key1||key2)".',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
@@ -4224,17 +4227,22 @@ sub Data {
             'Mentakrifkan kriteria susunan asal untuk kesemua aturan yang dipamerkan dalam paparan aturan, selepas susunan berdasarkan keutamaan telah dilakukan.',
         'Defines which article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             'Mentakrifkan jenis artikel yang mana harus di kembangkan semasa memasuki overview. Jika tiada yang ditakrifkan, arikel yang terkini akan di kembangkan.',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Tidak mencari ciri-ciri yang diperlukan? OTRS Kumpulan menyediakan pelanggan langganan mereka dengan eksklusif Tambahan:',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
             'Pilihan Medan Dinamik ditunjukkan dalam skrin mesej tiket dari paparan pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan, 2 = Diaktifkan dan Diperlukan. Jika anda mahu mempamerkan medan ini juga dalam zum tiket dari paparan pelanggan, anda perlu untuk aktifkan mereka dalam CustomerTicketZoom###AttributesView.',
+        'For more info see:' => 'Untuk maklumat lanjut lihat:',
         'Log file location is only needed for File-Log-Backend Module!' =>
             'Lokasi log fail hanya diperlukan untuk modul Fail-Log-Backend!',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam paparan aturan.',
+        'Package verification failed!' => 'Pengesahan pakej gagal',
         'Parameter for the CustomQueue object in the preference view of the agent interface.' =>
             'Parameter untuk objek CustomQueue dalam paparan pilihan dari paparan ejen.',
         'Sender type for new tickets from the customer interface.' => 'Jenis penghantar untuk tiket baru daripada paparan pelanggan.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuration, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             'Menentukan alamat e-mel yang boleh digunakan oleh aplikasi apabila menghantar notifikasi. Alamat e-mel yang digunakan untuk membina nama paparan lengkap untuk master notifikasi (iaitu "OTRS Notification Master" otrs@your.example.com). Anda boleh menggunakan OTRS_CONFIG_FQDN pembolehubah seperti yang dinyatakan dalam konfigurasi anda, atau memilih alamat e-mel yang lain. Notifikasi adalah mesej seperti en::Customer::QueueUpdate atau en::Agent::Move.',
+        'Stat#' => 'Nombor Statistik.',
 
     };
     # $$STOP$$

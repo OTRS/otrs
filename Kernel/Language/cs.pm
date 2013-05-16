@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-01-11 16:07:00
+    # Last translation file sync: 2013-05-16 22:41:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -354,14 +354,16 @@ sub Data {
         'Events' => 'Události',
         'Invalid Token!' => 'Neplatný Token',
         'more' => 'další',
-        'For more info see:' => 'Pro další informace viz:',
-        'Package verification failed!' => 'Ověření balíčku selhalo',
         'Collapse' => 'Zhroucení',
         'Shown' => 'Zobrazeno',
         'News' => 'Novinky',
         'Product News' => 'Novinky o Produktu',
         'OTRS News' => 'Novinky OTRS',
         '7 Day Stats' => 'Statistiky za 7 dnů',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Tučně',
         'Italic' => 'Kurzíva',
         'Underline' => 'Podtržení',
@@ -1100,7 +1102,6 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        ' (work units)' => '(jednotky práce)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1452,7 +1453,7 @@ sub Data {
         'Install' => 'Instalovat',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online Schránka',
         'Vendor' => 'Prodavač',
@@ -1896,7 +1897,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Smazat statistiky',
-        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -2138,6 +2138,8 @@ sub Data {
         'Output' => 'Forma výsledku',
         'Fulltext' => '',
         'Remove' => 'Odstranit',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Přihlášení klienta',
         'Created in Queue' => 'Vytvořeno ve Frontě',
         'Lock state' => '',
@@ -2508,7 +2510,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -2573,7 +2575,7 @@ sub Data {
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -2866,7 +2868,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3052,6 +3054,8 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
@@ -3265,7 +3269,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3581,8 +3585,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4220,6 +4222,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '(jednotky práce)',
         '%s Tickets affected! Do you really want to use this job?' => 'Ovlivněno %s Tiketů! Opravdu spustit Úlohu?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kontroluj MX záznamy použitých emailových adres při sestavování odpovědi. Nepoužívejte pokud OTRS server připojen pomocí vytáčené linky!)',
@@ -4398,6 +4401,7 @@ sub Data {
         'Filtername' => 'Jméno Filtru',
         'Follow up' => 'Následující',
         'Follow up notification' => 'Následuj Oznámení',
+        'For more info see:' => 'Pro další informace viz:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Do hodně komplexních Reportů je možné zahrnout zakódované soubory.',
         'Frontend' => 'Rozhraní',
@@ -4525,6 +4529,7 @@ sub Data {
         'Package' => 'Balíček',
         'Package not correctly deployed! You should reinstall the Package again!' =>
             'Rozbalení balíčku neúspěšné! Reinstalujte balíček znovu!',
+        'Package verification failed!' => 'Ověření balíčku selhalo',
         'Param 1' => 'Parametr 1',
         'Param 2' => 'Parametr 2',
         'Param 3' => 'Parametr 3',

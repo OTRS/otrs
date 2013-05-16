@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:48
+    # Last translation file sync: 2013-05-16 22:42:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -354,14 +354,16 @@ sub Data {
         'Events' => '事件',
         'Invalid Token!' => '非法的标记',
         'more' => '更多',
-        'For more info see:' => '更多信息请看',
-        'Package verification failed!' => '软件包验证失败',
         'Collapse' => '收起',
         'Shown' => '显示',
         'News' => '新闻',
         'Product News' => '产品新闻',
         'OTRS News' => 'OTRS 新闻',
         '7 Day Stats' => '最近 7 天统计',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => '黑体',
         'Italic' => '斜体',
         'Underline' => '底线',
@@ -1100,7 +1102,6 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '工作单元',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1452,7 +1453,7 @@ sub Data {
         'Install' => '安装',
         'Install Package' => '安装软件包',
         'Update repository information' => '更新软件仓库信息',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => '在线软件仓库',
         'Vendor' => '提供者',
@@ -1896,7 +1897,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '删除统计',
-        'Stat#' => '统计号',
         'Do you really want to delete this stat?' => '你确认要删除该统计?',
 
         # Template: AgentStatsEditRestrictions
@@ -2138,6 +2138,8 @@ sub Data {
         'Output' => '搜索结果显示为',
         'Fulltext' => '全文',
         'Remove' => '删除',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => '客户登录用户名',
         'Created in Queue' => '创建队列',
         'Lock state' => '锁定状态',
@@ -2508,7 +2510,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -2573,7 +2575,7 @@ sub Data {
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -2866,7 +2868,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3052,6 +3054,8 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
@@ -3265,7 +3269,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3581,8 +3585,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4220,6 +4222,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '工作单元',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets 受到影响! 您确定要使用这个计划任务?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '通过撰写答案来检查用过的电子邮件地址的MX记录。您OTRS机器在拨号接入的低速网络里，请不要使用CheckMXRecord!',
@@ -4418,6 +4421,7 @@ sub Data {
         'Filtername' => '过滤器名称',
         'Follow up' => '跟进',
         'Follow up notification' => '跟踪通知',
+        'For more info see:' => '更多信息请看',
         'For very complex stats it is possible to include a hardcoded file.' =>
             '对于非常复杂的统计有可能包括一个硬编码文件',
         'Forward ticket: ' => '转发票单：',
@@ -4570,6 +4574,7 @@ sub Data {
             '软件包展开不正常! 您需要重新安装这个软件包',
         'Package not correctly deployed! You should reinstall the package again!' =>
             '该软件没有正确展开! 你应该再试重新安装该软件包!',
+        'Package verification failed!' => '软件包验证失败',
         'Param 1' => '参数 1',
         'Param 2' => '参数 2',
         'Param 3' => '参数 3',
@@ -4666,6 +4671,7 @@ sub Data {
         'Source' => '数据源',
         'Spell Check' => '拼写检查',
         'Split' => '分解',
+        'Stat#' => '统计号',
         'State Type' => '状态类型',
         'Static-File' => '静态文件',
         'Stats-Area' => '统计区',

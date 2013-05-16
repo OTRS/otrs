@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:45
+    # Last translation file sync: 2013-05-16 22:41:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -349,14 +349,16 @@ sub Data {
         'Events' => 'Догађаји',
         'Invalid Token!' => 'Неисправна ознака!',
         'more' => 'још',
-        'For more info see:' => 'За додатне информације погледај:',
-        'Package verification failed!' => 'Неуспела верификација пакета!',
         'Collapse' => 'Смањи',
         'Shown' => 'Приказан',
         'News' => 'Новости',
         'Product News' => 'Новости о производу',
         'OTRS News' => '"OTRS" Новости',
         '7 Day Stats' => 'Седмодневна статистика',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Подебљано',
         'Italic' => 'Курзив',
         'Underline' => 'Подвучено',
@@ -1095,7 +1097,6 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
-        ' (work units)' => ' (елементи посла)',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -1447,8 +1448,8 @@ sub Data {
         'Install' => 'Инсталирај',
         'Install Package' => 'Инсталирај пакет',
         'Update repository information' => 'Ажурирај информације о спремишту',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Мрежно спремиште',
         'Vendor' => 'Продавац',
         'Module documentation' => 'Документација кодула',
@@ -1891,7 +1892,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Обриши статистику',
-        'Stat#' => 'Статистика Бр.',
         'Do you really want to delete this stat?' => 'Да ли стварно желите да обришете ову статистику?',
 
         # Template: AgentStatsEditRestrictions
@@ -2133,6 +2133,8 @@ sub Data {
         'Output' => 'Преглед резултата',
         'Fulltext' => 'Текст',
         'Remove' => 'Уклони',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Пријава корисника',
         'Created in Queue' => 'Отворено у реду',
         'Lock state' => 'Стаус закључавања',
@@ -2503,8 +2505,8 @@ sub Data {
         'Activates time accounting.' => 'Активира мерење времена.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Додаје текућу годину и месец као суфикс у "OTRS" дневнику. Биће креирана датотека дневника за сваки месец.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Додаје корисничке имејл адресе примаоцима у прозору за отварање тикета на интерфејсу оператера.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Једнократно додаје нерадне дане за изабрани календар. Молимо Вас да користите једну цифру за бројеве од 1 до 9 (уместо 01 - 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2568,7 +2570,7 @@ sub Data {
             'Дозвољава дефинисање новог типа тикета (ако је опције типа тикета активирана).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Дозвољава дефинисање сервиса и "SLA" за тикете (нпр имејл, радна површина, мрежа, ...), и ескалационе атрибуте за "SLA" (ако је активиран сервис/"SLA" за тикет).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -2861,7 +2863,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3048,6 +3050,8 @@ sub Data {
             'Одређује максималну величину датотека (у бајтима) за слање.',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Одређује максимално време важења (у секундама) за ИД сесије.',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
+            '',
         'Defines the maximum number of pages per PDF file.' => 'Одређује максимални број страна по "PDF" датотеци.',
         'Defines the maximum size (in MB) of the log file.' => 'Одређује максималну величину датотеке дневника (у мегабајтима).',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -3260,7 +3264,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3576,8 +3580,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4215,6 +4217,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (елементи посла)',
         '%s Tickets affected! Do you really want to use this job?' => '%s тикета захваћено! Да ли стварно желите да покренете овај посао?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Проверите "MX" записе употребљених имејл адреса  креирањем одговора. Немојте користити ову функцију ако је ваш "OTRS" сервер на "dial-up" линији!)',
@@ -4266,6 +4269,8 @@ sub Data {
         'Added User "%s"' => 'Додан корисник "%s".',
         'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' =>
             'Додаје суфикс са актуелном годином и месецом у "ОТРС" датотеку дневника. Биће креиран дневник за сваки месец.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Додаје корисничке имејл адресе примаоцима у прозору за отварање тикета на интерфејсу оператера.',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Једнократно додаје нерадне дане за календар број 1. Молимо Вас да користите једну цифру за бројеве од 1 до 9 (уместо 01 - 09).',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4636,6 +4641,8 @@ sub Data {
         'Delete old database' => 'Обриши стару базу података',
         'Delete this ticket!' => 'Обриши овај тикет!',
         'Detail' => 'Детаљи',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
         'Diff' => 'Разлике',
         'Discard all changes and return to the compose screen' => 'Одустаните од свих промена и вратите се на прозор за писање.',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4674,6 +4681,7 @@ sub Data {
         'Filtername' => 'Назив филтера',
         'Firstname{CustomerUser}' => 'Име (корисник)',
         'Follow up' => 'Наставак',
+        'For more info see:' => 'За додатне информације погледај:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'За веома сложене статистике могуће је придружити наменски програмирану датотеку.',
         'Forward ticket: ' => 'Проследи тикет',
@@ -4828,6 +4836,7 @@ sub Data {
             'Пакет није коректно инсталиран! Требало би га да поново инсталирате!',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'Пакет није исправно смештен. Требало би да га инсталирате поново!',
+        'Package verification failed!' => 'Неуспела верификација пакета!',
         'Param 1' => 'Парам 1',
         'Param 2' => 'Парам 2',
         'Param 3' => 'Парам 3',
@@ -4924,6 +4933,7 @@ sub Data {
         'Source' => 'Извор',
         'Spell Check' => 'Провера правописа',
         'Split' => 'Подели',
+        'Stat#' => 'Статистика Бр.',
         'State Type' => 'Тип стања',
         'Static-File' => 'Статична датотека',
         'Stats-Area' => 'Простор статистике',

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:30
+    # Last translation file sync: 2013-05-16 22:41:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -349,14 +349,16 @@ sub Data {
         'Events' => 'Esdeveniments',
         'Invalid Token!' => '\'Token\' invàlid!',
         'more' => 'més',
-        'For more info see:' => 'Para més informació vegi:',
-        'Package verification failed!' => 'Verificació del paquet ha fallat!',
         'Collapse' => 'Contreure',
         'Shown' => 'Mostra',
         'News' => 'Notícies',
         'Product News' => 'Notícies de productes',
         'OTRS News' => 'Novetats de OTRS',
         '7 Day Stats' => 'Estadístiques Setmanals',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Negreta',
         'Italic' => 'Cursiva',
         'Underline' => 'Subratllat',
@@ -1095,7 +1097,6 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        ' (work units)' => ' (unitats de treball)',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -1447,7 +1448,7 @@ sub Data {
         'Install' => 'Instal·lar',
         'Install Package' => 'Instal·lar paquet',
         'Update repository information' => 'Actualització de la informació del repositori',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Repositori en línia',
         'Vendor' => 'Venedor',
@@ -1891,7 +1892,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadístiques',
-        'Stat#' => 'Estat#',
         'Do you really want to delete this stat?' => 'De debò vol eliminar aquesta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -2133,6 +2133,8 @@ sub Data {
         'Output' => 'Formulari de resultats',
         'Fulltext' => 'Text Complet',
         'Remove' => 'Eliminar',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Identificador del client',
         'Created in Queue' => 'Creat en Cua',
         'Lock state' => 'Estat de bloqueig',
@@ -2503,8 +2505,8 @@ sub Data {
         'Activates time accounting.' => 'Activa la comptabilitat de temps.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Afegeix un sufix amb l\'any actual i el mes en el fitxer de registre de OTRS. Es crearà un arxiu per cada mes.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Afegeix les adreces de correu electrònic dels clients als destinataris en la pantalla de creació de tiquet de la interfície de l\'agent.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Afegeix un dia lliure per al calendari indicat. Per favor usi el model d\'un sol dígit per als nombres d\'1 a 9 (en comptes de 01 - 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2568,8 +2570,8 @@ sub Data {
             'Permet la definició de nous tipus de tiquet (si la funció tipus de tiquet està activada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Permet la definició de serveis i SLAs de tiquets (per exemple, correu electrònic, escriptori, xarxa, ...), i atributs d\'escalat dels SLA (si la funció servei/SLA de tiquet està activada)',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície del client. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -2861,7 +2863,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3047,6 +3049,8 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
@@ -3260,7 +3264,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3576,8 +3580,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4215,6 +4217,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unitats de treball)',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tiquets Modificats! Realment desitja utilitzar aquesta tasca?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
@@ -4265,6 +4268,8 @@ sub Data {
         'Add new field for object:' => 'Agregar nou camp per a l\'objecte:',
         'Add note to ticket' => 'Afegir nota al tiquet',
         'Added User "%s"' => 'Afegit Usuari "%s"',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Afegeix les adreces de correu electrònic dels clients als destinataris en la pantalla de creació de tiquet de la interfície de l\'agent.',
         'Admin-Area' => 'Area d\'administració',
         'Admin-Email' => 'Correu-Admin',
         'Admin-Password' => 'Contrasenya-Admin',
@@ -4283,6 +4288,8 @@ sub Data {
         'All messages' => 'Tots els missatges',
         'Allocate CustomerUser to service' => 'Assignar clients a serveis',
         'Allocate services to CustomerUser' => 'Assignar serveis a clients',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
         'Answer' => 'Respondre',
         'Artefact' => 'Artefacte',
         'ArticleID' => 'Identificador d\'article',
@@ -4397,6 +4404,7 @@ sub Data {
         'Filtername' => 'NombreFiltre',
         'Follow up' => 'Seguiment',
         'Follow up notification' => 'Seguir notificació',
+        'For more info see:' => 'Para més informació vegi:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Per a una estadística molt complexa és possible incloure un arxiu prefixat',
         'Frontend' => 'Frontal',
@@ -4534,6 +4542,7 @@ sub Data {
             'Paquet no instal·lat correctament! Vostè ha de reinstal·lar el paquet novament!',
         'Package not correctly deployed, you need to deploy it again!' =>
             'El paquet no ha estat correctament instal·lat, necessita instal·lar-lo novament!',
+        'Package verification failed!' => 'Verificació del paquet ha fallat!',
         'Param 1' => 'Paràmetre 1',
         'Param 2' => 'Paràmetre 2',
         'Param 3' => 'Paràmetre 3',
@@ -4608,6 +4617,7 @@ sub Data {
         'Source' => 'Origen',
         'Spell Check' => 'Verificació ortogràfica',
         'Split' => 'Dividir',
+        'Stat#' => 'Estat#',
         'State Type' => 'Tipus d\'estat',
         'Static-File' => 'Arxiu-Estàtic',
         'Stats-Area' => 'Area-Estadístiques',

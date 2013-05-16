@@ -5226,6 +5226,8 @@ sub Data {
 
     };
     # $$STOP$$
+    };
+    # $$STOP$$
     return;
 }
 

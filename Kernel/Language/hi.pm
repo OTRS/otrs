@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:36
+    # Last translation file sync: 2013-05-16 22:41:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -351,14 +351,16 @@ sub Data {
         'Events' => 'कार्यक्रम',
         'Invalid Token!' => 'अवैध टोकन',
         'more' => 'अधिक',
-        'For more info see:' => 'अधिक जानकारी के लिए देखें :',
-        'Package verification failed!' => 'संकुल पुष्टिकरण असफल रहा।',
         'Collapse' => 'संक्षिप्त करें',
         'Shown' => 'दिखाए',
         'News' => 'समाचार',
         'Product News' => 'उत्पाद समाचार',
         'OTRS News' => 'OTRS समाचार',
         '7 Day Stats' => '7 दिन के आँकड़े',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'गहरा ',
         'Italic' => 'इटैलिक ',
         'Underline' => 'रेखांकित करना',
@@ -1097,7 +1099,6 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        ' (work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -1449,7 +1450,7 @@ sub Data {
         'Install' => 'स्थापित',
         'Install Package' => 'संकुल स्थापित करें',
         'Update repository information' => 'कोष जानकारी अद्यतन करें',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'ऑनलाइन कोष',
         'Vendor' => 'विक्रेता',
@@ -1893,7 +1894,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'आँकड़े हटाएँ',
-        'Stat#' => '',
         'Do you really want to delete this stat?' => 'क्या आप वास्तव में यह आँकड़े हटाना चाहते हैं?',
 
         # Template: AgentStatsEditRestrictions
@@ -2135,6 +2135,8 @@ sub Data {
         'Output' => 'आउटपुट',
         'Fulltext' => 'पूर्ण पाठ',
         'Remove' => 'हटायें',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'ग्राहक प्रयोक्ता प्रवेश',
         'Created in Queue' => 'श्रेणी में बनाया गया',
         'Lock state' => 'लॉक स्थिति',
@@ -2505,8 +2507,8 @@ sub Data {
         'Activates time accounting.' => 'समय लेखाकरण सक्रिय करता है।',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'वास्तविक वर्ष और महीने के साथ OTRS अभिलेख फ़ाइल को एक प्रत्यय जोड़ता है।हर महीने के लिए एक अभिलेख फ़ाइल बनाया जाएगा।',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन के में प्राप्तकर्ताओं को ग्राहकों के ईमेल पते जोड़ता है।',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2570,8 +2572,8 @@ sub Data {
             'टिकट के लिए नए प्रकार को परिभाषित करने की अनुमति देता है (अगर टिकट प्रकार सुविधा सक्षम है)।',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'टिकटों के लिए सेवाओं और SLAs(उदा. ईमेल,डेस्कटॉप,नेटवर्क,...) और SLAs के लिए संवर्धित विशेषताओं(यदि टिकट सेवा/SLA सुविधा सक्षम है) को परिभाषित करने के लिए की अनुमति देता है।',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'ग्राहक अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -2863,7 +2865,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'टिकट की खोज स्क्रीन के लिए दिखाई टिकट की तयशुदा खोज विशेषता को परिभाषित करता है।',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3050,6 +3052,8 @@ sub Data {
             'ब्राउज़र के माध्यम से फ़ाइल अपलोड करने के लिए अधिकतम(बाइट में) आकार को परिभाषित करता है।',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'सत्र के लिए अधिकतम मान्य समय (सेकेंड में) पहचान को परिभाषित करता है।',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
+            '',
         'Defines the maximum number of pages per PDF file.' => 'PDF फ़ाइल के अनुसार पृष्ठों की अधिकतम संख्या को परिभाषित करता है।',
         'Defines the maximum size (in MB) of the log file.' => 'अभिलेख फ़ाइल के अधिकतम आकार(MB में) को परिभाषित करता है।',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -3262,7 +3266,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3579,8 +3583,6 @@ sub Data {
             'टिकटों की अधिकतम संख्या प्रतिनिधि अंतरफलक में एक खोज के परिणाम में प्रदर्शित करने के लिए।',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'टिकटों की अधिकतम संख्या ग्राहक अंतरफलक में एक खोज के परिणाम में प्रदर्शित करने के लिए।',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
-            'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4222,6 +4224,8 @@ sub Data {
         'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
             'स्वचालित पूर्ण की सुविधा के लिए TypeAhead सक्रिय करें,जो की उपयोगकर्ताओं को उनकी इच्छानुसार लिखने में सक्षम बनाता हैं,किसी भी जानकारी के खोए बिना। इसका मतलब है कि कीस्ट्रोक्स प्रवेश स्क्रीन पर तुरंत प्रदर्शित नहीं किया जाएगा।',
         'Add a note to this ticket!' => 'इस टिकट के लिए टिप्पणी जोड़ें',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन के में प्राप्तकर्ताओं को ग्राहकों के ईमेल पते जोड़ता है।',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'पंचांग संख्या 1 के लिए एक बार अवकाश के दिन जोड़ता हैं। 1 से 9 की संख्या के लिए एकल अंक स्वरूप का उपयोग करें(01 - 09 के बजाय )।',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4258,6 +4262,8 @@ sub Data {
             'पंचांग संख्या 8 के लिए स्थायी अवकाश के दिन जोड़ता हैं। 1 से 9 की संख्या के लिए एकल अंक स्वरूप का उपयोग करें(01 - 09 के बजाय )।',
         'Adds the permanent vacation days for the calendar number 9. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'पंचांग संख्या 9 के लिए स्थायी अवकाश के दिन जोड़ता हैं। 1 से 9 की संख्या के लिए एकल अंक स्वरूप का उपयोग करें(01 - 09 के बजाय )।',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+            'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
         'Article free text options shown in the close ticket screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'प्रतिनिधि अंतरफलक के बंद टिकट स्क्रीन में अनुच्छेद मुक्त पाठ विकल्प में दिखाया गया है। संभव व्यवस्थाऐं: 0 = अक्षम, 1 = सक्रिय, 2 = सक्रिय और आवश्यक।',
         'Article free text options shown in the email ticket screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
@@ -4584,6 +4590,7 @@ sub Data {
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.' =>
             'घटना मॉड्यूल पंजीकरण। और अधिक प्रदर्शन के लिए आप एक ट्रिगर घटना परिभाषित कर सकते हैं(उदा.घटना =>टिकट बनाएँ )। यह तभी संभव है यदि सभी टिकट मुक्त फील्ड तत्वों को एक ही घटना की जरूरत है।',
         'Filter for Language' => 'भाषा के लिए निस्पादक',
+        'For more info see:' => 'अधिक जानकारी के लिए देखें :',
         'Forward ticket: ' => 'टिकट अग्रेषित करें',
         'Hash/Fingerprint' => 'द्रुतान्वेषण/अंगुली-चिह्न',
         'If configured, all emails sent by the application will contain an X-Header with this organization or company name.' =>
@@ -4596,6 +4603,8 @@ sub Data {
             'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'Lock it to work on it!' => 'काम करने के लिए इसे लॉक करें।',
         'Max. displayed tickets' => 'अधिकतम प्रदर्शित टिकट',
+        'Maximum size (in characters) of the customer info table in the queue view.' =>
+            'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Merge this ticket!' => 'इस टिप्पणी को मिलाएं ',
         'Module to genetare accounted time ticket statistics.' => 'समय के हिसाब से टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
         'Module to genetare ticket solution and response time statistics.' =>
@@ -4609,6 +4618,7 @@ sub Data {
             'पैकेज सही तरीके से तैयार नहीं है। पुनः स्थापित करें।',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'पैकेज सही तरीके से तैयार नहीं है। पुनः स्थापित करें।',
+        'Package verification failed!' => 'संकुल पुष्टिकरण असफल रहा।',
         'Please fill out this form to recieve login credentials.' => 'प्रवेश प्रपत्र की जानकारी कॆ लिए इस प्रपत्र को भरॆ।',
         'Print this ticket!' => 'इस टिकट को प्रिंट करें।',
         'QueueView Refresh Time' => 'श्रेणीदृश्य ताज़ाकरण समय',
