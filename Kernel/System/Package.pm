@@ -16,6 +16,7 @@ use MIME::Base64;
 use File::Copy;
 
 use Kernel::System::Cache;
+use Kernel::System::JSON;
 use Kernel::System::Loader;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
@@ -94,6 +95,7 @@ sub new {
     }
 
     # create additional objects
+    $Self->{JSONObject}   = Kernel::System::JSON->new( %{$Self} );
     $Self->{XMLObject}    = Kernel::System::XML->new( %{$Self} );
     $Self->{CacheObject}  = Kernel::System::Cache->new( %{$Self} );
     $Self->{LoaderObject} = Kernel::System::Loader->new( %{$Self} );
@@ -134,6 +136,9 @@ sub new {
     };
     $Self->{PackageMapFileList} = { File => 'ARRAY', };
 
+    $Self->{PackageVerifyURL}
+        = 'https://pav.otrs.com/otrs/public.pl?Action=PublicPackageVerification;';
+
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
     # permission check
@@ -148,18 +153,29 @@ sub new {
 =item RepositoryList()
 
 returns a list of repository packages
+using Result => 'short' will only return name, version, install_status and md5sums
+instead of the structure
 
     my @List = $PackageObject->RepositoryList();
+
+    my @List = $PackageObject->RepositoryList(
+        Result => 'short',
+    );
 
 =cut
 
 sub RepositoryList {
     my ( $Self, %Param ) = @_;
 
+    my $Result = 'Full';
+    if ( defined $Param{Result} && lc $Param{Result} eq 'short' ) {
+        $Result = 'Short';
+    }
+
     # check cache
     my $Cache = $Self->{CacheObject}->Get(
-        Type => 'RepositoryList',
-        Key  => 'NoKey',
+        Type => "RepositoryList",
+        Key  => $Result . 'List',
     );
     return @{$Cache} if $Cache;
 
@@ -179,7 +195,11 @@ sub RepositoryList {
         );
 
         # get package attributes
-        if ( $Row[3] ) {
+        if ( $Row[3] && $Result eq 'Short' ) {
+            $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+            push @Data, {%Package};
+        }
+        elsif ( $Row[3] ) {
             my %Structure = $Self->PackageParse( String => \$Row[3] );
             push @Data, { %Package, %Structure };
         }
@@ -188,7 +208,7 @@ sub RepositoryList {
     # set cache
     $Self->{CacheObject}->Set(
         Type  => 'RepositoryList',
-        Key   => 'NoKey',
+        Key   => $Result . 'List',
         Value => \@Data,
         TTL   => 30 * 24 * 60 * 60,
     );
@@ -1217,10 +1237,10 @@ sub PackageOnlineList {
 
 =item PackageOnlineGet()
 
-download of an online package and put it int to the local repository
+download of an online package and put it into the local repository
 
     $PackageObject->PackageOnlineGet(
-        Source => 'L<http://host.example.com/>',
+        Source => 'http://host.example.com/',
         File   => 'SomePackage-1.0.opm',
     );
 
@@ -1350,11 +1370,17 @@ sub DeployCheckInfo {
 =item PackageVerify()
 
 check if package is verified by the vendor
-this code is not implemented yet
 
     $PackageObject->PackageVerify(
         Package   => $Package,
         Structure => \%Structure,
+    );
+
+or
+
+    $PackageObject->PackageVerify(
+        Package => $Package,
+        Name    => 'FAQ',
     );
 
 =cut
@@ -1363,52 +1389,91 @@ sub PackageVerify {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Package Structure)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
-            return;
-        }
+    if ( !$Param{Package} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Package!" );
+        return;
+    }
+    if ( !$Param{Structure} && !$Param{Name} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Structure or Name!' );
+        return;
     }
 
-    # disable verifying
-    return 1;
-
-    # check input type (not used at this moment)
-    if ( ref $Param{Package} ) {
-        $Param{Package} = ${ $Param{Package} };
-    }
-
-    $Self->{PackageVerifyInfo} = undef;
-
-    # vendor name check
-    if ( $Param{Structure}->{Vendor}->{Content} =~ /^otrs/i ) {
-        return 1;
-    }
-
-    # verify info
-    $Self->{PackageVerifyInfo} = {
-        Description => "This package is not deployed by the OTRS Project. The OTRS "
-            . "Project is not responsible if you run into problems by using this package. "
-            . "Please contact <a href=\"mailto:sales\@otrs.com?Subject=Package "
-            . $Param{Structure}->{Name}->{Content}
-            . "Version=" . $Param{Structure}->{Name}->{Content}
-            . "\">sales\@otrs.com</a> if you have any "
-            . "problems.<br>For more info see: "
-            . "<a href=\"http://otrs.org/verify?Name="
-            . $Param{Structure}->{Name}->{Content}
-            . "&Version="
-            . $Param{Structure}->{Version}->{Content}
-            . "\">http://otrs.org/verify/</a>",
-        Title => 'Package Verification failed (not deployed by the OTRS Project)',
-
+    # define package verification info
+    my $PackageVerifyInfo = {
+        Description => "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
+        Title       => 'Package not verified by the OTRS Group! It is recommended not to use this package.',
     };
 
-    return;
+    # investigate name
+    my $Name = $Param{Structure}->{Name}->{Content} || $Param{Name};
+
+    # create MD5 sum
+    my $Sum = $Self->{MainObject}->MD5sum( String => $Param{Package} );
+
+    # lookup cache
+    my $CachedValue = $Self->{CacheObject}->Get(
+        Type => 'PackageVerification',
+        Key  => $Sum,
+    );
+    if ($CachedValue) {
+        $Self->{PackageVerifyInfo} = $PackageVerifyInfo;
+        return $CachedValue;
+    }
+
+    # create new web user agent object -> note proxy is different from Package::Proxy
+    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+        DBObject     => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        MainObject   => $Self->{MainObject},
+        Timeout      => 10,
+    );
+
+    return 'verified' if !$WebUserAgentObject;
+
+    # verify package at web server
+    my %Response = $WebUserAgentObject->Request(
+        URL => $Self->{PackageVerifyURL} . 'Package=' . $Name . '::' . $Sum,
+    );
+
+    return 'verified' if !$Response{Status};
+    return 'verified' if $Response{Status} ne '200 OK';
+    return 'verified' if !$Response{Content};
+    return 'verified' if ref $Response{Content} ne 'SCALAR';
+
+    # decode JSON data
+    my $ResponseData = $Self->{JSONObject}->Decode(
+        Data => ${ $Response{Content} },
+    );
+
+    return 'verified' if !$ResponseData;
+    return 'verified' if ref $ResponseData ne 'HASH';
+
+    # extract response
+    my $PackageVerify = $ResponseData->{$Name};
+
+    return 'verified' if !$PackageVerify;
+    return 'verified' if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
+
+    # set package verification info
+    if ( $PackageVerify eq 'not_verified' ) {
+        $Self->{PackageVerifyInfo} = $PackageVerifyInfo;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'PackageVerification',
+        Key   => $Sum,
+        Value => $PackageVerify,
+        TTL   => 30 * 24 * 60 * 60,  # 30 days
+    );
+
+    return $PackageVerify;
 }
 
 =item PackageVerifyInfo()
 
-returns the info of the latest PackageVerify(), what's not correctly
+returns the info of the latest PackageVerify()
 
     my %Hash = $PackageObject->PackageVerifyInfo();
 
@@ -1417,10 +1482,122 @@ returns the info of the latest PackageVerify(), what's not correctly
 sub PackageVerifyInfo {
     my ( $Self, %Param ) = @_;
 
-    return %{ $Self->{PackageVerifyInfo} }
-        if $Self->{PackageVerifyInfo};
+    return () if !$Self->{PackageVerifyInfo};
+    return () if ref $Self->{PackageVerifyInfo} ne 'HASH';
+    return () if !%{ $Self->{PackageVerifyInfo} };
 
-    return ();
+    return %{ $Self->{PackageVerifyInfo} };
+}
+
+=item PackageVerifyAll()
+
+check if all installed packages are installed by the vendor
+returns a hash with package names and verification status.
+
+    my %VerificationInfo = $PackageObject->PackageVerifyAll();
+
+returns:
+
+    %VerificationInfo = (
+        FAQ     => 'verified',
+        Support => 'verified',
+        MyHack  => 'not_verified',
+    );
+
+=cut
+
+sub PackageVerifyAll {
+    my ( $Self, %Param ) = @_;
+
+    # get installed package list
+    my @PackageList = $Self->RepositoryList(
+        Result => 'Short',
+    );
+
+    return () if !@PackageList;
+
+    # create a mapping of Package Name => md5 pairs
+    my %PackageList = map { $_->{Name} => $_->{MD5sum} } @PackageList;
+
+    my %Result;
+    my @PackagesToVerify;
+
+    # first check the cache for each package
+    for my $Package (@PackageList) {
+
+        my $Verification = $Self->{CacheObject}->Get(
+            Type => 'PackageVerification',
+            Key  => $Package->{MD5sum},
+        );
+
+        # add to result if we have it already
+        if ($Verification) {
+            $Result{ $Package->{Name} } = $Verification;
+        }
+        else {
+            $Result{ $Package->{Name} } = 'verified';
+            push @PackagesToVerify, 'Package=' . $Package->{Name} . '::' . $Package->{MD5sum};
+        }
+    }
+
+    return %Result if !@PackagesToVerify;
+
+    my $PackagesString = join ';', @PackagesToVerify;
+
+    # create new web user agent object -> note proxy is different from Package::Proxy
+    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+        DBObject     => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        MainObject   => $Self->{MainObject},
+        Timeout      => 10,
+    );
+
+    return %Result if !$WebUserAgentObject;
+
+    # verify package at web server
+    my %Response = $WebUserAgentObject->Request(
+        URL => $Self->{PackageVerifyURL} . $PackagesString,
+    );
+
+    return %Result if !$Response{Status};
+    return %Result if $Response{Status} ne '200 OK';
+    return %Result if !$Response{Content};
+    return %Result if ref $Response{Content} ne 'SCALAR';
+
+    # decode the response content
+    my $ResponseData = $Self->{JSONObject}->Decode(
+        Data => ${ $Response{Content} },
+    );
+
+    return %Result if !$ResponseData;
+    return %Result if ref $ResponseData ne 'HASH';
+
+    PACKAGE:
+    for my $Package ( sort keys %Result ) {
+
+        next PACKAGE if !$Package;
+        next PACKAGE if !$ResponseData->{$Package};
+
+        # extract response
+        my $PackageVerify = $ResponseData->{$Package};
+
+        next PACKAGE if !$PackageVerify;
+        next PACKAGE if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
+
+        # process result
+        $Result{$Package} = $PackageVerify;
+        
+        # set cache
+        $Self->{CacheObject}->Set(
+            Type  => 'PackageVerification',
+            Key   => $PackageList{$Package},
+            Value => $PackageVerify,
+            TTL   => 30 * 24 * 60 * 60,  # 30 days
+        );
+    }
+
+    return %Result;
 }
 
 =item PackageBuild()
@@ -1452,7 +1629,7 @@ build an opm package
                 Lang    => 'de',
                 Content => 'german description',
             },
-        ],
+d        ],
         Filelist = [
             {
                 Location   => 'Kernel/System/Lala.pm'
