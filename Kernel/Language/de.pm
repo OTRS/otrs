@@ -350,6 +350,10 @@ sub Data {
         'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
         'Collapse' => 'Zuklappen',
         'Shown' => 'Zeigen',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            'Paket wurde nicht von der OTRS Gruppe verifiziert! Es wird empfohlen dieses Paket nicht zu nutzen.',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '<br>Wenn Sie die Installation dieses Pakets fortführen, können folgende Probleme auftreten!<br><br>&nbsp;-Sicherheitsprobleme<br>&nbsp;-Stabilitätsprobleme<br>&nbsp;-Performanceprobleme<br><br>Bitte beachten Sie, dass Probleme im Zusammenhang mit diesem Paket nicht durch einen OTRS Servicevertrag abgedeckt sind!<br><br>',
         'Shown customer users' => 'Angezeigte Kundenbenutzer',
         'News' => 'Neues',
         'Product News' => 'Produkt-Neuigkeiten',
