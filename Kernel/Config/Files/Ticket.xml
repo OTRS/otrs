@@ -1179,29 +1179,29 @@ Description>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Array>
-                <Item>TicketNumber</Item>
-                <Item>Age</Item>
-                <Item>Created</Item>
-                <Item>Closed</Item>
-                <Item>FirstLock</Item>
-                <Item>FirstResponse</Item>
-                <Item>State</Item>
-                <Item>Priority</Item>
-                <Item>Queue</Item>
-                <Item>Lock</Item>
-                <Item>Owner</Item>
-                <Item>UserFirstname</Item>
-                <Item>UserLastname</Item>
-                <Item>CustomerID</Item>
-                <Item>CustomerName</Item>
-                <Item>From</Item>
-                <Item>Subject</Item>
-                <Item>AccountedTime</Item>
-                <Item>ArticleTree</Item>
-                <Item>SolutionInMin</Item>
-                <Item>SolutionDiffInMin</Item>
-                <Item>FirstResponseInMin</Item>
-                <Item>FirstResponseDiffInMin</Item>
+                <Item Translatable="1">TicketNumber</Item>
+                <Item Translatable="1">Age</Item>
+                <Item Translatable="1">Created</Item>
+                <Item Translatable="1">Closed</Item>
+                <Item Translatable="1">FirstLock</Item>
+                <Item Translatable="1">FirstResponse</Item>
+                <Item Translatable="1">State</Item>
+                <Item Translatable="1">Priority</Item>
+                <Item Translatable="1">Queue</Item>
+                <Item Translatable="1">Lock</Item>
+                <Item Translatable="1">Owner</Item>
+                <Item Translatable="1">UserFirstname</Item>
+                <Item Translatable="1">UserLastname</Item>
+                <Item Translatable="1">CustomerID</Item>
+                <Item Translatable="1">CustomerName</Item>
+                <Item Translatable="1">From</Item>
+                <Item Translatable="1">Subject</Item>
+                <Item Translatable="1">AccountedTime</Item>
+                <Item Translatable="1">ArticleTree</Item>
+                <Item Translatable="1">SolutionInMin</Item>
+                <Item Translatable="1">SolutionDiffInMin</Item>
+                <Item Translatable="1">FirstResponseInMin</Item>
+                <Item Translatable="1">FirstResponseDiffInMin</Item>
             </Array>
         </Setting>
     </ConfigItem>
