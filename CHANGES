@@ -9,7 +9,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 3.1.16 ????-??-??
- - 2013-05-14-Fixed bug#9387 - Error in a condition with dynamic fields in NotificationEvent.
  - 2013-05-14 Fixed bug#9286 - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
  - 2013-05-14 Fixed bug#7518 - Escalation Notify by not working properly (follow-up fix).
  - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
