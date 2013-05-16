@@ -1,5 +1,4 @@
 #3.2.7 2013-??.??
- - 2013-05-14-Fixed bug#[9387](http://bugs.otrs.org/show_bug.cgi?id=9387) - Error in a condition with dynamic fields in NotificationEvent.
  - 2013-05-14 Fixed bug#[9286](http://bugs.otrs.org/show_bug.cgi?id=9286) - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
  - 2013-05-14 Fixed bug#[7518](http://bugs.otrs.org/show_bug.cgi?id=7518) - Escalation Notify by not working properly (follow-up fix).
  - 2013-05-14 Fixed bug#[9410](http://bugs.otrs.org/show_bug.cgi?id=9410) - SessionID isn't added to URL when using ajax customer search without cookies active.
