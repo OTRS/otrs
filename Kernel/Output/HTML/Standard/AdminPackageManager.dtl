@@ -153,7 +153,7 @@
 
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>$QData{"Title"}</h2>
+                    <h2>$Text{"$QData{"Title"}"}</h2>
                 </div>
                 <div class="Content">
 
