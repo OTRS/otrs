@@ -273,7 +273,7 @@ sub Run {
         # check DB requirements
         if ( $CheckMode eq 'DB' ) {
             my %DBCredentials;
-            for my $Param (qw ( DBUser DBPassword DBHost DBType DBName OTRSDBUser OTRSDBPassword ))
+            for my $Param (qw ( DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTRSDBUser OTRSDBPassword ))
             {
                 $DBCredentials{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
             }
@@ -419,6 +419,32 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+
+        elsif ( $DBType eq 'oracle' ) {
+            my $Output =
+                $Self->{LayoutObject}->Header(
+                Title => "$Title - "
+                    . $Self->{LayoutObject}->{LanguageObject}->Get('Database') . ' Oracle'
+                );
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseOracle',
+                Data => {
+                    Item     => 'Database',
+                    Step     => $StepCounter,
+                },
+            );
+
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'Installer',
+                Data         => {
+                    Item => 'Configure Oracle',
+                    Step => $StepCounter,
+                    }
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+
         else {
             $Self->{LayoutObject}->FatalError(
                 Message => "Unknown database type '$DBType'.",
@@ -431,13 +457,14 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DBCreate' ) {
 
         my %DBCredentials;
-        for my $Param (qw ( DBUser DBPassword DBHost DBType DBName OTRSDBUser OTRSDBPassword )) {
+        for my $Param (qw ( DBUser DBPassword DBHost DBType DBName DBSID DBPort InstallType OTRSDBUser OTRSDBPassword )) {
             $DBCredentials{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
         }
         %DBCredentials = %{ $Self->{Options} } if $Self->{Options}->{DBType};
-
+use Data::Dumper; warn Dumper (\%DBCredentials);
         # get and check params and connect to DB
         my %Result = $Self->ConnectToDB(%DBCredentials);
+        warn Dumper (\%Result);
         my %DB;
         my $DBH;
         if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
@@ -530,6 +557,12 @@ sub Run {
                 = 'DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}';
             $DB{DSN} = "DBI:Pg:dbname=$DB{DBName};host=$DB{DBHost}";
         }
+        elsif ( $DB{DBType} eq 'oracle' ) {
+
+            # set DSN for Config.pm
+            $DB{ConfigDSN} = 'DBI:Oracle:host=$Self->{DatabaseHost};' . "sid=$DB{DBSID};port=$DB{DBPort}";
+            $DB{DSN} = "DBI:Oracle:host=$DB{DBHost};sid=$DB{DBSID};port=$DB{DBPort}";
+        }
 
         # execute database statements
         for my $Statement (@Statements) {
@@ -591,6 +624,7 @@ sub Run {
 
         # we need a database object to be able to parse the XML
         # connect to database using given credentials
+        use Data::Dumper; warn Dumper (\%DB);
         $Self->{DBObject} = Kernel::System::DB->new(
             %{$Self},
             DatabaseDSN  => $DB{DSN},
@@ -1141,31 +1175,42 @@ sub ConnectToDB {
         push @NeededKeys, qw ( OTRSDBUser OTRSDBPassword );
     }
 
+    if ( $Param{DBType} eq 'oracle' ) {
+        push @NeededKeys, qw ( DBSID DBPort );
+    }
+
     for my $Key ( @NeededKeys ) {
         if ( !$Param{$Key} && $Key !~ /^(OTRSDBPassword)$/ ) {
             return (
                 Successful => 0,
                 Message    => "You need '$Key'!!",
-                Comment    => 'Please go back',
                 DB         => undef,
                 DBH        => undef,
             );
         }
     }
-    my $DBH;
+
+    # if we do not need to create a database for OTRS OTRSDBuser equals DBUser
+    if ( $Param{InstallType} ne 'CreateDB' ) {
+        $Param{OTRSDBUser}     = $Param{DBUser};
+        $Param{OTRSDBPassword} = $Param{DBPassword};
+    }
 
     # create DSN string for backend
     if ( $Param{DBType} eq 'mysql' ) {
         $Param{DSN} = "DBI:mysql:database=;host=$Param{DBHost};";
     }
     elsif ( $Param{DBType} eq 'mssql' ) {
-        $Param{DSN} = "DBI:ODBC:driver={SQL Server};Server=$Param{DBHost}";
+        $Param{DSN} = "DBI:ODBC:driver={SQL Server};Server=$Param{DBHost};";
     }
     elsif ( $Param{DBType} eq 'postgresql' ) {
         $Param{DSN} = "DBI:Pg:host=$Param{DBHost};";
     }
+    elsif ( $Param{DBType} eq 'oracle' ) {
+        $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};"
+    }
 
-    $DBH = DBI->connect(
+    my $DBH = DBI->connect(
         $Param{DSN}, $Param{DBUser}, $Param{DBPassword},
     );
 

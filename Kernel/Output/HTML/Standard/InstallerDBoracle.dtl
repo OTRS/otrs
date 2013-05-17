@@ -7,13 +7,13 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- dtl:block:Databaseoracle -->
+<!-- dtl:block:DatabaseOracle -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
         <input type="hidden" name="Action"      value="Installer">
         <input type="hidden" name="Subaction"   value="DBCreate">
         <input type="hidden" name="DBType"      value="oracle">
-        <input type="hidden" name="InstallType" value="$QData{"InstallType"}">
+        <input type="hidden" name="InstallType" value="UseDB">
 
 
         <div class="WidgetSimple">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="DBHost">$Text{"SID"}:</label>
+                    <label for="DBSID">$Text{"SID"}:</label>
                     <div class="Field">
                         <input type="text" id="DBSID" name="DBSID" class="W50pc">
                     </div>
@@ -88,4 +88,4 @@
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-<!-- dtl:block:Databaseoracle -->
+<!-- dtl:block:DatabaseOracle -->
