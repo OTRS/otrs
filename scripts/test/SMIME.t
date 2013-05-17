@@ -2393,4 +2393,263 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     }
 }
 
+
+
+# cache tests
+for my $Count ( 1 .. 2 ) {
+    my @Certs = $CryptObject->Search( Search => $Search{$Count} );
+    $Self->False(
+        $Certs[0] || '',
+        "#$Count Search()",
+    );
+
+    # add certificate ...
+    my $CertString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => "SMIMECertificate-$Count.asc",
+    );
+    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+
+    $Certs[0]->{Filename} = $Result{Filename};
+
+    my $CertCacheKey = 'CertAttributes::Filename::' . $Result{Filename};
+    my $PrivateCacheKey = 'PrivateAttributes::Filename::' . $Result{Filename};
+
+    $Self->True(
+        $Result{Successful} || '',
+        "#$Count CertificateAdd() - $Result{Message}",
+    );
+
+    # get attributes from OpenSSL
+    # check cache
+    my $Cache = $CryptObject->{CacheObject}->Get(
+        Type => 'SMIME_Cert',
+        Key  => $CertCacheKey,
+    );
+    $Self->Is(
+        $Cache,
+        undef,
+        "#$Count Cache for Certificarte Attributes is empty",
+        
+    );
+    my %CertificateAttributes = $CryptObject->CertificateAttributes(
+        Certificate => ${$CertString},
+        Filename    => $Result{Filename},
+    );
+    $Self->IsNotDeeply(
+        \%CertificateAttributes,
+        {},
+        "#$Count Certificarte Attributes OpenSSL are not empty",
+    );
+
+    # at this point the attributes should be cached, read them again
+    # check cache
+    $Cache = $CryptObject->{CacheObject}->Get(
+        Type => 'SMIME_Cert',
+        Key  => $CertCacheKey,
+    );
+    $Self->IsNot(
+        $Cache,
+        undef,
+        "#$Count Cache for Certificarte Attributes is not empty",
+        
+    );
+    my %CertificateAttributesCached = $CryptObject->CertificateAttributes(
+        Certificate => ${$CertString},
+        Filename    => $Result{Filename},
+    );
+    $Self->IsNotDeeply(
+        \%CertificateAttributesCached,
+        {},
+        "#$Count Certificarte Attributes Cached are not empty",
+    );
+
+    # compare both results
+    $Self->IsDeeply(
+        \%CertificateAttributes,
+        \%CertificateAttributesCached,
+        "#$Count Certificated Attributes OpenSSL and Cached"
+    );
+
+    @Certs = $CryptObject->CertificateSearch(
+        Search => $Search{$Count},
+    );
+
+    $Self->True(
+        $Certs[0] || '',
+        "#$Count CertificateSearch()",
+    );
+
+    # add private key
+    my $KeyString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => "SMIMEPrivateKey-$Count.asc",
+    );
+    my $Secret = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => "SMIMEPrivateKeyPass-$Count.asc",
+    );
+    %Result = $CryptObject->PrivateAdd(
+        Private => ${$KeyString},
+        Secret  => ${$Secret},
+    );
+    $Self->True(
+        $Result{Successful} || '',
+        "#$Count PrivateAdd()",
+    );
+
+    # read private attribues from OpenSSL
+    # check cache
+    $Cache = $CryptObject->{CacheObject}->Get(
+        Type => 'SMIME_Private',
+        Key  => $PrivateCacheKey,
+    );
+    $Self->Is(
+        $Cache,
+        undef,
+        "#$Count Cache for Private Attributes is empty",
+        
+    );
+    my %PrivateAttributes = $CryptObject->PrivateAttributes(
+        Private  => ${$KeyString},
+        Secret   => ${$Secret},
+        Filename => $Result{Filename},
+    );
+    $Self->IsNotDeeply(
+        \%PrivateAttributes,
+        {},
+        "#$Count Private Attributes OpenSSL are not empty",
+    );
+
+    # at this point the attributes should be already cached
+    # check cache
+    $Cache = $CryptObject->{CacheObject}->Get(
+        Type => 'SMIME_Private',
+        Key  => $PrivateCacheKey,
+    );
+    $Self->IsNot(
+        $Cache,
+        undef,
+        "#$Count Cache for Private Attributes is not empty",
+        
+    );
+    my %PrivateAttributesCached = $CryptObject->PrivateAttributes(
+        Private  => ${$KeyString},
+        Secret   => ${$Secret},
+        Filename => $Result{Filename},
+    );
+    $Self->IsNotDeeply(
+        \%PrivateAttributesCached,
+        {},
+        "#$Count Private Attributes Cached are not empty",
+    );
+
+    # compare both
+    $Self->IsDeeply(
+        \%PrivateAttributes,
+        \%PrivateAttributesCached,
+        "#$Count Private Attributes OpenSSL and Cached",
+    );
+
+    # after private add all cache for certs must be cleaned, get certificate attributes from OpenSSL
+    # check cache
+    $Cache = $CryptObject->{CacheObject}->Get(
+        Type => 'SMIME_Cert',
+        Key  => $CertCacheKey,
+    );
+    $Self->Is(
+        $Cache,
+        undef,
+        "#$Count Cache for Certificarte Attributes after private is empty",
+        
+    );
+    my %CertificateAttributesAfterPrivate = $CryptObject->CertificateAttributes(
+        Certificate => ${$CertString},
+        Filename    => $Result{Filename},
+    );
+    $Self->IsNotDeeply(
+        \%CertificateAttributesAfterPrivate,
+        {},
+        "#$Count Certificarte Attributes after private OpenSSL are not empty",
+    );
+
+    # cache must be set right now, read attributes again
+    # check cache
+    $Cache = $CryptObject->{CacheObject}->Get(
+        Type => 'SMIME_Cert',
+        Key  => $CertCacheKey,
+    );
+    $Self->IsNot(
+        $Cache,
+        undef,
+        "#$Count Cache for Certificarte Attributes after private is not empty",
+        
+    );
+    my %CertificateAttributesCachedAfterPrivate = $CryptObject->CertificateAttributes(
+        Certificate => ${$CertString},
+        Filename    => $Result{Filename},
+    );
+    $Self->IsNotDeeply(
+        \%CertificateAttributesCachedAfterPrivate,
+        {},
+        "#$Count Certificarte Attributes Cached after private are not empty",
+    );
+
+    # compare both
+    $Self->IsDeeply(
+        \%CertificateAttributes,
+        \%CertificateAttributesCached,
+        "#$Count Certificated Attributes after private OpenSSL and Cached",
+    );
+
+    # compare before vs after
+    $Self->IsNotDeeply(
+        \%CertificateAttributesCached,
+        \%CertificateAttributesCachedAfterPrivate,
+        "#$Count Certificated Attributes Cached before and after private must be different",
+    );
+
+    my @Keys = $CryptObject->PrivateSearch( Search => $Search{$Count} );
+
+    $Self->True(
+        $Keys[0] || '',
+        "#$Count PrivateSearch()",
+    );
+}
+
+# delete keys
+for my $Count ( 1 .. 2 ) {
+    my @Keys = $CryptObject->Search(
+        Search => $Search{$Count},
+    );
+    $Self->True(
+        $Keys[0] || '',
+        "#$Count Search()",
+    );
+    my %Result = $CryptObject->PrivateRemove(
+        Hash    => $Keys[0]->{Hash},
+        Modulus => $Keys[0]->{Modulus},
+    );
+    $Self->True(
+        $Result{Successful} || '',
+        "#$Count PrivateRemove() - $Result{Message}",
+    );
+
+    %Result = $CryptObject->CertificateRemove(
+        Hash        => $Keys[0]->{Hash},
+        Fingerprint => $Keys[0]->{Fingerprint},
+    );
+
+    $Self->True(
+        $Result{Successful} || '',
+        "#$Count CertificateRemove()",
+    );
+
+    @Keys = $CryptObject->Search( Search => $Search{$Count} );
+    $Self->False(
+        $Keys[0] || '',
+        "#$Count Search()",
+    );
+}
+
 1;

@@ -2925,6 +2925,14 @@
             <String Regex="" Check="Directory">/etc/ssl/private</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="SMIME::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the SSL certificate attributes.</Description>
+        <Group>Frameworkt</Group>
+        <SubGroup>Crypt::SMIME</SubGroup>
+        <Setting>
+            <String Regex="\d+">86400</String><!-- default 1 day -->
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
         <Description Translatable="1">Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.</Description>
         <Group>Framework</Group>
