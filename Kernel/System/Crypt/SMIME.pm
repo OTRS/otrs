@@ -12,6 +12,8 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 use warnings;
 
+use Kernel::System::Cache;
+
 =head1 NAME
 
 Kernel::System::Crypt::SMIME - smime crypt backend lib
@@ -191,8 +193,12 @@ sub Decrypt {
         return;
     }
 
+    my $Filename    = $Param{Filename} || '';
     my $Certificate = $Self->CertificateGet(%Param);
-    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my %Attributes  = $Self->CertificateAttributes(
+        Certificate => $Certificate,
+        Filename    => $Filename,
+    );
     my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     my ( $FHPrivate, $PrivateKeyFile ) = $Self->{FileTempObject}->TempFile();
@@ -288,7 +294,10 @@ sub Sign {
     }
 
     my $Certificate = $Self->CertificateGet(%Param);
-    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my %Attributes = $Self->CertificateAttributes(
+        Certificate => $Certificate,
+        Filename    => $Param{Filename}
+    );
     my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     # get the related certificates
@@ -523,12 +532,17 @@ sub CertificateSearch {
 
     for my $Filename (@CertList) {
         my $Certificate = $Self->CertificateGet( Filename => $Filename );
-        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate, );
+        my %Attributes = $Self->CertificateAttributes(
+            Certificate => $Certificate,
+            Filename    => $Filename,
+        );
         my $Hit = 0;
         if ($Search) {
+            ATTRIBUTE:
             for my $Attribute ( sort keys %Attributes ) {
                 if ( $Attributes{$Attribute} =~ m{\Q$Search\E}xms ) {
                     $Hit = 1;
+                    last ATTRIBUTE;
                 }
             }
         }
@@ -613,6 +627,15 @@ sub CertificateAdd {
                 Message    => 'Certificate uploaded',
                 Filename   => "$Attributes{Hash}.$Count",
             );
+
+            # delete cache
+            $Self->{CacheObject}->CleanUp(
+                Type => 'SMIME_Cert',
+            );
+            $Self->{CacheObject}->CleanUp(
+                Type => 'SMIME_Private',
+            );
+
             return %Result;
         }
 
@@ -738,6 +761,18 @@ sub CertificateRemove {
 
     $Message .= ". Private certificate successfully deleted" if ($PrivateExists);
 
+    if ($Success) {
+
+        # delete cache
+        $Self->{CacheObject}->CleanUp(
+            Type => 'SMIME_Cert',
+        );
+        $Self->{CacheObject}->CleanUp(
+            Type => 'SMIME_Private',
+        );
+    }
+
+
     %Result = (
         Successful => $Success,
         Message    => $Message,
@@ -780,6 +815,7 @@ get certificate attributes
 
     my %CertificateAttributes = $CryptObject->CertificateAttributes(
         Certificate => $CertificateString,
+        Filename    => '12345.1',              # optional (useful to use cache)
     );
 
 =cut
@@ -792,6 +828,22 @@ sub CertificateAttributes {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Certificate!' );
         return;
     }
+
+    my $CacheKey;
+    if ( defined $Param{Filename} && $Param{Filename} ) {
+
+        $CacheKey = 'CertAttributes::Filename::' . $Param{Filename};
+
+        # check cache
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'SMIME_Cert',
+            Key  => $CacheKey,
+        );
+
+        # return if cache found,
+        return %{$Cache} if ref $Cache eq 'HASH';
+    }
+
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Certificate};
     close $FH;
@@ -806,6 +858,18 @@ sub CertificateAttributes {
         }
         $Attributes{Type} = 'cert';
     }
+
+    if ($CacheKey) {
+
+        # set cache
+        $Self->{CacheObject}->Set(
+            Type  => 'SMIME_Cert',
+            Key   => $CacheKey,
+            Value => \%Attributes,
+            TTL   => $Self->{CacheTTL},
+        );
+    }
+
     return %Attributes;
 }
 
@@ -887,13 +951,18 @@ sub PrivateSearch {
 
     for my $File (@Certificates) {
         my $Certificate = $Self->CertificateGet( Filename => $File );
-        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+        my %Attributes = $Self->CertificateAttributes(
+            Certificate => $Certificate,
+            Filename    => $File,
+        );
 
         my $Hit = 0;
         if ($Search) {
+            ATTRIBUTE:
             for my $Attribute ( sort keys %Attributes ) {
                 if ( $Attributes{$Attribute} =~ m{\Q$Search\E}xms ) {
                     $Hit = 1;
+                    last ATTRIBUTE;
                 }
             }
         }
@@ -970,6 +1039,7 @@ sub PrivateAdd {
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
         Certificate => $Self->CertificateGet( Filename => $Certificates[0]->{Filename} ),
+        Filename    => $Certificates[0]->{Filename},
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
@@ -986,6 +1056,15 @@ sub PrivateAdd {
                 Message    => 'Private Key uploaded!',
                 Filename   => $Certificates[0]->{Filename},
             );
+
+            # delete cache
+            $Self->{CacheObject}->CleanUp(
+                Type => 'SMIME_Cert',
+            );
+            $Self->{CacheObject}->CleanUp(
+                Type => 'SMIME_Private',
+            );
+
             return %Result;
         }
         else {
@@ -1118,6 +1197,7 @@ sub PrivateRemove {
         # get cert attributes
         my %CertificateAttributes = $Self->CertificateAttributes(
             Certificate => $Certificate,
+            Filename    => $Param{Filename},
         );
 
         $Self->SignerCertRelationDelete(
@@ -1128,6 +1208,15 @@ sub PrivateRemove {
             Successful => 1,
             Message    => 'Private key deleted!'
         );
+
+        # delete cache
+        $Self->{CacheObject}->CleanUp(
+            Type => 'SMIME_Cert',
+        );
+        $Self->{CacheObject}->CleanUp(
+            Type => 'SMIME_Private',
+        );
+
         return %Return;
     }
 
@@ -1173,8 +1262,9 @@ sub PrivateList {
 returns attributes of private key
 
     my %Hash = $CryptObject->PrivateAttributes(
-        Private => $PrivateKeyString,
-        Secret => 'Password',
+        Private  => $PrivateKeyString,
+        Secret   => 'Password',
+        Filename => '12345.1',              # optional (useful for cache)
     );
 
 =cut
@@ -1187,6 +1277,21 @@ sub PrivateAttributes {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
+    }
+
+    my $CacheKey;
+    if ( defined $Param{Filename} && $Param{Filename} ) {
+
+        $CacheKey = 'PrivateAttributes::Filename::' . $Param{Filename};
+
+        # check cache
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'SMIME_Private',
+            Key  => $CacheKey,
+        );
+
+        # return if cache found,
+        return %{$Cache} if ref $Cache eq 'HASH';
     }
 
     my %Attributes;
@@ -1204,6 +1309,18 @@ sub PrivateAttributes {
     $LogMessage =~ s/Modulus=//;
     $Attributes{Modulus} = $LogMessage;
     $Attributes{Type}    = 'P';
+
+    if ($CacheKey) {
+
+        # set cache
+        $Self->{CacheObject}->Set(
+            Type  => 'SMIME_Private',
+            Key   => $CacheKey,
+            Value => \%Attributes,
+            TTL   => $Self->{CacheTTL},
+        );
+    }
+
     return %Attributes;
 }
 
@@ -1622,6 +1739,13 @@ sub _Init {
     $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
     $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
 
+    # create additional objects
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+
+    # get the cache TTL (in seconds)
+    $Self->{CacheTTL}
+        = int( $Self->{ConfigObject}->Get('SMIME::CacheTTL') || 86400 );
+
     if ( $^O =~ m{mswin}i ) {
 
         # take care to deal properly with paths containing whitespace
@@ -1722,12 +1846,7 @@ sub _FetchAttributesFromCert {
     $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
 
     my %Month = (
-        Jan => '01',
-        Feb => '02',
-        Mar => '03',
-        Apr => '04',
-        May => '05',
-        Jun => '06',
+        Jan => '01', Feb => '02', Mar => '03', Apr => '04', May => '05', Jun => '06',
         Jul => '07', Aug => '08', Sep => '09', Oct => '10', Nov => '11', Dec => '12',
     );
 
@@ -1824,6 +1943,10 @@ sub _PrivateFilename {
         my %Attributes;
         next CERTFILE if $CertFile =~ m{\.P}xms;
 
+        # remove the path and get only the filename (for cache)
+        my $CertFilename = $CertFile;
+        $CertFilename =~ s{^.*/}{}xms;
+
         # open secret
         my $Private = $Self->{MainObject}->FileRead(
             Location => $CertFile,
@@ -1833,14 +1956,14 @@ sub _PrivateFilename {
         );
 
         %Attributes = $Self->PrivateAttributes(
-            Private => $$Private,
-            Secret  => $$Secret,
+            Private  => $$Private,
+            Secret   => $$Secret,
+            Filename => $CertFilename,
         );
 
         # exit and return on first modulus found
         if ( $Attributes{Modulus} && $Attributes{Modulus} eq $Param{Modulus} ) {
-            $CertFile =~ s{^.*/}{}xms;
-            return $CertFile;
+            return $CertFilename;
         }
     }
 }
@@ -2095,6 +2218,7 @@ sub _ReHashCertificates {
         );
         my %CertificateAttributes = $Self->CertificateAttributes(
             Certificate => $Certificate,
+            Filename    => $File,
         );
 
         # split filename into Hash.Index (12345678.0 -> 12345678 / 0)
