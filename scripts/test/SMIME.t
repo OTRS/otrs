@@ -2393,9 +2393,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     }
 }
 
-
-
-# cache tests
+# attributes cache tests
 for my $Count ( 1 .. 2 ) {
     my @Certs = $CryptObject->Search( Search => $Search{$Count} );
     $Self->False(
