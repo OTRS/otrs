@@ -9,7 +9,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.20 2013-xx-xx
+3.0.20 2013-05-21
  - 2013-05-07 Improved permission checks in AgentTicketPhone.
  - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
  - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
