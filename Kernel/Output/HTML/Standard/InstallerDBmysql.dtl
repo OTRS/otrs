@@ -66,14 +66,14 @@
 
                     <label for="OTRSDBPassword">$Text{"Password"}:</label>
                     <div class="Field">
-                        <input type="text" id="OTRSDBPassword" name="OTRSDBPassword" value="$QData{"Password"}"
+                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="$QData{"Password"}"
                         class="W50pc Validate_Equal Validate_Equal_RepeatOTRSDBPassword" autocomplete="off">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="RepeatOTRSDBPassword">$Text{"Repeat Password"}:</label>
                     <div class="Field">
-                        <input type="text" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off">
+                        <input type="password" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off">
                         <p class="FieldExplanation">
                             $Text{"Generated password"}: <span class="Emphasis">$QData{"Password"}</span>
                         </p>
