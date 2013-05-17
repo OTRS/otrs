@@ -832,7 +832,7 @@ sub Run {
 
             # create head (actual head and head for data fill)
             my @TmpCSVHead = @{ $Self->{Config}->{SearchCSVData} };
-            my @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
+            my @CSVHead    = @{ $Self->{Config}->{SearchCSVData} };
 
             # include the selected dynamic fields in CVS results
             DYNAMICFIELD:
@@ -842,7 +842,7 @@ sub Run {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
 
                 push @TmpCSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
-                push @CSVHead, $DynamicFieldConfig->{Label};
+                push @CSVHead,    $DynamicFieldConfig->{Label};
             }
 
             my @CSVData;

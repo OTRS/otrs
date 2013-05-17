@@ -88,7 +88,7 @@ sub Run {
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param => 'file_upload',
         );
         if ( !%UploadStuff ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'Need File!', );

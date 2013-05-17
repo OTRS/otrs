@@ -273,7 +273,9 @@ sub Run {
         # check DB requirements
         if ( $CheckMode eq 'DB' ) {
             my %DBCredentials;
-            for my $Param (qw ( DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTRSDBUser OTRSDBPassword ))
+            for my $Param (
+                qw ( DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTRSDBUser OTRSDBPassword )
+                )
             {
                 $DBCredentials{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
             }
@@ -311,7 +313,7 @@ sub Run {
 
     elsif ( $Self->{Subaction} eq 'DB' ) {
 
-        my $DBType = $Self->{ParamObject}->GetParam( Param => 'DBType' );
+        my $DBType        = $Self->{ParamObject}->GetParam( Param => 'DBType' );
         my $DBInstallType = $Self->{ParamObject}->GetParam( Param => 'DBInstallType' );
 
         # use non-instantiated module to generate a password
@@ -338,7 +340,7 @@ sub Run {
                         Password => $GeneratedPassword,
                     },
                 );
-            } 
+            }
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
@@ -360,8 +362,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMSSQL',
                 Data => {
-                    Item     => 'Database',
-                    Step     => $StepCounter,
+                    Item        => 'Database',
+                    Step        => $StepCounter,
                     InstallType => $DBInstallType,
                 },
             );
@@ -373,13 +375,13 @@ sub Run {
                         Password => $GeneratedPassword,
                     },
                 );
-            } 
+            }
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
                 Data         => {
-                    Item => 'Configure Microsoft SQL Server',
-                    Step => $StepCounter,
+                    Item        => 'Configure Microsoft SQL Server',
+                    Step        => $StepCounter,
                     InstallType => $DBInstallType,
                     }
             );
@@ -395,8 +397,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabasePostgreSQL',
                 Data => {
-                    Item     => 'Database',
-                    Step     => $StepCounter,
+                    Item        => 'Database',
+                    Step        => $StepCounter,
                     InstallType => $DBInstallType,
                 },
             );
@@ -407,7 +409,7 @@ sub Run {
                         Password => $GeneratedPassword,
                     },
                 );
-            } 
+            }
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
@@ -429,8 +431,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseOracle',
                 Data => {
-                    Item     => 'Database',
-                    Step     => $StepCounter,
+                    Item => 'Database',
+                    Step => $StepCounter,
                 },
             );
 
@@ -457,14 +459,17 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DBCreate' ) {
 
         my %DBCredentials;
-        for my $Param (qw ( DBUser DBPassword DBHost DBType DBName DBSID DBPort InstallType OTRSDBUser OTRSDBPassword )) {
+        for my $Param (
+            qw ( DBUser DBPassword DBHost DBType DBName DBSID DBPort InstallType OTRSDBUser OTRSDBPassword )
+            )
+        {
             $DBCredentials{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
         }
         %DBCredentials = %{ $Self->{Options} } if $Self->{Options}->{DBType};
-use Data::Dumper; warn Dumper (\%DBCredentials);
+
         # get and check params and connect to DB
         my %Result = $Self->ConnectToDB(%DBCredentials);
-        warn Dumper (\%Result);
+
         my %DB;
         my $DBH;
         if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
@@ -560,7 +565,8 @@ use Data::Dumper; warn Dumper (\%DBCredentials);
         elsif ( $DB{DBType} eq 'oracle' ) {
 
             # set DSN for Config.pm
-            $DB{ConfigDSN} = 'DBI:Oracle:host=$Self->{DatabaseHost};' . "sid=$DB{DBSID};port=$DB{DBPort}";
+            $DB{ConfigDSN}
+                = 'DBI:Oracle:host=$Self->{DatabaseHost};' . "sid=$DB{DBSID};port=$DB{DBPort}";
             $DB{DSN} = "DBI:Oracle:host=$DB{DBHost};sid=$DB{DBSID};port=$DB{DBPort}";
         }
 
@@ -624,7 +630,6 @@ use Data::Dumper; warn Dumper (\%DBCredentials);
 
         # we need a database object to be able to parse the XML
         # connect to database using given credentials
-        use Data::Dumper; warn Dumper (\%DB);
         $Self->{DBObject} = Kernel::System::DB->new(
             %{$Self},
             DatabaseDSN  => $DB{DSN},
@@ -1179,7 +1184,7 @@ sub ConnectToDB {
         push @NeededKeys, qw ( DBSID DBPort );
     }
 
-    for my $Key ( @NeededKeys ) {
+    for my $Key (@NeededKeys) {
         if ( !$Param{$Key} && $Key !~ /^(OTRSDBPassword)$/ ) {
             return (
                 Successful => 0,

@@ -488,7 +488,7 @@ sub Run {
             # from DB this cases
             if ( $Self->{TicketID} && $Article{ArticleID} ) {
 
-                # select TicketID or ArticleID to get the value depending on dynamic field configuration
+            # select TicketID or ArticleID to get the value depending on dynamic field configuration
                 my $ObjectID
                     = $DynamicFieldConfig->{ObjectType} eq 'Ticket'
                     ? $Self->{TicketID}
@@ -714,7 +714,7 @@ sub Run {
             %Error                   = ();
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'FileUpload',
+                Param => 'FileUpload',
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
@@ -1102,7 +1102,7 @@ sub Run {
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
         if (%UploadStuff) {
             push @AttachmentData, \%UploadStuff;

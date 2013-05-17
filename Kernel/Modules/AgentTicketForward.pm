@@ -197,8 +197,10 @@ sub Form {
                     Type => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => $Self->{LayoutObject}->{LanguageObject}->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => $Self->{LayoutObject}->{LanguageObject}
+                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}
+                        ->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -746,7 +748,7 @@ sub SendEmail {
         %Error = ();
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
         $Self->{UploadCacheObject}->FormIDAddFile(
             FormID => $GetParam{FormID},
@@ -801,7 +803,7 @@ sub SendEmail {
 
     # get submit attachment
     my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-        Param  => 'FileUpload',
+        Param => 'FileUpload',
     );
     if (%UploadStuff) {
         push @AttachmentData, \%UploadStuff;
