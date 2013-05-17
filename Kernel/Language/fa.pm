@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:37
+    # Last translation file sync: 2013-05-17 10:03:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1111,6 +1111,7 @@ sub Data {
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
+        ' (work units)' => '(واحد کار)',
         'Ticket Commands' => 'دستورهای درخواست',
         'Send agent/customer notifications on changes' => 'آگاه کردن کارشناس/مشتری به هنگام ایجاد تغییرات',
         'CMD' => 'CMD',
@@ -2115,6 +2116,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'گزارش حذف',
+        'Stat#' => 'شماره گزارش',
         'Do you really want to delete this stat?' => 'آیا از حذف این گزارش اطمینان دارید؟',
 
         # Template: AgentStatsEditRestrictions
@@ -4554,7 +4556,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '(واحد کار)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'آدرس‌های ایمیل مشترکین را به صفحه ساختن درخواست در واسط کاربری مربوط به کارشناس می‌افزاید.',
         'Currently only MySQL is supported in the web installer.' => 'هم اکنون فقط MySQL در نصب‌کننده تحت وب پشتیبانی می‌شود.',
@@ -4572,7 +4573,6 @@ sub Data {
         'Package verification failed!' => 'وارسی بسته ناموفق بود',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'برای باز-نصب از طریق وب باید حالت امن غیر فعال گردد',
-        'Stat#' => 'شماره گزارش',
         'default \'hot\'' => 'پیش فرض \'hot\'',
 
     };

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:54
+    # Last translation file sync: 2013-05-17 10:03:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
+        ' (work units)' => ' ( робочі одиниці)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Звіт №',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' ( робочі одиниці)',
         'Customer Data' => 'Облікові дані клієнта',
         'Database-User' => 'Користувач бази даних',
         'For more info see:' => 'Додаткова інформація знаходиться за адресою:',
@@ -4559,7 +4560,6 @@ sub Data {
         'Package verification failed!' => 'Помилка перевірки цілісності пакета',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Безпечний режим повинен бути відключений при переустановці через веб-інтерфейс',
-        'Stat#' => 'Звіт №',
         'default \'hot\'' => ' За замовчуванням: «hot»',
 
     };

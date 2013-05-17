@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:53
+    # Last translation file sync: 2013-05-17 10:03:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1108,6 +1108,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lägg till anteckning',
         'Time units' => 'Tidsenheter',
+        ' (work units)' => ' (arbetsenheter)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Meddela agent/kund angående ändringar',
         'CMD' => 'CMD',
@@ -2112,6 +2113,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4551,7 +4553,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbetsenheter)',
         'Customer Data' => 'Kunddata',
         'Database-User' => 'Databas-Användare',
         'For more info see:' => 'För mer info:',
@@ -4563,7 +4564,6 @@ sub Data {
         'Package verification failed!' => 'Paketverifiering misslyckades!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Säkert läge måste slås av för att kunna ominstallera via webb-installeraren.',
-        'Stat#' => 'Stat#',
         'default \'hot\'' => 'default \'hot\'',
 
     };

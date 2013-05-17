@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:36
+    # Last translation file sync: 2013-05-17 10:03:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
+        ' (work units)' => ' (tööühikud)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Statistika nr.',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,13 +4551,11 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (tööühikud)',
         'Customer Data' => 'Kliendi andmed',
         'Database-User' => 'Andmebaasi kasutaja',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.',
         'Logout successful. Thank you for using OTRS!' => 'Lahkusid OTRSist, täname kasutamise eest!',
-        'Stat#' => 'Statistika nr.',
         'default \'hot\'' => 'vaikimisi \'hot\'',
 
     };

@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:55
+    # Last translation file sync: 2013-05-17 10:03:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1105,6 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
         'Time units' => 'Các đơn vị thời gian',
+        ' (work units)' => ' (các đơn vị làm việc)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2109,6 +2110,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Thống kê số',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4548,11 +4550,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (các đơn vị làm việc)',
         'Customer Data' => 'Dữ liệu khách hàng',
         'Database-User' => 'Người dùng cơ sở dữ liệu',
         'Logout successful. Thank you for using OTRS!' => 'Đăng xuất thành công! Cảm ơn bạn đã sử dụng OTRS!',
-        'Stat#' => 'Thống kê số',
         'default \'hot\'' => 'mặc định \'hot\'',
 
     };

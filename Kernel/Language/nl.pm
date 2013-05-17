@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:46
+    # Last translation file sync: 2013-05-17 10:03:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,6 +1112,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
+        ' (work units)' => '',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -2116,6 +2117,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Verwijder rapport',
+        'Stat#' => 'Rapport#',
         'Do you really want to delete this stat?' => 'Wilt u dit rapport echt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
@@ -4577,7 +4579,6 @@ sub Data {
         'Package verification failed!' => 'Pakketverificatie mislukt!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
-        'Stat#' => 'Rapport#',
         'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
         'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
         'default \'hot\'' => 'Standaard \'hot\'',

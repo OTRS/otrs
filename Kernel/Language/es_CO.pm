@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:34
+    # Last translation file sync: 2013-05-17 10:03:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'A√±adir Nota',
         'Time units' => 'Unidades de tiempo',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaci√≥n de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estad√≠stica',
+        'Stat#' => 'Estad√≠stica#',
         'Do you really want to delete this stat?' => '¬øRealmente desea eliminar esta estad√≠stica?',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets afectados. ¬øRealmente desea utilizar esta tarea?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Chequear registro MX de direcciones utilizadas al responder. ¬° No usarlo si su PC con OTRS est√° detr√°s de una l√≠nea telefonica $!)',
@@ -5404,7 +5405,6 @@ sub Data {
         'Source' => 'Origen',
         'Spell Check' => 'Chequeo Ortogr√°fico',
         'Split' => 'Dividir',
-        'Stat#' => 'Estad√≠stica#',
         'State Type' => 'Tipo de Estado',
         'Static-File' => 'Archivo-Est√°tico',
         'Stats-Area' => 'Area de Estad√≠sticas',

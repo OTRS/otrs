@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:56
+    # Last translation file sync: 2013-05-17 10:03:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1108,6 +1108,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '增加注解',
         'Time units' => '時間單元',
+        ' (work units)' => '工作單元',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '發送代理/客戶通知變更',
         'CMD' => '命令',
@@ -2112,6 +2113,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4551,7 +4553,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '工作單元',
         'Customer Data' => '客戶數據',
         'Database-User' => '數據庫用戶名稱',
         'For more info see:' => '更多信息請看',

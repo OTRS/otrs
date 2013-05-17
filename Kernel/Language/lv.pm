@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:44
+    # Last translation file sync: 2013-05-17 10:03:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1105,6 +1105,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Time units' => 'Laika vienības',
+        ' (work units)' => ' (darba laika vienības)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Izmaiņu gadījumā nosūtīt paziņojumus aģentam/klientam',
         'CMD' => 'Komanda',
@@ -2109,6 +2110,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Atskaite Nr.',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4548,7 +4550,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (darba laika vienības)',
         'Customer Data' => 'Klienta dati',
         'Database-User' => 'Datubāzes lietotāja parole',
         'For more info see:' => 'Papildus informācijai, lūdzu, skatīt:',
@@ -4558,7 +4559,6 @@ sub Data {
         'Package verification failed!' => 'Pākotnes pārbaude neizdevās!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Lai pārinstalētu datus, lietojot pārlūkprogrammas instalātoru, drošajam režīmam (Secure Mode) ir jābūt izslēgtam.',
-        'Stat#' => 'Atskaite Nr.',
         'default \'hot\'' => 'noklusētais \'hot\'',
 
     };

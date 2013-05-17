@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:43
+    # Last translation file sync: 2013-05-17 10:03:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,6 +1107,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
+        ' (work units)' => ' (稼働時間)',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -2111,6 +2112,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '統計を削除',
+        'Stat#' => '統計番号',
         'Do you really want to delete this stat?' => 'この統計を削除してよろしいですか？',
 
         # Template: AgentStatsEditRestrictions
@@ -4553,7 +4555,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (稼働時間)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -4582,7 +4583,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'セキュアモードで実行中のため、Webインストーラーで再インストールするには無効にする必要があります。',
-        'Stat#' => '統計番号',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '"Inform Sender"チェック・ボックスを設定することで、チケットが結合された際に顧客がEメールで通知されるようにできます。このテキスト領域では、担当者によって後から修正できる事前フォーマット化されたテキストを定義することができます。',
         'default \'hot\'' => '既定パスワード \'hot\'',

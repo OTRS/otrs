@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:35
+    # Last translation file sync: 2013-05-17 10:03:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadística',
+        'Stat#' => 'Estadística#',
         'Do you really want to delete this stat?' => '¿Realmente desea eliminar esta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Añade las direcciones de correo electrónico de los clientes a los destinatarios, en la ventana de redacción de un artículo para un ticket de la interfaz del agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -4577,7 +4578,6 @@ sub Data {
         'Package verification failed!' => '¡La verificación del paquete falló!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
-        'Stat#' => 'Estadística#',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Cuando los tickets se mezclan, se agregará una nota automáticamente al ticket que ya no está activo. Es posible definir el contenido de dicha nota en esta área de texto (el agente no puede modificar este texto).',
         'default \'hot\'' => 'por defecto \'hot\'',

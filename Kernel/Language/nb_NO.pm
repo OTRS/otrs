@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:45
+    # Last translation file sync: 2013-05-17 10:03:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1114,6 +1114,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
+        ' (work units)' => ' (arbeidsenheter)',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -2118,6 +2119,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Slett statistikk',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => 'Vil du virkelig slette denne statistikken?',
 
         # Template: AgentStatsEditRestrictions
@@ -4557,7 +4559,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbeidsenheter)',
         '(work units)' => '(arbeidsenheter)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Legger til kunders e-postadresser som mottakere under Opprett Sak for saksbehandlere.',
@@ -4585,7 +4586,6 @@ sub Data {
         'Package verification failed!' => 'Pakkevalidering feilet!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
-        'Stat#' => 'Stat#',
         'default \'hot\'' => 'Standard \'hot\'',
 
     };

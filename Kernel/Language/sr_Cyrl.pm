@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:51
+    # Last translation file sync: 2013-05-17 10:03:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
+        ' (work units)' => ' (елементи посла)',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Обриши статистику',
+        'Stat#' => 'Статистика Бр.',
         'Do you really want to delete this stat?' => 'Да ли стварно желите да обришете ову статистику?',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (елементи посла)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Додаје корисничке имејл адресе примаоцима у прозору за отварање тикета на интерфејсу оператера.',
         'Balanced white skin by Felix Niklas.' => 'Балансирани бели изглед, Felix Niklas.',
@@ -4570,7 +4571,6 @@ sub Data {
         'Package verification failed!' => 'Неуспела верификација пакета!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
-        'Stat#' => 'Статистика Бр.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Када су тикети спојени, тикету који није активан ће аутоматски бити додана белешка. У простору за текст можете да дефинишете овај текст (Оператери не могу мењати овај текст).',
         'default \'hot\'' => 'подразумевано \'hot\'',

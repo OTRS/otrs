@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:31
+    # Last translation file sync: 2013-05-17 10:03:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,6 +1112,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
+        ' (work units)' => '(jednotky práce)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -2116,6 +2117,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Smazat statistiky',
+        'Stat#' => 'Číslo statistiky',
         'Do you really want to delete this stat?' => 'Opravdu chcete smazat tuto statistiku?',
 
         # Template: AgentStatsEditRestrictions
@@ -4555,7 +4557,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '(jednotky práce)',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
         'CreateTicket' => 'Vytvořit Tiket',
         'Customer Data' => 'Data Zákazníka',
@@ -4569,7 +4570,6 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Bezpečnostní Mód musí být deaktivován za účelem Reinstalu pomocí Web-Installeru.',
         'Split' => 'Rozdělit',
-        'Stat#' => 'Číslo statistiky',
         'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
         'Ticket Information' => 'Informace o tiketu',
         'TicketFreeFields' => 'Volná pole Tiketu',

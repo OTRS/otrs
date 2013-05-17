@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:48
+    # Last translation file sync: 2013-05-17 10:03:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1110,6 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de Tempo',
+        ' (work units)' => '',
         'Ticket Commands' => 'Comandos-Chamado',
         'Send agent/customer notifications on changes' => 'Enviar Notificações De Alterações Para Atendente/Cliente',
         'CMD' => 'Comando',
@@ -2114,6 +2115,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Escluir estatística',
+        'Stat#' => 'Estatística Nº:.',
         'Do you really want to delete this stat?' => 'Você quer realmente excluir esta estatística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4576,7 +4578,6 @@ sub Data {
         'Package verification failed!' => 'A verificação do pacote falhou!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
-        'Stat#' => 'Estatística Nº:.',
         'There are currently no steps available for this process.' => 'Não há ações disponíveis para esse processo atualmente.',
         'There are no further steps in this process' => 'Não há mais passos nesse processo',
         'default \'hot\'' => 'padrão \'quente\'',

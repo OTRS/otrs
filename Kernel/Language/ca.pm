@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:30
+    # Last translation file sync: 2013-05-17 10:03:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
+        ' (work units)' => ' (unitats de treball)',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadístiques',
+        'Stat#' => 'Estat#',
         'Do you really want to delete this stat?' => 'De debò vol eliminar aquesta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unitats de treball)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Afegeix les adreces de correu electrònic dels clients als destinataris en la pantalla de creació de tiquet de la interfície de l\'agent.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -4570,7 +4571,6 @@ sub Data {
         'Package verification failed!' => 'Verificació del paquet ha fallat!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
-        'Stat#' => 'Estat#',
         'default \'hot\'' => 'per defecte \'hot\'',
 
     };

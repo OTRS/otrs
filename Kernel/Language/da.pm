@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:32
+    # Last translation file sync: 2013-05-17 10:03:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,6 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
+        ' (work units)' => ' (arbejdsenheder)',
         'Ticket Commands' => 'Sagskommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
         'CMD' => 'CMD',
@@ -2111,6 +2112,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Slet rapport',
+        'Stat#' => 'Rapport',
         'Do you really want to delete this stat?' => 'Vil du virkelig slette denne rapport?',
 
         # Template: AgentStatsEditRestrictions
@@ -4550,7 +4552,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbejdsenheder)',
         'Currently only MySQL is supported in the web installer.' => 'Pt. understøttes kun MySQL af web-installeren.',
         'Customer Data' => 'Kundedata',
         'DB host' => 'DB--- server',
@@ -4566,7 +4567,6 @@ sub Data {
         'Package verification failed!' => 'Pakkeverifikation fejlede!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
-        'Stat#' => 'Rapport',
         'default \'hot\'' => 'standard \'hot\'',
 
     };

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:56
+    # Last translation file sync: 2013-05-17 10:03:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1111,6 +1111,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
+        ' (work units)' => '工作单元',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -2115,6 +2116,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '删除统计',
+        'Stat#' => '统计号',
         'Do you really want to delete this stat?' => '你确认要删除该统计?',
 
         # Template: AgentStatsEditRestrictions
@@ -4554,7 +4556,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '工作单元',
         'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
         'Customer Data' => '客户数据',
         'DB host' => '数据库服务器',
@@ -4570,7 +4571,6 @@ sub Data {
         'Package verification failed!' => '软件包验证失败',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
-        'Stat#' => '统计号',
         'default \'hot\'' => '默认密码 \'hot\'',
 
     };

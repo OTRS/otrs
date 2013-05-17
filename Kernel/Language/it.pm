@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:42
+    # Last translation file sync: 2013-05-17 10:03:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1113,6 +1113,7 @@ sub Data {
         'Archive selected tickets' => 'Archivia i ticket selezionati',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
+        ' (work units)' => ' (unità di lavoro)',
         'Ticket Commands' => 'Comandi Ticket',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'CMD' => 'comando',
@@ -2117,6 +2118,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Elimina statistica',
+        'Stat#' => 'Numero Statistica#',
         'Do you really want to delete this stat?' => 'Si desidera veramente eliminare questa statistica?',
 
         # Template: AgentStatsEditRestrictions
@@ -4556,7 +4558,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unità di lavoro)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -4578,7 +4579,6 @@ sub Data {
         'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
-        'Stat#' => 'Numero Statistica#',
         'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
         'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
         'default \'hot\'' => '\'hot\' predefinito',

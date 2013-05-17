@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:40
+    # Last translation file sync: 2013-05-17 10:03:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1110,6 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
+        ' (work units)' => ' (elementi posla)',
         'Ticket Commands' => 'Komande za karticu',
         'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
         'CMD' => 'CMD',
@@ -2114,6 +2115,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Obriši statistiku',
+        'Stat#' => 'Statistika br.',
         'Do you really want to delete this stat?' => 'Da li uistinu želite obrisati ovu statistiku?',
 
         # Template: AgentStatsEditRestrictions
@@ -4553,7 +4555,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (elementi posla)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Dodaje korisničke e-mail adrese primaocima u prozoru za otvaranje kartice na sučelju zaposlenog.',
         'Balanced white skin by Felix Niklas.' => 'Balansirani bijeli izgled, Felix Niklas.',
@@ -4572,7 +4573,6 @@ sub Data {
         'Package verification failed!' => 'Neuspjela provjera paketa!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '"Siguran način" mora biti isključen radi reinstalacije putem weba.',
-        'Stat#' => 'Statistika br.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Kada su kartice spojeni, kartici koji nije aktivan će automatski biti dodana beleška. U prostoru za tekst možete da definišete ovaj tekst (Zaposlenici ne mogu mijenjati ovaj tekst).',
         'default \'hot\'' => 'podrazumijevano \'hot\'',

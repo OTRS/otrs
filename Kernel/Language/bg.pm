@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:29
+    # Last translation file sync: 2013-05-17 10:03:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,6 +1107,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
+        ' (work units)' => ' (работни единици)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2111,6 +2112,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Статистика#',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4550,11 +4552,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (работни единици)',
         'Customer Data' => 'Данни за потребителя',
         'Database-User' => 'Потребител на СУБД',
         'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
-        'Stat#' => 'Статистика#',
         'default \'hot\'' => 'по подразбиране',
 
     };

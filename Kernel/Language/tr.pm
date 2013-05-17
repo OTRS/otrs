@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:54
+    # Last translation file sync: 2013-05-17 10:03:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,6 +1106,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
+        ' (work units)' => ' (iş birimi)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -2110,6 +2111,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Durumu sil',
+        'Stat#' => 'İstatistik numarası',
         'Do you really want to delete this stat?' => 'Bu durumu gerçekten silmek istiyormusunuz?',
 
         # Template: AgentStatsEditRestrictions
@@ -4549,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',
@@ -4938,7 +4939,6 @@ sub Data {
         'Source' => 'Kaynak',
         'Spell Check' => 'Sözdizim Kontrolü',
         'Split' => 'Ayır',
-        'Stat#' => 'İstatistik numarası',
         'State Type' => 'Durum Tipi',
         'Static-File' => 'Sabit Dosya',
         'Stats-Area' => 'İstatistikler Alanı',

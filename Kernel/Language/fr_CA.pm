@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:39
+    # Last translation file sync: 2013-05-17 10:03:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1113,6 +1113,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
+        ' (work units)' => ' Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -2117,6 +2118,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Supprimer la statistique',
+        'Stat#' => 'Statistique no ',
         'Do you really want to delete this stat?' => 'Voulez-vous vraiment supprimer cette statistique?',
 
         # Template: AgentStatsEditRestrictions
@@ -4615,7 +4617,6 @@ sub Data {
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... Failed' => ' $WrongCertificate->{NewHash}.$NewIndex ... Échec',
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... OK' => ' $WrongCertificate->{NewHash}.$NewIndex ... OK',
         ' $WrongPrivateKeyFile.P to $NewPrivateKeyFile.P!' => ' $WrongPrivateKeyFile.P à $NewPrivateKeyFile.P!',
-        ' (work units)' => ' Unité de travail',
         ' >> Can\'t write $Self->{LogFile}: $! <<\n' => ' >> Il n\'est pas possible d\'écrire $Self->{LogFile}: $! \n',
         ' Article->Charset parameters are required!' => ' Article->Charset parameters (Article - Paramètres du jeu de caractères) sont nécessaires.',
         ' Bytes' => ' Octets',
@@ -6953,7 +6954,6 @@ sub Data {
         'Standard Signature.' => 'Signature usuelle.',
         'Start Scheduler' => 'Démarrer l’ordonnanceur',
         'Start support' => 'Lancer le soutien',
-        'Stat#' => 'Statistique no ',
         'State Type' => 'Type d\'état de la demande ',
         'State for merged tickets.' => 'L\'état des demandes fusionnées.',
         'State type for merged tickets (default: not viewable).' => 'Le type d\'état des demandes fusionnées (invisible par défaut).',

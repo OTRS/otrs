@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:34
+    # Last translation file sync: 2013-05-17 10:03:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1111,6 +1111,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
+        ' (work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -2115,6 +2116,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Borrar la estadística',
+        'Stat#' => 'Estadística nº',
         'Do you really want to delete this stat?' => '¿Seguro que desea borrar esta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4561,7 +4563,6 @@ sub Data {
             'Si ha fijado una clave para su base de datos, debe especificarla aquí. Si no, déjelo en blanco. Por razones de seguridad, recomendamos establecer una clave para root. PAra más información, consulte la documentación de su base de datos.',
         'Logout successful. Thank you for using OTRS!' => 'Sesión cerrada con éxito. ¡Gracias por utilizar OTRS!',
         'Package verification failed!' => '¡Error en la verificación del paquete!',
-        'Stat#' => 'Estadística nº',
         'There are currently no steps available for this process.' => 'Actualmente no hay pasos disponibles para este proceso.',
         'There are no further steps in this process' => 'Este proceso no tiene más pasos.',
         'default \'hot\'' => 'por defecto \'hot\'',

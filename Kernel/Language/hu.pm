@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:41
+    # Last translation file sync: 2013-05-17 10:03:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1111,6 +1111,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idő egységek',
+        ' (work units)' => ' (munkaegység)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Küldjön változatásokról értesítést az ügyintézőnek/ügyfélnek',
         'CMD' => 'PARANCS',
@@ -2115,6 +2116,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4554,7 +4556,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (munkaegység)',
         'Customer Data' => 'Ügyfél adatok',
         'Database-User' => 'Adatbázis felhasználó',
         'For more info see:' => 'További információért:',
@@ -4564,7 +4565,6 @@ sub Data {
         'Package verification failed!' => 'Csomag ellenőrzés nem sikerült!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Biztonságos üzemmódot le kell tíltani ahhoz, hogy a webes telepítővel újra lehessen dolgozni.',
-        'Stat#' => 'Stat#',
         'default \'hot\'' => 'alapértelmezett',
 
     };

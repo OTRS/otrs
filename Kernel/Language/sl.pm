@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:51
+    # Last translation file sync: 2013-05-17 10:03:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1110,6 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izbrane zahtevke',
         'Add Note' => 'Dodaj opombo',
         'Time units' => 'Časovne enote',
+        ' (work units)' => '',
         'Ticket Commands' => 'Ukazi za zahtevek',
         'Send agent/customer notifications on changes' => 'Pošlji obvestilo zaposlenemu/uporabniku o spremembah',
         'CMD' => 'CMD',
@@ -2114,6 +2115,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Izbriši statistiko',
+        'Stat#' => 'Statistika št.',
         'Do you really want to delete this stat?' => 'Ali res želite izbrisati to statistiko?',
 
         # Template: AgentStatsEditRestrictions
@@ -4571,7 +4573,6 @@ sub Data {
         'Package verification failed!' => 'Preverjanje paketa ni uspelo!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Varni način mora biti onemogočen zaradi ponovne instalacije preko weba.',
-        'Stat#' => 'Statistika št.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Ko se združijo zahtevki, zahtevku ki ni aktiven se bo avtomatsko dodala opomba. V prostoru za tekst lahko definirate naslednji tekst (Uporabniki ne morejo spreminjati tega besedila).',
         'default \'hot\'' => 'privzeto \'hot\'',

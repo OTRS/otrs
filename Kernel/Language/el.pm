@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:34:33
+    # Last translation file sync: 2013-05-17 10:03:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1108,6 +1108,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Προσθήκη Σημείωσης',
         'Time units' => 'Μονάδες Χρόνου',
+        ' (work units)' => ' (μονάδες εργασίας)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Διαταγή',
@@ -2117,6 +2118,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4557,7 +4559,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (μονάδες εργασίας)',
         'Customer Data' => 'Δεδομένα Πελάτη',
         'Database-User' => 'Ονομα χρήστη βάσης',
         'For more info see:' => 'Για περισσότερες πληροφορίες δειτε',
