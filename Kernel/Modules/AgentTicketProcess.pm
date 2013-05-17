@@ -2412,23 +2412,24 @@ sub _RenderCustomer {
         },
     );
 
-    if ( IsHashRefWithData( $Param{Ticket} ) ) {
+    if (
+        ( IsHashRefWithData( $Param{Ticket} ) && $Param{Ticket}->{CustomerUserID} )
+        || $SubmittedCustomerUserID
+        )
+    {
+        %CustomerUserData
+            = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $SubmittedCustomerUserID
+                || $Param{Ticket}{CustomerUserID},
+            );
+    }
 
-        if ( $Param{Ticket}->{CustomerUserID} || $SubmittedCustomerUserID ) {
-            %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $SubmittedCustomerUserID
-                    || $Param{Ticket}{CustomerUserID},
-                );
-        }
-
-        # show customer field as "FirstName Lastname" <MailAddress>
-        if ( IsHashRefWithData( \%CustomerUserData ) ) {
-            $Data{CustomerUserID} = "\"$CustomerUserData{UserFirstname} " .
-                "$CustomerUserData{UserLastname}\" <$CustomerUserData{UserEmail}>";
-            $Data{CustomerID}           = $CustomerUserData{UserCustomerID} || '';
-            $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
-        }
+    # show customer field as "FirstName Lastname" <MailAddress>
+    if ( IsHashRefWithData( \%CustomerUserData ) ) {
+        $Data{CustomerUserID} = "\"$CustomerUserData{UserFirstname} " .
+            "$CustomerUserData{UserLastname}\" <$CustomerUserData{UserEmail}>";
+        $Data{CustomerID}           = $CustomerUserData{UserCustomerID} || '';
+        $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
     }
 
     # set fields that will get an AJAX loader icon when this field changes
