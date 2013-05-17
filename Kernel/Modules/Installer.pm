@@ -674,7 +674,6 @@ sub Run {
             @SQLPost = $Self->{DBObject}->SQLProcessorPost() if $SchemaFile eq 'otrs-schema';
 
             for my $SQL (@SQL) {
-                warn $SQL;
                 $Self->{DBObject}->Do( SQL => $SQL );
             }
 
@@ -693,7 +692,6 @@ sub Run {
 
         for my $SQL (@SQLPost) {
             $Self->{DBObject}->Do( SQL => $SQL );
-            warn $SQL;
         }
 
         $Self->{LayoutObject}->Block(
