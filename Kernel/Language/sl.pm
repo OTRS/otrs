@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:41
+    # Last translation file sync: 2013-05-17 09:52:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -350,8 +350,6 @@ sub Data {
         'Events' => 'Dogodki',
         'Invalid Token!' => 'Nepravilna oznaka!',
         'more' => 'več',
-        'For more info see:' => 'Za več informacij si oglejte:',
-        'Package verification failed!' => 'Preverjanje paketa ni uspelo!',
         'Collapse' => 'Zmanjšaj',
         'Shown' => 'Prikazano',
         'Shown customer users' => '',
@@ -360,6 +358,10 @@ sub Data {
         'OTRS News' => 'OTRS novice',
         '7 Day Stats' => 'Tedenska statistika',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Krepko',
         'Italic' => 'Ležeče',
@@ -654,6 +656,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Nimate dostopa do zahtevka.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             '',
+        'Please change the owner first.' => '',
         'Ticket selected.' => 'Izbrani zahtevek',
         'Ticket is locked by another agent.' => 'Zahtevek je prevzet.',
         'Ticket locked.' => 'Zahtevek prevzet.',
@@ -1107,7 +1110,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izbrane zahtevke',
         'Add Note' => 'Dodaj opombo',
         'Time units' => 'Časovne enote',
-        '(work units)' => '',
+        ' (work units)' => '',
         'Ticket Commands' => 'Ukazi za zahtevek',
         'Send agent/customer notifications on changes' => 'Pošlji obvestilo zaposlenemu/uporabniku o spremembah',
         'CMD' => 'CMD',
@@ -2719,8 +2722,11 @@ sub Data {
         'Go back to the previous page' => 'Pojdi nazaj na prejšnjo stran',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '"ACL" modul, ki omogoča da se zaprejo matični zahtevki le če so že zaprti vsi pod-zahtevki (Status kaže kateri statusi niso na voljo za zahtevek dokler se ne zaprejo vsi podrejeni zahtevki.',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Aktivira mehanizem utripa vrste, ki vsebuje najstarejše zahtevek.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2738,8 +2744,8 @@ sub Data {
         'Activates time accounting.' => 'Aktiviranje časa.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Doda po meri e-mail naslov prejemnika v oknu, da odprete zahtevek na vmesniku zaposlenega.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2821,6 +2827,7 @@ sub Data {
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Priloge <-> Odgovori',
         'Auto Responses <-> Queues' => 'Avtomatski odgovor <-> Vrste',
         'Automated line break in text messages after x number of chars.' =>
@@ -2908,6 +2915,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'Stranke <-> Skupine',
         'Customers <-> Services' => 'Stranke <-> Servisi',
         'Data used to export the search result in CSV format.' => 'Podatki, ki se uporabljajo za izvoz rezultatov iskanja v formatu CSV.',
@@ -3626,8 +3634,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3635,6 +3641,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => 'Filter dohodne e-pošte.',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -4397,6 +4407,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => 'Izgled',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4499,6 +4511,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Pregled zahtevka',
+        'TicketNumber' => '',
         'Tickets' => 'Zahtevki',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4516,6 +4529,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'Posodobi indeks eskalacije zahtevka za posodobitvijo lastnosti zahtevka.',
         'Updates the ticket index accelerator.' => 'Posodobi indeks zahtevka.',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4534,8 +4549,12 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Doda po meri e-mail naslov prejemnika v oknu, da odprete zahtevek na vmesniku zaposlenega.',
         'Customer Data' => 'Podatki o stranki',
+        'For more info see:' => 'Za več informacij si oglejte:',
         'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',
+        'Package verification failed!' => 'Preverjanje paketa ni uspelo!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Varni način mora biti onemogočen zaradi ponovne instalacije preko weba.',
 

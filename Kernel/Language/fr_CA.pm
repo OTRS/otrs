@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:25
+    # Last translation file sync: 2013-05-17 09:51:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -353,8 +353,6 @@ sub Data {
         'Events' => 'Évènements',
         'Invalid Token!' => 'Jeton invalide.',
         'more' => 'plus',
-        'For more info see:' => 'Pour de plus amples renseignements, visitez le ',
-        'Package verification failed!' => 'La vérification du paquet a échoué.',
         'Collapse' => 'Réduire',
         'Shown' => 'Affiché(s)',
         'Shown customer users' => '',
@@ -363,6 +361,10 @@ sub Data {
         'OTRS News' => 'Nouvelles de OTRS',
         '7 Day Stats' => 'Statistiques sur 7 jours',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Gras',
         'Italic' => 'Italique',
@@ -657,6 +659,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Vous n\'avez pas de permission d\'écriture pour cette demande.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Désolé, vous devez être le propriétaire de la demande pour effectuer cette action.',
+        'Please change the owner first.' => 'D\'abord, veuillez modifier le propriétaire.',
         'Ticket selected.' => 'Demande sélectionnée.',
         'Ticket is locked by another agent.' => 'Demande verrouillée par un autre agent.',
         'Ticket locked.' => 'Demande verrouillée.',
@@ -1110,7 +1113,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        '(work units)' => '',
+        ' (work units)' => ' Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -2722,8 +2725,11 @@ sub Data {
         'Go back to the previous page' => 'Revenir à la page précédente',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Le module ACL permet la fermeture des demandes parents uniquement si les demandes enfants sont déjà fermées (l\' « État » affiche quels sont les états qui ne peuvent être accessibles pour les demandes parents jusqu\'à ce que l\'ensemble des demandes enfants soient fermées).',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Active le clignotement de la file qui contient la demande la plus ancienne.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2741,8 +2747,8 @@ sub Data {
         'Activates time accounting.' => 'Active la comptabilisation du temps.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Ajoute un suffixe comprenant l\'année et le mois en cours au fichier d\'enregistrement de OTRS. Un fichier d\'enregistrement est créé à chaque mois.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Ajoute les adresses de courrier électronique des clients dans le champ « destinataire » dans l\'écran de rédaction des demandes de l\'interface agent.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Ajoute les jours de congé ponctuels au calendrier désigné. Utilisez un seul caractère numérique pour les chiffres de 1 à 9 (ne pas inscrire 01 à 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2824,6 +2830,7 @@ sub Data {
             'Permet aux administrateurs d\'ouvrir une session à titre d\'utilisateurs au moyen de la page de gestion des utilisateurs.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permet d\'établir un nouvel état de la demande dans l\'écran de déplacement des demandes de l\'interface agent.',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Pièces jointes <-> Réponses',
         'Auto Responses <-> Queues' => 'Réponses automatiques <-> Files',
         'Automated line break in text messages after x number of chars.' =>
@@ -2911,6 +2918,7 @@ sub Data {
             'Article du client (icône) lui montrant les demandes fermées regroupées. Le réglage de l\'ouverture de session de l\'utilisateur-client (CustomerUserLogin) à 1 permet la recherche de demandes fondée sur le nom d\'ouverture de session plutôt que sur l\'identification du client.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Article du client (icône) lui montrant les demandes ouvertes regroupées. Le réglage de l\'ouverture de session de l\'utilisateur-client (CustomerUserLogin) à 1 permet la recherche de demandes fondée sur le nom d\'ouverture de session plutôt que sur l\'identification du client.',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'Clients <-> Groupes',
         'Customers <-> Services' => 'Clients <-> Services',
         'Data used to export the search result in CSV format.' => 'Données utilisées pour exporter les résultats de recherche dans le format CSV.',
@@ -3629,8 +3637,6 @@ sub Data {
             'Exécute la vérification des suivis du corps des courriels qui n\'ont pas de numéro de demande dans le sujet.',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             'Exécute la vérification des suivis des courriels ordinaires ou non traités qui n\'ont pas de numéro de demande dans le sujet.',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            'Habillage expérimental « compact » (Slim) qui cherche à économiser l\'espace utilisé par les utilisateurs expérimentés.',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             'Exporte l\'arborescence complet d\'un article dans les résultats de recherche (la performance du système pourrait être touchée).',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3638,6 +3644,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             'Fichier affiché dans le module Kernel::Modules::AgentInfo, s\'il est situé sous Kernel/Output/HTML/Standard/AgentInfo.dtl.',
         'Filter incoming emails.' => 'Filtrer les courriels entrants.',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Force le codage des courriels sortants (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -4400,6 +4410,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             'Le réglage à « Oui » affiche la description complète de la durée (jours, heures, minutes); le réglage à « Non » n\'affiche que les premières lettres (j, h, m).',
         'Skin' => 'Habillage ',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             'Classe les demandes (en ordre croissant ou décroissant) lorsqu\'une seule file est sélectionnée dans la vue des files et après que les demandes sont classées par priorité. Valeurs : 0 = en ordre croissant (Par défaut, la plus ancienne en haut de la file), 1 = en ordre décroissant (la plus récente en haut de la file). Utilise l\'identification de la file (QueueID) en tant que clé et « 0 » ou « 1 » en tant que valeur.',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4502,6 +4514,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             'Module d\'événements des demandes qui déclenche les arrêts d\'escalade.',
         'Ticket overview' => 'Visualisation de la demande ',
+        'TicketNumber' => '',
         'Tickets' => 'Demandes',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Temps, en secondes, à ajouter à l\'heure actuelle dans le cas d\'une mise en attente (par défaut : 86400 = 1 jour).',
@@ -4519,6 +4532,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'Met à jour l\'index des escalades des demandes après qu\'un attribut de demande a été mis à jour.',
         'Updates the ticket index accelerator.' => 'Effectue la mise à jour de l\'accélérateur de l\'index des demandes.',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             'Utilise les destinataires de la liste de réponses en copie conforme lors de la rédaction de réponses par courriel dans l\'écran de rédaction de l\'interface agent.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4596,7 +4611,6 @@ sub Data {
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... Failed' => ' $WrongCertificate->{NewHash}.$NewIndex ... Échec',
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... OK' => ' $WrongCertificate->{NewHash}.$NewIndex ... OK',
         ' $WrongPrivateKeyFile.P to $NewPrivateKeyFile.P!' => ' $WrongPrivateKeyFile.P à $NewPrivateKeyFile.P!',
-        ' (work units)' => ' Unité de travail',
         ' >> Can\'t write $Self->{LogFile}: $! <<\n' => ' >> Il n\'est pas possible d\'écrire $Self->{LogFile}: $! \n',
         ' Article->Charset parameters are required!' => ' Article->Charset parameters (Article - Paramètres du jeu de caractères) sont nécessaires.',
         ' Bytes' => ' Octets',
@@ -4804,6 +4818,8 @@ sub Data {
         'Address book of CustomerUser sources' => 'Carnet d\'adresses des sources de l\'utilisateur client (CustomerUser)',
         'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' =>
             'Ajoute un suffixe avec l\'année et le mois actuels au fichier journal de OTRS. Un fichier journal sera créé à chaque mois.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Ajoute les adresses de courrier électronique des clients dans le champ « destinataire » dans l\'écran de rédaction des demandes de l\'interface agent.',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Ajoute les congés ponctuels au calendrier no 1. Veuillez n\'utiliser qu\'un seul chiffre pour les nombres de 1 à 9 (au lieu de 01 - 09).',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -5463,6 +5479,8 @@ sub Data {
         'Executes follow up mail attachments checks in mails that don\'t have a ticket number in the subject.' =>
             'Exécute la vérification des suivis de pièces jointes aux courriels qui n\'ont pas de numéro de demande dans le sujet.',
         'Expand View' => 'Vision élargie',
+        'Experimental "Slim" skin which tries to save screen space for power users.' =>
+            'Habillage expérimental « compact » (Slim) qui cherche à économiser l\'espace utilisé par les utilisateurs expérimentés.',
         'Explanation' => 'Explication',
         'Export Config' => 'Exporter la configuration',
         'Export: Get no StatID!' => 'Exporter : la statistique no StatID!',
@@ -5510,6 +5528,7 @@ sub Data {
             'Les suivis sont possibles après la fermeture (+|-) de la demande. La demande sera réouverte.',
         'FollowUp' => 'Suivi (FollowUp)',
         'For more info please check' => 'Pour de plus amples renseignements, visitez le ',
+        'For more info see:' => 'Pour de plus amples renseignements, visitez le ',
         'For more info see: ' => 'Pour de plus amples renseignements, visitez le ',
         'For quick help please submit your system information and create a support ticket at the vendor\'s site.' =>
             'Pour obtenir de l\'aide rapidement, communiquer l\'information de votre système et créer une demande de soutien sur le site du vendeur.',
@@ -6617,6 +6636,7 @@ sub Data {
             'Le paquet n\'a pas été correctement déployé! Vous devez l\'installer à nouveau.',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'Le paquet n\'a pas été correctement déployé! Vous devez l\'installer à nouveau.',
+        'Package verification failed!' => 'La vérification du paquet a échoué.',
         'Packages not correctly installed: $Message.' => 'Les paquets ne sont pas installés correctement : $Message.',
         'Page:' => 'Page :',
         'Pakistan' => 'Pakistan',
@@ -6672,7 +6692,6 @@ sub Data {
         'Picture upload module' => 'Module de téléchargement d\'images',
         'Pitcairn' => 'Pitcairn',
         'Please become the owner first.' => 'D\'abord, veuillez configurer un nouveau propriétaire.',
-        'Please change the owner first.' => 'D\'abord, veuillez modifier le propriétaire.',
         'Please configure your FQDN inside the SysConfig module. (currently the default setting \'$FQDN\' is enabled).' =>
             'Veuillez configurer votre nom de domaine complet dans le module de configuration du système. (en ce moment, le réglage par défaut \'$FQDN\' est activé).',
         'Please contact' => 'Veuillez joindre ',

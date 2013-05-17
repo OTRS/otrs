@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:12
+    # Last translation file sync: 2013-05-17 09:51:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -346,8 +346,6 @@ sub Data {
         'Events' => 'Esdeveniments',
         'Invalid Token!' => '\'Token\' invàlid!',
         'more' => 'més',
-        'For more info see:' => 'Para més informació vegi:',
-        'Package verification failed!' => 'Verificació del paquet ha fallat!',
         'Collapse' => 'Contreure',
         'Shown' => 'Mostra',
         'Shown customer users' => '',
@@ -356,6 +354,10 @@ sub Data {
         'OTRS News' => 'Novetats de OTRS',
         '7 Day Stats' => 'Estadístiques Setmanals',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Negreta',
         'Italic' => 'Cursiva',
@@ -650,6 +652,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'No té accés d\'escriptura a aquest tiquet.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Ho sentim, necessita ser el propietari del tiquet per realitzar aquesta acció.',
+        'Please change the owner first.' => '',
         'Ticket selected.' => 'Tiquet seleccionat.',
         'Ticket is locked by another agent.' => 'Tiquet bloquejat per un altre agent.',
         'Ticket locked.' => 'Tiquet bloquejat',
@@ -1103,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        '(work units)' => '',
+        ' (work units)' => ' (unitats de treball)',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -2715,8 +2718,11 @@ sub Data {
         'Go back to the previous page' => 'Tornar a la pàgina anterior',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Mòdul de ACL que permet tancar els tiquets pare només si tots els seus fills ja estan tancats ("Estat" mostra que estats no estan disponibles per al tiquet pare fins que tots els tiquets fill estiguin tancats).',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Activa un mecanisme de parpalleig de la cua que conté els tiquets més antics.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2734,8 +2740,8 @@ sub Data {
         'Activates time accounting.' => 'Activa la comptabilitat de temps.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Afegeix un sufix amb l\'any actual i el mes en el fitxer de registre de OTRS. Es crearà un arxiu per cada mes.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Afegeix les adreces de correu electrònic dels clients als destinataris en la pantalla de creació de tiquet de la interfície de l\'agent.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Afegeix un dia lliure per al calendari indicat. Per favor usi el model d\'un sol dígit per als nombres d\'1 a 9 (en comptes de 01 - 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2817,6 +2823,7 @@ sub Data {
             'Permet als administradors iniciar una sessió com un altre usuari, a través del panell d\'administració d\'usuaris.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permet posar un nou estat de tiquet en la pantalla de moviment de tiquet en l\'interfície d\'agent.',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Adjunts <-> Respostes',
         'Auto Responses <-> Queues' => 'Auto Respostes <-> Cues',
         'Automated line break in text messages after x number of chars.' =>
@@ -2904,6 +2911,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => '',
         'Customers <-> Services' => '',
         'Data used to export the search result in CSV format.' => '',
@@ -3622,8 +3630,6 @@ sub Data {
             '',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3631,6 +3637,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter incoming emails.' => '',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -4393,6 +4403,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => '',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4495,6 +4507,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => '',
+        'TicketNumber' => '',
         'Tickets' => 'Tiquets',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4512,6 +4525,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4530,11 +4545,14 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unitats de treball)',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Afegeix les adreces de correu electrònic dels clients als destinataris en la pantalla de creació de tiquet de la interfície de l\'agent.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
         'Customer Data' => 'Informació del client',
+        'For more info see:' => 'Para més informació vegi:',
         'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
+        'Package verification failed!' => 'Verificació del paquet ha fallat!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
 

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-04-18 14:11:18
+    # Last translation file sync: 2013-05-17 09:51:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -346,8 +346,6 @@ sub Data {
         'Events' => 'Eventos',
         'Invalid Token!' => 'Informaci√≥n inv√°lida.',
         'more' => 'm√°s',
-        'For more info see:' => 'Para mas informaci√≥n vea:',
-        'Package verification failed!' => '¬°La verificaci√≥n del paquete fall√≥!',
         'Collapse' => 'Colapso',
         'Shown' => 'Mostrados (as)',
         'Shown customer users' => '',
@@ -356,6 +354,10 @@ sub Data {
         'OTRS News' => 'Novedades de OTRS',
         '7 Day Stats' => 'Estad√≠sticas Semanales',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
+            '',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Negritas',
         'Italic' => 'Cursiva',
@@ -650,6 +652,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Usted no tiene acceso de escritura a este ticket.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Lo siento, usted debe ser el due√±o del ticket para realizar esta acci√≥n',
+        'Please change the owner first.' => '',
         'Ticket selected.' => 'Ticket seleccionado',
         'Ticket is locked by another agent.' => 'El ticket se encuentra bloqueado por otro Agente.',
         'Ticket locked.' => 'Ticket bloqueado',
@@ -1103,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'A√±adir Nota',
         'Time units' => 'Unidades de tiempo',
-        '(work units)' => '',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaci√≥n de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -2715,8 +2718,11 @@ sub Data {
         'Go back to the previous page' => 'Regresar a la p√°gina anterior',
 
         # SysConfig
+        '"Slim" Skin which tries to save screen space for power users.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'M√≥dulo ACL que permite cerrar los tickets padre √∫nicamente si todos sus hijos ya est√°n cerrados ("Estado" muestra cu√°les estados no est√°n disponibles para el ticket padre, hasta que todos sus hijos est√©n cerrados).',
+        'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Activa un mecanismo de parpadeo para la fila que contiene el ticket m√°s antiguo.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -2734,8 +2740,8 @@ sub Data {
         'Activates time accounting.' => 'Activa la contatibilidad de tiempo.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'A√±ade un sufijo con el a√±o y mes actuales al archivo log de OTRS. Se generar√° un archivo log distinto para cada mes.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'A√±ade las direcciones de correo electr√≥nico de los clientes a los destinatarios, en la ventana de redacci√≥n de un art√≠culo para un ticket de la interfaz del agente.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2817,6 +2823,7 @@ sub Data {
             'Permite al administrador iniciar sesi√≥n como otros usuarios, a trav√©s del panel de administraci√≥n de los mismos.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permite definir el estado de un ticket nuevo, en la ventana de mover ticket de la interfaz del agente.',
+        'ArticleTree' => '',
         'Attachments <-> Responses' => 'Anexos <-> Respuestas',
         'Auto Responses <-> Queues' => 'Respuestas Autom√°ticas <-> Filas',
         'Automated line break in text messages after x number of chars.' =>
@@ -2904,6 +2911,7 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'CustomerName' => '',
         'Customers <-> Groups' => 'Clientes <-> Grupos',
         'Customers <-> Services' => 'Clientes <-> Servicios',
         'Data used to export the search result in CSV format.' => 'Datos usados para exportar el resultado de la b√∫squeda a formato CSV.',
@@ -3622,8 +3630,6 @@ sub Data {
             'Ejecuta verificaciones del cuerpo de los correos de seguimiento, en los correos que no tienen un n√∫mero de ticket en el asunto.',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             'Ejecuta verificaciones de texto plano de los correos de seguimiento, en los correos que no tienen un n√∫mero de ticket en el asunto.',
-        'Experimental "Slim" skin which tries to save screen space for power users.' =>
-            'Piel "Slim" experimental, que pretende ahorrar espacio en la pantalla para usuarios avanzados.',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             'Exporta el √°rbol de art√≠culo completo en el resultado de la b√∫squeda. Esto puede afectar el desempe√±o del sistema.',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
@@ -3631,6 +3637,10 @@ sub Data {
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             'Archivo que se muestra en el m√≥dulo Kernel::Modules::AgentInfo, si se encuentra bajo Kernel/Output/HTML/Standard/AgentInfo.dtl.',
         'Filter incoming emails.' => 'Filtrar correos electr√≥nicos entrantes.',
+        'FirstLock' => '',
+        'FirstResponse' => '',
+        'FirstResponseDiffInMin' => '',
+        'FirstResponseInMin' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Fuerza la codificaci√≥n de correos electr√≥nicos salientes (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -4393,6 +4403,8 @@ sub Data {
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Skin' => 'Piel.',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             'Ordena los tickets (ascendente o descendentemente), luego de haberse ordenado por prioridad, cuando una sola fila se selecciona en la vista de filas. Values: 0 = ascendente (por defecto, m√°s antiguo arriba), 1 = descendente (m√°s reciente arriba). Use el identificador de la fila como Key y 0 √≥ 1 como Valor.',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
@@ -4495,6 +4507,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Vista de resumen de los tickets',
+        'TicketNumber' => '',
         'Tickets' => 'Tickets',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Tiempo en segundos que se a√±ade al tiempo actual, si se define un estado-pendiente (por defecto: 86400 = 1 d√≠a).',
@@ -4512,6 +4525,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'Actualiza el √≠ndice de escalado de ticket, luego de que un atributo de ticket se actualiz√≥.',
         'Updates the ticket index accelerator.' => 'Actualiza el acelerador de √≠ndice de ticket.',
+        'UserFirstname' => '',
+        'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             'Usa los destinatarios Cc, en la lista de respuesta Cc, al redactar una respuesta electr√≥nica en la ventana de redacci√≥n de la interfaz del agente.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
@@ -4530,7 +4545,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets afectados. ¬øRealmente desea utilizar esta tarea?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Chequear registro MX de direcciones utilizadas al responder. ¬° No usarlo si su PC con OTRS est√° detr√°s de una l√≠nea telefonica $!)',
@@ -4581,6 +4595,8 @@ sub Data {
         'Add a note to this ticket!' => 'A√±adir una nota a este ticket',
         'Add note to ticket' => 'A√±adir nota al ticket',
         'Added User "%s"' => 'Usuario "%s a√±adido"',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'A√±ade las direcciones de correo electr√≥nico de los clientes a los destinatarios, en la ventana de redacci√≥n de un art√≠culo para un ticket de la interfaz del agente.',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'A√±ade los d√≠as de vacaciones, √∫nicos para cada a√±o, al calendario n√∫mero 1. Por favor, utilice el patr√≥n de un solo d√≠gito para los n√∫meros del 1 al 9 (en lugar de 01 - 09).',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -5085,6 +5101,8 @@ sub Data {
             'Registro de m√≥dulo de evento. Para aumentar el desempe√±o, puede definirse un disparador de evento (Por ejemplo: Evento => TicketCreate). Esto es posible s√≥lo si todos los campos libres de ticket requieren el mismo evento.',
         'Example for free text' => 'Ejemplo de texto libre',
         'Expand View' => 'Vista ampliada',
+        'Experimental "Slim" skin which tries to save screen space for power users.' =>
+            'Piel "Slim" experimental, que pretende ahorrar espacio en la pantalla para usuarios avanzados.',
         'Explanation' => 'Explicaci√≥n',
         'Export Config' => 'Exportar Configuraci√≥n',
         'Fax{CustomerUser}' => 'Fax',
@@ -5095,6 +5113,7 @@ sub Data {
         'Firstname{CustomerUser}' => 'Nombre',
         'Follow up' => 'Seguimiento',
         'Follow up notification' => 'Notificaci√≥n de seguimiento',
+        'For more info see:' => 'Para mas informaci√≥n vea:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Para una estad√≠stica muy compleja es posible incluir un archivo preconfigurado',
         'Forward ticket: ' => 'Reenviar ticket',
@@ -5273,6 +5292,7 @@ sub Data {
         'Package not correctly deployed, you need to deploy it again!' =>
             'El paquete no ha sido correctamente instalado, necesita instalarlo nuevamente!',
         'Package verification failed' => 'Fall√≥ la verificaci√≥n del paquete',
+        'Package verification failed!' => '¬°La verificaci√≥n del paquete fall√≥!',
         'Param 1' => 'Par√°metro 1',
         'Param 2' => 'Par√°metro 2',
         'Param 3' => 'Par√°metro 3',
