@@ -424,7 +424,7 @@ sub Run {
             # set StateID as NextStateID
             $SplitTicketParam{NextStateID} = $SplitTicketData{StateID};
 
-            # set Onwer an Responsible
+            # set Owner and Responsible
             $SplitTicketParam{UserSelected}            = $SplitTicketData{OwnerID};
             $SplitTicketParam{ResponsibleUserSelected} = $SplitTicketData{ResponsibleID};
 
@@ -446,7 +446,7 @@ sub Run {
             }
         }
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -456,7 +456,7 @@ sub Run {
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                # convert possible values key => value to key => key for ACLs using a Hash slice
                 my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -488,7 +488,7 @@ sub Run {
             # from DB this cases
             if ( $Self->{TicketID} && $Article{ArticleID} ) {
 
-            # select TicketID or ArticleID go get the value depending on dynamic field configuration
+                # select TicketID or ArticleID to get the value depending on dynamic field configuration
                 my $ObjectID
                     = $DynamicFieldConfig->{ObjectType} eq 'Ticket'
                     ? $Self->{TicketID}
@@ -502,7 +502,7 @@ sub Run {
             }
 
             # otherwise (on a new ticket). Check if the user has a user specific default value for
-            # the dynamic field, otherwise will use Dynamc Field default value
+            # the dynamic field, otherwise will use Dynamic Field default value
             else {
 
                 # override the value from user preferences if is set
@@ -748,7 +748,7 @@ sub Run {
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -758,7 +758,7 @@ sub Run {
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                # convert possible values key => value to key => key for ACLs using a Hash slice
                 my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -862,7 +862,7 @@ sub Run {
                 }
             }
 
-            # if more the one customer user exists, show list
+            # if more than one customer user exist, show list
             # and clean CustomerUserID and CustomerID
             else {
 
@@ -1080,7 +1080,7 @@ sub Run {
         );
 
         # set ticket dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1174,7 +1174,7 @@ sub Run {
         }
 
         # set article dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1287,7 +1287,7 @@ sub Run {
             );
         }
 
-        # should i set an unlock?
+        # closed tickets get unlocked
         if ( $StateData{TypeName} =~ /^close/i ) {
 
             # set lock
@@ -1385,7 +1385,7 @@ sub Run {
         # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1399,7 +1399,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
