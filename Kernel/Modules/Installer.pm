@@ -568,6 +568,10 @@ sub Run {
             $DB{ConfigDSN}
                 = 'DBI:Oracle:host=$Self->{DatabaseHost};' . "sid=$DB{DBSID};port=$DB{DBPort}";
             $DB{DSN} = "DBI:Oracle:host=$DB{DBHost};sid=$DB{DBSID};port=$DB{DBPort}";
+            $Self->{ConfigObject}->Set(
+                Key   => 'Database::Connect',
+                Value => "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'",
+            );
         }
 
         # execute database statements
@@ -670,6 +674,7 @@ sub Run {
             @SQLPost = $Self->{DBObject}->SQLProcessorPost() if $SchemaFile eq 'otrs-schema';
 
             for my $SQL (@SQL) {
+                warn $SQL;
                 $Self->{DBObject}->Do( SQL => $SQL );
             }
 
@@ -688,6 +693,7 @@ sub Run {
 
         for my $SQL (@SQLPost) {
             $Self->{DBObject}->Do( SQL => $SQL );
+            warn $SQL;
         }
 
         $Self->{LayoutObject}->Block(
@@ -785,7 +791,6 @@ sub Run {
         );
 
         if ( !$Self->{Options}->{SkipLog} ) {
-            warn "Skipping log";
             $Param{LogModuleString} = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     'Kernel::System::Log::SysLog' => 'Syslog',
