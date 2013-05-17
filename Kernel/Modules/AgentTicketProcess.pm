@@ -2936,7 +2936,7 @@ sub _RenderService {
                 )
             {
                 $SelectedValue = $Self->{ServiceObject}->ServiceLookup(
-                    Service => $Param{ActivityDialogField}->{DefaultValue},
+                    Name => $Param{ActivityDialogField}->{DefaultValue},
                 );
             }
             if ($SelectedValue) {
