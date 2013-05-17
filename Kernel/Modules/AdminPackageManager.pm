@@ -201,6 +201,13 @@ sub Run {
         ) || 'verified';
         my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
 
+        # translate description
+        if ( $Self->{LayoutObject}->{LanguageObject} ) {
+            $VerifyInfo{Description} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                $VerifyInfo{Description}
+            );
+        }
+
         # deploy check
         my $Deployed = $Self->{PackageObject}->DeployCheck(
             Name    => $Name,
@@ -1469,6 +1476,13 @@ sub _InstallHandling {
         Structure => \%Structure,
     ) || 'verified';
     my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
+
+    # translate description
+    if ( $Self->{LayoutObject}->{LanguageObject} ) {
+        $VerifyInfo{Description} = $Self->{LayoutObject}->{LanguageObject}->Get(
+            $VerifyInfo{Description}
+        );
+    }
 
     # vendor screen
     if ( !$IntroInstallVendor && !$IntroInstallPre && $Verified ne 'verified' ) {
