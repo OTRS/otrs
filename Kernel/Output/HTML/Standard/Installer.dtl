@@ -150,6 +150,8 @@ $Include{"InstallerDBmysql"}
 
 $Include{"InstallerDBmssql"}
 
+$Include{"InstallerDBoracle"}
+
 $Include{"InstallerDBpostgresql"}
 
 $Include{"InstallerDBResult"}
