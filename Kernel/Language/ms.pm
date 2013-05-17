@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:52
+    # Last translation file sync: 2013-05-17 09:59:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1096,6 +1096,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
+        ' (work units)' => ' (unit bekerja)',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -1891,6 +1892,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Padam stat',
+        'Stat#' => 'Nombor Statistik.',
         'Do you really want to delete this stat?' => 'Adakah anda benar-benar mahu untuk memadam stat ini?',
 
         # Template: AgentStatsEditRestrictions
@@ -4216,7 +4218,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unit bekerja)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Tambah alamat emel pelanggan kepada penerima dalam skrin mengarang tiket dalam interface ejen.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -4242,7 +4243,6 @@ sub Data {
         'Sender type for new tickets from the customer interface.' => 'Jenis penghantar untuk tiket baru daripada paparan pelanggan.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuration, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             'Menentukan alamat e-mel yang boleh digunakan oleh aplikasi apabila menghantar notifikasi. Alamat e-mel yang digunakan untuk membina nama paparan lengkap untuk master notifikasi (iaitu "OTRS Notification Master" otrs@your.example.com). Anda boleh menggunakan OTRS_CONFIG_FQDN pembolehubah seperti yang dinyatakan dalam konfigurasi anda, atau memilih alamat e-mel yang lain. Notifikasi adalah mesej seperti en::Customer::QueueUpdate atau en::Agent::Move.',
-        'Stat#' => 'Nombor Statistik.',
 
     };
     # $$STOP$$

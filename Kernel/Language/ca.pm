@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:37
+    # Last translation file sync: 2013-05-17 09:59:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1097,6 +1097,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
+        ' (work units)' => ' (unitats de treball)',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -1892,6 +1893,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadístiques',
+        'Stat#' => 'Estat#',
         'Do you really want to delete this stat?' => 'De debò vol eliminar aquesta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4217,7 +4219,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unitats de treball)',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tiquets Modificats! Realment desitja utilitzar aquesta tasca?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
@@ -4617,7 +4618,6 @@ sub Data {
         'Source' => 'Origen',
         'Spell Check' => 'Verificació ortogràfica',
         'Split' => 'Dividir',
-        'Stat#' => 'Estat#',
         'State Type' => 'Tipus d\'estat',
         'Static-File' => 'Arxiu-Estàtic',
         'Stats-Area' => 'Area-Estadístiques',

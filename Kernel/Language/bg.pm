@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:37
+    # Last translation file sync: 2013-05-17 09:59:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1098,6 +1098,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
+        ' (work units)' => ' (работни единици)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1893,6 +1894,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Статистика#',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4218,7 +4220,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (работни единици)',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s билета бяха засегнати! Сигурни ли сте че искате да използвате тази задача?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
@@ -4589,7 +4590,6 @@ sub Data {
         'Source' => 'Източник',
         'Spell Check' => 'Проверка на правописа',
         'Split' => 'Разцепване',
-        'Stat#' => 'Статистика#',
         'State Type' => 'Тип състояние',
         'Static-File' => 'Статичен файл',
         'Stats-Area' => 'Статистики',

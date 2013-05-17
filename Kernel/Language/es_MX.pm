@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:43
+    # Last translation file sync: 2013-05-17 09:59:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1097,6 +1097,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -1892,6 +1893,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadística',
+        'Stat#' => 'Estadística#',
         'Do you really want to delete this stat?' => '¿Realmente desea eliminar esta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4217,7 +4219,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets afectados. ¿Realmente desea utilizar esta tarea?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Chequear registro MX de direcciones utilizadas al responder. ¡ No usarlo si su PC con OTRS está detrás de una línea telefonica $!)',
@@ -5042,7 +5043,6 @@ sub Data {
         'Source' => 'Origen',
         'Spell Check' => 'Chequeo Ortográfico',
         'Split' => 'Dividir',
-        'Stat#' => 'Estadística#',
         'State Type' => 'Tipo de Estado',
         'Static-File' => 'Archivo-Estático',
         'Stats-Area' => 'Area de Estadísticas',

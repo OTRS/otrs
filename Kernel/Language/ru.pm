@@ -29,7 +29,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:57
+    # Last translation file sync: 2013-05-17 09:59:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1105,6 +1105,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
+        ' (work units)' => ' (рабочие единицы)',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1900,6 +1901,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Удалить отчет',
+        'Stat#' => 'Отчет#',
         'Do you really want to delete this stat?' => 'Вы действительно хотите удалить этот отчет?',
 
         # Template: AgentStatsEditRestrictions
@@ -4225,7 +4227,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4682,7 +4683,6 @@ sub Data {
         'Source' => 'Источник',
         'Spell Check' => 'Проверка орфографии',
         'Split' => 'Разделить',
-        'Stat#' => 'Отчет#',
         'State Type' => 'Тип статуса',
         'Static-File' => 'Статический файл',
         'Stats-Area' => 'Статистика',

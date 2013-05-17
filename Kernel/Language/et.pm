@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:43
+    # Last translation file sync: 2013-05-17 09:59:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1096,6 +1096,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
+        ' (work units)' => ' (tööühikud)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1891,6 +1892,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Statistika nr.',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4216,7 +4218,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (tööühikud)',
         '%s Tickets affected! Do you really want to use this job?' => 'Muudab %s intisdenti! Oled kindel et soovid seda tööd kasutada?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kontrollib e-posti aadresside MX kirjeid. Ära kasuta CheckMXRecord seadet, kui kasutate sissehelistamist või internetiühendus serveril puudub)',
@@ -4592,7 +4593,6 @@ sub Data {
         'Source' => 'Allikas',
         'Spell Check' => 'Õigekirjakontroll',
         'Split' => 'Poolita',
-        'Stat#' => 'Statistika nr.',
         'State Type' => 'Oleku tüüp',
         'Static-File' => 'Static-File',
         'Stats-Area' => 'Statistika',

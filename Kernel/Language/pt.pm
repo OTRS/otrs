@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:55
+    # Last translation file sync: 2013-05-17 09:59:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1098,6 +1098,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar tickets selecionados',
         'Add Note' => 'Adicionar nota',
         'Time units' => 'UnAntiguidades de tempo',
+        ' (work units)' => ' (unAntiguidades de trabalho)',
         'Ticket Commands' => 'Comandos para tickets',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações a agente/cliente ',
         'CMD' => '',
@@ -1893,6 +1894,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Apagar estatística',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => 'Deseja apagar esta estatística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4218,7 +4220,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unAntiguidades de trabalho)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Adiciona emails do cliente aos remetentes na criação de ticket no interface de agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -4226,7 +4227,6 @@ sub Data {
         'Cc: (%s) added database email!' => 'Cc: (%s) acrescentado endereço na base de dados!',
         'For more info see:' => 'Para mais informação consultar:',
         'Package verification failed!' => 'Verificação do pacote falhou',
-        'Stat#' => 'Stat#',
         'To: (%s) replaced with database email!' => 'Para: (%s) substituído pelo endereço na base de dados!',
 
     };

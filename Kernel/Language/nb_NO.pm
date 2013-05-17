@@ -28,7 +28,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:53
+    # Last translation file sync: 2013-05-17 09:59:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1104,6 +1104,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
+        ' (work units)' => ' (arbeidsenheter)',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -1899,6 +1900,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Slett statistikk',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => 'Vil du virkelig slette denne statistikken?',
 
         # Template: AgentStatsEditRestrictions
@@ -4224,7 +4226,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbeidsenheter)',
         ' Param 1 value' => ' Verdi Parameter 1',
         ' Param 2 value' => ' Verdi Parameter 2',
         ' Param 3 value' => ' Verdi Parameter 3',
@@ -5039,7 +5040,6 @@ sub Data {
         'Source' => 'Kilde',
         'Spell Check' => 'Stavekontroll',
         'Split' => 'Splitt',
-        'Stat#' => 'Stat#',
         'State Type' => 'Status-type',
         'Static-File' => 'Statisk fil',
         'Stats-Area' => 'Statistikk-område',

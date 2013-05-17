@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:44
+    # Last translation file sync: 2013-05-17 09:59:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1102,6 +1102,7 @@ sub Data {
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
+        ' (work units)' => '(واحد کار)',
         'Ticket Commands' => 'دستورهای درخواست',
         'Send agent/customer notifications on changes' => 'آگاه کردن کارشناس/مشتری به هنگام ایجاد تغییرات',
         'CMD' => 'CMD',
@@ -1897,6 +1898,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'گزارش حذف',
+        'Stat#' => 'شماره گزارش',
         'Do you really want to delete this stat?' => 'آیا از حذف این گزارش اطمینان دارید؟',
 
         # Template: AgentStatsEditRestrictions
@@ -4222,7 +4224,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '(واحد کار)',
         '"}' => '{',
         '%s Tickets affected! Do you really want to use this job?' => '%s درخواست مطابقت دارد.آیا واقعا قصد اجرای این کار را دارید؟',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
@@ -4719,7 +4720,6 @@ sub Data {
         'Spell Check' => 'غلط یابی',
         'Split' => 'تقسیم درخواست',
         'Start Support' => 'آغاز پشتیبانی',
-        'Stat#' => 'شماره گزارش',
         'State Type' => 'نوع وضعیت',
         'Static-File' => 'فایل ثابت',
         'Stats-Area' => 'بخش گزارشات ',

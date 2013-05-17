@@ -27,7 +27,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:54
+    # Last translation file sync: 2013-05-17 09:59:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1103,6 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
+        ' (work units)' => ' (in minuten)',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1898,6 +1899,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Verwijder rapport',
+        'Stat#' => 'Rapport#',
         'Do you really want to delete this stat?' => 'Wilt u dit rapport echt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
@@ -4223,7 +4225,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (in minuten)',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets worden bewerkt! Weet u zeker dat u deze actie wilt uitvoeren?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
@@ -4734,7 +4735,6 @@ sub Data {
         'Specify the width of the edit field in characters.' => 'Geef de breedte van het tekstveld in tekens',
         'Spell Check' => 'Spellingscontrole',
         'Split' => 'Splitsen',
-        'Stat#' => 'Rapport#',
         'State Type' => 'Status type',
         'Static-File' => '\'Hardcoded\' bestand',
         'Stats-Area' => 'Statistieken',

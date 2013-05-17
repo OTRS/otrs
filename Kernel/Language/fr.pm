@@ -27,7 +27,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:46
+    # Last translation file sync: 2013-05-17 09:59:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1103,6 +1103,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver tickets sélectionnés',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
+        ' (work units)' => ' Unité de travail',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications à l\'opérateur/au client sur changement',
         'CMD' => 'CMD',
@@ -1898,6 +1899,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Supprimer stat',
+        'Stat#' => 'Stat#',
         'Do you really want to delete this stat?' => 'Voulez-vous vraiment supprimer cette statistique?',
 
         # Template: AgentStatsEditRestrictions
@@ -4223,7 +4225,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' Unité de travail',
         ' Param 1 value' => 'Valeur Paramètre 1',
         ' Param 2 value' => 'Valeur Paramètre 2',
         ' Param 3 value' => 'Valeur Paramètre 3',
@@ -4866,7 +4867,6 @@ sub Data {
         'Source' => 'Source',
         'Spell Check' => 'Vérification orthographique',
         'Split' => 'Scinder',
-        'Stat#' => 'Stat#',
         'State Type' => 'Type d\'état',
         'Static-File' => 'Fichier statique',
         'Stats-Area' => 'Statistiques',

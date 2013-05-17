@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:50
+    # Last translation file sync: 2013-05-17 09:59:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1098,6 +1098,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
+        ' (work units)' => ' (稼働時間)',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -1893,6 +1894,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '統計を削除',
+        'Stat#' => '統計番号',
         'Do you really want to delete this stat?' => 'この統計を削除してよろしいですか？',
 
         # Template: AgentStatsEditRestrictions
@@ -4221,7 +4223,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (稼働時間)',
         '%s Tickets affected! Do you really want to use this job?' => '%s のチケットは影響を受けます！このジョブを実行しますか？',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(回答を作成するときにメールアドレスのMXレコードチェックを行います。あなたのOTRSシステムがダイヤルアップ回線の場合はCheckMXRecordを使用しないでください $!)',
@@ -5329,7 +5330,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Start Export' => 'エクスポート開始',
         'Start Import' => 'インポート開始',
         'Start support' => 'サポートを開始する',
-        'Stat#' => '統計番号',
         'State Machine' => '機器の状態',
         'State Type' => '状態のタイプ',
         'Static-File' => '静的ファイル',

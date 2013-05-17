@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:39
+    # Last translation file sync: 2013-05-17 09:59:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1099,6 +1099,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
+        ' (work units)' => ' (arbejdsenheder)',
         'Ticket Commands' => 'Sagskommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
         'CMD' => 'CMD',
@@ -1894,6 +1895,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Slet rapport',
+        'Stat#' => 'Rapport',
         'Do you really want to delete this stat?' => 'Vil du virkelig slette denne rapport?',
 
         # Template: AgentStatsEditRestrictions
@@ -4219,7 +4221,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbejdsenheder)',
         'A response is default text to write faster answer (with default text) to customers.' =>
             'Et Svar er en standardtekst, der bruges til at skrive et hurtigere svar (med standardtekst) til kunderne.',
         'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
@@ -4292,7 +4293,6 @@ sub Data {
         'Shows the ticket history!' => 'Vis saghistorik.',
         'Split' => 'Opdel',
         'Start support' => 'Start Systemvurdering',
-        'Stat#' => 'Rapport',
         'Support Assessment' => 'Support Assessment (Systemvurdering)',
         'Take care that you also updated the default states in you Kernel/Config.pm!' =>
             'Sørg for, at også opdatere standardtilstandene i Kernel/Config.pm!',

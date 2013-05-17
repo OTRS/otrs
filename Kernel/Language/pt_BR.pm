@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:56
+    # Last translation file sync: 2013-05-17 09:59:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1100,6 +1100,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de tempo',
+        ' (work units)' => ' (unidades de trabalho)',
         'Ticket Commands' => 'Comandos-Chamado',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações para atendente/cliente',
         'CMD' => 'Comando',
@@ -1895,6 +1896,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Escluir estatística',
+        'Stat#' => 'Estatística Nº:.',
         'Do you really want to delete this stat?' => 'Você quer realmente excluir esta estatística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4220,7 +4222,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabalho)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Chamados afetados! Você quer realmente utilizar este processo?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
@@ -4789,7 +4790,6 @@ sub Data {
         'Source' => 'Origem',
         'Spell Check' => 'Checar Ortografia',
         'Split' => 'Dividir',
-        'Stat#' => 'Estatística Nº:.',
         'State Type' => 'Tipo de Estado',
         'Static-File' => 'Arquivo-Estático',
         'Stats-Area' => 'Área de Estatísticas',

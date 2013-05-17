@@ -28,7 +28,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:49
+    # Last translation file sync: 2013-05-17 09:59:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1104,6 +1104,7 @@ sub Data {
         'Archive selected tickets' => 'Archivia i ticket selezionati',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
+        ' (work units)' => ' (unità di lavoro)',
         'Ticket Commands' => 'Comandi Ticket',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'CMD' => 'comando',
@@ -1899,6 +1900,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Elimina statistica',
+        'Stat#' => 'Numero Statistica#',
         'Do you really want to delete this stat?' => 'Si desidera veramente eliminare questa statistica?',
 
         # Template: AgentStatsEditRestrictions
@@ -4224,7 +4226,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unità di lavoro)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets affetti! Vuoi veramente usare questo ? ',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Controlla il record MX per i domini degli indirizzi email quando si compone un messaggio. Non usare se il vostro server con OTRS ha una connessione dial-up!)',
@@ -4715,7 +4716,6 @@ sub Data {
         'Source' => 'catalogo',
         'Spell Check' => 'Verifica ortografica',
         'Split' => 'Spezza',
-        'Stat#' => 'Numero Statistica#',
         'State Type' => 'Tipologia stato',
         'Static-File' => 'File fisso',
         'Stats-Area' => 'Area Statistiche',

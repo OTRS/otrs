@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:51
+    # Last translation file sync: 2013-05-17 09:59:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1097,6 +1097,7 @@ sub Data {
         'Archive selected tickets' => 'Archyvuoti pasirinktas triktis',
         'Add Note' => 'Pridėti pastabą',
         'Time units' => 'Laiko vienetai',
+        ' (work units)' => '',
         'Ticket Commands' => 'Trikčių komandos',
         'Send agent/customer notifications on changes' => 'Įvykus pasikeitimams siųsti perspėjimus agentams/klientams',
         'CMD' => 'CMD',
@@ -1892,6 +1893,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Ištrinti statistiką',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => 'Ar tikrai norite ištrinti šią statistiką?',
 
         # Template: AgentStatsEditRestrictions

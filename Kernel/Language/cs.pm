@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:38
+    # Last translation file sync: 2013-05-17 09:59:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1102,6 +1102,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
+        ' (work units)' => '(jednotky práce)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1897,6 +1898,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Smazat statistiky',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4222,7 +4224,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '(jednotky práce)',
         '%s Tickets affected! Do you really want to use this job?' => 'Ovlivněno %s Tiketů! Opravdu spustit Úlohu?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kontroluj MX záznamy použitých emailových adres při sestavování odpovědi. Nepoužívejte pokud OTRS server připojen pomocí vytáčené linky!)',

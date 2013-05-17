@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:47
+    # Last translation file sync: 2013-05-17 09:59:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1099,6 +1099,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
+        ' (work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -1894,6 +1895,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'आँकड़े हटाएँ',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => 'क्या आप वास्तव में यह आँकड़े हटाना चाहते हैं?',
 
         # Template: AgentStatsEditRestrictions

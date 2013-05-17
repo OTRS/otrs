@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:57
+    # Last translation file sync: 2013-05-17 09:59:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1097,6 +1097,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '',
         'Time units' => '',
+        ' (work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.',
@@ -1892,6 +1893,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:36
+    # Last translation file sync: 2013-05-17 09:59:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1099,6 +1099,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'إضافة ملاحظة',
         'Time units' => 'وحدات الوقت',
+        ' (work units)' => ' (وحدات العمل) ',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => '',
@@ -1894,6 +1895,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4219,7 +4221,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (وحدات العمل) ',
         'A article should have a title!' => 'البطاقة يجب أن يكون لها عنوان!',
         'A message must be spell checked!' => 'الرسالة يجب تدقيقها لغوياً!',
         'A message should have a To: recipient!' => 'الرسالة يجب أن يكون لها: متلقي!',

@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:54
+    # Last translation file sync: 2013-05-17 09:59:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1099,6 +1099,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Jednostek czasu',
+        ' (work units)' => ' (jednostek roboczych)',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -1894,6 +1895,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Usuń statystykę',
+        'Stat#' => 'Statystyka#',
         'Do you really want to delete this stat?' => 'Czy na pewno chcesz usunąć tę statystykę?',
 
         # Template: AgentStatsEditRestrictions
@@ -4219,7 +4221,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (jednostek roboczych)',
         ' On' => 'W dniu',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => '%s zgłoszeń dotyczy! Chcesz wykonać zadanie?',
@@ -4683,7 +4684,6 @@ sub Data {
         'Source' => 'Źródło',
         'Spell Check' => 'Sprawdź poprawność',
         'Split' => 'Podziel',
-        'Stat#' => 'Statystyka#',
         'State Type' => 'Typ statusu',
         'Static-File' => 'Plik statyczny',
         'Stats-Area' => 'Staystyki',

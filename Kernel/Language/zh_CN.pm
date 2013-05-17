@@ -26,7 +26,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:42:04
+    # Last translation file sync: 2013-05-17 09:59:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1102,6 +1102,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
+        ' (work units)' => '工作单元',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1897,6 +1898,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '删除统计',
+        'Stat#' => '统计号',
         'Do you really want to delete this stat?' => '你确认要删除该统计?',
 
         # Template: AgentStatsEditRestrictions
@@ -4222,7 +4224,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '工作单元',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets 受到影响! 您确定要使用这个计划任务?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '通过撰写答案来检查用过的电子邮件地址的MX记录。您OTRS机器在拨号接入的低速网络里，请不要使用CheckMXRecord!',
@@ -4671,7 +4672,6 @@ sub Data {
         'Source' => '数据源',
         'Spell Check' => '拼写检查',
         'Split' => '分解',
-        'Stat#' => '统计号',
         'State Type' => '状态类型',
         'Static-File' => '静态文件',
         'Stats-Area' => '统计区',

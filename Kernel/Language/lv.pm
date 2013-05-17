@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:51
+    # Last translation file sync: 2013-05-17 09:59:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1096,6 +1096,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Time units' => 'Laika vienības',
+        ' (work units)' => ' (darba laika vienības)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Izmaiņu gadījumā nosūtīt paziņojumus aģentam/klientam',
         'CMD' => 'Komanda',
@@ -1891,6 +1892,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Atskaite Nr.',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4216,7 +4218,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (darba laika vienības)',
         '%s Tickets affected! Do you really want to use this job?' => 'Tiks mainīti %s pieteikumi! Vai tiešām vēlaties izpildīt šo uzdevumu?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Nosūtot atbildes ziņojumu, OTRS pārbauda izmantoto e-pasta adrešu MX ierakstus. Nelietojiet, ja OTRS sistēma izmanto iezvanpieeju!)',
@@ -4640,7 +4641,6 @@ sub Data {
         'Source' => 'Dati no',
         'Spell Check' => 'Pareizrakstības pārbaude',
         'Split' => 'Sadalīt',
-        'Stat#' => 'Atskaite Nr.',
         'State Type' => 'Statusa tips',
         'Static-File' => 'Statiskais fails (datne)',
         'Stats-Area' => 'Statistikas sadaļa',

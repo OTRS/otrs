@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:42:04
+    # Last translation file sync: 2013-05-17 10:00:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1099,6 +1099,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '增加注解',
         'Time units' => '時間單元',
+        ' (work units)' => '工作單元',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '發送代理/客戶通知變更',
         'CMD' => '命令',
@@ -1894,6 +1895,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4219,7 +4221,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '工作單元',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets 受到影響! 您確定要使用這個計劃任務?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '通過撰寫答案來檢查用過的電子郵件地址的MX記錄。您OTRS機器在撥號接入的低速網絡裡，請不要使用CheckMXRecord!',

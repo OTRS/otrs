@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:42:02
+    # Last translation file sync: 2013-05-17 09:59:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1097,6 +1097,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
+        ' (work units)' => ' ( робочі одиниці)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -1892,6 +1893,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Звіт №',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4217,7 +4219,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' ( робочі одиниці)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок буде змінено! Виконати це завдання?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use Checkmxrecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Перевіряти Mx-Записи домена, на який відправляється email при відповіді. Не використовуйте цю можливість, якщо сервер з OTRS доступний по слабкому каналу!',
@@ -4724,7 +4725,6 @@ sub Data {
         'Source' => 'Джерело',
         'Spell Check' => 'Перевірка орфографії',
         'Split' => 'Розділити',
-        'Stat#' => 'Звіт №',
         'State Type' => 'Тип статусу',
         'Static-File' => 'Статичний файл',
         'Stats-Area' => 'Статистика',

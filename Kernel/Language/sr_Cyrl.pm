@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:59
+    # Last translation file sync: 2013-05-17 09:59:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1097,6 +1097,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
+        ' (work units)' => ' (елементи посла)',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -1892,6 +1893,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Обриши статистику',
+        'Stat#' => 'Статистика Бр.',
         'Do you really want to delete this stat?' => 'Да ли стварно желите да обришете ову статистику?',
 
         # Template: AgentStatsEditRestrictions
@@ -4217,7 +4219,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (елементи посла)',
         '%s Tickets affected! Do you really want to use this job?' => '%s тикета захваћено! Да ли стварно желите да покренете овај посао?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Проверите "MX" записе употребљених имејл адреса  креирањем одговора. Немојте користити ову функцију ако је ваш "OTRS" сервер на "dial-up" линији!)',
@@ -4933,7 +4934,6 @@ sub Data {
         'Source' => 'Извор',
         'Spell Check' => 'Провера правописа',
         'Split' => 'Подели',
-        'Stat#' => 'Статистика Бр.',
         'State Type' => 'Тип стања',
         'Static-File' => 'Статична датотека',
         'Stats-Area' => 'Простор статистике',

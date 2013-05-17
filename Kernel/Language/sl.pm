@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:58
+    # Last translation file sync: 2013-05-17 09:59:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1101,6 +1101,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izbrane zahtevke',
         'Add Note' => 'Dodaj opombo',
         'Time units' => 'Časovne enote',
+        ' (work units)' => '',
         'Ticket Commands' => 'Ukazi za zahtevek',
         'Send agent/customer notifications on changes' => 'Pošlji obvestilo zaposlenemu/uporabniku o spremembah',
         'CMD' => 'CMD',
@@ -1896,6 +1897,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Izbriši statistiko',
+        'Stat#' => 'Statistika št.',
         'Do you really want to delete this stat?' => 'Ali res želite izbrisati to statistiko?',
 
         # Template: AgentStatsEditRestrictions
@@ -4942,7 +4944,6 @@ sub Data {
         'Source' => 'Vir',
         'Spell Check' => 'Preverjanje pravopisa',
         'Split' => 'Razdeli',
-        'Stat#' => 'Statistika št.',
         'State Type' => 'Tip stanja',
         'Static-File' => 'Statična datoteka',
         'Stats-Area' => 'Prostor statistike',

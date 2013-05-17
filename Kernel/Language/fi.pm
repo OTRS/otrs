@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:41:45
+    # Last translation file sync: 2013-05-17 09:59:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1098,6 +1098,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
+        ' (work units)' => ' (esim. minuutteina)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1893,6 +1894,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => '',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4218,7 +4220,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (esim. minuutteina)',
         '"}' => '"}',
         '%s Tickets affected! Do you really want to use this job?' => 'Vaikuttaa %s tikettiin! Haluatko varmasti suorittaa tämän työn?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-16 22:42:03
+    # Last translation file sync: 2013-05-17 09:59:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1096,6 +1096,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
         'Time units' => 'Các đơn vị thời gian',
+        ' (work units)' => ' (các đơn vị làm việc)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1891,6 +1892,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '',
+        'Stat#' => 'Thống kê số',
         'Do you really want to delete this stat?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -4216,7 +4218,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (các đơn vị làm việc)',
         '%s Tickets affected! Do you really want to use this job?' => '%s thẻ bị ảnh hưởng! Bạn có thực sự muốn dùng công việc này?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kiểm tra các bản ghi MX của các địa chỉ email đã sử dụng bằng cách tạo một trả lời. Không dùng Kiểm tra bản ghi MX nếu hệ thống OTRS của bạn nằm sau 1 đường dial-up!)',
@@ -4588,7 +4589,6 @@ sub Data {
         'Source' => 'Nguồn',
         'Spell Check' => 'Kiểm tra chính tả',
         'Split' => 'Chia',
-        'Stat#' => 'Thống kê số',
         'State Type' => 'Loại trạng thái',
         'Static-File' => 'File tĩnh',
         'Stats-Area' => 'Khu vực dành cho thống kê',
