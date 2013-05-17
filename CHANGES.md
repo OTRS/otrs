@@ -1,3 +1,6 @@
+#3.2.8 2013-??-??
+ - 2013-05-17 Fixed bug#[9439](http://bugs.otrs.org/show_bug.cgi?id=9439) - ProcessManagement: Customer field value is not remembered after server error is detected.
+
 #3.2.7 2013-05-21
  - 2013-05-16 Fixed bug#[9387](http://bugs.otrs.org/show_bug.cgi?id=9387) - Error in a condition with dynamic fields in NotificationEvent.
  - 2013-05-14 Fixed bug#[9286](http://bugs.otrs.org/show_bug.cgi?id=9286) - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
