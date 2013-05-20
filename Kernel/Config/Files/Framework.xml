@@ -2927,7 +2927,7 @@
     </ConfigItem>
     <ConfigItem Name="SMIME::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the SSL certificate attributes.</Description>
-        <Group>Frameworkt</Group>
+        <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
             <String Regex="\d+">86400</String><!-- default 1 day -->
