@@ -25,6 +25,10 @@
  - 2013-05-17 Fixed bug#[9439](http://bugs.otrs.org/show_bug.cgi?id=9439) - ProcessManagement: Customer field value is not remembered after server error is detected.
 
 #3.2.7 2013-05-21
+ - 2013-05-17 Updated Package Manager, that will ensure that packages will be checked against the official OTRS package repository.
+    This is to guarantee that your package wasn’t modified, which may possibly harm your system.
+    All independent package contributors will have to conduct a check of their Add-Ons by
+    OTRS Group in order to take full advantage of the OTRS package verification.
  - 2013-05-16 Fixed bug#[9387](http://bugs.otrs.org/show_bug.cgi?id=9387) - Error in a condition with dynamic fields in NotificationEvent.
  - 2013-05-14 Fixed bug#[9286](http://bugs.otrs.org/show_bug.cgi?id=9286) - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
  - 2013-05-14 Fixed bug#[7518](http://bugs.otrs.org/show_bug.cgi?id=7518) - Escalation Notify by not working properly (follow-up fix).
