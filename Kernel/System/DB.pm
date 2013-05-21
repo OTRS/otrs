@@ -334,7 +334,7 @@ sub Quote {
 
     # quote integers
     if ( $Type eq 'Integer' ) {
-        if ( $Text !~ /^(\+|\-|)\d{1,16}$/ ) {
+        if ( $Text !~ m{\A [+-]? \d{1,16} \z}xms ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',
@@ -347,7 +347,7 @@ sub Quote {
 
     # quote numbers
     if ( $Type eq 'Number' ) {
-        if ( $Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/ ) {
+        if ( $Text !~ m{ \A [+-]? \d{1,20} (?:\.\d{1,20})? \z}xms ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',
