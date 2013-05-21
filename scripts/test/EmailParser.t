@@ -853,4 +853,27 @@ $Self->Is(
     "#20 Get Content-Location",
 );
 
+# test #21
+@Array = ();
+open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test21.box" );    ## no critic
+while (<$IN>) {
+    push( @Array, $_ );
+}
+close($IN);
+
+$EmailParserObject = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'To' ),
+    'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+    "#21 GetParam(WHAT => 'To' Multiline encode quote printable)",
+);
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'Subject' ),
+    'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+    "#21 GetParam(WHAT => 'Subject' Multiline encode quote printable)",
+);
 1;
