@@ -9,10 +9,10 @@
 
 <!-- dtl:block:DatabasePostgreSQL -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
-    <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
-        <input type="hidden" name="Action"    value="Installer"/>
-        <input type="hidden" name="Subaction" value="DBCreate"/>
-        <input type="hidden" name="DBType"    value="postgresql"/>
+    <form action="$Env{"CGIHandle"}" method="post" id="FormDB" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action"    value="Installer">
+        <input type="hidden" name="Subaction" value="DBCreate">
+        <input type="hidden" name="DBType"    value="postgresql">
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -23,19 +23,19 @@
                 <fieldset class="TableLike">
                     <label for="DBUser">$Text{"User"}:</label>
                     <div class="Field">
-                        <input type="text" id="DBUser" name="DBUser" class="W50pc" autocomplete="off"/>
+                        <input type="text" id="DBUser" name="DBUser" class="W50pc" autocomplete="off">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="DBPassword">$Text{"Password"}:</label>
                     <div class="Field">
-                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off"/>
+                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="DBHost">$Text{"Host"}:</label>
                     <div class="Field">
-                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W50pc"/>
+                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W50pc">
                     </div>
                     <div class="Clear"></div>
 
@@ -52,7 +52,7 @@
 
                     <label for="OTRSDBUser">$Text{"User"}:</label>
                     <div class="Field">
-                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W50pc" autocomplete="off"/>
+                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W50pc" autocomplete="off">
                         <p class="FieldExplanation">
                             $Text{"A new database user with limited rights will be created for this OTRS system."}
                         </p>
@@ -61,13 +61,13 @@
 
                     <label for="OTRSDBPassword">$Text{"Password"}:</label>
                     <div class="Field">
-                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off"/>
+                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="RepeatOTRSDBPassword">$Text{"Repeat Password"}:</label>
                     <div class="Field">
-                        <input type="password" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off"/>
+                        <input type="password" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off">
                         <p class="FieldExplanation">
                             $Text{"Generated password"}: <span="Emphasis">$QData{"Password"}</span>
                         </p>
@@ -80,7 +80,7 @@
 
                     <label for="DBName">$Text{"Name"}:</label>
                     <div class="Field">
-                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W50pc"/>
+                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W50pc">
                     </div>
                     <div class="Clear"></div>
                 </fieldset>

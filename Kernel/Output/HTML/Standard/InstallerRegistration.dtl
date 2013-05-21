@@ -10,9 +10,9 @@
 <!-- dtl:block:Registration -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="Registration">
-        <input type="hidden" name="Action"    value="Installer"/>
-        <input type="hidden" name="Subaction" value="Finish"/>
-        <input type="hidden" name="Skip" value="0"/>
+        <input type="hidden" name="Action"    value="Installer">
+        <input type="hidden" name="Subaction" value="Finish">
+        <input type="hidden" name="Skip" value="0">
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -23,31 +23,31 @@
                 <fieldset class="TableLike">
                     <label for="Lastname" class="Mandatory"><span class="Marker">*</span> $Text{"Lastname"}:</label>
                     <div class="Field">
-                        <input type="text" id="Lastname" name="Lastname" value="" class="W50pc"/>
+                        <input type="text" id="Lastname" name="Lastname" value="" class="W50pc">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Firstname" class="Mandatory"><span class="Marker">*</span> $Text{"Firstname"}:</label>
                     <div class="Field">
-                        <input type="text" id="Firstname" name="Firstname" value="" class="W50pc"/>
+                        <input type="text" id="Firstname" name="Firstname" value="" class="W50pc">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Organization" class="Mandatory"><span class="Marker">*</span> $Text{"Organization"}:</label>
                     <div class="Field">
-                        <input type="text" id="Organization" name="Organization" value="" class="W50pc"/>
+                        <input type="text" id="Organization" name="Organization" value="" class="W50pc">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Position">$Text{"Position"}:</label>
                     <div class="Field">
-                        <input type="text" id="Position" name="Position" value="" class="W50pc"/>
+                        <input type="text" id="Position" name="Position" value="" class="W50pc">
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Email" class="Mandatory"><span class="Marker">*</span> $Text{"Email"}:</label>
                     <div class="Field">
-                        <input type="email" id="Email" name="Email" value="" class="W50pc"/>
+                        <input type="email" id="Email" name="Email" value="" class="W50pc">
                     </div>
                     <div class="Clear"></div>
 
@@ -57,14 +57,14 @@
                         $Data{"CountryStr"}
 <!-- dtl:block:CountryStr -->
 <!-- dtl:block:CountryInput -->
-                        <input type="text" id="Country" name="Country" value="" class="W50pc"/>
+                        <input type="text" id="Country" name="Country" value="" class="W50pc">
 <!-- dtl:block:CountryInput -->
                     </div>
                     <div class="Clear"></div>
 
                     <label for="Phone">$Text{"Phone"}:</label>
                     <div class="Field">
-                        <input type="text" id="Phone" name="Phone" value="" class="W50pc"/>
+                        <input type="text" id="Phone" name="Phone" value="" class="W50pc">
                     </div>
                     <div class="Clear"></div>
                 </fieldset>

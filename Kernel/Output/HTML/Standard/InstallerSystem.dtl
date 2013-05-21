@@ -9,9 +9,9 @@
 
 <!--dtl:block:System-->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
-    <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="Installer"/>
-        <input type="hidden" name="Subaction" value="ConfigureMail"/>
+    <form action="$Env{"CGIHandle"}" method="post" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action" value="Installer">
+        <input type="hidden" name="Subaction" value="ConfigureMail">
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -31,7 +31,7 @@
 
                     <label for="FQDN">$Text{"System FQDN"}:</label>
                     <div class="Field">
-                        <input type="text" id="FQDN" name="FQDN" value="$QData{"FQDN"}" class="W33pc"/>
+                        <input type="text" id="FQDN" name="FQDN" value="$QData{"FQDN"}" class="W33pc">
                         <p class="FieldExplanation">
                             $Text{"Fully qualified domain name of your system."}
                         </p>
@@ -40,7 +40,7 @@
 
                     <label for="AdminEmail">$Text{"AdminEmail"}:</label>
                     <div class="Field">
-                        <input type="text" id="AdminEmail" name="AdminEmail" value="$Config{"AdminEmail"}" class="W33pc"/>
+                        <input type="text" id="AdminEmail" name="AdminEmail" value="$Config{"AdminEmail"}" class="W33pc">
                         <p class="FieldExplanation">
                             $Text{"Email address of the system administrator."}
                         </p>
@@ -49,7 +49,7 @@
 
                     <label for="Organization">$Text{"Organization"}:</label>
                     <div class="Field">
-                        <input type="text" id="Organization" name="Organization" value="$Config{"Organization"}" class="W33pc"/>
+                        <input type="text" id="Organization" name="Organization" value="$Config{"Organization"}" class="W33pc">
                     </div>
                     <div class="Clear"></div>
 
@@ -71,7 +71,7 @@
                     <div class="Row Row_LogFile Hidden">
                         <label for="LogModule::LogFile">$Text{"LogFile"}:</label>
                         <div class="Field">
-                            <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc"/>
+                            <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" class="W33pc">
                         </div>
                         <div class="Clear"></div>
                     </div>

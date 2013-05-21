@@ -9,8 +9,8 @@
 
 <!-- dtl:block:DatabaseResult -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
-    <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="Installer"/>
+    <form action="$Env{"CGIHandle"}" method="post" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action" value="Installer">
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -21,10 +21,10 @@
 <!-- dtl:block:DatabaseResultItem -->
                 <div class="DBItem">
 <!-- dtl:block:DatabaseResultItemDone -->
-                    <img src="$Config{"Frontend::ImagePath"}/icons/tick.png" alt="$Text{"Done"}" />
+                    <img src="$Config{"Frontend::ImagePath"}/icons/tick.png" alt="$Text{"Done"}" >
 <!-- dtl:block:DatabaseResultItemDone -->
 <!-- dtl:block:DatabaseResultItemFalse -->
-                    <img src="$Config{"Frontend::ImagePath"}/icons/cross.png" alt="$Text{"Error"}" />
+                    <img src="$Config{"Frontend::ImagePath"}/icons/cross.png" alt="$Text{"Error"}" >
 <!-- dtl:block:DatabaseResultItemFalse -->
                     $QData{"Item"}
 <!-- dtl:block:DatabaseResultItemMessage -->
@@ -40,12 +40,12 @@
 <!-- dtl:block:DatabaseResultSuccess -->
                 <div class="Center">
 <!-- dtl:block:DatabaseResultBack -->
-                    <input type="hidden" name="Subaction" value="Start"/>
+                    <input type="hidden" name="Subaction" value="Start">
                     <button class="Primary" type="submit">$Text{"Back"}</button>
 <!-- dtl:block:DatabaseResultBack -->
 
 <!-- dtl:block:DatabaseResultNext -->
-                    <input type="hidden" name="Subaction" value="System"/>
+                    <input type="hidden" name="Subaction" value="System">
                     <button class="Primary" type="submit">$Text{"Next"}</button>
 <!-- dtl:block:DatabaseResultNext -->
                 </div>

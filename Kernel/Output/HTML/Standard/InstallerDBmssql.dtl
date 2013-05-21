@@ -9,7 +9,7 @@
 
 <!-- dtl:block:DatabaseMSSQL -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
-    <form action="$Env{"CGIHandle"}" method="post" id="FormDB">
+    <form action="$Env{"CGIHandle"}" method="post" id="FormDB" class="PreventMultipleSubmits">
         <input type="hidden" name="Action"      value="Installer">
         <input type="hidden" name="Subaction"   value="DBCreate">
         <input type="hidden" name="DBType"      value="mssql">

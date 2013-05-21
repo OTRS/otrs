@@ -18,11 +18,11 @@
 $Include{"InstallerLicenseText"}
 
             <div id="InstallerContinueWithJS" class="SpacingTop Right">
-                <form action="$Env{"CGIHandle"}" method="post">
-                    <input type="hidden" name="Subaction" value="Start"/>
+                <form action="$Env{"CGIHandle"}" method="post" class="PreventMultipleSubmits">
+                    <input type="hidden" name="Subaction" value="Start">
                     <button class="Primary" type="submit" value="$Text{"Accept license"}">$Text{"Accept license"}</button>
                 </form>
-                <form action="$Env{"CGIHandle"}" method="post" class="SpacingTop">
+                <form action="$Env{"CGIHandle"}" method="post" class="SpacingTop PreventMultipleSubmits"">
                     <button type="submit" value="$Text{"Don't accept license"}">$Text{"Don't accept license"}</button>
                 </form>
             </div>

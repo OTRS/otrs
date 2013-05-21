@@ -133,9 +133,9 @@
             <div class="Clear"></div>
         </div>
         <div id="InstallerContinueWithJS" class="SpacingBottom Right">
-            <form action="$Env{"CGIHandle"}" method="post">
-                <input type="hidden" name="Action" value="Installer"/>
-                <input type="hidden" name="Subaction" value="License"/>
+            <form action="$Env{"CGIHandle"}" method="post" class="PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="Installer">
+                <input type="hidden" name="Subaction" value="License">
                 <button class="Primary" type="submit">$Text{"Next"}</button>
             </form>
         </div>
