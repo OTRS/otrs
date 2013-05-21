@@ -1,4 +1,5 @@
 #3.2.8 2013-??-??
+ - 2013-05-21 Fixed bug#[9448](http://bugs.otrs.org/show_bug.cgi?id=9448) - AgentTicketPhoneInbound/Outbound inserts Agent's personal email address into article "from".
  - 2013-05-17 Fixed bug#[9445](http://bugs.otrs.org/show_bug.cgi?id=9445) - ProcessManagement: Error Message: Need ServiceID or Name!.
  - 2013-05-17 Fixed bug#[9439](http://bugs.otrs.org/show_bug.cgi?id=9439) - ProcessManagement: Customer field value is not remembered after server error is detected.
 
