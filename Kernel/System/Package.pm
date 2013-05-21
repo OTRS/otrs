@@ -1592,7 +1592,7 @@ sub PackageVerifyAll {
 
         # process result
         $Result{$Package} = $PackageVerify;
-        
+
         # set cache
         $Self->{CacheObject}->Set(
             Type  => 'PackageVerification',
@@ -1634,7 +1634,7 @@ build an opm package
                 Lang    => 'de',
                 Content => 'german description',
             },
-d        ],
+        ],
         Filelist = [
             {
                 Location   => 'Kernel/System/Lala.pm'
