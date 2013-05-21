@@ -12,6 +12,8 @@ package Kernel::Modules::AgentTicketPhoneCommon;
 use strict;
 use warnings;
 
+use Mail::Address;
+
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
@@ -20,7 +22,7 @@ use Kernel::System::State;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-use Mail::Address;
+use Kernel::System::TemplateGenerator;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -615,11 +617,17 @@ sub Run {
                 );
             }
 
+            my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+            my $Sender = $TemplateGenerator->Sender(
+                QueueID => $Ticket{QueueID},
+                UserID  => $Self->{UserID},
+            );
+
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID    => $Self->{TicketID},
                 ArticleType => $Self->{Config}->{ArticleType},
                 SenderType  => $Self->{Config}->{SenderType},
-                From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                From        => $Sender,
                 Subject     => $GetParam{Subject},
                 Body        => $GetParam{Body},
                 MimeType    => $MimeType,
