@@ -10,6 +10,10 @@
 # --
 
 3.0.20 2013-05-21
+ - 2013-05-17 Updated Package Manager, that will ensure that packages will be checked against the official OTRS package repository.
+    This is to guarantee that your package wasn’t modified, which may possibly harm your system.
+    All independent package contributors will have to conduct a check of their Add-Ons by
+    OTRS Group in order to take full advantage of the OTRS package verification.
  - 2013-05-07 Improved permission checks in AgentTicketPhone.
  - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
  - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
