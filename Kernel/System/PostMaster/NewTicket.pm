@@ -179,7 +179,7 @@ sub Run {
     }
 
     if ( $GetParam{'X-OTRS-Responsible'} ) {
-        my $TmpResponsbibleID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
+        my $TmpResponsibleID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
         $Opts{ResponsibleID}  = $TmpResponsibleID if $TmpResponsibleID;
     }
 
