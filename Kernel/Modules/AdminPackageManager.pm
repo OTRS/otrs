@@ -1007,7 +1007,7 @@ sub Run {
 
         my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
 
         # save package in upload cache
@@ -1267,7 +1267,8 @@ sub Run {
         if (
             $VerificationData{ $Package->{Name}->{Content} }
             && $VerificationData{ $Package->{Name}->{Content} } eq 'not_verified'
-        ) {
+            )
+        {
             $NotVerifiedPackages{ $Package->{Name}->{Content} } = $Package->{Version}->{Content};
         }
     }
@@ -1485,7 +1486,7 @@ sub _InstallHandling {
 
     # vendor screen
     if ( !$IntroInstallVendor && !$IntroInstallPre && $Verified ne 'verified' ) {
-        
+
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
             Data => {
@@ -1497,11 +1498,11 @@ sub _InstallHandling {
                 Version   => $Structure{Version}->{Content},
             },
         );
-        
+
         $Self->{LayoutObject}->Block(
             Name => 'IntroCancel',
         );
-        
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(

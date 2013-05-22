@@ -163,7 +163,7 @@ sub Run {
         );
 
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
 
         my %Errors;
@@ -231,7 +231,7 @@ sub Run {
             Value     => '',
         );
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
 
         # check needed data

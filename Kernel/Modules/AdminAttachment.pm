@@ -74,7 +74,7 @@ sub Run {
 
         # get attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
 
         # check needed data
@@ -160,7 +160,7 @@ sub Run {
 
         # get attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'FileUpload',
+            Param => 'FileUpload',
         );
 
         # check needed data

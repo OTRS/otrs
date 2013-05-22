@@ -256,7 +256,7 @@ sub Run {
             $IsUpload = 1;
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
+                Param => 'file_upload',
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
@@ -511,7 +511,7 @@ sub Run {
 
         # get submitted attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => 'file_upload',
+            Param => 'file_upload',
         );
         if (%UploadStuff) {
             push @AttachmentData, \%UploadStuff;
