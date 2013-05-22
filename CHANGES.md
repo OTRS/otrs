@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-22 Implemented bug#[8023](http://bugs.otrs.org/show_bug.xgi?id=8023) - Added possibility to set Owner or Responsible for tickets using Postmaster Filters.
  - 2013-07-15 Fixed bug#[5412](http://bugs.otrs.org/show_bug.cgi?id=5412) - Textfields are sometimes required, sometimes optional.
  - 2013-07-12 Fixed bug#[7593](http://bugs.otrs.org/show_bug.cgi?id=7593) - GroupUserRoleMemberList returns user ID, not role name.
  - 2013-07-12 Fixed bug#[7885](http://bugs.otrs.org/show_bug.cgi?id=7885) - Links of 'merged' tickets are not displayed with a 'line-through'.
