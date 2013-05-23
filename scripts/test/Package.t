@@ -217,6 +217,44 @@ $Self->True(
     '#1 DeployCheck()',
 );
 
+# write to var/test
+my $Write   = $Self->{MainObject}->FileWrite(
+    Location   => $Home . '/var/Test',
+    Content    => \'aaaa',
+    Mode       => 'binmode',
+    Permission => '644',
+);
+
+$Self->True(
+    $Write,
+    '#1 FileWrite()',
+);
+
+$DeployCheck = $PackageObject->DeployCheck(
+    Name    => 'Test',
+    Version => '0.0.1',
+);
+
+$Self->False(
+    $DeployCheck,
+    '#1 DeployCheck after FileWrite()',
+);
+
+$Self->True(
+    $PackageObject->PackageReinstall( String => $String ),
+    '#1 Reinstall after FileWrite',
+);
+
+$DeployCheck = $PackageObject->DeployCheck(
+    Name    => 'Test',
+    Version => '0.0.1',
+);
+
+$Self->True(
+    $DeployCheck,
+    '#1 DeployCheck after Reinstall()',
+);
+
 my %Structure = $PackageObject->PackageParse( String => $String );
 
 my $PackageBuild = $PackageObject->PackageBuild(%Structure);
