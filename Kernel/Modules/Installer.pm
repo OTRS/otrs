@@ -1218,6 +1218,18 @@ sub ConnectToDB {
         $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};"
     }
 
+    # extract driver to load for install test
+    my ($Driver) = ( $Param{DSN} =~ /^DBI:(.*?):/);
+    if ( !$Self->{MainObject}->Require( 'DBD::' . $Driver ) ) {
+        return (
+            Successful => 0,
+            Message    => "Can't connect to database, Perl module DBD::$Driver not installed!",
+            Comment    => "",
+            DB         => undef,
+            DBH        => undef,
+        );        
+    }
+
     my $DBH = DBI->connect(
         $Param{DSN}, $Param{DBUser}, $Param{DBPassword},
     );
