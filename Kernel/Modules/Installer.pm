@@ -1188,7 +1188,7 @@ sub ConnectToDB {
     }
 
     for my $Key (@NeededKeys) {
-        if ( !$Param{$Key} && $Key !~ /^(OTRSDBPassword)$/ ) {
+        if ( !$Param{$Key} && $Key !~ /^(DBPassword)$/ ) {
             return (
                 Successful => 0,
                 Message    => "You need '$Key'!!",
