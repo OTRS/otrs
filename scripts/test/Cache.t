@@ -148,12 +148,12 @@ for my $Module qw(FileStorable FileRaw) {
         Type  => 'CacheTest2',
         Key   => 'Test',
         Value => 'ü',
-        TTL   => 4,
+        TTL   => 8,
     );
 
     $Self->True(
         $CacheSet,
-        "#3 - $Module - CacheSet(), TTL 2",
+        "#3 - $Module - CacheSet(), TTL 8",
     );
 
     $CacheGet = $CacheObject->Get(
