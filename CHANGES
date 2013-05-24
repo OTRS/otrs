@@ -8,6 +8,10 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.17 ????-??-??
+ - 2013-05-24 Fixed bug#9462 - Package Management page timeout due to HTTPS disabled on Proxy connections.
+
 3.1.16 2013-05-21
  - 2013-05-17 Updated Package Manager, that will ensure that packages to be installed
     meet the quality standards of OTRS Group. This is to guarantee that your package
