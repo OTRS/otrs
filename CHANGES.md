@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-05-24 Fixed bug#[9462](http://bugs.otrs.org/show_bug.cgi?id=9462) - Package Management page timeout due to HTTPS disabled on Proxy connections.
  - 2013-05-17 Added SMIME cache.
  - 2013-05-13 Improved handling of the CaseSensitive configuration. There is no CaseInsensitive configuration anymore.
  - 2013-05-11 Fixed bug#[9246](http://bugs.otrs.org/show_bug.cgi?id=9246) - ProcessManagement: TranstionAction error messages not sufficient enough.
