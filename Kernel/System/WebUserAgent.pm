@@ -123,7 +123,7 @@ sub Request {
 
     # set proxy
     if ( $Self->{Proxy} ) {
-        $UserAgent->proxy( [ 'http', 'ftp' ], $Self->{Proxy} );
+        $UserAgent->proxy( [ 'http', 'https', 'ftp' ], $Self->{Proxy} );
     }
 
     # get file
