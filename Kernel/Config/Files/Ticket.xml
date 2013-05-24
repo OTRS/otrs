@@ -190,14 +190,6 @@
             <Option Location="Kernel/System/Ticket/Number/*.pm" SelectedID="Kernel::System::Ticket::Number::DateChecksum"></Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
-        <Description Translatable="1">Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]$">5</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::CheckSystemID" Required="1" Valid="1">
         <Description Translatable="1">Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).</Description>
         <Group>Ticket</Group>
@@ -206,6 +198,25 @@
             <Option SelectedID="1">
                 <Item Key="1">Yes</Item>
                 <Item Key="0">No</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
+        <Description Translatable="1">Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]$">5</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::NumberGenerator::Date::UseFormattedCounter" Required="1" Valid="1">
+        <Description Translatable="1">Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>

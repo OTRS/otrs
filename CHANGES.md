@@ -21,6 +21,7 @@
     and hard-coded to use /tmp.
 
 #3.2.8 2013-??-??
+ - 2013-05-24 Fixed bug#[9462](http://bugs.otrs.org/show_bug.cgi?id=9462) - Package Management page timeout due to HTTPS disabled on Proxy connections.
  - 2013-05-22 Fixed bug#[9408](http://bugs.otrs.org/show_bug.cgi?id=9408) - A value of Dest inputed in CustomerTicketMessage isn't validated.
  - 2013-05-21 Fixed bug#[9418](http://bugs.otrs.org/show_bug.cgi?id=9418) - Incorrect decoding email subject and From token.
  - 2013-05-21 Fixed bug#[9448](http://bugs.otrs.org/show_bug.cgi?id=9448) - AgentTicketPhoneInbound/Outbound inserts Agent's personal email address into article "from".
@@ -28,10 +29,12 @@
  - 2013-05-17 Fixed bug#[9439](http://bugs.otrs.org/show_bug.cgi?id=9439) - ProcessManagement: Customer field value is not remembered after server error is detected.
 
 #3.2.7 2013-05-21
- - 2013-05-17 Updated Package Manager, that will ensure that packages will be checked against the official OTRS package repository.
-    This is to guarantee that your package wasn’t modified, which may possibly harm your system.
-    All independent package contributors will have to conduct a check of their Add-Ons by
-    OTRS Group in order to take full advantage of the OTRS package verification.
+ - 2013-05-17 Updated Package Manager, that will ensure that packages to be installed
+    meet the quality standards of OTRS Group. This is to guarantee that your package
+    wasn’t modified, which may possibly harm your system or have an influence on the
+    stability and performance of it. All independent package contributors will have
+    to conduct a check of their Add-Ons by OTRS Group in order to take full advantage
+    of the OTRS package verification.
  - 2013-05-16 Fixed bug#[9387](http://bugs.otrs.org/show_bug.cgi?id=9387) - Error in a condition with dynamic fields in NotificationEvent.
  - 2013-05-14 Fixed bug#[9286](http://bugs.otrs.org/show_bug.cgi?id=9286) - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
  - 2013-05-14 Fixed bug#[7518](http://bugs.otrs.org/show_bug.cgi?id=7518) - Escalation Notify by not working properly (follow-up fix).
