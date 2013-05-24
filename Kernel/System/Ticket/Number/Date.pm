@@ -69,6 +69,12 @@ sub TicketCreateNumber {
         }
     }
 
+    if ( $Self->{ConfigObject}->Get( 'Ticket::NumberGenerator::Date::UseFormattedCounter' )  ) {
+        my $MinSize = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::MinCounterSize')
+            || 5;
+        $Count = sprintf "%.*u", $MinSize, $Count;
+    }
+
     # create new ticket number
     my $Tn = $Year . $Month . $Day . $SystemID . $Count;
 
