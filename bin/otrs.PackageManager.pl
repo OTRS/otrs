@@ -66,7 +66,7 @@ if ( !$Opts{f} ) {
 if ( !$Opts{a} ) {
     $Opts{h} = 1;
 }
-if ( $Opts{a} && ( $Opts{a} !~ /^list/ && !$Opts{p} ) ) {
+if ( $Opts{a} && ( $Opts{a} !~ /^(list|reinstall-all)/ && !$Opts{p} ) ) {
     $Opts{h} = 1;
 }
 if ( $Opts{a} && ( $Opts{a} eq 'exportfile' && ( !$Opts{p} || !$Opts{d} ) ) ) {
@@ -81,7 +81,7 @@ if ( $Opts{h} ) {
     print "otrs.PackageManager.pl - OTRS Package Manager\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
-        "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
+        "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|reinstall-all|list-repository|file|build|index \n";
     print
         "      [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     print " user (local):\n";
@@ -89,6 +89,7 @@ if ( $Opts{h} ) {
     print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
     print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
     print "   otrs.PackageManager.pl -a reinstall -p Package\n";
+    print "   otrs.PackageManager.pl -a reinstall-all\n";
     print "   otrs.PackageManager.pl -a uninstall -p Package\n";
     print "   otrs.PackageManager.pl -a file -p Kernel/System/File.pm (find package of file)\n";
     print
@@ -394,6 +395,48 @@ elsif ( $Opts{a} eq 'reinstall' ) {
         print "$Data{Description}";
         print "+----------------------------------------------------------------------------+\n";
     }
+    exit;
+}
+elsif ( $Opts{a} eq 'reinstall-all' ) {
+
+    my @ReinstalledPackages;
+
+    # loop all locally installed packages
+    for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
+
+        # do a deploy check to see if reinstallation is needed
+        my $ReinstallNeeded = $CommonObject{PackageObject}->DeployCheck(
+            Name    => $Package->{Name}->{Content},
+            Version => $Package->{Version}->{Content},
+        );
+
+        if ( !$ReinstallNeeded ) {
+
+            push @ReinstalledPackages, $Package->{Name}->{Content};
+
+            my $FileString = $CommonObject{PackageObject}->RepositoryGet(
+                Name    => $Package->{Name}->{Content},
+                Version => $Package->{Version}->{Content},
+            );
+
+            $CommonObject{PackageObject}->PackageReinstall(
+                String => $FileString,
+                Force  => $Opts{f},
+            );
+        }
+    }
+
+    if (@ReinstalledPackages) {
+        for my $Package (@ReinstalledPackages) {
+            print "Reinstalled: $Package\n";
+        }
+        print "\n";
+    }
+    else {
+        print "No packages needed reinstallation.\n";
+    }
+
+    print "Done.\n";
     exit;
 }
 elsif ( $Opts{a} eq 'upgrade' ) {
