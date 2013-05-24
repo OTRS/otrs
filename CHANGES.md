@@ -1,4 +1,5 @@
 #3.2.8 2013-??-??
+ - 2013-05-27 Fixed bug#[9458](http://bugs.otrs.org/show_bug.cgi?id=9458) - Double click on Transition opens error message.
  - 2013-05-24 Fixed bug#[9241](http://bugs.otrs.org/show_bug.cgi?id=9241) - Article ignored in article search index if body is almost empty.
     The StaticDB fulltext search backend is now fully configurable.
  - 2013-05-24 Fixed bug#[9462](http://bugs.otrs.org/show_bug.cgi?id=9462) - Package Management page timeout due to HTTPS disabled on Proxy connections.
