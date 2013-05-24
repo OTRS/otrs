@@ -638,7 +638,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         Connection.bind('dblclick', function(Connection, Event) {
             var EndActivity = Connection.endpoints[1];
-            if (EndActivity !== 'Dummy') {
+            // Do not open path dialog for dummy connections
+            // dblclick on overlays (e.g. labels) propagate to the connection
+            // prevent opening path dialog twice if clicked on label
+            if (EndActivity !== 'Dummy' && !$(Event.srcElement).hasClass('TransitionLabel')) {
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(PopupPath, 'Path');
             }
