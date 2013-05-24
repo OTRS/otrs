@@ -1,5 +1,6 @@
 #3.3.0.beta1 2013-??-??
- - 2013-05-17 Added SMIME cache.
+ - 2013-05-24 Improved performance of AgentTicketZoom for tickets with many articles, thanks to Norihiro Tanaka!
+ - 2013-05-17 Added SMIME cache to speed up performance of SMIME certificate handling.
  - 2013-05-13 Improved handling of the CaseSensitive configuration. There is no CaseInsensitive configuration anymore.
  - 2013-05-11 Fixed bug#[9246](http://bugs.otrs.org/show_bug.cgi?id=9246) - ProcessManagement: TranstionAction error messages not sufficient enough.
  - 2013-04-30 Fixed bug#[9376](http://bugs.otrs.org/show_bug.cgi?id=9376) - Configurable automatic merge subject.

@@ -225,12 +225,16 @@ sub Run {
             QueueID => $Ticket{QueueID},
         );
 
-        my $Content = $Self->_ArticleItem(
+        $Self->_ArticleItem(
             Ticket            => \%Ticket,
             Article           => \%Article,
             AclAction         => \%AclAction,
             StandardResponses => \%StandardResponses,
             Type              => 'OnLoad',
+        );
+        my $Content = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketZoom',
+            Data => {%Ticket, %Article, %AclAction},
         );
         if ( !$Content ) {
             $Self->{LayoutObject}->FatalError(
@@ -619,7 +623,7 @@ sub MaskAgentZoom {
             }
         }
 
-        $Param{ArticleItems} .= $Self->_ArticleItem(
+        $Self->_ArticleItem(
             Ticket            => \%Ticket,
             Article           => \%Article,
             AclAction         => \%AclAction,
@@ -628,6 +632,10 @@ sub MaskAgentZoom {
             Type              => 'Static',
         );
     }
+    $Param{ArticleItems} .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketZoom',
+        Data => {%Ticket, %AclAction},
+    );
 
     # always show archived tickets as seen
     if ( $Self->{ZoomExpand} && $Ticket{ArchiveFlag} ne 'y' ) {
@@ -2419,10 +2427,7 @@ sub _ArticleItem {
         $Article{Body} = $Article{BodyPlain};
     }
 
-    # return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketZoom',
-        Data => { %Param, %Ticket, %AclAction },
-    );
+    return 1;
 }
+
 1;
