@@ -16,9 +16,9 @@ sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -57,9 +57,12 @@ sub ArticleIndexBuild {
 
     # insert search index
     $Self->{DBObject}->Do(
-        SQL => 'INSERT INTO article_search (id, ticket_id, article_type_id, '
-            . 'article_sender_type_id, a_from, a_to, a_cc, a_subject, a_message_id, '
-            . 'a_body, incoming_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        SQL => '
+            INSERT INTO article_search (id, ticket_id, article_type_id,
+                article_sender_type_id, a_from, a_to,
+                a_cc, a_subject, a_message_id, a_body,
+                incoming_time)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         Bind => [
             \$Article{ArticleID},    \$Article{TicketID}, \$Article{ArticleTypeID},
             \$Article{SenderTypeID}, \$Article{From},     \$Article{To},
@@ -75,9 +78,9 @@ sub ArticleIndexDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -95,9 +98,9 @@ sub ArticleIndexDeleteTicket {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(TicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -114,12 +117,9 @@ sub ArticleIndexDeleteTicket {
 sub _ArticleIndexQuerySQL {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Data} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Data!" );
+        return;
     }
 
     # use also article table if required
@@ -142,12 +142,9 @@ sub _ArticleIndexQuerySQL {
 sub _ArticleIndexQuerySQLExt {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Data} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Data!" );
+        return;
     }
 
     my %FieldSQLMapFullText = (
@@ -203,12 +200,8 @@ sub _ArticleIndexQuerySQLExt {
             # db quote
             $Value = lc $Self->{DBObject}->Quote( $Value, 'Like' );
 
-            if ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                $FullTextSQL .= " LCASE($Field) LIKE LCASE('$Value')";
-            }
-            else {
-                $FullTextSQL .= " $Field LIKE '$Value'";
-            }
+            # Lower conversion is already done, don't use LOWER()/LCASE()
+            $FullTextSQL .= " $Field LIKE '$Value'";
         }
     }
     if ($FullTextSQL) {
@@ -221,12 +214,9 @@ sub _ArticleIndexQuerySQLExt {
 sub _ArticleIndexString {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !defined $Param{String} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need String!" );
+        return;
     }
 
     my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
@@ -270,68 +260,45 @@ sub _ArticleIndexStringToWord {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !defined $Param{String} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need String!" );
+        return;
     }
 
-    my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
-
-    my %StopWord = (
-        'der' => 1,
-        'die' => 1,
-        'und' => 1,
-        'in'  => 1,
-        'vom' => 1,
-        'zu'  => 1,
-        'im'  => 1,
-        'den' => 1,
-        'auf' => 1,
-        'als' => 1,
-
-        'the' => 1,
-        'of'  => 1,
-        'and' => 1,
-        'in'  => 1,
-        'to'  => 1,
-        'a'   => 1,
-        'is'  => 1,
-        'for' => 1,
-    );
+    my $Config   = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
+    my %StopWord = %{ $Self->{ConfigObject}->Get('Ticket::SearchIndex::StopWords') || {} };
+    my @Filters  = @{ $Self->{ConfigObject}->Get('Ticket::SearchIndex::Filters') || [] };
 
     # get words
     my $LengthMin = $Param{WordLengthMin} || $Config->{WordLengthMin} || 3;
     my $LengthMax = $Param{WordLengthMax} || $Config->{WordLengthMax} || 30;
-    my @ListOfWords = split /\s+/, ${ $Param{String} };
-    my @ListOfWordsNew;
-    for my $Word (@ListOfWords) {
+    my @ListOfWords;
 
-        # remove some not needed chars
-        #        $Word =~ s/[\d+\.,\-\&\-\_\<\>\?":\\\*\|\/;\[\]\(\)\+\$\^=]//g;
-        $Word =~ s/[,\&\<\>\?"\!\*\|;\[\]\(\)\+\$\^=]//g;
-        $Word =~ s/^('|:|\.)//g;
-        $Word =~ s/(:|\.|')$//g;
+    WORD:
+    for my $Word (split /\s+/, ${ $Param{String} }) {
+
+        # Apply filters
+        for my $Filter (@Filters) {
+            $Word =~ s/$Filter//g;
+        }
+
+        # convert to lowercase to avoid LOWER()/LCASE() in the DB query
         $Word = lc $Word;
+
+        # only index words/strings within length boundaries
         my $Length = length $Word;
-
-        # only index words/strings with x or more chars
-        if ( $Length < $LengthMin ) {
-            next;
+        if ( $Length < $LengthMin || $Length > $LengthMax) {
+            next WORD;
         }
 
-        # do not index words/strings longer then x chars
-        if ( $Length > $LengthMax ) {
-            next;
+        # Remove StopWords
+        if ( $Word && $StopWord{$Word} ) {
+            next WORD;
         }
-
-        if ( $Word && !$StopWord{$Word} ) {
-            push @ListOfWordsNew, $Word;
-            next;
-        }
+        push @ListOfWords, $Word;
     }
-    return \@ListOfWordsNew;
+
+    return \@ListOfWords;
 }
 
 1;
