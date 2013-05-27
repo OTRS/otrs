@@ -155,4 +155,87 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
 }
 
+my @Tests = (
+    {
+        Name => "Regular string",
+        String => 'Regular subject string',
+        Result => [
+            "regular",
+            "subject",
+            "string",
+        ],
+    },
+    {
+        Name => "Filtered characters",
+        String => 'Test characters ,&<>?"!*|;[]()+$^=',
+        Result => [
+            "test",
+            "characters",
+        ],
+    },
+    {
+        Name => "String with quotes",
+        String => '"String with quotes"',
+        Result => [
+            "string",
+            "with",
+            "quotes",
+        ],
+    },
+    {
+        Name => "Sentence",
+        String => 'This is a full sentence',
+        Result => [
+            "this",
+            "full",
+            "sentence",
+        ],
+    },
+    {
+        Name => "Stop words",
+        String => 'is a the of for and und der',
+        Result => [
+        ],
+    },
+    {
+        Name => "Word too short",
+        String => 'Word x',
+        Result => [
+            'word',
+        ],
+    },
+    {
+        Name => "Word too long",
+        String => 'Word ' . 'x' x 50,
+        Result => [
+            'word',
+        ],
+    },
+);
+
+
+for my $Module (qw(StaticDB)) {
+    for my $Test (@Tests) {
+        $ConfigObject->Set(
+            Key   => 'Ticket::SearchIndexModule',
+            Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
+        );
+        my $TicketObject = Kernel::System::Ticket->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+        );
+
+        my $ListOfWords = $TicketObject->_ArticleIndexStringToWord(
+            String => \$Test->{String}
+        );
+
+        $Self->IsDeeply(
+            $ListOfWords,
+            $Test->{Result},
+            "$Test->{Name} - _ArticleIndexStringToWord result",
+        );
+    }
+}
+
+
 1;

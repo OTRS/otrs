@@ -23,6 +23,8 @@
     and hard-coded to use /tmp.
 
 #3.2.8 2013-??-??
+ - 2013-05-24 Fixed bug#[9241](http://bugs.otrs.org/show_bug.cgi?id=9241) - Article ignored in article search index if body is almost empty.
+    The StaticDB fulltext search backend is now fully configurable.
  - 2013-05-24 Fixed bug#[9462](http://bugs.otrs.org/show_bug.cgi?id=9462) - Package Management page timeout due to HTTPS disabled on Proxy connections.
  - 2013-05-22 Fixed bug#[9408](http://bugs.otrs.org/show_bug.cgi?id=9408) - A value of Dest inputed in CustomerTicketMessage isn't validated.
  - 2013-05-21 Fixed bug#[9418](http://bugs.otrs.org/show_bug.cgi?id=9418) - Incorrect decoding email subject and From token.
