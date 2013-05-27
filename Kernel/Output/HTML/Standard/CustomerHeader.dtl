@@ -10,6 +10,7 @@
 # http headers
 Content-Type: text/html; charset=utf-8;
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
+X-UA-Compatible: IE=edge,chrome=1
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
@@ -19,12 +20,6 @@ Pragma: no-cache
 $Include{"Copyright"}
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
-#    IE(8,9) renders pages differently, depending on the source of the page. If the page comes from the intranet,
-#    it renders it in IE7 mode, if the page is loaded from the internet, it will be rendered in IE8 mode by default.
-#    To avoid that, we set "IE=edge", which means, that IE renders the page always in the best render mode it can.
-#    "chrome=1" means, that the Google Chrome rendering engine is used in IE, if the Google Chrome Frame plug-in
-#    is present.
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
     <meta http-equiv="refresh" content="$QData{"Refresh"}" />
 <!-- dtl:block:MetaHttpEquivRefresh -->
