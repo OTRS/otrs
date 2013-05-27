@@ -79,13 +79,6 @@ o Name:    CPAN Date::Pcalc
   Note:    # Copyright (c) 1999-2001 by J. David Eisenberg; portions Copyright
            # (c) 1993-2001 by Steffen Beyer. All rights reserved.
 
-o Name:    CPAN File::Temp
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (C) 2007-2009 Tim Jenness. Copyright (C) 1999-2007 Tim
-           # Jenness and the UK Particle Physics and Astronomy Research Council.
-           # All Rights Reserved.
-
 o Name:    CPAN IO::Interactive
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
