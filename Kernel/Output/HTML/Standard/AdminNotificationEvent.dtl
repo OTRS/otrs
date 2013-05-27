@@ -80,18 +80,18 @@
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:OverviewUpdate -->
-        <div class="WidgetSimple">
-            <div class="Header">
+        <form action="$Env{"CGIHandle"}" method="post"  class="Validate" name="compose">
+            <div class="WidgetSimple">
+                <div class="Header">
 <!-- dtl:block:HeaderAdd -->
-                <h2>$Text{"Add Notification"}</h2>
+                    <h2>$Text{"Add Notification"}</h2>
 <!-- dtl:block:HeaderAdd -->
 <!-- dtl:block:HeaderEdit -->
-                <h2>$Text{"Edit Notification"}</h2>
+                    <h2>$Text{"Edit Notification"}</h2>
 <!-- dtl:block:HeaderEdit -->
-            </div>
-            <div class="Content">
+                </div>
+                <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post"  class="Validate" name="compose">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
@@ -112,35 +112,32 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Recipients">$Text{"Recipient groups"}: </label>
+                        <label for="Comment">$Text{"Comment"}: </label>
                         <div class="Field">
-                            $Data{"RecipientsStrg"}
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="250"/>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientAgents">$Text{"Recipient agents"}: </label>
+                        <label for="ValidID">$Text{"Validity"}: </label>
                         <div class="Field">
-                            $Data{"RecipientAgentsStrg"}
+                            $Data{"ValidOption"}
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientGroups">$Text{"Recipient groups"}: </label>
-                        <div class="Field">
-                            $Data{"RecipientGroupsStrg"}
-                        </div>
-                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
 
-                        <label for="RecipientRoles">$Text{"Recipient roles"}: </label>
-                        <div class="Field">
-                            $Data{"RecipientRolesStrg"}
-                        </div>
-                        <div class="Clear"></div>
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Events"}</h2>
+                </div>
 
-                        <label for="RecipientEmail">$Text{"Recipient email addresses"}: </label>
-                        <div class="Field">
-                            <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="$QData{"RecipientEmail"}"/>
-                        </div>
-                        <div class="Clear"></div>
+                <div class="Content">
+                    <fieldset class="TableLike">
 
                         <label for="Events" class="Mandatory">
                             <span class="Marker">*</span>
@@ -156,6 +153,21 @@
                             </div>
                         </div>
                         <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Ticket Filter"}</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
 
 <!-- dtl:block:OverviewUpdateType -->
                         <label for="TypeID">$Text{"Type"}: </label>
@@ -230,6 +242,21 @@
                         <div class="SpacingTop"></div>
 <!-- dtl:block:DynamicField -->
 
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Article Filter"} <span class="FieldExplanation">($Text{"Only for ArticleCreate event"})</span></h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
                         <label for="ArticleTypeID">$Text{"Article type"}: </label>
                         <div class="Field">
                             $Data{"ArticleTypesStrg"}
@@ -267,8 +294,65 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <h3>$Text{"Notification"}:</h3>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Recipient"}</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <label for="Recipients">$Text{"Recipient groups"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientsStrg"}
+                        </div>
                         <div class="Clear"></div>
+
+                        <label for="RecipientAgents">$Text{"Recipient agents"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientAgentsStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientGroups">$Text{"Recipient groups"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientGroupsStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientRoles">$Text{"Recipient roles"}: </label>
+                        <div class="Field">
+                            $Data{"RecipientRolesStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientEmail">$Text{"Recipient email addresses"}: </label>
+                        <div class="Field">
+                            <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="$QData{"RecipientEmail"}"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Notification"}</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
 
                         <label for="Subject" class="Mandatory">
                             <span class="Marker">*</span>
@@ -307,30 +391,31 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">$Text{"Validity"}: </label>
-                        <div class="Field">
-                            $Data{"ValidOption"}
-                        </div>
-                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
 
-                        <label for="Comment">$Text{"Comment"}: </label>
-                        <div class="Field">
-                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="250"/>
-                        </div>
-                        <div class="Clear"></div>
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>$Text{"Save Changes"}</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
+
                     </fieldset>
-
-                </form>
+                </div>
             </div>
-        </div>
 
+            </form>
+        </div>
 
         <div class="WidgetSimple SpacingTop">
             <div class="Header">
