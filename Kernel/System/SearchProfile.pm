@@ -145,7 +145,7 @@ sub SearchProfileAdd {
 
 =item SearchProfileGet()
 
-returns a hash with search profile
+returns hash with search profile.
 
     my %SearchProfileData = $SearchProfileObject->SearchProfileGet(
         Base      => 'TicketSearch',
@@ -191,7 +191,7 @@ sub SearchProfileGet {
 
 =item SearchProfileDelete()
 
-deletes an profile
+deletes a search profile.
 
     $SearchProfileObject->SearchProfileDelete(
         Base      => 'TicketSearch',
@@ -225,7 +225,7 @@ sub SearchProfileDelete {
 
 =item SearchProfileList()
 
-returns a hash of all proviles
+returns a hash of all profiles for the given user.
 
     my %SearchProfiles = $SearchProfileObject->SearchProfileList(
         Base      => 'TicketSearch',
