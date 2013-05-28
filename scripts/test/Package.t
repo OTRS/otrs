@@ -1055,7 +1055,7 @@ my $DeveloperSystem = 0;
 my $Version         = $Self->{ConfigObject}->Get('Version');
 if (
     !-e $Home . '/ARCHIVE'
-    && $Version =~ m{CVS}
+    && $Version =~ m{git}
     )
 {
     $DeveloperSystem = 1;
