@@ -22,6 +22,8 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 =head1 NAME
 
 Kernel::System::Package - to manage application packages/modules
@@ -2198,6 +2200,7 @@ sub PackageInstallDefaultFiles {
     return 1;
 }
 
+
 =begin Internal:
 
 =cut
@@ -2989,6 +2992,133 @@ sub _Encode {
     $Text =~ s/"/&quot;/g;
 
     return $Text;
+}
+
+=item _PackageUninstallMerged()
+
+ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
+
+Uninstall an already framework merged package.
+
+Package files that a not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
+CodeUninstall are not called.
+
+    $Success = PackageObject->_PackageUninstallMerged(
+        Name        => 'some package name',
+        Home        => 'OTRS Home path',      # Optional
+        DeleteSaved => 1,                     # or 0, 1 Default, Optional: if set to 1 it also
+                                              # delete .save files
+    );
+
+=cut
+
+sub _PackageUninstallMerged {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name (Name of the package)!'
+        );
+        return;
+    }
+
+    my $Home = $Param{Home} || $Self->{Home};
+
+    # check Home
+    if ( !-e $Home ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such home directory: $Home!",
+        );
+        return;
+    }
+
+    if ( !defined $Param{DeleteSaved} ) {
+        $Param{DeleteSaved} = 1;
+    }
+
+    # check if the package is installed, otherwise return success (nothing to do)
+    my $PackageInstalled  = $Self->PackageIsInstalled(
+        Name   => $Param{Name},
+    );
+    return 1 if !$PackageInstalled;
+
+    # get the package details
+    my @PackageList = $Self->RepositoryList();
+    my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
+    my %PackageDetails = %{ $PackageListLookup{ $Param{Name} } };
+
+    # get the list of framework files
+    my %FrameworkFiles = $Self->_ReadDistArchive( Home => $Home );
+
+    # can not continue if there are no framework files
+    return if !%FrameworkFiles;
+
+    # remove unneeded files (if exists)
+    if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
+
+        FILE:
+        for my $FileHash ( @{ $PackageDetails{Filelist} } ){
+
+            my $File = $FileHash->{Location};
+
+            # get real file name in fs
+            my $RealFile = $Home . '/' . $File;
+            $RealFile =~ s/\/\//\//g;
+
+            # check if file exists
+            if ( -e $RealFile ) {
+
+                # check framework files (use $File instead of $RealFile)
+                if ( $FrameworkFiles{$File} ) {
+
+                    if ( $Param{DeleteSaved} ) {
+
+                        # check if file was overridden by the package
+                        my $SavedFile = $RealFile . '.save';
+                        if (-e  $SavedFile) {
+
+                            # remove old file
+                            if ( !$Self->{MainObject}->FileDelete( Location => $SavedFile ) ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'error',
+                                    Message  => "Can't remove file $SavedFile: $!!",
+                                );
+                                return;
+                            }
+                            print STDERR "Notice: Removed old backup file: $SavedFile\n";
+                        }
+                    }
+
+                    # skip framework file
+                    print STDERR "Notice: Skiped framework file: $RealFile\n";
+                    next FILE;
+                }
+
+                # remove old file
+                if ( !$Self->{MainObject}->FileDelete( Location => $RealFile ) ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => "Can't remove file $RealFile: $!!",
+                    );
+                    return;
+                }
+                print STDERR "Notice: Removed file: $RealFile\n";
+            }
+        }
+    }
+
+    # delete package from the database
+    my $PackageRemove = $Self->RepositoryRemove(
+        Name => $Param{Name},
+    );
+
+    $Self->{CacheObject}->CleanUp();
+    $Self->{LoaderObject}->CacheDelete();
+
+    return $PackageRemove;
 }
 
 1;
