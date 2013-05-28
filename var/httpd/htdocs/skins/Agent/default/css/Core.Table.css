@@ -147,10 +147,6 @@ table tr.MasterAction {
     border-right: none;
 }
 
-.DataTable thead th.Strong {
-    font-weight: bold;
-}
-
 .RTL .DataTable thead th.Last {
     border-left: none;
 }
@@ -211,10 +207,6 @@ table tr.MasterAction {
 
 .DataTable tbody td.Last {
     border-right: none;
-}
-
-.DataTable tbody td.Strong {
-    font-weight: bold;
 }
 
 .DataTable tbody td:last-child {

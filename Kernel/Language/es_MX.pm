@@ -2072,9 +2072,6 @@ sub Data {
 
         # Template: AgentDashboardTicketStats
 
-        # Template: AgentDashboardTicketQueueOverview
-        'Totals' => 'Total',
-
         # Template: AgentDashboardUserOnline
         'out of office' => '',
 
@@ -4550,12 +4547,6 @@ sub Data {
             'Cuando los tickets se mezclan, el cliente puede ser informado por correo electrónico al seleccionar "Inform Sender". Es posible predefinir el contenido de dicha notificación en esta área de texto, que luego puede ser modificada por los agentes.',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Fila de selección de filas favoritas. Ud. también puede ser notificado de estas filas vía correo si está habilitado',
-
-        'Parameters for the dashboard backend of the queue overview widget of the agent interface.  "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
-           'Define los parámetros para el backend del widget de vista general por filas en el panel principal. "Group" se usa para restringir el acceso al plugin (por ejemplo, Grupo: admin;grupo1;grupo2;). "QueuePermissionGroup" no es obligatorio, las filas son listadas unicamente si estas pertenecen a este grupo de permisos si lo activa. "States" es una lista de estados, la llave indica el orden de clasificación del estado en el widget. "Default" indica si el plugin está habilitado por defecto o si el usuario necesita habilitarlo manualmente. "CacheTTL" indica el periodo de expiración (en minutos) del caché para el plugin.',
-        'Provides a matrix overview of the tickets per state per queue.' =>
-            'Provee una vista general del total de ticket por estado y por fila.',
-        'Ticket Queue Overview' => 'Vista general por fila',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
