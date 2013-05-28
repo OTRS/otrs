@@ -1,4 +1,6 @@
 #3.2.8 2013-??-??
+ - 2013-05-28 Fixed caching key and inquiry of dynamic field value in HistoryTicketGet function (TE).
+ - 2013-05-28 Added a new parameter to disable default sorting of statistics.
  - 2013-05-28 Added '-a reinstall-all' feature to bin/otrs.PackageManager.pl.
  - 2013-05-27 Fixed bug#[9476](http://bugs.otrs.org/show_bug.cgi?id=9476) - AgentTicketZoom: translation of "split" into german language.
  - 2013-05-27 Fixed bug#[9459](http://bugs.otrs.org/show_bug.cgi?id=9459) - Creating a new transition action coming from the transition path view produces errors.

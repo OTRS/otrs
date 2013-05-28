@@ -4749,7 +4749,7 @@ sub HistoryTicketGet {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    my $CacheKey = 'HistoryTicketGet::' . join( '::', sort keys %Param );
+    my $CacheKey = 'HistoryTicketGet::' . join( '::', map { ($_ || 0) . "::$Param{$_}"} sort keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ( ref $Cached eq 'HASH' && !$Param{Force} ) {
@@ -4823,7 +4823,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1] eq 'StateUpdate'
+            $Row[1]    eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -4831,7 +4831,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -4849,9 +4849,11 @@ sub HistoryTicketGet {
             }
         }
         elsif ( $Row[1] eq 'TicketDynamicFieldUpdate' ) {
-            if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(.+?)$/ ) {
+
+            if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(?:(.+?))?$/ ) {
+
                 my $FieldName = $1;
-                my $Value     = $2;
+                my $Value     = $2 || '';
                 $Ticket{$FieldName} = $Value;
 
                 # Backward compatibility for TicketFreeText and TicketFreeTime
