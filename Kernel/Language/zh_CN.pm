@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:33
+    # Last translation file sync: 2013-05-28 11:37:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -233,7 +233,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '该特性尚未激活!',
         'Agent updated!' => '服务人员已被更新！',
-        'Database Selection' => '',
         'Create Database' => '创建数据库',
         'System Settings' => '数据库设置 ',
         'Mail Configuration' => '邮件配置',
@@ -244,6 +243,8 @@ sub Data {
         'Database' => '数据库',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'Take this Customer' => '取得这个客户',
@@ -693,6 +694,7 @@ sub Data {
         'Show the ticket history' => '显示该工单的历史',
         'Print this ticket' => '打印该工单',
         'Print this article' => '打印该文章',
+        'Split' => '',
         'Split this article' => '拆分该文章',
         'Forward article via mail' => '通过邮件转发该邮件',
         'Change the ticket priority' => '改变该工单的优先级',
@@ -818,7 +820,6 @@ sub Data {
         'History::SystemRequest' => '历史：系统请求',
         'History::ResponsibleUpdate' => '历史：负责人更新',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '日',
@@ -1111,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '工作单元',
+        '(work units)' => '',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -2612,28 +2613,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '出错',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => '测试数据库设置',
-        'Result of database check' => '数据库检查结果',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
+        'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '如果使用其他数据库安装OTRS，请参考README文档。',
+        'Database-User' => '数据库用户名',
         'New' => '新建',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库用户',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => '默认密码 \'hot\'',
+        'DB host' => '数据库服务器',
+        'Check database settings' => '测试数据库设置',
+        'Result of database check' => '数据库检查结果',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2667,6 +2662,7 @@ sub Data {
         'LogModule' => '日志模块',
         'Log backend to use.' => '日志后台使用。',
         'LogFile' => '日志文件',
+        'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Webfrontend' => 'Web 前端',
         'Default language' => '默认语言',
         'Default language.' => '默认语言',
@@ -2844,6 +2840,9 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2878,8 +2877,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3664,6 +3661,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3786,8 +3784,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3824,6 +3820,8 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4473,6 +4471,7 @@ sub Data {
             '',
         'Statistics' => '统计',
         'Status view' => '状态视图',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4544,9 +4543,7 @@ sub Data {
         'View system log messages.' => '查看系统日志信息',
         'Wear this frontend skin' => '当前使用的皮肤',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4556,22 +4553,13 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
+        ' (work units)' => '工作单元',
         'Customer Data' => '客户数据',
-        'DB host' => '数据库服务器',
-        'Database-User' => '数据库用户名',
-        'False' => '出错',
         'For more info see:' => '更多信息请看',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '如果使用其他数据库安装OTRS，请参考README文档。',
-        'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Package verification failed!' => '软件包验证失败',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
-        'default \'hot\'' => '默认密码 \'hot\'',
 
     };
     # $$STOP$$

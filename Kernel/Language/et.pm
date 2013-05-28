@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:13
+    # Last translation file sync: 2013-05-28 11:37:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Omadus ei ole aktiveeritud!',
         'Agent updated!' => 'Agent uuendatud!',
-        'Database Selection' => '',
         'Create Database' => 'Tekita andmebaas',
         'System Settings' => 'Süsteemi seaded',
         'Mail Configuration' => '',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'Andmebaas',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Esmalt logi sisse!',
         'Password is needed!' => 'Sisesta parool!',
         'Take this Customer' => 'Kasuta seda klienti',
@@ -688,6 +689,7 @@ sub Data {
         'Show the ticket history' => 'Näita intsidendi ajalugu',
         'Print this ticket' => 'Trüki see intsident',
         'Print this article' => 'Trüki artikkel',
+        'Split' => '',
         'Split this article' => 'Poolita artikkel',
         'Forward article via mail' => 'Edasta artikkel e-posti teel',
         'Change the ticket priority' => 'Muuda intsidendi prioriteeti',
@@ -813,7 +815,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'P',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
-        ' (work units)' => ' (tööühikud)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2607,28 +2608,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             '',
-        'Check database settings' => '',
-        'Result of database check' => '',
-        'Database User' => '',
+        'Database-User' => 'Andmebaasi kasutaja',
         'New' => 'Uus',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'vaikimisi \'hot\'',
+        'DB host' => '',
+        'Check database settings' => '',
+        'Result of database check' => '',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2662,6 +2657,7 @@ sub Data {
         'LogModule' => 'LogModule',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Veebiliides',
         'Default language' => '',
         'Default language.' => '',
@@ -2839,6 +2835,9 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2873,8 +2872,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3659,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Kasutajaliidese teema',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Üldagent',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3781,8 +3779,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3819,6 +3815,8 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4468,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => 'Statistika',
         'Status view' => 'Seisundi vaade',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => 'Tekstiala',
@@ -4539,9 +4538,7 @@ sub Data {
         'View system log messages.' => 'Süsteemilogi teadete vaatamine.',
         'Wear this frontend skin' => '',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4551,12 +4548,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (tööühikud)',
         'Customer Data' => 'Kliendi andmed',
-        'Database-User' => 'Andmebaasi kasutaja',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.',
         'Logout successful. Thank you for using OTRS!' => 'Lahkusid OTRSist, täname kasutamise eest!',
-        'default \'hot\'' => 'vaikimisi \'hot\'',
 
     };
     # $$STOP$$

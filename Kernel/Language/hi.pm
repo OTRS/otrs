@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:17
+    # Last translation file sync: 2013-05-28 11:37:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'सुविधा सक्रिय नहीं है।',
         'Agent updated!' => 'प्रतिनिधि अद्यतन।',
-        'Database Selection' => '',
         'Create Database' => 'आंकड़ाकोष बनाएँ',
         'System Settings' => 'प्रणाली व्यवस्थाऐं',
         'Mail Configuration' => 'डाक विन्यास',
@@ -241,6 +240,8 @@ sub Data {
         'Database' => 'आंकड़ाकोष',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'प्रवेश आवश्यक है।',
         'Password is needed!' => 'कूटशब्द आवश्यक है।',
         'Take this Customer' => 'यह ग्राहक लें।',
@@ -690,6 +691,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => '',
@@ -815,7 +817,6 @@ sub Data {
         'History::SystemRequest' => 'प्रणाली आग्रह।',
         'History::ResponsibleUpdate' => 'उत्तरदायी अद्यतन।',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'रविवार',
@@ -1108,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -2609,28 +2610,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => 'ग़लत',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'आंकड़ाकोष व्यवस्थाऒं की जाँच करें',
-        'Result of database check' => 'आंकड़ाकोष की जाँच के नतीजे',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'यदि आप अपने आंकड़ाकोष के लिए एक रूट कूटशब्द निर्धारित किया है,यहाँ प्रविष्ट किया जाना चाहिए। यदि नहीं,इस क्षेत्र को खाली छोडें। सुरक्षा कारणों से हम एक रूट कूटशब्द निर्धारित करने की अनुशंसा करते हैं। अधिक जानकारी के लिए कृपया अपने आंकड़ाकोष दस्तावेजों को देखें।',
+        'Currently only MySQL is supported in the web installer.' => 'वर्तमान में केवल MySQL वेब संस्थापक में समर्थित है।',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'यदि आप किसी अन्य डेटाबेस के प्रकार पर OTRS स्थापित करना चाहते हैं,तो कृपया README.database फ़ाइल का संदर्भ लें।',
+        'Database-User' => 'आंकड़ाकोष उपयोगकर्ता',
         'New' => 'नया',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'सीमित अधिकार के साथ एक नया आंकड़ाकोष उपयोगकर्ता इस OTRS प्रणाली के लिए बनाया जाएगा।',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'तयशुदा \'hot\'',
+        'DB host' => 'आंकड़ाकोष मेजबान',
+        'Check database settings' => 'आंकड़ाकोष व्यवस्थाऒं की जाँच करें',
+        'Result of database check' => 'आंकड़ाकोष की जाँच के नतीजे',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2664,6 +2659,7 @@ sub Data {
         'LogModule' => 'मॉड्यूल अभिलेख',
         'Log backend to use.' => 'अभिलेख का बैकेंड प्रयोग के लिये',
         'LogFile' => 'अभिलेख फ़ाइल',
+        'Log file location is only needed for File-LogModule!' => 'अभिलेख फ़ाइल स्थान केवल अभिलेख-मॉड्यूल फ़ाइल के लिए जरूरी है।',
         'Webfrontend' => 'वेब दृश्यपटल',
         'Default language' => 'तयशुदा भाषा',
         'Default language.' => 'तयशुदा भाषा।',
@@ -2841,6 +2837,9 @@ sub Data {
             'स्वामी को स्वचालित रूप से टिकट के लिए उत्तरदायी बनायें(यदि टिकट की उत्तरदायी सुविधा सक्षम है)।',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'पहला स्वामी अद्यतन करने के बाद स्वचालित रूप से एक टिकट का उत्तरदायी(अगर यह अभी तक निर्धारित नहीं है)निर्धारित करें।',
+        'Balanced white skin by Felix Niklas.' => 'संतुलित सफेद सतही फेलिक्स निकलस के द्वारा',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'सभी आने वाली ईमेल से:@ example.com पते के जिनके विषय में एक वैध टिकट नंबर नहीं है उनको रोकें।',
         'Builds an article index right after the article\'s creation.' =>
@@ -2876,8 +2875,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'आपके PGP के लिए अपनी अभिलेख पाठ विन्यस्त करें।',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'पूर्ण पाठ सूचकांक विन्यस्त करें। नया सूचकांक उत्पन्न करने के लिए "bin/otrs.RebuildFulltextIndex.pl"चलाएँ।',
         'Controls if customers have the ability to sort their tickets.' =>
             'नियंत्रित करता है यदि ग्राहकों को उनके टिकट सॉर्ट करने की क्षमता है।',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3661,6 +3658,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => 'प्रतिनिधि अंतरफलक के लिए दृश्यपटल मॉड्यूल पंजीकरण।',
         'Frontend module registration for the customer interface.' => 'ग्राहक अंतरफलक के लिए दृश्यपटल मॉड्यूल पंजीकरण।',
         'Frontend theme' => 'दृश्यपटल थीम',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'सामान्य प्रतिनिधि',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3783,8 +3781,6 @@ sub Data {
             'यदि सक्रिय है,मुख्य मेनू के पहले के स्तर को माउस मंडराना खोलता है(के बजाय केवल क्लिक से)।',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'यदि यह नियमित अभिव्यक्ति से मेल खाता है,स्वतःप्रत्युत्तर से कोई संदेश नहीं भेजें।',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3822,6 +3818,8 @@ sub Data {
             'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली सीएसएस फ़ाइलों के सूची।',
         'List of CSS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली सीएसएस फ़ाइलों के सूची।',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
+            'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली IE8 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE8-specific CSS files to always be loaded for the customer interface.' =>
@@ -4470,6 +4468,7 @@ sub Data {
             '',
         'Statistics' => 'सांख्यिकी',
         'Status view' => 'स्तर दृश्य',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'ब्राउज़र के बंद होने के बाद कुकीज़ को संग्रहीत करता है।',
         'Strips empty lines on the ticket preview in the queue view.' => 'कतार दृश्य में टिकट पूर्वावलोकन पर रिक्त पंक्तियाँ खाली कर देता है।',
         'Textarea' => '',
@@ -4541,10 +4540,8 @@ sub Data {
         'View system log messages.' => 'प्रणाली अभिलेख संदेशों को देखें।',
         'Wear this frontend skin' => 'इस दृश्यपटल सतही को पहनें।',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+            'जब टिकटों को विलय कर रहे हैं,एक टिप्पणी स्वचालित रूप से जोड़ दी जाएगी उस टिकट को जो अब सक्रिय नहीं है। इस पाठ क्षेत्र में आप इस पाठ को परिभाषित कर सकते हैं(यह पाठ प्रतिनिधि के द्वारा बदला नहीं जा सकता है)।',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'जब टिकटों को विलय कर रहे हैं, चेक बॉक्स "सूचित प्रेषक" निर्धारित करने के बाद ग्राहक को ईमेल द्वारा सूचित किया जा सकता है। इस पाठ क्षेत्र में,आप एक पूर्व स्वरूपित पाठ परिभाषित कर सकते हैं जो बाद में प्रतिनिधियों द्वारा संशोधित किया जा सकता है। ',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
@@ -4557,33 +4554,20 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन के में प्राप्तकर्ताओं को ग्राहकों के ईमेल पते जोड़ता है।',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
-        'Balanced white skin by Felix Niklas.' => 'संतुलित सफेद सतही फेलिक्स निकलस के द्वारा',
-        'Currently only MySQL is supported in the web installer.' => 'वर्तमान में केवल MySQL वेब संस्थापक में समर्थित है।',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'पूर्ण पाठ सूचकांक विन्यस्त करें। नया सूचकांक उत्पन्न करने के लिए "bin/otrs.RebuildFulltextIndex.pl"चलाएँ।',
         'Customer Data' => 'ग्राहक आंकड़ा',
-        'DB host' => 'आंकड़ाकोष मेजबान',
-        'Database-User' => 'आंकड़ाकोष उपयोगकर्ता',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
         'Experimental "Slim" skin which tries to save screen space for power users.' =>
             'प्रयोगात्मक सतही "स्लिम" जो सत्ता उपयोगकर्ताओं के लिए स्क्रीन स्थान बचाने की कोशिश करता है।',
-        'False' => 'ग़लत',
         'For more info see:' => 'अधिक जानकारी के लिए देखें :',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'यदि आप अपने आंकड़ाकोष के लिए एक रूट कूटशब्द निर्धारित किया है,यहाँ प्रविष्ट किया जाना चाहिए। यदि नहीं,इस क्षेत्र को खाली छोडें। सुरक्षा कारणों से हम एक रूट कूटशब्द निर्धारित करने की अनुशंसा करते हैं। अधिक जानकारी के लिए कृपया अपने आंकड़ाकोष दस्तावेजों को देखें।',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'यदि आप किसी अन्य डेटाबेस के प्रकार पर OTRS स्थापित करना चाहते हैं,तो कृपया README.database फ़ाइल का संदर्भ लें।',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
-            'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
-        'Log file location is only needed for File-LogModule!' => 'अभिलेख फ़ाइल स्थान केवल अभिलेख-मॉड्यूल फ़ाइल के लिए जरूरी है।',
         'Logout successful. Thank you for using OTRS!' => 'बाहर प्रवेश सफल। OTRS उपयोग करने के लिए धन्यवाद।',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Package verification failed!' => 'संकुल पुष्टिकरण असफल रहा।',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'सुरक्षित मोड का उपयोग करके अक्षम किया जाना चाहिए वेब इंस्टॉलर से उसके पुन:स्थापित के लिए।',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
-            'जब टिकटों को विलय कर रहे हैं,एक टिप्पणी स्वचालित रूप से जोड़ दी जाएगी उस टिकट को जो अब सक्रिय नहीं है। इस पाठ क्षेत्र में आप इस पाठ को परिभाषित कर सकते हैं(यह पाठ प्रतिनिधि के द्वारा बदला नहीं जा सकता है)।',
-        'default \'hot\'' => 'तयशुदा \'hot\'',
 
     };
     # $$STOP$$

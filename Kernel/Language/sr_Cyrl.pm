@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:28
+    # Last translation file sync: 2013-05-28 11:37:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Успешно сте се одјавили! Хвала што сте користили "%s"!',
         'Feature not active!' => 'Функција није активна!',
         'Agent updated!' => 'Ажуриран оператер',
-        'Database Selection' => '',
         'Create Database' => 'Креирај базу података',
         'System Settings' => 'Системска подешавања',
         'Mail Configuration' => 'Подешавање мејла',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'База података',
         'Configure Mail' => 'Подешавање мејла',
         'Database deleted.' => 'Обрисана база',
+        'Database setup successful!' => 'Успешно инсталирање базе',
+        'Generated password' => '',
         'Login is needed!' => 'Потребна је пријава!',
         'Password is needed!' => 'Потребна је лозинка!',
         'Take this Customer' => 'Узми овог корисника',
@@ -688,6 +689,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => 'Промени приоритет тикета',
@@ -813,7 +815,6 @@ sub Data {
         'History::SystemRequest' => 'Системски захтев',
         'History::ResponsibleUpdate' => 'Нови одговорни је "%s" (ИД=%s).',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'нед',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
-        ' (work units)' => ' (елементи посла)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -2607,28 +2608,22 @@ sub Data {
             'Прескакање овог корака аутоматски прескачете и регистрацију ваше "OTRS" инсталације. јесте ли сигурни да желите да наставите?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Успешно инсталирање базе',
+        'False' => '"False"',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Проверите подешавања базе',
-        'Result of database check' => 'Резултат провере базе података',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Ако сте подесили "root" лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
+        'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
+        'Database-User' => 'Корисник базе података',
         'New' => 'Нов',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Нови корисника базе са ограниченим правима ће бити креиран за овај "OTRS" систем',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'подразумевано \'hot\'',
+        'DB host' => 'Назив или адреса ДБ-Сервера',
+        'Check database settings' => 'Проверите подешавања базе',
+        'Result of database check' => 'Резултат провере базе података',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2662,6 +2657,7 @@ sub Data {
         'LogModule' => 'Модул дневника',
         'Log backend to use.' => 'Систем који се користи за дневник.',
         'LogFile' => 'Датотека дневника',
+        'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једно неопходно Модулу дневника!',
         'Webfrontend' => 'Мрежни интерфејс',
         'Default language' => 'Подразумевани језик',
         'Default language.' => 'Подразумевани језик',
@@ -2839,6 +2835,9 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Balanced white skin by Felix Niklas.' => 'Балансирани бели изглед, Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2873,8 +2872,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Контролише да ли корисници имају могућност да сортирају своје тикете.',
@@ -3659,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3781,8 +3779,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3819,6 +3815,8 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4468,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => 'Статистике',
         'Status view' => 'Преглед статуса',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Чува колачиће након затварања претраживача.',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4539,10 +4538,8 @@ sub Data {
         'View system log messages.' => 'Преглед порука системског дневника.',
         'Wear this frontend skin' => 'Примени овај исглед интерфејса',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+            'Када су тикети спојени, тикету који није активан ће аутоматски бити додана белешка. У простору за текст можете да дефинишете овај текст (Оператери не могу мењати овај текст).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Када су тикети спојени, корисник може бити информисан имејлом постављањем поље за потврду "Обавести пошиљаоца". У простору за текст, можете дефинисати унапред форматирани текст који касније бити модификован од стране оператера.',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
@@ -4551,29 +4548,17 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (елементи посла)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Додаје корисничке имејл адресе примаоцима у прозору за отварање тикета на интерфејсу оператера.',
-        'Balanced white skin by Felix Niklas.' => 'Балансирани бели изглед, Felix Niklas.',
-        'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
         'Customer Data' => 'Подаци о кориснику',
-        'DB host' => 'Назив или адреса ДБ-Сервера',
-        'Database-User' => 'Корисник базе података',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',
-        'False' => '"False"',
         'For more info see:' => 'За додатне информације погледај:',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Ако сте подесили "root" лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
-        'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једно неопходно Модулу дневника!',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се одјавили! Хвала што сте користили "OTRS"!',
         'Package verification failed!' => 'Неуспела верификација пакета!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
-            'Када су тикети спојени, тикету који није активан ће аутоматски бити додана белешка. У простору за текст можете да дефинишете овај текст (Оператери не могу мењати овај текст).',
-        'default \'hot\'' => 'подразумевано \'hot\'',
 
     };
     # $$STOP$$

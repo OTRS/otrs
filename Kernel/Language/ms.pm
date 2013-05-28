@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:22
+    # Last translation file sync: 2013-05-28 11:37:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -230,7 +230,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
         'Agent updated!' => 'Ejen dikemaskini!',
-        'Database Selection' => '',
         'Create Database' => 'Mencipta pangkalan data',
         'System Settings' => 'Pengaturan sistem',
         'Mail Configuration' => 'Konfigurasi mel',
@@ -241,6 +240,8 @@ sub Data {
         'Database' => 'Pangkalan data',
         'Configure Mail' => 'Konfigurasi emel',
         'Database deleted.' => 'Pangkalan data dipadam.',
+        'Database setup successful!' => 'Penubuhan pangkalan data berjaya!',
+        'Generated password' => '',
         'Login is needed!' => 'Log masuk diperlukan!',
         'Password is needed!' => 'Kata laluan diperlukan!',
         'Take this Customer' => 'Ambil pelanggan ini',
@@ -690,6 +691,7 @@ sub Data {
         'Show the ticket history' => 'Tunjuk sejarah tiket',
         'Print this ticket' => 'Cetak tiket ini',
         'Print this article' => 'Cetak tiket ini',
+        'Split' => '',
         'Split this article' => 'Pisahkan artikel ini',
         'Forward article via mail' => 'Kehadapankan artikel melalui mel',
         'Change the ticket priority' => 'Tukar kepentingan tiket',
@@ -815,7 +817,6 @@ sub Data {
         'History::SystemRequest' => 'Systemanfrage (%s).',
         'History::ResponsibleUpdate' => 'Pengurus baru "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Status berubah Arkib: "%s"',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Ahd',
@@ -1108,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        ' (work units)' => ' (unit bekerja)',
+        '(work units)' => '',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -2609,28 +2610,22 @@ sub Data {
             'Jika anda melangkau langkah ini, pendaftaran sistem OTRS anda juga dilangkau. Anda benar-benar mahu meneruskan?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Penubuhan pangkalan data berjaya!',
+        'False' => 'Salah',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Semak tetapan database',
-        'Result of database check' => 'Hasil semakan database',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Jika kata laluan akar telah ditetapkan untuk pangkalan data, ia mesti dimasukkan di sini. Jika tiada password yang ditetapkan, bidang mesti ditinggalkan kosong. Atas sebab-sebab keselamatan, kami mencadangkan untuk menetapkan kata laluan akar. Untuk maklumat lanjut, lihat dokumentasi untuk pangkalan data anda.',
+        'Currently only MySQL is supported in the web installer.' => 'Kini hanya MySQL disokong pada pemasangan Web.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jika anda ingin memasang OTRS pada pangkalan data lain, sila baca fail README.database.',
+        'Database-User' => 'Pengguna database',
         'New' => 'Baru',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Seorang pengguna pangkalan data baru dengan keistimewaan yang terhad dicipta pada sistem OTRS ini.',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'asal \'hot\'',
+        'DB host' => '',
+        'Check database settings' => 'Semak tetapan database',
+        'Result of database check' => 'Hasil semakan database',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2664,6 +2659,7 @@ sub Data {
         'LogModule' => 'log modul',
         'Log backend to use.' => 'Log backend untuk digunakan.',
         'LogFile' => 'Log Fail',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webfrontend',
         'Default language' => 'Bahasa asal',
         'Default language.' => 'Bahasa asal.',
@@ -2841,6 +2837,9 @@ sub Data {
             'Secara automatik menetapkan pemilik tiket sebagai bertanggungjawab untuk ia (jika ciri tiket bertanggungjawab diaktifkan).',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Secara automatik menetapkan tanggungjawab sesebuah tiket (jika ia tidak ditetapkan lagi) selepas kemas kini pemilik pertama.',
+        'Balanced white skin by Felix Niklas.' => 'Kulit puih seimbang oleh Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Blok semua e-mel masuk yang tidak mempunyai nombor tiket yang sah tertakluk dengan Dari: @ example.com alamat.',
         'Builds an article index right after the article\'s creation.' =>
@@ -2876,8 +2875,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'Konfigur teks log anda sendiri untuk PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             'Mengkonfigurasi tetapan lalai TicketDynmicField. "Nama" mentakrifkan bidang yang dinamik yang perlu digunakan, "Nilai" adalah data yang akan ditetapkan, dan "Acara" mentakrifkan pencetus acara. Sila semak manual pemaju (http://doc.otrs.org/), bab "Tiket Event Module".',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'Mengkonfigurasi indeks teks penuh. Melaksanakan "bin / otrs.RebuildFulltextIndex.pl" untuk menjana indeks baru.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kawalan jika pelanggan mempunyai keupayaan untuk mengatur tiket mereka.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3661,6 +3658,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => 'Pendaftaran modul frontend untuk paparan ejen.',
         'Frontend module registration for the customer interface.' => 'Pendaftaran modul frontend untuk paparan pelanggan.',
         'Frontend theme' => 'Tema frontend',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => 'GenericInterface Debugger GUI',
         'GenericInterface Invoker GUI' => 'GenericInterface Pencetus GUI',
@@ -3783,8 +3781,6 @@ sub Data {
             'Jika diaktifkan, tahap pertama menu utama akan dibuka pada saat tetikus diatasnya (dan bukannya hanya dengan klik).',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             'Jika ditetapkan, alamat ini akan digunakan sebagai sampul header penghantar dalam notifikasi keluar. Jika tiada alamat yang ditentukan, sampul header penghantar adalah kosong.',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Jika regex ini padan, tiada mesej akan dihantar oleh tindak balas auto.',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3822,6 +3818,8 @@ sub Data {
             'Senarai fail CSS untuk sentiasa dimuatkan untuk paparan ejen.',
         'List of CSS files to always be loaded for the customer interface.' =>
             'Senarai fail CSS untuk sentiasa dimuatkan untuk paparan pelanggan.',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
+            'Senarai fail IE7-specific CSS untuk sentiasa dimuatkan untuk paparan pelanggan.',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             'Senarai fail IE8-specific CSS untuk sentiasa dimuatkan untuk paparan ejen.',
         'List of IE8-specific CSS files to always be loaded for the customer interface.' =>
@@ -4470,6 +4468,7 @@ sub Data {
             'Memulakan carian wildcard pada objek aktif selepas pautan mask objek dimulakan.',
         'Statistics' => 'Statistik',
         'Status view' => 'Paparan statistik',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Menyimpan cookies selepas browser telah ditutup.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Melucutkan barisan kosong pada previu tiket dalam paparan aturan.',
         'Textarea' => 'Textarea',
@@ -4541,10 +4540,8 @@ sub Data {
         'View system log messages.' => 'Melihat mesej log sistem.',
         'Wear this frontend skin' => 'Guna kulit frontend ini.',
         'Webservice path separator.' => 'Pemisah laluan Webservice.',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+            'Apabila tiket digabungkan, nota akan ditambah secara automatik untuk tiket yang tidak lagi aktif. Dalam kawasan teks ini, anda boleh menentukan teks ini (Teks ini tidak boleh diubah oleh ejen itu).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Apabila tiket digabungkan, pelanggan boleh diberitahu setiap e-mel dengan menetapkan kotak semak "Memaklumkan Penghantar". Dalam kawasan teks ini, anda boleh menentukan teks pra-format yang kemudiannya boleh diubah suai oleh ejen.',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
@@ -4553,6 +4550,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unit bekerja)',
         '","18' => '","18',
         '","26' => '","26',
         '","30' => '","30',
@@ -4560,14 +4558,13 @@ sub Data {
             'Tambah alamat emel pelanggan kepada penerima dalam skrin mengarang tiket dalam interface ejen.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface ejen. Dengan fungsi ini, anda boleh tetapkan carian menggunakan kondisi seperti "(key1&&key2)" atau "(key1||key2)".',
-        'Balanced white skin by Felix Niklas.' => 'Kulit puih seimbang oleh Felix Niklas.',
         'Companies' => 'Syarikat',
-        'Currently only MySQL is supported in the web installer.' => 'Kini hanya MySQL disokong pada pemasangan Web.',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'Mengkonfigurasi indeks teks penuh. Melaksanakan "bin / otrs.RebuildFulltextIndex.pl" untuk menjana indeks baru.',
         'Customer Data' => 'Data pelanggan',
         'DB--- host' => 'Hos DB---',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
             'DIKECAM! Penetapan ini tidak digunakan lagi dan akan dikeluarkan dalam OTRS versi masa depan.',
-        'Database-User' => 'Pengguna database',
         'Defines the default sender type of the article for this operation.' =>
             'Mentakrifkan jenis penghantar asal untuk artikel operasi ini.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
@@ -4589,21 +4586,14 @@ sub Data {
         'Example for free text' => 'Contoh untuk teks bebas',
         'Experimental "Slim" skin which tries to save screen space for power users.' =>
             'Kulit uji kaji "Slim" yang cuba untuk menyelamatkan ruang skrin untuk pengguna berkuasa.',
-        'False' => 'Salah',
         'For more info see:' => 'Untuk maklumat lanjut lihat:',
         'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
             'Jika "DB" dipilih untuk SessionModule, kolum untuk pengecam dalam jadual sesi mesti ditentukan.',
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
             'Jika "DB" dipilih untuk SessionModule, kolum untuk nilai di dallam jadual sesi mesti ditentukan.',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Jika kata laluan akar telah ditetapkan untuk pangkalan data, ia mesti dimasukkan di sini. Jika tiada password yang ditetapkan, bidang mesti ditinggalkan kosong. Atas sebab-sebab keselamatan, kami mencadangkan untuk menetapkan kata laluan akar. Untuk maklumat lanjut, lihat dokumentasi untuk pangkalan data anda.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jika anda ingin memasang OTRS pada pangkalan data lain, sila baca fail README.database.',
         'Invalid SessionID!' => 'IDSesi tidak sah!',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             'Senarai fail IE6-specific CSS untuk sentiasa dimuatkan untuk paparan pelanggan.',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
-            'Senarai fail IE7-specific CSS untuk sentiasa dimuatkan untuk paparan pelanggan.',
         'Log file location is only needed for File-Log-Backend Module!' =>
             'Lokasi log fail hanya diperlukan untuk modul Fail-Log-Backend!',
         'Logout successful. Thank you for using OTRS!' => 'Log keluar berjaya! Terima kasih kerana menggunakan OTRS!',
@@ -4624,10 +4614,7 @@ sub Data {
         'Ticket Information' => 'Informasi Tiket',
         'To protect your privacy, active or/and remote content has blocked.' =>
             'Untuk melindungi privasi anda, aktif dan / atau kandungan jauh telah disekat.',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
-            'Apabila tiket digabungkan, nota akan ditambah secara automatik untuk tiket yang tidak lagi aktif. Dalam kawasan teks ini, anda boleh menentukan teks ini (Teks ini tidak boleh diubah oleh ejen itu).',
         'Your language' => 'Bahasa anda',
-        'default \'hot\'' => 'asal \'hot\'',
 
     };
     # $$STOP$$

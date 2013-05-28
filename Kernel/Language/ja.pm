@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:20
+    # Last translation file sync: 2013-05-28 11:37:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -229,7 +229,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => '機能が有効になっていません！',
         'Agent updated!' => '担当者更新！',
-        'Database Selection' => '',
         'Create Database' => 'データベース作成',
         'System Settings' => 'システム設定',
         'Mail Configuration' => 'メール設定',
@@ -240,6 +239,8 @@ sub Data {
         'Database' => 'データベース',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'ログインしてください！',
         'Password is needed!' => 'パスワードを入力してください！',
         'Take this Customer' => 'この顧客を選択',
@@ -689,6 +690,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => '',
@@ -814,7 +816,6 @@ sub Data {
         'History::SystemRequest' => 'System Request (%s).',
         'History::ResponsibleUpdate' => 'New responsible is "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '日',
@@ -1107,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        ' (work units)' => ' (稼働時間)',
+        '(work units)' => '',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -2608,28 +2609,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '失敗',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'データベース設定をチェック',
-        'Result of database check' => 'データベースチェックの結果',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'データベースのrootパスワードが設定されている場合、ここに入力する必要があります。されていない場合は空白にしてください。セキュリティ上の理由から、私たちはrootのパスワードを設定することをお勧めしません。詳しくはデータベースのマニュアルを参照してください。',
+        'Currently only MySQL is supported in the web installer.' => '現在のインストーラーはMySQLのみサポートしています。',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'もしOTRSに違うタイプのデータベースをインストールしたい場合、README.databaseファイルを参照してください。',
+        'Database-User' => 'データベースユーザー',
         'New' => '新規',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'このOTRSシステム用に限られた権限の新規データベースユーザーが作成されます。',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => '既定パスワード \'hot\'',
+        'DB host' => 'データベース - ホスト',
+        'Check database settings' => 'データベース設定をチェック',
+        'Result of database check' => 'データベースチェックの結果',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2663,6 +2658,7 @@ sub Data {
         'LogModule' => 'ログモジュール',
         'Log backend to use.' => 'ログバックエンドを使用するには',
         'LogFile' => 'ログファイル',
+        'Log file location is only needed for File-LogModule!' => 'File-LogModuleのためにログファイルの場所が必要です。',
         'Webfrontend' => 'Webフロントエンド',
         'Default language' => '既定の言語',
         'Default language.' => '既定の言語。',
@@ -2840,6 +2836,9 @@ sub Data {
             'チケット所有者を、自動的にそのチケットの責任者として設定します（チケット責任者機能が有効となっている場合）。',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '1人目の所有者のアップデートの後、自動的にチケットの責任者を設定します（もし、また設定されていなければ）。',
+        'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '件名に有効なチケット番号を持たない全ての受信メールを、From: @example.com addressを用いてブロックします。',
         'Builds an article index right after the article\'s creation.' =>
@@ -2875,8 +2874,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'PGPのための利用者独自のログテキストを設定します。',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Controls if customers have the ability to sort their tickets.' =>
             '顧客が自らのチケットをソートする機能を持つかどうかを、コントロールします。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3662,6 +3659,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Frontend module registration for the agent interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend theme' => 'フロントエンドのテーマ',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '管理用ジョブ',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3784,8 +3782,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '有効にした場合、メイン・メニューの1つめのレベルのものが、マウスを乗せるだけで開きます（1回クリックの代わりに）。',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'ここで指定した文言（正規表現）にマッチした場合、オート・レスポンダーによりメッセージは送られません。',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3823,6 +3819,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースに対して、常にロードされるCSSファイルのリストです。',
         'List of CSS files to always be loaded for the customer interface.' =>
             '顧客インタフェースに対して、常にロードされるCSSファイルのリストです。',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
+            '顧客インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '担当者インタフェースに対して、常にロードされるIE8特有のCSSファイルのリストです。',
         'List of IE8-specific CSS files to always be loaded for the customer interface.' =>
@@ -4472,6 +4470,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Statistics' => '統計',
         'Status view' => '状態一覧',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'ブラウザが閉じられた後に、クッキーを格納します。',
         'Strips empty lines on the ticket preview in the queue view.' => 'キュー・ビューで、チケット・プレビューの空の行を削除します。',
         'Textarea' => '',
@@ -4543,10 +4542,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'View system log messages.' => 'システムログメッセージを見る。',
         'Wear this frontend skin' => 'このフロントエンドスキンに変更。',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+            '"Inform Sender"チェック・ボックスを設定することで、チケットが結合された際に顧客がEメールで通知されるようにできます。このテキスト領域では、担当者によって後から修正できる事前フォーマット化されたテキストを定義することができます。',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
@@ -4555,37 +4552,25 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (稼働時間)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
-        'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
-        'Currently only MySQL is supported in the web installer.' => '現在のインストーラーはMySQLのみサポートしています。',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Customer Data' => '顧客情報',
-        'DB host' => 'データベース - ホスト',
-        'Database-User' => 'データベースユーザー',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケージ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パスワードの盗難を防ぐためです）。',
         'Experimental "Slim" skin which tries to save screen space for power users.' =>
             'パワーユーザ用に画面スペースを省くための、実験的な“スリム”スキンです。',
-        'False' => '失敗',
         'For more info see:' => '詳細情報：',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'データベースのrootパスワードが設定されている場合、ここに入力する必要があります。されていない場合は空白にしてください。セキュリティ上の理由から、私たちはrootのパスワードを設定することをお勧めしません。詳しくはデータベースのマニュアルを参照してください。',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'もしOTRSに違うタイプのデータベースをインストールしたい場合、README.databaseファイルを参照してください。',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
-            '顧客インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
-        'Log file location is only needed for File-LogModule!' => 'File-LogModuleのためにログファイルの場所が必要です。',
         'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます！',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'セキュアモードで実行中のため、Webインストーラーで再インストールするには無効にする必要があります。',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
-            '"Inform Sender"チェック・ボックスを設定することで、チケットが結合された際に顧客がEメールで通知されるようにできます。このテキスト領域では、担当者によって後から修正できる事前フォーマット化されたテキストを定義することができます。',
-        'default \'hot\'' => '既定パスワード \'hot\'',
 
     };
    # $$STOP$$

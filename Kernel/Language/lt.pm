@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:20
+    # Last translation file sync: 2013-05-28 11:37:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Sėkmingai atsijungta! Ačiū, kad naudojatės %s!',
         'Feature not active!' => 'Funkcija/ypatybė neaktyvuota!',
         'Agent updated!' => 'Agentas atnaujintas!',
-        'Database Selection' => '',
         'Create Database' => 'Sukurti duomenų bazę',
         'System Settings' => 'Sistemos nustatymai',
         'Mail Configuration' => 'Pašto konfigūracija',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'Duomenų bazė',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Reikia prisijungimo vardo!',
         'Password is needed!' => 'Reikia slaptažodžio!',
         'Take this Customer' => 'Imti šį klientą',
@@ -688,6 +689,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => '',
@@ -813,7 +815,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => 'Naujas atsakingas asmuo yra "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'S',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Archyvuoti pasirinktas triktis',
         'Add Note' => 'Pridėti pastabą',
         'Time units' => 'Laiko vienetai',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'Trikčių komandos',
         'Send agent/customer notifications on changes' => 'Įvykus pasikeitimams siųsti perspėjimus agentams/klientams',
         'CMD' => 'CMD',
@@ -2607,28 +2608,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => 'Neigiama',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Patikrinti duomenų bazės nustatymus',
-        'Result of database check' => 'Duomenų bazės nustatymų patikrinimo rezultatas',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Čia turi būti įvestas Jūsų duomenų bazės root naudotojo slaptažodis, jeigu toks yra nustatytas, jeigu ne, tai palikite šį laukelį tuščią. Dėl saugumo, mes, nerekomenduojame naudoti root slaptažodžio. Daugiau informacijos rasite savo duomenų bazės dokumentacijoje.',
+        'Currently only MySQL is supported in the web installer.' => 'Šiuo metu web-įdiegimo sąsajoje palaikomas tik MySQL.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Jeigu OTRS diegimui norite naudoti kitokį duombazės tipą skaitykite failą README.database',
+        'Database-User' => 'Duomenų bazės naudotojas',
         'New' => 'Naujas',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų bazės naudotojas.',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'standartiškai \'hot\'',
+        'DB host' => 'Duomenų bazės serveris',
+        'Check database settings' => 'Patikrinti duomenų bazės nustatymus',
+        'Result of database check' => 'Duomenų bazės nustatymų patikrinimo rezultatas',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2662,6 +2657,7 @@ sub Data {
         'LogModule' => 'Žurnalo modulis (log module)',
         'Log backend to use.' => 'Žurnalo posistemė.',
         'LogFile' => 'Žurnalo failas',
+        'Log file location is only needed for File-LogModule!' => 'Žurnalizavimo failo vieta (log file location) yra reikalinga tik File-LogModule!',
         'Webfrontend' => 'Web sąsaja',
         'Default language' => 'Standartinė kalba',
         'Default language.' => 'Standartinė kalba.',
@@ -2839,6 +2835,9 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2873,8 +2872,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3659,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Sąsajos tema (Išvaizda)',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Bendrinis agentas (generic agent)',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3781,8 +3779,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3819,6 +3815,8 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4468,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => 'Statistika',
         'Status view' => 'Statusų peržiūra',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4539,9 +4538,7 @@ sub Data {
         'View system log messages.' => 'Peržiūrėti sistemos registravimo žurnalo žinutes.',
         'Wear this frontend skin' => '',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4551,22 +4548,12 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        'Currently only MySQL is supported in the web installer.' => 'Šiuo metu web-įdiegimo sąsajoje palaikomas tik MySQL.',
         'Customer Data' => 'Kliento duomenys',
-        'DB host' => 'Duomenų bazės serveris',
-        'Database-User' => 'Duomenų bazės naudotojas',
-        'False' => 'Neigiama',
         'For more info see:' => 'Daugiau informacijos žiūrėkite:',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Čia turi būti įvestas Jūsų duomenų bazės root naudotojo slaptažodis, jeigu toks yra nustatytas, jeigu ne, tai palikite šį laukelį tuščią. Dėl saugumo, mes, nerekomenduojame naudoti root slaptažodžio. Daugiau informacijos rasite savo duomenų bazės dokumentacijoje.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Jeigu OTRS diegimui norite naudoti kitokį duombazės tipą skaitykite failą README.database',
-        'Log file location is only needed for File-LogModule!' => 'Žurnalizavimo failo vieta (log file location) yra reikalinga tik File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Sėkmingai atsijungta! Ačiū, kad naudojatės OTRS!',
         'Package verification failed!' => 'Paketo patikrinimas nepavyko',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Norint įdiegti iš naujo, naudojant web-diegyklę, saugus režimas turi būti išjungtas.',
-        'default \'hot\'' => 'standartiškai \'hot\'',
 
     };
     # $$STOP$$

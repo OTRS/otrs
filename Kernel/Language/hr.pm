@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:17
+    # Last translation file sync: 2013-05-28 11:37:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -232,7 +232,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Uspješno ste se odjavili! Hvala što ste koristili %s!',
         'Feature not active!' => 'Funkcija nije aktivna!',
         'Agent updated!' => 'Ažuriran zaposlenik',
-        'Database Selection' => '',
         'Create Database' => 'Kreiraj bazu podataka',
         'System Settings' => 'Postavke sustava',
         'Mail Configuration' => 'Podešavanje E-pošte',
@@ -243,6 +242,8 @@ sub Data {
         'Database' => 'Baza podataka (DB)',
         'Configure Mail' => '',
         'Database deleted.' => '',
+        'Database setup successful!' => '',
+        'Generated password' => '',
         'Login is needed!' => 'Potrebna je prijava!',
         'Password is needed!' => 'Potrebna je lozinka!',
         'Take this Customer' => 'Uzmi ovog korisnika',
@@ -692,6 +693,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => '',
@@ -817,7 +819,6 @@ sub Data {
         'History::SystemRequest' => 'Zahtjev sustava',
         'History::ResponsibleUpdate' => 'Novi odgovorni je "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'ned',
@@ -1110,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
-        ' (work units)' => ' (elementi posla)',
+        '(work units)' => '',
         'Ticket Commands' => 'Komande za karticu',
         'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
         'CMD' => 'CMD',
@@ -2611,28 +2612,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'False' => '"False"',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Provjerite postavke baze podataka',
-        'Result of database check' => 'Rezultat provjere baze podataka',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Ako ste podesili "root" lozinku za vašu bazu podataka, ona mora biti unesena ovdje. Ako nema lozinke, ostavite polje prazno. Iz sigurnosnih razloga preporučujemo da je podesite. Za više informacija proučite dokumentaciju o bazi podataka.',
+        'Currently only MySQL is supported in the web installer.' => 'Trenutno je samo MySQL podržan u Web Instalaciji.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Ako želite instalirati OTRS na neki drugi sustav baze podataka, proučite informacije u datoteci README.database.',
+        'Database-User' => 'Korisnik baze podataka',
         'New' => 'Nov',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'Novi korisnik baze sa ograničenim pravima bit će  kreiran za ovaj OTRS sustav',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'podrazumijevano \'hot\'',
+        'DB host' => 'Naziv ili adresa DB servera',
+        'Check database settings' => 'Provjerite postavke baze podataka',
+        'Result of database check' => 'Rezultat provjere baze podataka',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2666,6 +2661,7 @@ sub Data {
         'LogModule' => 'Modul dnevnika',
         'Log backend to use.' => 'Sustav koji se koristi za dnevnik.',
         'LogFile' => 'Datoteka dnevnika',
+        'Log file location is only needed for File-LogModule!' => 'Lokacija datoteke dnevnika je jedino neophodna za Modul dnevnika!',
         'Webfrontend' => 'Mrežno sučelje',
         'Default language' => 'Zadani jezik',
         'Default language.' => 'Zadani jezik.',
@@ -2843,6 +2839,9 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Balanced white skin by Felix Niklas.' => 'Balansirani bijeli izgled, Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2877,8 +2876,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontrolira da li korisnici imaju mogućnost sortiranja svojih kartica.',
@@ -3663,6 +3660,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3785,8 +3783,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3823,6 +3819,8 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4472,6 +4470,7 @@ sub Data {
             '',
         'Statistics' => 'Statistike',
         'Status view' => 'Pregled statusa',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Čuva kolačiće nakon zatvaranja pretraživača.',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4543,10 +4542,8 @@ sub Data {
         'View system log messages.' => 'Pregled poruka sistemskog dnevnika.',
         'Wear this frontend skin' => 'Primeni ovaj isgled interfejsa',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
+            'Kada su kartice spojeni, kartici koji nije aktivan će automatski biti dodana beleška. U prostoru za tekst možete da definišete ovaj tekst (Zaposlenici ne mogu mijenjati ovaj tekst).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Kada su kartice spojeni, korisnik može biti informiran E-poštom postavljanjem polje za potvrdu "Obavijesti pošiljaoca". U prostoru za tekst, možete definirati unaprijed formatirani tekst koji kasnije biti modificiran od strane zaposlenika.',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
@@ -4555,27 +4552,15 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (elementi posla)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Dodaje korisničke e-mail adrese primaocima u prozoru za otvaranje kartice na sučelju zaposlenog.',
-        'Balanced white skin by Felix Niklas.' => 'Balansirani bijeli izgled, Felix Niklas.',
-        'Currently only MySQL is supported in the web installer.' => 'Trenutno je samo MySQL podržan u Web Instalaciji.',
         'Customer Data' => 'Podaci o korisniku',
-        'DB host' => 'Naziv ili adresa DB servera',
-        'Database-User' => 'Korisnik baze podataka',
-        'False' => '"False"',
         'For more info see:' => 'Za dodatne informacije pogledaj:',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Ako ste podesili "root" lozinku za vašu bazu podataka, ona mora biti unesena ovdje. Ako nema lozinke, ostavite polje prazno. Iz sigurnosnih razloga preporučujemo da je podesite. Za više informacija proučite dokumentaciju o bazi podataka.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Ako želite instalirati OTRS na neki drugi sustav baze podataka, proučite informacije u datoteci README.database.',
-        'Log file location is only needed for File-LogModule!' => 'Lokacija datoteke dnevnika je jedino neophodna za Modul dnevnika!',
         'Logout successful. Thank you for using OTRS!' => 'Uspješno ste se odjavili! Hvala što ste koristili OTRS!',
         'Package verification failed!' => 'Neuspjela provjera paketa!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '"Siguran način" mora biti isključen radi reinstalacije putem weba.',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
-            'Kada su kartice spojeni, kartici koji nije aktivan će automatski biti dodana beleška. U prostoru za tekst možete da definišete ovaj tekst (Zaposlenici ne mogu mijenjati ovaj tekst).',
-        'default \'hot\'' => 'podrazumijevano \'hot\'',
 
     };
     # $$STOP$$

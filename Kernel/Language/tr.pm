@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:31
+    # Last translation file sync: 2013-05-28 11:37:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -228,7 +228,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Özellik etkin değil!',
         'Agent updated!' => 'Aracı güncellendi!',
-        'Database Selection' => '',
         'Create Database' => 'Veritabanını Oluştur',
         'System Settings' => 'Sistem Ayarları',
         'Mail Configuration' => 'E-posta ayarları',
@@ -239,6 +238,8 @@ sub Data {
         'Database' => 'Veritabanı',
         'Configure Mail' => 'E-posta ayarla',
         'Database deleted.' => 'Veritabanı silindi.',
+        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
+        'Generated password' => '',
         'Login is needed!' => 'Oturum açmanız gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'Take this Customer' => 'Bu Müşteriyi al',
@@ -688,6 +689,7 @@ sub Data {
         'Show the ticket history' => 'Bilet tarihini göster',
         'Print this ticket' => 'Bu bileti bas',
         'Print this article' => 'Bu yazıyı bas',
+        'Split' => 'Ayır',
         'Split this article' => 'Bu yazıyı böl',
         'Forward article via mail' => 'Yazıyı e-posta üzerinden ilet',
         'Change the ticket priority' => 'Bilet önceliğini değiştir',
@@ -813,7 +815,6 @@ sub Data {
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
         'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Paz',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        ' (work units)' => ' (iş birimi)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -2607,28 +2608,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
+        'False' => '',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Check database settings' => '',
-        'Result of database check' => '',
-        'Database User' => '',
+        'Currently only MySQL is supported in the web installer.' => '',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            '',
+        'Database-User' => 'Veritabanı kullanıcısı',
         'New' => 'Yeni',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'varsayılan \'host\'',
+        'DB host' => '',
+        'Check database settings' => '',
+        'Result of database check' => '',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2662,6 +2657,7 @@ sub Data {
         'LogModule' => 'Günlük Bileşeni',
         'Log backend to use.' => '',
         'LogFile' => '',
+        'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Web Önyüzü',
         'Default language' => '',
         'Default language.' => '',
@@ -2839,6 +2835,9 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2873,8 +2872,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3659,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'GenelAracı',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3781,8 +3779,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3819,6 +3815,8 @@ sub Data {
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             '',
@@ -4468,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => 'İstatistikler',
         'Status view' => 'Durum görünümü',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4539,9 +4538,7 @@ sub Data {
         'View system log messages.' => '',
         'Wear this frontend skin' => '',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4551,6 +4548,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',
@@ -4686,7 +4684,6 @@ sub Data {
         'DB Admin Password' => 'Veritabanı Yöneticisi Parolası',
         'DB Admin User' => 'Veritabanı Yöneticisi Kullanıcı',
         'DB connect host' => 'Veritabanına bağlanan sunucu',
-        'Database-User' => 'Veritabanı kullanıcısı',
         'Default' => 'Öntanımlı',
         'Default Charset' => 'Öntanımlı karakter kümesi',
         'Default Language' => 'Öntanımlı dil',
@@ -4938,7 +4935,6 @@ sub Data {
         'Sort by' => 'Şuna göre sırala:',
         'Source' => 'Kaynak',
         'Spell Check' => 'Sözdizim Kontrolü',
-        'Split' => 'Ayır',
         'State Type' => 'Durum Tipi',
         'Static-File' => 'Sabit Dosya',
         'Stats-Area' => 'İstatistikler Alanı',
@@ -5030,7 +5026,6 @@ sub Data {
         'Your language' => 'Diliniz',
         'Your own Ticket' => 'Kendi Biletiniz',
         'customer realname' => 'müşterinin gerçek adı',
-        'default \'hot\'' => 'varsayılan \'host\'',
         'down' => 'aşağı',
         'false' => 'false',
         'for agent firstname' => 'aracı adı için',

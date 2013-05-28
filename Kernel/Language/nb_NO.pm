@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 10:03:23
+    # Last translation file sync: 2013-05-28 11:37:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -236,7 +236,6 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'Utlogging utført.  Takk for at du brukte %s!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
         'Agent updated!' => 'Saksbehandler oppdatert',
-        'Database Selection' => '',
         'Create Database' => 'Opprett database',
         'System Settings' => 'Systeminnstillinger',
         'Mail Configuration' => 'E-postoppsett',
@@ -247,6 +246,8 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Konfigurer e-post',
         'Database deleted.' => 'Databasen fjernet',
+        'Database setup successful!' => 'Konfigurasjon av databasen var vellykket',
+        'Generated password' => '',
         'Login is needed!' => 'Innlogging kreves',
         'Password is needed!' => 'Passord er påkrevd!',
         'Take this Customer' => 'Velg denne kunden',
@@ -696,6 +697,7 @@ sub Data {
         'Show the ticket history' => 'Vis saks-historikk',
         'Print this ticket' => 'Skriv ut denne saken',
         'Print this article' => 'Skriv ut denne artikkelen',
+        'Split' => '',
         'Split this article' => 'Skill ut denne artikkelen',
         'Forward article via mail' => 'Videresend artikkelen via e-post',
         'Change the ticket priority' => 'Bytt prioritet på saken',
@@ -821,7 +823,6 @@ sub Data {
         'History::SystemRequest' => 'Systemspørring (%s).',
         'History::ResponsibleUpdate' => 'Ny ansvarlig er «%s» (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Ny arkiv statuser: «%s»',
-        'History::TicketTitleUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'søn',
@@ -1114,7 +1115,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbeidsenheter)',
+        '(work units)' => '(arbeidsenheter)',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -2615,28 +2616,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Konfigurasjon av databasen var vellykket',
+        'False' => 'Fungerer ikke',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
-
-        # Template: InstallerDBmssql
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Check database settings' => 'Sjekk database-oppsett',
-        'Result of database check' => 'Resultat for databasesjekken',
-        'Database User' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
+            'Hvis du har satt et root-passord for databasetjeneren, må det skrives inn her. Hvis ikke kan du la dette feltet være åpent. For sikkerhetsskyld anbefaler vi å sette et root-passord. For mer informasjon, vennligst se i databasedokumentasjonen.',
+        'Currently only MySQL is supported in the web installer.' => 'For øyeblikket er kun MySQL støttet i webinstallasjonen.',
+        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
+            'Hvis du vil installere OTRS på en annen databasetype, vennligst se filen README.database',
+        'Database-User' => 'Database-bruker',
         'New' => 'Ny',
         'A new database user with limited rights will be created for this OTRS system.' =>
             'En ny databasebruker med begrensede rettigheter vil bli opprettet for denne OTRS-installasjonen.',
-        'Repeat Password' => '',
-        'Generated password' => '',
-
-        # Template: InstallerDBmysql
-
-        # Template: InstallerDBpostgresql
+        'default \'hot\'' => 'Standard \'hot\'',
+        'DB host' => 'DB-tjener',
+        'Check database settings' => 'Sjekk database-oppsett',
+        'Result of database check' => 'Resultat for databasesjekken',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2670,6 +2665,7 @@ sub Data {
         'LogModule' => 'Logg-modul',
         'Log backend to use.' => 'Loggmetode som skal brukes',
         'LogFile' => 'Logg-fil',
+        'Log file location is only needed for File-LogModule!' => 'Logg-fil trengs kun for Fil-logging',
         'Webfrontend' => 'Web-grensesnitt',
         'Default language' => 'Standardspråk',
         'Default language.' => 'Standardspråk.',
@@ -2847,6 +2843,9 @@ sub Data {
             'Sett automatisk eieren av saken som ansvarlig for den (hvis saksansvar er slått på).',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Sett automatisk ansvarlig for en sak (hvis ikke satt) etter første eieroppdatering',
+        'Balanced white skin by Felix Niklas.' => 'Balansert hvitt tema av Felix Niklas',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Blokkerer all innkommende e-post som ikke har et gyldig saksnummer i emnefeltet som er sendt fra @example.com-adresser.',
         'Builds an article index right after the article\'s creation.' =>
@@ -2882,8 +2881,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'Sett opp din egen loggtekst for PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Gir kunder mulighet til å sortere sakene sine.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3667,6 +3664,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => 'Registrering av websidemodul i agentdelen.',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Nettsidetema',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Administrasjon: Generisk Saksbehandler',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3789,8 +3787,6 @@ sub Data {
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
-        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
-            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Hvis denne Regulær-uttrykk-setningen slår til vil ikke autosvar bli sendt.',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -3828,6 +3824,8 @@ sub Data {
             'Liste med CSS-filer som alltid skal lastes for agentdelen',
         'List of CSS files to always be loaded for the customer interface.' =>
             'Liste med CSS-filer som alltid skal lastes for kundeportalen',
+        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
+            'Liste med IE7-spesifikke CSS-filer som alltid skal lastes for kundeportalen',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
             'Liste med IE8-CSS-filer som alltid skal lastes for agentdelen',
         'List of IE8-specific CSS files to always be loaded for the customer interface.' =>
@@ -4476,6 +4474,7 @@ sub Data {
             '',
         'Statistics' => 'Statistikk',
         'Status view' => 'Statusvisning',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Lagrer informasjonskapsler (cookies) etter at nettleseren har blitt stengt.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Tar vekk tomme linjer i saksvisningen i kølisten',
         'Textarea' => 'Tekstareale',
@@ -4547,9 +4546,7 @@ sub Data {
         'View system log messages.' => 'Vis systemloggmeldinger',
         'Wear this frontend skin' => 'Bruk dette webtemaet (skin)',
         'Webservice path separator.' => '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
-        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
@@ -4559,34 +4556,23 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '(arbeidsenheter)',
+        ' (work units)' => ' (arbeidsenheter)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Legger til kunders e-postadresser som mottakere under Opprett Sak for saksbehandlere.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
-        'Balanced white skin by Felix Niklas.' => 'Balansert hvitt tema av Felix Niklas',
-        'Currently only MySQL is supported in the web installer.' => 'For øyeblikket er kun MySQL støttet i webinstallasjonen.',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Customer Data' => 'Kundeinformasjon',
-        'DB host' => 'DB-tjener',
-        'Database-User' => 'Database-bruker',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
-        'False' => 'Fungerer ikke',
         'For more info see:' => 'For mer info se:',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Hvis du har satt et root-passord for databasetjeneren, må det skrives inn her. Hvis ikke kan du la dette feltet være åpent. For sikkerhetsskyld anbefaler vi å sette et root-passord. For mer informasjon, vennligst se i databasedokumentasjonen.',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Hvis du vil installere OTRS på en annen databasetype, vennligst se filen README.database',
-        'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
-            'Liste med IE7-spesifikke CSS-filer som alltid skal lastes for kundeportalen',
-        'Log file location is only needed for File-LogModule!' => 'Logg-fil trengs kun for Fil-logging',
         'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Package verification failed!' => 'Pakkevalidering feilet!',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
-        'default \'hot\'' => 'Standard \'hot\'',
 
     };
     # $$STOP$$
