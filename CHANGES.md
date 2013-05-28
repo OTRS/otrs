@@ -1,4 +1,5 @@
 #3.2.8 2013-??-??
+ - 2013-05-27 Fixed bug#[9476](http://bugs.otrs.org/show_bug.cgi?id=9476) - AgentTicketZoom: translation of "split" into german language.
  - 2013-05-27 Fixed bug#[9459](http://bugs.otrs.org/show_bug.cgi?id=9459) - Creating a new transition action coming from the transition path view produces errors.
  - 2013-05-27 Fixed bug#[9458](http://bugs.otrs.org/show_bug.cgi?id=9458) - Double click on Transition opens error message.
  - 2013-05-24 Fixed bug#[9241](http://bugs.otrs.org/show_bug.cgi?id=9241) - Article ignored in article search index if body is almost empty.

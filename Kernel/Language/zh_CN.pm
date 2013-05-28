@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:15
+    # Last translation file sync: 2013-05-28 11:37:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -694,6 +694,7 @@ sub Data {
         'Show the ticket history' => '显示该工单的历史',
         'Print this ticket' => '打印该工单',
         'Print this article' => '打印该文章',
+        'Split' => '',
         'Split this article' => '拆分该文章',
         'Forward article via mail' => '通过邮件转发该邮件',
         'Change the ticket priority' => '改变该工单的优先级',
@@ -1111,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '工作单元',
+        '(work units)' => '',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -2840,6 +2841,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2874,8 +2877,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3660,6 +3661,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4469,6 +4471,7 @@ sub Data {
             '',
         'Statistics' => '统计',
         'Status view' => '状态视图',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4550,6 +4553,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '工作单元',
         'Customer Data' => '客户数据',
         'For more info see:' => '更多信息请看',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',

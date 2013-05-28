@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:04
+    # Last translation file sync: 2013-05-28 11:37:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -691,6 +691,7 @@ sub Data {
         'Show the ticket history' => 'Pokaż historię zgłoszenia',
         'Print this ticket' => 'Wydrukuj to zgłoszenie',
         'Print this article' => 'Wydrukuj ten artykuł',
+        'Split' => 'Podziel',
         'Split this article' => 'Podziel ten artykuł',
         'Forward article via mail' => 'Prześlij artykuł za pomocą e-mail',
         'Change the ticket priority' => 'Zmień priorytet zgłoszenia',
@@ -1108,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Zaraportowany czas obsługi',
-        ' (work units)' => ' (jednostki czasu)',
+        '(work units)' => '(jednostki czasu)',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -2837,6 +2838,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2871,8 +2874,6 @@ sub Data {
         'Configure Processes.' => 'Konfiguracja procesów.',
         'Configure your own log text for PGP.' => 'Skonfiguruj swój własny tekst-log dla PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3657,6 +3658,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Schemat graficzny',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Agent automatyczny',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4466,6 +4468,7 @@ sub Data {
             '',
         'Statistics' => 'Statystyki',
         'Status view' => 'Widok statusów',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4547,8 +4550,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (jednostki czasu)',
         ' On' => 'W dniu',
-        '(work units)' => '(jednostki czasu)',
         'Agent Interface' => 'Interfejs agenta',
         'Agent and Customer Interface' => 'Interfejs agenta i klienta',
         'Approved' => 'Zatwierdzone',
@@ -4595,7 +4598,6 @@ sub Data {
         'Show Field' => 'Wyświetlaj pole',
         'Show Field As Mandatory' => 'Wyświetlaj pole jako wymagane',
         'Sign Warning' => 'Ostrzeżenie',
-        'Split' => 'Podziel',
         'State Historic' => 'Historyczny status',
         'State Type' => 'Typ statusu',
         'State Type Historic' => 'Historyczny typ statusu',

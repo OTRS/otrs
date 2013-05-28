@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:07
+    # Last translation file sync: 2013-05-28 11:37:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -697,6 +697,7 @@ sub Data {
         'Show the ticket history' => 'Показать историю заявки',
         'Print this ticket' => 'Печать этой заявки',
         'Print this article' => 'Печать этого сообщения',
+        'Split' => 'Разделить',
         'Split this article' => 'Разделить это сообщение',
         'Forward article via mail' => 'Переслать сообщение почтой',
         'Change the ticket priority' => 'Сменить приоритет заявки',
@@ -1114,7 +1115,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -2843,6 +2844,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2877,8 +2880,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3663,6 +3664,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Тема интерфеса',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Планировщик задач',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4472,6 +4474,7 @@ sub Data {
             '',
         'Statistics' => 'Отчеты',
         'Status view' => 'Просмотр статусов',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4553,6 +4556,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -5012,7 +5016,6 @@ sub Data {
         'Sort by' => 'Сортировка по',
         'Source' => 'Источник',
         'Spell Check' => 'Проверка орфографии',
-        'Split' => 'Разделить',
         'State Type' => 'Тип статуса',
         'Static-File' => 'Статический файл',
         'Stats-Area' => 'Статистика',
