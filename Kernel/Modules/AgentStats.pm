@@ -2675,7 +2675,10 @@ sub _ColumnAndRowTranslation {
         }
 
         # sort
-        @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
+        my $DisableDefaultResultSort = grep { $_->{DisableDefaultResultSort} == 1 } @{ $Param{StatRef}->{UseAsXvalue} };
+        if (!$DisableDefaultResultSort) {
+            @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
+        }
 
         # special handling if the sumfunction is used
         if ( $Param{StatRef}->{SumRow} ) {
