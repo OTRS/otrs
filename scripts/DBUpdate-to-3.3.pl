@@ -39,6 +39,7 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::SysConfig;
 use Kernel::System::Cache;
+use Kernel::System::Package;
 use Kernel::System::VariableCheck qw(:all);
 
 {
@@ -68,7 +69,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 3;
+    my $Steps = 6;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -88,6 +89,17 @@ EOF
     print "Step $Step of $Steps: Generate MessageID md5sums... ";
     _GenerateMessageIDMD5($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
+
+    # uninstall Merged Feature Add-Ons
+    print "Step $Step of $Steps: Uninstall Merged Feature Add-Ons... ";
+    if ( _UninstallMergedFeatureAddOns($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
     $Step++;
 
     # Clean up the cache completely at the end.
@@ -216,8 +228,8 @@ sub _GenerateMessageIDMD5 {
     # UPDATE statements for databases that can natively create md5sums
 
     $CommonObject->{DBObject}->Prepare(
-        SQL => 'SELECT id, a_message_id 
-                    FROM article 
+        SQL => 'SELECT id, a_message_id
+                    FROM article
                     WHERE a_message_id IS NOT NULL
                         AND a_message_id <> ""',
     );
@@ -226,12 +238,38 @@ sub _GenerateMessageIDMD5 {
         my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
         $CommonObject->{DBObject}->Do(
             SQL => "UPDATE article
-                     SET a_message_id_md5 = ? 
+                     SET a_message_id_md5 = ?
                      WHERE id = ?",
             Bind => [ \$MD5, \$ArticleID ],
         );
     }
 
+    return 1;
+}
+
+=item _UninstallMergedFeatureAddOns()
+
+safe uninstall packages from the database.
+
+    UninstallMergedFeatureAddOns($CommonObject);
+
+=cut
+
+sub _UninstallMergedFeatureAddOns {
+    my $CommonObject = shift;
+
+    my $PackageObject = Kernel::System::Package->new( %{$CommonObject});
+
+    # qw( ) contains a list of the feture add-ons to uninstall
+    for my $PackageName (qw( )) {
+        my $Success = $PackageObject->PackageUninstallMerged (
+            Name => $PackageName,
+        );
+        if ( !$Success ) {
+            print STDERR "There was an error uninstalling package $PackageName\n";
+            return;
+        }
+    }
     return 1;
 }
 
