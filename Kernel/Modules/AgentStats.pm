@@ -2676,7 +2676,11 @@ sub _ColumnAndRowTranslation {
         }
 
         # sort
-        my $DisableDefaultResultSort = grep { $_->{DisableDefaultResultSort} == 1 } @{ $Param{StatRef}->{UseAsXvalue} };
+        my $DisableDefaultResultSort = grep {
+            $_->{DisableDefaultResultSort}
+            && $_->{DisableDefaultResultSort} == 1 
+        } @{ $Param{StatRef}->{UseAsXvalue} };
+        
         if (!$DisableDefaultResultSort) {
             @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
         }
