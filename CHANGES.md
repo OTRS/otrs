@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-05-30 Fixed bug#[7439](http://bugs.otrs.org/show_bug.cgi?id=7439) - Installer breaks on dash in database name or database user.
  - 2013-05-25 Fixed bug#[9381](http://bugs.otrs.org/show_bug.cgi?id=9381) - Replaced otrs.cleanup shell script with perl version.
  - 2013-05-25 Fixed bug#[4656](http://bugs.otrs.org/show_bug.cgi?id=4656) - Implement md5sum of message_ID field.
  - 2013-05-24 Improved performance of AgentTicketZoom for tickets with many articles, thanks to Norihiro Tanaka!

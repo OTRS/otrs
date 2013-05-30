@@ -525,8 +525,8 @@ sub Run {
             $DB{Host} =~ s{:\d*$}{}xms;
 
             @Statements = (
-                "CREATE DATABASE $DB{DBName} charset utf8",
-                "GRANT ALL PRIVILEGES ON $DB{DBName}.* TO $DB{OTRSDBUser}\@$DB{Host} IDENTIFIED BY '$DB{OTRSDBPassword}' WITH GRANT OPTION;",
+                "CREATE DATABASE `$DB{DBName}` charset utf8",
+                "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTRSDBUser}`\@`$DB{Host}` IDENTIFIED BY '`$DB{OTRSDBPassword}`' WITH GRANT OPTION;",
                 "FLUSH PRIVILEGES",
             );
 
