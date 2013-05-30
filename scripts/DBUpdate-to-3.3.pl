@@ -230,10 +230,11 @@ sub _GenerateMessageIDMD5 {
     $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, a_message_id
                     FROM article
-                    WHERE a_message_id IS NOT NULL
-                        AND a_message_id <> ""',
+                    WHERE a_message_id IS NOT NULL',
     );
+    MESSAGEID:
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+        next MESSAGEID if !$Row[1];
         my $ArticleID = $Row[0];
         my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
         $CommonObject->{DBObject}->Do(
