@@ -125,7 +125,7 @@ sub CheckSessionID {
             Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
         );
 
-        # delete session id if too old?
+        # delete session id if too old
         if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
@@ -471,9 +471,9 @@ sub GetExpiredSessionIDs {
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    # use trancate if possible to reset the auto increment value
+    # use 'truncate table' if possible in order to reset the auto increment value
     if (
-        $Self->{DBType} eq 'mysql'
+        $Self->{DBType}    eq 'mysql'
         || $Self->{DBType} eq 'postgresql'
         || $Self->{DBType} eq 'oracle'
         || $Self->{DBType} eq 'mssql'
@@ -591,7 +591,7 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                ref $Value eq 'HASH'
+                ref $Value    eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
                 )
@@ -641,7 +641,7 @@ sub _SQLCreate {
 
             if (
                 !defined $Value
-                || $Value eq ''
+                || $Value     eq ''
                 || ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
@@ -721,7 +721,7 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                ref $Value eq 'HASH'
+                ref $Value    eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
                 )
