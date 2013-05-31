@@ -282,12 +282,14 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     margin-top: -3px;
 }
 
-.DiagramDeleteLink {
+.DiagramDeleteLink,
+.DiagramEditLink {
     position: absolute;
     display: none;
 }
 
-.DiagramDeleteLink a {
+.DiagramDeleteLink a,
+.DiagramEditLink a {
     background: #FFFFFF;
     border: 1px solid #AAAAAA;
     border-radius: 13px;
@@ -302,7 +304,8 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     color: #aaa;
 }
 
-.DiagramDeleteLink a:hover {
+.DiagramDeleteLink a:hover,
+.DiagramEditLink a:hover {
     color: #FF9922;
 }
 
@@ -428,6 +431,12 @@ em.EntityID {
     right: -10px;
 }
 
+#Canvas .Activity .DiagramEditLink {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+}
+
 #Canvas .EndpointHover {
     z-index: 150;
 }
@@ -485,6 +494,11 @@ em.EntityID {
     top: -10px;
     cursor: pointer;
     display: none;
+}
+
+#Canvas .TransitionLabel a.Edit {
+    right: auto;
+    left: -13px;
 }
 
 #Canvas .TransitionLabel a:hover {
