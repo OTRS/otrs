@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:36:59
+    # Last translation file sync: 2013-05-31 15:12:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1113,7 +1113,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        '(work units)' => '',
+        '(work units)' => '(jednotky práce)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1652,6 +1652,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4554,7 +4555,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '(jednotky práce)',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
         'CreateTicket' => 'Vytvořit Tiket',
         'Customer Data' => 'Data Zákazníka',

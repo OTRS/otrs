@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:13
+    # Last translation file sync: 2013-05-31 15:12:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idő egységek',
-        '(work units)' => '',
+        '(work units)' => '(munkaegység)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Küldjön változatásokról értesítést az ügyintézőnek/ügyfélnek',
         'CMD' => 'PARANCS',
@@ -1651,6 +1651,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4553,7 +4554,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (munkaegység)',
         'Customer Data' => 'Ügyfél adatok',
         'For more info see:' => 'További információért:',
         'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',

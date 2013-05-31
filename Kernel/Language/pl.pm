@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:22
+    # Last translation file sync: 2013-05-31 15:12:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1648,6 +1648,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Zwiększ szerokość obszaru projektu',
         'Extend the height of the Canvas' => 'Zwiększ wysokość obszaru projektu',
         'Remove the Activity from this Process' => 'Usuń działanie z tego procesu',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => 'Czy na pewno chcesz usunąć ten proces?',
         'Do you really want to delete this Activity?' => 'Czy na pewno chcesz usunąć to działanie? ',
         'Do you really want to delete this Activity Dialog?' => 'Czy na pewno chcesz usunąć to okno działania? ',
@@ -4550,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (jednostki czasu)',
         ' On' => 'W dniu',
         'Agent Interface' => 'Interfejs agenta',
         'Agent and Customer Interface' => 'Interfejs agenta i klienta',

@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:01
+    # Last translation file sync: 2013-05-31 15:12:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1109,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Προσθήκη Σημείωσης',
         'Time units' => 'Μονάδες Χρόνου',
-        '(work units)' => '',
+        '(work units)' => '(μονάδες εργασίας)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Διαταγή',
@@ -1652,6 +1652,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4556,7 +4557,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (μονάδες εργασίας)',
         'Customer Data' => 'Δεδομένα Πελάτη',
         'For more info see:' => 'Για περισσότερες πληροφορίες δειτε',
         'Logout successful. Thank you for using OTRS!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το OTRS!',

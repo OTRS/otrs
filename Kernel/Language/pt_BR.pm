@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:25
+    # Last translation file sync: 2013-05-31 15:13:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1650,6 +1650,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Expandir Largura da Tela',
         'Extend the height of the Canvas' => 'Expandir Altura da Tela',
         'Remove the Activity from this Process' => 'Remover a Atividade Deste Processo',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => 'Você realmente deseja excluir este Processo?',
         'Do you really want to delete this Activity?' => 'Você realmente deseja excluir esta Atividade?',
         'Do you really want to delete this Activity Dialog?' => 'Você realmente deseja excluir esta Janela de Atividade?',
