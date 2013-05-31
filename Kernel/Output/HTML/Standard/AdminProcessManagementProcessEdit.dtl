@@ -316,6 +316,8 @@ Core.Agent.Admin.ProcessManagement.Localization = {
         ActivityCannotBeDeleted: "$Text{"This Activity cannot be deleted because it is the Start Activity."}",
         TransitionAlreadyPlaced: "$Text{"This Transition is already used for this Activity. You cannot use it twice!"}",
         TransitionActionAlreadyPlaced: "$Text{"This TransitionAction is already used in this Path. You cannot use it twice!"}",
+        TransitionDeleteLink: "$Text{"Remove the Transition from this Process"}",
+        TransitionEditLink: "$Text{"Edit this transition"}",
         NoTransitionActionsAssigned: "$Text{"No TransitionActions assigned."}",
         StartEventCapChange: "$Text{"The Start Event cannot loose the Start Transition!"}",
         RemoveActivityMsg: "$Text{"Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving."}",
