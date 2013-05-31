@@ -263,7 +263,7 @@ sub _UninstallMergedFeatureAddOns {
 
     # qw( ) contains a list of the feture add-ons to uninstall
     for my $PackageName (qw( OTRSPostMasterFilterExtensions )) {
-        my $Success = $PackageObject->PackageUninstallMerged (
+        my $Success = $PackageObject->_PackageUninstallMerged (
             Name => $PackageName,
         );
         if ( !$Success ) {
