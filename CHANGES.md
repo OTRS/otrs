@@ -1,4 +1,5 @@
 #3.2.8 2013-??-??
+ - 2013-05-31 Updated Russian translation, thanks to Alexey Gluhov!
  - 2013-05-31 Fixed bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Improve user interaction on transitions.
  - 2013-05-31 Fixed bug#[9284](http://bugs.otrs.org/show_bug.cgi?id=9284) - Improve user experience of accordion widget.
  - 2013-05-31 Fixed bug#[9105](http://bugs.otrs.org/show_bug.cgi?id=9105) - Opening reply view crashes browsers on iPad 3.
