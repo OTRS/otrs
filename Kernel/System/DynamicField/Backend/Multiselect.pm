@@ -701,7 +701,7 @@ sub SearchFieldParameterBuild {
                 if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
                     # translate the value
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;
