@@ -1451,6 +1451,8 @@ Your OTRS Notification Master
 #    };
 
     $Self->{CustomerCompany} = {
+        Name   => 'Database Backend',
+        Module => 'Kernel::System::CustomerCompany::DB',
         Params => {
             # if you want to use an external database, add the
             # required settings

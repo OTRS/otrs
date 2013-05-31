@@ -12,8 +12,8 @@ package Kernel::System::CustomerCompany;
 use strict;
 use warnings;
 
-use Kernel::System::Cache;
 use Kernel::System::Valid;
+use Kernel::System::Cache;
 
 use vars qw(@ISA);
 
@@ -91,73 +91,21 @@ sub new {
 
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
-    # config options
-    $Self->{CustomerCompanyTable} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Table}
-        || die "Need CustomerCompany->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerCompanyKey}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
-        || $Self->{ConfigObject}->Get('CustomerCompany')->{Key}
-        || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
-    $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
-        || die "Need CustomerCompany->Map in Kernel/Config.pm!";
-    $Self->{CustomerCompanyValid}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
-    $Self->{SearchListLimit}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
-    $Self->{SearchPrefix}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
+    # load customer company backend modules
+    for my $Count ( '', 1 .. 10 ) {
 
-    if ( !defined( $Self->{SearchPrefix} ) ) {
-        $Self->{SearchPrefix} = '';
-    }
-    $Self->{SearchSuffix}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
-    if ( !defined( $Self->{SearchSuffix} ) ) {
-        $Self->{SearchSuffix} = '*';
-    }
+        # next if backend is not used
+        next if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
 
-    # charset settings
-    my $DatabasePreferences = $Self->{ConfigObject}->Get('CustomerCompany')->{Params} || {};
-    $Self->{SourceCharset}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DestCharset}
-        || '';
-    $Self->{CharsetConvertForce}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CharsetConvertForce} || '';
-    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences->{Encode} = 0;
-    }
-
-    # create new db connect if DSN is given
-    if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DSN} ) {
-        $Self->{DBObject} = Kernel::System::DB->new(
-            LogObject    => $Param{LogObject},
-            ConfigObject => $Param{ConfigObject},
-            MainObject   => $Param{MainObject},
-            EncodeObject => $Param{EncodeObject},
-            DatabaseDSN  => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DSN},
-            DatabaseUser => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{User},
-            DatabasePw   => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Password},
-            Type         => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Type} || '',
-            %{$DatabasePreferences},
-        ) || die('Can\'t connect to database!');
-
-        # remember that we don't have inherited the DBObject from parent call
-        $Self->{NotParentDBObject} = 1;
-    }
-
-    # this setting specifies if the table has the create_time,
-    # create_by, change_time and change_by fields of OTRS
-    $Self->{ForeignDB}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
-
-    # see if database is case sensitive
-    $Self->{CaseSensitive} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CaseSensitive} || 0;
-
-    if ( $Self->{ConfigObject}->Get('CustomerCompany')->{CacheTTL} ) {
-        $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
-        $Self->{CacheType}   = 'CustomerCompany';
-        $Self->{CacheTTL}    = $Self->{ConfigObject}->Get('CustomerCompany')->{CacheTTL} || 0;
+        my $GenericModule = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Module} || 'Kernel::System::CustomerCompany::DB';
+        if ( !$Self->{MainObject}->Require($GenericModule) ) {
+            $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
+        }
+        $Self->{"CustomerCompany$Count"} = $GenericModule->new(
+            Count => $Count,
+            %Param,
+            CustomerCompanyMap   => $Self->{ConfigObject}->Get("CustomerCompany$Count"),
+        );
     }
 
     return $Self;
@@ -174,6 +122,7 @@ add a new customer company
         CustomerCompanyZIP      => '33126',
         CustomerCompanyCity     => 'Miami',
         CustomerCompanyCountry  => 'USA',
+        CustomerCompanyURL      => 'http://www.example.org',
         CustomerCompanyComment  => 'some comment',
         ValidID                 => 1,
         UserID                  => 123,
@@ -187,6 +136,11 @@ CustomerCompany mapping in your system configuration.
 sub CustomerCompanyAdd {
     my ( $Self, %Param ) = @_;
 
+    # check data source
+    if ( !$Param{Source} ) {
+        $Param{Source} = 'CustomerCompany';
+    }
+
     # check needed stuff
     for (qw(CustomerID UserID)) {
         if ( !$Param{$_} ) {
@@ -195,55 +149,8 @@ sub CustomerCompanyAdd {
         }
     }
 
-    # build insert
-    my $SQL = "INSERT INTO $Self->{CustomerCompanyTable} (";
+    return $Self->{ $Param{Source} }->CustomerCompanyAdd(%Param);
 
-    my $FieldInserted;
-    for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-        $SQL .= ', ' if ($FieldInserted);
-        $SQL .= " $Entry->[2] ";
-        $FieldInserted = 1;
-    }
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ', ' if ($FieldInserted);
-        $SQL .= 'create_time, create_by, change_time, change_by';
-    }
-    $SQL .= ") VALUES (";
-
-    my $ValueInserted;
-    for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-
-        $SQL .= ', ' if ($ValueInserted);
-
-        if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
-        }
-        else {
-            $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
-        }
-
-        $ValueInserted = 1;
-    }
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ', ' if ($ValueInserted);
-        $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}";
-    }
-    $SQL .= ")";
-    $SQL = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
-
-    # log notice
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message =>
-            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
-    );
-
-    $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
-
-    return $Param{CustomerID};
 }
 
 =item CustomerCompanyGet()
@@ -284,73 +191,23 @@ sub CustomerCompanyGet {
         return;
     }
 
-    my $CacheKey = "CustomerCompanyGet::$Param{CustomerID}";
+    for my $Count ( '', 1 .. 10 ) {
 
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Data = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
-            Key  => $CacheKey,
-        );
-        return %{$Data} if ref $Data eq 'HASH';
-    }
+        # next if backend is not used
+        next if !$Self->{"CustomerCompany$Count"};
 
-    # build select
-    my $SQL = "SELECT ";
-    for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-        $SQL .= " $Entry->[2], ";
-    }
+        # next if no company got found
+        my %Company = $Self->{"CustomerCompany$Count"}->CustomerCompanyGet( %Param, );
+        next if !%Company;
 
-    $SQL .= $Self->{CustomerCompanyKey};
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ", change_time, create_time";
-    }
-
-    # this seems to be legacy, if Name is passed it should take precedence over CustomerID
-    my $CustomerID = $Param{Name} || $Param{CustomerID};
-
-    $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
-    my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
-    if ( $Self->{CaseSensitive} ) {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerIDQuoted')";
-    }
-    else {
-        $SQL .= "$Self->{CustomerCompanyKey} = '$CustomerIDQuoted'";
-    }
-    $SQL = $Self->_ConvertTo($SQL);
-
-    # get initial data
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-
-    # fetch the result
-    my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        my $MapCounter = 0;
-
-        for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-            $Data{ $Entry->[0] } = $Self->_ConvertFrom( $Row[$MapCounter] );
-            $MapCounter++;
-        }
-
-        $MapCounter++;
-        $Data{ChangeTime} = $Row[$MapCounter];
-        $MapCounter++;
-        $Data{CreateTime} = $Row[$MapCounter];
-    }
-
-    # cache request
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Set(
-            Type  => $Self->{CacheType},
-            Key   => $CacheKey,
-            Value => \%Data,
-            TTL   => $Self->{CacheTTL},
+        # return company data
+	return (
+            %Company,
+            Source        => "CustomerCompany$Count",
+            Config        => $Self->{ConfigObject}->Get("CustomerCompany$Count"),
         );
     }
-
-    return %Data;
+    return;
 }
 
 =item CustomerCompanyUpdate()
@@ -365,6 +222,7 @@ update customer company attributes
         CustomerCompanyZIP      => '33126',
         CustomerCompanyLocation => 'Miami',
         CustomerCompanyCountry  => 'USA',
+        CustomerCompanyURL      => 'http://example.com',
         CustomerCompanyComment  => 'some comment',
         ValidID                 => 1,
         UserID                  => 123,
@@ -375,64 +233,58 @@ update customer company attributes
 sub CustomerCompanyUpdate {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-        if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
-            return;
-        }
-    }
-
     $Param{CustomerCompanyID} ||= $Param{CustomerID};
 
-    # update db
-    my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
-    my $FieldInserted;
-
-    for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
-
-        $SQL .= ', ' if $FieldInserted;
-        if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " $Entry->[2] = " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
-        }
-        elsif ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Entry->[2] = '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
-        }
-        $FieldInserted = 1;
+    # check needed stuff
+    if ( !$Param{CustomerCompanyID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need CustomerCompanyID or CustomerID!" );
+        return;
     }
 
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ", change_time = current_timestamp, change_by = $Param{UserID} ";
+    # check if company exists
+    my %Company = $Self->CustomerCompanyGet( CustomerID => $Param{CustomerCompanyID} );
+    if ( !%Company ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such company '$Param{CustomerCompanyID}'!",
+        );
+        return;
     }
+    return $Self->{ $Company{Source} }->CustomerCompanyUpdate(%Param);
+}
 
-    my $CustomerCompanyIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerCompanyID} );
-    if ( $Self->{CaseSensitive} ) {
-        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerCompanyIDQuoted')";
-    }
-    else {
-        $SQL .= " WHERE $Self->{CustomerCompanyKey} = '$CustomerCompanyIDQuoted'";
-    }
-    $SQL = $Self->_ConvertTo($SQL);
+=item CustomerCompanySourceList()
 
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+return customer company source list
 
-    # log notice
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message =>
-            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
+    my %List = $CustomerCompanyObject->CustomerCompanySourceList(
+        ReadOnly => 0 # optional, 1 returns only RO backends, 0 returns writable, if not passed returns all backends
     );
 
-    # open question:
-    # should existing customer users and tickets be updated as well?
-    # problem could be solved with a post-company-update-event
+=cut
 
-    $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
-    if ( $Param{CustomerCompanyID} ne $Param{CustomerID} ) {
-        $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerCompanyID} );
+sub CustomerCompanySourceList {
+    my ( $Self, %Param ) = @_;
+
+    my %Data;
+    SOURCE:
+    for my $Count ( '', 1 .. 10 ) {
+
+        # next if backend is not used
+        next SOURCE if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
+        if ( defined $Param{ReadOnly} ) {
+            my $BackendConfig = $Self->{ConfigObject}->Get("CustomerCompany$Count");
+            if ( $Param{ReadOnly} ) {
+                next SOURCE if !$BackendConfig->{ReadOnly};
+            }
+            else {
+                next SOURCE if $BackendConfig->{ReadOnly};
+            }
+        }
+        $Data{"CustomerCompany$Count"} = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Name}
+            || "No Name $Count";
     }
-
-    return 1;
+    return %Data;
 }
 
 =item CustomerCompanyList()
@@ -461,179 +313,17 @@ Returns:
 sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    my $Valid = 1;
-    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
-        $Valid = 0;
+    my %Data;
+    for my $Count ( '', 1 .. 10 ) {
+
+        # next if backend is not used
+        next if !$Self->{"CustomerCompany$Count"};
+
+        # get comppany list result of backend and merge it
+        my %SubData = $Self->{"CustomerCompany$Count"}->CustomerCompanyList(%Param);
+        %Data = ( %Data, %SubData );
     }
-
-    my $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
-    my $CacheKey = "CustomerCompanyList::${Valid}::" . ( $Param{Search} || '' );
-
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Data = $Self->{CacheObject}->Get(
-            Type => $CacheType,
-            Key  => $CacheKey,
-        );
-        return %{$Data} if ref $Data eq 'HASH';
-    }
-
-    # what is the result
-    my $What = join(
-        ', ',
-        @{ $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyListFields} }
-    );
-
-    # add valid option if required
-    my $SQL;
-    if ($Valid) {
-        $SQL
-            .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-    }
-
-    # where
-    if ( $Param{Search} ) {
-
-        my @Parts = split /\+/, $Param{Search}, 6;
-        for my $Part (@Parts) {
-            $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
-            $Part =~ s/\*/%/g;
-            $Part =~ s/%%/%/g;
-
-            if ( defined $SQL ) {
-                $SQL .= " AND ";
-            }
-
-            my $CustomerCompanySearchFields
-                = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields};
-
-            if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
-
-                my @SQLParts;
-                my $QuotedPart = $Self->{DBObject}->Quote($Part);
-                for my $Field ( @{$CustomerCompanySearchFields} ) {
-                    if ( $Self->{CaseSensitive} ) {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
-                    }
-                    else {
-                        push @SQLParts, "$Field LIKE '$QuotedPart'";
-                    }
-                }
-                if (@SQLParts) {
-                    $SQL .= join( ' OR ', @SQLParts );
-                }
-            }
-        }
-    }
-    $SQL = $Self->_ConvertTo($SQL);
-
-    # sql
-    my $CompleteSQL
-        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
-    $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
-
-    # ask database
-    $Self->{DBObject}->Prepare(
-        SQL   => $CompleteSQL,
-        Limit => 50000,
-    );
-
-    # fetch the result
-    my %List;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        my $CustomerCompanyID = shift @Row;
-        $List{$CustomerCompanyID} = join( ' ', map { $Self->_ConvertFrom($_) } @Row );
-    }
-
-    # cache request
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Set(
-            Type  => $CacheType,
-            Key   => $CacheKey,
-            Value => \%List,
-            TTL   => $Self->{CacheTTL},
-        );
-    }
-
-    return %List;
-}
-
-sub _CustomerCompanyCacheClear {
-    my ( $Self, %Param ) = @_;
-
-    return if !$Self->{CacheObject};
-
-    if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need CustomerID!' );
-        return;
-    }
-
-    $Self->{CacheObject}->Delete(
-        Type => $Self->{CacheType},
-        Key  => "CustomerCompanyGet::$Param{CustomerID}",
-    );
-
-    # delete all searches
-    $Self->{CacheObject}->CleanUp(
-        Type => $Self->{CacheType} . '_CustomerCompanyList',
-    );
-
-    for my $Function (qw(CustomerCompanyList)) {
-        for my $Valid ( 0 .. 1 ) {
-            $Self->{CacheObject}->Delete(
-                Type => $Self->{CacheType},
-                Key  => "${Function}::${Valid}",
-            );
-
-        }
-    }
-}
-
-sub DESTROY {
-    my $Self = shift;
-
-    return 1 if !$Self->{NotParentDBObject};
-    return 1 if !$Self->{DBObject};
-
-    # disconnect if it's not a parent DBObject
-    $Self->{DBObject}->Disconnect();
-
-    return 1;
-}
-
-sub _ConvertFrom {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        return $Text;
-    }
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        From  => $Self->{SourceCharset},
-        To    => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
-}
-
-sub _ConvertTo {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        $Self->{EncodeObject}->EncodeInput( \$Text );
-        return $Text;
-    }
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        To    => $Self->{SourceCharset},
-        From  => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
+    return %Data;
 }
 
 1;

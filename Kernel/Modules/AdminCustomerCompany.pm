@@ -436,7 +436,25 @@ sub _Overview {
             Nav => $Param{Nav},
             }
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+
+    # get writable data sources
+    my %CustomerCompanySource = $Self->{CustomerCompanyObject}->CustomerCompanySourceList(
+        ReadOnly => 0,
+    );
+
+    # only show Add option if we have at least one writable backend
+    if ( scalar keys %CustomerCompanySource ) {
+        $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
+            Data       => { %CustomerCompanySource, },
+            Name       => 'Source',
+            SelectedID => $Param{Source} || '',
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionAdd',
+            Data => \%Param,
+        );
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewHeader',
