@@ -271,7 +271,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         $Self->True(
             !$CacheGet || '',
-            "#4 - $Module - $SubdirLevels - CacheGet() - sleep 6 - TTL of 4 expired",
+            "#4 - $Module - $SubdirLevels - CacheGet() - wait 6 seconds - TTL expires after 4 seconds",
         );
 
         $CacheSet = $CacheObject->Set(
