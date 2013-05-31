@@ -10,6 +10,7 @@
 # --
 
 3.1.17 ????-??-??
+ - 2013-05-31 Fixed bug#9491 - GenericAgent job update with dynamic fields sends Uninitialized value error.
  - 2013-05-24 Fixed bug#9462 - Package Management page timeout due to HTTPS disabled on Proxy connections.
 
 3.1.16 2013-05-21
