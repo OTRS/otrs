@@ -1105,7 +1105,7 @@ sub _JobRunTicket {
         if (
             defined $Value
             && (
-                $DynamicFieldConfig->{PossibleNone}
+                $DynamicFieldConfig->{Config}->{PossibleNone}
                 || $Value ne ''
             )
         ) {
