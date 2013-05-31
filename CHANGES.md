@@ -1,5 +1,5 @@
 #3.3.0.beta1 2013-??-??
- - 2013-05-30 Fixed bug#[9486](http://bugs.otrs.org/show_bug.cgi?id=9486) - Database error by invalid condition with parentheses in TicketSearch, thanks to Norihiro Tanaka!
+ - 2013-05-31 Fixed bug#[9486](http://bugs.otrs.org/show_bug.cgi?id=9486) - Database error by invalid condition with parentheses in TicketSearch, thanks to Norihiro Tanaka!
  - 2013-05-31 Added multiple backends support for CustomerCompany, thanks to Cyrille @ belnet-ict!
  - 2013-05-30 Fixed bug#[7439](http://bugs.otrs.org/show_bug.cgi?id=7439) - Installer breaks on dash in database name or database user.
  - 2013-05-25 Fixed bug#[9381](http://bugs.otrs.org/show_bug.cgi?id=9381) - Replaced otrs.cleanup shell script with perl version.
@@ -26,7 +26,7 @@
     and hard-coded to use /tmp.
 
 #3.2.8 2013-??-??
- - 2013-05-30 Follow-up fix for bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Added translatable titles for transition buttons.
+ - 2013-05-31 Follow-up fix for bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Added translatable titles for transition buttons.
  - 2013-05-31 Updated Russian translation, thanks to Alexey Gluhov!
  - 2013-05-31 Fixed bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Improve user interaction on transitions.
  - 2013-05-31 Fixed bug#[9284](http://bugs.otrs.org/show_bug.cgi?id=9284) - Improve user experience of accordion widget.
