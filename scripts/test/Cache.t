@@ -212,7 +212,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#3 - $Module - $SubdirLevels - CacheSet(), TTL 8",
         );
 
-        # add seven seconds
+        # wait 7 seconds
         $HelperObject->FixedTimeAddSeconds(7);
 
         $CacheGet = $CacheObject->Get(
@@ -243,7 +243,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#4 - $Module - $SubdirLevels - CacheSet(), TTL 4",
         );
 
-        # add tree seconds
+        # wait 3 seconds
         $HelperObject->FixedTimeAddSeconds(3);
 
         $CacheGet = $CacheObject->Get(
@@ -261,7 +261,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
 
-        # add two seconds
+        # wait 3 seconds
         $HelperObject->FixedTimeAddSeconds(3);
 
         $CacheGet = $CacheObject->Get(
