@@ -262,7 +262,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         # add two seconds
-        $HelperObject->FixedTimeAddSeconds(2);
+        $HelperObject->FixedTimeAddSeconds(3);
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
