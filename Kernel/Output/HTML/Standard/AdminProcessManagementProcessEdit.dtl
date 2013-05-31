@@ -39,7 +39,7 @@
             <div class="Content">
                 <ul id="ProcessElements">
                     <li class="AccordionElement Active">
-                        <h2><a href="#" class="AsBlock">$Text{"Activities"}</a></h2>
+                        <h2><a href="#" class="AsBlock"><span></span>$Text{"Activities"}</a></h2>
                         <div class="Content">
                             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" title="$Text{"Filter Activities..."}" />
                             <ul class="Tablelike" id="Activities">
@@ -62,7 +62,7 @@
                         </div>
                     </li>
                     <li class="AccordionElement">
-                        <h2><a href="#" class="AsBlock">$Text{"Activity Dialogs"}</a></h2>
+                        <h2><a href="#" class="AsBlock"><span></span>$Text{"Activity Dialogs"}</a></h2>
                         <div class="Content">
                             <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" title="$Text{"Filter Activity Dialogs..."}" />
                             <ul class="Tablelike" id="ActivityDialogs">
@@ -86,7 +86,7 @@
                         </div>
                     </li>
                     <li class="AccordionElement">
-                        <h2><a href="#" class="AsBlock">$Text{"Transitions"}</a></h2>
+                        <h2><a href="#" class="AsBlock"><span></span>$Text{"Transitions"}</a></h2>
                         <div class="Content">
                             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" title="$Text{"Filter Transitions..."}" />
                             <ul class="Tablelike" id="Transitions">
@@ -109,7 +109,7 @@
                         </div>
                     </li>
                     <li class="AccordionElement">
-                        <h2><a href="#" class="AsBlock">$Text{"Transition Actions"}</a></h2>
+                        <h2><a href="#" class="AsBlock"><span></span>$Text{"Transition Actions"}</a></h2>
                         <div class="Content">
                             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" title="$Text{"Filter Transition Actions..."}" />
                             <ul class="Tablelike" id="TransitionActions">

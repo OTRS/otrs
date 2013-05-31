@@ -95,9 +95,37 @@ ul#ProcessElements li.AccordionElement h2 {
 }
 
 ul#ProcessElements li.AccordionElement h2 a {
-    padding: 5px;
-    color: #474747;
+    padding: 5px 5px 5px 20px;
+    color: #999;
     font-size: 12px;
+    position: relative;
+}
+
+ul#ProcessElements li.AccordionElement h2 a span {
+    display: block;
+    background: url(../img/toggle_arrow.png) no-repeat left top;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 3px;
+    top: 4px;
+    opacity: 0.3;
+    filter: Alpha(opacity=30);
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a {
+    color: #000;
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a span {
+    opacity: 1.0;
+    filter: Alpha(opacity=100);
+    background-position: bottom center;
+    top: 5px;
+}
+
+ul#ProcessElements li.AccordionElement.Active {
+    background-color: #fff;
 }
 
 ul#ProcessElements li.AccordionElement div.Content {
