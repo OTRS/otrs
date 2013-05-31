@@ -305,6 +305,7 @@ sub _ShowEdit {
         Name        => "Transition",
         ID          => "Transition",
         Sort        => 'AlphanumericKey',
+        Title       => $Self->{LayoutObject}->{LanguageObject}->Get("Transition"),
         Translation => 1,
         Class       => 'W50pc',
     );
