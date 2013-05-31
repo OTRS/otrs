@@ -13,7 +13,6 @@ use warnings;
 use vars qw($Self);
 
 use Kernel::System::UnitTest::Helper;
-use Time::HiRes qw(sleep);
 
 if ( !$Self->{ConfigObject}->Get('SeleniumTestsActive') ) {
     $Self->True( 1, 'Selenium testing is not active' );
