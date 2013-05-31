@@ -526,7 +526,7 @@ sub Run {
 
             @Statements = (
                 "CREATE DATABASE `$DB{DBName}` charset utf8",
-                "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTRSDBUser}`\@`$DB{Host}` IDENTIFIED BY '`$DB{OTRSDBPassword}`' WITH GRANT OPTION;",
+                "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTRSDBUser}`\@`$DB{Host}` IDENTIFIED BY '$DB{OTRSDBPassword}' WITH GRANT OPTION;",
                 "FLUSH PRIVILEGES",
             );
 

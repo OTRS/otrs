@@ -16,8 +16,6 @@ use Kernel::System::UnitTest::Helper;
 use Kernel::System::Service;
 use Kernel::System::Ticket;
 
-use Time::HiRes qw(sleep);
-
 # this test is to check that when AgentTicketPhone is loaded already with
 # customer data on it (like when doing Split), the dropdown of Service is
 # prefilled with the correct data. This is because of bug
