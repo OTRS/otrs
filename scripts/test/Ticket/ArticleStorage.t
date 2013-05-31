@@ -13,7 +13,6 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Time::HiRes qw( usleep );
 use Unicode::Normalize;
 
 use Kernel::Config;

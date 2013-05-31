@@ -16,8 +16,6 @@ use utf8;
 use Kernel::System::UnitTest::Helper;
 use vars (qw($Self));
 
-use Time::HiRes qw( usleep );
-
 use Kernel::Config;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
