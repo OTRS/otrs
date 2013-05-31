@@ -128,14 +128,13 @@ sub Run {
 
     # check if only one article need printed
     if ($ArticleID) {
-        my @NewArticleBox;
+
+        ARTICLE:
         for my $Article (@ArticleBox) {
             if ( $Article->{ArticleID} == $ArticleID ) {
-                @NewArticleBox = ($Article);
+                @ArticleBox = ($Article);
+                last ARTICLE;
             }
-        }
-        if (@NewArticleBox) {
-            @ArticleBox = @NewArticleBox;
         }
     }
 
