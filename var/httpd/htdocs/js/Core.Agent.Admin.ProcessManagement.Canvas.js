@@ -151,6 +151,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .bind('mouseenter.Activity', function() {
                 TargetNS.ShowActivityTooltip($(this));
                 TargetNS.ShowActivityDeleteButton($(this));
+                TargetNS.ShowActivityEditButton($(this));
                 if (TargetNS.DragActivityItem) {
                     $(this).addClass('ReadyToDrop');
                 }
@@ -159,6 +160,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .bind('mouseleave.Activity', function() {
                 $('#DiagramTooltip').hide();
                 $(this).removeClass('ReadyToDrop').find('.DiagramDeleteLink').remove();
+                $(this).removeClass('ReadyToDrop').find('.DiagramEditLink').remove();
                 $(this).removeClass('Hovered');
             })
             .bind('dblclick.Activity', function() {
@@ -422,6 +424,33 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
     };
 
+    TargetNS.ShowActivityEditButton = function ($Element) {
+        var $edit = $('.DiagramEditLink').clone(),
+            position = { x: 0, y: 0},
+            Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
+            ElementID = $Element.attr('id');
+
+        if (typeof Activity[ElementID] === 'undefined') {
+            return false;
+        }
+
+        if ($edit.is(':visible')) {
+            $edit.hide();
+        }
+
+        $Element.append($edit);
+
+        $edit
+            .show()
+            .unbind('click')
+            .bind('click', function () {
+                var Path = Core.Config.Get('Config.PopupPathActivity') + "EntityID=" + ElementID + ";ID=" + Activity[ElementID].ID;
+                Core.Agent.Admin.ProcessManagement.ShowOverlay();
+                Core.UI.Popup.OpenPopup(Path, 'Activity');
+                return false;
+            });
+    };
+
     TargetNS.ShowActivityLoader = function (EntityID) {
         if (typeof Elements[EntityID] !== 'undefined') {
             $('#' + EntityID).find('span').hide().parent().find('.Loader').show();
@@ -453,6 +482,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // remove HTML elements
         $('#DiagramTooltip').hide();
         $('#' + EntityID).find('.DiagramDeleteLink').remove();
+        $('#' + EntityID).find('.DiagramEditLink').remove();
 
         // if Activity is StartActivity, this Activity cannot be removed...
         if (Config.Process[ProcessEntityID].StartActivity === EntityID) {
@@ -682,6 +712,17 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
         }
 
+        if (!$(Connection.canvas).find('.Edit').length) {
+            $(Connection.canvas).append('<a class="Edit" href="#">&gt;</a>').find('.Edit').bind('click', function(Event) {
+                if (EndActivity !== 'Dummy') {
+                    Core.Agent.Admin.ProcessManagement.ShowOverlay();
+                    Core.UI.Popup.OpenPopup(PopupPath, 'Path');
+                }
+                Event.stopPropagation();
+                return false;
+            });
+        }
+
         // highlight label
         $(Connection.canvas).addClass('Hovered');
         Connection.component.setPaintStyle({ strokeStyle: "#FF9922", lineWidth: '2' });
@@ -791,6 +832,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             start: function() {
                 $('#DiagramTooltip').hide();
                 $(this).find('.DiagramDeleteLink').remove();
+                $(this).find('.DiagramEditLink').remove();
             },
             stop: function() {
                 TargetNS.UpdateElementPosition($(this));
