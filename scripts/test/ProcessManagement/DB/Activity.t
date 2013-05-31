@@ -37,6 +37,9 @@ my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog
     ConfigObject => $ConfigObject,
 );
 
+# set fixed time
+$HelperObject->FixedTimeSet();
+
 # define needed variables
 my $RandomID                = $HelperObject->GetRandomID();
 my $UserID                  = 1;
@@ -678,8 +681,10 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the Activity
-        print "Force a gap between create and update activity, Sleeping 2s\n";
-        sleep 2;
+        print "Force a gap between create and update activity, Waiting 2s\n";
+
+        # wait 2 seconds
+        $HelperObject->FixedTimeAddSeconds(2);
 
         my $Success = $ActivityObject->ActivityUpdate( %{ $Test->{Config} } );
 

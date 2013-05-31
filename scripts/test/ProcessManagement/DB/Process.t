@@ -37,6 +37,9 @@ my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
     ConfigObject => $ConfigObject,
 );
 
+# set fixed time
+$HelperObject->FixedTimeSet();
+
 # define needed variables
 my $RandomID          = $HelperObject->GetRandomID();
 my $UserID            = 1;
@@ -832,8 +835,10 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the process
-        print "Force a gap between create and update process, Sleeping 2s\n";
-        sleep 2;
+        print "Force a gap between create and update process, Waiting 2s\n";
+
+        # wait 2 seconds
+        $HelperObject->FixedTimeAddSeconds(2);
 
         my $Success = $ProcessObject->ProcessUpdate( %{ $Test->{Config} } );
 

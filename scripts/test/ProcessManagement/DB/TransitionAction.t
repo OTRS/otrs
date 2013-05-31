@@ -27,11 +27,13 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $ConfigObject = Kernel::Config->new();
 
-my $TransitionActionObject
-    = Kernel::System::ProcessManagement::DB::TransitionAction->new(
+my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAction->new(
     %{$Self},
     ConfigObject => $ConfigObject,
-    );
+);
+
+# set fixed time
+$HelperObject->FixedTimeSet();
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
@@ -583,8 +585,10 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the TransitionAction
-        print "Force a gap between create and update TransitionAction, Sleeping 2s\n";
-        sleep 2;
+        print "Force a gap between create and update TransitionAction, Waiting 2s\n";
+
+        # wait 2 seconds
+        $HelperObject->FixedTimeAddSeconds(2);
 
         my $Success = $TransitionActionObject->TransitionActionUpdate( %{ $Test->{Config} } );
 
