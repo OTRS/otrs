@@ -253,7 +253,7 @@ sub EditFieldRender {
     }
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data         => $PossibleValues,
+        Data         => $PossibleValues || {},
         SelectedID   => $Value,
         Name         => $FieldName,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
