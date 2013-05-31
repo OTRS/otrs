@@ -1029,6 +1029,8 @@ generate SQL condition query based on a search expression
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
+    Returns the SQL string or "1=0" if the query could not be parsed correctly.
+
 Note that the comparisons are usually performed case insensitively.
 Only VARCHAR colums with a size less or equal 3998 are supported,
 as for locator objects the functioning of SQL function LOWER() can't
@@ -1302,7 +1304,7 @@ sub QueryCondition {
                         Priority => 'notice',
                         Message  => "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
-                    return;
+                    return "1=0";
                 }
                 elsif ( $SQL !~ / AND $/ ) {
                     $SQL .= ' AND ';
@@ -1316,7 +1318,7 @@ sub QueryCondition {
                         Priority => 'notice',
                         Message  => "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
-                    return;
+                    return "1=0";
                 }
                 elsif ( $SQL !~ / OR $/ ) {
                     $SQL .= ' OR ';
@@ -1357,7 +1359,7 @@ sub QueryCondition {
             Priority => 'notice',
             Message  => "Invalid condition '$Param{Value}', $Open open and $Close close!",
         );
-        return;
+        return "1=0";
     }
 
     return $SQL;
