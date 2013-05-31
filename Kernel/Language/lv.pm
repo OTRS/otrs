@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:18
+    # Last translation file sync: 2013-05-31 15:12:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1106,7 +1106,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Time units' => 'Laika vienības',
-        '(work units)' => '',
+        '(work units)' => '(darba laika vienības)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Izmaiņu gadījumā nosūtīt paziņojumus aģentam/klientam',
         'CMD' => 'Komanda',
@@ -1645,6 +1645,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4547,7 +4548,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (darba laika vienības)',
         'Customer Data' => 'Klienta dati',
         'For more info see:' => 'Papildus informācijai, lūdzu, skatīt:',
         'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt OTRS problēmu pieteikumu sistēmu!',

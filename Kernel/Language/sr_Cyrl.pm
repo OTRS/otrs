@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:29
+    # Last translation file sync: 2013-05-31 15:13:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
-        '(work units)' => '',
+        '(work units)' => '(елементи посла)',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -1646,6 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4548,7 +4549,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (елементи посла)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Додаје корисничке имејл адресе примаоцима у прозору за отварање тикета на интерфејсу оператера.',
         'Customer Data' => 'Подаци о кориснику',

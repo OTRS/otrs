@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:19
+    # Last translation file sync: 2013-05-31 15:12:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1109,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        '(work units)' => '',
+        '(work units)' => '(unit bekerja)',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -1648,6 +1648,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4550,7 +4551,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unit bekerja)',
         '","18' => '","18',
         '","26' => '","26',
         '","30' => '","30',

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:36
+    # Last translation file sync: 2013-05-31 15:13:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1112,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        '(work units)' => '',
+        '(work units)' => '工作单元',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1651,6 +1651,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4553,7 +4554,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => '工作单元',
         'Customer Data' => '客户数据',
         'For more info see:' => '更多信息请看',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',

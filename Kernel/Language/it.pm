@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:14
+    # Last translation file sync: 2013-05-31 15:12:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1114,7 +1114,7 @@ sub Data {
         'Archive selected tickets' => 'Archivia i ticket selezionati',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
-        '(work units)' => '',
+        '(work units)' => '(unità di lavoro)',
         'Ticket Commands' => 'Comandi Ticket',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'CMD' => 'comando',
@@ -1653,6 +1653,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Aumenta la larghezza del riquadro',
         'Extend the height of the Canvas' => 'Aumenta l\'altezza del riquadro',
         'Remove the Activity from this Process' => 'Rimuovi l\'attività dal Processo',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => 'Vuoi veramente cancellare questo Processo ?',
         'Do you really want to delete this Activity?' => 'Vuoi veramente cancellare questa Attività ?',
         'Do you really want to delete this Activity Dialog?' => 'Vuoi veramente cancellare questo interazione dell\'attività ',
@@ -4555,7 +4556,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unità di lavoro)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>

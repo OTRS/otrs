@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:04
+    # Last translation file sync: 2013-05-31 15:12:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
-        '(work units)' => '',
+        '(work units)' => '(unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -1646,6 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4548,7 +4549,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Añade las direcciones de correo electrónico de los clientes a los destinatarios, en la ventana de redacción de un artículo para un ticket de la interfaz del agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>

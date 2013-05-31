@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:36:59
+    # Last translation file sync: 2013-05-31 15:12:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1108,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
-        '(work units)' => '',
+        '(work units)' => '(arbejdsenheder)',
         'Ticket Commands' => 'Sagskommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
         'CMD' => 'CMD',
@@ -1647,6 +1647,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4549,7 +4550,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbejdsenheder)',
         'Customer Data' => 'Kundedata',
         'For more info see:' => 'For mere information se:',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',

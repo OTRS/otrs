@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:20
+    # Last translation file sync: 2013-05-31 15:12:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1654,6 +1654,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4556,7 +4557,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (arbeidsenheter)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Legger til kunders e-postadresser som mottakere under Opprett Sak for saksbehandlere.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>

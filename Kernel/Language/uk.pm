@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:34
+    # Last translation file sync: 2013-05-31 15:13:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1107,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
-        '(work units)' => '',
+        '(work units)' => '( робочі одиниці)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -1646,6 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4548,7 +4549,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' ( робочі одиниці)',
         'Customer Data' => 'Облікові дані клієнта',
         'For more info see:' => 'Додаткова інформація знаходиться за адресою:',
         'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',

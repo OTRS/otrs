@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-28 11:37:10
+    # Last translation file sync: 2013-05-31 15:12:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1114,7 +1114,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        '(work units)' => '',
+        '(work units)' => 'Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -1653,6 +1653,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -4614,7 +4615,6 @@ sub Data {
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... Failed' => ' $WrongCertificate->{NewHash}.$NewIndex ... Échec',
         ' $WrongCertificate->{NewHash}.$NewIndex.P ... OK' => ' $WrongCertificate->{NewHash}.$NewIndex ... OK',
         ' $WrongPrivateKeyFile.P to $NewPrivateKeyFile.P!' => ' $WrongPrivateKeyFile.P à $NewPrivateKeyFile.P!',
-        ' (work units)' => ' Unité de travail',
         ' >> Can\'t write $Self->{LogFile}: $! <<\n' => ' >> Il n\'est pas possible d\'écrire $Self->{LogFile}: $! \n',
         ' Article->Charset parameters are required!' => ' Article->Charset parameters (Article - Paramètres du jeu de caractères) sont nécessaires.',
         ' Bytes' => ' Octets',
