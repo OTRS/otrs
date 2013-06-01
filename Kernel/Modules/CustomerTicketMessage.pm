@@ -363,22 +363,26 @@ sub Run {
             $Error{QueueInvalid} = 'ServerError';
         }
 
-        # prevent queue tamper with, see bug#9408
-        # get the original list of queues to display
-        my $Tos = $Self->_GetTos(
-            %GetParam,
-            %ACLCompatGetParam,
-            QueueID => $NewQueueID,
-        );
+        # prevent tamper with (Queue/Dest), see bug#9408
+        if ($NewQueueID && !$IsUpload) {
 
-        # check if current selected QueueID exists in the list of queues, otherwise rise an error
-        if ( !$Tos->{$NewQueueID} ) {
-            $Error{QueueInvalid} = 'ServerError';
-        }
-
-        # set the correct queue name in $To if it was altered
-        if ( $To ne $Tos->{$NewQueueID} ){
-            $To = $Tos->{$NewQueueID}
+            # get the original list of queues to display
+            my $Tos = $Self->_GetTos(
+                %GetParam,
+                %ACLCompatGetParam,
+                QueueID => $NewQueueID,
+            );
+    
+            # check if current selected QueueID exists in the list of queues,\
+            # otherwise rise an error
+            if ( !$Tos->{$NewQueueID} ) {
+                $Error{QueueInvalid} = 'ServerError';
+            }
+    
+            # set the correct queue name in $To if it was altered
+            if ( $To ne $Tos->{$NewQueueID} ){
+                $To = $Tos->{$NewQueueID}
+            }
         }
 
         # check subject
