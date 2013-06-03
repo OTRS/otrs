@@ -2612,6 +2612,9 @@ sub Data {
         'False' => 'Falsch',
 
         # Template: InstallerDBStart
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            'Sollte ein Root-Passwort für die Datenbank gesetzt sein, muss dieses hier angegeben werden. Anderenfalls muss dieses Feld leer bleiben.',
+        'Repeat Password' => 'Passwort wiederholen',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Falls ein Root-Passwort für die Datenbank gesetzt ist, muss es hier eingegeben werden. Ist kein Passwort gesetzt, muss das Feld leer gelassen werden. Aus Sicherheitsgründen empfehlen wir ein Root-Passwort zu setzen. Weitere Informationen hierzu finden Sie in der Dokumentation Ihrer Datenbank.',
         'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',

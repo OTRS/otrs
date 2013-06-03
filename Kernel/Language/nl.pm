@@ -2618,6 +2618,8 @@ sub Data {
         'False' => 'Fout',
 
         # Template: InstallerDBStart
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' => 'Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven.',
+        'Repeat Password' => 'Herhaal wachtwoord',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',
         'Currently only MySQL is supported in the web installer.' => 'Alleen MySQL wordt ondersteund door de web installer.',
