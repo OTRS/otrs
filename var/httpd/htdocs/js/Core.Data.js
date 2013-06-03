@@ -45,13 +45,14 @@ Core.Data = (function (TargetNS) {
         var Object;
         if (isJQueryObject($Element)) {
             Object = $Element.data(Name);
-            if (typeof Object === 'undefined') {
+            if (typeof Object === 'undefined' || Object === null) {
                 return {};
             }
             else {
                 return Object;
             }
         }
+        return {};
     };
 
     /**

@@ -54,7 +54,7 @@ Core.Agent.Stats = (function (TargetNS) {
      * @param {Object} The name of the radio button to be selected
      */
     TargetNS.SelectCheckbox = function (Name) {
-        $('input:checkbox[name=' + Name + ']').attr('checked', 'checked');
+        $('input:checkbox[name=' + Name + ']').prop('checked', true);
     };
 
     /**
@@ -66,7 +66,7 @@ Core.Agent.Stats = (function (TargetNS) {
      */
 
     TargetNS.SelectRadiobutton = function (Value, Name) {
-        $('input:radio[name=' + Name + '][value=' + Value + ']').attr('checked', 'checked');
+        $('input:radio[name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };
 
     return TargetNS;

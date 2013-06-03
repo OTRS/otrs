@@ -134,7 +134,7 @@ Core.Form = (function (TargetNS) {
                     $SelectAllCheckbox.prop('checked', true);
                 }
                 else {
-                    $SelectAllCheckbox.removeAttr('checked');
+                    $SelectAllCheckbox.prop('checked', false);
                 }
             }
         }

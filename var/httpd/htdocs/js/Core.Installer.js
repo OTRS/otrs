@@ -67,7 +67,7 @@ InstallerDBStart
             $('#InfoSMTP').show();
         }
         else {
-            $('#InfoSMTP, #InfoSMTPAuth').hide().find('input[name=SMTPAuth]').removeAttr('checked');
+            $('#InfoSMTP, #InfoSMTPAuth').hide().find('input[name=SMTPAuth]').prop('checked', false);
         }
 
         // Change default port
@@ -133,7 +133,7 @@ InstallerDBStart
             alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
         }
     };
-    
+
     /**
      * @function
      * @return nothing
@@ -143,6 +143,6 @@ InstallerDBStart
         $('input[name=Skip]').val('1');
         $('form').submit();
     };
-    
+
     return TargetNS;
 }(Core.Installer || {}));

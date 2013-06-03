@@ -881,7 +881,9 @@ sub LoadDefaults {
 
     # Customer Common JS
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
-      'thirdparty/jquery-1.6.4/jquery.js',
+      'thirdparty/jquery-1.10.0/jquery.js',
+      'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
+      'thirdparty/jquery-migrate-1.2.1/jquery-migrate.js',
       'thirdparty/stacktrace-0.4/stacktrace.js',
       'thirdparty/jquery-pubsub/pubsub.js',
       'Core.Debug.js',
@@ -896,9 +898,11 @@ sub LoadDefaults {
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
       'thirdparty/json/json2.js',
-      'thirdparty/jquery-1.6.4/jquery.js',
-      'thirdparty/jquery-ui-1.8.21/jquery-ui.js',
-      'thirdparty/jquery-validate-1.10/jquery.validate.js',
+      'thirdparty/jquery-1.10.0/jquery.js',
+      'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
+      'thirdparty/jquery-migrate-1.2.1/jquery-migrate.js',
+      'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
+      'thirdparty/jquery-validate-1.11.1/jquery.validate.js',
       'thirdparty/stacktrace-0.4/stacktrace.js',
       'thirdparty/jquery-pubsub/pubsub.js',
       'Core.JavaScriptEnhancements.js',

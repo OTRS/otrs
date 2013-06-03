@@ -331,7 +331,7 @@ $Data{"Body"}
     </form>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('select[name=DestQueueID]').live('change', function (Event) {
+    $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
         $(this).closest('form').submit();
     });
 //]]></script>

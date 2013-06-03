@@ -408,7 +408,7 @@ Core.AJAX = (function (Namespace) {
                     RestoreOrignal();
                 };
                 try {
-                    Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback);
+                    Core.AJAX.FunctionCall(Test.URL, {}, Test.Callback, 'html');
                 }
                 catch (Error) {
                     equal(true, false, 'Error caught, Exception was thrown');

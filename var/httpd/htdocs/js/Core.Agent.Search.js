@@ -239,7 +239,7 @@ Core.Agent.Search = (function (TargetNS) {
                     $('#SaveProfile').parent().show().prev().show().prev().show();
 
                     // set SaveProfile to 0
-                    $('#SaveProfile').removeAttr('checked');
+                    $('#SaveProfile').prop('checked', false);
                 }
 
                 // register add of attribute
@@ -332,7 +332,7 @@ Core.Agent.Search = (function (TargetNS) {
                     $Element1 = $('#SearchProfile').children().first().clone();
                     $Element1.text(Name);
                     $Element1.attr('value', Name);
-                    $Element1.attr('selected', 'selected');
+                    $Element1.prop('selected', true);
                     $('#SearchProfile').append($Element1);
 
                     // set input box to empty
@@ -345,7 +345,7 @@ Core.Agent.Search = (function (TargetNS) {
                     $('#SaveProfile').parent().hide().prev().hide().prev().hide();
 
                     // set SaveProfile to 1
-                    $('#SaveProfile').attr('checked', 'checked');
+                    $('#SaveProfile').prop('checked', true);
 
                     // show delete button
                     $('#SearchProfileDelete').show();
