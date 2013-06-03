@@ -79,6 +79,7 @@ Core.UI.Datepicker = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Init = function (Element) {
+
         function LeadingZero(Number) {
             if (Number.toString().length === 1) {
                 return '0' + Number;
@@ -147,9 +148,9 @@ Core.UI.Datepicker = (function (TargetNS) {
 
             // Update the three select boxes
             if (HasDateSelectBoxes) {
-                Element.Year.find('option[value=' + Year + ']').attr('selected', 'selected');
-                Element.Month.find('option[value=' + Month + ']').attr('selected', 'selected');
-                Element.Day.find('option[value=' + Day + ']').attr('selected', 'selected');
+                Element.Year.find('option[value=' + Year + ']').prop('selected', true);
+                Element.Month.find('option[value=' + Month + ']').prop('selected', true);
+                Element.Day.find('option[value=' + Day + ']').prop('selected', true);
             }
             else {
                 Element.Year.val(Year);
@@ -195,7 +196,7 @@ Core.UI.Datepicker = (function (TargetNS) {
         }
 
         $('#' + Element.Day.attr('id') + 'DatepickerIcon').unbind('click.Datepicker').bind('click.Datepicker', function () {
-            $DatepickerElement.trigger('focus');
+            $DatepickerElement.datepicker('show');
             return false;
         });
 

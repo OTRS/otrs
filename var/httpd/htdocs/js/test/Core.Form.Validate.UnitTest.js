@@ -57,7 +57,7 @@ Core.Form.Validate = (function (Namespace) {
                         $(this).prop('checked', true);
                     }
                     else {
-                        $(this).removeAttr('checked');
+                        $(this).prop('checked', false);
                     }
                 }
 

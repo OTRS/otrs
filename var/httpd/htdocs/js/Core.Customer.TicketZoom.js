@@ -52,25 +52,9 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     /**
      * @function
      * @param {DOMObject} an iframe
-     * @description
-     *      finds the quote in an iframe (type=cite), hides it and
-     *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
+     * @description     *
      */
-    function HideQuote(Iframe, Callback){
-        $(Iframe)
-            .contents().find('[type=cite]').hide()
-            .before('<a href="" style="color:blue">Show quoted text</a>')
-            // add a toggle listener to the anchor (the prev element we just added)
-            .prev().toggle(
-                function(){ // show quote, change anchor name, recalculate iframe height
-                    $(this).text("Hide quoted text").next().show();
-                    CalculateHeight(Iframe);
-                },
-                function(){ // hide quote, change anchor name, recalculate iframe height
-                    $(this).text("Show quoted text").next().hide();
-                    setTimeout(CalculateHeight, 200, Iframe);
-                }
-            );
+    function ResizeIframe(Iframe, Callback){
         // initial height calculation
         $(Iframe).attr('onload', function() {
             CalculateHeight(this);
@@ -90,7 +74,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     function CheckIframe(Iframe, callback){
         if ($.browser.safari || $.browser.opera){
             $(Iframe).load(function(){
-                setTimeout(HideQuote, 0, this, callback);
+                setTimeout(ResizeIframe, 0, this, callback);
             });
             var Source = Iframe.src;
             Iframe.src = '';
@@ -98,7 +82,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         }
         else {
             $(Iframe).load(function(){
-                HideQuote(this, callback);
+                ResizeIframe(this, callback);
             });
         }
     }
@@ -208,12 +192,12 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         /* correct the status saved in the hidden field for all visible messages if ZoomExpand is present*/
         if (!ZoomExpand || isNaN(ZoomExpand)) {
             $('> input[name=ArticleState]', $Messages).val("true");
-            HideQuote($VisibleIframe);
+            ResizeIframe($VisibleIframe);
         }
         else {
             /* correct the status saved in the hidden field of the initial visible message */
             $('> input[name=ArticleState]', $VisibleMessage).val("true");
-            HideQuote($VisibleIframe.get(0));
+            ResizeIframe($VisibleIframe.get(0));
         }
     };
 

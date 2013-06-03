@@ -199,7 +199,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         $('#SpellCheck select, #SpellCheck input:text').bind('change', function (Event) {
             var $Row = $(this).closest('tr'),
                 RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
-            $Row.find('input:radio[id=ChangeWord' + RowCount + ']').attr('checked', 'checked');
+            $Row.find('input:radio[id=ChangeWord' + RowCount + ']').prop('checked', true);
         });
 
         // Register Apply button event
@@ -255,7 +255,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @param {Object} The name of the radio button to be selected
      */
     TargetNS.SelectRadioButton = function (Value, Name) {
-        $('input:radio[name=' + Name + '][value=' + Value + ']').attr('checked', 'checked');
+        $('input:radio[name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };
 
     return TargetNS;

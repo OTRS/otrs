@@ -37,8 +37,8 @@ Core.Data = (function (Namespace) {
             var ResultOneEmpty = Core.Data.Get(ObjectOne,'One');
             deepEqual(ResultOneEmpty, {}, 'information not yet stored');
 
-            var NonexistingResuult = Core.Data.Get($('#nonexisting_selector'),'One');
-            deepEqual(NonexistingResuult, {}, 'nonexisting element');
+            var NonexistingResult = Core.Data.Get($('#nonexisting_selector'),'One');
+            deepEqual(NonexistingResult, {}, 'nonexisting element');
 
             Core.Data.Set(ObjectOne,'One',Sign);
             Core.Data.Set(ObjectTwo,'Two',Sign);

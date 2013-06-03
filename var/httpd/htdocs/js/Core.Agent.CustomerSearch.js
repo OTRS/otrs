@@ -408,7 +408,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             if( $(this).hasClass('CustomerTicketRadio') ) {
 
                 if (TicketCustomerIDs === 0) {
-                    $(this).attr('checked', 'checked');
+                    $(this).prop('checked', true);
                 }
 
                 // set counter as value
@@ -417,7 +417,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 // bind change function to radio button to select customer
                 $(this).bind('change', function () {
                     // remove row
-                    if ( $(this).attr('checked') ){
+                    if ( $(this).prop('checked') ){
 
                         TargetNS.ReloadCustomerInfo(CustomerKey);
                     }
@@ -453,10 +453,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $('#CustomerTicketCounter' + Field).val(CustomerTicketCounter);
         if ( ( CustomerKey !== '' && TicketCustomerIDs === 0 && ( Field === 'ToCustomer' || Field === 'FromCustomer' ) ) || SetAsTicketCustomer ) {
             if (SetAsTicketCustomer) {
-                $('#CustomerSelected_' + CustomerTicketCounter).attr('checked', 'checked').trigger('change');
+                $('#CustomerSelected_' + CustomerTicketCounter).prop('checked', true).trigger('change');
             }
             else {
-                $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
+                $('.CustomerContainer input:radio:first').prop('checked', true).trigger('change');
             }
         }
 
@@ -501,7 +501,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         if( !$('.CustomerContainer input:radio').is(':checked') ){
             //set the first one as checked
-            $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
+            $('.CustomerContainer input:radio:first').prop('checked', true).trigger('change');
         }
 
         if ($Field.find('.CustomerTicketText:visible').length === 0) {
