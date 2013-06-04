@@ -111,7 +111,9 @@ sub Run {
                 Param => $ParamItem->{Name},
                 Raw => $ParamItem->{Raw} || 0,
             );
-            $GetParam{ $ParamItem->{Name} } = \@Array;
+            if (defined $ParamItem->{Name}) {
+                $GetParam{ $ParamItem->{Name} } = \@Array;
+            }
         }
         my $Message  = '';
         my $Priority = '';
