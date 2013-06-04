@@ -220,13 +220,22 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
-    my $Value = '';
+    my $Value;
 
     # set the field value or default
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
     $Value = $Param{Value} if defined $Param{Value};
+
+    # check if a value in a template (GenericAgent etc.)
+    # is configured for this dynamic field
+    if (
+        IsHashRefWithData( $Param{Template} )
+        && defined $Param{Template}->{ $FieldName }
+    ) {
+        $Value = $Param{Template}->{ $FieldName };
+    }
 
     #d extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -251,19 +260,21 @@ sub EditFieldRender {
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
     # set PossibleValues
-    my $SelectionData = $FieldConfig->{PossibleValues};
+    my $PossibleValues = $FieldConfig->{PossibleValues};
 
     # use PossibleValuesFilter if defined
-    $SelectionData = $Param{PossibleValuesFilter}
+    $PossibleValues = $Param{PossibleValuesFilter}
         if defined $Param{PossibleValuesFilter};
 
     # check value
-    my @Values;
-    if ( ref $Value eq 'ARRAY' ) {
-        @Values = @{$Value};
-    }
-    else {
-        @Values = ($Value);
+    my $SelectedValuesArrayRef;
+    if ( defined $Value ) {
+        if ( ref $Value eq 'ARRAY' ) {
+            $SelectedValuesArrayRef = $Value;
+        }
+        else {
+            $SelectedValuesArrayRef = [$Value];
+        }
     }
 
     # set PossibleNone attribute
@@ -276,9 +287,9 @@ sub EditFieldRender {
     }
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data => $SelectionData || {},
+        Data => $PossibleValues || {},
         Name => $FieldName,
-        SelectedID   => \@Values,
+        SelectedID   => $SelectedValuesArrayRef,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
         PossibleNone => $FieldPossibleNone,
         Class        => $FieldClass,
@@ -690,7 +701,7 @@ sub SearchFieldParameterBuild {
                 if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
                     # translate the value
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;

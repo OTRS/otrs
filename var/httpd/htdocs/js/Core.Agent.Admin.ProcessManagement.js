@@ -949,6 +949,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#Display').val('1');
             }
 
+            // fields without default value can not be hidden
+            if ($.inArray(Fieldname, FieldsWithoutDefaultValue) > -1 ) {
+                $('#Display').find('option[value=0]').remove();
+            }
+
             // if there is a field config already the default settings from above are now overwritten
             if (typeof FieldConfig !== 'undefined') {
                 $('#DescShort').val(FieldConfig.DescriptionShort);

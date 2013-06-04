@@ -1,4 +1,7 @@
 #3.2.8 2013-??-??
+ - 2013-05-31 Fixed bug#[9479](http://bugs.otrs.org/show_bug.cgi?id=9479) - ProcessManagement: Article and CustomerID should not be Hidden.
+ - 2013-05-31 Fixed bug#[9491](http://bugs.otrs.org/show_bug.cgi?id=9491) - GenericAgent job update with dynamic fields sends Uninitialized value error.
+ - 2013-05-31 Fixed bug#[9456](http://bugs.otrs.org/show_bug.cgi?id=9456) - Empty 'Dropdown' dynamic field value of GenericAgent job wont get used and stored.
  - 2013-05-31 Follow-up fix for bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Added translatable titles for transition buttons.
  - 2013-05-31 Updated Russian translation, thanks to Alexey Gluhov!
  - 2013-05-31 Fixed bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Improve user interaction on transitions.
