@@ -202,7 +202,7 @@ if ( !mkdir($Directory) ) {
 print "Backup $Directory/Config.tar.gz ... ";
 if (
     !system(
-        "tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZ*.pm Kernel/Config/GenericAgen*.pm"
+        "tar -czf $Directory/Config.tar.gz Kernel/Config*"
     )
     )
 {
