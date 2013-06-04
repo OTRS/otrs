@@ -179,6 +179,7 @@ installed before):
 - OTRSPostMasterFilterExtensions
 - OTRSFreeTextFromCustomerUser
 - OTRSExternalTicketNumberRecognition
+- OTRSDashboardQueueOverview
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------

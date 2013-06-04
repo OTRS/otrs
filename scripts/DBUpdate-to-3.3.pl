@@ -322,6 +322,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSPostMasterFilterExtensions
         OTRSFreeTextFromCustomerUser
         OTRSExternalTicketNumberRecognition
+        OTRSDashboardQueueOverview
     )) {
         my $Success = $PackageObject->_PackageUninstallMerged (
             Name => $PackageName,

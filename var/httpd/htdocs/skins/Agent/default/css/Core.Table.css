@@ -257,6 +257,24 @@ table tr.MasterAction {
     margin: 0;
 }
 
+
+/**
+ * @subsection  QueueOverviewTotals DataTable
+ */
+ 
+.DataTable thead th.QueueOverviewTotals,
+.Row td.QueueOverviewTotals,
+.Row a.QueueOverviewTotals {
+    font-weight: bold;
+}
+
+.DataTable .Row td.QueueOverviewTotals {
+    text-transform: uppercase;
+    color: #4B4B4B;
+    border-top: 1px dotted #CCCCCC;
+}
+
+
 /**
  * @subsection  Sortable DataTable
  */

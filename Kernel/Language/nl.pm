@@ -2083,6 +2083,9 @@ sub Data {
         # Template: AgentDashboardUserOnline
         'out of office' => 'afwezigheid',
 
+        # Template: AgentDashboardTicketQueueOverview
+            'Totals' => 'Totaal',
+
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'tot',
 
@@ -4553,6 +4556,12 @@ sub Data {
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Uw selectie van favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe tickets in deze wachtrij, als u hiervoor heeft gekozen.',
+
+        'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            'Parameters voor het wachtrijoverzicht dashboard-backend. "Group" wordt gebruikt om de plugin te tonen aan gebruikers in de geselecteerde groemen (bijvoorbeeld Group: admin;group1;group2;). "QueuePermissionGroup" is niet verplicht, wachtrijen worden alleen getoond als ze aan deze permissiegroep gekoppeld zijn als deze instelling geactiveerd is. "States" is een lijst van statussen. De sleutel is de volgorde van de statussen in het widget. "Default" bepaalt of het dashlet standaard aan staat of dat de gebruiker deze zelf moet activeren. "CacheTTLLocal" is de cache-tijd in minuten voor deze plugin.',
+        'Provides a matrix overview of the tickets per state per queue.' =>
+            'Levert een matrixoverzicht van tickets per status per wachtrij.',
+        'Ticket Queue Overview' => 'Ticketwachtrij overzicht',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
