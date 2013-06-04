@@ -174,5 +174,20 @@ In the package manager, check if all packages are still marked as
 correctly installed or if any require reinstallation or even a package upgrade.
 
 
-13. Well done!
+13. Check config settings of OTRSFieldsFromCustomerUser
+-------------------------------------------------------
+
+Note: This only applies if you used the package OTRSFieldsFromCustomerUser previously.
+
+If you used this module previously, you need to reconfigure it.
+The module is automatically uninstalled by the upgrading script as it is
+now a part of the OTRS framework.
+
+If you want to keep using it, please enable the setting
+"Ticket::EventModulePost###930-DynamicFieldFromCustomerUser" to
+activate this feature and configure the mapping in the setting
+"DynamicFieldFromCustomerUser::Mapping".
+
+
+14. Well done!
 --------------

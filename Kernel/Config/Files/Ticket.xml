@@ -387,6 +387,27 @@ Description>
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DynamicFieldFromCustomerUser::Mapping" Required="0" Valid="0">
+        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="CustomerUserFirstname">CustomerFirstname</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###930-DynamicFieldFromCustomerUser" Required="0" Valid="0">
+        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::DynamicFieldFromCustomerUser</Item>
+                <Item Key="Event">(TicketCreate|TicketCustomerUpdate)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::CustomModule###001-CustomModule" Required="0" Valid="0">
         <Description Translatable="1">Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.</Description>
         <Group>Ticket</Group>

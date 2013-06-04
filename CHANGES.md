@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-04 Added support for storing customer user data in dynamic ticket fields on ticket create or customer user update.
  - 2013-05-31 Fixed bug#[9486](http://bugs.otrs.org/show_bug.cgi?id=9486) - Database error by invalid condition with parentheses in TicketSearch, thanks to Norihiro Tanaka!
  - 2013-05-31 Added multiple backends support for CustomerCompany, thanks to Cyrille @ belnet-ict!
  - 2013-05-30 Fixed bug#[7439](http://bugs.otrs.org/show_bug.cgi?id=7439) - Installer breaks on dash in database name or database user.
