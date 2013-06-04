@@ -148,12 +148,12 @@ for my $Module qw(FileStorable FileRaw) {
         Type  => 'CacheTest2',
         Key   => 'Test',
         Value => 'ü',
-        TTL   => 8,
+        TTL   => 60,
     );
 
     $Self->True(
         $CacheSet,
-        "#3 - $Module - CacheSet(), TTL 8",
+        "#3 - $Module - CacheSet(), TTL 60",
     );
 
     $CacheGet = $CacheObject->Get(
@@ -172,18 +172,16 @@ for my $Module qw(FileStorable FileRaw) {
         "#3 - $Module - CacheGet() - Encode::is_utf8",
     );
 
-    my $TTLTimeStart = $Self->{TimeObject}->SystemTime();
-
     $CacheSet = $CacheObject->Set(
         Type  => 'CacheTest2',
         Key   => 'Test',
         Value => '9ßüß-カスタ1234',
-        TTL   => 4,
+        TTL   => 60,
     );
 
     $Self->True(
         $CacheSet,
-        "#4 - $Module - CacheSet(), TTL 4",
+        "#4 - $Module - CacheSet(), TTL 60",
     );
 
     $CacheGet = $CacheObject->Get(
@@ -191,32 +189,14 @@ for my $Module qw(FileStorable FileRaw) {
         Key  => 'Test',
     );
 
-    my $TTLTimeStop = $Self->{TimeObject}->SystemTime();
-    my $TTLTimeDiff = $TTLTimeStop - $TTLTimeStart;
-
-    if ( $TTLTimeDiff <= 4 ) {
-
-        $Self->Is(
-            $CacheGet || '',
-            '9ßüß-カスタ1234',
-            "#4 - $Module - CacheGet()",
-        );
-        $Self->True(
-            Encode::is_utf8($CacheGet) || '',
-            "#4 - $Module - CacheGet() - Encode::is_utf8",
-        );
-    }
-
-    sleep( 6 - $TTLTimeDiff );
-
-    $CacheGet = $CacheObject->Get(
-        Type => 'CacheTest2',
-        Key  => 'Test',
+    $Self->Is(
+        $CacheGet || '',
+        '9ßüß-カスタ1234',
+        "#4 - $Module - CacheGet()",
     );
-
     $Self->True(
-        !$CacheGet || '',
-        "#4 - $Module - CacheGet() - sleep 6 - TTL of 4 expired",
+        Encode::is_utf8($CacheGet) || '',
+        "#4 - $Module - CacheGet() - Encode::is_utf8",
     );
 
     $CacheSet = $CacheObject->Set(

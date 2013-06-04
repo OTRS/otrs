@@ -9,8 +9,10 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.17 2013-??-??
- - 2013-04-09 Added parameter "-t dbonly" to backup.pl to only backup the database
+3.1.17 ????-??-??
+ - 2013-06-04 Added parameter "-t dbonly" to backup.pl to only backup the database
+ - 2013-05-31 Fixed bug#9491 - GenericAgent job update with dynamic fields sends Uninitialized value error.
+ - 2013-05-24 Fixed bug#9462 - Package Management page timeout due to HTTPS disabled on Proxy connections.
 
 3.1.16 2013-05-21
  - 2013-05-17 Updated Package Manager, that will ensure that packages to be installed
