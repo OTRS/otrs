@@ -173,6 +173,12 @@ Now you can log into your system.
 In the package manager, check if all packages are still marked as
 correctly installed or if any require reinstallation or even a package upgrade.
 
+The following packages are automatically uninstalled after the upgrade process (if they where
+installed before):
+
+- OTRSPostMasterFilterExtensions
+- OTRSFreeTextFromCustomerUser
+- OTRSExternalTicketNumberRecognition
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------

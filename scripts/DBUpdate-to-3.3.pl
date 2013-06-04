@@ -69,7 +69,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 6;
+    my $Steps = 7;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -89,6 +89,17 @@ EOF
     print "Step $Step of $Steps: Generate MessageID md5sums... ";
     _GenerateMessageIDMD5($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
+
+    # migrate OTRSExternalTicketNumberRecognition
+    print "Step $Step of $Steps: Migrate OTRSExternalTicketNumberRecognition... ";
+    if ( _MigrateOTRSExternalTicketNumberRecognition($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
     $Step++;
 
     # uninstall Merged Feature Add-Ons
@@ -248,6 +259,51 @@ sub _GenerateMessageIDMD5 {
     return 1;
 }
 
+=item _MigrateOTRSExternalTicketNumberRecognition()
+
+Migrate PostMaster ExternalTicketNumberRecognition settings to the new names and deletes the FAO
+package from the database if installed.
+
+    _MigrateOTRSExternalTicketNumberRecognition($CommonObject);
+
+=cut
+
+sub _MigrateOTRSExternalTicketNumberRecognition {
+    my $CommonObject = shift;
+
+    # detect package
+    # check if install field exists
+    my $FieldName = $CommonObject->{ConfigObject}->Get(
+        'ExternalTicketNumberRecognition::InstallationDynamicField'
+    ) || '';
+
+    # if setting was not found return success (the package is not installed)
+    return 1 if !$FieldName;
+
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    # convert settings
+    for my $Number ( 1..4 ) {
+
+        # get original setting (from FAO using old name)
+        my $Setting = $CommonObject->{ConfigObject}->Get('PostMaster::PreFilterModule')
+            ->{ '00-ExternalTicketNumberRecognition' . $Number };
+
+        if ( IsHashRefWithData($Setting) ) {
+
+            # set new setting, notice that it has an extra 0 in the name
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   =>
+                    'PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition' . $Number,
+                Value => $Setting,
+            );
+        }
+    }
+
+    return 1;
+}
+
 =item _UninstallMergedFeatureAddOns()
 
 safe uninstall packages from the database.
@@ -265,6 +321,7 @@ sub _UninstallMergedFeatureAddOns {
     for my $PackageName (qw(
         OTRSPostMasterFilterExtensions
         OTRSFreeTextFromCustomerUser
+        OTRSExternalTicketNumberRecognition
     )) {
         my $Success = $PackageObject->_PackageUninstallMerged (
             Name => $PackageName,

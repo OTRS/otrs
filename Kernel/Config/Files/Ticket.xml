@@ -7683,6 +7683,82 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition1" Required="0" Valid="0">
+        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
+                <Item Key="Name">Some Description</Item>
+                <Item Key="FromAddressRegExp">\s*@example.com</Item>
+                <Item Key="NumberRegExp">\s*Incident-(\d.*)\s*</Item>
+                <Item Key="SearchInSubject">1</Item>
+                <Item Key="SearchInBody">1</Item>
+                <Item Key="TicketStateTypes">new;open</Item>
+                <Item Key="DynamicFieldName">Name_X</Item>
+                <Item Key="SenderType">system</Item>
+                <Item Key="ArticleType">note-report</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition2" Required="0" Valid="0">
+        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
+                <Item Key="Name">Some Description</Item>
+                <Item Key="FromAddressRegExp">\s*@example.com</Item>
+                <Item Key="NumberRegExp">\s*Incident-(\d.*)\s*</Item>
+                <Item Key="SearchInSubject">1</Item>
+                <Item Key="SearchInBody">1</Item>
+                <Item Key="TicketStateTypes">new;open</Item>
+                <Item Key="DynamicFieldName">Name_X</Item>
+                <Item Key="SenderType">system</Item>
+                <Item Key="ArticleType">note-report</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition3" Required="0" Valid="0">
+        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
+                <Item Key="Name">Some Description</Item>
+                <Item Key="FromAddressRegExp">\s*@example.com</Item>
+                <Item Key="NumberRegExp">\s*Incident-(\d.*)\s*</Item>
+                <Item Key="SearchInSubject">1</Item>
+                <Item Key="SearchInBody">1</Item>
+                <Item Key="TicketStateTypes">new;open</Item>
+                <Item Key="DynamicFieldName">Name_X</Item>
+                <Item Key="SenderType">system</Item>
+                <Item Key="ArticleType">note-report</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition4" Required="0" Valid="0">
+        <Description Translatable="1">Recognize if a ticket is a follow up to an existing ticket using an external ticket number.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
+                <Item Key="Name">Some Description</Item>
+                <Item Key="FromAddressRegExp">\s*@example.com</Item>
+                <Item Key="NumberRegExp">\s*Incident-(\d.*)\s*</Item>
+                <Item Key="SearchInSubject">1</Item>
+                <Item Key="SearchInBody">1</Item>
+                <Item Key="TicketStateTypes">new;open</Item>
+                <Item Key="DynamicFieldName">Name_X</Item>
+                <Item Key="SenderType">system</Item>
+                <Item Key="ArticleType">note-report</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SendNoAutoResponseRegExp" Required="1" Valid="1">
         <Description Translatable="1">If this regex matches, no message will be send by the autoresponder.</Description>
         <Group>Ticket</Group>
