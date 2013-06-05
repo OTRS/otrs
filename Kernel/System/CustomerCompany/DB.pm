@@ -328,8 +328,8 @@ sub CustomerCompanyAdd {
 
     # log notice
     $Self->{LogObject}->Log(
-        Priority => 'notice',
-            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
+        Priority => 'info', 
+        Message  => "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!", 
     );
 
     $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
@@ -387,7 +387,7 @@ sub CustomerCompanyUpdate {
 
     # log notice
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
     );
 
