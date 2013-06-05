@@ -15,13 +15,16 @@
             <label class="InvisibleText" for="SelectAllTickets">$Text{"Select all"}</label>
         </span>
     </li>
-    <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
+    <li id="BulkAction" class="AlwaysPresent Inactive $QData{"CSS"}">
         <a href="#">$Text{"$Data{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->
 <!-- dtl:block:DocumentActionRowItem -->
-    <li class="$QData{"CSS"}"><a href="#">$Text{"$Data{"Name"}"}</a></li>
+    <li><a class="$QData{"Class"}" href="$QData{"Link"}" title="$QData{"Description"}">$QData{"Name"}</a></li>
 <!-- dtl:block:DocumentActionRowItem -->
+<!-- dtl:block:DocumentActionRowHTML -->
+    <li class="$QData{"Class"}">$Data{"HTML"}</li>
+<!-- dtl:block:DocumentActionRowHTML -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
 
@@ -46,7 +49,7 @@
 <!-- dtl:block:InlineActionRow -->
             <ul class="Actions InlineActions">
 <!-- dtl:block:InlineActionRowItem -->
-                <li><a class="$QData{"Class"}" href="$QData{"Link"}" title="$QData{"Description"}">$QData{"Name"}</a></li>
+                <li><a id="$QData{"ID"}" class="$QData{"Class"}" href="$QData{"Link"}" title="$QData{"Description"}">$QData{"Name"}</a></li>
 <!-- dtl:block:InlineActionRowItem -->
 <!-- dtl:block:InlineActionRowItemHTML -->
                 $Data{"HTML"}

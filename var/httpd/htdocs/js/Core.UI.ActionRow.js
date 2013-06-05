@@ -105,7 +105,7 @@ Core.UI.ActionRow = (function (TargetNS) {
         if (!$Checkboxes.length) {
             // Remove actions and deactivate bulk action
             $ActionRow
-                .find('li').filter(':not(.Bulk)').remove()
+                .find('li').filter(':not(.AlwaysPresent)').remove()
                 .end().end()
                 .find('#BulkAction').addClass('Inactive')
                 .end()
@@ -149,7 +149,7 @@ Core.UI.ActionRow = (function (TargetNS) {
         else {
             // Remove actions and activate bulk action
             $ActionRow
-                .find('li').filter(':not(.Bulk)').remove()
+                .find('li').filter(':not(.AlwaysPresent)').remove()
                 .end().end()
                 .find('#BulkAction').removeClass('Inactive')
                 .end()

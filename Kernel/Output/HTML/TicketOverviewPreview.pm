@@ -27,7 +27,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID UserObject GroupObject TicketObject MainObject QueueObject)
+        qw(ConfigObject LogObject DBObject EncodeObject LayoutObject UserID UserObject GroupObject TicketObject MainObject QueueObject)
         )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
@@ -89,6 +89,80 @@ sub ActionRow {
                 Name => 'Bulk',
             },
         );
+    }
+
+    # run ticket overview document item menu modules
+    if (
+        $Param{Config}->{OverviewMenuModules}
+        && ref $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') eq 'HASH'
+    ) {
+
+        my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') };
+        MENUMODULE:
+        for my $Menu ( sort keys %Menus ) {
+
+            next MENUMODULE if !IsHashRefWithData($Menus{$Menu});
+            next MENUMODULE if ( $Menus{$Menu}->{View} && $Menus{$Menu}->{View} ne $Param{View} );
+
+            # load module
+            if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+            my $Object = $Menus{$Menu}->{Module}->new( %{$Self} );
+
+            # run module
+            my $Item = $Object->Run(
+                %Param,
+                Config => $Menus{$Menu},
+            );
+            next MENUMODULE if !IsHashRefWithData($Item);
+
+            if ( $Item->{Block} eq 'DocumentActionRowItem' ) {
+
+                # add session id if needed
+                if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
+                    $Item->{Link}
+                        .= ';'
+                        . $Self->{LayoutObject}->{SessionName} . '='
+                        . $Self->{LayoutObject}->{SessionID};
+                }
+
+                # create id
+                $Item->{ID} = $Item->{Name};
+                $Item->{ID} =~ s/(\s|&|;)//ig;
+
+                my $Link = $Item->{Link};
+                if ( $Item->{Target} ) {
+                    $Link = '#';
+                }
+
+                my $Class = '';
+                if ( $Item->{PopupType} ) {
+                    $Class = 'AsPopup PopupType_' . $Item->{PopupType};
+                }
+
+                $Self->{LayoutObject}->Block(
+                    Name => $Item->{Block},
+                    Data => {
+                        ID          => $Item->{ID},
+                        Name        => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        Description => $Item->{Description},
+                        Block       => $Item->{Block},
+                        Class       => $Class,
+                    },
+                );
+            }
+            elsif ( $Item->{Block} eq 'DocumentActionRowHTML' ) {
+
+                next MENUMODULE if !$Item->{HTML};
+
+                $Self->{LayoutObject}->Block(
+                    Name => $Item->{Block},
+                    Data => $Item,
+                );
+            }
+        }
     }
 
     # init for table control

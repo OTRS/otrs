@@ -411,7 +411,8 @@ ul.ContextFunctions li:last-child:hover > a {
     border-right: 1px solid #ccc;
 }
 
-.Actions form {
+.Actions form,
+.Actions li.SortBy {
     padding: 4px 8px;
 }
 

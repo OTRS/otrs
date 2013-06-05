@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-05 Added sort functionality to ticket medium and preview overviews.
  - 2013-06-05 Fixed bug#[8475(http://bugs.otrs.org/show_bug.cgi?id=8475) - Screen refresh after action not always correct.
  - 2013-06-04 Added new dashboard widget that shows in a matrix form the number of tickets per state and per queue.
  - 2013-06-04 Added support to recognize numbers from external ticket systems in email subject and body to create follow-up articles in existing tickets.
