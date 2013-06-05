@@ -163,15 +163,11 @@ sub Run {
         push @Headers, ${ $Self->{Config}->{States} }{$StateOrder};
     }
 
-    # calculate width for columns
-    my $ColumnWidth = 100 / ( scalar(@Headers) + 1 );
-
     for my $HeaderItem (@Headers) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericHeaderStatus',
             Data => {
                 Text  => $HeaderItem,
-                Width => $ColumnWidth,
             },
         );
     }

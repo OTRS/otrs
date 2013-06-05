@@ -10,7 +10,7 @@
 <table class="DataTable">
     <thead>
 <!-- dtl:block:ContentLargeTicketGenericHeaderStatus -->
-        <th width="$QData{"Width"}%">$Text{"$Data{"Text"}"}</th>
+        <th>$Text{"$Data{"Text"}"}</th>
 <!-- dtl:block:ContentLargeTicketGenericHeaderStatus -->
         <th class="QueueOverviewTotals">$Text{"Totals"}</th>
     </thead>
@@ -19,10 +19,10 @@
         <tr class="Row">
             <td>$Text{"$Data{"QueueName"}"}</td>
 <!-- dtl:block:ContentLargeTicketGenericQueueResults -->
-            <td><a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};QueueIDs=$LQData{"QueueID"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
+            <td><a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};QueueIDs=$LQData{"QueueID"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
 <!-- dtl:block:ContentLargeTicketGenericQueueResults -->
 <!-- dtl:block:ContentLargeTicketGenericQueueTotal -->
-            <td><a class="QueueOverviewTotals" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};QueueIDs=$LQData{"QueueID"};$QData{"StateIDs"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
+            <td><a class="QueueOverviewTotals AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};QueueIDs=$LQData{"QueueID"};$QData{"StateIDs"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
 <!-- dtl:block:ContentLargeTicketGenericQueueTotal -->
         </tr>
 <!-- dtl:block:ContentLargeTicketGenericQueueName -->
@@ -30,7 +30,7 @@
         <tr class="Row">
             <td class="QueueOverviewTotals">$Text{"Totals"}</td>
 <!-- dtl:block:ContentLargeTicketGenericStatusTotal -->
-            <td class="QueueOverviewTotals"><a href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};$QData{"QueueIDs"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
+            <td class="QueueOverviewTotals"><a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};$QData{"QueueIDs"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
 <!-- dtl:block:ContentLargeTicketGenericStatusTotal -->
             <td class="QueueOverviewTotals"></td>
         </tr>
