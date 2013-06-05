@@ -88,7 +88,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         my $Update = $SessionObject->UpdateSessionID(
             SessionID => $SessionID,
-            Key       => 'LastScreenView',
+            Key       => 'LastScreenOverview',
             Value     => 'SomeInfo1234',
         );
 

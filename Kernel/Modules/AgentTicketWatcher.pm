@@ -99,7 +99,9 @@ sub Run {
         }
 
         # redirect
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -121,21 +123,19 @@ sub Run {
         }
 
         # redirect
-        if ( $Self->{LastScreenView} =~ m/^Action=AgentTicketZoom/ ) {
+        # checks if the user has permissions to see the ticket
+        my $Access = $Self->{TicketObject}->TicketPermission(
+            Type     => 'ro',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID},
+        );
+        if ( !$Access ) {
 
-            # checks if the user has permissions to see the ticket
-            my $Access = $Self->{TicketObject}->TicketPermission(
-                Type     => 'ro',
-                TicketID => $Self->{TicketID},
-                UserID   => $Self->{UserID},
+            # generate output
+            return $Self->{LayoutObject}->Redirect(
+                OP => $Self->{LastScreenOverview} || 'Action=AgentDashboard',
             );
-            if ( !$Access ) {
-
-                # generate output
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
-            }
         }
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
 }
 

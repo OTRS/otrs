@@ -291,13 +291,6 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    # store last screen
-    $Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key       => 'LastScreenView',
-        Value     => $Self->{RequestedURL},
-    );
-
     # H1 title
     my $CustomerIDTitle = $Self->{CustomerID};
 

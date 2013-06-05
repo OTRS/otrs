@@ -129,15 +129,6 @@ sub Run {
         return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
     }
 
-    # store last screen
-    if ( $Self->{Subaction} ne 'ShowHTMLeMail' ) {
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'LastScreenView',
-            Value     => $Self->{RequestedURL},
-        );
-    }
-
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID      => $Self->{TicketID},

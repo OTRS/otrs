@@ -3501,7 +3501,7 @@ sub Data {
             '顧客インタフェースで、新規顧客チケットの後の次の画面を決定します。',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
             '客インタフェースで、ズームされたチケットのフォロー・アップ画面の後の次の画面を定義します。',
-        'Determines the next screen after the ticket is moved. LastScreenOverview will return to search results, queueview, dashboard or the like, LastScreenView will return to TicketZoom.' =>
+        'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'タイム・リミットを越えてから状態を変更したペンディング・チケットに対して、可能となる状態を定義します。',

@@ -44,13 +44,6 @@ sub Run {
         || $Self->{Config}->{'Order::Default'}
         || 'Up';
 
-    # store last screen
-    $Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key       => 'LastScreenView',
-        Value     => $Self->{RequestedURL},
-    );
-
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},

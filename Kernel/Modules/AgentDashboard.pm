@@ -269,13 +269,6 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    # store last screen
-    $Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key       => 'LastScreenView',
-        Value     => $Self->{RequestedURL},
-    );
-
     # show dashboard
     $Self->{LayoutObject}->Block(
         Name => 'Content',

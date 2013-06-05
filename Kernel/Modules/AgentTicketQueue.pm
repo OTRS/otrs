@@ -64,13 +64,6 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    # store last screen
-    $Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key       => 'LastScreenView',
-        Value     => $Self->{RequestedURL},
-    );
-
     my $SortBy = $Self->{Config}->{'SortBy::Default'} || 'Age';
     if ( $Self->{ParamObject}->GetParam( Param => 'SortBy' ) ) {
         $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' );

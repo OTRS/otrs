@@ -204,12 +204,9 @@ sub Run {
             )
             )
         {
-
             # redirect
             return $Self->{LayoutObject}->PopupClose(
-                URL =>
-                    $Self->{LastScreenView}
-                    || "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
+                URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
             );
         }
         else {

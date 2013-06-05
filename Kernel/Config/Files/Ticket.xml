@@ -6615,12 +6615,12 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMove###NextScreen" Required="1" Valid="1">
-        <Description Translatable="1">Determines the next screen after the ticket is moved. LastScreenOverview will return to search results, queueview, dashboard or the like, LastScreenView will return to TicketZoom.</Description>
+        <Description Translatable="1">Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
-            <Option SelectedID="LastScreenView">
-                <Item Key="LastScreenView">LastScreenView</Item>
+            <Option SelectedID="TicketZoom">
+                <Item Key="TicketZoom">TicketZoom</Item>
                 <Item Key="LastScreenOverview">LastScreenOverview</Item>
             </Option>
         </Setting>

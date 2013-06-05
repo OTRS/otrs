@@ -157,7 +157,9 @@ sub Run {
     if ( $Self->{QueueID} ) {
         return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
     }
-    return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+    return $Self->{LayoutObject}->Redirect(
+        OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
+    );
 }
 
 1;

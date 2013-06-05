@@ -194,7 +194,7 @@ false (if can't update)
 
     $SessionObject->UpdateSessionID(
         SessionID => '1234567890123456',
-        Key       => 'LastScreenView',
+        Key       => 'LastScreenOverview',
         Value     => 'SomeInfo',
     );
 

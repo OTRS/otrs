@@ -720,12 +720,12 @@ sub Run {
             # the ticket is closed (move to the next task).
             if ( $StateData{TypeName} =~ /^close/i ) {
                 return $Self->{LayoutObject}->PopupClose(
-                    URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' ),
+                    URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
                 );
             }
 
             return $Self->{LayoutObject}->PopupClose(
-                URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' ),
+                URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
             );
         }
     }

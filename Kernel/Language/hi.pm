@@ -3502,7 +3502,7 @@ sub Data {
             'ग्राहक अंतरफलक में नए ग्राहक टिकट के बाद अगली स्क्रीन निर्धारित करता है।',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
             'ग्राहक अंतरफलक में एक जूम टिकट के अनुसरण स्क्रीन के बाद अगली स्क्रीन को निर्धारित करता है।',
-        'Determines the next screen after the ticket is moved. LastScreenOverview will return to search results, queueview, dashboard or the like, LastScreenView will return to TicketZoom.' =>
+        'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'विचाराधीन टिकट जो समय सीमा तक पहुँचने के बाद स्थिति बदल लेते हैं उनकी संभावित स्थिति को निर्धारित करता है।',

@@ -468,7 +468,7 @@ $Param{Signature}";
             }
         }
         return $Self->{LayoutObject}->PopupClose(
-            URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' )
+            URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$Self->{ArticleID}",
         );
     }
     return $Self->{LayoutObject}->ErrorScreen(

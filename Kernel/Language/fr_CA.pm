@@ -3507,8 +3507,8 @@ sub Data {
             'Détermine l\'écran suivant une nouvelle demande du client dans l\'interface client.',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
             'Détermine l\'écran qui succède l\'écran de suivi de la synthèse de la demande dans l\'interface client.',
-        'Determines the next screen after the ticket is moved. LastScreenOverview will return to search results, queueview, dashboard or the like, LastScreenView will return to TicketZoom.' =>
-            'Détermine l\'écran qui succède le déplacement d\'une demande. L\'option « Visualisation de l\'écran précédent » vous ramènera à des écran tels que les résultats de recherche, la vue de files ou le tableau de bord et l\'option « Écran de synthèse de la demande  » vous ramènera à l\'écran de synthèse de la demande.',
+        'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
+            '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Détermine les états possibles pour les demandes en attente qui ont changé d\'état après avoir atteint leur délai d\'attente.',
         'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>
@@ -6334,7 +6334,6 @@ sub Data {
         'Lao People\'s Democratic Republic' => 'Laos, République démocratique populaire du',
         'Last update' => 'Dernière mise à jour',
         'LastScreenOverview' => 'Visualisation de l\'écran précédent (LastScreenOverview)',
-        'LastScreenView' => 'Écran de synthèse de la demande (LastScreenView)',
         'Lastname{CustomerUser}' => 'Nom{CustomerUser}',
         'Latvia' => 'Lettonie',
         'Lebanon' => 'Liban',

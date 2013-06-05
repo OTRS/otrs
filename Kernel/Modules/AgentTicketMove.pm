@@ -932,7 +932,7 @@ sub Run {
         UserID   => $Self->{UserID}
     );
 
-    my $NextScreen = $Self->{Config}->{NextScreen} || 'LastScreenView';
+    my $NextScreen = $Self->{Config}->{NextScreen} || '';
 
     # redirect to last overview if we do not have ro permissions anymore,
     # or if SysConfig option is set.
@@ -953,13 +953,15 @@ sub Run {
 
     # Module directly called
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'form' ) {
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}" . ($ArticleID ? ";ArticleID=$ArticleID" : ''),
+        );
     }
 
     # Module opened in popup
     elsif ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'link' ) {
         return $Self->{LayoutObject}->PopupClose(
-            URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' ),
+            URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}" . ($ArticleID ? ";ArticleID=$ArticleID" : ''),
         );
     }
 }

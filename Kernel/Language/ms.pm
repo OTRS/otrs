@@ -3502,8 +3502,8 @@ sub Data {
             'Menentukan skrin seterusnya selepas tiket pelanggan baru dalam paparan pelanggan.',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
             'Menentukan skrin seterusnya selapas skrin susulan tiket dizum dalam paparan pelanggan.',
-        'Determines the next screen after the ticket is moved. LastScreenOverview will return to search results, queueview, dashboard or the like, LastScreenView will return to TicketZoom.' =>
-            'Menentukan skrin seterusnya selepas tiket dipindahkan. LastScreenOverview akan kembali ke hasil carian, paparan aturan, dashboard atau seperti nya, LastScreenView akan kembali ke TicketZoom.',
+        'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
+            '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Menentukan status kemungkinan untuk tiket tertangguh yang mengubah status selepas mencapai had masa.',
         'Determines the strings that will be shown as receipent (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the receipent.' =>

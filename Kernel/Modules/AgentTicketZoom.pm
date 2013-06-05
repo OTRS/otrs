@@ -320,15 +320,6 @@ sub Run {
         );
     }
 
-    # store last screen
-    if ( $Self->{Subaction} ne 'ShowHTMLeMail' ) {
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'LastScreenView',
-            Value     => $Self->{RequestedURL},
-        );
-    }
-
     # article filter is activated in sysconfig
     if ( $Self->{ArticleFilterActive} ) {
 

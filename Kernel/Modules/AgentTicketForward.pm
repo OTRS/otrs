@@ -939,7 +939,7 @@ sub SendEmail {
     # redirect
     if ( $StateData{TypeName} =~ /^close/i ) {
         return $Self->{LayoutObject}->PopupClose(
-            URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' ),
+            URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
         );
     }
 

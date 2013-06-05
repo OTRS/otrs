@@ -51,13 +51,6 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    # store last screen
-    $Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key       => 'LastScreenView',
-        Value     => $Self->{RequestedURL},
-    );
-
     # starting with page ...
     my $Refresh = '';
     if ( $Self->{UserRefreshTime} ) {
