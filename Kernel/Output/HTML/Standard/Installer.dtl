@@ -166,7 +166,6 @@ $Include{"InstallerFinish"}
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Installer.CheckDBDataLabel' , '$JSText{"Database check successful."}');
     Core.Config.Set('Installer.CheckMailLabelOne', '$JSText{"Mail check successful."}');
     Core.Config.Set('Installer.CheckMailLabelTwo', '$JSText{"Error in the mail settings. Please correct and try again."}');
     $('#InstallerContinueWithJS').show();
