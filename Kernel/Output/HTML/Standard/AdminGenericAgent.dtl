@@ -125,7 +125,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="$Text{"Toggle this widget"}"></a>
                     </div>
-                    <h2>$Text{"Automatic execution"}</h2>
+                    <h2>$Text{"Automatic execution (multiple tickets)"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
@@ -167,7 +167,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="$Text{"Toggle this widget"}"></a>
                     </div>
-                    <h2>$Text{"Event based execution"}</h2>
+                    <h2>$Text{"Event based execution (single ticket)"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">

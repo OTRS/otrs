@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-05 Added possibility to execute generic agent jobs for configured ticket events.
  - 2013-06-04 Added new dashboard widget that shows in a matrix form the number of tickets per state and per queue.
  - 2013-06-04 Added support to recognize numbers from external ticket systems in email subject and body to create follow-up articles in existing tickets.
  - 2013-06-04 Added support for storing customer user data in dynamic ticket fields on ticket create or customer user update.
