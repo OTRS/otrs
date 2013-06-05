@@ -13,6 +13,7 @@
         <input type="hidden" name="Action"    value="Installer">
         <input type="hidden" name="Subaction" value="DBCreate">
         <input type="hidden" name="DBType"    value="postgresql">
+        <input type="hidden" name="InstallType" value="$QData{"InstallType"}">
 
         <div class="WidgetSimple">
             <div class="Header">
