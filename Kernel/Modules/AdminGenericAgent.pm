@@ -200,6 +200,7 @@ sub Run {
             qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs ResponsibleIDs
             TypeIDs ServiceIDs SLAIDs
             ScheduleDays ScheduleMinutes ScheduleHours
+            EventValues
             )
             )
         {
@@ -1109,6 +1110,93 @@ sub _MaskUpdate {
             },
         );
     }
+
+    # get registered event triggers from the config
+    my %RegisteredEvents = %{ $Self->{ConfigObject}->Get('GenericAgent::Events') || {} };
+
+    # create the event triggers table
+    for my $Event ( @{ $JobData{EventValues} || [] } ) {
+
+        # set the event type ( event object like Article or Ticket)
+        my $EventType;
+        EVENTTYPE:
+        for my $Type ( sort keys %RegisteredEvents ) {
+            if ( $RegisteredEvents{$Type}->{$Event} ) {
+                $EventType = $Type;
+                last EVENTTYPE;
+            }
+        }
+
+        # paint each event row in event triggers table
+        $Self->{LayoutObject}->Block(
+            Name => 'EventRow',
+            Data => {
+                Event        => $Event,
+                EventType    => $EventType || '-',
+            },
+        );
+    }
+
+    my @EventTypeList;
+    my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' ) || 'Ticket';
+
+    # create event trigger selectors (one for each type)
+    TYPE:
+    for my $Type ( sort keys %RegisteredEvents ) {
+        next TYPE if !$Type;
+
+        # refresh event list for each event type
+        my @EventList;
+
+        EVENT:
+        for my $Event ( sort keys %{ $RegisteredEvents{$Type} } ) {
+            next EVENT if !$RegisteredEvents{$Type}->{$Event};
+            push @EventList, $Event;
+        }
+
+        # hide inactive event lists
+        my $EventListHidden = '';
+        if ( $Type ne $SelectedEventType ) {
+            $EventListHidden = 'Hidden';
+        }
+
+        # paint each selector
+        my $EventStrg = $Self->{LayoutObject}->BuildSelection(
+            Data         => \@EventList,
+            Name         => $Type . 'Event',
+            Sort         => 'AlphanumericValue',
+            PossibleNone => 0,
+            Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
+            Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Event'),
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'EventAdd',
+            Data => {
+                EventStrg => $EventStrg,
+            },
+        );
+
+        push @EventTypeList, $Type;
+    }
+
+    # create event type selector
+    my $EventTypeStrg = $Self->{LayoutObject}->BuildSelection(
+        Data          => \@EventTypeList,
+        Name          => 'EventType',
+        Sort          => 'AlphanumericValue',
+        SelectedValue => $SelectedEventType,
+        PossibleNone  => 0,
+        Class         => '',
+        Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Type'),
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'EventTypeStrg',
+        Data => {
+            EventTypeStrg => $EventTypeStrg,
+        },
+    );
+
     return \%JobData;
 }
 
