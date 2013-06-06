@@ -90,7 +90,8 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check all needed objects
-    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject)) {
+    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject))
+    {
         die "Got no $_" if !$Self->{$_};
     }
 
@@ -114,33 +115,33 @@ get a list of available events in the system.
 =cut
 
 sub EventList {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
-    my %ObjectTypes = map {$_ => 1} @{ $Param{ObjectTypes} || [] };
+    my %ObjectTypes = map { $_ => 1 } @{ $Param{ObjectTypes} || [] };
 
     my %Result;
 
     my %EventConfig = %{ $Self->{ConfigObject}->Get('Events') || {} };
 
-    for my $ObjectType (sort keys %EventConfig) {
-        if (!%ObjectTypes || $ObjectTypes{$ObjectType}) {
+    for my $ObjectType ( sort keys %EventConfig ) {
+        if ( !%ObjectTypes || $ObjectTypes{$ObjectType} ) {
             $Result{$ObjectType} = $EventConfig{$ObjectType};
         }
     }
 
     # get ticket df events
-    if (!%ObjectTypes || $ObjectTypes{'Ticket'}) {
+    if ( !%ObjectTypes || $ObjectTypes{'Ticket'} ) {
         my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
             Valid      => 1,
             ObjectType => ['Ticket'],
             ResultType => 'HASH',
         );
-        my @DynamicFieldEvents = map { "TicketDynamicFieldUpdate_$_" } sort values %{$DynamicFields};
+        my @DynamicFieldEvents = map {"TicketDynamicFieldUpdate_$_"} sort values %{$DynamicFields};
         push @{ $Result{'Ticket'} || [] }, @DynamicFieldEvents;
     }
 
     # there is currently only one article df event
-    if (!%ObjectTypes || $ObjectTypes{'Article'}) {
+    if ( !%ObjectTypes || $ObjectTypes{'Article'} ) {
         push @{ $Result{'Article'} || [] }, 'ArticleDynamicFieldUpdate';
     }
 
@@ -149,8 +150,6 @@ sub EventList {
 }
 
 1;
-
-=end Internal:
 
 =back
 

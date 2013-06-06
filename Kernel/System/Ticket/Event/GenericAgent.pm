@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/GenericAgent.pm - event handler module for the event based ticket actions
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,8 +59,10 @@ sub Run {
     # Loop protection: only execute this handler once for each ticket and event.
     my $CacheKey = '';
     if (
-        $Self->{TicketObject}->{'_GenericAgent::AlreadyProcessed'}->{ $Param{Data}->{TicketID} }->{ $Param{Event} }++
-    ) {
+        $Self->{TicketObject}->{'_GenericAgent::AlreadyProcessed'}->{ $Param{Data}->{TicketID} }
+        ->{ $Param{Event} }++
+        )
+    {
         return;
     }
 
@@ -84,7 +86,7 @@ sub Run {
         my $Result = $Self->{GenericAgentObject}->JobRun(
             Job          => $JobName,
             OnlyTicketID => $Param{Data}->{TicketID},
-            UserID => 1, # run the job as system user
+            UserID       => 1,                          # run the job as system user
         );
     }
 
