@@ -130,32 +130,32 @@
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field">
-                        <table class="DataTable GASchedule" summary="$Text{"Execution Schedule"}">
-                            <thead class="GAHeader">
-                                <tr>
-                                    <th><label for="ScheduleMinutes">$Text{"Schedule minutes"}</label></th>
-                                    <th><label for="ScheduleHours">$Text{"Schedule hours"}</label></th>
-                                    <th><label for="ScheduleDays">$Text{"Schedule days"}</label></th>
-                                </tr>
-                            </thead>
-                            <tbody class="GABody">
-                                <td>
-                                    $Data{"ScheduleMinutesList"}
-                                </td>
-                                <td>
-                                    $Data{"ScheduleHoursList"}
-                                </td>
-                                <td>
-                                    $Data{"ScheduleDaysList"}
-                                </td>
-                            </tbody>
-                        </table>
+                            <table class="DataTable GASchedule" summary="$Text{"Execution Schedule"}">
+                                <thead class="GAHeader">
+                                    <tr>
+                                        <th><label for="ScheduleMinutes">$Text{"Schedule minutes"}</label></th>
+                                        <th><label for="ScheduleHours">$Text{"Schedule hours"}</label></th>
+                                        <th><label for="ScheduleDays">$Text{"Schedule days"}</label></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="GABody">
+                                    <td>
+                                        $Data{"ScheduleMinutesList"}
+                                    </td>
+                                    <td>
+                                        $Data{"ScheduleHoursList"}
+                                    </td>
+                                    <td>
+                                        $Data{"ScheduleDaysList"}
+                                    </td>
+                                </tbody>
+                            </table>
 <!-- dtl:block:JobScheduleWarning-->
-                        <p class="Error SpacingTop">
-                            $Text{"Currently this generic agent job will not run automatically."}
-                            <br/>
-                            $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
-                        </p>
+                            <p class="Error SpacingTop">
+                                $Text{"Currently this generic agent job will not run automatically."}
+                                <br/>
+                                $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
+                            </p>
 <!-- dtl:block:JobScheduleWarning-->
                         </div>
                         <div class="Clear"></div>
