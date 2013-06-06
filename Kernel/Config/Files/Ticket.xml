@@ -7175,7 +7175,7 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Events###Ticket" Required="0" Valid="1">
+    <ConfigItem Name="Events###Ticket" Required="1" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI to trigger generic agent jobs.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin</SubGroup>
@@ -7220,7 +7220,7 @@ $QData{"Body"}
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Events###Article" Required="0" Valid="1">
+    <ConfigItem Name="Events###Article" Required="1" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI to trigger generic agent jobs.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin</SubGroup>

@@ -44,7 +44,9 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         });
 
         $('#AddEvent').bind('click', function (){
-            TargetNS.AddEvent( $('#EventType').val() );
+            if ( $('#EventType').val() !== null ) {
+                TargetNS.AddEvent( $('#EventType').val() );
+            }
         });
 
         $('#EventType').bind('change', function (){
@@ -70,6 +72,10 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         var $Clone = $('.EventRowTemplate').clone(),
             EventName = $('#'+ EventType + 'Event').val(),
             IsDuplicated = false;
+
+        if ( !EventName ) {
+            return false;
+        }
 
         // check for duplicated entries
         $('[class*=EventValue]').each(function(index) {
