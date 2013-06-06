@@ -142,8 +142,11 @@ sub Run {
 <!-- dtl:js_on_document_complete -->
 JS
 
+    $ReturnData{HTML} = '<li class="AlwaysPresent SortBy">'
+        . $ReturnData{HTML}
+        . '</li>';
+
     $ReturnData{Block} = 'DocumentActionRowHTML';
-    $ReturnData{Class} = 'AlwaysPresent SortBy';
 
     return \%ReturnData;
 }

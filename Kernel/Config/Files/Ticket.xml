@@ -4873,7 +4873,7 @@ $QData{"Body"}
     <ConfigItem Name="TicketOverviewMenuSort###SortAttributes" Required="0" Valid="1">
         <Description Translatable="1">Defines from which ticket attributes the agent can select the result order.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::OverviewMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Age">1</Item>

@@ -9,7 +9,7 @@
 <!-- dtl:block:DocumentActionRow -->
 <ul class="Actions">
 <!-- dtl:block:DocumentActionRowBulk -->
-    <li id="BulkAction" class="Bulk Inactive $QData{"CSS"}">
+    <li id="BulkAction" class="AlwaysPresent Inactive $QData{"CSS"}">
         <a href="#">$Text{"$Data{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->

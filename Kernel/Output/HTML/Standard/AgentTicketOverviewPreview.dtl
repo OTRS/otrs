@@ -9,7 +9,7 @@
 <!-- dtl:block:DocumentActionRow -->
 <ul class="Actions">
 <!-- dtl:block:DocumentActionRowBulk -->
-    <li class="Bulk">
+    <li class="AlwaysPresent">
         <span>
             <input type="checkbox" title="$Text{"Select all"}" id="SelectAllTickets" autocomplete="off" />
             <label class="InvisibleText" for="SelectAllTickets">$Text{"Select all"}</label>
@@ -23,7 +23,7 @@
     <li><a class="$QData{"Class"}" href="$QData{"Link"}" title="$QData{"Description"}">$QData{"Name"}</a></li>
 <!-- dtl:block:DocumentActionRowItem -->
 <!-- dtl:block:DocumentActionRowHTML -->
-    <li class="$QData{"Class"}">$Data{"HTML"}</li>
+    $Data{"HTML"}
 <!-- dtl:block:DocumentActionRowHTML -->
 </ul>
 <!-- dtl:block:DocumentActionRow -->
