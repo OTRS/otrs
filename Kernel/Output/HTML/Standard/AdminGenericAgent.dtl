@@ -130,15 +130,15 @@
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field">
-                        <table class="DataTable" style="width: auto" summary="$Text{"Execution Schedule"}">
-                            <thead>
+                        <table class="DataTable GASchedule" summary="$Text{"Execution Schedule"}">
+                            <thead class="GAHeader">
                                 <tr>
                                     <th><label for="ScheduleMinutes">$Text{"Schedule minutes"}</label></th>
                                     <th><label for="ScheduleHours">$Text{"Schedule hours"}</label></th>
                                     <th><label for="ScheduleDays">$Text{"Schedule days"}</label></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="GABody">
                                 <td>
                                     $Data{"ScheduleMinutesList"}
                                 </td>
@@ -157,6 +157,7 @@
                             $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
                         </p>
 <!-- dtl:block:JobScheduleWarning-->
+                        </div>
                         <div class="Clear"></div>
                     </fieldset>
                 </div>
@@ -175,7 +176,7 @@
                         <label for="EventsTable">$Text{"Event Triggers"}:</label>
                         <div class="Field W50pc">
                             <table class="DataTable W50pc" id="EventsTable" summary="$Text{"List of all configured events"}">
-                                <thead>
+                                <thead class="GAHeader">
                                     <tr>
                                         <th>$Text{"Type"}</th>
                                         <th>$Text{"Event"}</th>
