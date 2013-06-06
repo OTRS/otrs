@@ -74,7 +74,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}">
                                     $Text{"Run this task"}
                                 </a>
                             </td>
