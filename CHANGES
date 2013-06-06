@@ -10,6 +10,7 @@
 # --
 
 3.1.17 ????-??-??
+ - 2013-06-06 Fixed bug#9503 - no connection header in soap responses.
  - 2013-06-06 Improved permission checks in AgentTicketWatcher.
  - 2013-06-04 Added parameter "-t dbonly" to backup.pl to only backup the database
  - 2013-05-31 Fixed bug#9491 - GenericAgent job update with dynamic fields sends Uninitialized value error.
