@@ -130,7 +130,7 @@
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field">
-                        <table class="DataTable" id="EventsTable" style="width: auto" summary="$Text{"Execution Schedule"}">
+                        <table class="DataTable" style="width: auto" summary="$Text{"Execution Schedule"}">
                             <thead>
                                 <tr>
                                     <th><label for="ScheduleMinutes">$Text{"Schedule minutes"}</label></th>
