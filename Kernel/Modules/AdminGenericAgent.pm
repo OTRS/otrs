@@ -18,6 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
+use Kernel::System::Event;
 use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
@@ -47,6 +48,10 @@ sub new {
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{EventObject}        = Kernel::System::Event->new(
+        %Param,
+        DynamicFieldObject => $Self->{DynamicFieldObject},
+    );
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -908,7 +913,9 @@ sub _MaskUpdate {
     }
 
     # get registered event triggers from the config
-    my %RegisteredEvents = %{ $Self->{ConfigObject}->Get('GenericAgent::Events') || {} };
+    my %RegisteredEvents = $Self->{EventObject}->EventList(
+        ObjectTypes => ['Ticket', 'Article'],
+    );
 
     # create the event triggers table
     for my $Event ( @{ $JobData{EventValues} || [] } ) {
@@ -917,7 +924,7 @@ sub _MaskUpdate {
         my $EventType;
         EVENTTYPE:
         for my $Type ( sort keys %RegisteredEvents ) {
-            if ( $RegisteredEvents{$Type}->{$Event} ) {
+            if ( grep {$_ eq $Event } $RegisteredEvents{$Type} ) {
                 $EventType = $Type;
                 last EVENTTYPE;
             }
@@ -939,16 +946,8 @@ sub _MaskUpdate {
     # create event trigger selectors (one for each type)
     TYPE:
     for my $Type ( sort keys %RegisteredEvents ) {
-        next TYPE if !$Type;
 
         # refresh event list for each event type
-        my @EventList;
-
-        EVENT:
-        for my $Event ( sort keys %{ $RegisteredEvents{$Type} } ) {
-            next EVENT if !$RegisteredEvents{$Type}->{$Event};
-            push @EventList, $Event;
-        }
 
         # hide inactive event lists
         my $EventListHidden = '';
@@ -958,7 +957,7 @@ sub _MaskUpdate {
 
         # paint each selector
         my $EventStrg = $Self->{LayoutObject}->BuildSelection(
-            Data         => \@EventList,
+            Data         => $RegisteredEvents{$Type} || [],
             Name         => $Type . 'Event',
             Sort         => 'AlphanumericValue',
             PossibleNone => 0,

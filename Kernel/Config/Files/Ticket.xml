@@ -7175,69 +7175,69 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="GenericAgent::Events###Ticket" Required="0" Valid="1">
+    <ConfigItem Name="Events###Ticket" Required="0" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI to trigger generic agent jobs.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Admin::GenericAgent</SubGroup>
+        <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
-            <Hash>
-                <Item Key="TicketCreate">1</Item>
-                <Item Key="TicketDelete">1</Item>
-                <Item Key="TicketTitleUpdate">1</Item>
-                <Item Key="TicketUnlockTimeoutUpdate">1</Item>
-                <Item Key="TicketQueueUpdate">1</Item>
-                <Item Key="TicketTypeUpdate">1</Item>
-                <Item Key="TicketServiceUpdate">1</Item>
-                <Item Key="TicketSLAUpdate">1</Item>
-                <Item Key="TicketCustomerUpdate">1</Item>
-                <Item Key="TicketPendingTimeUpdate">1</Item>
-                <Item Key="TicketLockUpdate">1</Item>
-                <Item Key="TicketArchiveFlagUpdate">1</Item>
-                <Item Key="TicketStateUpdate">1</Item>
-                <Item Key="TicketOwnerUpdate">1</Item>
-                <Item Key="TicketResponsibleUpdate">1</Item>
-                <Item Key="TicketPriorityUpdate">1</Item>
-                <Item Key="HistoryAdd">1</Item>
-                <Item Key="HistoryDelete">1</Item>
-                <Item Key="TicketAccountTime">1</Item>
-                <Item Key="TicketMerge">1</Item>
-                <Item Key="TicketSubscribe">1</Item>
-                <Item Key="TicketUnsubscribe">1</Item>
-                <Item Key="TicketFlagSet">1</Item>
-                <Item Key="TicketFlagDelete">1</Item>
-                <Item Key="TicketSlaveLinkAdd">1</Item>
-                <Item Key="TicketSlaveLinkDelete">1</Item>
-                <Item Key="TicketMasterLinkDelete">1</Item>
-                <Item Key="EscalationResponseTimeNotifyBefore">1</Item>
-                <Item Key="EscalationUpdateTimeNotifyBefore">1</Item>
-                <Item Key="EscalationSolutionTimeNotifyBefore">1</Item>
-                <Item Key="EscalationResponseTimeStart">1</Item>
-                <Item Key="EscalationUpdateTimeStart">1</Item>
-                <Item Key="EscalationSolutionTimeStart">1</Item>
-                <Item Key="EscalationResponseTimeStop">1</Item>
-                <Item Key="EscalationUpdateTimeStop">1</Item>
-                <Item Key="EscalationSolutionTimeStop">1</Item>
-            </Hash>
+            <Array>
+                <Item>TicketCreate</Item>
+                <Item>TicketDelete</Item>
+                <Item>TicketTitleUpdate</Item>
+                <Item>TicketUnlockTimeoutUpdate</Item>
+                <Item>TicketQueueUpdate</Item>
+                <Item>TicketTypeUpdate</Item>
+                <Item>TicketServiceUpdate</Item>
+                <Item>TicketSLAUpdate</Item>
+                <Item>TicketCustomerUpdate</Item>
+                <Item>TicketPendingTimeUpdate</Item>
+                <Item>TicketLockUpdate</Item>
+                <Item>TicketArchiveFlagUpdate</Item>
+                <Item>TicketStateUpdate</Item>
+                <Item>TicketOwnerUpdate</Item>
+                <Item>TicketResponsibleUpdate</Item>
+                <Item>TicketPriorityUpdate</Item>
+                <Item>HistoryAdd</Item>
+                <Item>HistoryDelete</Item>
+                <Item>TicketAccountTime</Item>
+                <Item>TicketMerge</Item>
+                <Item>TicketSubscribe</Item>
+                <Item>TicketUnsubscribe</Item>
+                <Item>TicketFlagSet</Item>
+                <Item>TicketFlagDelete</Item>
+                <Item>TicketSlaveLinkAdd</Item>
+                <Item>TicketSlaveLinkDelete</Item>
+                <Item>TicketMasterLinkDelete</Item>
+                <Item>EscalationResponseTimeNotifyBefore</Item>
+                <Item>EscalationUpdateTimeNotifyBefore</Item>
+                <Item>EscalationSolutionTimeNotifyBefore</Item>
+                <Item>EscalationResponseTimeStart</Item>
+                <Item>EscalationUpdateTimeStart</Item>
+                <Item>EscalationSolutionTimeStart</Item>
+                <Item>EscalationResponseTimeStop</Item>
+                <Item>EscalationUpdateTimeStop</Item>
+                <Item>EscalationSolutionTimeStop</Item>
+            </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="GenericAgent::Events###Article" Required="0" Valid="1">
+    <ConfigItem Name="Events###Article" Required="0" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI to trigger generic agent jobs.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Admin::GenericAgent</SubGroup>
+        <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
-            <Hash>
-                <Item Key="ArticleCreate">1</Item>
-                <Item Key="ArticleUpdate">1</Item>
-                <Item Key="ArticleSend">1</Item>
-                <Item Key="ArticleBounce">1</Item>
-                <Item Key="ArticleAgentNotification">1</Item>
-                <Item Key="ArticleCustomerNotification">1</Item>
-                <Item Key="ArticleAutoResponse">1</Item>
-                <Item Key="ArticleFlagSet">1</Item>
-                <Item Key="ArticleFlagDelete">1</Item>
-                <Item Key="ArticleAgentNotification">1</Item>
-                <Item Key="ArticleCustomerNotification">1</Item>
-            </Hash>
+            <Array>
+                <Item>ArticleCreate</Item>
+                <Item>ArticleUpdate</Item>
+                <Item>ArticleSend</Item>
+                <Item>ArticleBounce</Item>
+                <Item>ArticleAgentNotification</Item>
+                <Item>ArticleCustomerNotification</Item>
+                <Item>ArticleAutoResponse</Item>
+                <Item>ArticleFlagSet</Item>
+                <Item>ArticleFlagDelete</Item>
+                <Item>ArticleAgentNotification</Item>
+                <Item>ArticleCustomerNotification</Item>
+            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverview" Required="0" Valid="1">
