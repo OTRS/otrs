@@ -136,6 +136,9 @@ sub Run {
                 OP => $Self->{LastScreenOverview} || 'Action=AgentDashboard',
             );
         }
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
+        );
     }
 }
 
