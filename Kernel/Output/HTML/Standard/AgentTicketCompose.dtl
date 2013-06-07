@@ -46,21 +46,34 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
+                    <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"To"}:</label>
+                    <div class="Field">
+                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc $QData{"ToInvalid"}" autocomplete="off" />
+
+                        <div id="ToCustomerServerError" class="TooltipErrorMessage">
+<!-- dtl:block:ToServerErrorMsg -->
+                            <p>$Text{"Please include at least one recipient"}</p>
+<!-- dtl:block:ToServerErrorMsg -->
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
                     <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
                             <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="$QData{"To"}" />
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CustomerQueue" id="CustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
                         </div>
 
                         <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
+                            <span class="BoxLabel">$Text{"To"}</span>
 <!-- dtl:block:MultipleCustomer -->
                             <div class="SpacingTopSmall ">
                                 <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input name="CustomerQueue_$QData{"Count"}" id="CustomerQueue_$QData{"Count"}" class="CustomerQueue" type="hidden" value="$QData{"CustomerQueue"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
 
 <!-- dtl:block:CustomerErrorExplantion -->
@@ -104,19 +117,6 @@ $Include{"AgentCustomerSearch"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
-
-                    <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"To"}:</label>
-                    <div class="Field">
-                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc $QData{"ToInvalid"}" autocomplete="off" />
-
-                        <div id="ToCustomerServerError" class="TooltipErrorMessage">
-<!-- dtl:block:ToServerErrorMsg -->
-                            <p>$Text{"Please include at least one recipient"}</p>
-<!-- dtl:block:ToServerErrorMsg -->
-                        </div>
-                    </div>
-                    <div class="Clear"></div>
-
 <!-- dtl:block:PreFilledTo -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
@@ -127,21 +127,28 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:PreFilledTo -->
 
+                    <label for="CcCustomer">$Text{"Cc"}:</label>
+                    <div class="Field">
+                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc $QData{"CcInvalid"}" autocomplete="off" />
+                    </div>
+                    <div class="Clear"></div>
+
                     <div class="Field $QData{"CcCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                             <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CcCustomerQueue" id="CcCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="CcRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
                         </div>
 
-                        <div id="TicketCustomerContentCcCustomer">
+                        <div id="TicketCustomerContentCcCustomer" class="CcCustomerContainer">
+                            <span class="BoxLabel">$Text{"Cc"}</span>
 <!-- dtl:block:CcMultipleCustomer -->
-                            <div class="SpacingTopSmall ">
+                            <div>
                                 <input name="CcCustomerKey_$QData{"Count"}" id="CcCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input name="CcCustomerQueue_$QData{"Count"}" id="CcCustomerQueue_$QData{"Count"}" class="CustomerQueue" type="hidden" value="$QData{"CustomerQueue"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="CcRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
 
 <!-- dtl:block:CcCustomerErrorExplantion -->
@@ -178,12 +185,6 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="CcCustomer">$Text{"Cc"}:</label>
-                    <div class="Field">
-                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc $QData{"CcInvalid"}" autocomplete="off" />
-                    </div>
-                    <div class="Clear"></div>
-
 <!-- dtl:block:PreFilledCc -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
@@ -194,21 +195,28 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:PreFilledCc -->
 
+                    <label for="BccCustomer">$Text{"Bcc"}:</label>
+                    <div class="Field">
+                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc $QData{"BccInvalid"}" autocomplete="off" />
+                    </div>
+                    <div class="Clear"></div>
+
                     <div class="Field $QData{"BccCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                             <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="BccCustomerQueue" id="BccCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="BccRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
                         </div>
 
-                        <div id="TicketCustomerContentBccCustomer">
+                        <div id="TicketCustomerContentBccCustomer" class="BccCustomerContainer">
+                            <span class="BoxLabel">$Text{"Bcc"}</span>
 <!-- dtl:block:BccMultipleCustomer -->
                             <div class="SpacingTopSmall ">
                                 <input name="BccCustomerKey_$QData{"Count"}" id="BccCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input name="BccCustomerQueue_$QData{"Count"}" id="BccCustomerQueue_$QData{"Count"}" class="CustomerQueue" type="hidden" value="$QData{"CustomerQueue"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="BccRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
 
 <!-- dtl:block:BccCustomerErrorExplantion -->
@@ -245,11 +253,6 @@ $Include{"AgentCustomerSearch"}
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="BccCustomer">$Text{"Bcc"}:</label>
-                    <div class="Field">
-                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc $QData{"BccInvalid"}" autocomplete="off" />
-                    </div>
-                    <div class="Clear"></div>
 
                     <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">

@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-07 Fixed bug#[8222](http://bugs.otrs.org/show_bug.cgi?id=8222) - List of recipients is not well structured.
  - 2013-06-07 Added events to CustomerUser and CustomerCompany objects.
     Tickets are now automatically updated when a CustomerID or Customer Login changes.
  - 2013-06-06 Fixed bug#[9503](http://bugs.otrs.org/show_bug.cgi?id=9503) - no connection header in soap responses.

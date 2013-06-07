@@ -85,56 +85,6 @@ $('#Dest').bind('change', function (Event) {
                     </div>
                     <div class="Clear"></div>
 
-
-                    <div class="Field $QData{"CustomerHiddenContainer"}">
-                        <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
-                            <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
-                            <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
-                            <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
-                        </div>
-
-                        <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
-<!-- dtl:block:MultipleCustomer -->
-                            <div class="SpacingTopSmall ">
-                                <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
-                                <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
-                                <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
-
-<!-- dtl:block:CustomerErrorExplantion -->
-                                <p class="Explanation Error">$Text{"Please remove this entry and enter a new one with the correct value."}</p>
-<!-- dtl:block:CustomerErrorExplantion -->
-
-                                <div id="CustomerTicketText_$Data{"Count"}ServerError" class="TooltipErrorMessage">
-<!-- dtl:block:CustomerGenericServerErrorMsg -->
-                                    <p>$Text{"This field is required."}</p>
-<!-- dtl:block:CustomerGenericServerErrorMsg -->
-<!-- dtl:block:InvalidConfigServerErrorMsg -->
-                                    <p>$Text{"This email address is not allowed due to the system configuration."}</p>
-<!-- dtl:block:InvalidConfigServerErrorMsg -->
-<!-- dtl:block:InvalidMXServerErrorMsg -->
-                                    <p>$Text{"This email address failed MX check."}</p>
-<!-- dtl:block:InvalidMXServerErrorMsg -->
-<!-- dtl:block:InvalidDNSServerErrorMsg -->
-                                    <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
-<!-- dtl:block:InvalidDNSServerErrorMsg -->
-<!-- dtl:block:InvalidSyntaxServerErrorMsg -->
-                                    <p>$Text{"The syntax of this email address is incorrect."}</p>
-<!-- dtl:block:InvalidSyntaxServerErrorMsg -->
-<!-- dtl:block:IsDuplicatedServerErrorMsg -->
-                                    <p>$Text{"This address already exists on the address list."}</p>
-<!-- dtl:block:IsDuplicatedServerErrorMsg -->
-                                </div>
-                            </div>
-<!-- dtl:block:MultipleCustomer -->
-
-                        </div>
-<!-- dtl:block:MultipleCustomerCounter -->
-                        <input name="CustomerTicketCounterToCustomer" id="CustomerTicketCounterToCustomer" type="hidden" value="$QData{"CustomerCounter"}"/>
-<!-- dtl:block:MultipleCustomerCounter -->
-                    </div>
-                    <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('.CustomerTicketRadio').bind('change', function () {
@@ -174,18 +124,75 @@ $('#Dest').bind('change', function (Event) {
                     </div>
                     <div class="Clear"></div>
 
+                    <div class="Field $QData{"CustomerHiddenContainer"}">
+                        <div class="CustomerTicketTemplateToCustomer Hidden">
+                            <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
+                            <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
+                            <input class="CustomerTicketText Radio" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                            <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
+                        </div>
+
+                        <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
+                            <span class="BoxLabel">$Text{"To"}</span>
+<!-- dtl:block:MultipleCustomer -->
+                            <div>
+                                <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
+                                <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
+                                <input class="CustomerTicketText $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
+
+<!-- dtl:block:CustomerErrorExplantion -->
+                                <p class="Explanation Error">$Text{"Please remove this entry and enter a new one with the correct value."}</p>
+<!-- dtl:block:CustomerErrorExplantion -->
+
+                                <div id="CustomerTicketText_$Data{"Count"}ServerError" class="TooltipErrorMessage">
+<!-- dtl:block:CustomerGenericServerErrorMsg -->
+                                    <p>$Text{"This field is required."}</p>
+<!-- dtl:block:CustomerGenericServerErrorMsg -->
+<!-- dtl:block:InvalidConfigServerErrorMsg -->
+                                    <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:InvalidConfigServerErrorMsg -->
+<!-- dtl:block:InvalidMXServerErrorMsg -->
+                                    <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:InvalidMXServerErrorMsg -->
+<!-- dtl:block:InvalidDNSServerErrorMsg -->
+                                    <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
+<!-- dtl:block:InvalidDNSServerErrorMsg -->
+<!-- dtl:block:InvalidSyntaxServerErrorMsg -->
+                                    <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:InvalidSyntaxServerErrorMsg -->
+<!-- dtl:block:IsDuplicatedServerErrorMsg -->
+                                    <p>$Text{"This address already exists on the address list."}</p>
+<!-- dtl:block:IsDuplicatedServerErrorMsg -->
+                                </div>
+                            </div>
+<!-- dtl:block:MultipleCustomer -->
+                        </div>
+<!-- dtl:block:MultipleCustomerCounter -->
+                        <input name="CustomerTicketCounterToCustomer" id="CustomerTicketCounterToCustomer" type="hidden" value="$QData{"CustomerCounter"}"/>
+<!-- dtl:block:MultipleCustomerCounter -->
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="CcCustomer">$Text{"Cc"}:</label>
+                    <div class="Field">
+                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc $QData{"CcInvalid"}" autocomplete="off" />
+                    </div>
+                    <div class="Clear"></div>
+
                     <div class="Field $QData{"CcCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="CcRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
                         </div>
 
-                        <div id="TicketCustomerContentCcCustomer">
+                        <div id="TicketCustomerContentCcCustomer" class="CcCustomerContainer">
+                            <span class="BoxLabel">$Text{"Cc"}</span>
 <!-- dtl:block:CcMultipleCustomer -->
-                            <div class="SpacingTopSmall ">
+                            <div>
                                 <input name="CcCustomerKey_$QData{"Count"}" id="CcCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText $QData{"CustomerError"}" name="CcCustomerTicketText_$Data{"Count"}" id="CcCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="CcRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
 
 <!-- dtl:block:CcCustomerErrorExplantion -->
@@ -222,24 +229,25 @@ $('#Dest').bind('change', function (Event) {
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="CcCustomer">$Text{"Cc"}:</label>
+                    <label for="BccCustomer">$Text{"Bcc"}:</label>
                     <div class="Field">
-                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc $QData{"CcInvalid"}" autocomplete="off" />
+                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc $QData{"BccInvalid"}" autocomplete="off" />
                     </div>
                     <div class="Clear"></div>
 
                     <div class="Field $QData{"BccCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="BccRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
                         </div>
 
-                        <div id="TicketCustomerContentBccCustomer">
+                        <div id="TicketCustomerContentBccCustomer" class="BccCustomerContainer">
+                            <span class="BoxLabel">$Text{"Bcc"}</span>
 <!-- dtl:block:BccMultipleCustomer -->
-                            <div class="SpacingTopSmall ">
+                            <div>
                                 <input name="BccCustomerKey_$QData{"Count"}" id="BccCustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText $QData{"CustomerError"}" name="BccCustomerTicketText_$Data{"Count"}" id="BccCustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="BccRemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
 
 <!-- dtl:block:BccCustomerErrorExplantion -->
@@ -273,12 +281,6 @@ $('#Dest').bind('change', function (Event) {
 <!-- dtl:block:BccMultipleCustomerCounter -->
                         <input name="CustomerTicketCounterBccCustomer" id="CustomerTicketCounterBccCustomer" type="hidden" value="$QData{"CustomerCounter"}"/>
 <!-- dtl:block:BccMultipleCustomerCounter -->
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="BccCustomer">$Text{"Bcc"}:</label>
-                    <div class="Field">
-                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc $QData{"BccInvalid"}" autocomplete="off" />
                     </div>
                     <div class="Clear"></div>
 

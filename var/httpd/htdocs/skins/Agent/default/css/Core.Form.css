@@ -211,6 +211,56 @@ form label.LabelError {
     color: #ff505e !important;
 }
 
+.CustomerContainer,
+.CcCustomerContainer,
+.BccCustomerContainer {
+    background-color: #F2F2F2;
+    border: 1px solid #CCCCCC;
+    -moz-box-shadow: inset 1px 1px 5px #ccc;
+    -webkit-box-shadow: inset 1px 1px 5px #ccc;
+    box-shadow: inset 1px 1px 5px #ccc;
+    padding: 5px 7px 10px 6px;
+    width: 74%;
+    position: relative;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.CustomerContainer > div,
+.CcCustomerContainer > div,
+.BccCustomerContainer > div {
+    margin-top: 5px;
+}
+
+.CustomerContainer .CustomerTicketText,
+.CcCustomerContainer .CustomerTicketText,
+.BccCustomerContainer .CustomerTicketText  {
+    width: 89%;
+    margin-left: 7px;
+}
+
+.CustomerContainer .CustomerTicketText.Radio {
+    width: 84%;
+    margin-left: 0px;
+}
+
+.CustomerContainer .BoxLabel,
+.CcCustomerContainer .BoxLabel,
+.BccCustomerContainer .BoxLabel {
+    background-color: #CCCCCC;
+    border-radius: 5px 0 0 5px;
+    font-size: 11px;
+    left: -30px;
+    top: 10px;
+    padding: 0 5px;
+    position: absolute;
+    text-align: center;
+    text-shadow: 1px 1px 1px #FFFFFF;
+    width: 20px;
+    color: #555;
+}
+
 /**
  * @note        Give the user a hint about linked label elements (they are clickable and
  *                  give focus to the linked element.
