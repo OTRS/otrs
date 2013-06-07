@@ -345,8 +345,10 @@ sub Run {
                 $CountAux         = $CountFrom . 'Error';
             }
 
-            my $CustomerKey
-                = ( $CustomerDataFrom{UserEmail} eq $EmailAddress ? $Article{CustomerUserID} : '' );
+            my $CustomerKey = '';
+            if ( defined $CustomerDataFrom{UserEmail} && $CustomerDataFrom{UserEmail} eq $EmailAddress ) {
+                $CustomerKey = $Article{CustomerUserID};
+            }
 
             push @MultipleCustomer, {
                 Count            => $CountAux,

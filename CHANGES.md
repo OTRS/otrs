@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-07 Fixed bug#[9493](http://bugs.otrs.org/show_bug.cgi?id=9493) - Use of uninitialized value error in AgentTicketPhone.pm on Ticket Slipt action.
  - 2013-06-07 Fixed bug#[8222](http://bugs.otrs.org/show_bug.cgi?id=8222) - List of recipients is not well structured.
  - 2013-06-07 Added events to CustomerUser and CustomerCompany objects.
     Tickets are now automatically updated when a CustomerID or Customer Login changes.
