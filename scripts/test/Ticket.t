@@ -315,6 +315,18 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber)',
 );
 
+my $Count = $TicketObject->TicketSearch(
+    Result       => 'COUNT',
+    TicketNumber => $Ticket{TicketNumber},
+    UserID       => 1,
+    Permission   => 'rw',
+);
+$Self->Is(
+    $Count,
+    1,
+    'TicketSearch() (COUNT:TicketNumber)',
+);
+
 %TicketIDs = $TicketObject->TicketSearch(
     Result       => 'HASH',
     Limit        => 100,
@@ -1649,6 +1661,21 @@ $Self->Is(
     $TicketIDsSortOrder[0],
     $TicketIDSortOrder1,
     'TicketTicketSearch() - ticket sort/order by (Age (Up))',
+);
+
+$Count = $TicketObject->TicketSearch(
+    Result       => 'COUNT',
+    Title        => '%sort/order by test%',
+    Queues       => ['Raw'],
+    CustomerID   => $CustomerNo,
+    CustomerUser => 'customer@example.com',
+    UserID       => 1,
+    Limit        => 1,
+);
+$Self->Is(
+    $Count,
+    4,
+    'TicketTicketSearch() - ticket count for created tickets',
 );
 
 for my $TicketIDDelete (
