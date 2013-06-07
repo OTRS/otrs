@@ -29,11 +29,11 @@
 
     <div class="ContentColumn">
         <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
-            <input type="hidden" name="Action" value="AdminDynamicFieldMultiselect" />
-            <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
-            <input type="hidden" name="ObjectType" value="$QData{"ObjectType"}" />
-            <input type="hidden" name="FieldType" value="$QData{"FieldType"}" />
-            <input type="hidden" name="ID" value="$QData{"ID"}" />
+            <input type="hidden" name="Action" value="AdminDynamicFieldMultiselect">
+            <input type="hidden" name="Subaction" value="$QData{"Mode"}Action">
+            <input type="hidden" name="ObjectType" value="$QData{"ObjectType"}">
+            <input type="hidden" name="FieldType" value="$QData{"FieldType"}">
+            <input type="hidden" name="ID" value="$QData{"ID"}">
 
             <div class="WidgetSimple">
                 <div class="Header">
@@ -45,7 +45,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name" $QData{"ReadonlyInternalField"} />
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name" $QData{"ReadonlyInternalField"}>
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and the value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
@@ -83,14 +83,14 @@
                                 <div class="SpacingTop"></div>
                                 <label for="FieldTypeName">$Text{"Field type"}:</label>
                                 <div class="Field">
-                                    <input id="FieldTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"FieldTypeName"}" name="FieldTypeName"/>
+                                    <input id="FieldTypeName" readonly class="W50pc" type="text" maxlength="200" value="$Text{"$Data{"FieldTypeName"}"}" name="FieldTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
 
                                 <div class="SpacingTop"></div>
                                 <label for="ObjectTypeName">$Text{"Object type"}:</label>
                                 <div class="Field">
-                                    <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"ObjectTypeName"}" name="ObjectTypeName"/>
+                                    <input id="ObjectTypeName" readonly class="W50pc" type="text" maxlength="200" value="$Text{"$Data{"ObjectTypeName"}"}" name="ObjectTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
 
@@ -98,7 +98,7 @@
                                 <div class="SpacingTop"></div>
                                 <label for="InternalField">$Text{"Internal field"}:</label>
                                 <div class="Field">
-                                    <input id="InternalField" readonly="readonly" class="W50pc" type="text" maxlength="1" value="$QData{"InternalField"}" name="InternalField"/>
+                                    <input id="InternalField" readonly class="W50pc" type="text" maxlength="1" value="$QData{"InternalField"}" name="InternalField"/>
                                     <p class="FieldExplanation">
                                         $Text{"This field is protected and can't be deleted."}
                                     </p>
@@ -118,7 +118,7 @@
                     <fieldset class="TableLike">
                         <label>$Text{"Possible values"}:</label>
                         <div class="Field ValueInsert">
-                            <input type="hidden" name="ValueCounter" value="$QData{"ValueCounter"}" id="ValueCounter" class="ValueCounter" />
+                            <input type="hidden" name="ValueCounter" value="$QData{"ValueCounter"}" id="ValueCounter" class="ValueCounter">
                             <div class="Spacing"></div>
 <!-- dtl:block:ValueRow -->
                             <div class="ValueRow">
@@ -152,7 +152,7 @@
                                 <div class="SpacingTopMini" ></div>
                             </div>
 <!-- dtl:block:ValueTemplate -->
-                            <input type="hidden" name="DeletedValue" value="$QData{"DeletedString"}" id="DeletedValue" class="DeletedValue" />
+                            <input type="hidden" name="DeletedValue" value="$QData{"DeletedString"}" id="DeletedValue" class="DeletedValue">
                         </div>
                         <div class="Clear"></div>
 
