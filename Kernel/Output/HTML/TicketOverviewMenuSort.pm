@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewMenuSort.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketOverviewMenuSort.pm,v 1.26 2012/11/20 15:04:18 mh Exp $
 # --
@@ -35,9 +35,9 @@ sub new {
 
     $Self->{LanguageObject} = $Self->{LayoutObject}->{LanguageObject}
         || Kernel::Language->new(
-                %{$Self},
-                UserLanguage => $Self->{LayoutObject}->{UserLanguage},
-            );
+        %{$Self},
+        UserLanguage => $Self->{LayoutObject}->{UserLanguage},
+        );
 
     return $Self;
 }
@@ -45,44 +45,47 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $SortConfiguration = $Self->{ConfigObject}->Get('TicketOverviewMenuSort')->{SortAttributes} || {
+    my $SortConfiguration = $Self->{ConfigObject}->Get('TicketOverviewMenuSort')->{SortAttributes}
+        || {
         Age   => 1,
         Title => 1,
-    };
+        };
 
     if ( !IsHashRefWithData($SortConfiguration) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Wrong configuration 'TicketOverviewMenuSort###SortAttributes' for ticket overview sort options.",
+            Message  => "Wrong configuration 'TicketOverviewMenuSort###SortAttributes' for ticket"
+                . " overview sort options.",
         );
         return;
     }
 
     my @SortData;
     my $SelectedSortByOption;
-    for my $CurrentSortByOption ( keys %{ $SortConfiguration } ) {
+    for my $CurrentSortByOption ( keys %{$SortConfiguration} ) {
 
         # add separator
         if (@SortData) {
             push @SortData, {
                 Key      => '-',
-                Value    => '---',
+                Value    => '-------------------------',
                 Disabled => 1,
             };
         }
 
         my $TranslatedValue =
-            $Self->{LanguageObject}->Get( 'Order by' ) . ' "' .
-            $Self->{LanguageObject}->Get( $CurrentSortByOption ) . '"';
+            $Self->{LanguageObject}->Get('Order by') . ' "' .
+            $Self->{LanguageObject}->Get($CurrentSortByOption) . '"';
 
-        for my $CurrentOrderBy ( qw(Down Up) ) {
+        for my $CurrentOrderBy (qw(Down Up)) {
 
             my $Selected = 0;
             if (
                 $CurrentSortByOption eq $Param{SortBy}
-                && $CurrentOrderBy eq $Param{OrderBy}
-            ) {
-                $Selected = 1;
+                && $CurrentOrderBy   eq $Param{OrderBy}
+                )
+            {
+                $Selected             = 1;
                 $SelectedSortByOption = 1;
             }
 
@@ -102,25 +105,25 @@ sub Run {
 
     my %ReturnData;
     $ReturnData{HTML} = $Self->{LayoutObject}->BuildSelection(
-        Data       => \@SortData,
-        Name       => 'SortBy',
-        Title      => $Self->{LanguageObject}->Get('Order by') ,
+        Data  => \@SortData,
+        Name  => 'SortBy',
+        Title => $Self->{LanguageObject}->Get('Order by'),
     );
 
     return if !$ReturnData{HTML};
 
     # build redirect param hash for Core.App.InternalRedirect
     my $RedirectParams = "Action: '$Self->{Action}',\n";
-    for my $PossibleParam ( qw(Filter) ) {
-        if ( $Param{ $PossibleParam } ) {
+    for my $PossibleParam (qw(Filter)) {
+        if ( $Param{$PossibleParam} ) {
             $RedirectParams .= "$PossibleParam: '$Param{ $PossibleParam }',\n";
         }
     }
 
     if ( $Param{LinkFilter} ) {
-        my @SplittedLinkFilters = split(/[;&]/, $Param{LinkFilter});
+        my @SplittedLinkFilters = split( /[;&]/, $Param{LinkFilter} );
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
-            my @KeyValue = split(/=/, $CurrentLinkFilter);
+            my @KeyValue = split( /=/, $CurrentLinkFilter );
             $RedirectParams .= "$KeyValue[0]: '$KeyValue[1]',\n";
         }
     }
