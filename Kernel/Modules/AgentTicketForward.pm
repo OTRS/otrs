@@ -937,7 +937,7 @@ sub SendEmail {
     $Self->{UploadCacheObject}->FormIDRemove( FormID => $GetParam{FormID} );
 
     # redirect
-    if ( $StateData{TypeName} =~ /^close/i ) {
+    if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^close/i ) {
         return $Self->{LayoutObject}->PopupClose(
             URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
         );
