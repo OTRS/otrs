@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerCompany;
+use Kernel::System::EventHandler;
 
 use vars qw(@ISA);
 
@@ -108,6 +109,16 @@ sub new {
     }
 
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
+
+    # init of event handler
+    push @ISA, 'Kernel::System::EventHandler';
+    $Self->EventHandlerInit(
+        Config     => 'CustomerUser::EventModulePost',
+        BaseObject => 'CustomerUserObject',
+        Objects    => {
+            %{$Self},
+        },
+    );
 
     return $Self;
 }
@@ -413,7 +424,20 @@ sub CustomerUserAdd {
         }
     }
 
-    return $Self->{ $Param{Source} }->CustomerUserAdd(%Param);
+    my $Result = $Self->{ $Param{Source} }->CustomerUserAdd(%Param);
+    return if !$Result;
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'CustomerUserAdd',
+        Data  => {
+            UserLogin => $Param{UserLogin},
+        },
+        UserID => $Param{UserID},
+    );
+
+    return $Result;
+
 }
 
 =item CustomerUserUpdate()
@@ -439,7 +463,7 @@ sub CustomerUserUpdate {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "User UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
         return;
     }
 
@@ -464,7 +488,22 @@ sub CustomerUserUpdate {
         );
         return;
     }
-    return $Self->{ $User{Source} }->CustomerUserUpdate(%Param);
+    my $Result = $Self->{ $User{Source} }->CustomerUserUpdate(%Param);
+    return if !$Result;
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'CustomerUserUpdate',
+        Data  => {
+            UserLogin => $Param{ID} || $Param{UserLogin},
+            NewData   => \%Param,
+            OldData   => \%User,
+        },
+        UserID => $Param{UserID},
+    );
+
+    return $Result;
+
 }
 
 =item SetPassword()

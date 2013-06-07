@@ -1,4 +1,6 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-07 Added events to CustomerUser and CustomerCompany objects.
+    Tickets are now automatically updated when a CustomerID or Customer Login changes.
  - 2013-06-06 Fixed bug#[9503](http://bugs.otrs.org/show_bug.cgi?id=9503) - no connection header in soap responses.
  - 2013-06-05 Added sort functionality to ticket medium and preview overviews.
  - 2013-06-05 Fixed bug#[8475(http://bugs.otrs.org/show_bug.cgi?id=8475) - Screen refresh after action not always correct.

@@ -2934,7 +2934,8 @@ sub TicketSLASet {
 
 =item TicketCustomerSet()
 
-Set customer data of ticket.
+Set customer data of ticket. Can set 'No' (CustomerID), 
+'User' (CustomerUserID), or both.
 
     my $Success = $TicketObject->TicketCustomerSet(
         No       => 'client123',
@@ -4757,7 +4758,8 @@ sub HistoryTicketGet {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    my $CacheKey = 'HistoryTicketGet::' . join( '::', map { ($_ || 0) . "::$Param{$_}"} sort keys %Param );
+    my $CacheKey = 'HistoryTicketGet::'
+        . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ( ref $Cached eq 'HASH' && !$Param{Force} ) {
@@ -4831,7 +4833,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1]    eq 'StateUpdate'
+            $Row[1] eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -4839,7 +4841,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -4861,7 +4863,7 @@ sub HistoryTicketGet {
             if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(?:(.+?))?$/ ) {
 
                 my $FieldName = $1;
-                my $Value     = $2 || '';
+                my $Value = $2 || '';
                 $Ticket{$FieldName} = $Value;
 
                 # Backward compatibility for TicketFreeText and TicketFreeTime
@@ -5384,9 +5386,10 @@ sub TicketMerge {
         UserID         => $Param{UserID},
         HistoryType    => 'AddNote',
         HistoryComment => '%%Note',
-        Subject        => $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeSubject') || 'Ticket Merged',
-        Body           => $Body,
-        NoAgentNotify  => 1,
+        Subject        => $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeSubject')
+            || 'Ticket Merged',
+        Body          => $Body,
+        NoAgentNotify => 1,
     );
 
     # add merge history to merge ticket

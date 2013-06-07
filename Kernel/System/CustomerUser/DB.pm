@@ -726,7 +726,7 @@ sub CustomerUserAdd {
 
     # log notice
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "CustomerUser: '$Param{UserLogin}' created successfully ($Param{UserID})!",
     );
 
@@ -849,7 +849,7 @@ sub CustomerUserUpdate {
 
     # log notice
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "CustomerUser: '$Param{UserLogin}' updated successfully ($Param{UserID})!",
     );
 

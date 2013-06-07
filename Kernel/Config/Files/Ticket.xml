@@ -387,6 +387,30 @@ Description>
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerCompany::EventModulePost###110-UpdateTickets" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates tickets after an update of the Customer Company.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::CustomerCompany</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerCompany::Event::TicketUpdate</Item>
+                <Item Key="Event">CustomerCompanyUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::EventModulePost###120-UpdateTickets" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates tickets after an update of the Customer User.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::CustomerCompany</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerUser::Event::TicketUpdate</Item>
+                <Item Key="Event">CustomerUserUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="DynamicFieldFromCustomerUser::Mapping" Required="0" Valid="0">
         <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.</Description>
         <Group>Ticket</Group>

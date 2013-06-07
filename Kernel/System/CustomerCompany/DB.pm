@@ -34,7 +34,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # config options
     $Self->{CustomerCompanyTable} = $Self->{CustomerCompanyMap}->{Params}->{Table}
@@ -42,8 +42,8 @@ sub new {
     $Self->{CustomerCompanyKey} = $Self->{CustomerCompanyMap}->{CustomerCompanyKey}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyValid} = $Self->{CustomerCompanyMap}->{'CustomerCompanyValid'};
-    $Self->{SearchListLimit} = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'};
-    $Self->{SearchPrefix} = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchPrefix'};
+    $Self->{SearchListLimit}      = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'};
+    $Self->{SearchPrefix}         = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchPrefix'};
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
     }
@@ -54,8 +54,9 @@ sub new {
 
     # charset settings
     $Self->{SourceCharset} = $Self->{CustomerCompanyMap}->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset} = $Self->{CustomerCompanyMap}->{Params}->{DestCharset} || '';
-    $Self->{CharsetConvertForce} = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
+    $Self->{DestCharset}   = $Self->{CustomerCompanyMap}->{Params}->{DestCharset}   || '';
+    $Self->{CharsetConvertForce}
+        = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
 
     # db connection settings, disable Encode utf8 if source db is no utf8
     my %DatabasePreferences;
@@ -121,8 +122,8 @@ sub CustomerCompanyList {
 
     # what is the result
     my $What = join(
-         ', ',
-         @{ $Self->{CustomerCompanyMap}->{CustomerCompanyListFields} }
+        ', ',
+        @{ $Self->{CustomerCompanyMap}->{CustomerCompanyListFields} }
     );
 
     # add valid option if required
@@ -274,7 +275,7 @@ sub CustomerCompanyGet {
     }
 
     # return data
-    return ( %Data );
+    return (%Data);
 }
 
 sub CustomerCompanyAdd {
@@ -282,7 +283,8 @@ sub CustomerCompanyAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'CustomerCompany backend is read only!' );
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => 'CustomerCompany backend is read only!' );
         return;
     }
 
@@ -328,8 +330,9 @@ sub CustomerCompanyAdd {
 
     # log notice
     $Self->{LogObject}->Log(
-        Priority => 'info', 
-        Message  => "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!", 
+        Priority => 'info',
+        Message =>
+            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
     );
 
     $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
@@ -388,12 +391,9 @@ sub CustomerCompanyUpdate {
     # log notice
     $Self->{LogObject}->Log(
         Priority => 'info',
-        Message  => "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
+        Message =>
+            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
     );
-
-    # open question:
-    # should existing customer users and tickets be updated as well?
-    # problem could be solved with a post-company-update-event
 
     $Self->_CustomerCompanyCacheClear( CustomerID => $Param{CustomerID} );
     if ( $Param{CustomerCompanyID} ne $Param{CustomerID} ) {
