@@ -1,4 +1,5 @@
 #3.2.8 2013-??-??
+ - 2013-06-07 Fixed bug#[9493](http://bugs.otrs.org/show_bug.cgi?id=9493) - Use of uninitialized value error in AgentTicketPhone.pm on Ticket Slipt action.
  - 2013-06-06 Fixed bug#[9503](http://bugs.otrs.org/show_bug.cgi?id=9503) - no connection header in soap responses.
  - 2013-06-06 Improved permission checks in AgentTicketWatcher.
  - 2013-06-04 Fixed bug#[7143](http://bugs.otrs.org/show_bug.cgi?id=7143) - "SFTP." gets rewritten to "Shttp://FTP."
