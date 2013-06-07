@@ -645,9 +645,7 @@ sub ServiceAdd {
     }
 
     # reset cache
-    $Self->{CacheInternalObject}->CleanUp(
-        Type => 'Service',
-    );
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $ServiceID;
 }
@@ -795,9 +793,7 @@ sub ServiceUpdate {
     }
 
     # reset cache
-    $Self->{CacheInternalObject}->CleanUp(
-        Type => 'Service',
-    );
+    $Self->{CacheInternalObject}->CleanUp();
 
     return 1;
 }
@@ -1048,7 +1044,7 @@ sub CustomerUserServiceMemberAdd {
 
     # return if relation is not active
     if ( !$Param{Active} ) {
-        $Self->{CacheInternalObject}->CleanUp( Type => 'Service' );
+        $Self->{CacheInternalObject}->CleanUp();
         return;
     }
 
@@ -1059,7 +1055,7 @@ sub CustomerUserServiceMemberAdd {
             . 'VALUES (?, ?, current_timestamp, ?)',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID}, \$Param{UserID} ]
     );
-    $Self->{CacheInternalObject}->CleanUp( Type => 'Service' );
+    $Self->{CacheInternalObject}->CleanUp();
     return $Success;
 }
 
@@ -1081,9 +1077,7 @@ sub ServicePreferencesSet {
 
     $Self->{PreferencesObject}->ServicePreferencesSet(@_);
 
-    $Self->{CacheInternalObject}->CleanUp(
-        Type => 'Service',
-    );
+    $Self->{CacheInternalObject}->CleanUp();
     return 1;
 }
 
