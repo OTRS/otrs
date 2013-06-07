@@ -333,7 +333,7 @@ sub LoadDefaults {
     # against LDAP directory, agains HTTP basic auth      #
     # or against Radius server)                           #
     # --------------------------------------------------- #
-    # This is the auth. module againt the otrs db
+    # This is the auth. module against the otrs db
     $Self->{AuthModule} = 'Kernel::System::Auth::DB';
 
     # defines AuthSyncBackend (AuthSyncModule) for AuthModule
@@ -1207,7 +1207,8 @@ Your OTRS Notification Master
     # against a LDAP directory, against HTTP basic        #
     # authentication and against Radius server)           #
     # --------------------------------------------------- #
-    # This is the auth. module againt the otrs db
+    # This is the auth. module for the otrs db
+    # you can also configure it using a remote database
     $Self->{'Customer::AuthModule'}                       = 'Kernel::System::CustomerAuth::DB';
     $Self->{'Customer::AuthModule::DB::Table'}            = 'customer_user';
     $Self->{'Customer::AuthModule::DB::CustomerKey'}      = 'login';
