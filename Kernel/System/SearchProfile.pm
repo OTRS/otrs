@@ -12,6 +12,8 @@ package Kernel::System::SearchProfile;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
+
 use vars qw(@ISA);
 
 =head1 NAME
@@ -74,9 +76,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject )) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'SearchProfile',
+        TTL  => 60 * 60 * 24 * 20,
+    );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -131,14 +139,21 @@ sub SearchProfileAdd {
     for my $Value (@Data) {
 
         return if !$Self->{DBObject}->Do(
-            SQL => 'INSERT INTO search_profile'
-                . ' (login, profile_name,  profile_type, profile_key, profile_value)'
-                . ' VALUES (?, ?, ?, ?, ?) ',
+            SQL => "
+                INSERT INTO search_profile
+                (login, profile_name,  profile_type, profile_key, profile_value)
+                VALUES (?, ?, ?, ?, ?)
+                ",
             Bind => [
                 \$Login, \$Param{Name}, \$Param{Type}, \$Param{Key}, \$Value,
             ],
         );
     }
+
+    # reset cache
+    my $CacheKey = $Login . '::' . $Param{Name};
+    $Self->{CacheInternalObject}->Delete( Key => $Login );
+    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
 
     return 1;
 }
@@ -169,10 +184,19 @@ sub SearchProfileGet {
     # create login string
     my $Login = $Param{Base} . '::' . $Param{UserLogin};
 
-    # get searech profile
+    # check the cache
+    my $CacheKey = $Login . '::' . $Param{Name};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
+    # get search profile
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT profile_type, profile_key, profile_value FROM "
-            . "search_profile WHERE profile_name = ? AND $Self->{Lower}(login) = $Self->{Lower}(?)",
+        SQL => "
+            SELECT profile_type, profile_key, profile_value
+            FROM search_profile 
+            WHERE profile_name = ? 
+                AND $Self->{Lower}(login) = $Self->{Lower}(?)
+            ",
         Bind => [ \$Param{Name}, \$Login ],
     );
 
@@ -185,6 +209,8 @@ sub SearchProfileGet {
             $Result{ $Data[1] } = $Data[2];
         }
     }
+    $Self->{CacheInternalObject}
+        ->Set( TTL => 60, Type => 'SearchProfile', Key => $CacheKey, Value => \%Result );
 
     return %Result;
 }
@@ -216,11 +242,20 @@ sub SearchProfileDelete {
     my $Login = $Param{Base} . '::' . $Param{UserLogin};
 
     # delete search profile
-    return $Self->{DBObject}->Do(
-        SQL => "DELETE FROM search_profile WHERE "
-            . " profile_name = ? AND $Self->{Lower}(login) = $Self->{Lower}(?)",
+    return if !$Self->{DBObject}->Do(
+        SQL => "
+            DELETE 
+            FROM search_profile 
+            WHERE profile_name = ? 
+                AND $Self->{Lower}(login) = $Self->{Lower}(?)
+            ",
         Bind => [ \$Param{Name}, \$Login ],
     );
+
+    # delete cache
+    my $CacheKey = $Login . '::' . $Param{Name};
+    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    return 1;
 }
 
 =item SearchProfileList()
@@ -248,10 +283,16 @@ sub SearchProfileList {
     # create login string
     my $Login = $Param{Base} . '::' . $Param{UserLogin};
 
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $Login );
+    return %{$Cache} if $Cache;
+
     # get search profile list
     return if !$Self->{DBObject}->Prepare(
-        SQL =>
-            "SELECT profile_name FROM search_profile WHERE $Self->{Lower}(login) = $Self->{Lower}(?)",
+        SQL => "
+            SELECT profile_name
+            FROM search_profile
+            WHERE $Self->{Lower}(login) = $Self->{Lower}(?)
+            ",
         Bind => [ \$Login ],
     );
 
@@ -260,7 +301,7 @@ sub SearchProfileList {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Result{ $Data[0] } = $Data[0];
     }
-
+    $Self->{CacheInternalObject}->Set( Key => $Login, Value => \%Result );
     return %Result;
 }
 
