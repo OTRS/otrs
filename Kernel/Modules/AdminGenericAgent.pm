@@ -438,6 +438,19 @@ sub Run {
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
+
+                    if ( !%Data ) {
+
+                        # get ticket data instead
+                        %Data = $Self->{TicketObject}->TicketGet(
+                            TicketID      => $TicketID,
+                            DynamicFields => 0,
+                        );
+
+                        # set missing information
+                        $Data{Subject} = $Data{Title};
+                    }
+
                     $Data{Age}
                         = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
                     $Data{css} = "PriorityID-$Data{PriorityID}";
