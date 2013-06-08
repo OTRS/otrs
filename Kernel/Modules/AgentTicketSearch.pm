@@ -990,6 +990,19 @@ sub Run {
                     DynamicFields => 1,
                 );
 
+                if ( !%Data ) {
+
+                    # get ticket data instead
+                    %Data = $Self->{TicketObjectSearch}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 1,
+                    );
+
+                    # set missing information
+                    $Data{Subject} = $Data{Title};
+                    $Data{From} = '--';
+                }
+
                 # customer info
                 my %CustomerData;
                 if ( $Data{CustomerUserID} ) {
