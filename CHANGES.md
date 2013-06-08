@@ -1,4 +1,5 @@
 #3.2.8 2013-??-??
+ - 2013-06-08 Fixed bug#[9501](http://bugs.otrs.org/show_bug.cgi?id=9501) - Missing values in GenericAgent ticket list for tickets without articles.
  - 2013-06-08 Fixed bug#[9447](http://bugs.otrs.org/show_bug.cgi?id=9447) - Empty line at PDF search result with process tickets (0 article).
  - 2013-06-07 Fixed bug#[9409](http://bugs.otrs.org/show_bug.cgi?id=9409) - If HTTP_USER_AGENT isn't set, error on Layout.pm.
  - 2013-06-07 Fixed bug#[9454](http://bugs.otrs.org/show_bug.cgi?id=9454) - Use of uninitialized value error in AgentTicketForward.pm, undef Next ticket state.
