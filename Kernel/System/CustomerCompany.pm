@@ -164,6 +164,7 @@ sub CustomerCompanyAdd {
         Event => 'CustomerCompanyAdd',
         Data  => {
             CustomerID => $Param{CustomerID},
+            NewData    => \%Param,
         },
         UserID => $Param{UserID},
     );
@@ -278,6 +279,8 @@ sub CustomerCompanyUpdate {
         Data  => {
             CustomerID    => $Param{CustomerID},
             OldCustomerID => $Param{CustomerCompanyID},
+            NewData       => \%Param,
+            OldData       => \%Company,
         },
         UserID => $Param{UserID},
     );
