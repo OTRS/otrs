@@ -368,6 +368,22 @@ $ServiceObject->CustomerUserServiceMemberAdd(
     Active            => 0,
     UserID            => 1,
 );
+
+# allocation test 20 - after removal of membership
+my @Allocation20 = $ServiceObject->CustomerUserServiceMemberList(
+    CustomerUserLogin => $CustomerUser1,
+    Result            => 'ID',
+);
+my $Allocation20Count = @Allocation20;
+my $Allocation200k    = 0;
+if ( $Allocation20Count eq 1 && $Allocation20[0] eq $ServiceID2 ) {
+    $Allocation200k = 1;
+}
+$Self->True(
+    $Allocation200k,
+    'service removed - CustomerUserServiceMemberList20()',
+);
+
 $ServiceObject->CustomerUserServiceMemberAdd(
     CustomerUserLogin => $CustomerUser2,
     ServiceID         => $ServiceID1,
