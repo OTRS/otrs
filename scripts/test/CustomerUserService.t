@@ -11,8 +11,16 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
+use Kernel::System::CustomerUser;
 use Kernel::System::Service;
+use Kernel::System::UnitTest::Helper;
 
+my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
+my $HelperObject       = Kernel::System::UnitTest::Helper->new(
+    UnitTestObject => $Self,
+    %{$Self},
+    RestoreSystemConfiguration => 0,
+);
 my $ServiceObject = Kernel::System::Service->new( %{$Self} );
 
 # save all original default services
@@ -60,8 +68,10 @@ $Self->True(
     'ServiceAdd2()',
 );
 
-my $CustomerUser1 = 'SomeUser' . int( rand(1000000) );
-my $CustomerUser2 = 'SomeUser' . int( rand(1000000) );
+my $CustomerUser1 = $HelperObject->TestCustomerUserCreate()
+    || die "Did not get test customer user";
+my $CustomerUser2 = $HelperObject->TestCustomerUserCreate()
+    || die "Did not get test customer user";
 
 # allocation test 1
 my @Allocation1 = $ServiceObject->CustomerUserServiceMemberList(
@@ -268,9 +278,8 @@ my @Allocation13 = $ServiceObject->CustomerUserServiceMemberList(
     DefaultServices   => 0,
 );
 
-my $Allocation13Count = @Allocation13;
-my $Allocation13Ok    = 0;
-if ( $Allocation13Count eq 1 && $Allocation13[0] eq $ServiceID2 ) {
+my $Allocation13Ok = 0;
+if ( scalar @Allocation13 eq 1 && $Allocation13[0] eq $ServiceID2 ) {
     $Allocation13Ok = 1;
 }
 
@@ -343,6 +352,57 @@ $Self->True(
     'CustomerUserServiceMemberList16()',
 );
 
+# rename customer user1
+my %Customer = $CustomerUserObject->CustomerUserDataGet(
+    User => $CustomerUser1,
+);
+my $NewCustomerUser1 = $HelperObject->GetRandomID();
+my $Update           = $CustomerUserObject->CustomerUserUpdate(
+    %Customer,
+    ID        => $Customer{UserLogin},
+    UserLogin => $NewCustomerUser1,
+    UserID    => 1,
+);
+$Self->True(
+    $Update,
+    "CustomerUserUpdate - $Customer{UserLogin} - $NewCustomerUser1",
+);
+
+# allocation test after rename
+# instantiate new service object because of caching!
+my $NewServiceObject = Kernel::System::Service->new( %{$Self} );
+
+my @Allocation17 = $NewServiceObject->CustomerUserServiceMemberList(
+    CustomerUserLogin => $Customer{UserLogin},
+    Result            => 'ID',
+    DefaultServices   => 0,
+);
+
+$Self->Is(
+    scalar @Allocation17,
+    0,
+    "No services allocated to old customer $CustomerUser1 after rename",
+);
+my @Allocation18 = $ServiceObject->CustomerUserServiceMemberList(
+    CustomerUserLogin => $NewCustomerUser1,
+    Result            => 'ID',
+    DefaultServices   => 0,
+);
+
+$Self->Is(
+    scalar @Allocation18,
+    1,
+    "Services allocated to new customer $NewCustomerUser1 after rename",
+);
+
+# rename customer user again so record can be deleted when test finishes
+$Update = $CustomerUserObject->CustomerUserUpdate(
+    %Customer,
+    ID        => $NewCustomerUser1,
+    UserLogin => $Customer{UserLogin},
+    UserID    => 1,
+);
+
 # delete all test allocations to clean system
 $ServiceObject->CustomerUserServiceMemberAdd(
     CustomerUserLogin => '<DEFAULT>',
@@ -368,22 +428,6 @@ $ServiceObject->CustomerUserServiceMemberAdd(
     Active            => 0,
     UserID            => 1,
 );
-
-# allocation test 20 - after removal of membership
-my @Allocation20 = $ServiceObject->CustomerUserServiceMemberList(
-    CustomerUserLogin => $CustomerUser1,
-    Result            => 'ID',
-);
-my $Allocation20Count = @Allocation20;
-my $Allocation200k    = 0;
-if ( $Allocation20Count eq 1 && $Allocation20[0] eq $ServiceID2 ) {
-    $Allocation200k = 1;
-}
-$Self->True(
-    $Allocation200k,
-    'service removed - CustomerUserServiceMemberList20()',
-);
-
 $ServiceObject->CustomerUserServiceMemberAdd(
     CustomerUserLogin => $CustomerUser2,
     ServiceID         => $ServiceID1,

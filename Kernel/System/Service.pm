@@ -899,6 +899,9 @@ sub CustomerUserServiceMemberList {
     if ( !defined $Param{DefaultServices} ) {
         $Param{DefaultServices} = 1;
     }
+    else {
+        $Param{DefaultServices} = 0;
+    }
 
     # get options for default services for unknown customers
     my $DefaultServiceUnknownCustomer
@@ -924,7 +927,7 @@ sub CustomerUserServiceMemberList {
 
     # create cache key
     my $CacheKey = 'CustomerUserServiceMemberList::' . $Param{Result} . '::'
-        . 'DefaultServices::' . $Param{DefaultServices} . '..';
+        . 'DefaultServices::' . $Param{DefaultServices} . '::';
     if ( $Param{ServiceID} ) {
         $CacheKey .= 'ServiceID::' . $Param{ServiceID};
     }
@@ -970,7 +973,6 @@ sub CustomerUserServiceMemberList {
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $Key   = '';
         my $Value = '';
         if ( $Param{ServiceID} ) {
             $Data{ $Row[1] } = $Row[0];
@@ -1012,6 +1014,8 @@ sub CustomerUserServiceMemberList {
 =item CustomerUserServiceMemberAdd()
 
 to add a member to a service
+
+if 'Active' is 0, the customer is removed from the service
 
     $ServiceObject->CustomerUserServiceMemberAdd(
         CustomerUserLogin => 'Test1',
@@ -1055,6 +1059,7 @@ sub CustomerUserServiceMemberAdd {
             . 'VALUES (?, ?, current_timestamp, ?)',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID}, \$Param{UserID} ]
     );
+
     $Self->{CacheInternalObject}->CleanUp();
     return $Success;
 }

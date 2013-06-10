@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-10 Fixed bug#[8973](http://bugs.otrs.org/show_bug.cgi?id=8973) - Updating Customer Login looses Service relations.
  - 2013-06-10 Added new version of ivory skin.
  - 2013-06-08 Added caching to search profiles.
  - 2013-06-07 Fixed bug#[9454](http://bugs.otrs.org/show_bug.cgi?id=9454) - Use of uninitialized value error in AgentTicketForward.pm, undef Next ticket state.

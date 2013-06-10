@@ -6012,6 +6012,18 @@ M
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerUser::EventModulePost###100-UpdateServiceMembership" Required="0" Valid="1">
+        <Description Translatable="1">Event module that updates customer user service membership if login changes.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CustomerUser</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerUser::Event::ServiceMemberUpdate</Item>
+                <Item Key="Event">CustomerUserUpdate</Item>
+                <Item Key="Transaction">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Cache::Module" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Selects the cache backend to use.</Description>
         <Group>Framework</Group>
