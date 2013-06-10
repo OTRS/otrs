@@ -432,6 +432,7 @@ sub CustomerUserAdd {
         Event => 'CustomerUserAdd',
         Data  => {
             UserLogin => $Param{UserLogin},
+            NewData   => \%Param,
         },
         UserID => $Param{UserID},
     );
