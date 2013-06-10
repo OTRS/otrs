@@ -41,151 +41,163 @@
 <!-- dtl:block:ActionSearch -->
 <!-- dtl:block:ActionAdd -->
                     <li>
-                    <li>
-                        <form action="$Env{"CGIHandle"}" method="post">
-                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                            <input type="hidden" name="Subaction" value="Add"/>
-                            <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+                        <li>
+                            <form action="$Env{"CGIHandle"}" method="post">
+                                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                                <input type="hidden" name="Subaction" value="Add"/>
+                                <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                            <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer company"}</span></button>
-                            <br/>
-                            <label class="InvisibleText" for="Source">$Text{"Select"}</label>
-                            $Data{"SourceOption"}
-                        </form>
-                    </li>
+                                <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer company"}</span></button>
+                                <br/>
+                                <label class="InvisibleText" for="Source">$Text{"Select"}</label>
+                                $Data{"SourceOption"}
+                            </form>
+                        </li>
 <!-- dtl:block:ActionAdd -->
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
 <!-- dtl:block:ActionList -->
-    </div>
-
-
-
-    <div class="ContentColumn">
-        <div class="WidgetSimple">
-<!-- dtl:block:OverviewHeader -->
-            <div class="Header">
-                <h2>$Text{"List"}</h2>
-            </div>
-<!-- dtl:block:OverviewHeader -->
-<!-- dtl:block:NoSearchTerms -->
-            <div class="Content">
-                <p>$Text{"Please enter a search term to look for customer companies."}</p>
-            </div>
-<!-- dtl:block:NoSearchTerms -->
-<!-- dtl:block:OverviewResult -->
-            <div class="Content">
-                <table class="DataTable">
-                    <thead>
-                        <tr>
-                            <th class="W5pc">$Text{"CustomerID"}</th>
-                            <th class="W20pc">$Text{"Name"}</th>
-                            <th class="W25pc">$Text{"Comment"}</th>
-<!-- dtl:block:LocalDB -->
-                            <th>$Text{"Validity"}</th>
-                            <th>$Text{"Changed"}</th>
-                            <th>$Text{"Created"}</th>
-<!-- dtl:block:LocalDB -->
-                        </tr>
-                    </thead>
-                    <tbody>
-<!-- dtl:block:NoDataFoundMsg -->
-                        <tr>
-                            <td colspan="6">
-                                $Text{"No data found."}
-                            </td>
-                        </tr>
-<!-- dtl:block:NoDataFoundMsg -->
-<!-- dtl:block:OverviewResultRow -->
-                        <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"};Nav=$LQData{"Nav"}">$QData{"CustomerID","20"}</a></td>
-                            <td>$QData{"CustomerCompanyName"}</td>
-                            <td title="$QData{"CustomerCompanyComment"}">$QData{"CustomerCompanyComment","26"}</td>
-<!-- dtl:block:LocalDBRow -->
-                            <td>$Text{"$Data{"Valid"}"}</td>
-                            <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
-                            <td>$TimeShort{"$QData{"CreateTime"}"}</td>
-<!-- dtl:block:LocalDBRow -->
-                        </tr>
-<!-- dtl:block:OverviewResultRow -->
-                    </tbody>
-                </table>
-            </div>
-
-<!-- dtl:block:OverviewResult -->
-
-<!-- dtl:block:OverviewUpdate -->
-            <div class="Header">
-<!-- dtl:block:HeaderAdd -->
-                <h2>$Text{"Add Customer Company"}</h2>
-<!-- dtl:block:HeaderAdd -->
-<!-- dtl:block:HeaderEdit -->
-                <h2>$Text{"Edit Customer Company"}</h2>
-<!-- dtl:block:HeaderEdit -->
-            </div>
-            <div class="Content">
-                <form action="$Env{"CGIHandle"}"  class="Validate" method="post">
-                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
-                    <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
-                    <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerID"}"/>
-                    <fieldset class="TableLike">
-<!-- dtl:block:PreferencesGeneric -->
-<!-- dtl:block:PreferencesGenericInputHidden -->
-                        <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}"/>
-<!-- dtl:block:PreferencesGenericInputHidden -->
-<!-- dtl:block:PreferencesGenericInput -->
-                        <label for="$QData{"Name"}" $Data{"MandatoryClass"}>
-                            $Data{"StarLabel"}
-                            $Text{"$Data{"Item"}"}:
-                        </label>
-                        <div class="Field">
-                            <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $Data{"InvalidField"} $QData{"Action"}" maxlength="200" $Data{"ReadOnlyType"}/>
-<!-- dtl:block:PreferencesGenericInputRequired -->
-                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-<!-- dtl:block:PreferencesGenericInputRequired -->
-                        </div>
-                        <div class="Clear"></div>
-<!-- dtl:block:PreferencesGenericInput -->
-<!-- dtl:block:PreferencesGenericOption -->
-                        <label for="$QData{"Name"}" $Data{"MandatoryClass"}>
-                            $Data{"StarLabel"}
-                            $Text{"$Data{"Item"}"}:
-                        </label>
-                        <div class="Field">
-                            $Data{"Option"}
-<!-- dtl:block:PreferencesGenericOptionRequired -->
-                            <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-<!-- dtl:block:PreferencesGenericOptionRequired -->
-                        </div>
-                        <div class="Clear"></div>
-
-<!-- dtl:block:PreferencesGenericOption -->
-<!-- dtl:block:PreferencesGeneric -->
-                        <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                            $Text{"or"}
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
-                        </div>
-                        <div class="Clear"></div>
-                    </fieldset>
-                </form>
-            </div>
-<!-- dtl:block:OverviewUpdate -->
         </div>
+
+
+
+        <div class="ContentColumn">
+            <div class="WidgetSimple">
+<!-- dtl:block:OverviewHeader -->
+                <div class="Header">
+                    <h2>$Text{"List"}</h2>
+                </div>
+<!-- dtl:block:OverviewHeader -->
+<!-- dtl:block:NoSearchTerms -->
+                <div class="Content">
+                    <p>$Text{"Please enter a search term to look for customer companies."}</p>
+                </div>
+<!-- dtl:block:NoSearchTerms -->
+<!-- dtl:block:OverviewResult -->
+                <div class="Content">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th class="W5pc">$Text{"CustomerID"}</th>
+                                <th class="W20pc">$Text{"Name"}</th>
+                                <th class="W25pc">$Text{"Comment"}</th>
+<!-- dtl:block:LocalDB -->
+                                <th>$Text{"Validity"}</th>
+                                <th>$Text{"Changed"}</th>
+                                <th>$Text{"Created"}</th>
+<!-- dtl:block:LocalDB -->
+                            </tr>
+                        </thead>
+                        <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                            <tr>
+                                <td colspan="6">
+                                    $Text{"No data found."}
+                                </td>
+                            </tr>
+<!-- dtl:block:NoDataFoundMsg -->
+<!-- dtl:block:OverviewResultRow -->
+                            <tr class="MasterAction">
+                                <td><a class="AsBlock MasterActionLink" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;CustomerID=$LQData{"CustomerID"};Nav=$LQData{"Nav"}">$QData{"CustomerID","20"}</a></td>
+                                <td>$QData{"CustomerCompanyName"}</td>
+                                <td title="$QData{"CustomerCompanyComment"}">$QData{"CustomerCompanyComment","26"}</td>
+<!-- dtl:block:LocalDBRow -->
+                                <td>$Text{"$Data{"Valid"}"}</td>
+                                <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
+                                <td>$TimeShort{"$QData{"CreateTime"}"}</td>
+<!-- dtl:block:LocalDBRow -->
+                            </tr>
+<!-- dtl:block:OverviewResultRow -->
+
+                        </tbody>
+                    </table>
+                </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('.MasterAction').bind('click', function (Event) {
+    var $MasterActionLink = $(this).find('.MasterActionLink');
+    // only act if the link was not clicked directly
+    if (Event.target !== $MasterActionLink.get(0)) {
+        window.location = $MasterActionLink.attr('href');
+        return false;
+    }
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:OverviewResult -->
+
+<!-- dtl:block:OverviewUpdate -->
+                <div class="Header">
+<!-- dtl:block:HeaderAdd -->
+                    <h2>$Text{"Add Customer Company"}</h2>
+<!-- dtl:block:HeaderAdd -->
+<!-- dtl:block:HeaderEdit -->
+                    <h2>$Text{"Edit Customer Company"}</h2>
+<!-- dtl:block:HeaderEdit -->
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}"  class="Validate" method="post">
+                        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                        <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+                        <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
+                        <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerID"}"/>
+                        <fieldset class="TableLike">
+<!-- dtl:block:PreferencesGeneric -->
+<!-- dtl:block:PreferencesGenericInputHidden -->
+                            <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}"/>
+<!-- dtl:block:PreferencesGenericInputHidden -->
+<!-- dtl:block:PreferencesGenericInput -->
+                            <label for="$QData{"Name"}" $Data{"MandatoryClass"}>
+                                $Data{"StarLabel"}
+                                $Text{"$Data{"Item"}"}:
+                            </label>
+                            <div class="Field">
+                                <input type="text" name="$QData{"Name"}" id="$QData{"Name"}" value="$QData{"Value"}" class="W50pc $Data{"RequiredClass"} $Data{"InvalidField"} $QData{"Action"}" maxlength="200" $Data{"ReadOnlyType"}/>
+<!-- dtl:block:PreferencesGenericInputRequired -->
+                                <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
+                                    <p>$Text{"This field is required."}</p>
+                                </div>
+                                <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
+                                    <p>$Text{"This field is required."}</p>
+                                </div>
+<!-- dtl:block:PreferencesGenericInputRequired -->
+                            </div>
+                            <div class="Clear"></div>
+<!-- dtl:block:PreferencesGenericInput -->
+<!-- dtl:block:PreferencesGenericOption -->
+                            <label for="$QData{"Name"}" $Data{"MandatoryClass"}>
+                                $Data{"StarLabel"}
+                                $Text{"$Data{"Item"}"}:
+                            </label>
+                            <div class="Field">
+                                $Data{"Option"}
+<!-- dtl:block:PreferencesGenericOptionRequired -->
+                                <div id="$QData{"Name"}Error" class="TooltipErrorMessage">
+                                    <p>$Text{"This field is required."}</p>
+                                </div>
+                                <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage">
+                                    <p>$Text{"This field is required."}</p>
+                                </div>
+<!-- dtl:block:PreferencesGenericOptionRequired -->
+                            </div>
+                            <div class="Clear"></div>
+
+<!-- dtl:block:PreferencesGenericOption -->
+<!-- dtl:block:PreferencesGeneric -->
+                            <div class="Field SpacingTop">
+                                <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                                $Text{"or"}
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}">$Text{"Cancel"}</a>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </form>
+                </div>
+<!-- dtl:block:OverviewUpdate -->
+            </div>
+        </div>
+        <div class="Clear"></div>
     </div>
-    <div class="Clear"></div>
-</div>
 
 <!-- dtl:block:Overview -->
