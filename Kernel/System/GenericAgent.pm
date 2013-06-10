@@ -1099,7 +1099,16 @@ sub _JobRunTicket {
             TransformDates     => 0,
         );
 
-        if ( defined $Value && $Value ne '' ) {
+        # check if we got a value or an empty value if
+        # an empty value is configured as valid (PossibleNone)
+        # for the current dynamic field
+        if (
+            defined $Value
+            && (
+                $DynamicFieldConfig->{Config}->{PossibleNone}
+                || $Value ne ''
+            )
+        ) {
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Param{TicketID},

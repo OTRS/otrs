@@ -12,10 +12,11 @@ use warnings;
 
 use vars qw($Self);
 
-use Kernel::System::Time;
+use Kernel::System::GenericAgent;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
-use Kernel::System::GenericAgent;
+use Kernel::System::Time;
+use Kernel::System::UnitTest::Helper;
 
 my $ConfigObject = Kernel::Config->new();
 
@@ -45,6 +46,16 @@ my $GenericAgentObject = Kernel::System::GenericAgent->new(
     TicketObject => $TicketObject,
     ConfigObject => $ConfigObject,
 );
+
+# creates a local helper object
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    ConfigObject   => $ConfigObject,
+    UnitTestObject => $Self,
+);
+
+# set fixed time
+$HelperObject->FixedTimeSet();
 
 my $CheckNumEvents = sub {
     my (%Param) = @_;
@@ -181,8 +192,8 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
         $Self->True( $TicketID, "TicketCreate() $TicketTitle" );
 
-        # sleep to have escalations with min 1
-        sleep 1;
+        # wait 1 second to have escalations
+        $HelperObject->FixedTimeAddSeconds(1);
 
         my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 

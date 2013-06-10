@@ -2689,6 +2689,17 @@
             <String Regex="" Type="Password">some_pass</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="SOAP::Keep-Alive" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Enable keep-alive connection header for SOAP responses.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::SOAP</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PDF" Required="1" Valid="1">
         <Description Translatable="1">Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.</Description>
         <Group>Framework</Group>

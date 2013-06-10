@@ -46,7 +46,7 @@ sub Pre {
         (                                              #2
             (?:                                      # http or only www
                 (?: (?: http s? | ftp ) :\/\/) |        # http://,https:// and ftp://
-                (?: (?: \w*www | ftp ) \.)                 # www. and ftp.
+                (?: (?: \w*www | ftp ) \. \w+ )                 # www.something and ftp.something
             )
             .*?               # this part should be better defined!
         )

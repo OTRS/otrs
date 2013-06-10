@@ -212,7 +212,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#3 - $Module - $SubdirLevels - CacheSet(), TTL 8",
         );
 
-        # add seven seconds
+        # wait 7 seconds
         $HelperObject->FixedTimeAddSeconds(7);
 
         $CacheGet = $CacheObject->Get(
@@ -243,7 +243,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#4 - $Module - $SubdirLevels - CacheSet(), TTL 4",
         );
 
-        # add tree seconds
+        # wait 3 seconds
         $HelperObject->FixedTimeAddSeconds(3);
 
         $CacheGet = $CacheObject->Get(
@@ -261,8 +261,8 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
 
-        # add two seconds
-        $HelperObject->FixedTimeAddSeconds(2);
+        # wait 3 seconds
+        $HelperObject->FixedTimeAddSeconds(3);
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
@@ -271,7 +271,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         $Self->True(
             !$CacheGet || '',
-            "#4 - $Module - $SubdirLevels - CacheGet() - sleep 6 - TTL of 4 expired",
+            "#4 - $Module - $SubdirLevels - CacheGet() - wait 6 seconds - TTL expires after 4 seconds",
         );
 
         $CacheSet = $CacheObject->Set(

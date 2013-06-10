@@ -1,5 +1,17 @@
 #3.2.8 2013-??-??
- - 2013-05-30 Follow-up fix for bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Added translatable titles for transition buttons.
+ - 2013-06-08 Fixed bug#[9501](http://bugs.otrs.org/show_bug.cgi?id=9501) - Missing values in GenericAgent ticket list for tickets without articles.
+ - 2013-06-08 Fixed bug#[9447](http://bugs.otrs.org/show_bug.cgi?id=9447) - Empty line at PDF search result with process tickets (0 article).
+ - 2013-06-07 Fixed bug#[9409](http://bugs.otrs.org/show_bug.cgi?id=9409) - If HTTP_USER_AGENT isn't set, error on Layout.pm.
+ - 2013-06-07 Fixed bug#[9454](http://bugs.otrs.org/show_bug.cgi?id=9454) - Use of uninitialized value error in AgentTicketForward.pm, undef Next ticket state.
+ - 2013-06-07 Fixed bug#[9493](http://bugs.otrs.org/show_bug.cgi?id=9493) - Use of uninitialized value error in AgentTicketPhone.pm on Ticket Split action.
+ - 2013-06-06 Fixed bug#[9503](http://bugs.otrs.org/show_bug.cgi?id=9503) - no connection header in soap responses.
+ - 2013-06-06 Improved permission checks in AgentTicketWatcher.
+ - 2013-06-04 Fixed bug#[7143](http://bugs.otrs.org/show_bug.cgi?id=7143) - "SFTP." gets rewritten to "Shttp://FTP."
+ - 2013-06-04 Fixed bug#[9488](http://bugs.otrs.org/show_bug.cgi?id=9488) - Use of uninitialized value at OutofOffice setting in AgentPreferences.
+ - 2013-05-31 Fixed bug#[9479](http://bugs.otrs.org/show_bug.cgi?id=9479) - ProcessManagement: Article and CustomerID should not be Hidden.
+ - 2013-05-31 Fixed bug#[9491](http://bugs.otrs.org/show_bug.cgi?id=9491) - GenericAgent job update with dynamic fields sends Uninitialized value error.
+ - 2013-05-31 Fixed bug#[9456](http://bugs.otrs.org/show_bug.cgi?id=9456) - Empty 'Dropdown' dynamic field value of GenericAgent job wont get used and stored.
+ - 2013-05-31 Follow-up fix for bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Added translatable titles for transition buttons.
  - 2013-05-31 Updated Russian translation, thanks to Alexey Gluhov!
  - 2013-05-31 Fixed bug#[9245](http://bugs.otrs.org/show_bug.cgi?id=9245) - Improve user interaction on transitions.
  - 2013-05-31 Fixed bug#[9284](http://bugs.otrs.org/show_bug.cgi?id=9284) - Improve user experience of accordion widget.
@@ -49,7 +61,6 @@
  - 2013-04-29 Fixed bug#[9040](http://bugs.otrs.org/show_bug.cgi?id=9040) - CustomerTicketPrint crashes when no attributes are configured to be printed.
  - 2013-04-26 Added UnitTest for case sensivity parameter of customer databases
  - 2013-04-23 Fixed bug#[9362](http://bugs.otrs.org/show_bug.cgi?id=9362) - cannot redirect to external url containing & caracter.
- - 2013-04-23 Fixed bug#[9060](http://bugs.otrs.org/show_bug.cgi?id=9060) - OTRS_CUSTOMER_BODY overwritten in Agent::Move Notifications.
  - 2013-04-23 Fixed bug#[7856](http://bugs.otrs.org/show_bug.cgi?id=7856) - Statistics only use non archived tickets.
  - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
  - 2013-04-22 Fixed bug#[9349](http://bugs.otrs.org/show_bug.cgi?id=9349) - SQL warnings on Oracle DB if more than 4k characters are sent to the database.
