@@ -653,7 +653,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
         URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
         window.setTimeout(function() {
             Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        }, 1);
+        }, 0);
         // reset the select box so that it can be used again from the same window
         $(this).val('0');
     }
@@ -670,7 +670,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
         URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
         window.setTimeout(function() {
             Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        }, 1);
+        }, 0);
         // reset the select box so that it can be used again from the same window
         $(this).val('0');
     }
