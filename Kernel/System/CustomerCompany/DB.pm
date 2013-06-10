@@ -220,12 +220,13 @@ sub CustomerCompanyGet {
     }
 
     # build select
-    my $SQL = 'SELECT ';
+    my @Fields;
+    my %FieldsMap;
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        $SQL .= " $Entry->[2], ";
+        push @Fields, $Entry->[2];
+        $FieldsMap{ $Entry->[2] } = $Entry->[0];
     }
-
-    $SQL .= $Self->{CustomerCompanyKey};
+    my $SQL = 'SELECT ' . join( ', ', @Fields );
 
     if ( !$Self->{ForeignDB} ) {
         $SQL .= ", change_time, create_time";
@@ -237,15 +238,18 @@ sub CustomerCompanyGet {
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
     my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerIDQuoted')";
+        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     else {
-        $SQL .= "$Self->{CustomerCompanyKey} = '$CustomerIDQuoted'";
+        $SQL .= "$Self->{CustomerCompanyKey} = ?";
     }
     $SQL = $Self->_ConvertTo($SQL);
 
     # get initial data
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$CustomerID ]
+    );
 
     # fetch the result
     my %Data;
@@ -253,12 +257,11 @@ sub CustomerCompanyGet {
 
         my $MapCounter = 0;
 
-        for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-            $Data{ $Entry->[0] } = $Self->_ConvertFrom( $Row[$MapCounter] );
+        for my $Field (@Fields) {
+            $Data{ $FieldsMap{$Field} } = $Self->_ConvertFrom( $Row[$MapCounter] );
             $MapCounter++;
         }
 
-        $MapCounter++;
         $Data{ChangeTime} = $Row[$MapCounter];
         $MapCounter++;
         $Data{CreateTime} = $Row[$MapCounter];
