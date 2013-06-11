@@ -40,7 +40,6 @@ create an object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
-    use Kernel::System::Time;
     use Kernel::System::DB;
     use Kernel::System::CustomerCompany;
 
