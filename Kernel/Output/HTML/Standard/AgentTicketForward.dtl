@@ -64,7 +64,7 @@ $Include{"AgentCustomerSearch"}
                         <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="$QData{"To"}" />
                         <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
                         <input name="CustomerQueue" id="CustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                        <input class="CustomerTicketText" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                        <input class="CustomerTicketText" title="$Text{"To"}" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
                         <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
                     </div>
 
@@ -129,7 +129,7 @@ $Include{"AgentCustomerSearch"}
                         <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                         <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
                         <input name="CcCustomerQueue" id="CcCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                        <input class="CustomerTicketText" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                        <input class="CustomerTicketText" title="$Text{"Cc"}" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
                         <button type="button" id="CcRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Cc"}">$Text{"Remove Cc"}</button>
                     </div>
 
@@ -187,7 +187,7 @@ $Include{"AgentCustomerSearch"}
                         <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                         <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
                         <input name="BccCustomerQueue" id="BccCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
-                        <input class="CustomerTicketText" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                        <input class="CustomerTicketText" title="$Text{"Bcc"}" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
                         <button type="button" id="BccRemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Bcc"}">$Text{"Remove Bcc"}</button>
                     </div>
 
