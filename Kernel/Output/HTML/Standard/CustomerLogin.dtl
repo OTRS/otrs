@@ -92,26 +92,26 @@ $Include{"CustomerHeader"}
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
                     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
                     <div>
-                        <label for="Title">$Text{"Title{CustomerUser}"}</label>
+                        <label for="Title">$Text{"Title"}</label>
                         <input title="$Text{"How we should address you"}" type="text" name="Title"  id="Title" maxlength="50" value="$QData{"UserTitle"}"/>
                     </div>
                     <div class="NewLine">
-                        <label class="Mandatory" for="FirstName"><span class="Marker">*</span> $Text{"Firstname{CustomerUser}"}</label>
+                        <label class="Mandatory" for="FirstName"><span class="Marker">*</span> $Text{"Firstname"}</label>
                         <input title="$Text{"Your First Name"}" name="Firstname" type="text" id="FirstName" maxlength="100" value="$QData{"UserFirstname"}" class="W50pc Validate_Required"/>
-                        <div id="FirstNameError" class="TooltipErrorMessage"><p>$Text{"Please supply a first name"}</p></div>
+                        <div id="FirstNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
                     <div class="NewLine">
-                        <label class="Mandatory" for="LastName"><span class="Marker">*</span> $Text{"Lastname{CustomerUser}"}</label>
+                        <label class="Mandatory" for="LastName"><span class="Marker">*</span> $Text{"Lastname"}</label>
                         <input title="$Text{"Your Last Name"}" name="Lastname" type="text" id="LastName" maxlength="100" value="$QData{"UserLastname"}" class="W50pc Validate_Required"/>
-                        <div id="LastNameError" class="TooltipErrorMessage"><p>$Text{"Please supply a last name"}</p></div>
+                        <div id="LastNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
                     <div class="NewLine">
-                        <label class="Mandatory" for="Email"><span class="Marker">*</span> $Text{"Email{CustomerUser}"}</label>
+                        <label class="Mandatory" for="Email"><span class="Marker">*</span> $Text{"Email"}</label>
                         <input title="$Text{"Your email address (this will become your username)"}" name="Email" type="$QEnv{"EmailFieldType"}" id="Email" maxlength="150" value="$QData{"UserEmail"}" class="W100pc Validate_Required Validate_Email"/>
-                        <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"Please supply a"} $Text{"Email{CustomerUser}"}</p></div>
+                        <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
                     <div class="NewLine">
-                        <button id="CreateAccount" type="submit" value="$Text{"Create"}" disabled="disabled">$Text{"Create"}</button>
+                        <button id="CreateAccount" type="submit" value="$Text{"Create"}" disabled>$Text{"Create"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
