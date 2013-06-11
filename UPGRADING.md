@@ -181,6 +181,8 @@ installed before):
 - OTRSExternalTicketNumberRecognition
 - OTRSDashboardQueueOverview
 - OTRSDashboardTicketCalendar
+- OTRSMultiServiceSelect
+- OTRSMultiQueueSelect
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------

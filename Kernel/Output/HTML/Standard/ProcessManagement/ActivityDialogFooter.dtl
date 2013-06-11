@@ -31,6 +31,12 @@ window.opener.Core.UI.Popup.FirePopupEvent('Reload');
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 Core.Form.Validate.Init();
+
+// Register event for tree selection dialog
+$('.ShowTreeSelection').bind('click', function (Event) {
+    Core.UI.TreeSelection.ShowTreeSelection($(this));
+    return false;
+});
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

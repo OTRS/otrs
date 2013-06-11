@@ -1897,6 +1897,7 @@ sub _MaskEmailNew {
             Size           => 0,
             Class          => 'Validate_Required' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
             Name           => 'Dest',
+            TreeView   => $TreeView,
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
         );
@@ -1906,6 +1907,7 @@ sub _MaskEmailNew {
             Data       => \%NewTo,
             Class      => 'Validate_Required' . $Param{Errors}->{DestinationInvalid} || ' ',
             Name       => 'Dest',
+            TreeView   => $TreeView,
             SelectedID => $Param{FromSelected},
         );
     }

@@ -372,13 +372,13 @@ sub Run {
                 %ACLCompatGetParam,
                 QueueID => $NewQueueID,
             );
-    
+
             # check if current selected QueueID exists in the list of queues,\
             # otherwise rise an error
             if ( !$Tos->{$NewQueueID} ) {
                 $Error{QueueInvalid} = 'ServerError';
             }
-    
+
             # set the correct queue name in $To if it was altered
             if ( $To ne $Tos->{$NewQueueID} ){
                 $To = $Tos->{$NewQueueID}
@@ -875,6 +875,7 @@ sub _MaskNew {
             Name       => 'Dest',
             Class      => "Validate_Required " . $Param{Errors}->{QueueInvalid},
             SelectedID => $Param{ToSelected} || $Param{QueueID},
+            TreeView   => $TreeView,
         );
         $Self->{LayoutObject}->Block(
             Name => 'Queue',

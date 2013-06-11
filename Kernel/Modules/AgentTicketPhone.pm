@@ -1844,6 +1844,7 @@ sub _MaskPhoneNew {
             Multiple       => 0,
             Size           => 0,
             Name           => 'Dest',
+            TreeView       => $TreeView,
             SelectedID     => $Param{ToSelected},
             OnChangeSubmit => 0,
         );
@@ -1853,6 +1854,7 @@ sub _MaskPhoneNew {
             Class       => 'Validate_Required',
             Data        => \%NewTo,
             Name        => 'Dest',
+            TreeView    => $TreeView,
             SelectedID  => $Param{ToSelected},
             Translation => 0,
         );

@@ -47,7 +47,10 @@ Core.App.Ready(function() {
         ValidateServerErrorTitle: '$JSText{"Error"}',
         ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
         DialogCloseMsg: '$JSText{"Close this dialog"}',
-        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}'
+        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}',
+        SearchMsg: '$JSText{"Search"}',
+        ApplyButtonText: '$JSText{"Apply"}',
+        NoElementsToSelectFromMsg: '$JSText{"There are currently no elements available to select from."}'
     });
 
     Core.Customer.Init();

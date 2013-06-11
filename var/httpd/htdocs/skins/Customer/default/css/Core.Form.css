@@ -397,3 +397,109 @@ div.TooltipErrorMessage {
     background: url("../img/loader.gif") no-repeat right center;
     vertical-align: bottom;
 }
+
+/**
+ * @subsection    Tree selection icon and overlay for select boxes
+ */
+
+.ShowTreeSelection {
+    width: 16px;
+    height: 16px;
+    margin-left: 1px;
+    text-indent: -9999px;
+    background: url(../img/icons/tree.png);
+    display: inline-block;
+    font-size: 2px;
+    position: relative;
+    top: -5px;
+}
+
+fieldset .ShowTreeSelection {
+    display: inline-block;
+}
+
+#TreeContainer #TreeSearch {
+    position: relative;
+}
+
+#TreeContainer #TreeSearch span {
+    color: #AAAAAA;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    height: 12px;
+    position: absolute;
+    right: 9px;
+    top: 4px;
+    width: 16px;
+}
+
+#TreeContainer #TreeSearch input {
+    display: block;
+    margin: 10px 12px 0px 12px;
+    width: 92%;
+}
+
+#JSTree {
+    background-color: #FFFFFF;
+    border: 1px solid #ccc;
+    height: 72%;
+    margin: 10px 12px;
+    -moz-box-shadow: inset 0px 0px 6px #ccc;
+    -webkit-box-shadow: inset 0px 0px 6px #ccc;
+    box-shadow: inset 0px 0px 6px #ccc;
+    overflow: auto;
+    padding: 0px 10px 10px 10px;
+}
+
+#JSTree.InOverlay {
+    margin: 5px 5px 5px 0px;
+    width: 85%;
+    float: left;
+}
+
+#JSTree .Disabled > a {
+    color: #aaa;
+    font-style: italic;
+}
+
+#JSTree .jstree-search {
+    color: #E07006;
+}
+
+#JSTree .jstree-search.jstree-clicked {
+    color: #000;
+}
+
+#JSTree .jstree-clicked {
+    background: #f3960d;
+    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
+    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    border-color: #f3960d;
+    padding: 0px 3px;
+}
+
+#JSTree .jstree-hovered {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+#SubmitTree {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+}
+
+.RTL .ShowTreeSelection {
+    margin: 0 3px 0 0;
+}
+
+.OverlayTreeSelector {
+    width: 400px;
+    height: 300px;
+    margin: -10px -15px;
+}

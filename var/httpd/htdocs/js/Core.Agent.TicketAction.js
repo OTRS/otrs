@@ -106,6 +106,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.Init = function () {
+
         // Register event for spell checker dialog
         $('#OptionSpellCheck').bind('click', function (Event) {
             OpenSpellChecker();
@@ -121,6 +122,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
         // Register event for customer dialog
         $('#OptionCustomer').bind('click', function (Event) {
             OpenCustomerDialog();
+            return false;
+        });
+
+        // Register event for tree selection dialog
+        $('.Field').on('click', '.ShowTreeSelection', function (Event) {
+            Core.UI.TreeSelection.ShowTreeSelection($(this));
             return false;
         });
     };

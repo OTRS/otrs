@@ -971,6 +971,12 @@ sub AgentMove {
 
     $Param{DestQueueIDInvalid} = $Param{DestQueueIDInvalid} || '';
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     my %Data       = %{ $Param{MoveQueues} };
     my %MoveQueues = %Data;
     my %UsedData;
@@ -1094,6 +1100,7 @@ sub AgentMove {
         Class          => 'Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
         Name           => 'DestQueueID',
         SelectedID     => $Param{DestQueueID},
+        TreeView       => $TreeView,
         CurrentQueueID => $Param{QueueID},
         OnChangeSubmit => 0,
     );

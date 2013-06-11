@@ -117,6 +117,12 @@ sub Run {
     $Self->{SelectTemplate} = $Self->{ParamObject}->GetParam( Param => 'SelectTemplate' ) || '';
     $Self->{EraseTemplate}  = $Self->{ParamObject}->GetParam( Param => 'EraseTemplate' )  || '';
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     # check request
     if ( $Self->{Subaction} eq 'OpenSearchDescriptionTicketNumber' ) {
         my $Output = $Self->{LayoutObject}->Output(
@@ -329,7 +335,7 @@ sub Run {
         my $URL
             = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
             . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
-        
+
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'LastScreenOverview',
@@ -1692,11 +1698,6 @@ sub Run {
         # build service string
         if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
-            # get list type
-            my $TreeView = 0;
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-                $TreeView = 1;
-            }
             my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
             $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
@@ -1785,6 +1786,7 @@ sub Run {
             Size               => 5,
             Multiple           => 1,
             Name               => 'QueueIDs',
+            TreeView           => $TreeView,
             SelectedIDRefArray => $GetParam{QueueIDs},
             OnChangeSubmit     => 0,
         );
@@ -1793,6 +1795,7 @@ sub Run {
             Size               => 5,
             Multiple           => 1,
             Name               => 'CreatedQueueIDs',
+            TreeView           => $TreeView,
             SelectedIDRefArray => $GetParam{CreatedQueueIDs},
             OnChangeSubmit     => 0,
         );

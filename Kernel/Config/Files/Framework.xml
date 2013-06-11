@@ -5773,6 +5773,8 @@ M
                 <Item>thirdparty/jquery-validate-1.11.1/jquery.validate.js</Item>
                 <Item>thirdparty/stacktrace-0.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
+                <Item>thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js</Item>
+                <Item>thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
@@ -5791,6 +5793,7 @@ M
                 <Item>Core.UI.Dialog.js</Item>
                 <Item>Core.UI.ActionRow.js</Item>
                 <Item>Core.UI.Popup.js</Item>
+                <Item>Core.UI.TreeSelection.js</Item>
                 <Item>Core.Form.js</Item>
                 <Item>Core.Form.ErrorTooltips.js</Item>
                 <Item>Core.Form.Validate.js</Item>
@@ -5850,6 +5853,8 @@ M
                 <Item>thirdparty/jquery-ui-1.10.3/jquery-ui.js</Item>
                 <Item>thirdparty/stacktrace-0.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
+                <Item>thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js</Item>
+                <Item>thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Exception.js</Item>
@@ -5863,6 +5868,7 @@ M
                 <Item>Core.UI.RichTextEditor.js</Item>
                 <Item>Core.UI.Datepicker.js</Item>
                 <Item>Core.UI.Popup.js</Item>
+                <Item>Core.UI.TreeSelection.js</Item>
                 <Item>Core.Form.js</Item>
                 <Item>Core.Form.ErrorTooltips.js</Item>
                 <Item>Core.Form.Validate.js</Item>

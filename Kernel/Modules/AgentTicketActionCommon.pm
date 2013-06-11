@@ -1249,6 +1249,7 @@ sub _Mask {
             Class          => 'NewQueueID',
             Name           => 'NewQueueID',
             SelectedID     => $Param{NewQueueID},
+            TreeView       => $TreeView,
             CurrentQueueID => $Param{QueueID},
             OnChangeSubmit => 0,
         );

@@ -43,7 +43,9 @@ Core.App.Ready(function () {
         PopupAlreadyOpenMsg: '$JSText{"A popup of this screen is already open. Do you want to close it and load this one instead?"}',
         LoadingMsg: '$JSText{"Loading..."}',
         EmptySearchMsg: '$JSText{"Please enter at least one search value or * to find anything."}',
-        SearchMsg: '$JSText{"Search"}'
+        SearchMsg: '$JSText{"Search"}',
+        ApplyButtonText: '$JSText{"Apply"}',
+        NoElementsToSelectFromMsg: '$JSText{"There are currently no elements available to select from."}'
     });
 
     Core.Agent.Init();

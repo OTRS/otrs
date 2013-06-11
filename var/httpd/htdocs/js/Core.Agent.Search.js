@@ -65,6 +65,12 @@ Core.Agent.Search = (function (TargetNS) {
 
                     return false;
                 });
+
+            // Register event for tree selection dialog
+            $('.ShowTreeSelection').unbind('click').bind('click', function (Event) {
+                Core.UI.TreeSelection.ShowTreeSelection($(this));
+                return false;
+            });
         }
 
         return false;
@@ -247,6 +253,12 @@ Core.Agent.Search = (function (TargetNS) {
                     var Attribute = $('#Attribute').val();
                     TargetNS.SearchAttributeAdd(Attribute);
                     TargetNS.AdditionalAttributeSelectionRebuild();
+
+                    // Register event for tree selection dialog
+                    $('.ShowTreeSelection').unbind('click').bind('click', function (Event) {
+                        Core.UI.TreeSelection.ShowTreeSelection($(this));
+                        return false;
+                    });
 
                     return false;
                 });

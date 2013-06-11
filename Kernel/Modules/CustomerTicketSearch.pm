@@ -17,6 +17,8 @@ use Kernel::System::User;
 use Kernel::System::Priority;
 use Kernel::System::State;
 use Kernel::System::Queue;
+use Kernel::System::Service;
+use Kernel::System::Type;
 use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 use Kernel::System::DynamicField;
@@ -41,6 +43,8 @@ sub new {
     $Self->{PriorityObject}      = Kernel::System::Priority->new(%Param);
     $Self->{StateObject}         = Kernel::System::State->new(%Param);
     $Self->{QueueObject}         = Kernel::System::Queue->new(%Param);
+    $Self->{ServiceObject}       = Kernel::System::Service->new(%Param);
+    $Self->{TypeObject}          = Kernel::System::Type->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
     $Self->{CSVObject}           = Kernel::System::CSV->new(%Param);
     $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
@@ -148,7 +152,7 @@ sub Run {
         }
 
         # get array params
-        for my $Key (qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs))
+        for my $Key (qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs TypeIDs))
         {
 
             # get search array params (get submitted params)
@@ -1142,6 +1146,12 @@ sub Run {
 sub MaskForm {
     my ( $Self, %Param ) = @_;
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     $Param{ResultFormStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             Normal => 'Normal',
@@ -1163,7 +1173,30 @@ sub MaskForm {
         Name        => 'Profile',
         SelectedID  => $Param{Profile},
     );
-
+    $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            $Self->{ServiceObject}->ServiceList(
+                UserID => $Self->{UserID},
+            ),
+        },
+        Name       => 'ServiceIDs',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{ServiceIDs},
+        TreeView   => $TreeView,
+    );
+    $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            $Self->{TypeObject}->TypeList(
+                UserID => $Self->{UserID},
+            ),
+        },
+        Name       => 'TypeIDs',
+        SelectedID => $Param{TypeIDs},
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{TypeIDs},
+    );
     $Param{StatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             $Self->{StateObject}->StateList(

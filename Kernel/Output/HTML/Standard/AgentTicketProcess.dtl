@@ -75,6 +75,13 @@
                     }
                     catch (Exception) {}
                     Core.Form.Validate.Init();
+
+                    // Register event for tree selection dialog
+                    $('.ShowTreeSelection').bind('click', function (Event) {
+                        Core.UI.TreeSelection.ShowTreeSelection($(this));
+                        return false;
+                    });
+
                     $('#AJAXLoader').addClass('Hidden');
                     $('#AJAXDialog').val('1');
                 }
