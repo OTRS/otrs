@@ -186,7 +186,7 @@ o Name:    CPAN Proc::Daemon
 o Name:    CPAN YAML
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    Copyright (c) 2005, 2006, 2008. Ingy döt Net.
+  Note:    Copyright (c) 2005, 2006, 2008. Ingy dï¿½t Net.
            # Copyright (c) 2001, 2002, 2005. Brian Ingerson.
            # Some parts copyright (c) 2009 - 2010 Adam Kennedy
 
@@ -212,7 +212,7 @@ o Name:    CPAN LWP
 o Name:    CPAN Mozilla::CA
   Web:     n/a
   License: Mozilla MPL 1.1 - http://www.mozilla.org/MPL/
-  Note:    # Copyright Ask Bjørn Hansen
+  Note:    # Copyright Ask Bjï¿½rn Hansen
 
 o Name:    CPAN parent
   Web:     n/a
@@ -229,3 +229,7 @@ o Name:    CPAN Email::Valid
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
   Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
+
+o Name:    Tree Icon (tree.png)
+  Web:     Yusuke Kamiyamane, http://p.yusukekamiyamane.com
+  License: CC Attribution 3.0
