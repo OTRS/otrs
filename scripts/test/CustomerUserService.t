@@ -15,7 +15,19 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Service;
 use Kernel::System::UnitTest::Helper;
 
-my $CustomerUserObject = Kernel::System::CustomerUser->new( %{$Self} );
+# create local objects
+my $ConfigObject = Kernel::Config->new();
+
+# don't check email address validity
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $CustomerUserObject = Kernel::System::CustomerUser->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 my $HelperObject       = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
     %{$Self},
