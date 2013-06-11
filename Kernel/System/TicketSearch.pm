@@ -40,6 +40,9 @@ To find tickets in your system.
         # result limit
         Limit => 100,
 
+        # Use TicketSearch as a ticket filter on a single ticket
+        TicketID     => 1234,
+
         # ticket number (optional) as STRING or as ARRAYREF
         TicketNumber => '%123546%',
         TicketNumber => ['%123546%', '%123666%'],
@@ -459,6 +462,12 @@ sub TicketSearch {
     }
 
     my $SQLExt = ' WHERE 1=1';
+
+    # Limit the search to just one TicketID (used by the GenericAgent
+    #   to filter for events on single tickets with the job's ticket filter).
+    if ( $Param{TicketID} ) {
+        $SQLExt .= ' AND st.id = ' . $Self->{DBObject}->Quote($Param{TicketID}, 'Integer');
+    }
 
     # add ticket flag table
     if ( $Param{TicketFlag} ) {

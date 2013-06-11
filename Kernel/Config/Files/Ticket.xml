@@ -7282,7 +7282,87 @@ $QData{"Body"}
                     <Block>System</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.GenericAgent.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+        <ConfigItem Name="Ticket::EventModulePost###900-GenericAgent" Required="0" Valid="1">
+        <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::GenericAgent</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Events###Ticket" Required="1" Valid="1">
+        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin</SubGroup>
+        <Setting>
+            <Array>
+                <Item>TicketCreate</Item>
+                <Item>TicketDelete</Item>
+                <Item>TicketTitleUpdate</Item>
+                <Item>TicketUnlockTimeoutUpdate</Item>
+                <Item>TicketQueueUpdate</Item>
+                <Item>TicketTypeUpdate</Item>
+                <Item>TicketServiceUpdate</Item>
+                <Item>TicketSLAUpdate</Item>
+                <Item>TicketCustomerUpdate</Item>
+                <Item>TicketPendingTimeUpdate</Item>
+                <Item>TicketLockUpdate</Item>
+                <Item>TicketArchiveFlagUpdate</Item>
+                <Item>TicketStateUpdate</Item>
+                <Item>TicketOwnerUpdate</Item>
+                <Item>TicketResponsibleUpdate</Item>
+                <Item>TicketPriorityUpdate</Item>
+                <Item>HistoryAdd</Item>
+                <Item>HistoryDelete</Item>
+                <Item>TicketAccountTime</Item>
+                <Item>TicketMerge</Item>
+                <Item>TicketSubscribe</Item>
+                <Item>TicketUnsubscribe</Item>
+                <Item>TicketFlagSet</Item>
+                <Item>TicketFlagDelete</Item>
+                <Item>TicketSlaveLinkAdd</Item>
+                <Item>TicketSlaveLinkDelete</Item>
+                <Item>TicketMasterLinkDelete</Item>
+                <Item>EscalationResponseTimeNotifyBefore</Item>
+                <Item>EscalationUpdateTimeNotifyBefore</Item>
+                <Item>EscalationSolutionTimeNotifyBefore</Item>
+                <Item>EscalationResponseTimeStart</Item>
+                <Item>EscalationUpdateTimeStart</Item>
+                <Item>EscalationSolutionTimeStart</Item>
+                <Item>EscalationResponseTimeStop</Item>
+                <Item>EscalationUpdateTimeStop</Item>
+                <Item>EscalationSolutionTimeStop</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Events###Article" Required="1" Valid="1">
+        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin</SubGroup>
+        <Setting>
+            <Array>
+                <Item>ArticleCreate</Item>
+                <Item>ArticleUpdate</Item>
+                <Item>ArticleSend</Item>
+                <Item>ArticleBounce</Item>
+                <Item>ArticleAgentNotification</Item>
+                <Item>ArticleCustomerNotification</Item>
+                <Item>ArticleAutoResponse</Item>
+                <Item>ArticleFlagSet</Item>
+                <Item>ArticleFlagDelete</Item>
+                <Item>ArticleAgentNotification</Item>
+                <Item>ArticleCustomerNotification</Item>
+            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverview" Required="0" Valid="1">

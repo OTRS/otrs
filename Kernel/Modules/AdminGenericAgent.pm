@@ -18,6 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
+use Kernel::System::Event;
 use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
@@ -47,6 +48,10 @@ sub new {
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{EventObject}        = Kernel::System::Event->new(
+        %Param,
+        DynamicFieldObject => $Self->{DynamicFieldObject},
+    );
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -93,6 +98,11 @@ sub Run {
 
         # redirect
         return $Self->{LayoutObject}->ErrorScreen();
+    }
+
+    if ($Self->{Subaction} eq 'Run') {
+
+        return $Self->_MaskRun();
     }
 
     # --------------------------------------------------------------- #
@@ -200,6 +210,7 @@ sub Run {
             qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs ResponsibleIDs
             TypeIDs ServiceIDs SLAIDs
             ScheduleDays ScheduleMinutes ScheduleHours
+            EventValues
             )
             )
         {
@@ -258,231 +269,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            # get time settings
-            my %Map = (
-                TicketCreate             => 'Time',
-                TicketChange             => 'ChangeTime',
-                TicketClose              => 'CloseTime',
-                TicketPending            => 'TimePending',
-                TicketEscalation         => 'EscalationTime',
-                TicketEscalationResponse => 'EscalationResponseTime',
-                TicketEscalationUpdate   => 'EscalationUpdateTime',
-                TicketEscalationSolution => 'EscalationSolutionTime',
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}",
             );
-            for my $Type (
-                qw(
-                TicketCreate           TicketClose
-                TicketChange           TicketPending
-                TicketEscalation       TicketEscalationResponse
-                TicketEscalationUpdate TicketEscalationSolution
-                )
-                )
-            {
-                my $SearchType = $Map{$Type} . 'SearchType';
-                if ( !$GetParam{$SearchType} || $GetParam{$SearchType} eq 'None' ) {
-
-                    # do nothing with time stuff
-                }
-                elsif ( $GetParam{$SearchType} eq 'TimeSlot' ) {
-                    for my $DatePart (qw(Month Day)) {
-                        $GetParam{ $Type . "TimeStart$DatePart" }
-                            = sprintf( '%02d', $GetParam{ $Type . "TimeStart$DatePart" } );
-                        $GetParam{ $Type . "TimeStop$DatePart" }
-                            = sprintf( '%02d', $GetParam{ $Type . "TimeStop$DatePart" } );
-                    }
-                    if (
-                        $GetParam{ $Type . 'TimeStartDay' }
-                        && $GetParam{ $Type . 'TimeStartMonth' }
-                        && $GetParam{ $Type . 'TimeStartYear' }
-                        )
-                    {
-                        $GetParam{ $Type . 'TimeNewerDate' }
-                            = $GetParam{ $Type . 'TimeStartYear' } . '-'
-                            . $GetParam{ $Type . 'TimeStartMonth' } . '-'
-                            . $GetParam{ $Type . 'TimeStartDay' }
-                            . ' 00:00:01';
-                    }
-                    if (
-                        $GetParam{ $Type . 'TimeStopDay' }
-                        && $GetParam{ $Type . 'TimeStopMonth' }
-                        && $GetParam{ $Type . 'TimeStopYear' }
-                        )
-                    {
-                        $GetParam{ $Type . 'TimeOlderDate' }
-                            = $GetParam{ $Type . 'TimeStopYear' } . '-'
-                            . $GetParam{ $Type . 'TimeStopMonth' } . '-'
-                            . $GetParam{ $Type . 'TimeStopDay' }
-                            . ' 23:59:59';
-                    }
-                }
-                elsif ( $GetParam{$SearchType} eq 'TimePoint' ) {
-                    if (
-                        $GetParam{ $Type . 'TimePoint' }
-                        && $GetParam{ $Type . 'TimePointStart' }
-                        && $GetParam{ $Type . 'TimePointFormat' }
-                        )
-                    {
-                        my $Time = 0;
-                        if ( $GetParam{ $Type . 'TimePointFormat' } eq 'minute' ) {
-                            $Time = $GetParam{ $Type . 'TimePoint' };
-                        }
-                        elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'hour' ) {
-                            $Time = $GetParam{ $Type . 'TimePoint' } * 60;
-                        }
-                        elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'day' ) {
-                            $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24;
-                        }
-                        elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'week' ) {
-                            $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24 * 7;
-                        }
-                        elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'month' ) {
-                            $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24 * 30;
-                        }
-                        elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'year' ) {
-                            $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24 * 365;
-                        }
-                        if ( $GetParam{ $Type . 'TimePointStart' } eq 'Before' ) {
-                            $GetParam{ $Type . 'TimeOlderMinutes' } = $Time;
-                        }
-                        else {
-                            $GetParam{ $Type . 'TimeNewerMinutes' } = $Time;
-                        }
-                    }
-                }
-            }
-
-            if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
-
-                $GetParam{SearchInArchive} ||= '';
-                if ( $GetParam{SearchInArchive} eq 'AllTickets' ) {
-                    $GetParam{ArchiveFlags} = [ 'y', 'n' ];
-                }
-                elsif ( $GetParam{SearchInArchive} eq 'ArchivedTickets' ) {
-                    $GetParam{ArchiveFlags} = ['y'];
-                }
-                else {
-                    $GetParam{ArchiveFlags} = ['n'];
-                }
-            }
-
-            # focus of "From To Cc Subject Body"
-            for my $Parameter (qw(From To Cc Subject Body)) {
-                if ( defined $GetParam{$Parameter} && $GetParam{$Parameter} ne '' ) {
-                    $GetParam{$Parameter} = $GetParam{$Parameter};
-                }
-            }
-
-            # dynamic fields search parameters for ticket search
-            my %DynamicFieldSearchParameters;
-
-            # cycle trough the activated Dynamic Fields for this screen
-            DYNAMICFIELD:
-            for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-                next DYNAMICFIELD
-                    if !$DynamicFieldValues{ 'Search_DynamicField_' . $DynamicFieldConfig->{Name} };
-
-                # extract the dynamic field value form the profile
-                my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    Profile            => \%DynamicFieldValues,
-                    LayoutObject       => $Self->{LayoutObject},
-                );
-
-                # set search parameter
-                if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
-                }
-            }
-
-            # perform ticket search
-            my $Counter = $Self->{TicketObject}->TicketSearch(
-                Result          => 'COUNT',
-                SortBy          => 'Age',
-                OrderBy         => 'Down',
-                UserID          => 1,
-                Limit           => 60_000,
-                ConditionInline => 1,
-                %GetParam,
-                %DynamicFieldSearchParameters,
-            ) || 0;
-            my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-                Result          => 'ARRAY',
-                SortBy          => 'Age',
-                OrderBy         => 'Down',
-                UserID          => 1,
-                Limit           => 30,
-                ConditionInline => 1,
-                %GetParam,
-                %DynamicFieldSearchParameters,
-            );
-
-            $Self->{LayoutObject}->Block( Name => 'ActionList', );
-            $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
-            $Self->{LayoutObject}->Block(
-                Name => 'Result',
-                Data => {
-                    %Param,
-                    Name        => $Self->{Profile},
-                    AffectedIDs => $Counter,
-                },
-            );
-
-            if (@TicketIDs) {
-                $Self->{LayoutObject}->Block( Name => 'ResultBlock' );
-                for my $TicketID (@TicketIDs) {
-
-                    # get first article data
-                    my %Data = $Self->{TicketObject}->ArticleFirstArticle(
-                        TicketID      => $TicketID,
-                        DynamicFields => 0,
-                    );
-
-                    if ( !%Data ) {
-
-                        # get ticket data instead
-                        %Data = $Self->{TicketObject}->TicketGet(
-                            TicketID      => $TicketID,
-                            DynamicFields => 0,
-                        );
-
-                        # set missing information
-                        $Data{Subject} = $Data{Title};
-                    }
-
-                    $Data{Age}
-                        = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
-                    $Data{css} = "PriorityID-$Data{PriorityID}";
-
-                    # user info
-                    my %UserInfo = $Self->{UserObject}->GetUserData(
-                        User => $Data{Owner},
-                    );
-                    $Data{UserLastname}  = $UserInfo{UserLastname};
-                    $Data{UserFirstname} = $UserInfo{UserFirstname};
-
-                    $Self->{LayoutObject}->Block(
-                        Name => 'Ticket',
-                        Data => \%Data,
-                    );
-                }
-                if ( $GetParam{NewDelete} ) {
-                    $Self->{LayoutObject}->Block( Name => 'DeleteWarning' );
-                }
-            }
-
-            # html search mask output
-            my $Output = $Self->{LayoutObject}->Header( Title => 'Affected Tickets' );
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminGenericAgent',
-                Data         => \%Param,
-            );
-
-            # build footer
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
         # something went wrong
@@ -1132,7 +921,186 @@ sub _MaskUpdate {
             },
         );
     }
+
+    # get registered event triggers from the config
+    my %RegisteredEvents = $Self->{EventObject}->EventList(
+        ObjectTypes => ['Ticket', 'Article'],
+    );
+
+    # create the event triggers table
+    for my $Event ( @{ $JobData{EventValues} || [] } ) {
+
+        # set the event type ( event object like Article or Ticket)
+        my $EventType;
+        EVENTTYPE:
+        for my $Type ( sort keys %RegisteredEvents ) {
+            if ( grep {$_ eq $Event } @{ $RegisteredEvents{$Type} } ) {
+                $EventType = $Type;
+                last EVENTTYPE;
+            }
+        }
+
+        # paint each event row in event triggers table
+        $Self->{LayoutObject}->Block(
+            Name => 'EventRow',
+            Data => {
+                Event        => $Event,
+                EventType    => $EventType || '-',
+            },
+        );
+    }
+
+    my @EventTypeList;
+    my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' ) || 'Ticket';
+
+    # create event trigger selectors (one for each type)
+    TYPE:
+    for my $Type ( sort keys %RegisteredEvents ) {
+
+        # refresh event list for each event type
+
+        # hide inactive event lists
+        my $EventListHidden = '';
+        if ( $Type ne $SelectedEventType ) {
+            $EventListHidden = 'Hidden';
+        }
+
+        # paint each selector
+        my $EventStrg = $Self->{LayoutObject}->BuildSelection(
+            Data         => $RegisteredEvents{$Type} || [],
+            Name         => $Type . 'Event',
+            Sort         => 'AlphanumericValue',
+            PossibleNone => 0,
+            Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
+            Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Event'),
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'EventAdd',
+            Data => {
+                EventStrg => $EventStrg,
+            },
+        );
+
+        push @EventTypeList, $Type;
+    }
+
+    # create event type selector
+    my $EventTypeStrg = $Self->{LayoutObject}->BuildSelection(
+        Data          => \@EventTypeList,
+        Name          => 'EventType',
+        Sort          => 'AlphanumericValue',
+        SelectedValue => $SelectedEventType,
+        PossibleNone  => 0,
+        Class         => '',
+        Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Type'),
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'EventTypeStrg',
+        Data => {
+            EventTypeStrg => $EventTypeStrg,
+        },
+    );
+
     return \%JobData;
+}
+
+sub _MaskRun {
+    my ( $Self, %Param ) = @_;
+
+    my %JobData;
+
+    if ( $Self->{Profile} ) {
+        %JobData = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
+    }
+    else {
+        $Self->{LayoutObject}->FatalError( Message => "Need Profile!" );
+    }
+    $JobData{Profile} = $Self->{Profile};
+
+    # perform ticket search
+    my $Counter = $Self->{TicketObject}->TicketSearch(
+        Result          => 'COUNT',
+        SortBy          => 'Age',
+        OrderBy         => 'Down',
+        UserID          => 1,
+        Limit           => 60_000,
+        ConditionInline => 1,
+        %JobData,
+    ) || 0;
+
+    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+        Result          => 'ARRAY',
+        SortBy          => 'Age',
+        OrderBy         => 'Down',
+        UserID          => 1,
+        Limit           => 30,
+        ConditionInline => 1,
+        %JobData,
+    );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList', );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'Result',
+        Data => {
+            %Param,
+            Name        => $Self->{Profile},
+            AffectedIDs => $Counter,
+        },
+    );
+
+    if (@TicketIDs) {
+        $Self->{LayoutObject}->Block( Name => 'ResultBlock' );
+        for my $TicketID (@TicketIDs) {
+
+            # get first article data
+            my %Data = $Self->{TicketObject}->ArticleFirstArticle(
+                TicketID      => $TicketID,
+                DynamicFields => 0,
+            );
+
+            # Fallback for tickets without articles
+            if (!%Data) {
+                %Data = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
+            }
+
+            $Data{Age}
+                = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+            $Data{css} = "PriorityID-$Data{PriorityID}";
+
+            # user info
+            my %UserInfo = $Self->{UserObject}->GetUserData(
+                User => $Data{Owner},
+            );
+            $Data{UserLastname}  = $UserInfo{UserLastname};
+            $Data{UserFirstname} = $UserInfo{UserFirstname};
+
+            $Self->{LayoutObject}->Block(
+                Name => 'Ticket',
+                Data => \%Data,
+            );
+        }
+
+        if ( $JobData{NewDelete} ) {
+            $Self->{LayoutObject}->Block( Name => 'DeleteWarning' );
+        }
+    }
+
+    # html search mask output
+    my $Output = $Self->{LayoutObject}->Header( Title => 'Affected Tickets' );
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminGenericAgent',
+        Data         => \%Param,
+    );
+
+    # build footer
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 1;
