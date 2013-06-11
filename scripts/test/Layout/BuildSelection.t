@@ -189,7 +189,7 @@ my @Tests = (
         Response =>
             q{<select id="Select1ID" name="Select1" onchange="Core.AJAX.FormUpdate($('#Select1ID'), 'test', 'Select1', ['1', '2']);">
   <option value="1">Object1</option>
-</select>},
+</select> <a href="#" title="$Text\{"Show Tree Selection"\}" class="ShowTreeSelection">$Text\{"Show Tree Selection"\}</a>},
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -255,7 +255,7 @@ my @Tests = (
   <option value="12">&nbsp;&nbsp;AttributeB</option>
   <option value="13">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select>',
+</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -321,6 +321,83 @@ my @Tests = (
         },
     },
     {
+        Name       => 'Normal Tree (Hash), no TreeView',
+        Definition => {
+            Data => {
+                1  => 'Object1',
+                2  => 'Object1::AttributeA',
+                3  => 'Object1::AttributeA::Value1',
+                4  => 'Object1::AttributeA::Value2',
+                5  => 'Object1::AttributeB',
+                6  => 'Object1::AttributeB::Value1',
+                7  => 'Object1::AttributeB::Value2',
+            },
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => 2,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => undef,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Object1::AttributeA</option>
+  <option value="3">Object1::AttributeA::Value1</option>
+  <option value="4">Object1::AttributeA::Value2</option>
+  <option value="5">Object1::AttributeB</option>
+  <option value="6">Object1::AttributeB::Value1</option>
+  <option value="7">Object1::AttributeB::Value2</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Object1::AttributeA',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Object1::AttributeA::Value1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Object1::AttributeA::Value2',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Object1::AttributeB',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Object1::AttributeB::Value1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Object1::AttributeB::Value2',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
         Name       => 'Missing Emements Tree 1 (Hash)',
         Definition => {
             Data => {
@@ -369,7 +446,7 @@ my @Tests = (
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="13">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select>',
+</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -477,7 +554,7 @@ my @Tests = (
   <option value="8">Object2</option>
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select>',
+</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -581,7 +658,7 @@ my @Tests = (
   <option value="Object2::AttributeB">&nbsp;&nbsp;AttributeB</option>
   <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select>',
+</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -694,7 +771,7 @@ my @Tests = (
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select>',
+</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -804,7 +881,7 @@ my @Tests = (
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select>',
+</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
