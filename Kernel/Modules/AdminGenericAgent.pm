@@ -924,7 +924,7 @@ sub _MaskUpdate {
         my $EventType;
         EVENTTYPE:
         for my $Type ( sort keys %RegisteredEvents ) {
-            if ( grep {$_ eq $Event } $RegisteredEvents{$Type} ) {
+            if ( grep {$_ eq $Event } @{ $RegisteredEvents{$Type} } ) {
                 $EventType = $Type;
                 last EVENTTYPE;
             }
