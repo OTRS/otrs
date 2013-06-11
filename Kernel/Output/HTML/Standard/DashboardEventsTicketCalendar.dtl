@@ -1,0 +1,138 @@
+# --
+# DashboardEventsTicketCalendar.dtl - provides IMG Viewer for global dashboard
+# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+
+    $(document).ready(function() {
+        Core.Agent.Dashboard.EventsTicketCalendarInit({
+            MonthNames: [
+                "$JSText{"January"}",
+                "$JSText{"February"}",
+                "$JSText{"March"}",
+                "$JSText{"April"}",
+                "$JSText{"May_long"}",
+                "$JSText{"June"}",
+                "$JSText{"July"}",
+                "$JSText{"August"}",
+                "$JSText{"September"}",
+                "$JSText{"October"}",
+                "$JSText{"November"}",
+                "$JSText{"December"}"
+            ],
+            MonthNamesShort: [
+                '$JSText{"Jan"}',
+                '$JSText{"Feb"}',
+                '$JSText{"Mar"}',
+                '$JSText{"Apr"}',
+                '$JSText{"May"}',
+                '$JSText{"Jun"}',
+                '$JSText{"Jul"}',
+                '$JSText{"Aug"}',
+                '$JSText{"Sep"}',
+                '$JSText{"Oct"}',
+                '$JSText{"Nov"}',
+                '$JSText{"Dec"}'
+            ],
+            DayNames: [
+                '$JSText{"Sunday"}',
+                '$JSText{"Monday"}',
+                '$JSText{"Tuesday"}',
+                '$JSText{"Wednesday"}',
+                '$JSText{"Thursday"}',
+                '$JSText{"Friday"}',
+                '$JSText{"Saturday"}'
+            ],
+            DayNamesShort: [
+                '$JSText{"Su"}',
+                '$JSText{"Mo"}',
+                '$JSText{"Tu"}',
+                '$JSText{"We"}',
+                '$JSText{"Th"}',
+                '$JSText{"Fr"}',
+                '$JSText{"Sa"}'
+            ],
+            ButtonText: {
+                today: '$JSText{"Today"}',
+                month: '$JSText{"month"}',
+                week: '$JSText{"week"}',
+                day: '$JSText{"day"}'
+            },
+            Events: [
+<!-- dtl:block:CalendarEvent -->
+                {
+                    id: $QData{"ID"},
+                    title: "$QData{"Title"}",
+                    start: new Date(    "$QData{"SYear"}",
+                                        "$QData{"SMonth"}",
+                                        "$QData{"SDay"}",
+                                        "$QData{"SHour"}",
+                                        "$QData{"SMinute"}",
+                                        "$QData{"SSecond"}"),
+                    end: new Date(      "$QData{"EYear"}",
+                                        "$QData{"EMonth"}",
+                                        "$QData{"EDay"}",
+                                        "$QData{"EHour"}",
+                                        "$QData{"EMinute"}",
+                                        "$QData{"ESecond"}"),
+                    color: "$QData{"Color"}",
+                    url: "$QData{"Url"}",
+                    description: "$QData{"Title"}<br />$QData{"QueueName"}<br />$QData{"Description"}",
+                    allDay: false
+                }
+<!-- dtl:block:CalendarEventComma -->
+                 ,
+<!-- dtl:block:CalendarEventComma -->
+<!-- dtl:block:CalendarEvent -->
+            ]
+        });
+
+    });
+
+//]]></script>
+<!--dtl:js_on_document_complete-->
+
+<!-- dtl:block:CalendarDiv -->
+<div style="width: $QData{"CalendarWidth"}%; margin: 0 auto; z-index: 10;" id='calendar'></div>
+<!-- dtl:block:CalendarDiv -->
+
+
+<div class="Hidden" >
+
+<!-- dtl:block:EventInfo -->
+    <div class="EventDetails" id="event-content-$QData{"ID"}">
+        <h3>$Text{"Event Information"}</h3>
+        <fieldset class="TableLike">
+
+<!-- dtl:block:EventTicketFieldContainer -->
+            <div class="SpacingTopSmall"></div>
+            <h4>$Text{"Ticket fields"}</h4>
+            <div class="Clear"></div>
+<!-- dtl:block:CalendarEventInfoTicketFieldElement -->
+            <label>$Text{"$QData{"InfoLabel","20"}"}:</label>
+            <p class="Value">$QData{"InfoValue","50"}</p>
+            <div class="Clear"></div>
+<!-- dtl:block:CalendarEventInfoTicketFieldElement -->
+<!-- dtl:block:EventTicketFieldContainer -->
+
+<!-- dtl:block:EventDynamicFieldContainer -->
+            <div class="SpacingTopSmall"></div>
+            <h4>$Text{"Dynamic fields"}</h4>
+            <div class="Clear"></div>
+<!-- dtl:block:CalendarEventInfoDynamicFieldElement -->
+            <label>$Text{"$QData{"InfoLabel","20"}"}:</label>
+            <p class="Value">$QData{"InfoValue","50"}</p>
+            <div class="Clear"></div>
+<!-- dtl:block:CalendarEventInfoDynamicFieldElement -->
+<!-- dtl:block:EventDynamicFieldContainer -->
+        </fieldset>
+    </div>
+<!-- dtl:block:EventInfo -->
+
+</div>

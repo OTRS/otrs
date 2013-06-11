@@ -1,0 +1,40 @@
+/**
+ * This file contains the CSS Styles for Dashboard.
+ * Other parts of that are dynamically created within the dtl.
+ *
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+/**
+ * @package     Skin "Default"
+ * @section     Ticket Dashboard
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Event Graph
+ */
+
+div.EventDetails {
+    z-index: 5;
+    width: 400px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #CCC;
+    background-color: #EEE;
+    padding: 6px;
+    -moz-box-shadow: 4px 4px 4px #666;
+    -webkit-box-shadow: 4px 4px 4px #666;
+    box-shadow: 4px 4px 4px #666;
+}
+
+.EventDetails > fieldset.TableLike > label,
+.EventDetails > fieldset.TableLike > .Value {
+    line-height: 1em;
+}
+
+} /* end @media */

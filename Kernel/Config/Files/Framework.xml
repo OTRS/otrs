@@ -3966,11 +3966,14 @@ via the Preferences button after logging in.
                     <Prio>50</Prio>
                 </NavBar>
                 <Loader>
+                    <CSS>Core.Agent.Dashboard.css</CSS>
+                    <CSS>thirdparty/fullcalendar-1.6.1/fullcalendar.css</CSS>
                     <JavaScript>thirdparty/flot-0.8.1/excanvas.js</JavaScript>
                     <JavaScript>thirdparty/flot-0.8.1/jquery.flot.js</JavaScript>
                     <JavaScript>Core.UI.Chart.js</JavaScript>
                     <JavaScript>Core.UI.DnD.js</JavaScript>
                     <JavaScript>Core.Agent.Dashboard.js</JavaScript>
+                    <JavaScript>thirdparty/fullcalendar-1.6.1/fullcalendar.min.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
