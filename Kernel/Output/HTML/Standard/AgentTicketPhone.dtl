@@ -65,6 +65,16 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!-- dtl:block:TicketType -->
 
+                    <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"From customer"}:</label>
+                    <div class="Field">
+                        <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc $QData{"FromInvalid"}" autocomplete="off" />
+                        <div id="FromCustomerServerError" class="TooltipErrorMessage">
+<!-- dtl:block:FromServerErrorMsg -->
+                            <p>$Text{"Please include at least one customer for the ticket."}</p>
+<!-- dtl:block:FromServerErrorMsg -->
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
 
                     <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateFromCustomer SpacingTopSmall Hidden">
@@ -134,17 +144,6 @@ $Include{"AgentCustomerSearch"}
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-
-                    <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"From customer"}:</label>
-                    <div class="Field">
-                        <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc $QData{"FromInvalid"}" autocomplete="off" />
-                        <div id="FromCustomerServerError" class="TooltipErrorMessage">
-<!-- dtl:block:FromServerErrorMsg -->
-                            <p>$Text{"Please include at least one customer for the ticket."}</p>
-<!-- dtl:block:FromServerErrorMsg -->
-                        </div>
-                    </div>
-                    <div class="Clear"></div>
 
 <!-- dtl:block:FromExternalCustomer -->
 <!--dtl:js_on_document_complete-->
