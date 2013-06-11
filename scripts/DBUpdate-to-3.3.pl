@@ -326,6 +326,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSDashboardTicketCalendar
         OTRSMultiServiceSelect
         OTRSMultiQueueSelect
+        OTRSEventBasedTicketActions
     )) {
         my $Success = $PackageObject->_PackageUninstallMerged (
             Name => $PackageName,

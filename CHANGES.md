@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-11 Added possibility to execute generic agent jobs for configured ticket events.
  - 2013-06-11 Added new feature to allow selecting services, queues, etc. from a JSTree view which is opened
     within an overlay (agent and customer frontend).
  - 2013-06-10 Added new feature that set a ticket to be displayed as an even on a ticket dashboard widget.

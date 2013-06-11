@@ -142,6 +142,10 @@ table tr.MasterAction {
     border-right:none;
 }
 
+.DataTable thead th label {
+    color: #4B4B4B !important;
+}
+
 .DataTable thead th.Last {
     background: none;
     border-right: none;
@@ -261,7 +265,7 @@ table tr.MasterAction {
 /**
  * @subsection  QueueOverviewTotals DataTable
  */
- 
+
 .DataTable thead th.QueueOverviewTotals,
 .Row td.QueueOverviewTotals,
 .Row a.QueueOverviewTotals {
@@ -273,7 +277,6 @@ table tr.MasterAction {
     color: #4B4B4B;
     border-top: 1px dotted #CCCCCC;
 }
-
 
 /**
  * @subsection  Sortable DataTable

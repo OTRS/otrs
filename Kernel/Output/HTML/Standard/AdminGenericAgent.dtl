@@ -74,7 +74,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}">
                                     $Text{"Run this task"}
                                 </a>
                             </td>
@@ -116,47 +116,150 @@
                             $Data{"ValidOption"}
                         </div>
                         <div class="Clear"></div>
-
-<!-- dtl:block:JobScheduleWarning-->
-                        <p class="Field Error">
-                            $Text{"Currently this generic agent job will not run automatically."}
-                            <br/>
-                            $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
-                        </p>
-                        <div class="Clear"></div>
-<!-- dtl:block:JobScheduleWarning-->
                     </fieldset>
-                    <div class="LayoutGrid ColumnsWithSpacing">
-                        <div class="Size1of3">
-                            <fieldset class="TableLike FixedLabelSmall">
-                                <label for="ScheduleMinutes">$Text{"Schedule minutes"}:</label>
-                                <div class="Field">
-                                    $Data{"ScheduleMinutesList"}
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
-                        </div>
-                        <div class="Size1of3">
-                            <fieldset class="TableLike FixedLabelSmall">
-                                <label for="ScheduleHours">$Text{"Schedule hours"}:</label>
-                                <div class="Field">
-                                    $Data{"ScheduleHoursList"}
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
-                        </div>
-                        <div class="Size1of3">
-                            <fieldset class="TableLike FixedLabelSmall">
-                                <label for="ScheduleDays">$Text{"Schedule days"}:</label>
-                                <div class="Field">
-                                    $Data{"ScheduleDaysList"}
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Automatic execution (multiple tickets)"}</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <div class="Field">
+                            <table class="DataTable VariableWidth" summary="$Text{"Execution Schedule"}">
+                                <thead>
+                                    <tr>
+                                        <th><label for="ScheduleMinutes">$Text{"Schedule minutes"}</label></th>
+                                        <th><label for="ScheduleHours">$Text{"Schedule hours"}</label></th>
+                                        <th><label for="ScheduleDays">$Text{"Schedule days"}</label></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>
+                                        $Data{"ScheduleMinutesList"}
+                                    </td>
+                                    <td>
+                                        $Data{"ScheduleHoursList"}
+                                    </td>
+                                    <td>
+                                        $Data{"ScheduleDaysList"}
+                                    </td>
+                                </tbody>
+                            </table>
+<!-- dtl:block:JobScheduleWarning-->
+                            <p class="Error SpacingTop">
+                                $Text{"Currently this generic agent job will not run automatically."}
+                                <br/>
+                                $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
+                            </p>
+<!-- dtl:block:JobScheduleWarning-->
                         </div>
                         <div class="Clear"></div>
-                    </div>
+                    </fieldset>
+                </div>
+            </div>
 
+            <div class="WidgetSimple SpacingTop Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                    </div>
+                    <h2>$Text{"Event based execution (single ticket)"}</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <label for="EventsTable">$Text{"Event Triggers"}:</label>
+                        <div class="Field W50pc">
+                            <table class="DataTable" id="EventsTable" summary="$Text{"List of all configured events"}">
+                                <thead>
+                                    <tr>
+                                        <th>$Text{"Type"}</th>
+                                        <th>$Text{"Event"}</th>
+                                        <th>$Text{"Delete"}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+<!-- dtl:block:NoDataFoundMsgEvent -->
+                                    <tr>
+                                        <td colspan="4">
+                                            $Text{"No data found."}
+                                        </td>
+                                    </tr>
+<!-- dtl:block:NoDataFoundMsgEvent -->
+                                    <tr class="EventRowTemplate Hidden">
+                                        <td class="AsBlock EventType">EventType</td>
+                                        <td class="EventName" >EventName</td>
+                                        <td class="EventDelete Center">
+                                            <a id="DeleteEvent" class="TrashCan DeleteEvent" href="#" title="$Text{"Delete this event"}">
+                                                $Text{"Delete this event"}
+                                            </a>
+                                            <input type="hidden" name="" class="EventValue" value="" />
+                                        </td>
+                                    </tr>
+<!-- dtl:block:EventRow -->
+                                    <tr>
+                                        <td class="AsBlock">$QData{"EventType"}</td>
+                                        <td>$QData{"Event"}</td>
+                                        <td class="Center">
+                                            <a id="DeleteEvent$QData{"Event"}" class="TrashCan DeleteEvent" href="#" title="$Text{"Delete this event"}">
+                                                $Text{"Delete this event"}
+                                            </a>
+                                            <input type="hidden" name="EventValues" class="EventValue" value="$QData{"Event"}" />
+                                        </td>
+                                    </tr>
+<!-- dtl:block:EventRow -->
+                                </tbody>
+                            </table>
+                            <p class="FieldExplanation">
+                                $Text{"Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job."}
+                                $Text{"If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket."}
+                            </p>
+                        </div>
+
+                        <div class="Hidden" id="DeleteEventDialogContainer">
+                            <div id ="DeleteEventDialog" class="InnerContent GenericInterfaceDialog">
+                                <span class="WarningDialog ">&nbsp;</span>
+                                <p class="Center Warning">$Text{"Do you really want to delete this event trigger?"}</p>
+                                <div class="SpacingTop"></div>
+                            </div>
+                        </div>
+
+                        <div class="SpacingTop"></div>
+                        <label class="HideOnChange" for="EventType">$Text{"Add Event Trigger"}:</label>
+                        <div class="Field HideOnChange">
+<!-- dtl:block:EventTypeStrg -->
+                            $Data{"EventTypeStrg"}
+<!-- dtl:block:EventTypeStrg -->
+<!-- dtl:block:EventAdd -->
+                            $Data{"EventStrg"}
+<!-- dtl:block:EventAdd -->
+                            <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
+                            <p class="FieldExplanation">
+                                $Text{"To add a new event select the event object and event name and click on the "+" button"}.
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.GenericAgent.Init({
+    Localization: {
+        DuplicateEventTitle: '$JSText{"Duplicate event."}',
+        DuplicateEventMsg: '$JSText{"This event is already attached to the job, Please use a different one."}',
+        DeleteEventMsg: '$JSText{"Delete this Event Trigger"}',
+        DeleteMsg: '$JSText{"Delete"}',
+        CancelMsg: '$JSText{"Cancel"}'
+    }
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+                    </fieldset>
                 </div>
             </div>
 

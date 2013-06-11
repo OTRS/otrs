@@ -12,6 +12,7 @@ package Kernel::System::GenericAgent;
 use strict;
 use warnings;
 
+use Kernel::System::Cache;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
@@ -105,6 +106,7 @@ sub new {
     }
 
     # create additional objects
+    $Self->{CacheObject}        = Kernel::System::Cache->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
@@ -160,6 +162,7 @@ sub new {
         ScheduleDays            => 'ARRAY',
         ScheduleMinutes         => 'ARRAY',
         ScheduleHours           => 'ARRAY',
+        EventValues             => 'ARRAY',
     );
 
     # add time attributes
@@ -212,8 +215,9 @@ sub new {
 run a generic agent job
 
     $GenericAgentObject->JobRun(
-        Job    => 'JobName',
-        UserID => 1,
+        Job          => 'JobName',
+        OnlyTicketID => 123, # optional, for event based Job execution
+        UserID       => 1,
     );
 
 =cut
@@ -317,6 +321,9 @@ sub JobRun {
         }
     }
 
+    if ($Param{OnlyTicketID}) {
+        $Job{TicketID} = $Param{OnlyTicketID};
+    }
     my %Tickets;
 
     # escalation tickets
@@ -421,7 +428,7 @@ sub JobRun {
             # check min. one search arg
             my $Count = 0;
             for ( sort keys %Job ) {
-                if ( $_ !~ /^(New|Name|Valid|Schedule)/ && $Job{$_} ) {
+                if ( $_ !~ /^(New|Name|Valid|Schedule|Event)/ && $Job{$_} ) {
                     $Count++;
                 }
             }
@@ -507,13 +514,14 @@ returns a hash of jobs
 sub JobList {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
+    # check cache
+    my $CacheKey = "JobList";
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'GenericAgent',
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if ref $Cache;
+
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT DISTINCT(job_name) FROM generic_agent_jobs',
     );
@@ -521,6 +529,14 @@ sub JobList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
     }
+
+    $Self->{CacheObject}->Set(
+        Type  => 'GenericAgent',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => 24 * 60 * 60,
+    );
+
     return %Data;
 }
 
@@ -542,8 +558,20 @@ sub JobGet {
             return;
         }
     }
+
+    # check cache
+    my $CacheKey = 'JobGet::' . $Param{Name};
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'GenericAgent',
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if ref $Cache;
+
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
+        SQL  => '
+            SELECT job_key, job_value
+            FROM generic_agent_jobs
+            WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
     my %Data;
@@ -675,6 +703,14 @@ sub JobGet {
     if (%Data) {
         $Data{Name} = $Param{Name};
     }
+
+    $Self->{CacheObject}->Set(
+        Type  => 'GenericAgent',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => 24 * 60 * 60,
+    );
+
     return %Data;
 }
 
@@ -742,6 +778,11 @@ sub JobAdd {
         Priority => 'notice',
         Message  => "New GenericAgent job '$Param{Name}' added (UserID=$Param{UserID}).",
     );
+
+    $Self->{CacheObject}->CleanUp(
+        Type  => 'GenericAgent',
+    );
+
     return 1;
 }
 
@@ -773,7 +814,50 @@ sub JobDelete {
         Priority => 'notice',
         Message  => "GenericAgent job '$Param{Name}' deleted (UserID=$Param{UserID}).",
     );
+
+    $Self->{CacheObject}->CleanUp(
+        Type  => 'GenericAgent',
+    );
+
     return 1;
+}
+
+=item JobEventList()
+
+returns a hash of events for each job
+
+    my %List = $GenericAgentObject->JobEventList();
+
+=cut
+
+sub JobEventList {
+    my ( $Self, %Param ) = @_;
+
+    # check cache
+    my $CacheKey = "JobEventList";
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'GenericAgent',
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if ref $Cache;
+
+    my %JobList = $Self->JobList();
+    my %Data;
+    JOB_NAME:
+    for my $JobName ( sort keys %JobList ) {
+        my %Job = $Self->JobGet( Name => $JobName );
+        next JOB_NAME if !$Job{Valid};
+        $Data{ $JobName } = $Job{ EventValues };
+    }
+
+    $Self->{CacheObject}->Set(
+        Type  => 'GenericAgent',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => 24 * 60 * 60,
+    );
+
+    return %Data;
 }
 
 =begin Internal:
@@ -1270,6 +1354,12 @@ sub _JobUpdateRunTime {
             Bind => [ \$Param{Name}, \$Time->{Key}, \$Time->{Value} ],
         );
     }
+
+    $Self->{CacheObject}->Delete(
+        Key  => 'JobGet::' . $Param{Name},
+        Type => 'GenericAgent',
+    );
+
     return 1;
 }
 
