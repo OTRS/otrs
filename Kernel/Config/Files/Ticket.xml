@@ -5274,7 +5274,6 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardCalendar</Item>
                 <Item Key="Title">Upcoming Events</Item>
-                <Item Key="Default">1</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="OwnerOnly"></Item>
                 <Item Key="Block">ContentSmall</Item>
@@ -5321,7 +5320,7 @@ $QData{"Body"}
                 <Item Key="Title">Events Ticket Calendar</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
-                <Item Key="Default">1</Item>
+                <Item Key="Default">0</Item>
                 <Item Key="CacheTTL">0</Item>
             </Hash>
         </Setting>
