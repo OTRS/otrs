@@ -601,6 +601,12 @@ sub _MaskUpdate {
     }
     $JobData{Profile} = $Self->{Profile};
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     my %ShownUsers = $Self->{UserObject}->UserList(
         Type  => 'Long',
         Valid => 1,
@@ -695,6 +701,7 @@ sub _MaskUpdate {
         Multiple           => 1,
         Name               => 'QueueIDs',
         SelectedIDRefArray => $JobData{QueueIDs},
+        TreeView           => $TreeView,
         OnChangeSubmit     => 0,
     );
     $JobData{NewQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
@@ -703,6 +710,7 @@ sub _MaskUpdate {
         Multiple       => 0,
         Name           => 'NewQueueID',
         SelectedID     => $JobData{NewQueueID},
+        TreeView       => $TreeView,
         OnChangeSubmit => 0,
     );
     $JobData{PrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -918,6 +926,7 @@ sub _MaskUpdate {
             SelectedID  => $JobData{ServiceIDs},
             Size        => 5,
             Multiple    => 1,
+            TreeView    => $TreeView,
             Translation => 0,
             Max         => 200,
         );
@@ -927,6 +936,7 @@ sub _MaskUpdate {
             SelectedID  => $JobData{NewServiceID},
             Size        => 5,
             Multiple    => 0,
+            TreeView    => $TreeView,
             Translation => 0,
             Max         => 200,
         );
