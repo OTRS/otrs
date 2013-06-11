@@ -1059,6 +1059,15 @@ sub _MaskRun {
                 TicketID      => $TicketID,
                 DynamicFields => 0,
             );
+
+            # Fallback for tickets without articles
+            if (!%Data) {
+                %Data = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
+            }
+
             $Data{Age}
                 = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
             $Data{css} = "PriorityID-$Data{PriorityID}";
