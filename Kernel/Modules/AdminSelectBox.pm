@@ -22,7 +22,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
+    for my $Needed (qw(ParamObject DBObject LayoutObject LogObject ConfigObject TimeObject)) {
         $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" ) if !$Self->{$Needed};
     }
 
@@ -144,6 +144,11 @@ sub Run {
                     $UserCSVSeparator = $UserData{UserCSVSeparator};
                 }
 
+                my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+                $TimeStamp =~ s/[:-]//g;
+                $TimeStamp =~ s/ /-/;
+                my $FileName = 'admin-select-' . $TimeStamp . '.csv';
+
                 # generate csv output
                 if ( $Param{ResultFormat} eq 'CSV' ) {
                     my $CSV = $Self->{CSVObject}->Array2CSV(
@@ -152,7 +157,7 @@ sub Run {
                         Separator => $UserCSVSeparator,
                     );
                     return $Self->{LayoutObject}->Attachment(
-                        Filename    => 'admin-select.csv',
+                        Filename    => "$FileName",
                         ContentType => 'text/csv',
                         Content     => $CSV,
                         Type        => 'attachment'
