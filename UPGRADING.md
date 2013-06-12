@@ -183,6 +183,7 @@ installed before):
 - OTRSDashboardTicketCalendar
 - OTRSMultiServiceSelect
 - OTRSMultiQueueSelect
+- OTRSKeepFAQAttachments
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------

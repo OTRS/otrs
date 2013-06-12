@@ -327,6 +327,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSMultiServiceSelect
         OTRSMultiQueueSelect
         OTRSEventBasedTicketActions
+        OTRSKeepFAQAttachments
     )) {
         my $Success = $PackageObject->_PackageUninstallMerged (
             Name => $PackageName,
