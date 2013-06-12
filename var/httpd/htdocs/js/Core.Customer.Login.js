@@ -46,8 +46,8 @@ Core.Customer.Login = (function (TargetNS) {
      * @function
      * @description
      *      This function initializes the login functions.
-     *      Time gets tracked in an hidden field.
-     *      In the login we have for steps:
+     *      Time gets tracked in a hidden field.
+     *      In the login we have four steps:
      *      1. input field gets focused -> label gets greyed out via class="Focused"
      *      2. something is typed -> label gets hidden
      *      3. user leaves input field -> if the field is blank the label gets shown again, 'focused' class gets removed
@@ -167,7 +167,7 @@ Core.Customer.Login = (function (TargetNS) {
             }
         });
 
-        // shake login box on autentification failed
+        // shake login box on authentication failure
         if (Options && Options.LastLoginFailed) {
             Core.UI.Shake($('#Login'));
         }

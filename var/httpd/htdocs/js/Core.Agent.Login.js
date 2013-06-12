@@ -52,7 +52,7 @@ Core.Agent.Login = (function (TargetNS) {
         // save TimeOffset data for OTRS
         $('#TimeOffset').val((new Date()).getTimezoneOffset());
 
-        // shake login box on autentification failed
+        // shake login box on authentication failure
         if (LoginFailed) {
             Core.UI.Shake($('#LoginBox'));
         }
