@@ -1061,11 +1061,16 @@ sub _MaskRun {
             );
 
             # Fallback for tickets without articles
-            if (!%Data) {
+            if ( !%Data ) {
+
+                # get ticket data instead
                 %Data = $Self->{TicketObject}->TicketGet(
                     TicketID      => $TicketID,
                     DynamicFields => 0,
                 );
+
+                # set missing information
+                $Data{Subject} = $Data{Title};
             }
 
             $Data{Age}
