@@ -45,6 +45,7 @@
     and hard-coded to use /tmp.
 
 #3.2.8 2013-??-??
+ - 2013-06-11 Fixed bug#[9497](http://bugs.otrs.org/show_bug.cgi?id=9497) - AgentTicketSearch logs a Uninitialized error message in Oracle.
  - 2013-06-11 Fixed bug#[9481](http://bugs.otrs.org/show_bug.cgi?id=9481) - Possible to select invalid services in SLA admin screen.
  - 2013-06-11 Fixed bug#[9451](http://bugs.otrs.org/show_bug.cgi?id=9451) - Possible to select invalid autoresponses for queues.
  - 2013-06-11 Fixed bug#[9516](http://bugs.otrs.org/show_bug.cgi?id=9516) - Field names for account signups in some languages are broken.

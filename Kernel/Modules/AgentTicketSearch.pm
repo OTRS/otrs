@@ -1339,7 +1339,7 @@ sub Run {
         );
 
         # convert attributes
-        if ( $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
+        if ( defined $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
             $GetParam{ShownAttributes} = join ';', @{ $GetParam{ShownAttributes} };
         }
 
