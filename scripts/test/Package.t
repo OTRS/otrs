@@ -218,7 +218,7 @@ $Self->True(
 );
 
 # write to var/test
-my $Write   = $Self->{MainObject}->FileWrite(
+my $Write = $Self->{MainObject}->FileWrite(
     Location   => $Home . '/var/Test',
     Content    => \'aaaa',
     Mode       => 'binmode',
@@ -1571,7 +1571,7 @@ if ( !$DeveloperSystem ) {
         my $RealFile = $Home . '/' . $File;
         $RealFile =~ s/\/\//\//g;
         $Self->True(
-             -e  $RealFile,
+            -e $RealFile,
             "#14 TestPackageUninstallMerged FileExists - $RealFile with true",
         );
     }
@@ -1623,7 +1623,7 @@ if ( !$DeveloperSystem ) {
     );
 
     # now create an .save file for the framework file, content doesn't matter as it will be deleted
-    $Write  = $Self->{MainObject}->FileWrite(
+    $Write = $Self->{MainObject}->FileWrite(
         Location   => $Home . '/bin/otrs.CheckDB.pl.save',
         Content    => \$Content,
         Mode       => 'binmode',
@@ -1663,7 +1663,7 @@ if ( !$DeveloperSystem ) {
 
     # check that the package is uninstalled
     my $PackageInstalled = $PackageObject->PackageIsInstalled(
-        Name   => $PackageName,
+        Name => $PackageName,
     );
     $Self->False(
         $PackageInstalled,

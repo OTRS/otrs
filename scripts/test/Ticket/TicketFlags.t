@@ -25,7 +25,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     RestoreSystemConfiguration => 0,
 );
-my $UserObject   = Kernel::System::User->new(
+my $UserObject = Kernel::System::User->new(
     %{$Self},
 );
 my $TicketObject = Kernel::System::Ticket->new(
@@ -230,7 +230,7 @@ $Self->True(
 my @UserIDs;
 for ( 1 .. 2 ) {
     my $UserLogin = $HelperObject->TestUserCreate();
-    my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
+    my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 

@@ -109,7 +109,7 @@ my @Tests = (
     {
         Email => '-some.name-@somehost.com',
         Valid => 1,
-    },    
+    },
     {
         Email => 'name.surname@sometext.sometext.sometext',
         Valid => 1,

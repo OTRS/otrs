@@ -775,8 +775,12 @@ sub CustomerUserUpdate {
     my %UserData = $Self->CustomerUserDataGet( User => $Param{ID} );
 
     # if we update the email address, check if it already exists
-    if ( $Param{UserEmail} && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck}
-         && lc $Param{UserEmail} ne lc $UserData{UserEmail} ) {
+    if (
+           $Param{UserEmail}
+        && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck}
+        && lc $Param{UserEmail} ne lc $UserData{UserEmail}
+        )
+    {
         my %Result = $Self->CustomerSearch(
             Valid            => 1,
             PostMasterSearch => $Param{UserEmail},

@@ -28,7 +28,7 @@ my $CustomerUserObject = Kernel::System::CustomerUser->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $HelperObject       = Kernel::System::UnitTest::Helper->new(
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
     %{$Self},
     RestoreSystemConfiguration => 0,

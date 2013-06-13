@@ -21,7 +21,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     RestoreSystemConfiguration => 0,
 );
-my $UserObject   = Kernel::System::User->new(
+my $UserObject = Kernel::System::User->new(
     %{$Self},
 );
 my $GroupObject = Kernel::System::Group->new(
@@ -36,9 +36,9 @@ my $UserRand3 = 'example-user' . int( rand(1000000) );
 my $UserLogin1 = $HelperObject->TestUserCreate();
 my $UserLogin2 = $HelperObject->TestUserCreate();
 my $UserLogin3 = $HelperObject->TestUserCreate();
-my $UserID1 = $UserObject->UserLookup( UserLogin => $UserLogin1 );
-my $UserID2 = $UserObject->UserLookup( UserLogin => $UserLogin2 );
-my $UserID3 = $UserObject->UserLookup( UserLogin => $UserLogin3 );
+my $UserID1    = $UserObject->UserLookup( UserLogin => $UserLogin1 );
+my $UserID2    = $UserObject->UserLookup( UserLogin => $UserLogin2 );
+my $UserID3    = $UserObject->UserLookup( UserLogin => $UserLogin3 );
 
 # add three groups
 my $GroupRand1 = 'example-group1' . int( rand(1000000) );

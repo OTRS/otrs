@@ -427,9 +427,10 @@ for my $Test (@Tests) {
         Name => 'DocumentCleanup - blockquote'
     },
     {
-        Input => '<head><base href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
+        Input =>
+            '<head><base href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
         Result => '<head></head>',
-        Name => 'DocumentCleanup - base tag',
+        Name   => 'DocumentCleanup - base tag',
     }
 );
 

@@ -20,7 +20,7 @@ use Kernel::System::DynamicField;
 my $ConfigObject = Kernel::Config->new();
 
 my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{ $Self },
+    %{$Self},
     ConfigObject => $ConfigObject,
 );
 
@@ -29,8 +29,8 @@ my @Tests = (
 );
 
 my $EventObject = Kernel::System::Event->new(
-    %{ $Self },
-    ConfigObject => $ConfigObject,
+    %{$Self},
+    ConfigObject       => $ConfigObject,
     DynamicFieldObject => $DynamicFieldObject,
 );
 
@@ -66,6 +66,5 @@ $Self->Is(
 
 #use Data::Dumper;
 #print STDERR Dumper(\%EventList);
-
 
 1;

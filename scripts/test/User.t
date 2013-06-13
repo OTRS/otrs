@@ -66,45 +66,45 @@ $Self->Is(
 );
 
 my %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 0,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     $UserRand1,
     "UserList valid 0",
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 1,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     $UserRand1,
     "UserList valid 1",
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 0,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     $UserRand1,
     "UserList valid 0 cached",
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 1,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     $UserRand1,
     "UserList valid 1 cached",
 );
@@ -148,45 +148,45 @@ $Self->Is(
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 0,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     $UserRand1 . "2",
     "UserList valid 0",
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 1,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     undef,
     "UserList valid 1",
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 0,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     $UserRand1 . "2",
     "UserList valid 0 cached",
 );
 
 %UserList = $UserObject->UserList(
-    Type => 'Short',
+    Type  => 'Short',
     Valid => 1,
 );
 
 $Self->Is(
-    $UserList{ $UserID1 },
+    $UserList{$UserID1},
     undef,
     "UserList valid 1 cached",
 );

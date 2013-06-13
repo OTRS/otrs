@@ -18,7 +18,7 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # test for bug#1970
 my @Array = ();
-open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/DuplicateFilenameSpecialCharacters.box" );   ## no critic
+open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/DuplicateFilenameSpecialCharacters.box" );    ## no critic
 while (<$IN>) {
     push( @Array, $_ );
 }

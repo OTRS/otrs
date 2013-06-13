@@ -1,6 +1,6 @@
 # --
 # DynamicFieldFromCustomerUser.t - DynamicFieldFromCustomerUser tests
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,7 +52,7 @@ $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###930-DynamicFieldFromCustomerUser',
     Value => {
         Module => 'Kernel::System::Ticket::Event::DynamicFieldFromCustomerUser',
-        Event => '(TicketCreate|TicketCustomerUpdate)',
+        Event  => '(TicketCreate|TicketCustomerUpdate)',
     },
 );
 

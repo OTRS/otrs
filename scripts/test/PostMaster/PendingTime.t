@@ -1,6 +1,6 @@
 # --
 # FollowUpPendingTime.t - PostMaster tests
-# Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ my $ConfigObject = Kernel::Config->new();
 my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
 my %NeededXHeaders = (
-    'X-OTRS-PendingTime' => 1,
+    'X-OTRS-PendingTime'          => 1,
     'X-OTRS-FollowUp-PendingTime' => 1,
 );
 
@@ -70,8 +70,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '2022-01- 00:00:00',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '2022-01- 00:00:00',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '2022-01- 00:00:00',
         },
@@ -88,8 +88,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+60s',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+60s',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30s',
         },
@@ -106,8 +106,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+60',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+60',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30',
         },
@@ -124,8 +124,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '60',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '60',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '30',
         },
@@ -142,8 +142,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+60m',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+60m',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30m',
         },
@@ -160,8 +160,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+60h',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+60h',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30h',
         },
@@ -178,8 +178,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+60d',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+60d',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30d',
         },
@@ -196,8 +196,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+30y',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+30y',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30y',
         },
@@ -214,8 +214,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+30y',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+30y',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30y',
         },
@@ -232,8 +232,8 @@ my @Tests = (
             From => 'sender@example.com',
         },
         Set => {
-            'X-OTRS-State'             => 'pending reminder',
-            'X-OTRS-State-PendingTime' => '+30s +30m',
+            'X-OTRS-State'                      => 'pending reminder',
+            'X-OTRS-State-PendingTime'          => '+30s +30m',
             'X-OTRS-FollowUp-State'             => 'pending reminder',
             'X-OTRS-FollowUp-State-PendingTime' => '+30s +30m',
         },
