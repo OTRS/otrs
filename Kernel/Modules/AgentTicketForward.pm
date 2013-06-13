@@ -545,7 +545,7 @@ sub SendEmail {
     my $NextState = $StateData{Name};
 
     # check pending date
-    if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+    if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
         if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
             $Error{'DateInvalid'} = 'ServerError';
         }
