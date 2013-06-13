@@ -328,7 +328,7 @@ sub _MaskNew {
 
     # get service list
     my %ServiceList = $Self->{ServiceObject}->ServiceList(
-        Valid  => 1,
+        Valid  => 0,
         UserID => $Self->{UserID},
     );
 
