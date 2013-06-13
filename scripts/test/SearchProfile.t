@@ -249,14 +249,14 @@ for my $Test (@Tests) {
         $Self->IsDeeply(
             \@FromTest,
             \@FromResult,
-            "$Test->{Name} - NotificationGet() - Value",
+            "$Test->{Name} - ArrayRef - SearchProfileGet() - Value",
         );
     }
     else {
         $Self->Is(
             $SearchProfile{ $Test->{Add}->{Key} },
             $Test->{Add}->{Value},
-            "$Test->{Name} - SearchProfileGet() - Value",
+            "$Test->{Name} - String - SearchProfileGet() - Value",
         );
     }
 
