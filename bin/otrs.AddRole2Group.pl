@@ -71,7 +71,19 @@ if ( !$Opts{g} ) {
     exit 1;
 }
 
-# check group
+# check for any permissions
+if (! ($Opts{R} ||
+       $Opts{M} ||
+       $Opts{C} ||
+       $Opts{N} ||
+       $Opts{O} ||
+       $Opts{P} ||
+       $Opts{W} )) {
+    print STDERR "ERROR: Needs at least one permission being set\n";
+    exit 1;
+} 
+
+#check Group
 my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{g} );
 if ( !$GroupID ) {
     print STDERR "ERROR: Found no GroupID for $Opts{g}\n";
