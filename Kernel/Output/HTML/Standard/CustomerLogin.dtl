@@ -76,7 +76,7 @@ $Include{"CustomerHeader"}
                         <input title="$Text{"Your User Name"}" type="text" id="ResetUser" name="User" maxlength="150" />
                     </div>
                     <div>
-                        <button type="submit" value="$Text{"Submit"}"disabled="disabled">$Text{"Submit"}</button>
+                        <button type="submit" value="$Text{"Submit"}" disabled="disabled">$Text{"Submit"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
@@ -111,7 +111,7 @@ $Include{"CustomerHeader"}
                         <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
                     <div class="NewLine">
-                        <button id="CreateAccount" type="submit" value="$Text{"Create"}" disabled>$Text{"Create"}</button>
+                        <button id="CreateAccount" type="submit" value="$Text{"Create"}" disabled="disabled">$Text{"Create"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
