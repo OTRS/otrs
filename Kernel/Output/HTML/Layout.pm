@@ -16,7 +16,6 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 
-use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA);
