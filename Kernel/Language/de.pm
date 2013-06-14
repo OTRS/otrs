@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:38
+    # Last translation file sync: 2013-06-14 08:49:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1646,7 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Die Breite der Zeichenfläche vergrößern',
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
-        'Edit this Activity' => '',
+        'Edit this Activity' => 'Diese Aktivität bearbeiten',
         'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
         'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
         'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
@@ -1667,6 +1667,7 @@ sub Data {
             'Dieser Übergang wird bereits für diese Aktiviät verwendet. Sie können ihn nicht erneut hinzufügen!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Diese Übergangsaktion wird bereits in diesem Pfad verwendet. Sie können sie nicht erneut hinzufügen!',
+        'Remove the Transition from this Process' => 'Diesen Übergang aus dem Prozess entfernen',
         'No TransitionActions assigned.' => 'Keine Übergangsaktionen zugewiesen.',
         'The Start Event cannot loose the Start Transition!' => 'Das Startereignis kann den Start-Übergang nicht verlieren.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Bitte füllen Sie dieses Formular aus, um Ihre Anmeldedaten zu erhalten.',
         'How we should address you' => 'Wie sollen wir Sie ansprechen?',
         'Your First Name' => 'Ihr Vorname',
-        'Please supply a first name' => 'Bitte geben Sie einen Vornamen an',
         'Your Last Name' => 'Ihr Nachname',
-        'Please supply a last name' => 'Bitte geben Sie einen Nachnamen an',
         'Your email address (this will become your username)' => 'Ihre E-Mail-Adresse (das wird Ihr Benutzername)',
-        'Please supply a' => 'Angabe notwendig:',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
@@ -2612,9 +2610,6 @@ sub Data {
         'False' => 'Falsch',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            'Sollte ein Root-Passwort für die Datenbank gesetzt sein, muss dieses hier angegeben werden. Anderenfalls muss dieses Feld leer bleiben.',
-        'Repeat Password' => 'Passwort wiederholen',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Falls ein Root-Passwort für die Datenbank gesetzt ist, muss es hier eingegeben werden. Ist kein Passwort gesetzt, muss das Feld leer gelassen werden. Aus Sicherheitsgründen empfehlen wir ein Root-Passwort zu setzen. Weitere Informationen hierzu finden Sie in der Dokumentation Ihrer Datenbank.',
         'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',
@@ -3597,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-Mail Adressen',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4559,11 +4555,17 @@ sub Data {
             'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
         'For more info see:' => 'Für mehr Informationen hier:',
         'Historic Time Range' => 'Historischer Zeitraum',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            'Sollte ein Root-Passwort für die Datenbank gesetzt sein, muss dieses hier angegeben werden. Anderenfalls muss dieses Feld leer bleiben.',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
         'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
+        'Please supply a' => 'Angabe notwendig:',
+        'Please supply a first name' => 'Bitte geben Sie einen Vornamen an',
+        'Please supply a last name' => 'Bitte geben Sie einen Nachnamen an',
+        'Repeat Password' => 'Passwort wiederholen',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'State Historic' => 'Historischer Status',

@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:13:01
+    # Last translation file sync: 2013-06-14 08:49:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1676,6 +1676,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2464,11 +2465,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Пожалуйста, заполните эту форму, чтобы получить учетные данные для входа',
         'How we should address you' => 'Как мы должны к вам обращаться',
         'Your First Name' => 'Ваше Имя',
-        'Please supply a first name' => 'Пожалуйста, введите имя',
         'Your Last Name' => 'Ваша Фамилия',
-        'Please supply a last name' => 'Пожалуйста, введите фамилию',
         'Your email address (this will become your username)' => 'Ваш адрес электронной почты (он станет вашим именем пользователя)',
-        'Please supply a' => 'Пожалуйста, введите',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Редактировать персональные настройки',
@@ -3603,6 +3601,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Адреса email',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4940,6 +4939,9 @@ sub Data {
         'Please contact your admin' => 'Свяжитесь с администратором',
         'Please enter subject.' => 'Пожалуйста, введите тему.',
         'Please provide a name.' => 'Пожалуйста, введите имя.',
+        'Please supply a' => 'Пожалуйста, введите',
+        'Please supply a first name' => 'Пожалуйста, введите имя',
+        'Please supply a last name' => 'Пожалуйста, введите фамилию',
         'Print this ticket!' => 'Печать заявки!',
         'Prio' => 'Приоритет',
         'Problem' => 'Проблема',

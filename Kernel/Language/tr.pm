@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:13:07
+    # Last translation file sync: 2013-06-14 08:49:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1667,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Giriş bilgilerini almak için bu formu doldurun.',
         'How we should address you' => 'Size nasıl hitap edelim?',
         'Your First Name' => 'Adınız',
-        'Please supply a first name' => 'Lütfen bir isim belirleyiniz',
         'Your Last Name' => 'Soyadınız',
-        'Please supply a last name' => 'Lütfen bir soyadı belirleyiniz',
         'Your email address (this will become your username)' => 'E-posta adresiniz (Bu kullanıcı adınız olacak)',
-        'Please supply a' => 'Lütfen belirleyin bir',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Kişisel tercihleri görüntüle',
@@ -3594,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-Posta Adresleri',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4876,6 +4875,9 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Bu grupta/kuyrukta bilet sahibini değiştirme izni.',
         'PhoneView' => 'Telefon Görünüşü',
         'Please contact your admin' => 'Lütfen yöneticiyle iletişime geçin',
+        'Please supply a' => 'Lütfen belirleyin bir',
+        'Please supply a first name' => 'Lütfen bir isim belirleyiniz',
+        'Please supply a last name' => 'Lütfen bir soyadı belirleyiniz',
         'Print this ticket!' => 'Bu bileti yazdır!',
         'Prio' => 'Öncelik',
         'Process-Path' => 'İşlem Yolu',

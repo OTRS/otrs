@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:42
+    # Last translation file sync: 2013-06-14 08:49:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1667,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Cómo debemos contactarlo',
         'Your First Name' => 'Su Nombre',
-        'Please supply a first name' => 'Por favor, proporcione un nombre',
         'Your Last Name' => 'Su Apellido',
-        'Please supply a last name' => 'Por favor, proporcione un apellido',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Por favor, proporcione un(o/a)',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Modificar preferencias presonales',
@@ -3594,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Direcciones de Correo',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Habilita la salida PDF. El módulo CPAN PDF::API2 es necesario, si no está instalado, la salida PDF se deshabilitará.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4565,6 +4564,9 @@ sub Data {
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Número máximo (en caracteres) de la tabla de información del cliente en la vista de filas.',
         'Package verification failed!' => '¡La verificación del paquete falló!',
+        'Please supply a' => 'Por favor, proporcione un(o/a)',
+        'Please supply a first name' => 'Por favor, proporcione un nombre',
+        'Please supply a last name' => 'Por favor, proporcione un apellido',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El Modo Seguro debe estar deshabilitado para poder reinstalar usado el instalador web.',
 

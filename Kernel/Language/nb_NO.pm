@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:56
+    # Last translation file sync: 2013-06-14 08:49:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1675,6 +1675,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2463,11 +2464,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Hvordan skal vi tiltale deg',
         'Your First Name' => 'Ditt fornavn',
-        'Please supply a first name' => 'Vennligst skriv inn et fornavn',
         'Your Last Name' => 'Ditt etternavn',
-        'Please supply a last name' => 'Vennligst skriv inn et etternavn',
         'Your email address (this will become your username)' => 'Din e-postadresse (Dette vil bli ditt brukernavn)',
-        'Please supply a' => 'Vennligst oppgi en',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Endre personlige innstillinger',
@@ -3602,6 +3600,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'e-postadresser',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Aktiverer utskrift til PDF. CPAN-modulen PDF::API2 er påkrevd, dersom denne ikke er installert vil PDF-utskrift deaktiveres.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4571,6 +4570,9 @@ sub Data {
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Package verification failed!' => 'Pakkevalidering feilet!',
+        'Please supply a' => 'Vennligst oppgi en',
+        'Please supply a first name' => 'Vennligst skriv inn et fornavn',
+        'Please supply a last name' => 'Vennligst skriv inn et etternavn',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
 

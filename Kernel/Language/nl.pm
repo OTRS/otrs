@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:57
+    # Last translation file sync: 2013-06-14 08:49:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1673,6 +1673,7 @@ sub Data {
             'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
         'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2461,11 +2462,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Vul dit formulier in om een gebruikersnaam aan te maken.',
         'How we should address you' => 'Hoe moeten we u adresseren?',
         'Your First Name' => 'Uw voornaam',
-        'Please supply a first name' => 'Voer uw voornaam in',
         'Your Last Name' => 'Uw achternaam',
-        'Please supply a last name' => 'Voer uw achternaam in',
         'Your email address (this will become your username)' => 'Uw e-mailadres (dit wordt uw gebruikersnaam)',
-        'Please supply a' => 'Geef een',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Voorkeuren bewerken',
@@ -2618,8 +2616,6 @@ sub Data {
         'False' => 'Fout',
 
         # Template: InstallerDBStart
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' => 'Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven.',
-        'Repeat Password' => 'Herhaal wachtwoord',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',
         'Currently only MySQL is supported in the web installer.' => 'Alleen MySQL wordt ondersteund door de web installer.',
@@ -3602,6 +3598,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-mailadressen',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4563,10 +4560,16 @@ sub Data {
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Heeft u een feature niet kunnen vinden? De OTRS Groep levert add-ons voor klanten met een subscription:',
         'For more info see:' => 'Voor meer informatie zie:',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            'Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven.',
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
         'Package verification failed!' => 'Pakketverificatie mislukt!',
+        'Please supply a' => 'Geef een',
+        'Please supply a first name' => 'Voer uw voornaam in',
+        'Please supply a last name' => 'Voer uw achternaam in',
+        'Repeat Password' => 'Herhaal wachtwoord',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
         'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:50
+    # Last translation file sync: 2013-06-14 08:49:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1672,6 +1672,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2460,11 +2461,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
         'Your First Name' => '',
-        'Please supply a first name' => '',
         'Your Last Name' => '',
-        'Please supply a last name' => '',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => '',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '',
@@ -3599,6 +3597,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-mail címek',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>

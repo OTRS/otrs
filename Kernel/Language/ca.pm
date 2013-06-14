@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:35
+    # Last translation file sync: 2013-06-14 08:49:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1667,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Per favor, empleni aquest formulari per rebre les credencials d\'accés.',
         'How we should address you' => 'Com li hauríem d\'adreçar',
         'Your First Name' => 'El seu nom',
-        'Please supply a first name' => 'Si us plau introdueixi un nom de pila',
         'Your Last Name' => 'El seu cognom',
-        'Please supply a last name' => 'Si us plau introdueixi un cognom',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Per favor, faciliti una',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editar les preferències personals',
@@ -3594,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adreces de Correu',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4557,6 +4556,9 @@ sub Data {
         'For more info see:' => 'Para més informació vegi:',
         'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
         'Package verification failed!' => 'Verificació del paquet ha fallat!',
+        'Please supply a' => 'Per favor, faciliti una',
+        'Please supply a first name' => 'Si us plau introdueixi un nom de pila',
+        'Please supply a last name' => 'Si us plau introdueixi un cognom',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
 

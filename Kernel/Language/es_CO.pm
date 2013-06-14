@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:41
+    # Last translation file sync: 2013-06-14 08:49:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1667,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'C√≥mo debemos contactarlo',
         'Your First Name' => 'Su Nombre',
-        'Please supply a first name' => 'Por favor, proporcione un nombre',
         'Your Last Name' => 'Su Apellido',
-        'Please supply a last name' => 'Por favor, proporcione un apellido',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Por favor, proporcione un(o/a)',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Modificar preferencias presonales',
@@ -3594,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Direcciones de Correo',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Habilita la salida PDF. El m√≥dulo CPAN PDF::API2 es necesario, si no est√° instalado, la salida PDF se deshabilitar√°.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -5319,6 +5318,9 @@ sub Data {
         'Phone{CustomerUser}' => 'Tel√©fono',
         'Please contact your admin' => 'Por favor, contacte a su administrador.',
         'Please fill out this form to recieve login credentials.' => 'Por favor, llene este formulario para recibir las credenciales de inicio de sesi√≥n.',
+        'Please supply a' => 'Por favor, proporcione un(o/a)',
+        'Please supply a first name' => 'Por favor, proporcione un nombre',
+        'Please supply a last name' => 'Por favor, proporcione un apellido',
         'PostMaster Filter' => 'Filtro del Administrador del Correo',
         'PostMaster Mail Account' => 'Cuenta del Administrador del Correo',
         'Print this ticket!' => 'Imprimir este ticket',
