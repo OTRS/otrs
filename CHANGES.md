@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-14 Fixed bug#[8859](http://bugs.otrs.org/show_bug.cgi?id=8859) - otrs.AddRole2Group.pl falsely informs a group is added to a role.
  - 2013-06-11 Added possibility to execute generic agent jobs for configured ticket events.
  - 2013-06-11 Added new feature to allow selecting services, queues, etc. from a JSTree view which is opened
     within an overlay (agent and customer frontend).
