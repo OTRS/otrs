@@ -69,7 +69,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 7;
+    my $Steps = 8;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -89,6 +89,17 @@ EOF
     print "Step $Step of $Steps: Generate MessageID md5sums... ";
     _GenerateMessageIDMD5($CommonObject) || die;
     print "done.\n\n";
+    $Step++;
+
+    # migrate old settings
+    print "Step $Step of $Steps: Migrate old settings... ";
+    if ( _MigrateOldSettings($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
     $Step++;
 
     # migrate OTRSExternalTicketNumberRecognition
@@ -256,6 +267,35 @@ sub _GenerateMessageIDMD5 {
         );
     }
 
+    return 1;
+}
+
+=item _MigrateOldSettings()
+
+Migrate settings that has changed it name.
+
+    _MigrateOldSettings($CommonObject);
+
+=cut
+
+sub _MigrateOldSettings {
+    my $CommonObject = shift;
+
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    # Ticket::Frontend::AgentTicketMove
+    # get original setting (old name)
+    my $Setting = $CommonObject->{ConfigObject}->Get('Ticket::DefaultNextMoveStateType');
+
+    if ( IsArrayRefWithData($Setting) ) {
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###StateType',
+            Value => $Setting,
+        );
+    }
     return 1;
 }
 

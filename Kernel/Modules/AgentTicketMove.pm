@@ -1330,7 +1330,6 @@ sub _GetNextStates {
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %NextStates = $Self->{TicketObject}->TicketStateList(
             %Param,
-            Type   => 'DefaultNextMove',
             Action => $Self->{Action},
             UserID => $Self->{UserID},
         );
