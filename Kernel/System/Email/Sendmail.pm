@@ -88,7 +88,16 @@ sub Send {
     print $FH ${ $Param{Header} };
     print $FH "\n";
     print $FH ${ $Param{Body} };
-    close($FH);
+
+    # Check if the filehandle was already closed because of an error
+    #   (e. g. mail too large). See bug#9251.
+    if ( !close($FH) ) {
+       $Self->{LogObject}->Log(
+           Priority => 'error',
+           Message  => "Can't send message: $!!",
+       );
+       return;
+   }
 
     # debug
     if ( $Self->{Debug} > 2 ) {
