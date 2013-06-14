@@ -1,4 +1,5 @@
 #3.2.9 2013-??-??
+ - 2013-06-14 Fixed bug#[9511](http://bugs.otrs.org/show_bug.cgi?id=9511) - ProcessManagement: No SLA verification after Service update.
  - 2013-06-14 Fixed bug#[9513](http://bugs.otrs.org/show_bug.cgi?id=9513) - Frontend::ToolBarModule###11-CICSearchCustomerUser does not use settings of Frontend::Agent::CustomerSearch.
  - 2013-06-13 Fixed bug#[8719](http://bugs.otrs.org/show_bug.cgi?id=8719) - PasswordMin2Lower2UpperCharacters problem.
 
