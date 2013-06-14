@@ -288,6 +288,7 @@ sub Run {
     my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
 
     # set ticket free text
+    # for backward compatibility (should be removed in a future version)
     my %Values =
         (
         'X-OTRS-TicketKey'   => 'TicketFreeKey',
@@ -319,6 +320,7 @@ sub Run {
     }
 
     # set ticket free time
+    # for backward compatibility (should be removed in a future version)
     for my $Count ( 1 .. 6 ) {
         my $Key = 'X-OTRS-TicketTime' . $Count;
         if ( $GetParam{$Key} ) {
@@ -452,6 +454,7 @@ sub Run {
     %DynamicFieldListReversed = reverse %{$DynamicFieldList};
 
     # set free article text
+    # for backward compatibility (should be removed in a future version)
     %Values =
         (
         'X-OTRS-ArticleKey'   => 'ArticleFreeKey',
