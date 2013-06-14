@@ -108,11 +108,15 @@ sub CustomerCompanyList {
         $Valid = 0;
     }
 
-    my $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
-    my $CacheKey = "CustomerCompanyList::${Valid}::" . ( $Param{Search} || '' );
+    my $CacheType;
+    my $CacheKey;
 
     # check cache
     if ( $Self->{CacheObject} ) {
+
+        $CacheType = $Self->{CacheType} . '_CustomerCompanyList';
+        $CacheKey = "CustomerCompanyList::${Valid}::" . ( $Param{Search} || '' );
+
         my $Data = $Self->{CacheObject}->Get(
             Type => $CacheType,
             Key  => $CacheKey,
