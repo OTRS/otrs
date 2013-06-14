@@ -115,6 +115,7 @@ sub GetObjectAttributes {
             Element          => 'QueueIDs',
             Block            => 'MultiSelectField',
             Translation      => 0,
+            TreeView         => 1,
             Values           => \%QueueList,
         },
         {
@@ -152,6 +153,7 @@ sub GetObjectAttributes {
             Element          => 'CreatedQueueIDs',
             Block            => 'MultiSelectField',
             Translation      => 0,
+            TreeView         => 1,
             Values           => \%QueueList,
         },
         {
@@ -338,6 +340,7 @@ sub GetObjectAttributes {
                 Element          => 'ServiceIDs',
                 Block            => 'MultiSelectField',
                 Translation      => 0,
+                TreeView         => 1,
                 Values           => \%Service,
             },
             {

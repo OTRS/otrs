@@ -449,6 +449,7 @@ sub Run {
                                 Size           => 5,
                                 SelectedID     => $ObjectAttribute->{SelectedValues},
                                 Translation    => $ObjectAttribute->{Translation},
+                                TreeView       => $ObjectAttribute->{TreeView} || 0,
                                 Sort           => $ObjectAttribute->{Sort} || undef,
                                 SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                             );
@@ -463,6 +464,7 @@ sub Run {
                                 Data           => \%ValueHash,
                                 Name           => $Use . $ObjectAttribute->{Element},
                                 Translation    => $ObjectAttribute->{Translation},
+                                TreeView       => $ObjectAttribute->{TreeView} || 0,
                                 Sort           => $ObjectAttribute->{Sort} || undef,
                                 SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                             );
@@ -1497,6 +1499,7 @@ sub Run {
                     Size           => 5,
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
+                    TreeView       => $ObjectAttribute->{TreeView} || 0,
                     Sort           => $ObjectAttribute->{Sort} || undef,
                     SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                     OnChange =>
@@ -1587,6 +1590,7 @@ sub Run {
                     Size           => 5,
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
+                    TreeView       => $ObjectAttribute->{TreeView} || 0,
                     Sort           => $ObjectAttribute->{Sort} || undef,
                     SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                     OnChange       => "Core.Agent.Stats.SelectCheckbox('Select"
@@ -1709,6 +1713,7 @@ sub Run {
                     Size           => 5,
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
+                    TreeView       => $ObjectAttribute->{TreeView} || 0,
                     Sort           => $ObjectAttribute->{Sort} || undef,
                     SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                     OnChange       => "Core.Agent.Stats.SelectCheckbox('Select"
@@ -2677,9 +2682,9 @@ sub _ColumnAndRowTranslation {
         # sort
         my $DisableDefaultResultSort = grep {
             $_->{DisableDefaultResultSort}
-            && $_->{DisableDefaultResultSort} == 1 
+            && $_->{DisableDefaultResultSort} == 1
         } @{ $Param{StatRef}->{UseAsXvalue} };
-        
+
         if (!$DisableDefaultResultSort) {
             @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
         }
