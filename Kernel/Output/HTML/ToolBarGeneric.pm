@@ -32,6 +32,13 @@ sub Run {
 
     my $Priority = $Param{Config}->{'Priority'};
     my %Return   = ();
+
+    # check if there is extended data available
+    my %Data;
+    if ($Param{Config}->{Data} && %{$Param{Config}->{Data}}) {
+        %Data = %{$Param{Config}->{Data}};
+    }
+
     $Return{ $Priority++ } = {
         Block       => $Param{Config}->{Block},
         Description => $Param{Config}->{Description},
@@ -40,6 +47,7 @@ sub Run {
         Fulltext    => '',
         Image       => '',
         AccessKey   => '',
+        %Data,
     };
     return %Return;
 }
