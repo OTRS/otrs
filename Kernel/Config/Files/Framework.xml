@@ -6009,6 +6009,28 @@ M
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Events###CustomerUser" Required="1" Valid="1">
+        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Group>Core::CustomerUser</Group>
+        <SubGroup>Frontend::Admin</SubGroup>
+        <Setting>
+            <Array>
+                <Item>CustomerUserCreate</Item>
+                <Item>CustomerUserUpdate</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Events###CustomerCompany" Required="1" Valid="1">
+        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Group>Core::CustomerCompany</Group>
+        <SubGroup>Frontend::Admin</SubGroup>
+        <Setting>
+            <Array>
+                <Item>CustomerCompanyCreate</Item>
+                <Item>CustomerCompanyUpdate</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerCompany::EventModulePost###100-UpdateCustomerUsers" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer users after an update of the Customer Company.</Description>
         <Group>Framework</Group>
