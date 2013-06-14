@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:13:04
+    # Last translation file sync: 2013-06-14 08:49:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1667,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Молимо да попуните овај образац да би сте добили податке за пријаву.',
         'How we should address you' => 'Како да вас ословљавамо',
         'Your First Name' => 'Ваше име',
-        'Please supply a first name' => 'Молимо, унесите Име',
         'Your Last Name' => 'Ваше презиме',
-        'Please supply a last name' => 'Молимо, унесите Презиме',
         'Your email address (this will become your username)' => 'Ваша имејл адреса (то ће бити ваше корисничко име)',
-        'Please supply a' => 'Молимо, унесите',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Уредите личне поставке',
@@ -3594,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Имејл адресе',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4557,6 +4556,9 @@ sub Data {
         'For more info see:' => 'За додатне информације погледај:',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се одјавили! Хвала што сте користили "OTRS"!',
         'Package verification failed!' => 'Неуспела верификација пакета!',
+        'Please supply a' => 'Молимо, унесите',
+        'Please supply a first name' => 'Молимо, унесите Име',
+        'Please supply a last name' => 'Молимо, унесите Презиме',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
 

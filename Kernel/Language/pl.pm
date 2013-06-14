@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:58
+    # Last translation file sync: 2013-06-14 08:49:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1669,6 +1669,7 @@ sub Data {
             'To przejście jest już użyte w tym działaniu. Nie możesz użyć go dwukrotnie!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Ta akcja przejścia jest już użyta na tej ścieżce. Nie możesz użyć jej dwukrotnie!',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Brak przypisanych akcji przejścia.',
         'The Start Event cannot loose the Start Transition!' => 'Zdarzenie początkowe nie może utracić początkowego przejścia!',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2457,11 +2458,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Wypełnij ten formularz aby otrzymać dane logowania.',
         'How we should address you' => 'Jak powinniśmy cię tytułować',
         'Your First Name' => 'Twoje imię',
-        'Please supply a first name' => 'Podaj imię',
         'Your Last Name' => 'Twoje nazwisko',
-        'Please supply a last name' => 'Podaj nazwisko',
         'Your email address (this will become your username)' => 'Twój adres e-mail (stanie się twoją nazwą użytkownika)',
-        'Please supply a' => 'Podaj proszę',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
@@ -3596,6 +3594,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adresy e-mail',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4587,6 +4586,9 @@ sub Data {
         'Out Of Office' => 'Poza biurem',
         'Package verification failed!' => 'Weryfikacja pakietu nie powiodła się!',
         'Phone{CustomerUser}' => 'Telefon',
+        'Please supply a' => 'Podaj proszę',
+        'Please supply a first name' => 'Podaj imię',
+        'Please supply a last name' => 'Podaj nazwisko',
         'Postponed' => 'Odłożone',
         'Pre-approved' => 'Wstępnie zatwierdzone',
         'ProcessManagementActivityID' => 'ID działania w procesie',

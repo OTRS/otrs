@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:45
+    # Last translation file sync: 2013-06-14 08:49:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1669,6 +1669,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2457,11 +2458,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Täytä kaavake saadaksesi käyttäjätunnukset.',
         'How we should address you' => 'Miten kutsumme sinua',
         'Your First Name' => 'Etunimesi',
-        'Please supply a first name' => 'Ole hyvä ja anna etunimesi',
         'Your Last Name' => 'Sukunimesi',
-        'Please supply a last name' => 'Ole hyvä ja anna sukunimesi',
         'Your email address (this will become your username)' => 'Sähköpostiosoite (tästä tulee käyttäjätunnuksesi)',
-        'Please supply a' => 'Ole hyvä ja kirjoita',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Muokkaa henkilökohtaisia asetuksia',
@@ -3596,6 +3594,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Sähköpostiosoitteet',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4554,6 +4553,9 @@ sub Data {
         'Customer Data' => 'Asiakastieto',
         'For more info see:' => 'Katso lisätietoa:',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
+        'Please supply a' => 'Ole hyvä ja kirjoita',
+        'Please supply a first name' => 'Ole hyvä ja anna etunimesi',
+        'Please supply a last name' => 'Ole hyvä ja anna sukunimesi',
         'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
 
     };

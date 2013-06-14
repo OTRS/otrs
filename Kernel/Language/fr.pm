@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:46
+    # Last translation file sync: 2013-06-14 08:49:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1674,6 +1674,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2462,11 +2463,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Veuillez remplir ce formulaire pour recevoir vos identifiants de connexion',
         'How we should address you' => 'Comment devons-nous nous adresser à vous',
         'Your First Name' => 'Votre prénom',
-        'Please supply a first name' => 'Veuillez fournir un prénom',
         'Your Last Name' => 'Votre nom de famille',
-        'Please supply a last name' => 'Veuillez fournir un nom de famille',
         'Your email address (this will become your username)' => 'Votre adresse e-mail (celle-ci deviendra votre identifiant)',
-        'Please supply a' => 'Veuillez donner une',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editer les préférences',
@@ -3601,6 +3599,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adresses E-mail',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4562,6 +4561,9 @@ sub Data {
         'For more info see:' => 'Pour plus d\'informations, allez à',
         'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Merci d\'avoir utilisé OTRS !',
         'Package verification failed!' => 'Vérification du paquet échouée !',
+        'Please supply a' => 'Veuillez donner une',
+        'Please supply a first name' => 'Veuillez fournir un prénom',
+        'Please supply a last name' => 'Veuillez fournir un nom de famille',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Le mode sécurisé doit être désactivé dans le but de réinstaller en utilisant le web-installer (installateur web)',
         'There are no further steps in this process' => 'Il n\'y a pas d\'autres étapes dans ce processus',

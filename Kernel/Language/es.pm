@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:40
+    # Last translation file sync: 2013-06-14 08:49:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1672,6 +1672,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2460,11 +2461,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Rellene este formulario para recibir las credenciales de inicio de sesión.',
         'How we should address you' => 'Cómo debemos dirigirnos a usted',
         'Your First Name' => 'Su nombre',
-        'Please supply a first name' => 'Indique un nombre',
         'Your Last Name' => 'Su apellido',
-        'Please supply a last name' => 'Inidque un apellido',
         'Your email address (this will become your username)' => 'Su dirección de correo electrónico (esto será su nombre de usuario)',
-        'Please supply a' => 'Proporcione un',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editar las preferencias personales',
@@ -3599,6 +3597,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Direcciones de Correo',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4558,6 +4557,9 @@ sub Data {
         'For more info see:' => 'Para mas información consulte:',
         'Logout successful. Thank you for using OTRS!' => 'Sesión cerrada con éxito. ¡Gracias por utilizar OTRS!',
         'Package verification failed!' => '¡Error en la verificación del paquete!',
+        'Please supply a' => 'Proporcione un',
+        'Please supply a first name' => 'Indique un nombre',
+        'Please supply a last name' => 'Inidque un apellido',
         'There are currently no steps available for this process.' => 'Actualmente no hay pasos disponibles para este proceso.',
         'There are no further steps in this process' => 'Este proceso no tiene más pasos.',
 

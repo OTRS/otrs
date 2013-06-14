@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:13:00
+    # Last translation file sync: 2013-06-14 08:49:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1671,6 +1671,7 @@ sub Data {
             'Esta Transição já está em uso nesta Atividade. Você não pode adicioná-la novamente!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Esta Ação de Transição já está em uso por este Caminho. Você não pode adicioná-la novamente!',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Nenhum Ação de Transição atribuída.',
         'The Start Event cannot loose the Start Transition!' => 'O Início do Evento não pode perder o Início da Transição.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2459,11 +2460,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Por favor, preencha este formulário para receber as credenciais de login.',
         'How we should address you' => 'Como devemos descrever você?',
         'Your First Name' => 'Seu Primeiro Nome',
-        'Please supply a first name' => 'Por favor, forneça o primeiro nome',
         'Your Last Name' => 'Seu Último Nome',
-        'Please supply a last name' => 'Por favor, forneça o último nome',
         'Your email address (this will become your username)' => 'Seu e-mail (este será seu nome de usuário para login)',
-        'Please supply a' => 'Por favor, forneça um(a)',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editar preferências pessoais',
@@ -3598,6 +3596,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Endereços de E-mail',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4565,6 +4564,9 @@ sub Data {
         'For more info see:' => 'Para mais informações acesse:',
         'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
         'Package verification failed!' => 'A verificação do pacote falhou!',
+        'Please supply a' => 'Por favor, forneça um(a)',
+        'Please supply a first name' => 'Por favor, forneça o primeiro nome',
+        'Please supply a last name' => 'Por favor, forneça o último nome',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
         'There are currently no steps available for this process.' => 'Não há ações disponíveis para esse processo atualmente.',

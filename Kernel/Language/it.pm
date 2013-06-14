@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:51
+    # Last translation file sync: 2013-06-14 08:49:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1674,6 +1674,7 @@ sub Data {
             'Questa Transizione è già utilizzata per questa Attività. Non puoi aggiungerla due volte!.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Questa Azione di Transizione è già in uso in questo percorso. Non puoi usarla due volte!.',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Non ci sono Azioni di Transizione Assegnate.',
         'The Start Event cannot loose the Start Transition!' => 'L\'evento di inizio non può perdere la Transizione d\'inizio!',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2462,11 +2463,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Come chiamarla',
         'Your First Name' => 'Il suo nome',
-        'Please supply a first name' => 'Si prega di inserire un nome',
         'Your Last Name' => 'Il suo cognome',
-        'Please supply a last name' => 'Si prega di inserire un cognome',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Si prega di inserire un',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Modifica impostazioni personali',
@@ -3601,6 +3599,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Indirizzi Email',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4568,6 +4567,9 @@ sub Data {
         'For more info see:' => 'Per maggior informazioni vedi:',
         'Logout successful. Thank you for using OTRS!' => 'Disconnessione avvenuta con successo. Grazie per aver usato OTRS!',
         'Package verification failed!' => 'Verifica del pacchetto fallita! ',
+        'Please supply a' => 'Si prega di inserire un',
+        'Please supply a first name' => 'Si prega di inserire un nome',
+        'Please supply a last name' => 'Si prega di inserire un cognome',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
         'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',

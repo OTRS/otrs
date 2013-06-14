@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:52
+    # Last translation file sync: 2013-06-14 08:49:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1668,6 +1668,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2456,11 +2457,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
         'Your First Name' => 'あなたの名前',
-        'Please supply a first name' => '名前を入力してください',
         'Your Last Name' => 'あなたの名字',
-        'Please supply a last name' => '名字を入力してください。',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => '入力してください: ',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '個人設定の編集',
@@ -3597,6 +3595,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'メールアドレス',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF出力を有効にします。CPAN モジュール PDF::API2が必要となりますが、もしインストールされていなければPDF出力は無効にされます。',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4569,6 +4568,9 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Package verification failed!' => 'パッケージの検証に失敗しました',
+        'Please supply a' => '入力してください: ',
+        'Please supply a first name' => '名前を入力してください',
+        'Please supply a last name' => '名字を入力してください。',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'セキュアモードで実行中のため、Webインストーラーで再インストールするには無効にする必要があります。',
 

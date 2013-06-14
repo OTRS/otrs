@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:55
+    # Last translation file sync: 2013-06-14 08:49:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1669,6 +1669,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2457,11 +2458,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Sila isi borang ini untuk menerima butiran log masuk.',
         'How we should address you' => 'Bagaimana harus kami memanggil anda?',
         'Your First Name' => 'Nama pertama anda',
-        'Please supply a first name' => 'Sila bekalkan nama pertama anda',
         'Your Last Name' => 'Nama akhir anda',
-        'Please supply a last name' => 'Sila bekalkan nama akhir anda',
         'Your email address (this will become your username)' => 'Alamat emel anda (ini akan menjadi nama pengguna anda)',
-        'Please supply a' => 'Sila bekalkan',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Edit pilihan peribadi',
@@ -3596,6 +3594,7 @@ sub Data {
         'DynamicField object registration.' => 'pendaftaran objek DynamicField',
         'Edit customer company' => '',
         'Email Addresses' => 'Alamat emel',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Mengaktifkan output PDF. Modul CPAN PDF::API2 diperlukan, jika di dipasangkan,output PDF akan dilumpuhkan.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4604,6 +4603,9 @@ sub Data {
         'Package verification failed!' => 'Pengesahan pakej gagal',
         'Parameter for the CustomQueue object in the preference view of the agent interface.' =>
             'Parameter untuk objek CustomQueue dalam paparan pilihan dari paparan ejen.',
+        'Please supply a' => 'Sila bekalkan',
+        'Please supply a first name' => 'Sila bekalkan nama pertama anda',
+        'Please supply a last name' => 'Sila bekalkan nama akhir anda',
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
             'Menyimpan login dan kata laluan di atas meja sesi dalam pangkalan data, jika "DB" telah dipilih untuk SessionModule.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

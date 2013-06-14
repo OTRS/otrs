@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:13:03
+    # Last translation file sync: 2013-06-14 08:49:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1671,6 +1671,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2459,11 +2460,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Kako vas naj nasljavljamo',
         'Your First Name' => 'Vaše ime',
-        'Please supply a first name' => 'Prosimo, vnesite ime',
         'Your Last Name' => 'Vaš priimek',
-        'Please supply a last name' => 'Prosimo, vnesite priimek',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Prosimo, vnesite',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Uredite osebne podatke',
@@ -3598,6 +3596,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Naslov E-pošte',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4559,6 +4558,9 @@ sub Data {
         'For more info see:' => 'Za več informacij si oglejte:',
         'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',
         'Package verification failed!' => 'Preverjanje paketa ni uspelo!',
+        'Please supply a' => 'Prosimo, vnesite',
+        'Please supply a first name' => 'Prosimo, vnesite ime',
+        'Please supply a last name' => 'Prosimo, vnesite priimek',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Varni način mora biti onemogočen zaradi ponovne instalacije preko weba.',
 

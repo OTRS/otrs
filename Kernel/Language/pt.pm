@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-31 15:12:59
+    # Last translation file sync: 2013-06-14 08:49:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1668,6 +1668,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2456,11 +2457,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Como deseja ser tratado',
         'Your First Name' => 'O seu nome',
-        'Please supply a first name' => 'Por favor introduza o seu nome',
         'Your Last Name' => 'O seu apelido',
-        'Please supply a last name' => 'Por favor introduza o seu apelido',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Por favor introduza ',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Preferências pessoais',
@@ -3595,6 +3593,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => '',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -4558,6 +4557,9 @@ sub Data {
         'For more info see:' => 'Para mais informação consultar:',
         'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',
         'Package verification failed!' => 'Verificação do pacote falhou',
+        'Please supply a' => 'Por favor introduza ',
+        'Please supply a first name' => 'Por favor introduza o seu nome',
+        'Please supply a last name' => 'Por favor introduza o seu apelido',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro necessita de estar inativo para re-instalar via browser',
 
