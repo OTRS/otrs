@@ -10,7 +10,6 @@
  - 2013-06-10 Fixed bug#[8973](http://bugs.otrs.org/show_bug.cgi?id=8973) - Updating Customer Login looses Service relations.
  - 2013-06-10 Added new version of ivory skin.
  - 2013-06-08 Added caching to search profiles.
- - 2013-06-07 Fixed bug#[9454](http://bugs.otrs.org/show_bug.cgi?id=9454) - Use of uninitialized value error in AgentTicketForward.pm, undef Next ticket state.
  - 2013-06-07 Fixed bug#[8222](http://bugs.otrs.org/show_bug.cgi?id=8222) - List of recipients is not well structured.
  - 2013-06-07 Added events to CustomerUser and CustomerCompany objects.
     Tickets are now automatically updated when a CustomerID or Customer Login changes.
@@ -47,6 +46,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-06-14 Fixed bug#[9511](http://bugs.otrs.org/show_bug.cgi?id=9511) - ProcessManagement: No SLA verification after Service update.
  - 2013-06-14 Fixed bug#[9513](http://bugs.otrs.org/show_bug.cgi?id=9513) - Frontend::ToolBarModule###11-CICSearchCustomerUser does not use settings of Frontend::Agent::CustomerSearch.
  - 2013-06-13 Fixed bug#[8719](http://bugs.otrs.org/show_bug.cgi?id=8719) - PasswordMin2Lower2UpperCharacters problem.
 

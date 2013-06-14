@@ -4334,6 +4334,41 @@ sub _StoreActivityDialog {
                             TicketID         => $TicketID,
                             UserID           => $Self->{UserID},
                         );
+
+                        # in case of a new service and no new SLA is to be set, check if current
+                        # asssined SLA is still valid
+                        if (
+                            $UpdateFieldName eq 'ServiceID'
+                            && !defined $TicketParam{ SLAID }
+                            )
+                        {
+
+                            # get ticket destails
+                            my %Ticket = $Self->{TicketObject}->TicketGet(
+                                    TicketID      => $TicketID,
+                                    DynamicFields => 0,
+                                    UserID        => $Self->{UserID},
+                            );
+
+                            # if ticket already have an SLA assigned get the list SLAs for the new
+                            # service
+                            if ( IsPositiveInteger( $Ticket{SLAID} ) ) {
+                                my %SLAList = $Self->{SLAObject}->SLAList(
+                                    ServiceID => $TicketParam{ $Self->{NameToID}{$CurrentField} },
+                                    UserID    => $Self->{UserID},
+                                );
+
+                                # if the current SLA is not in the list of SLA for new service
+                                # remove SLA from ticket
+                                if ( !$SLAList{ $Ticket{SLAID} } ) {
+                                    $Self->{TicketObject}->TicketSLASet(
+                                        SLAID    => '',
+                                        TicketID => $TicketID,
+                                        UserID   => $Self->{UserID},
+                                    );
+                                }
+                            }
+                        }
                     }
                 }
             }
