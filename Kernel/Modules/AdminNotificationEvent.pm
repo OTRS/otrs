@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::NotificationEvent;
 use Kernel::System::Priority;
+use Kernel::System::Event;
 use Kernel::System::Lock;
 use Kernel::System::Service;
 use Kernel::System::SLA;
@@ -54,6 +55,11 @@ sub new {
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => ['Ticket'],
+    );
+
+    $Self->{EventObject}        = Kernel::System::Event->new(
+        %Param,
+        DynamicFieldObject =>  $Self->{DynamicFieldObject},
     );
 
     return $Self;
@@ -411,54 +417,18 @@ sub _Edit {
         $EventClass .= ' ' . $Param{EventsServerError};
     }
 
-    # build dynamic field list
-    # get the dynamic fields for ticket object
-    my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
-        Valid      => 1,
-        ObjectType => ['Ticket'],
-        ResultType => 'HASH',
+    my %RegisteredEvents = $Self->{EventObject}->EventList(
+        ObjectTypes => ['Ticket', 'Article',],
     );
-    my %DynamicFieldList =
-        map { 'TicketDynamicFieldUpdate_' . $_ => 'TicketDynamicFieldUpdate_' . $_ }
-        sort values %{$DynamicFields};
+
+    my @Events;
+    for my $ObjectType (sort keys %RegisteredEvents) {
+        push @Events, @{ $RegisteredEvents{$ObjectType} ||  [] };
+    }
 
     # Build the list...
     $Param{EventsStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data => {
-            TicketStateUpdate                  => 'TicketStateUpdate',
-            TicketQueueUpdate                  => 'TicketQueueUpdate',
-            TicketCreate                       => 'TicketCreate',
-            TicketTitleUpdate                  => 'TicketTitleUpdate',
-            TicketTypeUpdate                   => 'TicketTypeUpdate',
-            TicketServiceUpdate                => 'TicketServiceUpdate',
-            TicketSLAUpdate                    => 'TicketSLAUpdate',
-            TicketUnlockTimeoutUpdate          => 'TicketUnlockTimeoutUpdate',
-            TicketCustomerUpdate               => 'TicketCustomerUpdate',
-            TicketPendingTimeUpdate            => 'TicketPendingTimeUpdate',
-            TicketLockUpdate                   => 'TicketLockUpdate',
-            TicketOwnerUpdate                  => 'TicketOwnerUpdate',
-            TicketResponsibleUpdate            => 'TicketResponsibleUpdate',
-            TicketPriorityUpdate               => 'TicketPriorityUpdate',
-            TicketSubscribe                    => 'TicketSubscribe',
-            TicketUnsubscribe                  => 'TicketUnsubscribe',
-            TicketAccountTime                  => 'TicketAccountTime',
-            TicketMerge                        => 'TicketMerge',
-            ArticleCreate                      => 'ArticleCreate',
-            ArticleSend                        => 'ArticleSend',
-            ArticleBounce                      => 'ArticleBounce',
-            EscalationResponseTimeNotifyBefore => 'EscalationResponseTimeNotifyBefore',
-            EscalationUpdateTimeNotifyBefore   => 'EscalationUpdateTimeNotifyBefore',
-            EscalationSolutionTimeNotifyBefore => 'EscalationSolutionTimeNotifyBefore',
-            EscalationResponseTimeStart        => 'EscalationResponseTimeStart',
-            EscalationUpdateTimeStart          => 'EscalationUpdateTimeStart',
-            EscalationSolutionTimeStart        => 'EscalationSolutionTimeStart',
-            EscalationResponseTimeStop         => 'EscalationResponseTimeStop',
-            EscalationUpdateTimeStop           => 'EscalationUpdateTimeStop',
-            EscalationSolutionTimeStop         => 'EscalationSolutionTimeStop',
-
-            # Special events for each DynamicField
-            %DynamicFieldList,
-        },
+        Data       => \@Events,
         Name       => 'Events',
         Multiple   => 1,
         Size       => 5,
