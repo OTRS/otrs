@@ -6011,7 +6011,7 @@ M
     </ConfigItem>
     <ConfigItem Name="Events###CustomerUser" Required="1" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI</Description>
-        <Group>Core::CustomerUser</Group>
+        <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
             <Array>
@@ -6022,7 +6022,7 @@ M
     </ConfigItem>
     <ConfigItem Name="Events###CustomerCompany" Required="1" Valid="1">
         <Description Translatable="1">Event list to be displayed on GUI</Description>
-        <Group>Core::CustomerCompany</Group>
+        <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
             <Array>
