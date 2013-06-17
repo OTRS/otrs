@@ -1077,15 +1077,19 @@ sub Run {
 
             my $PossibleValuesFilter;
 
+            # get PossibleValues
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+            if ( IsHashRefWithData( $PossibleValues ) ) {
 
                 # get historical values from database
                 my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                 );
 
-                my $Data = $DynamicFieldConfig->{Config}->{PossibleValues};
+                my $Data = $PossibleValues;
 
                 # add historic values to current values (if they don't exist anymore)
                 if ( IsHashRefWithData($HistoricalValues) ) {

@@ -2192,6 +2192,74 @@ sub ValueLookup {
     );
 }
 
+=item PossibleValuesGet()
+
+returns the list of possible values for a dynamic field
+
+    my $PossibleValues = $BackendObject->PossibleValuesGet(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+    );
+
+    Returns:
+
+    $PossibleValues = {
+        '1' => 'Item1',
+        '2' => 'Item2',
+    }
+
+=cut
+
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # verify if function is available
+    return if !$Self->{$DynamicFieldBackend}->can('PossibleValuesGet');
+
+    # call PossibleValuesGet on the specific backend
+    return $Self->{$DynamicFieldBackend}->PossibleValuesGet(
+        %Param
+    );
+}
+
 1;
 
 =back

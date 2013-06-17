@@ -139,11 +139,16 @@ sub Run {
 
             my $PossibleValuesFilter;
 
+            # get PossibleValues
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+            if ( IsHashRefWithData( $PossibleValues ) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
+                my %AclData = %{ $PossibleValues };
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -161,7 +166,7 @@ sub Run {
 
                     # convert Filer key => key back to key => value using map
                     %{$PossibleValuesFilter}
-                        = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                        = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }
@@ -279,11 +284,16 @@ sub Run {
 
             my $PossibleValuesFilter;
 
+            # get PossibleValues
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+            if ( IsHashRefWithData( $PossibleValues ) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
+                my %AclData = %{ $PossibleValues };
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -301,7 +311,7 @@ sub Run {
 
                     # convert Filer key => key back to key => value using map
                     %{$PossibleValuesFilter}
-                        = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                        = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }

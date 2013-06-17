@@ -1012,16 +1012,21 @@ sub _RenderDynamicField {
 
     my $PossibleValuesFilter;
 
+    # get PossibleValues
+    my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+    );
+
     # All Ticket DynamicFields
     # used for ACL checking
     my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
         grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
     # check if field has PossibleValues property in its configuration
-    if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+    if ( IsHashRefWithData( $PossibleValues ) ) {
 
         # convert possible values key => value to key => key for ACLs usign a Hash slice
-        my %AclData = %{ $DynamicFieldConfig->{Config}->{PossibleValues} };
+        my %AclData = %{ $PossibleValues };
         @AclData{ keys %AclData } = keys %AclData;
 
         # set possible values filter from ACLs
@@ -1039,7 +1044,7 @@ sub _RenderDynamicField {
 
             # convert Filer key => key back to key => value using map
             %{$PossibleValuesFilter}
-                = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} } keys %Filter;
+                = map { $_ => $PossibleValues->{$_} } keys %Filter;
         }
     }
 

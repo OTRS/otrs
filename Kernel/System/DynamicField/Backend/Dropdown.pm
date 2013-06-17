@@ -851,6 +851,25 @@ sub ValueLookup {
     return $Value;
 }
 
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # get values
+    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
+    if ($PossibleValues) {
+
+        # check if there are values
+        if ( IsHashRefWithData( $PossibleValues ) ) {
+
+            # return possible values
+            return $PossibleValues;
+        }
+    }
+
+    return;
+}
+
 1;
 
 =back
