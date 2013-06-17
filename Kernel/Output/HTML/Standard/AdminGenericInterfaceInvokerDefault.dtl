@@ -224,7 +224,7 @@ $('#MappingInboundConfigureButton').bind('click', function(){
 <!-- dtl:block:EventAdd -->
                             $Data{"EventStrg"}
 <!-- dtl:block:EventAdd -->
-                            <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><span>Asynchronous</span>
+                            <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><label for="Asynchronous">Asynchronous</label>
                             <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
                             <p class="FieldExplanation">
                                 $Text{"To add a new event select the event object and event name and click on the "+" button"}.
