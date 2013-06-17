@@ -887,6 +887,7 @@ sub Run {
             $Data{StatType} = $Stat->{StatType};
 
             for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
+                next if !defined $Param{Select};
                 next if $Param{Select} ne $ObjectAttribute->{Element};
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $Param{Select} );
