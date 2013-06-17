@@ -9,6 +9,9 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+3.1.17 2013-??-??
+ - 2013-06-13 Fixed bug#8719 - PasswordMin2Lower2UpperCharacters problem.
+
 3.1.17 2013-06-18
  - 2013-06-06 Improved permission checks in AgentTicketWatcher.
  - 2013-06-06 Fixed bug#9503 - no connection header in soap responses.
