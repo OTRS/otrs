@@ -673,7 +673,7 @@ sub Run {
                 );
             }
 
-            my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+            my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
             my @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},

@@ -47,6 +47,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-06-17 Fixed bug#[8112](http://bugs.otrs.org/show_bug.cgi?id=8112) - Display issue in FROM column of AgentTicketZoom with some agent names.
  - 2013-06-14 Fixed bug#[9524](http://bugs.otrs.org/show_bug.cgi?id=9524) - Uninitialized  value after step2 in TicketAccountedTime stats.
  - 2013-06-14 Fixed bug#[9511](http://bugs.otrs.org/show_bug.cgi?id=9511) - ProcessManagement: No SLA verification after Service update.
  - 2013-06-14 Fixed bug#[9513](http://bugs.otrs.org/show_bug.cgi?id=9513) - Frontend::ToolBarModule###11-CICSearchCustomerUser does not use settings of Frontend::Agent::CustomerSearch.
