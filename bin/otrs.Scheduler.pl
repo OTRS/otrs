@@ -566,9 +566,9 @@ sub _AutoRestart {
     my $Home      = $CommonObject{ConfigObject}->Get('Home');
     my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 
-    my $Result = system("$Scheduler -a start");
+    my $StartExitCode = system("$Scheduler -a start");
 
-    if ( !$Result ) {
+    if ( $StartExitCode ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not start-up new Scheduler instance.",
