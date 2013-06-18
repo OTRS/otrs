@@ -43,7 +43,7 @@ cd "`dirname $0`/../"
 OTRS_HOME="`pwd`"
 cd -
 
-#OTRS_ROOT=/opt/OpenTRS
+#OTRS_ROOT=/opt/otrs
 if test -e $OTRS_HOME/var/cron; then
     OTRS_ROOT=$OTRS_HOME
 else
@@ -66,7 +66,7 @@ case "$1" in
     # start
     # ------------------------------------------------------
     start)
-        # add -u to cron user if exits
+        # add -u to cron user if user exists
         if test -n "$CRON_USER"; then
             CRON_USER=" -u $CRON_USER"
         fi
@@ -85,7 +85,7 @@ case "$1" in
     # stop
     # ------------------------------------------------------
     stop)
-        # add -u to cron user if exits
+        # add -u to cron user if user exists
         if test -n "$CRON_USER"; then
             CRON_USER=" -u $CRON_USER"
         fi
