@@ -678,7 +678,7 @@ sub DocumentCleanup {
     $Param{String} =~ s{ \A \s* <html }{<!DOCTYPE html><html}gsmix;
 
     # remove <base> tags - see bug#8880
-    $Param{String} =~ s{<base .*?>}{}xms;
+    $Param{String} =~ s{<base .*?>}{}xmsi;
 
     # replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
     # it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)

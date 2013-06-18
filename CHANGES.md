@@ -1,4 +1,5 @@
 #3.2.9 2013-??-??
+ - 2013-06-18 Follow-up fix for bug#[8880](http://bugs.otrs.org/show_bug.cgi?id=8880) - No inline image shown if HTML email contains 'base' tag.
  - 2013-06-17 Updated Spanish translation, thanks to Enrique Matías Sánchez!
  - 2013-06-17 Fixed bug#[8112](http://bugs.otrs.org/show_bug.cgi?id=8112) - Display issue in FROM column of AgentTicketZoom with some agent names.
  - 2013-06-14 Fixed bug#[9524](http://bugs.otrs.org/show_bug.cgi?id=9524) - Uninitialized  value after step2 in TicketAccountedTime stats.
