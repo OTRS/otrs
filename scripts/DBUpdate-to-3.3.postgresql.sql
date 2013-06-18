@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-05-27 04:17:20
+--  driver: postgresql, generated: 2013-06-17 11:23:58
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -25,4 +25,18 @@ DROP INDEX article_search_message_id;
 --  alter table article_search
 -- ----------------------------------------------------------
 ALTER TABLE article_search DROP a_message_id;
+-- ----------------------------------------------------------
+--  create table system_data
+-- ----------------------------------------------------------
+CREATE TABLE system_data (
+    data_key VARCHAR (160) NOT NULL,
+    data_value TEXT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(data_key)
+);
 SET standard_conforming_strings TO ON;
+ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

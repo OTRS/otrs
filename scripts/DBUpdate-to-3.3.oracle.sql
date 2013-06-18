@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-05-27 04:17:20
+--  driver: oracle, generated: 2013-06-17 11:23:58
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -25,4 +25,20 @@ DROP INDEX article_search_message_id;
 --  alter table article_search
 -- ----------------------------------------------------------
 ALTER TABLE article_search DROP COLUMN a_message_id;
+-- ----------------------------------------------------------
+--  create table system_data
+-- ----------------------------------------------------------
+CREATE TABLE system_data (
+    data_key VARCHAR2 (160) NOT NULL,
+    data_value CLOB NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE system_data ADD CONSTRAINT PK_system_data PRIMARY KEY (data_key);
+CREATE INDEX FK_system_data_change_by ON system_data (change_by);
+CREATE INDEX FK_system_data_create_by ON system_data (create_by);
 SET DEFINE OFF;
+ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

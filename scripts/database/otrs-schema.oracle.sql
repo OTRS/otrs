@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-05-03 02:53:20
+--  driver: oracle, generated: 2013-06-17 11:23:48
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1725,6 +1725,20 @@ CREATE INDEX FK_link_relation_source_obje3c ON link_relation (source_object_id);
 CREATE INDEX FK_link_relation_state_id ON link_relation (state_id);
 CREATE INDEX FK_link_relation_target_obje99 ON link_relation (target_object_id);
 CREATE INDEX FK_link_relation_type_id ON link_relation (type_id);
+-- ----------------------------------------------------------
+--  create table system_data
+-- ----------------------------------------------------------
+CREATE TABLE system_data (
+    data_key VARCHAR2 (160) NOT NULL,
+    data_value CLOB NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE system_data ADD CONSTRAINT PK_system_data PRIMARY KEY (data_key);
+CREATE INDEX FK_system_data_change_by ON system_data (change_by);
+CREATE INDEX FK_system_data_create_by ON system_data (create_by);
 -- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------
