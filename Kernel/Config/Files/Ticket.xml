@@ -6938,6 +6938,30 @@ $QData{"Body"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminACL" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Access Control Lists (ACL)</Title>
+                <NavBarName>Admin</NavBarName>
+                <Loader>
+                    <CSS>Core.Agent.Admin.ACL.css</CSS>
+                    <JavaScript>Core.Agent.Admin.ACL.js</JavaScript>
+                </Loader>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">Access Control Lists (ACL)</Name>
+                    <Description Translatable="1">Configure and manage ACLs.</Description>
+                    <Block>Ticket</Block>
+                    <Prio>750</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueue" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
@@ -7532,6 +7556,138 @@ $QData{"Body"}
         <Setting>
             <Hash>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel1Match" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in first level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Properties">Properties</Item>
+                <Item Key="PropertiesDatabase">PropertiesDatabase</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel1Change" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in first level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Possible">Possible</Item>
+                <Item Key="PossibleNot">PossibleNot</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel2::Possible" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
+                <Item Key="ActivityDialog">ActivityDialog</Item>
+                <Item Key="Form">Form</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel2::PossibleNot" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
+                <Item Key="ActivityDialog">ActivityDialog</Item>
+                <Item Key="Form">Form</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel2::Properties" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="User">User</Item>
+                <Item Key="CustomerUser">CustomerUser</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Service">Service</Item>
+                <Item Key="Type">Type</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="SLA">SLA</Item>
+                <Item Key="State">State</Item>
+                <Item Key="Owner">Owner</Item>
+                <Item Key="Process">Process</Item>
+                <Item Key="Responsible">Responsible</Item>
+                <Item Key="DynamicField">DynamicField</Item>
+                <Item Key="Frontend">Frontend</Item>
+                <Item Key="Ticket">Ticket</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel2::PropertiesDatabase" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="User">User</Item>
+                <Item Key="CustomerUser">CustomerUser</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Service">Service</Item>
+                <Item Key="Type">Type</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="SLA">SLA</Item>
+                <Item Key="State">State</Item>
+                <Item Key="Owner">Owner</Item>
+                <Item Key="Process">Process</Item>
+                <Item Key="Responsible">Responsible</Item>
+                <Item Key="DynamicField">DynamicField</Item>
+                <Item Key="Ticket">Ticket</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel3::Actions###100-Default" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available for 'Action' in third level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Array>
+                <Item>AgentTicketBounce</Item>
+                <Item>AgentTicketClose</Item>
+                <Item>AgentTicketCompose</Item>
+                <Item>AgentTicketCustomer</Item>
+                <Item>AgentTicketForward</Item>
+                <Item>AgentTicketFreeText</Item>
+                <Item>AgentTicketHistory</Item>
+                <Item>AgentTicketLink</Item>
+                <Item>AgentTicketLock</Item>
+                <Item>AgentTicketMerge</Item>
+                <Item>AgentTicketMove</Item>
+                <Item>AgentTicketNote</Item>
+                <Item>AgentTicketOwner</Item>
+                <Item>AgentTicketPending</Item>
+                <Item>AgentTicketPhone</Item>
+                <Item>AgentTicketPhoneInbound</Item>
+                <Item>AgentTicketPhoneOutbound</Item>
+                <Item>AgentTicketPrint</Item>
+                <Item>AgentTicketPriority</Item>
+                <Item>AgentTicketResponsible</Item>
+                <Item>AgentTicketWatcher</Item>
+                <Item>AgentLinkObject</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ACL::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the DB ACL backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <String Regex="">3600</String><!-- default 1 hour -->
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">

@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
+
+<!-- acl - all acls from the editor -->
+<Table Name="acl">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="comments" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="description" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="stop_after_match" Required="false" Type="SMALLINT"/>
+    <!-- configs stored as YAML like in the web service configuration -->
+    <Column Name="config_match" Required="false" Type="LONGBLOB"/>
+    <Column Name="config_change" Required="false" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="acl_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- acl_sync - sync states for acls -->
+<Table Name="acl_sync">
+    <Column Name="acl_id" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="sync_state" Required="true" Size="30" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+</Table>
+
 <!-- valid - all valid states -->
 <Table Name="valid">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>

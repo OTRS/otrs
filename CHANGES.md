@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-18 Added graphical ACL editor feature.
  - 2013-06-18 Added SystemData backend - a key/value store for artbitrary data.
  - 2013-06-18 Added tree mode feature for dynamic fields (dropdown and multiselect).
  - 2013-06-14 Fixed bug#[9489](http://bugs.otrs.org/show_bug.cgi?id=9489) - Setting Ticket::DefaultNextMoveStateType name is confusing and not consistent with similar settings in other screens.

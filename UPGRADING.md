@@ -185,6 +185,7 @@ installed before):
 - OTRSMultiQueueSelect
 - OTRSDynamicFieldMultiLevelSelection
 - OTRSKeepFAQAttachments
+- OTRSTicketAclEditor
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------

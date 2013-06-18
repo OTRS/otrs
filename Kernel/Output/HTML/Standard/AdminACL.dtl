@@ -1,0 +1,133 @@
+# --
+# AdminACL.dtl - provides HTML for AdminACL
+# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"ACL Management"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter for ACLs"}</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="$Text{"Filter"}" placeholder="$Text{"ACL Name"}" />
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLNew" class="CallForAction Fullsize Center Plus"><span>$Text{"Create New ACL"}</span></a>
+                    </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLDeploy" class="CallForAction Fullsize Center Refresh"><span>$Text{"Deploy ACLs"}</span></a>
+                    </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLExport" class="CallForAction Fullsize Center Download"><span>$Text{"Export ACLs"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Configuration import"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module."}
+                </p>
+                <ul class="ActionList">
+                    <li>
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="ACLImport"/>
+                            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+                            <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required $QData{"FileUploadInvalid"}"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <fieldset class="Separated">
+                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
+                                <label for="OverwriteExistingEntities">$Text{"Overwrite existing ACLs?"}</label>
+                            </fieldset>
+                            <button class="CallForAction Plus Fullsize Center" type="submit" value="$Text{"Upload ACL configuration"}">
+                                <span>$Text{"Import ACL configuration(s)"}</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Description"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"To create a new ACL you can either import ACLs which were exported from another system or create a complete new one."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration."}
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"ACLs"}</h2>
+            </div>
+            <div class="Content">
+                <p class="ACLNote">$Text{"Please note: The table beyond represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."}</p>
+                <table class="DataTable" id="ACLs">
+                    <thead>
+                        <tr>
+                            <th>$Text{"ACL name"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Validity"}</th>
+                            <th>$Text{"Export"}</th>
+                            <th>$Text{"Copy"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:ACLRow -->
+                        <tr>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLEdit;ID=$QData{"ID"}">$QData{"Name"}</a></td>
+                            <td>$QData{"Comment"}</td>
+                            <td>$Text{"$Data{"ValidID"}"}</td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLExport;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Export AsBlock">$Text{"Export"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLCopy;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock">$Text{"Copy"}</a></td>
+                        </tr>
+<!-- dtl:block:ACLRow -->
+<!-- dtl:block:ACLNoDataRow -->
+                        <tr>
+                            <td colspan="4">
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:ACLNoDataRow -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+Core.UI.Table.InitTableFilter($('#Filter'), $('#ACLs'), 0);
+//]]></script>
+<!--dtl:js_on_document_complete-->

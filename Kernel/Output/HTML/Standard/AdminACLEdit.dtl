@@ -1,0 +1,255 @@
+# --
+# AdminACLEdit.dtl - provides HTML for AdminACL
+# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Edit ACL %s", ""$QData{"Name"}""}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ACLDeleteAction -->
+                    <li>
+                        <a href="#" id="ACLDelete" class="CallForAction Trash Center Fullsize" data-dialog-element="DeleteACLConfirmationDialog" data-dialog-title="$Text{"Delete ACL"}" data-id="$QData{"ID"}"><span>$Text{"Delete Invalid ACL"}</span></a>
+                    </li>
+<!-- dtl:block:ACLDeleteAction -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Description"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    <strong>$Text{"Match settings"}</strong>: $Text{"Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database."}
+                </p>
+                <p class="FieldExplanation">
+                    <strong>$Text{"Change settings"}</strong>: $Text{"Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"Check the official"} <a href="http://doc.otrs.org/3.2/en/html/customization.html#idp16984720" target="_blank">$Text{"documentation"}</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="$Env{"CGIHandle"}" method="post" id="ACLForm" class="Validate PreventMultipleSubmits">
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                    </div>
+                    <h2>$Text{"Edit ACL information"}</h2>
+                </div>
+                <div class="Content">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="ACLEditAction"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <input type="hidden" name="ConfigMatch" value="$QData{"ConfigMatch"}"/>
+                    <input type="hidden" name="ConfigChange" value="$QData{"ConfigChange"}"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="Comment"><span class="Marker">*</span> $Text{"Comment"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc Validate_Required $QData{"CommentServerError"}" maxlength="70"/>
+                            <div id="CommentError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="CommentServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">$Text{"Description"}:</label>
+                        <div class="Field">
+                            <textarea name="Description" id="Description" class="W50pc $QData{"DescriptionServerError"}" rows="5">$QData{"Description"}</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="StopAfterMatch">$Text{"Stop after match"}:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="StopAfterMatch" id="StopAfterMatch" value="1" $Data{"Checked"} />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Validity"}:</label>
+                        <div class="Field">
+                            $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header Expanded">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                    </div>
+                    <h2>$Text{"Edit ACL structure"}</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike ACLStructure">
+                        <div class="ACLFields">
+                            <h4>$Text{"Match settings"}</h4>
+                            <ul class="ACLFieldGroup" id="ACLMatch"></ul>
+                            $Data{"ACLKeysLevel1Match"}
+                        </div>
+                    </fieldset>
+                    <fieldset class="TableLike ACLStructure">
+                        <div class="ACLFields">
+                            <h4>$Text{"Change settings"}</h4>
+                            <ul class="ACLFieldGroup" id="ACLChange"></ul>
+                            $Data{"ACLKeysLevel1Change"}
+                        </div>
+                    </fieldset>
+
+                    <ul class="Hidden" id="TemplateLevel1">
+                        <li class="DataItem">
+                            <span class="Trigger Collapse"></span>
+                            <span class="Icon Remove"></span>
+                            <strong></strong>
+                            <ul>
+                                <li class="Even Last">
+                                    <span class="Icon Add"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel2">
+                        <li class="DataItem">
+                            <span class="Trigger Collapse"></span>
+                            <span class="Icon Remove"></span>
+                            <strong></strong>
+                            <ul>
+                                <li>
+                                    <span class="Icon Add NoMargin"></span>
+                                    <input type="text" class="NewDataKey" data-level="3" />
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel2Last">
+                        <li class="DataItem">
+                            <span class="Trigger Collapse"></span>
+                            <span class="Icon Remove"></span>
+                            <strong></strong>
+                            <ul class="LastLevel">
+                                <li>
+                                    $Data{"ACLKeysLevel4Prefixes"}
+                                    <span class="Icon Add AddDataItem"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel3">
+                        <li class="DataItem Editable">
+                            <span class="Icon Remove"></span>
+                            <ul>
+                                <li>
+                                    $Data{"ACLKeysLevel4Prefixes"}
+                                    <span class="Icon Add AddDataItem"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel4">
+                        <li class="DataItem Editable"><em>x</em></li>
+                    </ul>
+
+                    <div class="Hidden">
+                        $Data{"ACLKeysLevel2Possible"}
+                    </div>
+                    <div class="Hidden">
+                        $Data{"ACLKeysLevel2PossibleNot"}
+                    </div>
+                    <div class="Hidden">
+                        $Data{"ACLKeysLevel2Properties"}
+                    </div>
+                    <div class="Hidden">
+                        $Data{"ACLKeysLevel2PropertiesDatabase"}
+                    </div>
+                    <div class="Hidden">
+                        $Data{"ACLKeysLevel3DynamicFields"}
+                    </div>
+                    <div class="Hidden">
+                        $Data{"ACLKeysLevel3Actions"}
+                    </div>
+
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop SaveButtons">
+                            <button class="Primary" id="SubmitAndContinue" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                            $Text{"or"}
+                            <button class="Primary" id="Submit" type="submit" value="$Text{"Save"}">$Text{"Save and finish"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Cancel"}</span></a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<div id="Dialogs" class="Hidden">
+    <div id="DeleteACLConfirmationDialog">
+        <p>$Text{"Do you really want to delete this ACL?"}</p>
+        <p class="SpacingTop"><strong>$QData{"Name"}</strong></p>
+    </div>
+</div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+//Localizations
+Core.Agent.Admin.ACL.Localization = {
+    CancelMsg:      "$Text{"Cancel"}",
+    DeleteMsg:      "$Text{"Delete"}",
+    ConfirmRemoval: "$Text{"This item still contains sub items. Are you sure you want to remove this item including its sub items?"}",
+    AlreadyAdded:   "$Text{"An item with this name is already present."}",
+    AddAll:         "$Text{"Add all"}",
+    JSONError:      "$Text{"There was an error reading the ACL data."}"
+};
+
+Core.Agent.Admin.ACL.InitACLEdit();
+//]]></script>
+<!-- dtl:js_on_document_complete -->
