@@ -369,6 +369,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSDynamicFieldMultiLevelSelection
         OTRSEventBasedTicketActions
         OTRSKeepFAQAttachments
+        OTRSTicketAclEditor
     )) {
         my $Success = $PackageObject->_PackageUninstallMerged (
             Name => $PackageName,
