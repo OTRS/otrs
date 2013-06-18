@@ -49,7 +49,8 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
- - 2013-06-18 Fixed bug#[9425](http://bugs.otrs.org/show_bug.cgi?id=94252) - Wrong created date for queue view.
+ - 2013-06-18 Fixed bug#[9504](http://bugs.otrs.org/show_bug.cgi?id=9504) - wrong status after answer via customer portal.
+ - 2013-06-18 Fixed bug#[9425](http://bugs.otrs.org/show_bug.cgi?id=9425) - Wrong created date for queue view.
  - 2013-06-18 Follow-up fix for bug#[8880](http://bugs.otrs.org/show_bug.cgi?id=8880) - No inline image shown if HTML email contains 'base' tag.
  - 2013-06-17 Updated Spanish translation, thanks to Enrique Matías Sánchez!
  - 2013-06-17 Fixed bug#[8112](http://bugs.otrs.org/show_bug.cgi?id=8112) - Display issue in FROM column of AgentTicketZoom with some agent names.
