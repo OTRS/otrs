@@ -453,7 +453,7 @@ $CheckAction->(
 my %PIDInfo6 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
 # change Config file timestamp to change the checksum
-utime time, time, "$Home/Kernel/Config.pm";
+utime time, time, "$Home/Kernel/Config/Files/ZZZAuto.pm";
 
 # wait for slow systems
 $SleepTime = 40;
