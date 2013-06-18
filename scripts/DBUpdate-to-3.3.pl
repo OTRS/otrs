@@ -366,6 +366,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSDashboardTicketCalendar
         OTRSMultiServiceSelect
         OTRSMultiQueueSelect
+        OTRSDynamicFieldMultiLevelSelection
         OTRSEventBasedTicketActions
         OTRSKeepFAQAttachments
     )) {
