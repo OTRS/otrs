@@ -875,7 +875,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => '顧客管理',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => '顧客を追加',
         'Select' => '選択',
         'Hint' => 'ヒント',

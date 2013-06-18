@@ -874,7 +874,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Klientų valdymas',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Pridėti klientą',
         'Select' => 'Pasirinkti',
         'Hint' => 'Užuomina',

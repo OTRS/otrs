@@ -879,7 +879,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'مدیریت مشترک',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'افزودن مشترک',
         'Select' => 'انتخاب',
         'Hint' => 'تذکر',

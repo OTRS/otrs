@@ -882,7 +882,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Administrasjon: Kunder',
-        'Back to search result' => 'Tilbake til søkeresultatet',
+        'Back to search results' => 'Tilbake til søkeresultatet',
         'Add customer' => 'Legg til kunde',
         'Select' => 'Velg',
         'Hint' => 'Hint',

@@ -880,7 +880,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Beheer klanten',
-        'Back to search result' => '',
+        'Back to search results' => 'Terug naar zoekresultaat',
         'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
         'Hint' => 'Opmerking',

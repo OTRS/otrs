@@ -874,7 +874,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Kunden-Verwaltung',
-        'Back to search result' => 'Zurück zum Suchergebnis',
+        'Back to search results' => 'Zurück zum Suchergebnis',
         'Add customer' => 'Kunden hinzufügen',
         'Select' => 'Auswahl',
         'Hint' => 'Hinweis',

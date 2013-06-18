@@ -876,7 +876,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Διαχειριση Πελατων',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Προσθηνη Πελάτη',
         'Select' => 'Επιλογή',
         'Hint' => '',

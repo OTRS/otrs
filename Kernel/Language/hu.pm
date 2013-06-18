@@ -879,7 +879,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Ügyfél kezelés',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Ügyfél hozzáadása',
         'Select' => 'Kiválasztás',
         'Hint' => 'Tipp',
