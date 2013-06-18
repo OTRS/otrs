@@ -555,7 +555,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 source: 'StartEvent',
                 target: EntityID,
                 anchor: 'Continuous',
-                endpoint: [ 'Blank' ],
+                endpoint: 'Blank',
                 detachable: true,
                 reattach: true,
                 overlays: [
@@ -867,9 +867,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // set the width and height of the drawing canvas,
         // based on the saved layout information (if available)
         $('#Canvas').width(CanvasWidth).height(CanvasHeight);
-
-        // Init JsPlumb in Canvas mode (because of bugs with SVG in jQ1.6 in IE9)
-        jsPlumb.setRenderMode(jsPlumb.CANVAS);
 
         // reset, because at this point (initial draw or redraw), there cannot be a saved connection
         TargetNS.LatestConnectionTransitionID = undefined;

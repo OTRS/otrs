@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-05-27 04:17:20
+--  driver: mssql, generated: 2013-06-17 11:23:58
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -46,3 +46,17 @@ DROP INDEX article_search.article_search_message_id;
 --  alter table article_search
 -- ----------------------------------------------------------
 ALTER TABLE article_search DROP COLUMN a_message_id;
+-- ----------------------------------------------------------
+--  create table system_data
+-- ----------------------------------------------------------
+CREATE TABLE system_data (
+    data_key NVARCHAR (160) NOT NULL,
+    data_value NVARCHAR (MAX) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(data_key)
+);
+ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

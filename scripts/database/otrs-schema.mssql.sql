@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-05-03 02:53:20
+--  driver: mssql, generated: 2013-06-17 11:23:48
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1039,6 +1039,18 @@ CREATE TABLE link_relation (
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
+);
+-- ----------------------------------------------------------
+--  create table system_data
+-- ----------------------------------------------------------
+CREATE TABLE system_data (
+    data_key NVARCHAR (160) NOT NULL,
+    data_value NVARCHAR (MAX) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(data_key)
 );
 -- ----------------------------------------------------------
 --  create table xml_storage

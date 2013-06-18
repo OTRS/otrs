@@ -13,7 +13,7 @@
                 <Loader>
                     <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <JavaScript>thirdparty/jsplumb-1.3.16/jsplumb.js</JavaScript>
+                    <JavaScript>thirdparty/jsplumb-1.4.2/jsplumb.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.ProcessManagement.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.ProcessManagement.Canvas.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
