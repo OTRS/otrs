@@ -559,7 +559,7 @@ sub Run {
 
         # set state
         my $NextState = $Self->{Config}->{StateDefault} || 'open';
-        if ( $GetParam{StateID} ) {
+        if ( $GetParam{StateID} && $Self->{Config}->{State} ) {
             my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
             $NextState = $NextStateData{Name};
         }
@@ -567,7 +567,7 @@ sub Run {
         # change state if 
         # customer set another state
         # or the ticket is not new
-        if ($Ticket{StateType} !~ /^new/ || $GetParam{StateID}) {
+        if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
             $Self->{TicketObject}->StateSet(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $ArticleID,
