@@ -920,7 +920,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Выберите разрешения клиент:группа.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Если ничего не выбрано, тогда у этой группы не будет прав (заявки будут недоступны клиенту).',
-        'Search Result:' => 'Результаты поиска:',
+        'Search Results' => 'Результаты поиска:',
         'Customers' => 'Клиенты',
         'Groups' => 'Группы',
         'No matches found.' => 'Совпадений не найдено.',

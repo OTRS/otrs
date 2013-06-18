@@ -917,7 +917,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Vybrat práva pro zákazníka:skupinu.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => 'Výsledek vyhledávání:',
+        'Search Results' => 'Výsledek vyhledávání',
         'Customers' => 'Zákazníci',
         'Groups' => 'Skupiny',
         'No matches found.' => 'Nenalezena žádná shoda.',

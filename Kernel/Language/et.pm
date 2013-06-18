@@ -911,7 +911,7 @@ sub Data {
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => 'Otsingu tulemus:',
+        'Search Results' => 'Otsingu tulemus',
         'Customers' => 'Kliendid',
         'Groups' => 'Rühmad',
         'No matches found.' => 'Vasteid ei leitud.',

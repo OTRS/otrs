@@ -913,7 +913,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Wybierz uprawnienia klient:grupa',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Jeśli nic nie zostało zaznaczone, wtedy nie ma uprawnień w tej grupie (zgłoszenia nie będą dostępne dla klienta).',
-        'Search Result:' => '',
+        'Search Results' => '',
         'Customers' => 'Klienci',
         'Groups' => 'Grupy',
         'No matches found.' => 'Nie odnaleziono dopasowań.',

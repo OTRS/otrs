@@ -919,7 +919,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Velg rettigheter for kunde:gruppe',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Hvis ingenting blir valgt vil det ikke være noen rettigheter for denne gruppen (saker vil ikke være synlige for brukeren).',
-        'Search Result:' => 'Søkeresultat:',
+        'Search Results' => 'Søkeresultat',
         'Customers' => 'Kunder',
         'Groups' => 'Grupper',
         'No matches found.' => 'Ingen treff funnet',

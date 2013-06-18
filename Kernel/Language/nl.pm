@@ -917,7 +917,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Selecteer de permissies voor klant:groep.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant zal geen tickets kunnen zien).',
-        'Search Result:' => 'Zoekresultaat:',
+        'Search Results' => 'Zoekresultaat',
         'Customers' => 'Klanten',
         'Groups' => 'Groepen',
         'No matches found.' => 'Niets gevonden.',

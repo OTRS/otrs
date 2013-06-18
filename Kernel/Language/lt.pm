@@ -911,7 +911,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Pasirinkite klientas:grupė leidimus',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (klientui triktys bus nepasiekiamos).',
-        'Search Result:' => 'Paieškos rezultatas:',
+        'Search Results' => 'Paieškos rezultatas',
         'Customers' => 'Klientai',
         'Groups' => 'Grupės',
         'No matches found.' => 'Nerasta atitikmenų.',
