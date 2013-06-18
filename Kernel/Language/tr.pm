@@ -874,7 +874,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Müşteri Yönetimi',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Müşteri ekle',
         'Select' => 'Seç',
         'Hint' => 'İpucu',

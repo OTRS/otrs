@@ -876,7 +876,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Asiakashallinta',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Lisää asiakas',
         'Select' => 'Valitse',
         'Hint' => 'Vinkki',

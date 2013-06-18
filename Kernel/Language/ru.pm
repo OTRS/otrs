@@ -883,7 +883,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Управление клиентами',
-        'Back to search result' => 'Назад к результатам поиска',
+        'Back to search results' => 'Назад к результатам поиска',
         'Add customer' => 'Добавить клиента',
         'Select' => 'Выбор',
         'Hint' => 'Подсказка',

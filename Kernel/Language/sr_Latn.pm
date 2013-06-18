@@ -874,7 +874,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Upravljanje korisnicima',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Dodaj korisnika',
         'Select' => 'Izaberi',
         'Hint' => 'Savet',

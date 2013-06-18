@@ -880,7 +880,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Správa zákazníků',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Přidat zákazníka',
         'Select' => 'Vybrat',
         'Hint' => 'Nápověda',

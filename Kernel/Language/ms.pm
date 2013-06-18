@@ -876,7 +876,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Pengurusan Pelanggan',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'menambah Pelanggan',
         'Select' => 'Pilih',
         'Hint' => 'Petunjuk',

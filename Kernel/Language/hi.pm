@@ -876,7 +876,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'ग्राहक प्रबंधन',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'ग्राहक जोड़ें',
         'Select' => 'चुनें',
         'Hint' => 'संकेत',

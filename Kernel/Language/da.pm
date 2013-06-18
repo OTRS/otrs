@@ -875,7 +875,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Administrer Kunde',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Tilføj kunde',
         'Select' => 'Vælg',
         'Hint' => 'Tip',

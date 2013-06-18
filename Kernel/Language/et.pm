@@ -874,7 +874,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Klientide haldamine',
-        'Back to search result' => '',
+        'Back to search results' => '',
         'Add customer' => 'Lisa klient',
         'Select' => 'Vali',
         'Hint' => 'Vihje',
