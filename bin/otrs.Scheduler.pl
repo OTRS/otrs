@@ -368,7 +368,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 Message   => "Could not create the directory $RunDir! Scheduler is stopping...!",
                 DeletePID => 1,
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
     }
 
@@ -385,7 +385,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             Message   => "Can not write into the PIDFILE: $!",
             DeletePID => 1,
         );
-        return $ExitCode;
+        exit $ExitCode;
     }
 
     # Log daemon start up
@@ -431,7 +431,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 Message => "Process could not be found in the process table!\n"
                     . "Scheduler is stopping...!\n",
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
 
         # check if Framework.xml file exists, otherwise quit because the otrs installation
@@ -444,7 +444,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                     . "Scheduler is stopping...!\n",
                 DeletePID => 1,
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
 
         # get config checksum
@@ -465,7 +465,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             my $ExitCode = _AutoStop(
                 DeletePID => 1,
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
 
         # check for hangup signal, requesting a config reload
