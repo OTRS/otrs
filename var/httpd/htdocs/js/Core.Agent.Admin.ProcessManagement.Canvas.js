@@ -525,7 +525,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 source: 'StartEvent',
                 target: EntityID,
                 anchor: 'Continuous',
-                endpoint: [ 'Blank' ],
+                endpoint: 'Blank',
                 detachable: true,
                 reattach: true,
                 overlays: [
