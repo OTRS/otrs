@@ -556,20 +556,24 @@ sub Run {
             return $Output;
         }
 
-        if ( $Self->{Config}->{State} ) {
-
-            # set state
+        # set state
+        my $NextState = $Self->{Config}->{StateDefault} || 'open';
+        if ( $GetParam{StateID} ) {
             my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
-            my $NextState = $NextStateData{Name}
-                || $Self->{Config}->{StateDefault}
-                || 'open';
+            $NextState = $NextStateData{Name};
+        }
+
+        # change state if 
+        # customer set another state
+        # or the ticket is not new
+        if ($Ticket{StateType} !~ /^new/ || $GetParam{StateID}) {
             $Self->{TicketObject}->StateSet(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $ArticleID,
                 State     => $NextState,
                 UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
-        }
+            );     
+        }  
 
         # set priority
         if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
