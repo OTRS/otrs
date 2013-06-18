@@ -292,11 +292,22 @@ sub FixedTimeSet {
     $TimeToSave = CORE::time() if ( !defined $TimeToSave );
     $FixedTime = $TimeToSave;
 
-    # This is needed to reload the time object to get a hold of the overrides.
-    if ( $INC{'Kernel/System/Time.pm'} ) {
-        no warnings 'redefine';
-        delete $INC{'Kernel/System/Time.pm'};
-        $Self->{MainObject}->Require('Kernel::System::Time');
+    # This is needed to reload objects that directly use the time functions
+    #   to get a hold of the overrides.
+    my @Objects = (
+        'Kernel::System::Time',
+        'Kernel::System::Cache::FileStorable',
+    );
+
+    for my $Object (@Objects) {
+        my $FilePath = $Object;
+        $FilePath =~ s{::}{/}xmsg;
+        $FilePath .= '.pm';
+        if ( $INC{$FilePath} ) {
+            no warnings 'redefine';
+            delete $INC{$FilePath};
+            $Self->{MainObject}->Require($Object);
+        }
     }
 
     return $FixedTime;

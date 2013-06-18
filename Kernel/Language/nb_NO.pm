@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:03
+    # Last translation file sync: 2013-06-14 08:49:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -697,6 +697,7 @@ sub Data {
         'Show the ticket history' => 'Vis saks-historikk',
         'Print this ticket' => 'Skriv ut denne saken',
         'Print this article' => 'Skriv ut denne artikkelen',
+        'Split' => '',
         'Split this article' => 'Skill ut denne artikkelen',
         'Forward article via mail' => 'Videresend artikkelen via e-post',
         'Change the ticket priority' => 'Bytt prioritet på saken',
@@ -1114,7 +1115,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbeidsenheter)',
+        '(work units)' => '(arbeidsenheter)',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -1653,6 +1654,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1673,6 +1675,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2461,11 +2464,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Hvordan skal vi tiltale deg',
         'Your First Name' => 'Ditt fornavn',
-        'Please supply a first name' => 'Vennligst skriv inn et fornavn',
         'Your Last Name' => 'Ditt etternavn',
-        'Please supply a last name' => 'Vennligst skriv inn et etternavn',
         'Your email address (this will become your username)' => 'Din e-postadresse (Dette vil bli ditt brukernavn)',
-        'Please supply a' => 'Vennligst oppgi en',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Endre personlige innstillinger',
@@ -2843,6 +2843,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Sett automatisk ansvarlig for en sak (hvis ikke satt) etter første eieroppdatering',
         'Balanced white skin by Felix Niklas.' => 'Balansert hvitt tema av Felix Niklas',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Blokkerer all innkommende e-post som ikke har et gyldig saksnummer i emnefeltet som er sendt fra @example.com-adresser.',
         'Builds an article index right after the article\'s creation.' =>
@@ -2878,8 +2880,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'Sett opp din egen loggtekst for PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Gir kunder mulighet til å sortere sakene sine.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3600,6 +3600,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'e-postadresser',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Aktiverer utskrift til PDF. CPAN-modulen PDF::API2 er påkrevd, dersom denne ikke er installert vil PDF-utskrift deaktiveres.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3663,6 +3664,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => 'Registrering av websidemodul i agentdelen.',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Nettsidetema',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Administrasjon: Generisk Saksbehandler',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4472,6 +4474,7 @@ sub Data {
             '',
         'Statistics' => 'Statistikk',
         'Status view' => 'Statusvisning',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Lagrer informasjonskapsler (cookies) etter at nettleseren har blitt stengt.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Tar vekk tomme linjer i saksvisningen i kølisten',
         'Textarea' => 'Tekstareale',
@@ -4553,11 +4556,12 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '(arbeidsenheter)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Legger til kunders e-postadresser som mottakere under Opprett Sak for saksbehandlere.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Customer Data' => 'Kundeinformasjon',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
@@ -4566,6 +4570,9 @@ sub Data {
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Package verification failed!' => 'Pakkevalidering feilet!',
+        'Please supply a' => 'Vennligst oppgi en',
+        'Please supply a first name' => 'Vennligst skriv inn et fornavn',
+        'Please supply a last name' => 'Vennligst skriv inn et etternavn',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
 

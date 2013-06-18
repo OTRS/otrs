@@ -184,6 +184,7 @@ $Text{"Unlock to give it back to the queue"}
 $Text{"Show the ticket history"}
 $Text{"Print this ticket"}
 $Text{"Print this article"}
+$Text{"Split"}
 $Text{"Split this article"}
 $Text{"Forward article via mail"}
 $Text{"Change the ticket priority"}

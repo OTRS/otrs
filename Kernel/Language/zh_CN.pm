@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:15
+    # Last translation file sync: 2013-06-14 08:49:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -694,6 +694,7 @@ sub Data {
         'Show the ticket history' => '显示该工单的历史',
         'Print this ticket' => '打印该工单',
         'Print this article' => '打印该文章',
+        'Split' => '',
         'Split this article' => '拆分该文章',
         'Forward article via mail' => '通过邮件转发该邮件',
         'Change the ticket priority' => '改变该工单的优先级',
@@ -1111,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '工作单元',
+        '(work units)' => '工作单元',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1650,6 +1651,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1670,6 +1672,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2458,11 +2461,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '称谓',
         'Your First Name' => '名字',
-        'Please supply a first name' => '请提供您的名字',
         'Your Last Name' => '姓',
-        'Please supply a last name' => '请提供您的姓',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => '请提供',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '编辑个人设置',
@@ -2840,6 +2840,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2874,8 +2876,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3597,6 +3597,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Email 地址',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3660,6 +3661,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4469,6 +4471,7 @@ sub Data {
             '',
         'Statistics' => '统计',
         'Status view' => '状态视图',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4554,6 +4557,9 @@ sub Data {
         'For more info see:' => '更多信息请看',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Package verification failed!' => '软件包验证失败',
+        'Please supply a' => '请提供',
+        'Please supply a first name' => '请提供您的名字',
+        'Please supply a last name' => '请提供您的姓',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
 

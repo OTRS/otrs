@@ -95,9 +95,37 @@ ul#ProcessElements li.AccordionElement h2 {
 }
 
 ul#ProcessElements li.AccordionElement h2 a {
-    padding: 5px;
-    color: #474747;
+    padding: 5px 5px 5px 20px;
+    color: #999;
     font-size: 12px;
+    position: relative;
+}
+
+ul#ProcessElements li.AccordionElement h2 a span {
+    display: block;
+    background: url(../img/toggle_arrow.png) no-repeat left top;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 3px;
+    top: 4px;
+    opacity: 0.3;
+    filter: Alpha(opacity=30);
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a {
+    color: #000;
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a span {
+    opacity: 1.0;
+    filter: Alpha(opacity=100);
+    background-position: bottom center;
+    top: 5px;
+}
+
+ul#ProcessElements li.AccordionElement.Active {
+    background-color: #fff;
 }
 
 ul#ProcessElements li.AccordionElement div.Content {
@@ -254,12 +282,14 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     margin-top: -3px;
 }
 
-.DiagramDeleteLink {
+.DiagramDeleteLink,
+.DiagramEditLink {
     position: absolute;
     display: none;
 }
 
-.DiagramDeleteLink a {
+.DiagramDeleteLink a,
+.DiagramEditLink a {
     background: #FFFFFF;
     border: 1px solid #AAAAAA;
     border-radius: 13px;
@@ -274,7 +304,8 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     color: #aaa;
 }
 
-.DiagramDeleteLink a:hover {
+.DiagramDeleteLink a:hover,
+.DiagramEditLink a:hover {
     color: #FF9922;
 }
 
@@ -400,6 +431,12 @@ em.EntityID {
     right: -10px;
 }
 
+#Canvas .Activity .DiagramEditLink {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+}
+
 #Canvas .EndpointHover {
     z-index: 150;
 }
@@ -457,6 +494,11 @@ em.EntityID {
     top: -10px;
     cursor: pointer;
     display: none;
+}
+
+#Canvas .TransitionLabel a.Edit {
+    right: auto;
+    left: -13px;
 }
 
 #Canvas .TransitionLabel a:hover {

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:04
+    # Last translation file sync: 2013-06-14 08:49:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -691,6 +691,7 @@ sub Data {
         'Show the ticket history' => 'Pokaż historię zgłoszenia',
         'Print this ticket' => 'Wydrukuj to zgłoszenie',
         'Print this article' => 'Wydrukuj ten artykuł',
+        'Split' => 'Podziel',
         'Split this article' => 'Podziel ten artykuł',
         'Forward article via mail' => 'Prześlij artykuł za pomocą e-mail',
         'Change the ticket priority' => 'Zmień priorytet zgłoszenia',
@@ -1108,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Zaraportowany czas obsługi',
-        ' (work units)' => ' (jednostki czasu)',
+        '(work units)' => '(jednostki czasu)',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -1647,6 +1648,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Zwiększ szerokość obszaru projektu',
         'Extend the height of the Canvas' => 'Zwiększ wysokość obszaru projektu',
         'Remove the Activity from this Process' => 'Usuń działanie z tego procesu',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => 'Czy na pewno chcesz usunąć ten proces?',
         'Do you really want to delete this Activity?' => 'Czy na pewno chcesz usunąć to działanie? ',
         'Do you really want to delete this Activity Dialog?' => 'Czy na pewno chcesz usunąć to okno działania? ',
@@ -1667,6 +1669,7 @@ sub Data {
             'To przejście jest już użyte w tym działaniu. Nie możesz użyć go dwukrotnie!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Ta akcja przejścia jest już użyta na tej ścieżce. Nie możesz użyć jej dwukrotnie!',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Brak przypisanych akcji przejścia.',
         'The Start Event cannot loose the Start Transition!' => 'Zdarzenie początkowe nie może utracić początkowego przejścia!',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2458,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Wypełnij ten formularz aby otrzymać dane logowania.',
         'How we should address you' => 'Jak powinniśmy cię tytułować',
         'Your First Name' => 'Twoje imię',
-        'Please supply a first name' => 'Podaj imię',
         'Your Last Name' => 'Twoje nazwisko',
-        'Please supply a last name' => 'Podaj nazwisko',
         'Your email address (this will become your username)' => 'Twój adres e-mail (stanie się twoją nazwą użytkownika)',
-        'Please supply a' => 'Podaj proszę',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
@@ -2837,6 +2837,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2871,8 +2873,6 @@ sub Data {
         'Configure Processes.' => 'Konfiguracja procesów.',
         'Configure your own log text for PGP.' => 'Skonfiguruj swój własny tekst-log dla PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3594,6 +3594,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adresy e-mail',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3657,6 +3658,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Schemat graficzny',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Agent automatyczny',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4466,6 +4468,7 @@ sub Data {
             '',
         'Statistics' => 'Statystyki',
         'Status view' => 'Widok statusów',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4548,7 +4551,6 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' On' => 'W dniu',
-        '(work units)' => '(jednostki czasu)',
         'Agent Interface' => 'Interfejs agenta',
         'Agent and Customer Interface' => 'Interfejs agenta i klienta',
         'Approved' => 'Zatwierdzone',
@@ -4584,6 +4586,9 @@ sub Data {
         'Out Of Office' => 'Poza biurem',
         'Package verification failed!' => 'Weryfikacja pakietu nie powiodła się!',
         'Phone{CustomerUser}' => 'Telefon',
+        'Please supply a' => 'Podaj proszę',
+        'Please supply a first name' => 'Podaj imię',
+        'Please supply a last name' => 'Podaj nazwisko',
         'Postponed' => 'Odłożone',
         'Pre-approved' => 'Wstępnie zatwierdzone',
         'ProcessManagementActivityID' => 'ID działania w procesie',
@@ -4595,7 +4600,6 @@ sub Data {
         'Show Field' => 'Wyświetlaj pole',
         'Show Field As Mandatory' => 'Wyświetlaj pole jako wymagane',
         'Sign Warning' => 'Ostrzeżenie',
-        'Split' => 'Podziel',
         'State Historic' => 'Historyczny status',
         'State Type' => 'Typ statusu',
         'State Type Historic' => 'Historyczny typ statusu',

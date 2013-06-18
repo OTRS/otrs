@@ -990,6 +990,19 @@ sub Run {
                     DynamicFields => 1,
                 );
 
+                if ( !%Data ) {
+
+                    # get ticket data instead
+                    %Data = $Self->{TicketObjectSearch}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 1,
+                    );
+
+                    # set missing information
+                    $Data{Subject} = $Data{Title};
+                    $Data{From} = '--';
+                }
+
                 # customer info
                 my %CustomerData;
                 if ( $Data{CustomerUserID} ) {
@@ -1324,7 +1337,7 @@ sub Run {
         );
 
         # convert attributes
-        if ( $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
+        if ( defined $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
             $GetParam{ShownAttributes} = join ';', @{ $GetParam{ShownAttributes} };
         }
 

@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:55
+    # Last translation file sync: 2013-06-14 08:49:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -696,6 +696,7 @@ sub Data {
         'Show the ticket history' => 'Afficher l\'historique de la demande',
         'Print this ticket' => 'Imprimer cette demande',
         'Print this article' => 'Imprimer cet article',
+        'Split' => 'Scinder',
         'Split this article' => 'Scinder cet article',
         'Forward article via mail' => 'Transférer l\'article par courriel',
         'Change the ticket priority' => 'Modifier la priorité de la demande no ',
@@ -1113,7 +1114,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => ' Unité de travail',
+        '(work units)' => 'Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -1652,6 +1653,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1672,6 +1674,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2460,11 +2463,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Veuillez remplir ce formulaire pour recevoir les justificatifs d\'identité permettant de se connecter.',
         'How we should address you' => 'Titre de civilité',
         'Your First Name' => 'Prénom',
-        'Please supply a first name' => 'Veuillez fournir un prénom',
         'Your Last Name' => 'Nom de famille',
-        'Please supply a last name' => 'Veuillez fournir un nom de famille',
         'Your email address (this will become your username)' => 'Votre adresse électronique (vous utiliserez celle-ci comme nom d\'utilisateur)',
-        'Please supply a' => 'Veuillez fournir un ',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Éditer les préférences',
@@ -2842,6 +2842,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Détermine systématiquement le responsable d\'une demande (s\'il n\'a pas encore été déterminé) après la mise à jour du premier propriétaire.',
         'Balanced white skin by Felix Niklas.' => 'Habillage blanc équilibré conçu par Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Pare tous les courriels entrants qui ont un numéro de demande qui n\'est pas valide inscrit dans le champ objet et dont l\'adresse de provenance est « @exemple.com ».',
         'Builds an article index right after the article\'s creation.' =>
@@ -2877,8 +2879,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'Configure votre journal pour le logiciel de chiffrement PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             'Réglage par défaut du champ dynamique de demande. Le champ « Nom » est le champ dynamique qui devrait être utilisé, le champ « Valeur » est la donnée qui sera configurée et le champ « Événement » est celui qui est défini comme déclencheur d\'événement. Veuillez consulter le guide du développeur (http://doc.otrs.org/) au chapitre Module d\'événement de la demande.',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'Réglage de l\'index de texte intégral. Exécutez « bin/otrs.RebuildFulltextIndex.pl » pour générer un nouvel index.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Contrôle la possibilité pour les clients de classer leurs demandes.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3599,6 +3599,7 @@ sub Data {
         'DynamicField object registration.' => 'Enregistrement de l\'objet « Champ dynamique » (DynamicField).',
         'Edit customer company' => '',
         'Email Addresses' => 'Adresses de courrier électronique',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Permet l\'envoi de PDF. Le module CPAN PDF::AP12 est nécessaire. S\'il n\'est pas installé, l\'envoi de PDF sera désactivé.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3662,6 +3663,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => 'Enregistrement du module interface pour l\'interface agent.',
         'Frontend module registration for the customer interface.' => 'Enregistrement du module interface pour l\'interface client.',
         'Frontend theme' => 'Thème de l\'interface',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Agent générique',
         'GenericInterface Debugger GUI' => 'Débogueur IUG de l\'interface générique',
         'GenericInterface Invoker GUI' => 'Demandeur IUG de l\'interface générique',
@@ -4471,6 +4473,7 @@ sub Data {
             'Démarre une recherche de caractères de remplacement de l\'object actif après le démarrage du masque de l\'objet lié.',
         'Statistics' => 'Statistiques',
         'Status view' => 'Vue des états ',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Enregistre les témoins de connexion après la fermeture du navigateur',
         'Strips empty lines on the ticket preview in the queue view.' => 'Élimine les lignes vides dans l\'aperçu de la demande de la vue des files.',
         'Textarea' => 'Zone de texte',
@@ -5168,6 +5171,8 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Options de configuration (ex. : <OTRS_CONFIG_HttpType>)',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Options de configuration (ex. : <OTRS_CONFIG_HttpType>).',
         'Configure Home in Kernel/Config.pm first!' => 'Configure d\'abord « Home » dans Kernel/Config.pm.',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'Réglage de l\'index de texte intégral. Exécutez « bin/otrs.RebuildFulltextIndex.pl » pour générer un nouvel index.',
         'Congo' => 'Congo',
         'Congo, The Democratic Republic of the' => 'Congo, République démocratique du',
         'Contact customer' => 'Rejoindre le client',
@@ -6710,6 +6715,9 @@ sub Data {
             'Veuillez sélectionner un seul élément ou désactiver le bouton « Figer » là où le champ sélectionné est en surbrillance.',
         'Please set a strong password for SOAP::Password in SysConfig.' =>
             'Veuillez configurer un mot de passe fort pour SOAP::Password in SysConfig.',
+        'Please supply a' => 'Veuillez fournir un ',
+        'Please supply a first name' => 'Veuillez fournir un prénom',
+        'Please supply a last name' => 'Veuillez fournir un nom de famille',
         'Poland' => 'Pologne',
         'Portugal' => 'Portugal',
         'Postmaster' => 'Maître de poste',
@@ -6929,7 +6937,6 @@ sub Data {
         'South Georgia and the South Sandwich Islands' => 'Géorgie du Sud-et-les îles Sandwich du Sud',
         'Spain' => 'Espagne',
         'Spell Check' => 'Vérification orthographique',
-        'Split' => 'Scinder',
         'Sri lanka' => 'Sri Lanka',
         'Standard Address.' => 'Adresse d\'usage.',
         'Standard Salutation.' => 'Salutation usuelle.',

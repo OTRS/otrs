@@ -222,6 +222,12 @@ creates the field HTML to be used in edit masks.
             'Key1' => 'Value1',                           #     This may be needed to realize ACL support for ticket masks,
             'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
         },
+        Template             => {                         # Optional data structure of GenericAgent etc.
+                Owner => 2,                               # Value is accessable via field name (DynamicField_ + field name)
+                Title => 'Generic Agent Job was here'     # and could be a scalar, Hash- or ArrayRef
+                ...
+                DynamicField_ExampleField1 => 'Value 1'
+            }
         Value                => 'Any value',              # Optional
         Mandatory            => 1,                        # 0 or 1,
         Class                => 'AnyCSSClass OrOneMore',  # Optional

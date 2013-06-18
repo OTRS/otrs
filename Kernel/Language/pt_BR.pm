@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:06
+    # Last translation file sync: 2013-06-14 08:49:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -693,6 +693,7 @@ sub Data {
         'Show the ticket history' => 'Mostrar histórico do chamado',
         'Print this ticket' => 'Imprimir Este Chamado',
         'Print this article' => 'Imprimir Este Crtigo',
+        'Split' => '',
         'Split this article' => 'Dividir Este Artigo',
         'Forward article via mail' => 'Encaminhar Artigo por E-mail',
         'Change the ticket priority' => 'Alterar Prioridade do Chamado',
@@ -1110,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de Tempo',
-        ' (work units)' => '',
+        '(work units)' => '(unidades de trabalho)',
         'Ticket Commands' => 'Comandos-Chamado',
         'Send agent/customer notifications on changes' => 'Enviar Notificações De Alterações Para Atendente/Cliente',
         'CMD' => 'Comando',
@@ -1649,6 +1650,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Expandir Largura da Tela',
         'Extend the height of the Canvas' => 'Expandir Altura da Tela',
         'Remove the Activity from this Process' => 'Remover a Atividade Deste Processo',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => 'Você realmente deseja excluir este Processo?',
         'Do you really want to delete this Activity?' => 'Você realmente deseja excluir esta Atividade?',
         'Do you really want to delete this Activity Dialog?' => 'Você realmente deseja excluir esta Janela de Atividade?',
@@ -1669,6 +1671,7 @@ sub Data {
             'Esta Transição já está em uso nesta Atividade. Você não pode adicioná-la novamente!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Esta Ação de Transição já está em uso por este Caminho. Você não pode adicioná-la novamente!',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Nenhum Ação de Transição atribuída.',
         'The Start Event cannot loose the Start Transition!' => 'O Início do Evento não pode perder o Início da Transição.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2457,11 +2460,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Por favor, preencha este formulário para receber as credenciais de login.',
         'How we should address you' => 'Como devemos descrever você?',
         'Your First Name' => 'Seu Primeiro Nome',
-        'Please supply a first name' => 'Por favor, forneça o primeiro nome',
         'Your Last Name' => 'Seu Último Nome',
-        'Please supply a last name' => 'Por favor, forneça o último nome',
         'Your email address (this will become your username)' => 'Seu e-mail (este será seu nome de usuário para login)',
-        'Please supply a' => 'Por favor, forneça um(a)',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editar preferências pessoais',
@@ -2839,6 +2839,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automaticamente ajustar o responsável de um chamado (caso não esteja definido ainda) após a primeira atualização de proprietário.',
         'Balanced white skin by Felix Niklas.' => 'Pele branca balanceada por Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Bloqueia todos os e-mails recebidos que não possuam um número de chamado válido no assunto com endereço De: @exemplo.com.',
         'Builds an article index right after the article\'s creation.' =>
@@ -2874,8 +2876,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'Configure o seu próprio texto de registro para PGP.',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'Configura o índice de texto completo. Execute "bin/otrs.RebuildFulltextIndex.pl" de forma a gerar um novo índice.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Controla se os clientes têm a capacidade de classificar os seus chamados.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3596,6 +3596,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Endereços de E-mail',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3659,6 +3660,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Tema da interface',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Atendente Genérico',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4468,6 +4470,7 @@ sub Data {
             '',
         'Statistics' => 'Estatísticas',
         'Status view' => 'Visão de Estado',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4549,17 +4552,21 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '(unidades de trabalho)',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Adiciona endereços de e-mail de clientes para destinatários na tela de composição de chamados da tela do atendente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'Configura o índice de texto completo. Execute "bin/otrs.RebuildFulltextIndex.pl" de forma a gerar um novo índice.',
         'Customer Data' => 'Dados do Cliente',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Não encontrou uma funcionalidade necessária? O Grupo OTRS fornece Add-Ons exclusivos aos assinantes:',
         'For more info see:' => 'Para mais informações acesse:',
         'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
         'Package verification failed!' => 'A verificação do pacote falhou!',
+        'Please supply a' => 'Por favor, forneça um(a)',
+        'Please supply a first name' => 'Por favor, forneça o primeiro nome',
+        'Please supply a last name' => 'Por favor, forneça o último nome',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'O modo seguro deve estar desabilitado para reinstalar utilizando o instalador web.',
         'There are currently no steps available for this process.' => 'Não há ações disponíveis para esse processo atualmente.',

@@ -543,7 +543,7 @@ sub SendEmail {
     my $NextState = $StateData{Name};
 
     # check pending date
-    if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+    if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
         if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
             $Error{'DateInvalid'} = 'ServerError';
         }
@@ -937,7 +937,7 @@ sub SendEmail {
     $Self->{UploadCacheObject}->FormIDRemove( FormID => $GetParam{FormID} );
 
     # redirect
-    if ( $StateData{TypeName} =~ /^close/i ) {
+    if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^close/i ) {
         return $Self->{LayoutObject}->PopupClose(
             URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' ),
         );

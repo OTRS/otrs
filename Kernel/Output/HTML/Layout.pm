@@ -204,7 +204,7 @@ sub new {
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
-    my $HttpUserAgent = lc $ENV{HTTP_USER_AGENT};
+    my $HttpUserAgent = ( defined $ENV{HTTP_USER_AGENT} ? lc $ENV{HTTP_USER_AGENT} : '' );
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
@@ -4996,22 +4996,6 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
-    # SelectedID and SelectedValue option
-    if ( $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
-        for my $Row ( @{$DataRef} ) {
-            if (
-                (
-                    $OptionRef->{SelectedID}->{ $Row->{Key} }
-                    || $OptionRef->{SelectedValue}->{ $Row->{Value} }
-                )
-                && !$DisabledElements{ $Row->{Value} }
-                )
-            {
-                $Row->{Selected} = 1;
-            }
-        }
-    }
-
     # DisabledBranch option
     if ( $OptionRef->{DisabledBranch} ) {
         for my $Row ( @{$DataRef} ) {
@@ -5057,6 +5041,22 @@ sub _BuildSelectionDataRefCreate {
         $None{Value} = '-';
 
         unshift( @{$DataRef}, \%None );
+    }
+
+    # SelectedID and SelectedValue option
+    if ( defined $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
+        for my $Row ( @{$DataRef} ) {
+            if (
+                (
+                    $OptionRef->{SelectedID}->{ $Row->{Key} }
+                    || $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                )
+                && !$DisabledElements{ $Row->{Value} }
+                )
+            {
+                $Row->{Selected} = 1;
+            }
+        }
     }
 
     # TreeView option

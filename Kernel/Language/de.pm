@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:47
+    # Last translation file sync: 2013-06-14 08:49:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -689,6 +689,7 @@ sub Data {
         'Show the ticket history' => 'Ticket-Historie anzeigen',
         'Print this ticket' => 'Dieses Ticket drucken',
         'Print this article' => 'Diesen Artikel drucken',
+        'Split' => 'Teilen',
         'Split this article' => 'Diesen Artikel teilen',
         'Forward article via mail' => 'Artikel per E-Mail weiterleiten',
         'Change the ticket priority' => 'Ticket-Priorität ändern',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        ' (work units)' => ' (Arbeitseinheiten)',
+        '(work units)' => '(Arbeitseinheiten)',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -1645,6 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Die Breite der Zeichenfläche vergrößern',
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
+        'Edit this Activity' => 'Diese Aktivität bearbeiten',
         'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
         'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
         'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
@@ -1665,6 +1667,7 @@ sub Data {
             'Dieser Übergang wird bereits für diese Aktiviät verwendet. Sie können ihn nicht erneut hinzufügen!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Diese Übergangsaktion wird bereits in diesem Pfad verwendet. Sie können sie nicht erneut hinzufügen!',
+        'Remove the Transition from this Process' => 'Diesen Übergang aus dem Prozess entfernen',
         'No TransitionActions assigned.' => 'Keine Übergangsaktionen zugewiesen.',
         'The Start Event cannot loose the Start Transition!' => 'Das Startereignis kann den Start-Übergang nicht verlieren.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2453,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Bitte füllen Sie dieses Formular aus, um Ihre Anmeldedaten zu erhalten.',
         'How we should address you' => 'Wie sollen wir Sie ansprechen?',
         'Your First Name' => 'Ihr Vorname',
-        'Please supply a first name' => 'Bitte geben Sie einen Vornamen an',
         'Your Last Name' => 'Ihr Nachname',
-        'Please supply a last name' => 'Bitte geben Sie einen Nachnamen an',
         'Your email address (this will become your username)' => 'Ihre E-Mail-Adresse (das wird Ihr Benutzername)',
-        'Please supply a' => 'Angabe notwendig:',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
@@ -2835,6 +2835,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2869,8 +2871,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3592,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-Mail Adressen',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3655,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Oberflächen-Schema',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4464,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => 'Statistiken',
         'Status view' => 'Ansicht nach Status',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => 'Textfeld',
@@ -4545,7 +4548,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => 'Arbeitseinheiten',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Customer Data' => 'Kunden-/Kontakt-Daten',
@@ -4553,11 +4555,17 @@ sub Data {
             'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
         'For more info see:' => 'Für mehr Informationen hier:',
         'Historic Time Range' => 'Historischer Zeitraum',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            'Sollte ein Root-Passwort für die Datenbank gesetzt sein, muss dieses hier angegeben werden. Anderenfalls muss dieses Feld leer bleiben.',
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'New email ticket for %s' => 'Neues E-Mail-Ticket für %s',
         'New phone ticket for %s' => 'Neues Telefonticket für %s',
         'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
+        'Please supply a' => 'Angabe notwendig:',
+        'Please supply a first name' => 'Bitte geben Sie einen Vornamen an',
+        'Please supply a last name' => 'Bitte geben Sie einen Nachnamen an',
+        'Repeat Password' => 'Passwort wiederholen',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'State Historic' => 'Historischer Status',

@@ -14,8 +14,6 @@ use utf8;
 use Kernel::System::UnitTest::Helper;
 use vars (qw($Self));
 
-use Time::HiRes qw( usleep );
-
 use Kernel::Config;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
@@ -51,6 +49,9 @@ my $StateObject = Kernel::System::State->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+
+# set fixed time
+$HelperObject->FixedTimeSet();
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
@@ -640,7 +641,7 @@ my %TicketData = $TicketObject->TicketGet(
 my $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-sleep 5;
+$HelperObject->FixedTimeAddSeconds(5);
 
 my $TicketTitle = $TicketObject->TicketTitleUpdate(
     Title    => 'Some Title 1234567',
@@ -675,7 +676,7 @@ $Self->IsNot(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-sleep 5;
+$HelperObject->FixedTimeAddSeconds(5);
 
 # set unlock timeout
 my $UnlockTimeout = $TicketObject->TicketUnlockTimeoutUpdate(
@@ -709,7 +710,7 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentQueueID = $TicketData{QueueID};
 
 # wait 5 seconds
-sleep 5;
+$HelperObject->FixedTimeAddSeconds(5);
 
 my $NewQueue = $CurrentQueueID != 1 ? 1 : 2;
 
@@ -752,7 +753,7 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentTicketType = $TicketData{TypeID};
 
 # wait 5 seconds
-sleep 5;
+$HelperObject->FixedTimeAddSeconds(5);
 
 # create a test type
 my $TypeID = $TypeObject->TypeAdd(
@@ -810,7 +811,7 @@ my $ServiceID = $ServiceObject->ServiceAdd(
 );
 
 # wait 1 seconds
-sleep 1;
+$HelperObject->FixedTimeAddSeconds(1);
 
 # set type
 my $TicketServiceSet = $TicketObject->TicketServiceSet(
@@ -849,7 +850,7 @@ $ServiceObject->ServiceUpdate(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-sleep 5;
+$HelperObject->FixedTimeAddSeconds(5);
 
 my $TicketEscalationIndexBuild = $TicketObject->TicketEscalationIndexBuild(
     TicketID => $TicketID,
@@ -886,7 +887,7 @@ my $SLAID = $SLAObject->SLAAdd(
 );
 
 # wait 5 seconds
-sleep 5;
+$HelperObject->FixedTimeAddSeconds(5);
 
 # set SLA
 my $TicketSLASet = $TicketObject->TicketSLASet(
@@ -1440,7 +1441,8 @@ my %TicketCreated = $TicketObject->TicketGet(
     UserID   => 1,
 );
 
-sleep 2;
+# wait 5 seconds
+$HelperObject->FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests2',
@@ -1454,7 +1456,8 @@ my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-sleep 2;
+# wait 5 seconds
+$HelperObject->FixedTimeAddSeconds(2);
 
 my $Success = $TicketObject->TicketStateSet(
     State    => 'open',
@@ -1561,7 +1564,8 @@ my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-sleep 2;
+# wait 2 seconds
+$HelperObject->FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests2',

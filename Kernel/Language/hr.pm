@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:57
+    # Last translation file sync: 2013-06-14 08:49:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -693,6 +693,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => '',
@@ -1110,7 +1111,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
-        ' (work units)' => ' (elementi posla)',
+        '(work units)' => '(elementi posla)',
         'Ticket Commands' => 'Komande za karticu',
         'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
         'CMD' => 'CMD',
@@ -1649,6 +1650,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1669,6 +1671,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2457,11 +2460,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Kako da Vas oslovljavamo',
         'Your First Name' => 'Vaše ime',
-        'Please supply a first name' => 'Molimo, unesite ime',
         'Your Last Name' => 'Vaše prezime',
-        'Please supply a last name' => 'Molimo, unesite prezime',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Molimo, unesite',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Uredite osobne postavke',
@@ -2839,6 +2839,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => 'Balansirani bijeli izgled, Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2873,8 +2875,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontrolira da li korisnici imaju mogućnost sortiranja svojih kartica.',
@@ -3596,6 +3596,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adrese E-pošte',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3659,6 +3660,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4468,6 +4470,7 @@ sub Data {
             '',
         'Statistics' => 'Statistike',
         'Status view' => 'Pregled statusa',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'Čuva kolačiće nakon zatvaranja pretraživača.',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4555,6 +4558,9 @@ sub Data {
         'For more info see:' => 'Za dodatne informacije pogledaj:',
         'Logout successful. Thank you for using OTRS!' => 'Uspješno ste se odjavili! Hvala što ste koristili OTRS!',
         'Package verification failed!' => 'Neuspjela provjera paketa!',
+        'Please supply a' => 'Molimo, unesite',
+        'Please supply a first name' => 'Molimo, unesite ime',
+        'Please supply a last name' => 'Molimo, unesite prezime',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '"Siguran način" mora biti isključen radi reinstalacije putem weba.',
 

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:49
+    # Last translation file sync: 2013-06-17 09:44:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -244,7 +244,7 @@ sub Data {
         'Configure Mail' => 'Configurar el correo',
         'Database deleted.' => 'Base de datos borroada.',
         'Database setup successful!' => '¡Base de datos configurada con éxito!',
-        'Generated password' => '',
+        'Generated password' => 'Contraseña generada',
         'Login is needed!' => '¡Se requiere un nombre de usuario!',
         'Password is needed!' => '¡Se requiere una contraseña!',
         'Take this Customer' => 'Utilizar este cliente',
@@ -361,9 +361,9 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             '',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'Paquete no verificado por el grupo OTRS. Se recomienda que no use este paquete.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
+            '<br>Si continúa e instala este paquete, se podrían procir los siguientes problemas<br><br>&nbsp;-Problemas de seguridad<br>&nbsp;-Problemas de estabilidad<br>&nbsp;-Problemas de rendimiento<br><br>Tenga en cuenta que los problemas causados por usar este paquete no están cubiertos por los contratos de servicio de OTRS.<br><br>',
         'Bold' => 'Negrita',
         'Italic' => 'Itálica',
         'Underline' => 'Subrayado',
@@ -657,7 +657,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'No tiene permisos de escritura sobre este ticket',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Disculpe, necesita ser el propietario del ticket para realizar esta acción.',
-        'Please change the owner first.' => '',
+        'Please change the owner first.' => 'Por favor, cambie antes el propietario.',
         'Ticket selected.' => 'Ticket seleccionado',
         'Ticket is locked by another agent.' => 'El ticket está bloqueado por otro agente',
         'Ticket locked.' => 'Ticket bloqueado',
@@ -694,6 +694,7 @@ sub Data {
         'Show the ticket history' => 'Mostrar el historial del ticket',
         'Print this ticket' => 'Imprimir este ticket',
         'Print this article' => 'Imprimir este artículo',
+        'Split' => 'Dividir',
         'Split this article' => 'Dividir este artículo',
         'Forward article via mail' => 'Reenviar el artículo por correo',
         'Change the ticket priority' => 'Cambiar la prioridad del ticket',
@@ -878,7 +879,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gestión de clientes',
-        'Back to search result' => '',
+        'Back to search result' => 'Volver a los resultados de la búsqueda',
         'Add customer' => 'Añadir un cliente',
         'Select' => 'Seleccionar',
         'Hint' => 'Consejo',
@@ -1080,7 +1081,7 @@ sub Data {
         'Ticket pending time reached' => 'Alcanzado el tiempo de espera del ticket',
         'Ticket pending time reached between' => 'Alcanzado el tiempo de espera del ticket entre',
         'Escalation times' => 'Fechas de escalada',
-        'No escalation time settings.' => 'No hay fechas de escalada',
+        'No escalation time settings.' => 'No hay ajustes para las fechas de escalada',
         'Ticket escalation time reached' => 'Alcanzada la fecha de escalada del ticket',
         'Ticket escalation time reached between' => 'Alcanzada la fecha de escalada del ticket entre',
         'Escalation - first response time' => 'Escalada - fecha de la primera respuesta',
@@ -1111,7 +1112,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Enviar notificación de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -1371,10 +1372,10 @@ sub Data {
         'Edit Group' => '',
 
         # Template: AdminLog
-        'System Log' => 'Trazas del Sistema',
-        'Here you will find log information about your system.' => '',
-        'Hide this message' => '',
-        'Recent Log Entries' => '',
+        'System Log' => 'Registro del sistema',
+        'Here you will find log information about your system.' => 'Aquí encontrará información de registro sobre su sistema.',
+        'Hide this message' => 'Ocultar este mensaje',
+        'Recent Log Entries' => 'Entradas recientes del registro',
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Gestión de Cuentas de Correo',
@@ -1397,10 +1398,10 @@ sub Data {
 
         # Template: AdminNavigationBar
         'Admin' => 'Administrar',
-        'Agent Management' => '',
-        'Queue Settings' => '',
-        'Ticket Settings' => '',
-        'System Administration' => '',
+        'Agent Management' => 'Gestión de agentes',
+        'Queue Settings' => 'Ajustes de las colas',
+        'Ticket Settings' => 'Ajustes de los tickets',
+        'System Administration' => 'Administración del sistema',
 
         # Template: AdminNotification
         'Notification Management' => 'Gestión de Notificaciones',
@@ -1465,10 +1466,10 @@ sub Data {
         'Install Package' => '',
         'Update repository information' => '',
         'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            '',
-        'Online Repository' => 'Repositorio Online',
+            '¿No encuentra una función que necesita? El Grupo OTRS proporciona a sus clientes con contrato de servicio extensiones exclusivas:',
+        'Online Repository' => 'Repositorio en línea',
         'Vendor' => 'Vendedor',
-        'Module documentation' => 'Módulo de Documentación',
+        'Module documentation' => 'Módulo de documentación',
         'Upgrade' => 'Actualizar',
         'Local Repository' => 'Repositorio Local',
         'Uninstall' => 'Desinstalar',
@@ -1532,10 +1533,10 @@ sub Data {
         'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
-        'Priority Management' => 'Gestión de Prioridades',
-        'Add priority' => '',
-        'Add Priority' => 'Añadir Prioridad',
-        'Edit Priority' => '',
+        'Priority Management' => 'Gestión de prioridades',
+        'Add priority' => 'Añadir prioridad',
+        'Add Priority' => 'Añadir prioridad',
+        'Edit Priority' => 'Editar la prioridad',
 
         # Template: AdminProcessManagement
         'Process Management' => '',
@@ -1650,6 +1651,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1670,6 +1672,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -1719,18 +1722,18 @@ sub Data {
         'Add a new Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => '',
-        'Add queue' => '',
-        'Add Queue' => '',
-        'Edit Queue' => '',
-        'Sub-queue of' => '',
+        'Manage Queues' => 'Gestionar las colas',
+        'Add queue' => 'Añadir cola',
+        'Add Queue' => 'Añadir cola',
+        'Edit Queue' => 'Editar la cola',
+        'Sub-queue of' => 'Subcola de',
         'Unlock timeout' => 'Tiempo para desbloqueo automático',
         '0 = no unlock' => '0 = sin desbloqueo',
         'Only business hours are counted.' => 'Sólo se contarán las horas de trabajo',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             '',
         'Notify by' => 'Notificado por',
-        '0 = no escalation' => '0 = sin escalado',
+        '0 = no escalation' => '0 = sin escalada',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             '',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
@@ -1823,13 +1826,13 @@ sub Data {
         # Template: AdminSLA
         'SLA Management' => 'Gestión de SLA',
         'Add SLA' => 'Añadir SLA',
-        'Edit SLA' => '',
-        'Please write only numbers!' => '',
+        'Edit SLA' => 'Editar el SLA',
+        'Please write only numbers!' => 'Introduzca sólo números.',
 
         # Template: AdminSMIME
         'S/MIME Management' => 'Gestion S/MIME',
-        'Add certificate' => '',
-        'Add private key' => '',
+        'Add certificate' => 'Añadir certificado',
+        'Add private key' => 'Añadir clave privada',
         'Filter for certificates' => '',
         'Filter for SMIME certs' => '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
@@ -1851,15 +1854,15 @@ sub Data {
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => '',
+        'SMIME Certificate' => 'Certificado SMIME',
         'Close window' => 'Cerrar la ventana',
 
         # Template: AdminSalutation
-        'Salutation Management' => 'Gestión de Saludos',
-        'Add salutation' => '',
-        'Add Salutation' => 'Añadir Saludo',
-        'Edit Salutation' => '',
-        'Example salutation' => '',
+        'Salutation Management' => 'Gestión de saludos',
+        'Add salutation' => 'Añadir saludo',
+        'Add Salutation' => 'Añadir saludo',
+        'Edit Salutation' => 'Editar el saludo',
+        'Example salutation' => 'Saludo de ejemplo',
 
         # Template: AdminScheduler
         'This option will force Scheduler to start even if the process is still registered in the database' =>
@@ -1887,11 +1890,11 @@ sub Data {
         'Run Query' => '',
 
         # Template: AdminService
-        'Service Management' => 'Gestión de Servicios',
-        'Add service' => '',
-        'Add Service' => 'Añadir Servicio',
-        'Edit Service' => '',
-        'Sub-service of' => '',
+        'Service Management' => 'Gestión de servicios',
+        'Add service' => 'Añadir servicio',
+        'Add Service' => 'Añadir servicio',
+        'Edit Service' => 'Editar el servicio',
+        'Sub-service of' => 'Subservicio de',
 
         # Template: AdminSession
         'Session Management' => 'Gestión de Sesiones',
@@ -1907,19 +1910,19 @@ sub Data {
         'Detail View for SessionID' => '',
 
         # Template: AdminSignature
-        'Signature Management' => 'Gestión de Firmas',
-        'Add signature' => '',
-        'Add Signature' => 'Añadir Firma',
-        'Edit Signature' => '',
-        'Example signature' => '',
+        'Signature Management' => 'Gestión de firmas',
+        'Add signature' => 'Añadir firma',
+        'Add Signature' => 'Añadir firma',
+        'Edit Signature' => 'Editar la firma',
+        'Example signature' => 'Firma de ejemplo',
 
         # Template: AdminState
-        'State Management' => 'Gestión de Estados',
-        'Add state' => '',
-        'Please also update the states in SysConfig where needed.' => '',
-        'Add State' => 'Añadir Estado',
-        'Edit State' => '',
-        'State type' => '',
+        'State Management' => 'Gestión de estados',
+        'Add state' => 'Añadir estado',
+        'Please also update the states in SysConfig where needed.' => 'Actualice también los estados en SysConfig donde sea necesario.',
+        'Add State' => 'Añadir estado',
+        'Edit State' => 'Editar el estado',
+        'State type' => 'Tipo de estado',
 
         # Template: AdminSysConfig
         'SysConfig' => 'Configuración del sistema',
@@ -1981,23 +1984,23 @@ sub Data {
             '',
 
         # Template: AdminType
-        'Type Management' => 'Gestión de Tipos',
-        'Add ticket type' => '',
-        'Add Type' => 'Añadir Tipo',
-        'Edit Type' => '',
+        'Type Management' => 'Gestión de tipos',
+        'Add ticket type' => 'Añadir tipo de ticket',
+        'Add Type' => 'Añadir tipo',
+        'Edit Type' => 'Editar el tipo',
 
         # Template: AdminUser
-        'Add agent' => '',
-        'Agents will be needed to handle tickets.' => '',
-        'Don\'t forget to add a new agent to groups and/or roles!' => '',
-        'Please enter a search term to look for agents.' => '',
-        'Last login' => '',
-        'Switch to agent' => '',
-        'Add Agent' => '',
-        'Edit Agent' => '',
+        'Add agent' => 'Añadir agente',
+        'Agents will be needed to handle tickets.' => 'Se necesitan agentes para gestionar los tickets.',
+        'Don\'t forget to add a new agent to groups and/or roles!' => 'No olvide añadir un nuevo agente a grupos y/o roles.',
+        'Please enter a search term to look for agents.' => 'Introduzca un término de búsqueda para buscar agentes.',
+        'Last login' => 'Última sesión',
+        'Switch to agent' => 'Cambiar al agente',
+        'Add Agent' => 'Añadir agente',
+        'Edit Agent' => 'Editar el agente',
         'Firstname' => 'Nombre',
         'Lastname' => 'Apellido',
-        'Password is required.' => '',
+        'Password is required.' => 'Se precisa una contraseña.',
         'Start' => 'Iniciar',
         'End' => 'Fin',
 
@@ -2045,7 +2048,7 @@ sub Data {
         # Template: AgentDashboardCustomerCompanyInformation
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'Tickets escalados',
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => 'Información del cliente',
@@ -2122,37 +2125,37 @@ sub Data {
         # Template: AgentStatsEditRestrictions
         'Step %s' => 'Paso %s',
         'General Specifications' => 'Especificaciones generales',
-        'Select the element that will be used at the X-axis' => '',
-        'Select the elements for the value series' => 'Seleccione los elementos para los valores de la serie',
-        'Select the restrictions to characterize the stat' => '',
-        'Here you can make restrictions to your stat.' => 'Aquí puede declarar restricciones para sus estadísticas.',
+        'Select the element that will be used at the X-axis' => 'Seleccione el elemento que se usará para el eje X.',
+        'Select the elements for the value series' => 'Seleccione los elementos para la serie de valores',
+        'Select the restrictions to characterize the stat' => 'Seleccione las restricciones para caracterizar la estadística',
+        'Here you can make restrictions to your stat.' => 'Aquí puede declarar restricciones para su estadística.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' =>
-            'Si elimina el candado en la casilla "Fijado", el agente que genera la estadística puede cambiar los atributos del elemento correspondiente',
+            'Si elimina el candado en la casilla «Fijado», el agente que genere la estadística puede cambiar los atributos del elemento correspondiente',
         'Fixed' => 'Fijado',
         'Please select only one element or turn off the button \'Fixed\'.' =>
             'Por favor seleccione sólo un elemento o desactive el botón «Fijado».',
-        'Absolute Period' => '',
+        'Absolute Period' => 'Periodo absoluto',
         'Between' => 'Entre',
-        'Relative Period' => 'Periodo Relativo',
+        'Relative Period' => 'Periodo relativo',
         'The last' => 'El último',
         'Finish' => 'Finalizar',
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Permisos',
         'You can select one or more groups to define access for different agents.' =>
-            '',
+            'Puede seleccionar uno o más grupos para definir accesos para diferentes agentes.',
         'Some result formats are disabled because at least one needed package is not installed.' =>
-            '',
-        'Please contact your administrator.' => '',
-        'Graph size' => '',
+            'Algunos formatos de resultado están inhabilitados porque hay al menos un paquete necesario que no está instalado.',
+        'Please contact your administrator.' => 'Contacte con su administrador.',
+        'Graph size' => 'Tamaño de la gráfica',
         'If you use a graph as output format you have to select at least one graph size.' =>
-            'Si utiliza un gráfico como formato de salida debe seleccionar al menos un tamaño de gráfico.',
+            'Si utiliza una gráfica como formato de salida debe seleccionar al menos un tamaño de gráfica.',
         'Sum rows' => 'Sumar filas',
         'Sum columns' => 'Sumar columnas',
-        'Use cache' => '',
+        'Use cache' => 'Usar la caché',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'La mayoría de las estadisticas pueden ser conservadas en cache. Esto acelera la presentación de esta estadística.',
-        'If set to invalid end users can not generate the stat.' => '',
+        'If set to invalid end users can not generate the stat.' => 'Si se establece a un valor no válido los usuarios finales no pueden generar la estadística.',
 
         # Template: AgentStatsEditValueSeries
         'Here you can define the value series.' => '',
@@ -2181,7 +2184,7 @@ sub Data {
         'Stats' => 'Estadísticas',
 
         # Template: AgentStatsPrint
-        'No Element selected.' => 'No hay elemento seleccionado',
+        'No Element selected.' => 'No hay ningún elemento seleccionado',
 
         # Template: AgentStatsView
         'Export config' => '',
@@ -2189,15 +2192,15 @@ sub Data {
             '',
         'Exactly what fields and formats you can influence is defined by the statistic administrator.' =>
             '',
-        'Stat Details' => '',
+        'Stat Details' => 'Detalles de la estadística',
         'Format' => 'Formato',
-        'Graphsize' => 'Tamaño de Gráfico',
-        'Cache' => '',
-        'Exchange Axis' => 'Intercambiar Ejes',
-        'Configurable params of static stat' => 'Parámetro configurable de estadística estática',
-        'No element selected.' => 'No hay elemento seleccionado',
+        'Graphsize' => 'Tamaño de gráfica',
+        'Cache' => 'Cache',
+        'Exchange Axis' => 'Intercambiar los ejes',
+        'Configurable params of static stat' => 'Parámetros configurables de estadística estática',
+        'No element selected.' => 'No hay seleccionado ningún elemento',
         'maximal period from' => 'periodo máximo desde',
-        'to' => 'a',
+        'to' => 'hasta',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Cambiar el texto libre del ticket',
@@ -2210,7 +2213,7 @@ sub Data {
         'Service invalid.' => 'Servicio no válido',
         'New Owner' => 'Nuevo propietario',
         'Please set a new owner!' => 'Por favor, introduzca un nuevo propietario.',
-        'Previous Owner' => 'Propietario rnterior',
+        'Previous Owner' => 'Propietario anterior',
         'Inform Agent' => 'Informar al agente',
         'Optional' => 'Opcional',
         'Inform involved Agents' => 'Informar a los agentes involucrados',
@@ -2300,7 +2303,7 @@ sub Data {
         'Update Time' => 'Tiempo para actualización',
         'Solution Time' => 'Tiempo para solución',
         'Move ticket to a different queue' => 'Mover el ticket a otra cola',
-        'Change queue' => 'Modificar la cola',
+        'Change queue' => 'Cambiar de cola',
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Cambiar opciones de búsqueda',
@@ -2358,8 +2361,8 @@ sub Data {
         'Fulltext' => 'Texto Completo',
         'Remove' => 'Eliminar',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
-            '',
-        'Customer User Login' => 'Identificador del cliente',
+            'Busca en los atributos De, Para, Cc, Asunto y el cuerpo del artículo, ignorando otros atributos con el mismo nombre.',
+        'Customer User Login' => 'Nombre de usuario del cliente',
         'Created in Queue' => 'Creado en la cola',
         'Lock state' => 'Estado bloqueado',
         'Watcher' => 'Vigilante',
@@ -2391,9 +2394,9 @@ sub Data {
         'This ticket is archived.' => 'Este ticket está archivado.',
         'Linked Objects' => 'Objetos enlazados',
         'Article(s)' => 'Artículo(s)',
-        'Change Queue' => 'Modificar la cola',
+        'Change Queue' => 'Cambiar de cola',
         'There are no dialogs available at this point in the process.' =>
-            '',
+            'No hay diálogos disponibles en este punto del proceso.',
         'This item has no articles yet.' => 'Este elemento todavía no tiene ningún artículo.',
         'Article Filter' => 'Filtro de artículos',
         'Add Filter' => 'Añadir un filtro',
@@ -2458,11 +2461,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Rellene este formulario para recibir las credenciales de inicio de sesión.',
         'How we should address you' => 'Cómo debemos dirigirnos a usted',
         'Your First Name' => 'Su nombre',
-        'Please supply a first name' => 'Indique un nombre',
         'Your Last Name' => 'Su apellido',
-        'Please supply a last name' => 'Inidque un apellido',
         'Your email address (this will become your username)' => 'Su dirección de correo electrónico (esto será su nombre de usuario)',
-        'Please supply a' => 'Proporcione un',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editar las preferencias personales',
@@ -2478,7 +2478,7 @@ sub Data {
         # Template: CustomerTicketOverview
         'Welcome!' => 'Bienvenido',
         'Please click the button below to create your first ticket.' => 'Pulse el botón inferior para crear su primer ticket.',
-        'Create your first ticket' => 'Cree su primer tricket',
+        'Create your first ticket' => 'Cree su primer ticket',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Imprimir el ticket',
@@ -2573,14 +2573,14 @@ sub Data {
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript no disponible',
-        'Database Settings' => '',
-        'General Specifications and Mail Settings' => '',
-        'Registration' => '',
+        'Database Settings' => 'Ajustes de la base de datos',
+        'General Specifications and Mail Settings' => 'Indicaciones generales y ajustes del correo',
+        'Registration' => 'Registro',
         'Welcome to %s' => 'Bienvenido a %s',
-        'Web site' => '',
-        'Database check successful.' => '',
-        'Mail check successful.' => '',
-        'Error in the mail settings. Please correct and try again.' => '',
+        'Web site' => 'Sitio web',
+        'Database check successful.' => 'Se ha verificado la base de datos con éxito.',
+        'Mail check successful.' => 'Se ha verificado el correo con éxito.',
+        'Error in the mail settings. Please correct and try again.' => 'Error en los ajustes del correo. Corríjalos e inténtelo de nuevo.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
@@ -2612,62 +2612,62 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'False' => 'Falso',
 
         # Template: InstallerDBStart
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Si ha fijado una clave para su base de datos, debe especificarla aquí. Si no, déjelo en blanco. Por razones de seguridad, recomendamos establecer una clave para root. PAra más información, consulte la documentación de su base de datos.',
-        'Currently only MySQL is supported in the web installer.' => '',
+            'Si ha establecido una contraseña de root para su base de datos, debe introducirla aquí. Si no, deje este campo en blanco. Por razones de seguridad, recomendamos establecer una contraseña para root. Para más información, consulte la documentación de su base de datos.',
+        'Currently only MySQL is supported in the web installer.' => 'Actualmente el instalador web sólo acepta MySQL.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '',
-        'Database-User' => 'Usuario-Base de datos',
+            'Si desea instalar OTRS en otro tipo de base de datos, consulte el fichero README.database.',
+        'Database-User' => 'Usuario de la base de datos',
         'New' => 'Nuevo',
         'A new database user with limited rights will be created for this OTRS system.' =>
-            '',
-        'default \'hot\'' => 'por defecto \'hot\'',
-        'DB host' => '',
-        'Check database settings' => '',
-        'Result of database check' => '',
+            'Se creará un nuevo usuario de la base de datos con permisos limitados para este sistema OTRS.',
+        'default \'hot\'' => 'por omisión \'hot\'',
+        'DB host' => 'Servidor de base de datos',
+        'Check database settings' => 'Verificar los ajustes de la base de datos',
+        'Result of database check' => 'Resultado de la verificación de la base de datos',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
-            'Para poder utilizar el OTRS debe escribir la siguiente línea en la consola de sistema (Terminal/Shell) como usuario root',
+            'Para poder utilizar OTRS debe escribir la siguiente línea en la consola de sistema (Terminal/Shell) como usuario root',
         'Restart your webserver' => 'Reinicie su servidor web',
         'After doing so your OTRS is up and running.' => 'Después de hacer esto, su OTRS estará activo y ejecutándose',
         'Start page' => 'Página de inicio',
         'Your OTRS Team' => 'Su equipo OTRS',
 
         # Template: InstallerLicense
-        'Accept license' => 'Aceptar licencia',
-        'Don\'t accept license' => 'No aceptar licencia',
+        'Accept license' => 'Aceptar la licencia',
+        'Don\'t accept license' => 'No aceptar la licencia',
 
         # Template: InstallerLicenseText
 
         # Template: InstallerRegistration
         'Organization' => 'Organización',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
+        'Position' => 'Puesto',
+        'Complete registration and continue' => 'Terminar el registro y continuar',
+        'Please fill in all fields marked as mandatory.' => 'Por favor, rellene todos los campos marcados como obligatorios.',
 
         # Template: InstallerSystem
         'SystemID' => 'ID de sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
-            '',
+            'El identificador del sistema. Cada número de ticket y cada identificador de sesión HTTP contienen este número.',
         'System FQDN' => 'FQDN del sistema',
-        'Fully qualified domain name of your system.' => '',
-        'AdminEmail' => 'Correo del Administrador.',
-        'Email address of the system administrator.' => '',
-        'Log' => 'Traza',
-        'LogModule' => 'Módulo de trazas',
-        'Log backend to use.' => '',
-        'LogFile' => '',
-        'Log file location is only needed for File-LogModule!' => '',
-        'Webfrontend' => 'Interface Web',
-        'Default language' => '',
-        'Default language.' => '',
-        'CheckMXRecord' => 'Revisar record MX',
+        'Fully qualified domain name of your system.' => 'Nombre de dominio totalmente cualificado de su sistema.',
+        'AdminEmail' => 'Correo del administrador.',
+        'Email address of the system administrator.' => 'Dirección de correo electrónico del administrador del sistema.',
+        'Log' => 'Registro',
+        'LogModule' => 'Módulo de registro',
+        'Log backend to use.' => 'Motor de registro a usar.',
+        'LogFile' => 'Fichero de registro',
+        'Log file location is only needed for File-LogModule!' => 'La ubicación del fichero de registro sólo se necesita para File-LogModule',
+        'Webfrontend' => 'Interfaz web',
+        'Default language' => 'Idioma predeterminado',
+        'Default language.' => 'Idioma predeterminado.',
+        'CheckMXRecord' => 'Revisar registro MX',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
-            '',
+            'Las direcciones de correo introducidas manualmente se verifican contra los registros MX encontrados en el DNS. No utilice esta opción si su DNS es lento o no resuelve direcciones públicas.',
 
         # Template: LinkObject
         'Object#' => 'Objeto nº',
@@ -2840,6 +2840,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2874,8 +2876,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3597,6 +3597,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Direcciones de Correo',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3660,6 +3661,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Tema de la interfaz',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'AgenteGenérico',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4467,8 +4469,9 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
+        'Statistics' => 'Estadísticas',
         'Status view' => 'Vista por estados',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4554,8 +4557,12 @@ sub Data {
         'For more info see:' => 'Para mas información consulte:',
         'Logout successful. Thank you for using OTRS!' => 'Sesión cerrada con éxito. ¡Gracias por utilizar OTRS!',
         'Package verification failed!' => '¡Error en la verificación del paquete!',
+        'Please supply a' => 'Proporcione un',
+        'Please supply a first name' => 'Indique un nombre',
+        'Please supply a last name' => 'Inidque un apellido',
         'There are currently no steps available for this process.' => 'Actualmente no hay pasos disponibles para este proceso.',
         'There are no further steps in this process' => 'Este proceso no tiene más pasos.',
+        'Ticket Dynamic Fields' => 'Campos dinámicos del ticket',
 
     };
     # $$STOP$$

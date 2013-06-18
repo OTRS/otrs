@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:44
+    # Last translation file sync: 2013-06-14 08:49:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -689,6 +689,7 @@ sub Data {
         'Show the ticket history' => 'Mostrar la història del tiquet',
         'Print this ticket' => 'Imprimir aquest tiquet',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => 'Canviar la prioritat del tiquet',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        ' (work units)' => ' (unitats de treball)',
+        '(work units)' => '(unitats de treball)',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -1645,6 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1665,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2453,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Per favor, empleni aquest formulari per rebre les credencials d\'accés.',
         'How we should address you' => 'Com li hauríem d\'adreçar',
         'Your First Name' => 'El seu nom',
-        'Please supply a first name' => 'Si us plau introdueixi un nom de pila',
         'Your Last Name' => 'El seu cognom',
-        'Please supply a last name' => 'Si us plau introdueixi un cognom',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => 'Per favor, faciliti una',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Editar les preferències personals',
@@ -2835,6 +2835,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Estableix automàticament el responsable d\'un tiquet (si encara no ho està) després de l\'actualització de primer propietari.',
         'Balanced white skin by Felix Niklas.' => 'Apariencia blanco balanceado por Felix Niklas.',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Bloqueja tots els missatges de correu electrònic entrants que no tenen un nombre de tiquet vàlid en l\'assumpte amb adreça De: @example.com.',
         'Builds an article index right after the article\'s creation.' =>
@@ -2870,8 +2872,6 @@ sub Data {
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             'Configura un valor CampDinamicDeTiquet per defecte. "Nom", defineix el camp dinàmic que s\'ha d\'utilitzar, "Valor" són les dades que es crearà, i "Esdeveniment" defineix l\'esdeveniment de gallet. Per favor, consulti el manual del desenvolupador (http://doc.otrs.org/), en el capítol "Mòdul d\'esdeveniments de tiquet".',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3592,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Adreces de Correu',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3655,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'AgentGenèric',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4464,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => '',
         'Status view' => '',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4553,6 +4556,9 @@ sub Data {
         'For more info see:' => 'Para més informació vegi:',
         'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',
         'Package verification failed!' => 'Verificació del paquet ha fallat!',
+        'Please supply a' => 'Per favor, faciliti una',
+        'Please supply a first name' => 'Si us plau introdueixi un nom de pila',
+        'Please supply a last name' => 'Si us plau introdueixi un cognom',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'El mode segur ha d\'estar desactivat per tornar a instal·lar mitjançant la pàgina d\'instal·lació.',
 

@@ -4320,6 +4320,13 @@ $QData{"Body"}
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
                 <Item Key="Priority">1990030</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="MinQueryLength">2</Item>
+                        <Item Key="QueryDelay">100</Item>
+                        <Item Key="MaxResultsDisplayed">20</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4336,6 +4343,13 @@ $QData{"Body"}
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
                 <Item Key="Priority">1990040</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="MinQueryLength">2</Item>
+                        <Item Key="QueryDelay">100</Item>
+                        <Item Key="MaxResultsDisplayed">20</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>

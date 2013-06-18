@@ -16,6 +16,7 @@ use vars qw($Self);
 use Data::Dumper;
 
 use Kernel::System::Cache;
+use Kernel::System::UnitTest::Helper;
 
 # use local Config object because it will be modified
 my $ConfigObject = Kernel::Config->new();
@@ -52,6 +53,14 @@ for my $ModuleFile (@BackendModuleFiles) {
             Value => $SubdirLevels,
         );
 
+        # creates a local helper object
+        my $HelperObject = Kernel::System::UnitTest::Helper->new(
+            %{$Self},
+            ConfigObject   => $ConfigObject,
+            UnitTestObject => $Self,
+        );
+
+        # create a local cache object
         my $CacheObject = Kernel::System::Cache->new(
             %{$Self},
             ConfigObject => $ConfigObject,
@@ -61,6 +70,9 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # flush the cache to have a clear test enviroment
         $CacheObject->CleanUp();
+
+        # set fixed time
+        $HelperObject->FixedTimeSet();
 
         my $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
@@ -200,6 +212,9 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#3 - $Module - $SubdirLevels - CacheSet(), TTL 8",
         );
 
+        # wait 7 seconds
+        $HelperObject->FixedTimeAddSeconds(7);
+
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
             Key  => 'Test',
@@ -216,8 +231,6 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#3 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
 
-        my $TTLTimeStart = $Self->{TimeObject}->SystemTime();
-
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
@@ -230,28 +243,26 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#4 - $Module - $SubdirLevels - CacheSet(), TTL 4",
         );
 
+        # wait 3 seconds
+        $HelperObject->FixedTimeAddSeconds(3);
+
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
             Key  => 'Test',
         );
 
-        my $TTLTimeStop = $Self->{TimeObject}->SystemTime();
-        my $TTLTimeDiff = $TTLTimeStop - $TTLTimeStart;
+        $Self->Is(
+            $CacheGet || '',
+            '9ßüß-カスタ1234',
+            "#4 - $Module - $SubdirLevels - CacheGet()",
+        );
+        $Self->True(
+            Encode::is_utf8($CacheGet) || '',
+            "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
+        );
 
-        if ( $TTLTimeDiff <= 4 ) {
-
-            $Self->Is(
-                $CacheGet || '',
-                '9ßüß-カスタ1234',
-                "#4 - $Module - $SubdirLevels - CacheGet()",
-            );
-            $Self->True(
-                Encode::is_utf8($CacheGet) || '',
-                "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
-            );
-        }
-
-        sleep( 6 - $TTLTimeDiff );
+        # wait 3 seconds
+        $HelperObject->FixedTimeAddSeconds(3);
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
@@ -260,7 +271,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         $Self->True(
             !$CacheGet || '',
-            "#4 - $Module - $SubdirLevels - CacheGet() - sleep 6 - TTL of 4 expired",
+            "#4 - $Module - $SubdirLevels - CacheGet() - wait 6 seconds - TTL expires after 4 seconds",
         );
 
         $CacheSet = $CacheObject->Set(
@@ -371,6 +382,9 @@ for my $ModuleFile (@BackendModuleFiles) {
             $CacheGet,
             "#7 - $Module - $SubdirLevels - CacheGet()",
         );
+
+        # unset fixed time
+        $HelperObject->FixedTimeUnset();
 
         my $String1 = '';
         my $String2 = '';

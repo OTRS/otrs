@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:12
+    # Last translation file sync: 2013-06-14 08:49:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -689,6 +689,7 @@ sub Data {
         'Show the ticket history' => 'Bilet tarihini göster',
         'Print this ticket' => 'Bu bileti bas',
         'Print this article' => 'Bu yazıyı bas',
+        'Split' => 'Ayır',
         'Split this article' => 'Bu yazıyı böl',
         'Forward article via mail' => 'Yazıyı e-posta üzerinden ilet',
         'Change the ticket priority' => 'Bilet önceliğini değiştir',
@@ -1106,7 +1107,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        ' (work units)' => ' (iş birimi)',
+        '(work units)' => '(iş birimi)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -1645,6 +1646,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1665,6 +1667,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2453,11 +2456,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Giriş bilgilerini almak için bu formu doldurun.',
         'How we should address you' => 'Size nasıl hitap edelim?',
         'Your First Name' => 'Adınız',
-        'Please supply a first name' => 'Lütfen bir isim belirleyiniz',
         'Your Last Name' => 'Soyadınız',
-        'Please supply a last name' => 'Lütfen bir soyadı belirleyiniz',
         'Your email address (this will become your username)' => 'E-posta adresiniz (Bu kullanıcı adınız olacak)',
-        'Please supply a' => 'Lütfen belirleyin bir',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Kişisel tercihleri görüntüle',
@@ -2835,6 +2835,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2869,8 +2871,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3592,6 +3592,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-Posta Adresleri',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3655,6 +3656,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'GenelAracı',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4464,6 +4466,7 @@ sub Data {
             '',
         'Statistics' => 'İstatistikler',
         'Status view' => 'Durum görünümü',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4872,6 +4875,9 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Bu grupta/kuyrukta bilet sahibini değiştirme izni.',
         'PhoneView' => 'Telefon Görünüşü',
         'Please contact your admin' => 'Lütfen yöneticiyle iletişime geçin',
+        'Please supply a' => 'Lütfen belirleyin bir',
+        'Please supply a first name' => 'Lütfen bir isim belirleyiniz',
+        'Please supply a last name' => 'Lütfen bir soyadı belirleyiniz',
         'Print this ticket!' => 'Bu bileti yazdır!',
         'Prio' => 'Öncelik',
         'Process-Path' => 'İşlem Yolu',
@@ -4931,7 +4937,6 @@ sub Data {
         'Sort by' => 'Şuna göre sırala:',
         'Source' => 'Kaynak',
         'Spell Check' => 'Sözdizim Kontrolü',
-        'Split' => 'Ayır',
         'State Type' => 'Durum Tipi',
         'Static-File' => 'Sabit Dosya',
         'Stats-Area' => 'İstatistikler Alanı',

@@ -12,6 +12,16 @@ use warnings;
 use vars (qw($Self));
 
 use Kernel::System::PID;
+use Kernel::System::UnitTest::Helper;
+
+# creates a local helper object
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject => $Self,
+);
+
+# set fixed time
+$HelperObject->FixedTimeSet();
 
 my $PIDObject = Kernel::System::PID->new( %{$Self} );
 
@@ -58,8 +68,8 @@ $Self->False(
     'PIDUpdate() with wrong name',
 );
 
-# sleep 2 secons to update the PID change time
-sleep 2;
+# wait 2 seconds to update the PID change time
+$HelperObject->FixedTimeAddSeconds(2);
 
 $UpdateSuccess = $PIDObject->PIDUpdate(
     Name => 'Test',

@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:59
+    # Last translation file sync: 2013-06-14 08:49:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -690,6 +690,7 @@ sub Data {
         'Show the ticket history' => '',
         'Print this ticket' => '',
         'Print this article' => '',
+        'Split' => '',
         'Split this article' => '',
         'Forward article via mail' => '',
         'Change the ticket priority' => '',
@@ -1107,7 +1108,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        ' (work units)' => ' (稼働時間)',
+        '(work units)' => '(稼働時間)',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -1646,6 +1647,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1666,6 +1668,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2454,11 +2457,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
         'Your First Name' => 'あなたの名前',
-        'Please supply a first name' => '名前を入力してください',
         'Your Last Name' => 'あなたの名字',
-        'Please supply a last name' => '名字を入力してください。',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => '入力してください: ',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '個人設定の編集',
@@ -2836,6 +2836,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '1人目の所有者のアップデートの後、自動的にチケットの責任者を設定します（もし、また設定されていなければ）。',
         'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '件名に有効なチケット番号を持たない全ての受信メールを、From: @example.com addressを用いてブロックします。',
         'Builds an article index right after the article\'s creation.' =>
@@ -2871,8 +2873,6 @@ sub Data {
         'Configure your own log text for PGP.' => 'PGPのための利用者独自のログテキストを設定します。',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Controls if customers have the ability to sort their tickets.' =>
             '顧客が自らのチケットをソートする機能を持つかどうかを、コントロールします。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3595,6 +3595,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'メールアドレス',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF出力を有効にします。CPAN モジュール PDF::API2が必要となりますが、もしインストールされていなければPDF出力は無効にされます。',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3658,6 +3659,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Frontend module registration for the agent interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend theme' => 'フロントエンドのテーマ',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '管理用ジョブ',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4468,6 +4470,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Statistics' => '統計',
         'Status view' => '状態一覧',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'ブラウザが閉じられた後に、クッキーを格納します。',
         'Strips empty lines on the ticket preview in the queue view.' => 'キュー・ビューで、チケット・プレビューの空の行を削除します。',
         'Textarea' => '',
@@ -4553,6 +4556,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
+        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Customer Data' => '顧客情報',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケージ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パスワードの盗難を防ぐためです）。',
@@ -4563,6 +4568,9 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Package verification failed!' => 'パッケージの検証に失敗しました',
+        'Please supply a' => '入力してください: ',
+        'Please supply a first name' => '名前を入力してください',
+        'Please supply a last name' => '名字を入力してください。',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'セキュアモードで実行中のため、Webインストーラーで再インストールするには無効にする必要があります。',
 

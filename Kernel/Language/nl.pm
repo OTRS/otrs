@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:52:03
+    # Last translation file sync: 2013-06-14 08:49:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -695,6 +695,7 @@ sub Data {
         'Show the ticket history' => 'Toon de ticket-geschiedenis',
         'Print this ticket' => 'Print dit ticket',
         'Print this article' => 'Print deze interactie',
+        'Split' => '',
         'Split this article' => 'Splits deze interactie',
         'Forward article via mail' => 'Stuur interactie naar een mailadres',
         'Change the ticket priority' => 'Wijzig de prioriteit van dit ticket',
@@ -1112,7 +1113,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        ' (work units)' => '',
+        '(work units)' => '(in minuten)',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1651,6 +1652,7 @@ sub Data {
         'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => 'Wilt u dit proces verwijderen?',
         'Do you really want to delete this Activity?' => 'Wilt u deze activiteit verwijderen?',
         'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
@@ -1671,6 +1673,7 @@ sub Data {
             'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
         'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2459,11 +2462,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Vul dit formulier in om een gebruikersnaam aan te maken.',
         'How we should address you' => 'Hoe moeten we u adresseren?',
         'Your First Name' => 'Uw voornaam',
-        'Please supply a first name' => 'Voer uw voornaam in',
         'Your Last Name' => 'Uw achternaam',
-        'Please supply a last name' => 'Voer uw achternaam in',
         'Your email address (this will become your username)' => 'Uw e-mailadres (dit wordt uw gebruikersnaam)',
-        'Please supply a' => 'Geef een',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Voorkeuren bewerken',
@@ -2841,6 +2841,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2875,8 +2877,6 @@ sub Data {
         'Configure Processes.' => 'Beheer processen',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3598,6 +3598,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'E-mailadressen',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3661,6 +3662,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Thema',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => 'Automatische taken',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4470,6 +4472,7 @@ sub Data {
             '',
         'Statistics' => 'Rapportages',
         'Status view' => 'Statusoverzicht',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4551,17 +4554,22 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '(in minuten)',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
         'Customer Data' => 'Klantgegevens',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Heeft u een feature niet kunnen vinden? De OTRS Groep levert add-ons voor klanten met een subscription:',
         'For more info see:' => 'Voor meer informatie zie:',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
+            'Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven.',
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
         'Package verification failed!' => 'Pakketverificatie mislukt!',
+        'Please supply a' => 'Geef een',
+        'Please supply a first name' => 'Voer uw voornaam in',
+        'Please supply a last name' => 'Voer uw achternaam in',
+        'Repeat Password' => 'Herhaal wachtwoord',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
         'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',

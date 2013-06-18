@@ -87,6 +87,17 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
+        # Checks if the user has permissions to see the ticket.
+        #   This is needed because watching grants ro permissions (depending on configuration).
+        my $Access = $Self->{TicketObject}->TicketPermission(
+            Type     => 'ro',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID},
+        );
+        if (!$Access) {
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        }
+
         # set subscribe
         my $Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
             TicketID    => $Self->{TicketID},
@@ -110,6 +121,8 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
+        # We don't need a permission check here as we will remove
+        #   permissions by unsubscribing.
         my $Unsubscribe = $Self->{TicketObject}->TicketWatchUnsubscribe(
             TicketID    => $Self->{TicketID},
             WatchUserID => $Self->{UserID},

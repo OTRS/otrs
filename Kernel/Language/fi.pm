@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-05-17 09:51:53
+    # Last translation file sync: 2013-06-14 08:49:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -691,6 +691,7 @@ sub Data {
         'Show the ticket history' => 'Näytä tiketin tapahtumat',
         'Print this ticket' => 'Tulosta tiketti',
         'Print this article' => 'Tulosta artikkeli',
+        'Split' => '',
         'Split this article' => 'Jaa artikkeli',
         'Forward article via mail' => 'Lähetä artikkeli sähköpostilla',
         'Change the ticket priority' => 'Muuta tiketin prioriteetti',
@@ -1108,7 +1109,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
-        ' (work units)' => ' (esim. minuutteina)',
+        '(work units)' => '(esim. minuutteina)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1647,6 +1648,7 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
+        'Edit this Activity' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1667,6 +1669,7 @@ sub Data {
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
+        'Remove the Transition from this Process' => '',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -2455,11 +2458,8 @@ sub Data {
         'Please fill out this form to receive login credentials.' => 'Täytä kaavake saadaksesi käyttäjätunnukset.',
         'How we should address you' => 'Miten kutsumme sinua',
         'Your First Name' => 'Etunimesi',
-        'Please supply a first name' => 'Ole hyvä ja anna etunimesi',
         'Your Last Name' => 'Sukunimesi',
-        'Please supply a last name' => 'Ole hyvä ja anna sukunimesi',
         'Your email address (this will become your username)' => 'Sähköpostiosoite (tästä tulee käyttäjätunnuksesi)',
-        'Please supply a' => 'Ole hyvä ja kirjoita',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Muokkaa henkilökohtaisia asetuksia',
@@ -2837,6 +2837,8 @@ sub Data {
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Balanced white skin by Felix Niklas.' => '',
+        'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Builds an article index right after the article\'s creation.' =>
@@ -2871,8 +2873,6 @@ sub Data {
         'Configure Processes.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            '',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3594,6 +3594,7 @@ sub Data {
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Sähköpostiosoitteet',
+        'Enable keep-alive connection header for SOAP responses.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3657,6 +3658,7 @@ sub Data {
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Liittymän teema',
+        'Fulltext index regex filters to remove parts of the text.' => '',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4466,6 +4468,7 @@ sub Data {
             '',
         'Statistics' => 'Tilastot',
         'Status view' => 'Tilanäkymä',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4550,6 +4553,9 @@ sub Data {
         'Customer Data' => 'Asiakastieto',
         'For more info see:' => 'Katso lisätietoa:',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
+        'Please supply a' => 'Ole hyvä ja kirjoita',
+        'Please supply a first name' => 'Ole hyvä ja anna etunimesi',
+        'Please supply a last name' => 'Ole hyvä ja anna sukunimesi',
         'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
 
     };
