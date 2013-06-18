@@ -576,7 +576,7 @@ sub SetPreferences {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -614,7 +614,7 @@ sub GetPreferences {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
