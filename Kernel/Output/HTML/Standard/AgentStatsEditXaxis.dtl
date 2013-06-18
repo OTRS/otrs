@@ -193,7 +193,7 @@
             Data.push([
                 $(this).attr('value'),
                 $(this).text(),
-                $(this).attr('selected')
+                $(this).prop('selected')
             ]);
         });
         Core.UI.TreeSelection.RestoreDynamicFieldTreeView($(this), Data, 1);

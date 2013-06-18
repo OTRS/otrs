@@ -79,8 +79,8 @@ Core.Agent.Search = (function (TargetNS) {
                     Data.push([
                         $(this).attr('value'),
                         $(this).text(),
-                        $(this).attr('selected'),
-                        $(this).attr('disabled')
+                        $(this).prop('selected'),
+                        $(this).prop('disabled')
                     ]);
                 });
                 Core.UI.TreeSelection.RestoreDynamicFieldTreeView($(this), Data, 1);
