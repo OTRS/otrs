@@ -150,18 +150,12 @@ sub Run {
                 DynamicFields => 0,
             );
 
-            # get ticket data
-            my %Ticket = $Self->{TicketObject}->TicketGet(
-                TicketID      => $Param{TicketID},
-                DynamicFields => 0,
-            );
-
-            # show ticket create time in current view
-            $Article{Created} = $Ticket{Created};
-
             # Fallback for tickets without articles: get at least basic ticket data
             if ( !%Article ) {
-                %Article = %Ticket;
+                %Article = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
                 if ( !$Article{Title} ) {
                     $Article{Title} = $Self->{LayoutObject}->{LanguageObject}->Get(
                         'This ticket has no title or subject'
