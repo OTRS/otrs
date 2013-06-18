@@ -163,7 +163,7 @@ sub Run {
         # build URL to customer interface
         my $URL = $Self->{ConfigObject}->Get('HttpType')
             . '://'
-            . $ENV{HTTP_HOST}
+            . $Self->{ConfigObject}->Get('FQDN')
             . '/'
             . $Self->{ConfigObject}->Get('ScriptAlias')
             . 'customer.pl';
