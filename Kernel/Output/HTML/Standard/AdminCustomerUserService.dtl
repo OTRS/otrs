@@ -79,7 +79,7 @@
         <div class="WidgetSimple">
 <!-- dtl:block:Result -->
             <div class="Header">
-                <h2>$Text{"Search Result:"}</h2>
+                <h2>$Text{"Search Results"}:</h2>
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">

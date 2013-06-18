@@ -918,7 +918,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Selezionare i permessi cliente:gruppo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Se non si effettua una selezione, non ci saranno permessi in questo gruppo (i ticket non saranno disponibili al cliente)',
-        'Search Result:' => 'Risultato della ricerca:',
+        'Search Results' => 'Risultato della ricerca',
         'Customers' => 'Utenti',
         'Groups' => 'Gruppi',
         'No matches found.' => 'Nessun risultato.',

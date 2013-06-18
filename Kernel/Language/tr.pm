@@ -911,7 +911,7 @@ sub Data {
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => 'Sonuç Ara:',
+        'Search Results' => 'Sonuç Ara',
         'Customers' => 'Müşteriler',
         'Groups' => 'Gruplar',
         'No matches found.' => 'Sonuç bulunamadı.',

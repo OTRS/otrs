@@ -913,7 +913,7 @@ sub Data {
         'Select the customer:group permissions.' => 'ग्राहक:समूह अनुमतियाँ चुनें।',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'अगर कुछ भी नहीं चुना जाता है,तो फिर इस समूह में कोई अनुमतियाँ नहीं हैं(टिकट ग्राहकों के लिए उपलब्ध नहीं होगा)। ',
-        'Search Result:' => 'खोज परिणाम:',
+        'Search Results' => 'खोज परिणाम:',
         'Customers' => 'ग्राहकों',
         'Groups' => 'समूहों',
         'No matches found.' => 'कोई मिलान नहीं मिले।',

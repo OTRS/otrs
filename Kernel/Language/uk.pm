@@ -911,7 +911,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Выбериет клієнта:дозволу для групи',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => 'Результати пошуку:',
+        'Search Results' => 'Результати пошуку',
         'Customers' => 'Клієнти',
         'Groups' => 'Групи',
         'No matches found.' => 'Збігів не знайдене.',

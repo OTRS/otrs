@@ -916,7 +916,7 @@ sub Data {
         'Select the customer:group permissions.' => 'انتخاب دسترسی‌های مشترک:گروه',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'اگرچیزی انتخاب نشود، هیچ دسترسی در این گروه موجود نیست (درخواست‌ها برای مشترک در دسترس نیست)',
-        'Search Result:' => 'نتیجه جستجو:',
+        'Search Results' => 'نتیجه جستجو',
         'Customers' => 'مشترکین',
         'Groups' => 'گروه‌ها',
         'No matches found.' => 'هیچ موردی یافت نشد.',
