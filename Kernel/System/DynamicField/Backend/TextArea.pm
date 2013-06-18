@@ -624,13 +624,6 @@ sub ObjectMatch {
     return 1;
 }
 
-sub AJAXPossibleValuesGet {
-    my ( $Self, %Param ) = @_;
-
-    # not supported
-    return;
-}
-
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 

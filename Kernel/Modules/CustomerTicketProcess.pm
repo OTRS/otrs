@@ -342,7 +342,7 @@ sub _RenderAjax {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            my $PossibleValues = $Self->{BackendObject}->AJAXPossibleValuesGet(
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
             my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
@@ -369,12 +369,19 @@ sub _RenderAjax {
                 %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
 
+            my $DataValues = $Self->{BackendObject}->BuildSelectionDataGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                PossibleValues     => $PossibleValues,
+                Value
+                    => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            ) || $PossibleValues;
+
             # add dynamic field to the JSONCollector
             push(
                 @JSONCollector,
                 {
                     Name       => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data       => $PossibleValues,
+                    Data       => $DataValues,
                     SelectedID => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                     Max         => 100,

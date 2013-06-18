@@ -87,6 +87,27 @@ $Self->True(
     "DynamicFieldAdd() successful for Field ID $FieldID",
 );
 
+# create a dynamic field with tree view
+my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "dynamicfield3test$RandomID",
+    Label      => 'a description',
+    FieldOrder => 9991,
+    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    TreeView   => 1,
+    Config     => {
+        DefaultValue => 'a value',
+    },
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldID3,
+    "DynamicFieldAdd() successful for Field ID $FieldID",
+);
+
 my @Tests = (
     {
         Name               => 'No FieldID',
@@ -549,6 +570,25 @@ $Self->True(
         "ValueSet() - New Value2 - with True - for FieldID $FieldID",
     );
 
+    $Success = $DynamicFieldValueObject->ValueSet(
+        FieldID    => $FieldID3,
+        ObjectType => 'Ticket',
+        TreeView   => 1,
+        ObjectID   => $TicketID,
+        Value      => [
+            {
+                ValueText => 'New Value2 field3',
+            },
+        ],
+        UserID => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueSet() - New Value2 - with True - for FieldID $FieldID3",
+    );
+
     # get the value with ValueGet()
     $Value = $DynamicFieldValueObject->ValueGet(
         FieldID    => $FieldID,
@@ -575,6 +615,21 @@ $Self->True(
         $Value->[0]->{ValueText},
         'New Value2 field2',
         "ValueGet() - New Value2 for ValueText - for field2 FieldID $FieldID2",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID3,
+        ObjectType => 'Ticket',
+        TreeView   => 1,
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        $Value->[0]->{ValueText},
+        'New Value2 field3',
+        "ValueGet() - New Value2 for ValueText - for field3 FieldID $FieldID3",
     );
 
     $Success = $DynamicFieldValueObject->ValueDelete(
@@ -630,6 +685,35 @@ $Self->True(
         0,
         "ValueGet() - deleted value - for field2 FieldID $FieldID",
     );
+
+    $Success = $DynamicFieldValueObject->ValueDelete(
+        FieldID    => $FieldID3,
+        ObjectType => 'Ticket',
+        TreeView   => 1,
+        ObjectID   => $TicketID,
+        UserID     => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueDelete() - for FieldID $FieldID3",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID3,
+        ObjectType => 'Ticket',
+        TreeView   => 1,
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        scalar @{$Value},
+        0,
+        "ValueGet() - deleted value - for field3 FieldID $FieldID",
+    );
 }
 
 # delete the dynamic field values
@@ -664,6 +748,17 @@ $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
 $Self->True(
     $FieldDelete,
     "DynamicFieldDelete() successful for field2 aField ID $FieldID",
+);
+
+$FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
+    ID     => $FieldID3,
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldDelete,
+    "DynamicFieldDelete() successful for field3 aField ID $FieldID",
 );
 
 # now that the field was deleted also "New Value" should be deleted too"

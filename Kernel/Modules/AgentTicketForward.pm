@@ -1053,7 +1053,7 @@ sub AjaxUpdate {
             );
         next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
-        my $PossibleValues = $Self->{BackendObject}->AJAXPossibleValuesGet(
+        my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
             DynamicFieldConfig => $DynamicFieldConfig,
         );
 
@@ -1080,12 +1080,18 @@ sub AjaxUpdate {
             %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
         }
 
+        my $DataValues = $Self->{BackendObject}->BuildSelectionDataGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            PossibleValues     => $PossibleValues,
+            Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+        ) || $PossibleValues;
+
         # add dynamic field to the list of fields to update
         push(
             @DynamicFieldAJAX,
             {
                 Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data        => $PossibleValues,
+                Data        => $DataValues,
                 SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                 Max         => 100,

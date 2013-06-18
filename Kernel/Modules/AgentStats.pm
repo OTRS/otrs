@@ -1498,6 +1498,7 @@ sub Run {
                     Name           => $ObjectAttribute->{Element},
                     Multiple       => 1,
                     Size           => 5,
+                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1507,6 +1508,10 @@ sub Run {
                         "Core.Agent.Stats.SelectRadiobutton('$ObjectAttribute->{Element}', 'Select')",
 
                 );
+
+                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
+                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                }
             }
 
             $BlockData{Name}    = $ObjectAttribute->{Name};

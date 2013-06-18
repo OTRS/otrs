@@ -1987,73 +1987,6 @@ sub ObjectMatch {
     );
 }
 
-=item AJAXPossibleValuesGet()
-
-returns the list of possible values for a defined dynamic field (including the "none" value if is defined in
-the dynamic field configuration ). This function is used in AJAX update subactions
-
-    my $PossibleValues = $BackendObject->AJAXPossibleValuesGet(
-        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
-    );
-
-    Returns:
-
-    $PossibleValues = {
-        ''  => '-',                                     # "none" value
-        '1' => 'Item1',
-        '2' => 'Item2',
-    }
-
-=cut
-
-sub AJAXPossibleValuesGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    # set the dynamic field specific backend
-    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
-
-    if ( !$Self->{$DynamicFieldBackend} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
-        );
-        return;
-    }
-
-    # call AJAXPossibleValuesGet on the specific backend
-    return $Self->{$DynamicFieldBackend}->AJAXPossibleValuesGet(
-        %Param
-    );
-}
-
 =item HistoricalValuesGet()
 
 returns the list of database values for a defined dynamic field. This function is used to calculate
@@ -2203,6 +2136,7 @@ returns the list of possible values for a dynamic field
     Returns:
 
     $PossibleValues = {
+        ''  => '-',             # 'none' value if defined in the dynamic field configuration
         '1' => 'Item1',
         '2' => 'Item2',
     }
@@ -2256,6 +2190,109 @@ sub PossibleValuesGet {
 
     # call PossibleValuesGet on the specific backend
     return $Self->{$DynamicFieldBackend}->PossibleValuesGet(
+        %Param
+    );
+}
+
+=item BuildSelectionDataGet()
+
+returns the list of possible values for a dynamic field as needed for BuildSelection or
+BuildSelectionJSON if TreeView parameter is set in the DynamicFieldConfig the result will be
+an ArrayHashRef, otherwise the result will be a HashRef.
+
+    my $DataValues = $BackendObject->BuildSelectionDataGet(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+        PossibleValues     => $PossibleValues,           # field possible values (could be reduced
+                                                         #    by ACLs)
+        Value              => $Value,                    # optional scalar, ArrayRef or HashRef
+                                                         #    depending on dynamic field the
+    );
+
+    Returns:
+
+    $DataValues = {
+        ''  => '-',
+        '1' => 'Item1',
+        '2' => 'Item2',
+    }
+
+    or
+
+    $DataValues = [
+        {
+            Key   => '',
+            Value => '-',
+        },
+        {
+            Key   => '1',
+            Value => 'Item1'
+        },
+        {
+            Key      => '1::A',
+            Value    => 'Item1-A',
+            Disabled => 1,
+        },
+        {
+            Key      => '1::A::1',
+            Value    => 'Item1-A-1',
+            Selected => 1,
+        },
+        {
+            Key      => '2',
+            Value    => 'Item2',
+        },
+    ];
+
+
+=cut
+
+sub BuildSelectionDataGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig PossibleValues)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # verify if function is available
+    return if !$Self->{$DynamicFieldBackend}->can('BuildSelectionDataGet');
+
+    # call PossibleValuesGet on the specific backend
+    return $Self->{$DynamicFieldBackend}->BuildSelectionDataGet(
         %Param
     );
 }

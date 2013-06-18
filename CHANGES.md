@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-18 Added tree mode feature for dynamic fields (dropdown and multiselect).
  - 2013-06-14 Fixed bug#[9489](http://bugs.otrs.org/show_bug.cgi?id=9489) - Setting Ticket::DefaultNextMoveStateType name is confusing and not consistent with similar settings in other screens.
  - 2013-06-14 Fixed bug#[9251](http://bugs.otrs.org/show_bug.cgi?id=9251) - Sending a too large mail doesn't generate error message.
  - 2013-06-14 Fixed bug#[8859](http://bugs.otrs.org/show_bug.cgi?id=8859) - otrs.AddRole2Group.pl falsely informs a group is added to a role.

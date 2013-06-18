@@ -237,7 +237,7 @@ sub EditFieldRender {
         $Value = $Param{Template}->{ $FieldName };
     }
 
-    #d extract the dynamic field value form the web request
+    # extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
@@ -259,12 +259,14 @@ sub EditFieldRender {
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
+    # set TreeView class
+    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+
     # set PossibleValues
-    my $PossibleValues = $FieldConfig->{PossibleValues};
+    my $PossibleValues = $Self->PossibleValuesGet(%Param);
 
     # use PossibleValuesFilter if defined
-    $PossibleValues = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $PossibleValues = $Param{PossibleValuesFilter} if defined $Param{PossibleValuesFilter};
 
     # check value
     my $SelectedValuesArrayRef;
@@ -277,25 +279,25 @@ sub EditFieldRender {
         }
     }
 
-    # set PossibleNone attribute
-    my $FieldPossibleNone;
-    if ( defined $Param{OverridePossibleNone} ) {
-        $FieldPossibleNone = $Param{OverridePossibleNone};
-    }
-    else {
-        $FieldPossibleNone = $FieldConfig->{PossibleNone} || 0;
-    }
+    my $DataValues = $Self->BuildSelectionDataGet(
+        DynamicFieldConfig   => $Param{DynamicFieldConfig},
+        PossibleValues       => $PossibleValues,
+        Value                => $Value,
+    );
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data => $PossibleValues || {},
-        Name => $FieldName,
+        Data         => $DataValues || {},
+        Name         => $FieldName,
         SelectedID   => $SelectedValuesArrayRef,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
-        PossibleNone => $FieldPossibleNone,
         Class        => $FieldClass,
         HTMLQuote    => 1,
         Multiple     => 1,
     );
+
+    if ($FieldConfig->{TreeView}) {
+        $HTMLString .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+    }
 
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
@@ -352,6 +354,12 @@ EOF
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
         Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
+    });
+    Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
+        var FieldName = '$FieldName';
+        if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
+            Core.UI.TreeSelection.RestoreDynamicFieldTreeView(\$('#' + FieldName), Data[FieldName], '' , 1);
+        }
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -606,6 +614,9 @@ sub SearchFieldRender {
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldMultiSelect';
 
+    # set TreeView class
+    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+
     # set PossibleValues
     my $SelectionData = $FieldConfig->{PossibleValues};
 
@@ -625,6 +636,25 @@ sub SearchFieldRender {
     $SelectionData = $Param{PossibleValuesFilter}
         if defined $Param{PossibleValuesFilter};
 
+    # check if $SelectionData differs from configured PossibleValues
+    # and show values which are not contained as disabled if TreeView => 1
+    if ($FieldConfig->{TreeView}) {
+
+        if (keys %{$FieldConfig->{PossibleValues}} != keys %{$SelectionData}) {
+
+            my @Values;
+            for my $Key (keys %{$FieldConfig->{PossibleValues}}) {
+
+                push @Values, {
+                    Key      => $Key,
+                    Value    => $FieldConfig->{PossibleValues}->{$Key},
+                    Disabled => (defined $SelectionData->{$Key}) ? 0 : 1,
+                };
+            }
+            $SelectionData = \@Values;
+        }
+    }
+
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data         => $SelectionData,
         Name         => $FieldName,
@@ -635,6 +665,10 @@ sub SearchFieldRender {
         Multiple     => 1,
         HTMLQuote    => 1,
     );
+
+    if ($FieldConfig->{TreeView}) {
+        $HTMLString .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+    }
 
     # call EditLabelRender on the common backend
     my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
@@ -910,29 +944,6 @@ sub ObjectMatch {
     return $Match;
 }
 
-sub AJAXPossibleValuesGet {
-    my ( $Self, %Param ) = @_;
-
-    # to store the possible values
-    my %PossibleValues;
-
-    # set none value if defined on field config
-    if ( $Param{DynamicFieldConfig}->{Config}->{PossibleNone} ) {
-        %PossibleValues = ( '' => '-' );
-    }
-
-    # set all other possible values if defined on field config
-    if ( IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
-        %PossibleValues = (
-            %PossibleValues,
-            %{ $Param{DynamicFieldConfig}->{Config}->{PossibleValues} },
-        );
-    }
-
-    # return the possible values hash as a reference
-    return \%PossibleValues;
-}
-
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
@@ -994,20 +1005,147 @@ sub ValueLookup {
 sub PossibleValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get values
-    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+    # to store the possible values
+    my %PossibleValues;
 
-    if ($PossibleValues) {
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}->{Config}->{PossibleNone} || 0;
+    }
 
-        # check if there are values
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+    # set none value if defined on field config
+    if ( $FieldPossibleNone ) {
+        %PossibleValues = ( '' => '-' );
+    }
 
-            # return possible values
-            return $PossibleValues;
+    # set all other possible values if defined on field config
+    if ( IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
+        %PossibleValues = (
+            %PossibleValues,
+            %{ $Param{DynamicFieldConfig}->{Config}->{PossibleValues} },
+        );
+    }
+
+    # return the possible values hash as a reference
+    return \%PossibleValues;
+}
+
+sub BuildSelectionDataGet {
+    my ($Self, %Param) = @_;
+
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FilteredPossibleValues = $Param{PossibleValues};
+
+    # get the possible values again as it might or might not contain the possible none and it could
+    # oso ve overritten
+    my $ConfigPossibleValues = $Self->PossibleValuesGet(%Param);
+
+
+    # check if $PossibleValues differs from configured PossibleValues
+    # and show values which are not contained as disabled if TreeView => 1
+    if ($FieldConfig->{TreeView}) {
+
+        if (keys %{$ConfigPossibleValues} != keys %{$FilteredPossibleValues}) {
+
+            # define variables to use later in the for loop
+            my @Values;
+            my $Parents;
+            my %DisabledElements;
+            my %ProcessedElements;
+            my $PosibleNoneSet;
+
+            my %Values;
+            if (defined $Param{Value} && IsArrayRefWithData( $Param{Value} ) ) {
+
+                # create a lookup table
+                %Values = map { $_ => 1 } @{ $Param{Value} };
+            }
+
+            # loop on all filtred possible values
+            for my $Key (sort keys %{$FilteredPossibleValues} ) {
+
+                # special case for possible none
+                if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
+
+                    my $Selected;
+                    if ( 
+                        !IsHashRefWithData(\%Values)
+                        || ( defined $Values{''} &&  $Values{''} )
+                        )
+                    {
+                        $Selected = 1;
+                    }
+
+                    # add possible none
+                    push @Values, {
+                        Key      => $Key,
+                        Value    => $ConfigPossibleValues->{$Key} || '-',
+                        Selected => $Selected,
+                    };
+                }
+
+                # try to split its parents GrandParent::Parent::Son
+                my @Elements = split /::/, $Key;
+
+                # reset parents
+                $Parents = '';
+
+                # get each element in the hierarchy
+                ELEMENT:
+                for my $Element (@Elements) {
+
+                    # add its own parents for the complete name
+                    my $ElementLongName = $Parents . $Element;
+
+                    # set new parent (before skip already processed)
+                    $Parents .= $Element . '::';
+
+                    # skip if already processed
+                    next ELEMENT if $ProcessedElements{$ElementLongName};
+
+                    my $Disabled;
+
+                    # check if element exists in the original data or if it is already marked
+                    if (
+                        !defined $FilteredPossibleValues->{$ElementLongName}
+                        && !$DisabledElements{$ElementLongName}
+                        )
+                    {
+
+                        # mark element as disabled
+                        $DisabledElements{$ElementLongName} = 1;
+
+                        # also set the disabled flag for current emlement to add
+                        $Disabled = 1;
+                    }
+
+                    # set element as already processed
+                    $ProcessedElements{$ElementLongName} = 1;
+
+                    # check if the current element is the selected one
+                    my $Selected;
+                    if ( IsHashRefWithData(\%Values) && $Values{$ElementLongName} ) {
+                        $Selected = 1;
+                    }
+
+                    # add element to the new list of possible values (now including missing parents)
+                    push @Values, {
+                        Key      => $ElementLongName,
+                        Value    => $ConfigPossibleValues->{$ElementLongName} || $ElementLongName,
+                        Disabled => $Disabled,
+                        Selected => $Selected,
+                    };
+                }
+            }
+            $FilteredPossibleValues = \@Values;
         }
     }
 
-    return;
+    return $FilteredPossibleValues;
 }
 
 1;

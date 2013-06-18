@@ -125,6 +125,10 @@ sub _AddAction {
         }
     }
 
+    # get the TreeView option and set it to '0' if it is undefined
+    $GetParam{TreeView} = $Self->{ParamObject}->GetParam( Param => 'TreeView' );
+    $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';
+
     if ( $GetParam{Name} ) {
 
         # check if name is alphanumeric
@@ -224,6 +228,7 @@ sub _AddAction {
     # set specific config
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
+        TreeView           => $GetParam{TreeView},
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
@@ -307,6 +312,9 @@ sub _Change {
 
         # set TranslatalbeValues
         $Config{TranslatableValues} = $DynamicFieldData->{Config}->{TranslatableValues};
+
+        # set TreeView
+        $Config{TreeView} = $DynamicFieldData->{Config}->{TreeView};
     }
 
     return $Self->_ShowScreen(
@@ -334,6 +342,10 @@ sub _ChangeAction {
             $Errors{ $Needed . 'ServerErrorMessage' } = 'This field is required.';
         }
     }
+    
+    # get the TreeView option and set it to '0' if it is undefined
+    $GetParam{TreeView} = $Self->{ParamObject}->GetParam( Param => 'TreeView' );
+    $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';
 
     my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
     if ( !$FieldID ) {
@@ -475,6 +487,7 @@ sub _ChangeAction {
     # set specific config
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
+        TreeView           => $GetParam{TreeView},
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
@@ -696,6 +709,19 @@ sub _ShowScreen {
         Class      => 'W50pc',
     );
 
+    my $TreeView = $Param{TreeView} || '0';
+
+    # create treeview option list
+    my $TreeViewStrg = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            0 => 'No',
+            1 => 'Yes',
+        },
+        Name       => 'TreeView',
+        SelectedID => $TreeView,
+        Class      => 'W50pc',
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -717,6 +743,7 @@ sub _ShowScreen {
             ValueCounter           => $ValueCounter,
             DefaultValueStrg       => $DefaultValueStrg,
             PossibleNoneStrg       => $PossibleNoneStrg,
+            TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
             }

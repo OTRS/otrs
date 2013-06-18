@@ -168,7 +168,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Elements       = {},
             InDialog       = false,
             $SelectedNodesObj,
-            SelectedNodes = [];
+            SelectedNodes = [],
+            $CurrentTreeObj;
 
         if (!$SelectObj) {
             return false;
@@ -200,8 +201,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 "animation" : 70
             },
             "ui": {
-                "select_multiple_modifier" : (SelectSize && Multiple) ? 'on' : 'ctrl',
-                "select_limit" : (SelectSize && Multiple) ? -1 : 1
+                "select_multiple_modifier" : ((SelectSize && Multiple) || Multiple) ? 'on' : 'ctrl',
+                "select_limit" : ((SelectSize && Multiple) || Multiple) ? -1 : 1
             },
             "search": {
                 "show_only_matches" : true
@@ -264,11 +265,11 @@ Core.UI.TreeSelection = (function (TargetNS) {
             if (SelectedID) {
                 if (typeof SelectedID === 'object') {
                     $.each(SelectedID, function(Index, Data) {
-                        $TreeObj.jstree("select_node", $('li[data-id="' + Data + '"]'));
+                        $TreeObj.jstree("select_node", $TreeObj.find('li[data-id="' + Data + '"]'));
                     });
                 }
                 else {
-                    $TreeObj.jstree("select_node", $('li[data-id="' + SelectedID + '"]'));
+                    $TreeObj.jstree("select_node", $TreeObj.find('li[data-id="' + SelectedID + '"]'));
                 }
             }
         });
@@ -305,13 +306,14 @@ Core.UI.TreeSelection = (function (TargetNS) {
         $('#TreeContainer').find('input#SubmitTree').bind('click', function() {
             var $SelectedObj = $TreeObj.jstree("get_selected");
             if (typeof $SelectedObj === 'object' && $SelectedObj.attr('data-id')) {
-
                 if ($SelectedObj.length > 1) {
 
                     $SelectedObj.each(function() {
                         SelectedNodes.push($(this).attr('data-id'));
                     });
-                    $SelectObj.val(SelectedNodes);
+                    $SelectObj
+                        .val(SelectedNodes)
+                        .trigger('change');
                 }
                 else {
                     if ($SelectedObj.attr('data-id') !== $SelectObj.val()) {
@@ -324,6 +326,98 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Core.UI.Dialog.CloseDialog($('.Dialog'));
         });
     };
+
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Restores tree view (intended values) for dynamic fields
+     */
+    TargetNS.RestoreDynamicFieldTreeView = function($FieldObj, Data, CheckClass, AJAXUpdate) {
+
+        var Key,
+            Value,
+            Selected,
+            SelectedAttr,
+            Disabled,
+            DisabledAttr,
+            SelectData = [],
+            LastElement,
+            NeededSpaces,
+            Spaces,
+            i;
+
+        if (CheckClass && $FieldObj.hasClass('TreeViewRestored')) {
+            return false;
+        }
+
+        $FieldObj.find('option').remove();
+
+        $.each(Data, function(index, OptionData) {
+
+            Key       = OptionData[0] || '';
+            Value     = OptionData[1] || '';
+            Spaces    = '';
+            NeededSpaces = 0;
+            Selected  = OptionData[2] || false;
+            Disabled  = OptionData[3] || false;
+
+            if (AJAXUpdate === 1) {
+                Selected = OptionData[3];
+                Disabled = OptionData[4];
+            }
+
+            if (Key.match(/::/g)) {
+                NeededSpaces = Key.match(/::/g).length;
+            }
+
+            if (NeededSpaces > 0) {
+                NeededSpaces = NeededSpaces * 2;
+                for (i = 0; i < NeededSpaces; i++) {
+                    Spaces = '&nbsp;' + Spaces;
+                }
+            }
+            Value = Spaces + Value;
+
+            SelectedAttr = '';
+            if (Selected) {
+                SelectedAttr = ' selected="selected"';
+            }
+
+            DisabledAttr = '';
+            if (Disabled) {
+                DisabledAttr = ' disabled="disabled"';
+            }
+
+            SelectData.push({
+                'Key'          : Key,
+                'Value'        : Value,
+                'SelectedAttr' : SelectedAttr,
+                'DisabledAttr' : DisabledAttr
+            });
+        });
+
+        SelectData.sort(function(a, b) {
+
+            var KeyA = a.Key.toLowerCase(),
+                KeyB = b.Key.toLowerCase();
+
+            if (KeyA < KeyB) {
+               return -1;
+            }
+            if (KeyA > KeyB) {
+               return 1;
+            }
+            return 0;
+        });
+
+        $.each(SelectData, function(index, Data) {
+            $FieldObj.append('<option value="' + Data.Key + '"' + Data.SelectedAttr + Data.DisabledAttr + '>' + Data.Value + '</option>');
+        });
+
+        $FieldObj.addClass('TreeViewRestored');
+    };
+
 
     return TargetNS;
 }(Core.UI.TreeSelection || {}));

@@ -553,6 +553,8 @@ sub GetObjectAttributes {
                     Block            => 'MultiSelectField',
                     Values           => $DynamicFieldStatsParameter->{Values},
                     Translation      => 0,
+                    IsDynamicField   => 1,
+                    ShowAsTree       => $DynamicFieldConfig->{Config}->{TreeView} || 0,
                 );
                 push @ObjectAttributes, \%ObjectAttribute;
             }

@@ -29,11 +29,11 @@
 
     <div class="ContentColumn">
         <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
-            <input type="hidden" name="Action" value="AdminDynamicFieldMultiselect">
-            <input type="hidden" name="Subaction" value="$QData{"Mode"}Action">
-            <input type="hidden" name="ObjectType" value="$QData{"ObjectType"}">
-            <input type="hidden" name="FieldType" value="$QData{"FieldType"}">
-            <input type="hidden" name="ID" value="$QData{"ID"}">
+            <input type="hidden" name="Action" value="AdminDynamicFieldMultiselect" />
+            <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
+            <input type="hidden" name="ObjectType" value="$QData{"ObjectType"}" />
+            <input type="hidden" name="FieldType" value="$QData{"FieldType"}" />
+            <input type="hidden" name="ID" value="$QData{"ID"}" />
 
             <div class="WidgetSimple">
                 <div class="Header">
@@ -45,7 +45,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name" $QData{"ReadonlyInternalField"}>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name" $QData{"ReadonlyInternalField"} />
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and the value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
@@ -118,8 +118,7 @@
                     <fieldset class="TableLike">
                         <label>$Text{"Possible values"}:</label>
                         <div class="Field ValueInsert">
-                            <input type="hidden" name="ValueCounter" value="$QData{"ValueCounter"}" id="ValueCounter" class="ValueCounter">
-                            <div class="Spacing"></div>
+                            <input type="hidden" name="ValueCounter" value="$QData{"ValueCounter"}" id="ValueCounter" class="ValueCounter" />
 <!-- dtl:block:ValueRow -->
                             <div class="ValueRow">
                                 <label class="Mandatory" for="Key_$QData{"ValueCounter"}"><span class="Marker">*</span>$Text{"Key"}:</label>
@@ -152,7 +151,7 @@
                                 <div class="SpacingTopMini" ></div>
                             </div>
 <!-- dtl:block:ValueTemplate -->
-                            <input type="hidden" name="DeletedValue" value="$QData{"DeletedString"}" id="DeletedValue" class="DeletedValue">
+                            <input type="hidden" name="DeletedValue" value="$QData{"DeletedString"}" id="DeletedValue" class="DeletedValue" />
                         </div>
                         <div class="Clear"></div>
 
@@ -175,6 +174,14 @@
                         <div class="Field">
                             $Data{"PossibleNoneStrg"}
                             <p class="FieldExplanation">$Text{"Activate this option to create an empty selectable value."}</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="TreeView">$Text{"Tree View"}:</label>
+                        <div class="Field">
+                            $Data{"TreeViewStrg"}
+                            <p class="FieldExplanation">$Text{"Activate this option to display values as a tree."}</p>
                         </div>
                         <div class="Clear"></div>
 
