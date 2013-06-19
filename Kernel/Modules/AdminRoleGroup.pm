@@ -126,6 +126,7 @@ sub Run {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
                 for my $ID (@Array) {
+                    next if !$ID;
                     if ( $RoleID == $ID ) {
                         $NewPermission{$Permission} = 1;
                     }
