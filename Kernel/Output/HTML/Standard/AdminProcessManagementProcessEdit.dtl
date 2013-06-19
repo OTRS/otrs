@@ -25,7 +25,7 @@
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>
-                        <a href="#" id="ProcessDelete" class="CallForAction Trash" data-dialog-element="DeleteProcessConfirmationDialog" data-dialog-title="$Text{"Delete Process"}" data-id="$QData{"ID"}"><span>$Text{"Delete Inactive Process"}</span></a>
+                        <a href="#" id="ProcessDelete" class="CallForAction Fullsize Center Trash" data-dialog-element="DeleteProcessConfirmationDialog" data-dialog-title="$Text{"Delete Process"}" data-id="$QData{"ID"}"><span>$Text{"Delete Inactive Process"}</span></a>
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                 </ul>

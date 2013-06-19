@@ -50,6 +50,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-06-19 Fixed bug#[9533](http://bugs.otrs.org/show_bug.cgi?id=9533) - Delete Inactive Process button not aligned.
  - 2013-06-18 Fixed bug#[9504](http://bugs.otrs.org/show_bug.cgi?id=9504) - wrong status after answer via customer portal.
  - 2013-06-18 Fixed bug#[9425](http://bugs.otrs.org/show_bug.cgi?id=9425) - Wrong created date for queue view.
  - 2013-06-18 Follow-up fix for bug#[8880](http://bugs.otrs.org/show_bug.cgi?id=8880) - No inline image shown if HTML email contains 'base' tag.
