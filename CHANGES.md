@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-20 Added support to mark important articles.
  - 2013-06-18 Added graphical ACL editor feature.
  - 2013-06-18 Added SystemData backend - a key/value store for artbitrary data.
  - 2013-06-18 Added tree mode feature for dynamic fields (dropdown and multiselect).
@@ -22,7 +23,6 @@
  - 2013-06-05 Fixed bug#[8475(http://bugs.otrs.org/show_bug.cgi?id=8475) - Screen refresh after action not always correct.
  - 2013-06-04 Added new dashboard widget that shows in a matrix form the number of tickets per state and per queue.
  - 2013-06-04 Added support to recognize numbers from external ticket systems in email subject and body to create follow-up articles in existing tickets.
- - 2013-06-04 Added support to mark important articles.
  - 2013-06-04 Added support for storing customer user data in dynamic ticket fields on ticket create or customer user update.
  - 2013-05-31 Fixed bug#[9486](http://bugs.otrs.org/show_bug.cgi?id=9486) - Database error by invalid condition with parentheses in TicketSearch, thanks to Norihiro Tanaka!
  - 2013-05-31 Added multiple backends support for CustomerCompany, thanks to Cyrille @ belnet-ict!
