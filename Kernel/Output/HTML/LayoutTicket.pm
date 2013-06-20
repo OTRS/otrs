@@ -1020,7 +1020,7 @@ sub TicketMetaItems {
                 Image      => $Image,
                 Title      => 'Unread article(s) available',
                 Class      => 'UnreadArticles',
-                ClassSpan  => 'UnreadArticles Important',
+                ClassSpan  => 'UnreadArticles Remarkable',
                 ClassTable => 'UnreadArticles',
             };
         }
@@ -1029,7 +1029,7 @@ sub TicketMetaItems {
                 Image      => $Image,
                 Title      => 'Unread article(s) available',
                 Class      => 'UnreadArticles',
-                ClassSpan  => 'UnreadArticles Unimportant',
+                ClassSpan  => 'UnreadArticles Ordinary',
                 ClassTable => 'UnreadArticles',
             };
         }

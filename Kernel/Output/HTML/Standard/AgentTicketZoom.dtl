@@ -524,6 +524,9 @@ $Data{"ArticleItems"}
 <!-- dtl:block:TreeItem -->
                     <tr class="$QData{"SenderType"}-$QData{"ArticleType"} $QData{"ClassRow"}" id="Row$LQData{"Count"}">
                         <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
+<!-- dtl:block:TreeItemImportantArticle -->
+                            <span class="ImportantArticles" title="$Text{"Important"}">$Text{"Important"}</span>
+<!-- dtl:block:TreeItemImportantArticle -->
 <!-- dtl:block:TreeItemNewArticle -->
                             <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
 <!-- dtl:block:TreeItemNewArticle -->

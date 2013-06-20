@@ -523,16 +523,27 @@ span.UnreadArticles {
     height: 20px;
 }
 
-span.UnreadArticles.Important {
+span.UnreadArticles.Remarkable {
     background-position: top;
 }
 
-span.UnreadArticles.Unimportant {
+span.UnreadArticles.Ordinary {
     background-position: 0 -20px;
 }
 
 tbody tr:hover span.UnreadArticles {
     background-position: 0 -40px;
+}
+
+span.ImportantArticles {
+    display: block;
+    text-indent: -9999px;
+    background: transparent url(../img/important_articles.png) no-repeat;
+    background-size: 80% auto;
+    width: 16px;
+    height: 16px;
+    float: right;
+    margin-top: 4px;
 }
 
 /**

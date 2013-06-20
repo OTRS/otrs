@@ -363,6 +363,8 @@ sub _UninstallMergedFeatureAddOns {
         OTRSFreeTextFromCustomerUser
         OTRSExternalTicketNumberRecognition
         OTRSDashboardQueueOverview
+        OTRSImportantArticles
+        OTRSImportantArticlesITSM
         OTRSDashboardTicketCalendar
         OTRSMultiServiceSelect
         OTRSMultiQueueSelect

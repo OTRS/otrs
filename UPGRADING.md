@@ -180,6 +180,8 @@ installed before):
 - OTRSFreeTextFromCustomerUser
 - OTRSExternalTicketNumberRecognition
 - OTRSDashboardQueueOverview
+- OTRSImportantArticles
+- OTRSImportantArticlesITSM
 - OTRSDashboardTicketCalendar
 - OTRSMultiServiceSelect
 - OTRSMultiQueueSelect

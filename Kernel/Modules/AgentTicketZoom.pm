@@ -185,6 +185,50 @@ sub Run {
         );
     }
 
+    if ( $Self->{Subaction} eq 'MarkAsImportant' ) {
+
+        # Owner and Responsible can mark articles as important or remove mark
+        if (
+            $Self->{UserID} == $Ticket{OwnerID}
+            || (
+                $Self->{ConfigObject}->Get('Ticket::Responsible')
+                && $Self->{UserID} == $Ticket{ResponsibleID}
+            )
+            )
+        {
+            # Always use user id 1 because other users also have to see the important flag
+            my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
+                ArticleID => $Self->{ArticleID},
+                UserID    => 1,
+            );
+
+            my $ArticleIsImportant = $ArticleFlag{Important};
+            if ($ArticleIsImportant) {
+
+                # Always use user id 1 because other users also have to see the important flag
+                $Self->{TicketObject}->ArticleFlagDelete(
+                    ArticleID => $Self->{ArticleID},
+                    Key       => 'Important',
+                    UserID    => 1,
+                );
+            }
+            else {
+
+                # Always use user id 1 because other users also have to see the important flag
+                $Self->{TicketObject}->ArticleFlagSet(
+                    ArticleID => $Self->{ArticleID},
+                    Key       => 'Important',
+                    Value     => 1,
+                    UserID    => 1,
+                );
+            }
+        }
+
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$Self->{ArticleID}",
+        );
+    }
+
     # mark shown article as seen
     if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
         my $Success = 1;
@@ -234,7 +278,7 @@ sub Run {
         );
         my $Content = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketZoom',
-            Data => {%Ticket, %Article, %AclAction},
+            Data => { %Ticket, %Article, %AclAction },
         );
         if ( !$Content ) {
             $Self->{LayoutObject}->FatalError(
@@ -625,7 +669,7 @@ sub MaskAgentZoom {
     }
     $Param{ArticleItems} .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketZoom',
-        Data => {%Ticket, %AclAction},
+        Data => { %Ticket, %AclAction },
     );
 
     # always show archived tickets as seen
@@ -1593,10 +1637,10 @@ sub _ArticleTree {
 
             # show ticket flags
             if ($ShowMeta) {
-                $Class .= ' Important';
+                $Class .= ' Remarkable';
             }
             else {
-                $Class .= ' Unimportant';
+                $Class .= ' Ordinary';
             }
         }
 
@@ -1622,6 +1666,21 @@ sub _ArticleTree {
                 ZoomExpandSort => $Self->{ZoomExpandSort},
             },
         );
+
+        # get article flags
+        # Always use user id 1 because other users also have to see the important flag
+        my %ArticleImportantFlags = $Self->{TicketObject}->ArticleFlagGet(
+            ArticleID => $Article{ArticleID},
+            UserID    => 1,
+        );
+
+        # show important flag
+        if ( $ArticleImportantFlags{Important} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TreeItemImportantArticle',
+                Data => {},
+            );
+        }
 
         # always show archived tickets as seen
         if ( $NewArticle && $Ticket{ArchiveFlag} ne 'y' ) {
@@ -2125,6 +2184,43 @@ sub _ArticleItem {
                 },
             );
         }
+    }
+
+    # Owner and Responsible can mark articles as important or remove mark
+    if (
+        $Self->{UserID} == $Ticket{OwnerID}
+        || (
+            $Self->{ConfigObject}->Get('Ticket::Responsible')
+            && $Self->{UserID} == $Ticket{ResponsibleID}
+        )
+        )
+    {
+
+        # Always use user id 1 because other users also have to see the important flag
+        my %ArticleFlags = $Self->{TicketObject}->ArticleFlagGet(
+            ArticleID => $Article{ArticleID},
+            UserID    => 1,
+        );
+
+        my $ArticleIsImportant = $ArticleFlags{Important};
+
+        my $Link
+            = 'Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
+        my $Description = 'Mark article as important';
+        if ($ArticleIsImportant) {
+            $Description = 'Remove important mark';
+        }
+
+        # set important menu item
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleMenu',
+            Data => {
+                %Ticket, %Article, %AclAction,
+                Description => $Description,
+                Name        => $Description,
+                Link        => $Link,
+            },
+        );
     }
 
     # do some strips && quoting
