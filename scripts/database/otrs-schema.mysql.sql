@@ -1,6 +1,34 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-06-17 11:23:48
+#  driver: mysql, generated: 2013-06-20 10:39:32
 # ----------------------------------------------------------
+# ----------------------------------------------------------
+#  create table acl
+# ----------------------------------------------------------
+CREATE TABLE acl (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (250) NOT NULL,
+    description VARCHAR (250) NULL,
+    valid_id SMALLINT NOT NULL,
+    stop_after_match SMALLINT NULL,
+    config_match LONGBLOB NULL,
+    config_change LONGBLOB NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX acl_name (name)
+);
+# ----------------------------------------------------------
+#  create table acl_sync
+# ----------------------------------------------------------
+CREATE TABLE acl_sync (
+    acl_id VARCHAR (200) NOT NULL,
+    sync_state VARCHAR (30) NOT NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL
+);
 # ----------------------------------------------------------
 #  create table valid
 # ----------------------------------------------------------

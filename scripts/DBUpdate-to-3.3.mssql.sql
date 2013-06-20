@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-06-17 11:23:58
+--  driver: mssql, generated: 2013-06-20 10:38:00
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -58,5 +58,36 @@ CREATE TABLE system_data (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(data_key)
 );
+-- ----------------------------------------------------------
+--  create table acl
+-- ----------------------------------------------------------
+CREATE TABLE acl (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    name NVARCHAR (200) NOT NULL,
+    comments NVARCHAR (250) NOT NULL,
+    description NVARCHAR (250) NULL,
+    valid_id SMALLINT NOT NULL,
+    stop_after_match SMALLINT NULL,
+    config_match NVARCHAR (MAX) NULL,
+    config_change NVARCHAR (MAX) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT acl_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table acl_sync
+-- ----------------------------------------------------------
+CREATE TABLE acl_sync (
+    acl_id NVARCHAR (200) NOT NULL,
+    sync_state NVARCHAR (30) NOT NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL
+);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE acl ADD CONSTRAINT FK_acl_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE acl ADD CONSTRAINT FK_acl_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
