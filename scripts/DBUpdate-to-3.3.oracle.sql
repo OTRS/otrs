@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-06-17 11:23:58
+--  driver: oracle, generated: 2013-06-20 10:38:00
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -39,6 +39,54 @@ CREATE TABLE system_data (
 ALTER TABLE system_data ADD CONSTRAINT PK_system_data PRIMARY KEY (data_key);
 CREATE INDEX FK_system_data_change_by ON system_data (change_by);
 CREATE INDEX FK_system_data_create_by ON system_data (create_by);
+-- ----------------------------------------------------------
+--  create table acl
+-- ----------------------------------------------------------
+CREATE TABLE acl (
+    id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    comments VARCHAR2 (250) NOT NULL,
+    description VARCHAR2 (250) NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    stop_after_match NUMBER (5, 0) NULL,
+    config_match CLOB NULL,
+    config_change CLOB NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT acl_name UNIQUE (name)
+);
+ALTER TABLE acl ADD CONSTRAINT PK_acl PRIMARY KEY (id);
+DROP SEQUENCE SE_acl;
+CREATE SEQUENCE SE_acl;
+CREATE OR REPLACE TRIGGER SE_acl_t
+before insert on acl
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_acl.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_acl_change_by ON acl (change_by);
+CREATE INDEX FK_acl_create_by ON acl (create_by);
+CREATE INDEX FK_acl_valid_id ON acl (valid_id);
+-- ----------------------------------------------------------
+--  create table acl_sync
+-- ----------------------------------------------------------
+CREATE TABLE acl_sync (
+    acl_id VARCHAR2 (200) NOT NULL,
+    sync_state VARCHAR2 (30) NOT NULL,
+    create_time DATE NOT NULL,
+    change_time DATE NOT NULL
+);
 SET DEFINE OFF;
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE acl ADD CONSTRAINT FK_acl_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE acl ADD CONSTRAINT FK_acl_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
