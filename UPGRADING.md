@@ -207,7 +207,9 @@ activate this feature and configure the mapping in the setting
 In OTRS 3.3, there is a graphical editor for ACLs in the administration interface. You will need to
 import your existing ACLs (e.g. in Config.pm or additional files) to the editor by using
 bin/otrs.ImportACLsFromConfig.pl in order to make them available in the editor. Please make sure to
-delete any ACLs from Config.pm (or other files) after successfully finishing the import procedure.
+delete any ACLs from Config.pm (or other files) after successfully finishing the import procedure. Also
+you will need to use the deploy button in the ACL administration frontend in order to re-deploy the imported
+ACLs to your system.
 
 15. Well done!
 --------------
