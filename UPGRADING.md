@@ -201,6 +201,13 @@ If you want to keep using it, please enable the setting
 activate this feature and configure the mapping in the setting
 "DynamicFieldFromCustomerUser::Mapping".
 
+14. Import your ACLs to the new ACL editor (optional)
+-------------------------------------------------------
 
-14. Well done!
+In OTRS 3.3, there is a graphical editor for ACLs in the administration interface. You will need to
+import your existing ACLs (e.g. in Config.pm or additional files) to the editor by using
+bin/otrs.ImportACLsFromConfig.pl in order to make them available in the editor. Please make sure to
+delete any ACLs from Config.pm (or other files) after successfully finishing the import procedure.
+
+15. Well done!
 --------------
