@@ -55,6 +55,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-06-21 Fixed bug#[9104](http://bugs.otrs.org/show_bug.cgi?id=9104) - Group permission for customer subset overwrites permissions for other customers.
  - 2013-06-21 Fixed bug#[9434](http://bugs.otrs.org/show_bug.cgi?id=9434) - Activities are not translated.
  - 2013-06-21 Fixed bug#[9261](http://bugs.otrs.org/show_bug.cgi?id=9261) - Ticket Inbound changes FROM in view.
  - 2013-06-21 Fixed bug#[9365](http://bugs.otrs.org/show_bug.cgi?id=9365) - AgentLinkObject screen does not provide a search restriction for ticket type.
@@ -625,7 +626,6 @@
     NotificationEvent definitions.
 
 #3.1.14 2013-??-??
- - 2013-06-21 Fixed bug#[9104](http://bugs.otrs.org/show_bug.cgi?id=9104) - Group permission for customer subset overwrites permissions for other customers.
  - 2013-03-02 Fixed bug#[9214](http://bugs.otrs.org/show_bug.cgi?id=9214) - IE10: impossible to open links from rich text articles.
  - 2013-03-01 Fixed bug#[9218](http://bugs.otrs.org/show_bug.cgi?id=9218) - Cannot use special characters in TicketHook.
  - 2013-02-28 Fixed bug#[9056](http://bugs.otrs.org/show_bug.cgi?id=9056) - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.

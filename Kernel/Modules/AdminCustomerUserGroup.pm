@@ -197,7 +197,7 @@ sub Run {
         USERID:
         for my $UserID ( sort keys %UserData ) {
 
-            if ( grep { $_ ne $UserID } @{$CustomerUserIDs}) {
+            if ( !grep { $_ eq $UserID } @{$CustomerUserIDs}) {
                 next USERID;
             }
 
