@@ -216,7 +216,7 @@
                         <div class="Clear"></div>
 
                         <label>$Text{"Activity"}:</label>
-                        <p class="Value" title="$QData{"Activity"}">$QData{"Activity","18"}</p>
+                        <p class="Value" title="$Text{"$Data{"Activity"}"}">$Text{"$Data{"Activity"}"}</p>
                         <div class="Clear"></div>
                     </fieldset>
 <!-- dtl:block:ProcessData -->
