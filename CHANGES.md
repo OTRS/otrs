@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-21 Fixed bug#[8200](http://bugs.otrs.org/show_bug.cgi?id=8200) - GenericAgent Ticket filter escalation times not working.
  - 2013-06-20 Added support to mark important articles.
  - 2013-06-18 Added graphical ACL editor feature.
  - 2013-06-18 Added SystemData backend - a key/value store for artbitrary data.
