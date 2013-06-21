@@ -617,17 +617,28 @@ sub Run {
                 );
             }
 
-            my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
-            my $Sender = $TemplateGenerator->Sender(
-                QueueID => $Ticket{QueueID},
-                UserID  => $Self->{UserID},
+            # Use customer data as From, if possible
+            my %LastCustomerArticle = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                TicketID      => $Self->{TicketID},
+                DynamicFields => 0,
             );
+
+            my $From = $LastCustomerArticle{From};
+
+            # If we don't have a customer article, use the agent as From
+            if (!$From) {
+                my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+                $From = $TemplateGenerator->Sender(
+                    QueueID => $Ticket{QueueID},
+                    UserID  => $Self->{UserID},
+                );
+            }
 
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID    => $Self->{TicketID},
                 ArticleType => $Self->{Config}->{ArticleType},
                 SenderType  => $Self->{Config}->{SenderType},
-                From        => $Sender,
+                From        => $From,
                 Subject     => $GetParam{Subject},
                 Body        => $GetParam{Body},
                 MimeType    => $MimeType,

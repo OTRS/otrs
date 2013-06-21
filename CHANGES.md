@@ -1,4 +1,5 @@
 #3.2.9 2013-??-??
+ - 2013-06-21 Fixed bug#[9261](http://bugs.otrs.org/show_bug.cgi?id=9261) - Ticket Inbound changes FROM in view.
  - 2013-06-21 Fixed bug#[9540](http://bugs.otrs.org/show_bug.cgi?id=9540) - AgentTicketOwner doesn't activate PreviousOwner if new owner is selected.
  - 2013-06-21 Fixed bug#[9365](http://bugs.otrs.org/show_bug.cgi?id=9365) - AgentLinkObject screen does not provide a search restriction for ticket type.
  - 2013-06-19 Fixed bug#[9533](http://bugs.otrs.org/show_bug.cgi?id=9533) - Delete Inactive Process button not aligned.
