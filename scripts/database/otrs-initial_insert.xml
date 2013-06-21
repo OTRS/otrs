@@ -1386,6 +1386,33 @@ The OTRS Project
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
+    <Insert Table="article_attachment">
+        <Data Key="id" Type="AutoIncrement">1</Data>
+        <Data Key="article_id">1</Data>
+        <Data Key="filename" Type="Quote">file-2</Data>
+        <Data Key="content_size">554</Data>
+        <Data Key="content_type" Type="Quote">text/html; charset=&quot;utf-8&quot;</Data>
+        <Data Key="content" Type="Quote">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;/&gt;&lt;/head&gt;&lt;body style=&quot;font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;&quot;&gt;
+Welcome!
+&lt;br /&gt;&lt;br /&gt;
+Thank you for installing OTRS.
+&lt;br /&gt;&lt;br /&gt;
+You will find updates and patches at http://www.otrs.com/open-source/.&lt;br /&gt;
+Online documentation is available at http://doc.otrs.org/.&lt;br /&gt;
+You can also use our mailing lists http://lists.otrs.org/
+or our forums at http://forums.otrs.org/
+&lt;br /&gt;&lt;br /&gt;
+Regards,
+&lt;br /&gt;&lt;br /&gt;
+The OTRS Project
+&lt;/body&gt;&lt;/html&gt;
+</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
     <Insert Table="article_plain">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="article_id">1</Data>
