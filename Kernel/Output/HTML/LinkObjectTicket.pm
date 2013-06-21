@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
+use Kernel::System::Priority;
+use Kernel::System::Type;
 
 =head1 NAME
 
@@ -52,8 +54,10 @@ sub new {
     {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self} );
-    $Self->{StateObject}  = Kernel::System::State->new( %{$Self} );
+    $Self->{LayoutObject}    = Kernel::Output::HTML::Layout->new( %{$Self} );
+    $Self->{StateObject}     = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject}  = Kernel::System::Priority->new( %{$Self} );
+    $Self->{TypeObject}      = Kernel::System::Type->new( %{$Self} );
 
     # define needed variables
     $Self->{ObjectData} = {
@@ -449,7 +453,21 @@ sub SearchOptionList {
             Name => 'State',
             Type => 'List',
         },
+        {
+            Key  => 'PriorityIDs',
+            Name => 'Priority',
+            Type => 'List',
+        },
     );
+
+    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
+        push @SearchOptionList,
+        {
+            Key  => 'TypeIDs',
+            Name => 'Type',
+            Type => 'List',
+        };
+    }
 
     # add formkey
     for my $Row (@SearchOptionList) {
@@ -492,9 +510,17 @@ sub SearchOptionList {
 
             my %ListData;
             if ( $Row->{Key} eq 'StateIDs' ) {
-
-                # get state list
                 %ListData = $Self->{StateObject}->StateList(
+                    UserID => $Self->{UserID},
+                );
+            }
+            elsif ( $Row->{Key} eq 'PriorityIDs' ) {
+                %ListData = $Self->{PriorityObject}->PriorityList(
+                    UserID => $Self->{UserID},
+                );
+            }
+            elsif ( $Row->{Key} eq 'TypeIDs' ) {
+                %ListData = $Self->{TypeObject}->TypeList(
                     UserID => $Self->{UserID},
                 );
             }
