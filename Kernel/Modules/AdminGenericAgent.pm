@@ -571,8 +571,9 @@ sub _MaskUpdate {
         );
         $JobData{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->BuildSelection(
             Data => {
-                Last   => 'last',
-                Before => 'before',
+                Last   => 'within the last ...',
+                Next   => 'within the next ...',
+                Before => 'more than ... ago',
             },
             Name => $Type . 'TimePointStart',
             SelectedID => $JobData{ $Type . 'TimePointStart' } || 'Last',
