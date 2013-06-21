@@ -81,12 +81,8 @@ else {
     push @DatabaseType, $Opts{t};
 }
 
-# read xml file
-my @File       = <STDIN>;
-my $FileString = '';
-for my $Line (@File) {
-    $FileString .= $Line;
-}
+# read xml data from STDIN
+my $FileString = do { local $/; <STDIN> };
 
 for my $DatabaseType (@DatabaseType) {
 
