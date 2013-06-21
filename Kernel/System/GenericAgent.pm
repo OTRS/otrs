@@ -687,9 +687,17 @@ sub JobGet {
                     $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 356;
                 }
                 if ( $Data{ $Type . 'TimePointStart' } eq 'Before' ) {
+                    # more than ... ago
                     $Data{ $Type . 'TimeOlderMinutes' } = $Time;
                 }
+                elsif ( $Data{ $Type . 'TimePointStart' } eq 'Next' ) {
+                    # within the next ...
+                    $Data{ $Type . 'TimeNewerMinutes' } = 0;
+                    $Data{ $Type . 'TimeOlderMinutes' } = -$Time;
+                }
                 else {
+                    # within the last ...
+                    $Data{ $Type . 'TimeOlderMinutes' } = 0;
                     $Data{ $Type . 'TimeNewerMinutes' } = $Time;
                 }
             }

@@ -23,8 +23,9 @@ $Text{"Done"}
 $Text{"Cancel"}
 $Text{"Reset"}
 
-$Text{"last"}
-$Text{"before"}
+$Text{"more than ... ago"}
+$Text{"within the last ..."}
+$Text{"within the next ..."}
 $Text{"Today"}
 $Text{"Tomorrow"}
 $Text{"Next week"}
