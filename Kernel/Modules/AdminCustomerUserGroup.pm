@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
+use Kernel::System::JSON;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,6 +33,7 @@ sub new {
     # needed objects
     $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
     $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+    $Self->{JSONObject}          = Kernel::System::JSON->new(%Param);
 
     return $Self;
 }
@@ -172,6 +174,12 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $CustomerUserIDs = $Self->{ParamObject}->GetParam( Param => 'CustomerUserIDs' ) || [];
+        if ($CustomerUserIDs) {
+            $CustomerUserIDs = $Self->{JSONObject}->Decode(
+                Data => $CustomerUserIDs,
+            );
+        }
 
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
@@ -186,7 +194,13 @@ sub Run {
         # get group data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList( Valid => 1 );
         my %NewPermission;
+        USERID:
         for my $UserID ( sort keys %UserData ) {
+
+            if ( grep { $_ ne $UserID } @{$CustomerUserIDs}) {
+                next USERID;
+            }
+
             for my $Permission ( sort keys %Permissions ) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{ $Permissions{$Permission} };
@@ -196,6 +210,7 @@ sub Run {
                     }
                 }
             }
+
             $Self->{CustomerGroupObject}->GroupMemberAdd(
                 UID        => $UserID,
                 GID        => $ID,
