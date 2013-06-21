@@ -124,26 +124,6 @@ Core.Agent.TicketAction = (function (TargetNS) {
             OpenCustomerDialog();
             return false;
         });
-
-        // Initially display dynamic fields with TreeMode = 1 correctly
-        $('.DynamicFieldWithTreeView').each(function() {
-            var Data = [];
-            $(this).find('option').each(function() {
-                Data.push([
-                    $(this).attr('value'),
-                    $(this).text(),
-                    $(this).prop('selected'),
-                    $(this).prop('disabled')
-                ]);
-            });
-            Core.UI.TreeSelection.RestoreDynamicFieldTreeView($(this), Data, 1);
-        });
-
-        // Register event for tree selection dialog
-        $('.Field').on('click', '.ShowTreeSelection', function (Event) {
-            Core.UI.TreeSelection.ShowTreeSelection($(this));
-            return false;
-        });
     };
 
     /**

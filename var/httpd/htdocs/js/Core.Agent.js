@@ -161,6 +161,8 @@ Core.Agent = (function (TargetNS) {
         Core.UI.InitMessageBoxClose();
         Core.Form.Validate.Init();
         Core.UI.Popup.Init();
+        Core.UI.TreeSelection.InitTreeSelection();
+        Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
     };

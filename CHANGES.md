@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-21 Fixed bug#[7201](http://bugs.otrs.org/show_bug.cgi?id=7201) - Setting Ticket::Frontend::ListType is not respected
  - 2013-06-20 Added support to mark important articles.
  - 2013-06-18 Added graphical ACL editor feature.
  - 2013-06-18 Added SystemData backend - a key/value store for artbitrary data.

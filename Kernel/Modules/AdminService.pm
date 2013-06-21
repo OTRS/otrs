@@ -274,6 +274,9 @@ sub _MaskNew {
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
+    # get list type
+    my $ListType = $Self->{ConfigObject}->Get('Ticket::Frontend::ListType');
+
     # generate ParentOptionStrg
     my %ServiceList = $Self->{ServiceObject}->ServiceList(
         Valid  => 0,
@@ -284,6 +287,7 @@ sub _MaskNew {
         Name           => 'ParentID',
         SelectedID     => $Param{ParentID} || $ServiceData{ParentID},
         PossibleNone   => 1,
+        TreeView       => ($ListType eq 'tree') ? 1 : 0,
         DisabledBranch => $ServiceData{Name},
         Translation    => 0,
     );
