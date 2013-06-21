@@ -52,6 +52,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-06-21 Fixed bug#[9365](http://bugs.otrs.org/show_bug.cgi?id=9365) - AgentLinkObject screen does not provide a search restriction for ticket type.
  - 2013-06-19 Fixed bug#[9533](http://bugs.otrs.org/show_bug.cgi?id=9533) - Delete Inactive Process button not aligned.
  - 2013-06-18 Fixed bug#[9504](http://bugs.otrs.org/show_bug.cgi?id=9504) - wrong status after answer via customer portal.
  - 2013-06-18 Fixed bug#[9425](http://bugs.otrs.org/show_bug.cgi?id=9425) - Wrong created date for queue view.
