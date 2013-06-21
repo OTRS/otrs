@@ -331,6 +331,40 @@ Core.UI.TreeSelection = (function (TargetNS) {
      * @function
      * @private
      * @return nothing
+     * @description to bind click event no tree selection icons next to select boxes
+     */
+    TargetNS.InitTreeSelection = function() {
+        $('.Field, fieldset').off('click.ShowTreeSelection').on('click.ShowTreeSelection', '.ShowTreeSelection', function (Event) {
+            Core.UI.TreeSelection.ShowTreeSelection($(this));
+            return false;
+        });
+    };
+
+    /**
+     * @function
+     * @private
+     * @return nothing
+     * @description Initially display dynamic fields with TreeMode = 1 correctly
+     */
+    TargetNS.InitDynamicFieldTreeViewRestore = function() {
+        $('.DynamicFieldWithTreeView').each(function() {
+            var Data = [];
+            $(this).find('option').each(function() {
+                Data.push([
+                    $(this).attr('value'),
+                    $(this).text(),
+                    $(this).prop('selected'),
+                    $(this).prop('disabled')
+                ]);
+            });
+            Core.UI.TreeSelection.RestoreDynamicFieldTreeView($(this), Data, 1);
+        });
+    };
+
+    /**
+     * @function
+     * @private
+     * @return nothing
      * @description Restores tree view (intended values) for dynamic fields
      */
     TargetNS.RestoreDynamicFieldTreeView = function($FieldObj, Data, CheckClass, AJAXUpdate) {

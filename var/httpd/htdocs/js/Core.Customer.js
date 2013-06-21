@@ -49,6 +49,10 @@ Core.Customer = (function (TargetNS) {
         }
         // late execution of accessibility code
         Core.UI.Accessibility.Init();
+
+        // Init tree selection/tree view for dynamic fields
+        Core.UI.TreeSelection.InitTreeSelection();
+        Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
     };
 
     /**
