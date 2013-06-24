@@ -179,6 +179,7 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <input type="hidden" name="CustomerUserSearch" value="$QData{"CustomerUserSearch"}" />
                     <table class="DataTable VariableWidth" id="$QData{"VisibleNeType"}">
                         <thead>
                             <tr>
