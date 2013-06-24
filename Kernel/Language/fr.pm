@@ -1128,7 +1128,7 @@ sub Data {
         'Param %s value' => 'Valeur Param %s',
         'Save Changes' => 'Enregistrer les Modifications',
         'Results' => 'Résultat',
-        '%s Tickets affected! What do you want to do?' => '% Tickets impactés! Que voulez vous faire?',
+        '%s Tickets affected! What do you want to do?' => '%s Tickets impactés! Que voulez vous faire?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Attention: Vous devriez utiliser l\'option DELETE. Tous les tickets effacés seront perdus!',
         'Edit job' => 'Editer tâche',
