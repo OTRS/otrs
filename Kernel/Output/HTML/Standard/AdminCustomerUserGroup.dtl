@@ -179,7 +179,6 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <input type="hidden" name="CustomerUserIDs" value=""/>
                     <table class="DataTable VariableWidth" id="$QData{"VisibleNeType"}">
                         <thead>
                             <tr>
@@ -207,7 +206,7 @@
 <!-- dtl:block:ChangeHeader -->
                             </tr>
                         </thead>
-                        <tbody class="CustomerIDs">
+                        <tbody>
 <!-- dtl:block:NoDataFoundMsg -->
                             <tr>
                                 <td colspan="$QData{"ColSpan"}">
@@ -216,7 +215,7 @@
                             </tr>
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:ChangeRow -->
-                            <tr data-customeruserid="$LQData{"ID"}">
+                            <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
 <!-- dtl:block:ChangeRowItem -->
                                 <td class="$QData{"Mark"}">
@@ -238,26 +237,6 @@
                     <div class="Clear"></div>
                 </form>
             </div>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-
-    // Create a list of affected users to avoid
-    // unwanted change of filtered out customers
-    $('form[name=matrix]').bind('submit', function() {
-        var CustomerUserIDs = [],
-            CustomerUserID,
-            $FormObj = $(this);
-
-        $FormObj.find('tbody').find('tr').each(function() {
-            CustomerUserID = $(this).attr('data-customeruserid');
-            if (CustomerUserID) {
-                CustomerUserIDs.push($(this).attr('data-customeruserid'));
-            }
-        });
-        $FormObj.find('input[name=CustomerUserIDs]').val(Core.JSON.Stringify(CustomerUserIDs));
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Change -->
         </div>
 <!-- dtl:js_on_document_complete -->
