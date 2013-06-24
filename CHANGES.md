@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-06-24 Fixed bug#[9543](http://bugs.otrs.org/show_bug.cgi?id=9543) - Log error if empty UserLogin in LostPasswordToken for Agent.
  - 2013-06-21 Fixed bug#[9540](http://bugs.otrs.org/show_bug.cgi?id=9540) - AgentTicketOwner doesn't activate PreviousOwner if new owner is selected.
  - 2013-06-21 Fixed bug#[7110](http://bugs.otrs.org/show_bug.cgi?id=7110) - Welcome ticket looks broken when trying to reply.
  - 2013-06-21 Fixed bug#[7201](http://bugs.otrs.org/show_bug.cgi?id=7201) - Setting Ticket::Frontend::ListType is not respected

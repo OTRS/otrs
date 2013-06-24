@@ -113,21 +113,29 @@ $Include{"HTMLHeadBlockEvents"}
                         <div class="Content">
                             <p class="Error Center Spacing"></p>
 
-                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate">
                                 <input type="hidden" name="Action" value="Login" />
                                 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
                                 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
                                 <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                                 <fieldset class="TableLike">
-                                    <label for="User">$Text{"Username"}:</label>
+                                    <label for="User" class="Mandatory">
+                                        <span class="Marker">*</span>
+                                        $Text{"Username"}:
+                                    </label>
                                     <div class="Field">
-                                        <input type="text" id="User" name="User" value="$QData{"User"}" class="W50pc" />
+                                        <input type="text" id="User" name="User" value="$QData{"User"}" class="W50pc Validate_Required" />
+                                        <div id="UserError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                                     </div>
                                     <div class="Clear"></div>
 
-                                    <label for="Password">$Text{"Password"}:</label>
+                                    <label for="Password" class="Mandatory">
+                                        <span class="Marker">*</span>
+                                        $Text{"Password"}:
+                                    </label>
                                     <div class="Field">
-                                        <input type="password" id="Password" name="Password" class="W50pc" />
+                                        <input type="password" id="Password" name="Password" class="W50pc Validate_Required" />
+                                        <div id="PasswordError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                                     </div>
                                     <div class="Clear"></div>
 
@@ -163,14 +171,18 @@ $Include{"HTMLHeadBlockEvents"}
                         </div>
                         <div class="Content">
                             <p class="Error Center Spacing"></p>
-                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+                            <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" class="Validate">
                                 <input type="hidden" name="Action" value="LostPassword"/>
                                 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
 
                                 <fieldset class="TableLike">
-                                    <label for="PasswordUser">$Text{"Username"}:</label>
+                                    <label for="PasswordUser" class="Mandatory">
+                                        <span class="Marker">*</span>
+                                        $Text{"Username"}:
+                                    </label>
                                     <div class="Field">
-                                        <input type="text" id="PasswordUser" name="User" value="" class="W50pc" readonly="readonly"/>
+                                        <input type="text" id="PasswordUser" name="User" value="" class="W50pc Validate_Required" readonly="readonly"/>
+                                        <div id="PasswordUserError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                                     </div>
                                     <div class="Clear"></div>
 
