@@ -906,7 +906,7 @@ sub SetPassword {
     my $CryptedPw = '';
 
     # get crypt type
-    my $CryptType = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') || '';
+    my $CryptType = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') || 'bcrypt';
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
