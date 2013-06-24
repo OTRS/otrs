@@ -4345,7 +4345,7 @@ sub _StoreActivityDialog {
                             )
                         {
 
-                            # get ticket destails
+                            # get ticket details
                             my %Ticket = $Self->{TicketObject}->TicketGet(
                                     TicketID      => $TicketID,
                                     DynamicFields => 0,
