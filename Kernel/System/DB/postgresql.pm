@@ -674,9 +674,6 @@ sub Insert {
             }
         }
         else {
-            if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $Tmp =~ s/\n/\r/g;
-            }
             $Value .= $Tmp;
         }
     }

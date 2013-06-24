@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-06-20 10:39:32
+--  driver: postgresql, generated: 2013-06-24 12:38:54
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
