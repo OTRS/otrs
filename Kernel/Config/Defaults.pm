@@ -920,6 +920,7 @@ sub LoadDefaults {
       'Core.UI.Table.js',
       'Core.UI.Accessibility.js',
       'Core.UI.RichTextEditor.js',
+      'Core.UI.TreeSelection.js',
       'Core.Form.js',
       'Core.Form.ErrorTooltips.js',
       'Core.UI.Dialog.js',
