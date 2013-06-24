@@ -886,6 +886,7 @@ sub Run {
             $Data{StatType} = $Stat->{StatType};
 
             for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
+                next if !defined $Param{Select};
                 next if $Param{Select} ne $ObjectAttribute->{Element};
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $Param{Select} );
@@ -2678,9 +2679,9 @@ sub _ColumnAndRowTranslation {
         # sort
         my $DisableDefaultResultSort = grep {
             $_->{DisableDefaultResultSort}
-            && $_->{DisableDefaultResultSort} == 1 
+            && $_->{DisableDefaultResultSort} == 1
         } @{ $Param{StatRef}->{UseAsXvalue} };
-        
+
         if (!$DisableDefaultResultSort) {
             @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
         }
