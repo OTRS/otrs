@@ -12,7 +12,6 @@ package Kernel::System::AuthSession::FS;
 use strict;
 use warnings;
 
-use Digest::MD5;
 use Storable;
 
 sub new {
@@ -246,16 +245,14 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
     # create session id
-    my $MD5 = Digest::MD5->new();
-    $MD5->add(
-        ( $TimeNow . int( rand 999999999 ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
+    my $SessionID = $Self->{MainObject}->GenerateRandomString(
+        Length => 32,
     );
-    my $SessionID = $Self->{SystemID} . $MD5->hexdigest();
 
     # create challenge token
-    $MD5 = Digest::MD5->new();
-    $MD5->add( $TimeNow . $SessionID );
-    my $ChallengeToken = $MD5->hexdigest();
+    my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
+         Length => 32,
+    ); 
 
     my %Data;
     KEY:

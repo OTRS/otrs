@@ -646,7 +646,7 @@ sub SetPassword {
     my $CryptedPw = '';
 
     # get crypt type
-    my $CryptType = $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') || 'sha256';
+    my $CryptType = $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') || 'bcrypt';
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
@@ -683,6 +683,30 @@ sub SetPassword {
 
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
+    }
+
+    # always crypt with bcrypt if possible
+    elsif ( $Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt', Silent => 1) ) {
+
+        my $Cost = 9;
+        my $Salt = $Self->{MainObject}->GenerateRandomString( Length => 16 );
+
+        # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
+        $Self->{EncodeObject}->EncodeOutput(\$Pw);
+
+        # calculate password hash
+        my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
+            {
+                    key_nul => 1,
+                    cost => 9,
+                    salt => $Salt,
+            },
+            $Pw
+        );
+
+        # We will store cost and salt in the password string so that it can be decoded
+        #   in future even if we use a higher cost by default.
+        $CryptedPw = "BCRYPT:$Cost:$Salt:" . Crypt::Eksblowfish::Bcrypt::en_base64($Octets);
     }
 
     # crypt with sha256
@@ -943,19 +967,9 @@ sub GenerateRandomPassword {
     # Generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
 
-    # The list of characters that can appear in a randomly generated password.
-    # Note that users can put any character into a password they choose themselves.
-    my @PwChars
-        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
-
-    # The number of characters in the list.
-    my $PwCharsLen = scalar @PwChars;
-
-    # Generate the password.
-    my $Password = '';
-    for ( my $i = 0; $i < $Size; $i++ ) {
-        $Password .= $PwChars[ rand($PwCharsLen) ];
-    }
+    my $Password = $Self->{MainObject}->GenerateRandomString(
+        Length => $Size,
+    );
 
     # Return the password.
     return $Password;
@@ -1068,18 +1082,9 @@ sub TokenGenerate {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
         return;
     }
-
-    # The list of characters that can appear in a randomly generated token.
-    my @Chars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-
-    # The number of characters in the list.
-    my $CharsLen = scalar @Chars;
-
-    # Generate the token.
-    my $Token = 'A';
-    for ( my $i = 0; $i < 14; $i++ ) {
-        $Token .= $Chars[ rand($CharsLen) ];
-    }
+    my $Token = $Self->{MainObject}->GenerateRandomString(
+        Length => 15,
+    );
 
     # save token in preferences
     $Self->SetPreferences(

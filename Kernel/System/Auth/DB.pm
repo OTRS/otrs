@@ -25,7 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject EncodeObject MainObject)) {
+    for (qw(LogObject ConfigObject DBObject EncodeObject MainObject UserObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
@@ -79,6 +79,7 @@ sub Auth {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID     = '';
     my $GetPw      = '';
+    my $Method;
 
     # sql query
     my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} "
@@ -103,9 +104,10 @@ sub Auth {
         )
     {
         $CryptedPw = $Pw;
+        $Method = 'plain';
     }
 
-    # md5 or sha pw
+    # md5, bcrypt or sha pw
     elsif ( $GetPw !~ /^.{13}$/ ) {
 
         # md5 pw
@@ -119,6 +121,7 @@ sub Auth {
             $Self->{EncodeObject}->EncodeOutput( \$Salt );
 
             $CryptedPw = unix_md5_crypt( $Pw, $Salt );
+            $Method = 'unix_md5_crypt';
         }
 
         # sha256 pw
@@ -131,9 +134,40 @@ sub Auth {
 
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
+            $Method = 'sha256';
         }
 
-        # sha1 pw
+        elsif ( $GetPw =~ m{^BCRYPT:} ) {
+            # require module, log errors if module was not found
+            if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                );
+                return;
+            }
+
+            # get salt and cost from stored PW string
+            my ($Cost, $Salt, $Base64Hash) = $GetPw =~ m{^BCRYPT:(\d+):(.{16}):(.*)$}xms;
+
+            # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
+            $Self->{EncodeObject}->EncodeOutput(\$Pw);
+
+            # calculate password hash with the same cost and hash settings
+            my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
+                {
+                    key_nul => 1,
+                    cost => $Cost,
+                    salt => $Salt,
+                },
+                $Pw
+            );
+
+            $CryptedPw = "BCRYPT:$Cost:$Salt:" . Crypt::Eksblowfish::Bcrypt::en_base64($Octets);
+            $Method = 'bcrypt';
+        }
+
+        # fallback: sha1 pw
         else {
 
             my $SHAObject = Digest::SHA->new('sha1');
@@ -143,6 +177,7 @@ sub Auth {
 
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
+            $Method = 'sha1';
         }
     }
 
@@ -158,6 +193,7 @@ sub Auth {
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
         $Self->{EncodeObject}->EncodeOutput( \$Salt );
         $CryptedPw = crypt( $Pw, $Salt );
+        $Method = 'crypt';
     }
 
     # just in case for debug!
@@ -165,7 +201,7 @@ sub Auth {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
-                "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+                "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$Method/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
 
@@ -183,7 +219,7 @@ sub Auth {
 
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
+            Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
@@ -192,7 +228,7 @@ sub Auth {
     elsif ( ($UserID) && ($GetPw) ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Message  => "User: $User authentication with wrong Pw!!! (Method: $Method, REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }

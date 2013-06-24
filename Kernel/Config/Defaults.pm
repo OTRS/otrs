@@ -341,8 +341,8 @@ sub LoadDefaults {
     # example values: AuthSyncBackend, AuthSyncBackend2
 #    $Self->{'AuthModule::UseSyncBackend'} = '';
 
-    # password crypt type (sha2|sha1|md5|crypt|plain)
-#    $Self->{'AuthModule::DB::CryptType'} = 'md5';
+    # password crypt type (bcrypt|sha2|sha1|md5|crypt|plain)
+#    $Self->{'AuthModule::DB::CryptType'} = 'bcrypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -1222,8 +1222,8 @@ Your OTRS Notification Master
     # if you use odbc or you want to define a database type (without autodetection)
 #    $Self->{'Customer::AuthModule::DB::Type'} = 'mysql';
 
-    # password crypt type (md5|crypt|plain)
-#    $Self->{'Customer::AuthModule::DB::CryptType'} = 'md5';
+    # password crypt type (bcrypt|sha2|sha1|md5|crypt|plain)
+#    $Self->{'Customer::AuthModule::DB::CryptType'} = 'bcrypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)

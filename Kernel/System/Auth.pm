@@ -110,7 +110,7 @@ sub new {
 
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
-    # load auth module
+    # load auth modules
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
@@ -125,7 +125,7 @@ sub new {
         $Self->{"AuthBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
     }
 
-    # load sync module
+    # load sync modules
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 

@@ -57,9 +57,53 @@ $Self->True(
     "Creating test customer user",
 );
 
-# missing auth modules:
-# sha1 sha2
-for my $CryptType (qw(plain crypt md5)) {
+# set pw
+my @Tests = (
+    {
+        Password   => 'simple',
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => 'very long password line which is unusual',
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => 'Переводчик',
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => 'كل ما تحب معرفته عن',
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => ' ',
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => "\n",
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => "\t",
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => "a" x 64,     # max length for plain
+        AuthResult => $UserRand1,
+    },
+
+    # SQL security tests
+    {
+        Password   => "'UNION'",
+        AuthResult => $UserRand1,
+    },
+    {
+        Password   => "';",
+        AuthResult => $UserRand1,
+    },
+);
+
+for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
 
     $ConfigObject->Set(
         Key   => "Customer::AuthModule::DB::CryptType",
@@ -74,48 +118,6 @@ for my $CryptType (qw(plain crypt md5)) {
     my $CustomerAuthObject = Kernel::System::CustomerAuth->new(
         %{$Self},
         ConfigObject => $ConfigObject,
-    );
-
-    # set pw
-    my @Tests = (
-        {
-            Password => 'simple',
-            Result   => 1,
-        },
-        {
-            Password => 'very long password line which is unusual',
-            Result   => 1,
-        },
-        {
-            Password => 'Переводчик',
-            Result   => 1,
-        },
-        {
-            Password => 'كل ما تحب معرفته عن',
-            Result   => 1,
-        },
-        {
-            Password => ' ',
-            Result   => 1,
-        },
-        {
-            Password => "\n",
-            Result   => 1,
-        },
-        {
-            Password => "\t",
-            Result   => 1,
-        },
-
-        # SQL security tests
-        {
-            Password => "'UNION'",
-            Result   => 1,
-        },
-        {
-            Password => "';",
-            Result   => 1,
-        },
     );
 
     for my $Test (@Tests) {

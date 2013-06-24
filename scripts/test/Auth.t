@@ -104,7 +104,7 @@ my @Tests = (
     },
 );
 
-for my $CryptType (qw(plain crypt md5 sha1 sha2)) {
+for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
 
     $ConfigObject->Set(
         Key   => "AuthModule::DB::CryptType",

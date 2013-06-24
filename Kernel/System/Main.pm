@@ -84,12 +84,15 @@ sub new {
 
 require/load a module
 
-    my $Loaded = $MainObject->Require('Kernel::System::Example');
+    my $Loaded = $MainObject->Require(
+        'Kernel::System::Example',
+        Silent => 1,                # optional, no log entry if module was not found
+    );
 
 =cut
 
 sub Require {
-    my ( $Self, $Module ) = @_;
+    my ( $Self, $Module, %Param ) = @_;
 
     if ( !$Module ) {
         $Self->{LogObject}->Log(
@@ -124,25 +127,27 @@ sub Require {
     # if there was an error
     if ($@) {
 
-        # log error
-        $Self->{LogObject}->Log(
-            Caller   => 1,
-            Priority => 'error',
-            Message  => "$@",
-        );
+        if (!$Param{Silent}) {
+            $Self->{LogObject}->Log(
+                Caller   => 1,
+                Priority => 'error',
+                Message  => "$@",
+            );
+        }
 
         return;
     }
 
-    # return true if module is loaded
+    # check result value, should be true
     if ( !$Result ) {
 
-        # if there is no file, show not found error
-        $Self->{LogObject}->Log(
-            Caller   => 1,
-            Priority => 'error',
-            Message  => "Module $Module not found!",
-        );
+        if (!$Param{Silent}) {
+            $Self->{LogObject}->Log(
+                Caller   => 1,
+                Priority => 'error',
+                Message  => "Module $Module not found/could not be loaded!",
+            );
+        }
 
         return;
     }
@@ -892,6 +897,26 @@ sub DirectoryRead {
     @Results = sort @Results;
     return @Results;
 
+}
+
+sub GenerateRandomString {
+    my ( $Self, %Param ) = @_;
+
+    my $Length = $Param{Length} || 16;
+
+    my $String;
+
+    # The list of characters in the dictionary. Don't use special chars here.
+    my @DictionaryChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+
+    my $DictionaryLen = scalar @DictionaryChars;
+
+    # Generate the string
+    for ( 1 .. $Length ) {
+        $String .= $DictionaryChars[ rand($DictionaryLen) ];
+    }
+
+    return $String;
 }
 
 =begin Internal:

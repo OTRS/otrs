@@ -189,6 +189,7 @@ installed before):
 - OTRSKeepFAQAttachments
 - OTRSTicketAclEditor
 
+
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------
 
@@ -203,6 +204,7 @@ If you want to keep using it, please enable the setting
 activate this feature and configure the mapping in the setting
 "DynamicFieldFromCustomerUser::Mapping".
 
+
 14. Import your ACLs to the new ACL editor (optional)
 -------------------------------------------------------
 
@@ -213,5 +215,17 @@ delete any ACLs from Config.pm (or other files) after successfully finishing the
 you will need to use the deploy button in the ACL administration frontend in order to re-deploy the imported
 ACLs to your system.
 
-15. Well done!
+
+15. Check password hashing settings
+-----------------------------------
+
+OTRS 3.3 comes with support for bcrypt, a strong password hashing algorithm.
+It is highly recommended that you check your settings for AuthModule::DB::CryptType
+and Customer::AuthModule::DB::CryptType and make sure they are set to bcrypt.
+This might not work if you use external readonly databases.
+Using MD5 or SHA is discouraged as they are considered unsafe (see also
+http://www.codinghorror.com/blog/2012/04/speed-hashing.html).
+
+
+16. Well done!
 --------------

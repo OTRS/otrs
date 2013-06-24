@@ -514,4 +514,54 @@ for my $Test (@Tests) {
     );
 }
 
+# Generate Random string test
+
+my $Token = $Self->{MainObject}->GenerateRandomString();
+my $Length = length($Token);
+
+$Self->True(
+    $Token,
+    "GenerateRandomString - generated",
+);
+
+$Self->Is(
+    $Length,
+    16,
+    "GenerateRandomString - standard size is 16",
+);
+
+$Token = $Self->{MainObject}->GenerateRandomString(
+    Length => 8,
+);
+$Length = length($Token);
+
+$Self->True(
+    $Token,
+    "GenerateRandomString - 8 - generated",
+);
+
+$Self->Is(
+    $Length,
+    8,
+    "GenerateRandomString - 8 - correct length",
+);
+
+my %Values;
+my $Seen = 0;
+for my $Counter ( 1 ... 100_000 ) {
+   my $Random = $Self->{MainObject}->GenerateRandomString( Length => 6 );
+   if ( $Values{$Random} ) {
+      $Seen = 1;
+      last;
+   }
+   $Values{$Random} = 1;
+}
+
+$Self->Is(
+    $Seen,
+    0,
+    "GenerateRandomString - no duplicates in 100k iterations",
+);
+
+
 1;
