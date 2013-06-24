@@ -16,11 +16,11 @@
  */
 
 #TicketOverviewLarge {
-    margin-top: 56px;
+    margin-top: 0px;
 }
 
 .OverviewLarge {
-    margin: 8px 16px 8px 8px;
+    margin: 0px 16px 8px 8px;
 }
 
 .RTL .OverviewLarge {

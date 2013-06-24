@@ -25,7 +25,7 @@
     Core.UI.ActionRow.Init();
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<div id="OverviewBody" class="Overview FixedHeader">
+<div id="OverviewBody" class="Overview TicketList">
 <!-- dtl:block:NoTicketFound -->
     <div id="EmptyMessageSmall">
         $Text{"No ticket data found."}
@@ -35,17 +35,17 @@
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
 <!-- dtl:block:OverviewTable-->
-        <table id="FixedTable" class="TableSmall NoCellspacing">
+        <table class="TableSmall NoCellspacing">
 <!-- dtl:block:TableHeader -->
             <thead>
                 <tr>
 <!-- dtl:block:BulkNavBar -->
-                    <th class="Checkbox Fixed">
+                    <th class="Checkbox">
                         <input type="checkbox" class="Checkbox" title="$Text{"Select all"}" id="SelectAllTickets" autocomplete="off" />
                     </th>
 <!-- dtl:block:BulkNavBar -->
 <!-- dtl:block:OverviewNavBarPageFlag -->
-                    <th class="Fixed $QData{"CSS"}">
+                    <th class="$QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
                         <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}" title="$Text{"$Data{"Name"}"}"></a>
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
@@ -143,12 +143,12 @@
 <!-- dtl:block:Record -->
                 <tr id="TicketID_$QData{"TicketID"}" class="MasterAction">
 <!-- dtl:block:Bulk -->
-                    <td class="Checkbox Fixed NonTextContent">
+                    <td class="Checkbox NonTextContent">
                         <input class="Checkbox" type="checkbox" name="TicketID" value="$QData{"TicketID"}"  autocomplete="off" />
                     </td>
 <!-- dtl:block:Bulk -->
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
-                    <td class="$QData{"ClassTable"} Fixed" title="$Text{"$Data{"Title"}"}">
+                    <td class="$QData{"ClassTable"}" title="$Text{"$Data{"Title"}"}">
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
                         <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
                             <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
@@ -254,8 +254,6 @@
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.InitTableHead($('#FixedTable thead'), $('#FixedTable tbody'));
-    Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
     Core.UI.InitCheckboxSelection($('table td.Checkbox'));
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
@@ -264,9 +262,6 @@
             window.location = $MasterActionLink.attr('href');
             return false;
         }
-    });
-    $(window).resize(function() {
-        Core.UI.AdjustTableHead($('#FixedTable thead'), $('#FixedTable tbody'), 0);
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->

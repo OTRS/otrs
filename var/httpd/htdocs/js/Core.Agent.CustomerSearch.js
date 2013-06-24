@@ -116,17 +116,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
 
             // Init table functions
-            if ($('#FixedTable').length) {
-                Core.UI.InitTableHead($('#FixedTable thead'), $('#FixedTable tbody'));
-                Core.UI.StaticTableControl($('#OverviewControl').add($('#OverviewBody')));
+            if ($('#TicketList table').length) {
                 Core.UI.Table.InitCSSPseudoClasses();
-
-                $(window).bind('resize', function () {
-                    window.clearTimeout(ResizeTimeoutWindow);
-                    ResizeTimeoutWindow = window.setTimeout(function () {
-                        Core.UI.AdjustTableHead($('#FixedTable thead'), $('#FixedTable tbody'), 0);
-                    }, 500);
-                });
             }
 
             if ( Core.Config.Get('Action') === 'AgentTicketCustomer' ) {

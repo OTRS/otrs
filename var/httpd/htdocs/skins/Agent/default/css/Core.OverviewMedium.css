@@ -15,11 +15,11 @@
  * @subsection  Medium View Overview
  */
 #TicketOverviewMedium {
-    margin-top: 56px;
+    margin-top: 0px;
 }
 
 .OverviewMedium {
-    margin: 8px 16px 8px 8px;
+    margin: 0px 16px 8px 8px;
 }
 
 .RTL .OverviewMedium {

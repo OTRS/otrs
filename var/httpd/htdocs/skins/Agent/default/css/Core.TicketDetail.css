@@ -78,10 +78,6 @@ div.Headline .Flag {
     height: 82px;
     overflow-y: scroll;
     overflow-x: hidden;
-}
-
-.FixedHeader .Scroller {
-    margin-top: 30px;
     margin-bottom: 10px;
 }
 

@@ -32,7 +32,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
     TargetNS.MarkTicketAsSeen = function (TicketID) {
         TargetNS.TicketMarkAsSeenTimeout = window.setTimeout(function () {
             // Mark old row as readed
-            $('#FixedTable .ArticleID').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+            $('#ArticleTable .ArticleID').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
 
             // Mark article as seen in backend
             var Data = {
@@ -58,7 +58,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
     TargetNS.MarkAsSeen = function (TicketID, ArticleID) {
         TargetNS.MarkAsSeenTimeout = window.setTimeout(function () {
             // Mark old row as readed
-            $('#FixedTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+            $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
 
             // Mark article as seen in backend
             var Data = {
@@ -143,7 +143,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             $('#ArticleItems .WidgetBox').removeClass('Loading');
 
             // Scroll to new active article
-            TicketScrollerTop = parseInt($('#FixedTable tbody tr.Active').offset().top, 10) - parseInt($('#FixedTable tbody').offset().top, 10);
+            TicketScrollerTop = parseInt($('#ArticleTable tbody tr.Active').offset().top, 10) - parseInt($('#ArticleTable tbody').offset().top, 10);
             $('div.Scroller').get(0).scrollTop = TicketScrollerTop;
 
             // Initiate URL hash check again
@@ -182,7 +182,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             TargetNS.ActiveURLHash = URLHash;
 
             // if article ID is found in article list (= article id is valid)
-            $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
+            $ArticleElement = $('#ArticleTable').find('input.ArticleID[value=' + TargetNS.ActiveURLHash + ']');
             if ($ArticleElement.length) {
                 // Add active state to new row
                 $($ArticleElement).closest('table').find('tr').removeClass('Active').end().end().closest('tr').addClass('Active');
@@ -206,9 +206,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      This function initializes the special module functions
      */
     TargetNS.Init = function (Options) {
-        var $THead = $('#FixedTable thead'),
-            $TBody = $('#FixedTable tbody'),
-            ZoomExpand = false,
+        var ZoomExpand = false,
             URLHash,
             $ArticleElement,
             ResizeTimeoutScroller,
@@ -227,14 +225,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 Core.Agent.PreferencesUpdate('UserTicketZoomArticleTableHeight', Height);
             }, 1000);
         });
-        Core.UI.InitTableHead($THead, $TBody);
 
-        $(window).bind('resize', function () {
-            window.clearTimeout(ResizeTimeoutWindow);
-            ResizeTimeoutWindow = window.setTimeout(function () {
-                Core.UI.AdjustTableHead($THead, $TBody, 0);
-            }, 500);
-        });
 
         $('.TableSmall tbody td a.Attachment').bind('click', function (Event) {
             var Position, HTML, $HTMLObject;
@@ -248,7 +239,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // Table sorting
-        Core.UI.Table.Sort.Init($('#FixedTable'), function () {
+        Core.UI.Table.Sort.Init($('#ArticleTable'), function () {
             $(this).find('tr')
                 .removeClass('Even')
                 .filter(':even')
@@ -265,12 +256,12 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
             // if URL hash is empty, set it initially to the active article for working browser history
             if (URLHash === '') {
-                InitialArticleID = $('#FixedTable tr.Active input.ArticleID').val();
-                //location.hash = '#' + $('#FixedTable tr.Active input.ArticleID').val();
+                InitialArticleID = $('#ArticleTable tr.Active input.ArticleID').val();
+                //location.hash = '#' + $('#ArticleTable tr.Active input.ArticleID').val();
             }
             else {
                 // if article ID is found in article list (= article id is valid)
-                $ArticleElement = $('#FixedTable').find('input.ArticleID[value=' + URLHash + ']');
+                $ArticleElement = $('#ArticleTable').find('input.ArticleID[value=' + URLHash + ']');
                 if ($ArticleElement.length) {
 
                     // Add active state to new row
@@ -283,7 +274,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         }
 
         // loading new articles
-        $('#FixedTable tbody tr').bind('click', function (Event) {
+        $('#ArticleTable tbody tr').bind('click', function (Event) {
             // Mode: show one article - load new article via ajax
             if (!ZoomExpand) {
                 // Add active state to new row
@@ -323,8 +314,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // Scroll to active article
-        if ( !ZoomExpand && $('#FixedTable tbody tr.Active').length ) {
-            $('div.Scroller').get(0).scrollTop = parseInt($('#FixedTable tbody tr.Active').position().top, 10) - 30;
+        if ( !ZoomExpand && $('#ArticleTable tbody tr.Active').length ) {
+            $('div.Scroller').get(0).scrollTop = parseInt($('#ArticleTable tbody tr.Active').position().top, 10) - 30;
         }
     };
 

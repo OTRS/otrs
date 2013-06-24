@@ -20,9 +20,9 @@ Core.UI = Core.UI || {};
  */
 Core.UI.Resizable = (function (TargetNS) {
 
-    var ScrollerMinHeight = 82,
-        HandleHeight = 9,
-        TableHeaderHeight = 28;
+    var ScrollerMinHeight = 92,
+        HandleHeight = 9;
+
     /**
      * @function
      * @description
@@ -67,11 +67,11 @@ Core.UI.Resizable = (function (TargetNS) {
                     handles: {
                         s: $Element.find('.Handle a')
                     },
-                    minHeight: ScrollerMinHeight + HandleHeight + TableHeaderHeight,
-                    maxHeight: $Element.find('table').height() + HandleHeight + TableHeaderHeight,
+                    minHeight: ScrollerMinHeight + HandleHeight,
+                    maxHeight: $Element.find('table').height() + HandleHeight,
                     resize: function (Event, UI) {
                         var Height, Width;
-                        Height = UI.size.height - TableHeaderHeight - HandleHeight;
+                        Height = UI.size.height - HandleHeight;
                         Width = UI.size.width;
                         $Element.find('div.Scroller').height(Height + 'px').width(Width + 'px');
 

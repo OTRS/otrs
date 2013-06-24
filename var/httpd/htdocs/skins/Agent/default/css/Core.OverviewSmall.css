@@ -29,26 +29,17 @@
 #EmptyMessageSmall {
     padding: 8px 8px;
     border-bottom: 1px solid #DDD;
-    margin-top: -19px;
 }
 
 .Small .ActionRow {
     border-bottom: none;
 }
 
-.Overview.FixedHeader {
-   padding-top: 72px;
-   position: relative;
-}
-
-.Overview.FixedHeader table {
+.Overview table {
     border: none;
 }
 
-.Overview.FixedHeader thead tr {
-    width: auto;
-    left: 0;
-    top: 53px;
+.Overview thead tr {
     background: #eaeaea;
     background: -moz-linear-gradient(top,  #eaeaea 0%, #e4e4e4 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#e4e4e4));
@@ -59,32 +50,23 @@
     z-index: 15;
 }
 
-.Overview.FixedHeader.Fixed thead tr {
-    margin: 0 16px 0 9px;
-    position: fixed;
-}
-
-.RTL .Overview.FixedHeader.Fixed thead tr {
-    margin: 0 9px 0 16px;
-}
-
-.Overview.FixedHeader thead tr th {
+.Overview thead tr th {
     height: 19px;
     padding-top: 0;
 }
 
-.Overview.FixedHeader thead tr th:last-child {
+.Overview thead tr th:last-child {
     background-position: center bottom;
 }
-.Overview.FixedHeader thead tr th.Last {
+.Overview thead tr th.Last {
     background-position: center bottom;
 }
 
-.Overview.FixedHeader table tbody tr {
+.Overview table tbody tr {
     cursor: pointer;
 }
 
-.Overview.FixedHeader table tbody tr td.Checkbox{
+.Overview table tbody tr td.Checkbox{
     cursor: default  !important;
 }
 

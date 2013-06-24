@@ -293,7 +293,6 @@
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:block:DocumentReadyStart -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.StaticTableControl($('#OverviewControl'));
     Core.UI.InitCheckboxSelection($('div.Checkbox'));
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');

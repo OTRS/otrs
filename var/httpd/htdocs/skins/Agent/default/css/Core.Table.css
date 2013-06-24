@@ -612,42 +612,42 @@ td.Attachment {
 }
 
 /**
- * @subsection  Fixed Header
+ * @subsection  Ticket List Tables
  */
 
-.FixedHeader table {
+.TicketList table {
     border-collapse: separate;
-    border-left: 1px solid #C6C5C4;
-    border-right: 1px solid #C6C5C4;
 }
 
-.FixedHeader thead tr {
-    width: 100%;
-    margin: 0;
-    top: 0;
-    display: block;
-    position: absolute;
-}
-
-.FixedHeader td {
+.TicketList td {
     line-height: 18px;
 }
 
-.FixedHeader .From div,
-.FixedHeader .Subject div,
-.FixedHeader .Type div,
-.FixedHeader td.Created a {
+.TicketList .From div,
+.TicketList .Subject div,
+.TicketList .Type div,
+.TicketList td.Created a {
     height: 20px;
     overflow: hidden;
     display: block;
 }
 
-.FixedHeader .No {
+.TicketList .No {
     width: 42px;
 }
 
-.FixedHeader .Attachments {
+.TicketList .Attachments {
     width: 20px;
+}
+
+#ArticleTable thead {
+    background: #f0f0f0;
+    background: -moz-linear-gradient(top,  #f0f0f0 0%, #eaeaea 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#eaeaea));
+    background: -webkit-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
+    background: -o-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
+    background: -ms-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
+    background: linear-gradient(to bottom,  #f0f0f0 0%,#eaeaea 100%);
 }
 
 /**

@@ -15,24 +15,7 @@
  * @subsection  Overview Control General
  */
 .OverviewControl {
-    position: absolute;
-    width: 100%;
     background-color: #FFF;
-    z-index: 15;
-}
-
- /**
- * @bugfix      Flicker when element is position:fixed
- * @css-for     FF3.5
- * @see         https://bugzilla.mozilla.org/show_bug.cgi?id=492052
- */
-.OverviewControl {
-    overflow: hidden;
-}
-
-.OverviewBox > .Fixed {
-    position: fixed;
-    top: 0;
 }
 
 .OverviewControl > div {
