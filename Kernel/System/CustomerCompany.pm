@@ -178,7 +178,7 @@ sub CustomerCompanyAdd {
     $SQL .= " VALUES (";
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . ", ";
+            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' ) . ", ";
         }
         else {
             $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "', ";
