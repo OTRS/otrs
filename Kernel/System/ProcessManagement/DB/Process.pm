@@ -785,8 +785,8 @@ sub ProcessList {
             FROM pm_process ';
     if ( $StateEntityIDsStrg ne 'ALL' ) {
 
-        my $StateEntityIDsStrgDB
-            = join ',', map $Self->{DBObject}->Quote($_, 'Integer'), @{ $Param{StateEntityIDs} };
+        my $StateEntityIDsStrgDB =
+            join ',', map "'" . $Self->{DBObject}->Quote($_) . "'", @{ $Param{StateEntityIDs} };
 
         $SQL .= "WHERE state_entity_id IN ($StateEntityIDsStrgDB)";
     }
