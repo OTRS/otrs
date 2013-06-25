@@ -549,7 +549,7 @@ $Self->Is(
 my %Values;
 my $Seen = 0;
 for my $Counter ( 1 ... 100_000 ) {
-   my $Random = $Self->{MainObject}->GenerateRandomString( Length => 6 );
+   my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
    if ( $Values{$Random} ) {
       $Seen = 1;
       last;
