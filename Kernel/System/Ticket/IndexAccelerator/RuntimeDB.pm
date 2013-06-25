@@ -94,7 +94,7 @@ sub TicketAcceleratorIndex {
             if ( $_ > 0 ) {
                 $SQL .= ",";
             }
-            $SQL .= $Self->{DBObject}->Quote( $QueueIDs[$_] );
+            $SQL .= $Self->{DBObject}->Quote( $QueueIDs[$_], 'Integer' );
         }
         $SQL .= " )";
 
