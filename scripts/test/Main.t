@@ -550,11 +550,10 @@ my %Values;
 my $Seen = 0;
 for my $Counter ( 1 ... 100_000 ) {
    my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
-   if ( $Values{$Random} ) {
+   if ( $Values{$Random}++ ) {
       $Seen = 1;
       last;
    }
-   $Values{$Random} = 1;
 }
 
 $Self->Is(
