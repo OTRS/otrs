@@ -101,11 +101,8 @@ sub NotificationGet {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
-    my ( $Language, $Type );
-    if ( $Param{Name} =~ /^(.+?)::(.*)/ ) {
-        $Language = $Self->{DBObject}->Quote($1);
-        $Type     = $Self->{DBObject}->Quote($2);
-    }
+
+    my ( $Language, $Type ) = $Param{Name} =~ m{^(.+?)::(.*)}smx;
 
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT id, notification_type, notification_charset, '

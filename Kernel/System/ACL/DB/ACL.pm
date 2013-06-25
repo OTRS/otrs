@@ -632,8 +632,7 @@ sub ACLList {
 
     if ( $ValidIDsStrg ne 'ALL' ) {
 
-        my $ValidIDsStrgDB
-            = join ',', map "'" . $Self->{DBObject}->Quote($_) . "'", @{ $Param{ValidIDs} };
+        my $ValidIDsStrgDB = join ',', map $Self->{DBObject}->Quote($_, 'Integer'), @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }
@@ -728,7 +727,7 @@ sub ACLListGet {
     if ( $ValidIDsStrg ne 'ALL' ) {
 
         my $ValidIDsStrgDB
-            = join ',', map "'" . $Self->{DBObject}->Quote($_) . "'", @{ $Param{ValidIDs} };
+            = join ',', map $Self->{DBObject}->Quote($_, 'Integer'), @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }
