@@ -334,7 +334,7 @@ bgColor=#ffffff>
 for my $Test (@Tests) {
 
     # these 2 lines are for Windows check-out
-    $Test->{Input} =~ s{\r\n}{\n}smxg;
+    $Test->{Input}  =~ s{\r\n}{\n}smxg;
     $Test->{Result} =~ s{\r\n}{\n}smxg;
     my $Ascii = $HTMLUtilsObject->DocumentStrip(
         String => $Test->{Input},
@@ -431,7 +431,29 @@ for my $Test (@Tests) {
             '<head><base href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
         Result => '<head></head>',
         Name   => 'DocumentCleanup - base tag',
-    }
+    },
+    {
+        Input =>
+            '<head><baSe href=3D"file:///C:\Users\dol\AppData\Local\Temp\SnipFile-%7b102B7C0B-D396-440B-9DD6-DD3342805533%7d.HTML"></head>',
+        Result => '<head></head>',
+        Name   => 'DocumentCleanup - baSe tag',
+    },
+    {
+        Input =>
+            '<HEAD><TITLE>Aufzeichnung</TITLE>
+<META content=3D"text/html; charset=3Dus-ascii" http-equiv=3DContent-Type><=
+BASE=20
+href=3D"file:///C:/Users/goi/AppData/Local/Temp/SnipFile-%7B77CE7BE6-0C04-4=
+CED-898D-4ECC17BCA028%7D.HTML">
+</HEAD>',
+        Result => '<HEAD><TITLE>Aufzeichnung</TITLE>
+<META content=3D"text/html; charset=3Dus-ascii" http-equiv=3DContent-Type><=
+BASE=20
+href=3D"file:///C:/Users/goi/AppData/Local/Temp/SnipFile-%7B77CE7BE6-0C04-4=
+CED-898D-4ECC17BCA028%7D.HTML">
+</HEAD>',
+        Name => 'DocumentCleanup - BASE tag',
+    },
 );
 
 for my $Test (@Tests) {
