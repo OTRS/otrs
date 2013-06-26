@@ -654,7 +654,7 @@ sub CustomerUserAdd {
     # check email address if already exists
     if ( $Param{UserEmail} && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck} ) {
         my %Result = $Self->CustomerSearch(
-            Valid            => 1,
+            Valid            => 0,
             PostMasterSearch => $Param{UserEmail},
         );
         if (%Result) {
@@ -782,7 +782,7 @@ sub CustomerUserUpdate {
         )
     {
         my %Result = $Self->CustomerSearch(
-            Valid            => 1,
+            Valid            => 0,
             PostMasterSearch => $Param{UserEmail},
         );
         if (%Result) {
