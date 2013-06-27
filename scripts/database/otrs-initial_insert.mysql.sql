@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-06-24 12:37:56
+#  driver: mysql, generated: 2013-06-27 15:49:32
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  insert into table valid
@@ -848,26 +848,6 @@ Regards,
 
 The OTRS Project
 ', '<007@localhost>', 1280750400, '2010/08/02', 1, 1, current_timestamp, 1, current_timestamp);
-# ----------------------------------------------------------
-#  insert into table article_attachment
-# ----------------------------------------------------------
-INSERT INTO article_attachment (id, article_id, filename, content_size, content_type, content, create_by, create_time, change_by, change_time)
-    VALUES
-    (1, 1, 'file-2', 554, 'text/html\; charset="utf-8"', '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html\; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif\; font-size: 12px\;">
-Welcome!
-<br /><br />
-Thank you for installing OTRS.
-<br /><br />
-You will find updates and patches at http://www.otrs.com/open-source/.<br />
-Online documentation is available at http://doc.otrs.org/.<br />
-You can also use our mailing lists http://lists.otrs.org/
-or our forums at http://forums.otrs.org/
-<br /><br />
-Regards,
-<br /><br />
-The OTRS Project
-</body></html>
-', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table article_plain
 # ----------------------------------------------------------
