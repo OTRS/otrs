@@ -654,7 +654,7 @@ sub CustomerUserAdd {
     # check email address if already exists
     if ( $Param{UserEmail} && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck} ) {
         my %Result = $Self->CustomerSearch(
-            Valid            => 1,
+            Valid            => 0,
             PostMasterSearch => $Param{UserEmail},
         );
         if (%Result) {
@@ -776,13 +776,13 @@ sub CustomerUserUpdate {
 
     # if we update the email address, check if it already exists
     if (
-           $Param{UserEmail}
+        $Param{UserEmail}
         && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck}
         && lc $Param{UserEmail} ne lc $UserData{UserEmail}
         )
     {
         my %Result = $Self->CustomerSearch(
-            Valid            => 1,
+            Valid            => 0,
             PostMasterSearch => $Param{UserEmail},
         );
         if (%Result) {
@@ -962,14 +962,14 @@ sub SetPassword {
         my $Salt = $Self->{MainObject}->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Self->{EncodeObject}->EncodeOutput(\$Pw);
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
             {
-                    key_nul => 1,
-                    cost => 9,
-                    salt => $Salt,
+                key_nul => 1,
+                cost    => 9,
+                salt    => $Salt,
             },
             $Pw
         );

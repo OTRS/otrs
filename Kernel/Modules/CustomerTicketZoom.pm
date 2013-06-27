@@ -105,7 +105,7 @@ sub Run {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID       => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
     }
 
@@ -392,10 +392,10 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $PossibleValues };
+                my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -564,7 +564,7 @@ sub Run {
             $NextState = $NextStateData{Name};
         }
 
-        # change state if 
+        # change state if
         # customer set another state
         # or the ticket is not new
         if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
@@ -573,8 +573,8 @@ sub Run {
                 ArticleID => $ArticleID,
                 State     => $NextState,
                 UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );     
-        }  
+            );
+        }
 
         # set priority
         if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
@@ -603,8 +603,8 @@ sub Run {
 
             # skip deleted inline images
             next if $Attachment->{ContentID}
-                && $Attachment->{ContentID} =~ /^inline/
-                && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+                    && $Attachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
@@ -677,10 +677,10 @@ sub Run {
         );
 
         # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+        if ( IsHashRefWithData($PossibleValues) ) {
 
             # convert possible values key => value to key => key for ACLs usign a Hash slice
-            my %AclData = %{ $PossibleValues };
+            my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
             # set possible values filter from ACLs
@@ -1152,8 +1152,8 @@ sub _Mask {
     }
 
     # Expand option
-    my $ExpandOption = ( $Self->{ZoomExpand}    ? 'One' : 'All' );
-    my $ExpandPlural = ( $ExpandOption eq 'All' ? 's'   : '' );
+    my $ExpandOption = ( $Self->{ZoomExpand} ? 'One' : 'All' );
+    my $ExpandPlural = ( $ExpandOption eq 'All' ? 's' : '' );
     $Self->{LayoutObject}->Block(
         Name => 'Expand',
         Data => {
