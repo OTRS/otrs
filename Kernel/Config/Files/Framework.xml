@@ -3588,7 +3588,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
-            <Option SelectedID="bcrypt">
+            <Option SelectedID="sha2">
                 <Item Key="crypt">Crypt</Item>
                 <Item Key="md5">MD5-Crypt</Item>
                 <Item Key="plain">Plain</Item>

@@ -52,7 +52,7 @@ my @NeededModules = (
     },
     {
         Module   => 'Crypt::Eksblowfish::Bcrypt',
-        Required => 1,
+        Required => 0,
         Comment  => 'For strong password hashing',
     },
     {

@@ -216,16 +216,5 @@ you will need to use the deploy button in the ACL administration frontend in ord
 ACLs to your system.
 
 
-15. Check password hashing settings
------------------------------------
-
-OTRS 3.3 comes with support for bcrypt, a strong password hashing algorithm.
-It is highly recommended that you check your settings for AuthModule::DB::CryptType
-and Customer::AuthModule::DB::CryptType and make sure they are set to bcrypt.
-This might not work if you use external readonly databases.
-Using MD5 or SHA is discouraged as they are considered unsafe (see also
-http://www.codinghorror.com/blog/2012/04/speed-hashing.html).
-
-
-16. Well done!
+15. Well done!
 --------------
