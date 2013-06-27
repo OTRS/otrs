@@ -101,7 +101,7 @@ return the content of requested URL
 returns
 
     %Response = (
-        Status  => 200,         # http status
+        Status  => '200 OK',    # http status
         Content => $ContentRef, # content of requested site
     );
 
