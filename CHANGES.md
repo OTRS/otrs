@@ -58,6 +58,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-06-27 Fixed bug#[9011](http://bugs.otrs.org/show_bug.cgi?id=9011) - GenericInterface: New value after value mapping can't be 0.
  - 2013-06-25 Improved parameter quoting in various places.
  - 2013-06-24 Fixed bug#[9104](http://bugs.otrs.org/show_bug.cgi?id=9104) - Group permission for customer subset overwrites permissions for other customers.
  - 2013-06-21 Fixed bug#[9434](http://bugs.otrs.org/show_bug.cgi?id=9434) - Activities are not translated.
