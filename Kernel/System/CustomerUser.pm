@@ -693,17 +693,9 @@ sub TokenGenerate {
         return;
     }
 
-    # the list of characters that can appear in a randomly generated token
-    my @Chars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
-
-    # the number of characters in the list
-    my $CharsLen = scalar @Chars;
-
-    # generate the token
-    my $Token = 'C';
-    for ( my $i = 0; $i < 14; $i++ ) {
-        $Token .= $Chars[ rand $CharsLen ];
-    }
+    my $Token = $Self->{MainObject}->GenerateRandomString(
+        Length => 14,
+    );
 
     # save token in preferences
     $Self->SetPreferences(
