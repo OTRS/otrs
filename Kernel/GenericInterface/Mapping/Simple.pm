@@ -248,7 +248,7 @@ sub Map {
         if ($ValueMap) {
 
             # first check in exact (1:1) map
-            if ( $ValueMap->{ValueMapExact} && $ValueMap->{ValueMapExact}->{$OldValue} ) {
+            if ( $ValueMap->{ValueMapExact} && defined $ValueMap->{ValueMapExact}->{$OldValue} ) {
                 $ReturnData{$NewKey} = $ValueMap->{ValueMapExact}->{$OldValue};
                 next CONFIGKEY;
             }
