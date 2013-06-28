@@ -1,4 +1,5 @@
 #3.2.9 2013-??-??
+ - 2013-06-28 Fixed bug#[8273](http://bugs.otrs.org/show_bug.cgi?id=8273) - Copying text in preview mode not possible.
  - 2013-06-28 Fixed bug#[9557](http://bugs.otrs.org/show_bug.cgi?id=9557) - Cannot see quoted text in customer ticket zoom.
  - 2013-06-27 Fixed bug#[9011](http://bugs.otrs.org/show_bug.cgi?id=9011) - GenericInterface: New value after value mapping can't be 0.
  - 2013-06-25 Improved parameter quoting in various places.

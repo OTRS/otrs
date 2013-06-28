@@ -355,6 +355,12 @@ $Data{"Body"}
     Core.UI.InitCheckboxSelection($('div.Checkbox'));
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
+
+        // if the user is trying to select text from an article, MasterAction should not be executed
+        if (typeof Event.target === 'object' && $(Event.target).hasClass('ArticleBody')) {
+            return false;
+        }
+
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
             window.location = $MasterActionLink.attr('href');
