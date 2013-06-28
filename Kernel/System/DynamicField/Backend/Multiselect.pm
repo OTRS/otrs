@@ -713,7 +713,7 @@ sub SearchFieldParameterBuild {
                 if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
                     # translate the value
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;
@@ -909,6 +909,8 @@ sub ObjectMatch {
     # search in all values for this attribute
     VALUE:
     for my $AttributeValue ( @{ $Param{ObjectAttributes}->{$FieldName} } ) {
+
+        next VALUE if !defined $AttributeValue;
 
         # only need to match one
         if ( $Param{Value} eq $AttributeValue ) {

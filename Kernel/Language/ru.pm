@@ -29,7 +29,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:37
+    # Last translation file sync: 2013-05-17 09:59:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -357,14 +357,16 @@ sub Data {
         'Events' => 'События',
         'Invalid Token!' => 'Неверный токен !',
         'more' => 'далее',
-        'For more info see:' => 'Дополнительная информация находится по адресу:',
-        'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Collapse' => 'Свернуть',
         'Shown' => 'Показано',
         'News' => 'Новости',
         'Product News' => 'Новости о продукте',
         'OTRS News' => 'Новости OTRS',
         '7 Day Stats' => 'Статистика за 7 дней',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Полужирный',
         'Italic' => 'Курсив',
         'Underline' => 'Подчеркнутый',
@@ -1268,17 +1270,17 @@ sub Data {
         'Certificate File' => 'Файл сертификата',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             '',
-        'e.g. /usr/local/otrs/var/certificates/SOAP/certificate.p12' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
         'Certificate Password File' => '',
         'The password to open the SSL certificate.' => '',
         'Certification Authority (CA) File' => '',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             '',
-        'e.g. /usr/local/otrs/var/certificates/SOAP/CA/ca.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
         'Certification Authority (CA) Directory' => '',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
-        'e.g. /usr/local/otrs/var/certificates/SOAP/CA' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
         'Proxy Server' => '',
         'URI of a proxy server to be used (if needed).' => '',
         'e.g. http://proxy_hostname:8080' => '',
@@ -1455,8 +1457,8 @@ sub Data {
         'Install' => 'Установить',
         'Install Package' => 'Установить пакет',
         'Update repository information' => 'Обновить информацию репозитория',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Онлайновый репозиторий',
         'Vendor' => 'Изготовитель',
         'Module documentation' => 'Документация модуля',
@@ -1832,6 +1834,7 @@ sub Data {
         'Search Customer' => 'Искать клиента',
         'Duplicated entry' => 'Дублирующаяся запись',
         'This address already exists on the address list.' => 'Такой адрес уже существует в списке адресов.',
+        'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2140,6 +2143,8 @@ sub Data {
         'Output' => 'Вывод результатов',
         'Fulltext' => 'Полнотекстовый',
         'Remove' => 'Удалить',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Логин клиента',
         'Created in Queue' => 'Создана в очереди',
         'Lock state' => 'Состояние блокировки',
@@ -2273,9 +2278,9 @@ sub Data {
         'of' => 'из',
         'Page' => 'Страница',
         'Search Results for' => 'Результаты поиска для',
-        '","18' => '',
 
         # Template: CustomerTicketZoom
+        '","18' => '',
         'Expand article' => 'Развернуть сообщение',
         'Reply' => 'Ответить',
 
@@ -2510,7 +2515,7 @@ sub Data {
         'Activates time accounting.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
@@ -2569,11 +2574,13 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -2642,7 +2649,6 @@ sub Data {
         'Create and manage dynamic fields.' => 'Создание и управление динамическими полями.',
         'Create and manage event based notifications.' => 'Создание и управление уведомлениями по событию.',
         'Create and manage groups.' => 'Создание и управление группами.',
-        'Create and manage notifications that are sent to agents.' => 'Создание и управление уведомлениями для агентов.',
         'Create and manage queues.' => 'Создание и управление очередями.',
         'Create and manage response templates.' => 'Создание и управление шаблонами ответов.',
         'Create and manage responses that are automatically sent.' => 'Создание и управление автоответами.',
@@ -2730,6 +2736,8 @@ sub Data {
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
+            '',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
@@ -2865,9 +2873,9 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
-        'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             '',
@@ -3052,6 +3060,8 @@ sub Data {
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             '',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
+            '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -3149,7 +3159,7 @@ sub Data {
         'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl.' =>
             '',
         'Defines the path to PGP binary.' => '',
-        'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/www\';).' =>
+        'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             '',
         'Defines the placement of the legend. This should be a two letter key of the form: \'B[LCR]|R[TCB]\'. The first letter indicates the placement (Bottom or Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).' =>
             '',
@@ -3157,6 +3167,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3262,7 +3274,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3562,8 +3574,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Управление POP3 или IMAP учетными записями для получения почтовых сообщений.',
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Управление активными сеансами.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Управление повторяющимися задачами.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -3573,8 +3590,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4347,6 +4362,7 @@ sub Data {
         'Country{CustomerUser}' => 'Страна{ПользовательКлиента}',
         'Create New Template' => 'Создать новый шаблон',
         'Create Times' => 'Время создания',
+        'Create and manage notifications that are sent to agents.' => 'Создание и управление уведомлениями для агентов.',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
         'Create new database' => 'Создать новую базы данных',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>
@@ -4375,6 +4391,8 @@ sub Data {
         'Default Language' => 'Язык по умолчанию',
         'Delete this ticket!' => 'Удалить заявку!',
         'Detail' => 'Подробно',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно составления письма',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4410,6 +4428,7 @@ sub Data {
         'Filtername' => 'Имя фильтра',
         'Follow up' => 'Ответ',
         'Follow up notification' => 'Уведомление об обновлениях',
+        'For more info see:' => 'Дополнительная информация находится по адресу:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Для очень сложных отчетов, возможно, необходимо использовать временный файл',
         'Form' => 'Форма',
@@ -4566,6 +4585,7 @@ sub Data {
         'Package' => 'Пакет',
         'Package not correctly deployed! You should reinstall the Package again!' =>
             'Пакет установлен некорректно! Вы должны переустановить пакет!',
+        'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Param 1' => 'Параметр 1',
         'Param 2' => 'Параметр 2',
         'Param 3' => 'Параметр 3',

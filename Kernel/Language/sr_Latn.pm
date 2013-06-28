@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-11-21 21:59:46
+    # Last translation file sync: 2013-05-17 09:59:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -349,14 +349,16 @@ sub Data {
         'Events' => 'Događaji',
         'Invalid Token!' => 'Neispravna oznaka!',
         'more' => 'još',
-        'For more info see:' => 'Za dodatne informacije pogledaj:',
-        'Package verification failed!' => 'Neuspela verifikacija paketa!',
         'Collapse' => 'Smanji',
         'Shown' => 'Prikazan',
         'News' => 'Novosti',
         'Product News' => 'Novosti o proizvodu',
         'OTRS News' => '"OTRS" Novosti',
         '7 Day Stats' => 'Sedmodnevna statistika',
+        'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
+            '',
+        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            '',
         'Bold' => 'Podebljano',
         'Italic' => 'Kurziv',
         'Underline' => 'Podvučeno',
@@ -1447,8 +1449,8 @@ sub Data {
         'Install' => 'Instaliraj',
         'Install Package' => 'Instaliraj paket',
         'Update repository information' => 'Ažuriraj informacije o spremištu',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Niste pronašli potrebnu funkciju? "OTRS Group" za svoje pretplaćene korisnike ima ekskluzivne dodatke:',
+        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
+            '',
         'Online Repository' => 'Mrežno spremište',
         'Vendor' => 'Prodavac',
         'Module documentation' => 'Dokumentacija kodula',
@@ -2133,6 +2135,8 @@ sub Data {
         'Output' => 'Pregled rezultata',
         'Fulltext' => 'Tekst',
         'Remove' => 'Ukloni',
+        'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
+            '',
         'Customer User Login' => 'Prijava korisnika',
         'Created in Queue' => 'Otvoreno u redu',
         'Lock state' => 'Staus zaključavanja',
@@ -2503,8 +2507,8 @@ sub Data {
         'Activates time accounting.' => 'Aktivira merenje vremena.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Dodaje tekuću godinu i mesec kao sufiks u "OTRS" dnevniku. Biće kreirana datoteka dnevnika za svaki mesec.',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Dodaje korisničke imejl adrese primaocima u prozoru za otvaranje tiketa na interfejsu operatera.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Jednokratno dodaje neradne dane za izabrani kalendar. Molimo Vas da koristite jednu cifru za brojeve od 1 do 9 (umesto 01 - 09).',
         'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -2568,7 +2572,7 @@ sub Data {
             'Dozvoljava definisanje novog tipa tiketa (ako je opcije tipa tiketa aktivirana).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Dozvoljava definisanje servisa i "SLA" za tikete (npr imejl, radna površina, mreža, ...), i eskalacione atribute za "SLA" (ako je aktiviran servis/"SLA" za tiket).',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '',
@@ -2861,7 +2865,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, Search_DynamicField_Field1StartYear=2002; Search_DynamicField_Field1StartMonth=12; Search_DynamicField_Field1StartDay=12; Search_DynamicField_Field1StartHour=00; Search_DynamicField_Field1StartMinute=00; Search_DynamicField_Field1StartSecond=00; Search_DynamicField_Field1StopYear=2009; Search_DynamicField_Field1StopMonth=02; Search_DynamicField_Field1StopDay=10; Search_DynamicField_Field1StopHour=23; Search_DynamicField_Field1StopMinute=59; Search_DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3048,6 +3052,8 @@ sub Data {
             'Određuje maksimalnu veličinu datoteka (u bajtima) za slanje.',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Određuje maksimalno vreme važenja (u sekundama) za ID sesije.',
+        'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
+            '',
         'Defines the maximum number of pages per PDF file.' => 'Određuje maksimalni broj strana po "PDF" datoteci.',
         'Defines the maximum size (in MB) of the log file.' => 'Određuje maksimalnu veličinu datoteke dnevnika (u megabajtima).',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
@@ -3260,7 +3266,7 @@ sub Data {
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
-        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###AttributesView.' =>
+        'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields shown in the ticket close screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
@@ -3576,8 +3582,6 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
-            '',
-        'Maximum size (in characters) of the customer info table in the queue view.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
@@ -4266,6 +4270,8 @@ sub Data {
         'Added User "%s"' => 'Dodan korisnik "%s".',
         'Adds a suffix with the actual year and month to the otrs log file. A logfile for every month will be created.' =>
             'Dodaje sufiks sa aktuelnom godinom i mesecom u "OTRS" datoteku dnevnika. Biće kreiran dnevnik za svaki mesec.',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
+            'Dodaje korisničke imejl adrese primaocima u prozoru za otvaranje tiketa na interfejsu operatera.',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Jednokratno dodaje neradne dane za kalendar broj 1. Molimo Vas da koristite jednu cifru za brojeve od 1 do 9 (umesto 01 - 09).',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4636,6 +4642,8 @@ sub Data {
         'Delete old database' => 'Obriši staru bazu podataka',
         'Delete this ticket!' => 'Obriši ovaj tiket!',
         'Detail' => 'Detalji',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
+            'Niste pronašli potrebnu funkciju? "OTRS Group" za svoje pretplaćene korisnike ima ekskluzivne dodatke:',
         'Diff' => 'Razlike',
         'Discard all changes and return to the compose screen' => 'Odustanite od svih promena i vratite se na prozor za pisanje.',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4674,6 +4682,7 @@ sub Data {
         'Filtername' => 'Naziv filtera',
         'Firstname{CustomerUser}' => 'Ime (korisnik)',
         'Follow up' => 'Nastavak',
+        'For more info see:' => 'Za dodatne informacije pogledaj:',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Za veoma složene statistike moguće je pridružiti namenski programiranu datoteku.',
         'Forward ticket: ' => 'Prosledi tiket',
@@ -4828,6 +4837,7 @@ sub Data {
             'Paket nije korektno instaliran! Trebalo bi ga da ponovo instalirate!',
         'Package not correctly deployed! You should reinstall the package again!' =>
             'Paket nije ispravno smešten. Trebalo bi da ga instalirate ponovo!',
+        'Package verification failed!' => 'Neuspela verifikacija paketa!',
         'Param 1' => 'Param 1',
         'Param 2' => 'Param 2',
         'Param 3' => 'Param 3',

@@ -623,7 +623,7 @@ sub SearchFieldParameterBuild {
                 if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
                     # translate the value
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;
@@ -785,6 +785,9 @@ sub ObjectMatch {
     my ( $Self, %Param ) = @_;
 
     my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # return false if field is not defined
+    return 0 if ( !defined $Param{ObjectAttributes}->{$FieldName} );
 
     # return false if not match
     if ( $Param{ObjectAttributes}->{$FieldName} ne $Param{Value} ) {

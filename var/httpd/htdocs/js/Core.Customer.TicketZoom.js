@@ -59,20 +59,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      adds an anchor in front of the hidden quote to toggle the visibility of the quote
      */
     function HideQuote(Iframe, Callback){
-        $(Iframe)
-            .contents().find('[type=cite]').hide()
-            .before('<a href="" style="color:blue">Show quoted text</a>')
-            // add a toggle listener to the anchor (the prev element we just added)
-            .prev().toggle(
-                function(){ // show quote, change anchor name, recalculate iframe height
-                    $(this).text("Hide quoted text").next().show();
-                    CalculateHeight(Iframe);
-                },
-                function(){ // hide quote, change anchor name, recalculate iframe height
-                    $(this).text("Show quoted text").next().hide();
-                    setTimeout(CalculateHeight, 200, Iframe);
-                }
-            );
         // initial height calculation
         $(Iframe).attr('onload', function() {
             CalculateHeight(this);
