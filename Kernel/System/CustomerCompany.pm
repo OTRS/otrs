@@ -1,5 +1,5 @@
 # --
-# Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
+# Kernel/System/CustomerCompany.pm - All customer company related functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
