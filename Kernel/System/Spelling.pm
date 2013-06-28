@@ -173,6 +173,8 @@ sub Check {
         );
         return;
     }
+
+    $Self->{EncodeObject}->EncodeOutput( \$Param{Text} );
     print $FH $Param{Text};
 
     # aspell encoding
