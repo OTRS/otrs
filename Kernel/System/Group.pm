@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
+# Kernel/System/Group.pm - All Groups and Roles related functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
