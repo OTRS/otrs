@@ -87,7 +87,7 @@ sub new {
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
-        Type => 'Group',
+        Type => 'CustomerGroup',
         TTL  => 60 * 60 * 3,
     );
 
