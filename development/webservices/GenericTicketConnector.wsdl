@@ -80,7 +80,9 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>Queue or QueueID is mandatory</xsd:documentation>
+                            <xsd:documentation>
+                                Queue or QueueID is mandatory
+                            </xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="QueueID"
@@ -147,7 +149,9 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>State or StateID is mandatory</xsd:documentation>
+                            <xsd:documentation>
+                                State or StateID is mandatory
+                            </xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="StateID"
@@ -166,7 +170,9 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>Priority or PriorityID is mandatory</xsd:documentation>
+                            <xsd:documentation>
+                                Priority or PriorityID is mandatory
+                            </xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="PriorityID"
@@ -220,8 +226,13 @@
                         minOccurs="1">
                     </xsd:element>
                     <xsd:element
+                        name="CustomerID"
+                        type="xsd:string" minOccurs="0" maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
                         name="PendingTime"
-                        type="tns:OTRS_PendingTime" minOccurs="0">
+                        type="tns:OTRS_PendingTime"
+                        minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
@@ -662,8 +673,13 @@
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
+                        name="CustomerID"
+                        type="xsd:string" minOccurs="0" maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
                         name="PendingTime"
-                        type="tns:OTRS_PendingTime" minOccurs="0">
+                        type="tns:OTRS_PendingTime"
+                        minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>

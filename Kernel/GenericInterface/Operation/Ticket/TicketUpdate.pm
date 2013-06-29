@@ -1397,7 +1397,7 @@ sub _TicketUpdate {
 
     # get customer information
     if ( $Ticket->{CustomerUser} ) {
-        my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket->{CustomerUser},
         );
     }
@@ -1725,13 +1725,30 @@ sub _TicketUpdate {
                 }
         }
     }
+    # update Ticket->CustomerUser && Ticket->CustomerID
+    if ( $Ticket->{CustomerUser} || $Ticket->{CustomerID} ) {
 
-    # update Ticket->CustomerUser
-    if ( $Ticket->{CustomerUser} ) {
+        # set values to empty if they are not defined
+        $TicketData{CustomerUserID} = $TicketData{CustomerUserID} || '';
+        $TicketData{CustomerID} = $TicketData{CustomerID} || '';
+        $Ticket->{CustomerUser} = $Ticket->{CustomerUser} || '';
+        $Ticket->{CustomerID} = $Ticket->{CustomerID} || '';
+
         my $Success;
-        if ( $Ticket->{CustomerUser} ne $TicketData{CustomerUserID} ) {
+        if (
+            $Ticket->{CustomerUser} ne $TicketData{CustomerUserID}
+            || $Ticket->{CustomerID} ne $TicketData{CustomerID}
+            )
+        {
+            my $CustomerID = $CustomerUserData{UserCustomerID} || '';
+
+            # use user defined CustomerID if defined
+            if ( defined $Ticket->{CustomerID} && $Ticket->{CustomerID} ne '' ) {
+                $CustomerID = $Ticket->{CustomerID};
+            }
+
             $Success = $Self->{TicketObject}->TicketCustomerSet(
-                No => $CustomerUserData{UserCustomerID} || '',
+                No       => $CustomerID,
                 User     => $Ticket->{CustomerUser},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
