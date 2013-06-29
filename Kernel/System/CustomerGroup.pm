@@ -247,7 +247,7 @@ sub GroupMemberList {
         . " AND ";
 
     if ( $Param{UserID} ) {
-        $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' ) . "'";
+        $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID} ) . "'";
     }
     else {
         $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer', ) . "";
