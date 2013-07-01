@@ -58,11 +58,9 @@
                                 </div>
                             </div>
                             <div class="Clear"></div>
-                        </fieldset>
-                        <fieldset class="TableLike">
                             <label class="Mandatory" for="Module"><span class="Marker">*</span> $Text{"Transition Action Module"}:</label>
                             <div class="Field">
-                                <input type="text" name="Module" id="Module" value="$QData{"Module"}" class="W90pc Validate_Required $QData{"ModuleServerError"}" maxlength="120"/>
+                                $Data{"ModuleStrg"}
                                 <div id="ModuleError" class="TooltipErrorMessage">
                                     <p>$Text{"This field is required."}</p>
                                 </div>
