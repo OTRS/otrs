@@ -225,8 +225,9 @@ sub Run {
 
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
-            Valid  => 0,
-            UserID => $Self->{UserID},
+            Valid        => 1,
+            KeepChildren => 1,
+            UserID       => $Self->{UserID},
         );
 
         # get valid list
@@ -328,8 +329,9 @@ sub _MaskNew {
 
     # get service list
     my %ServiceList = $Self->{ServiceObject}->ServiceList(
-        Valid  => 0,
-        UserID => $Self->{UserID},
+        Valid        => 1,
+        KeepChildren => 1,
+        UserID       => $Self->{UserID},
     );
 
     # generate ServiceOptionStrg
@@ -341,6 +343,7 @@ sub _MaskNew {
         Size        => 5,
         Translation => 0,
         Max         => 200,
+        TreeView    => 1,
     );
 
     # generate CalendarOptionStrg

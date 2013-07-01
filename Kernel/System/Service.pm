@@ -179,14 +179,16 @@ sub ServiceList {
     }
 
     # delete invalid services and childs
-    for my $ServiceID ( sort keys %ServiceList ) {
+    if ( !defined $Param{KeepChildren} || !$Param{KeepChildren} ) {
+        for my $ServiceID ( sort keys %ServiceList ) {
 
-        INVALIDNAME:
-        for my $InvalidName ( sort keys %ServiceInvalidList ) {
+            INVALIDNAME:
+            for my $InvalidName ( sort keys %ServiceInvalidList ) {
 
-            if ( $ServiceList{$ServiceID} =~ m{ \A \Q$InvalidName\E :: }xms ) {
-                delete $ServiceList{$ServiceID};
-                last INVALIDNAME;
+                if ( $ServiceList{$ServiceID} =~ m{ \A \Q$InvalidName\E :: }xms ) {
+                    delete $ServiceList{$ServiceID};
+                    last INVALIDNAME;
+                }
             }
         }
     }
