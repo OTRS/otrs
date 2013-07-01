@@ -131,4 +131,75 @@ $Self->False(
     'SystemDataGet() - data is gone after delete',
 );
 
+# test setting value to empty string
+# add system data 1
+my $SystemDataNameRand1 = 'systemdata' . int( rand(1000000) );
+
+my $Success = $SystemDataObject->SystemDataAdd(
+    Key     => $SystemDataNameRand1,
+    Value   => '',
+    UserID  => 1,
+);
+
+$Self->True(
+    $Success,
+    "SystemDataAdd() - added '$SystemDataNameRand1' value empty string",
+);
+
+$SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand1 );
+
+$Self->Is(
+    $SystemData,
+    '',
+    'SystemDataGet() - value - empty string',
+);
+
+$SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
+    Key      => $SystemDataNameRand1,
+    Value   => 'update',
+    UserID  => 1,
+);
+
+$Self->True(
+    $SystemDataUpdate,
+    'SystemDataUpdate()',
+);
+
+$SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand1 );
+
+$Self->Is(
+    $SystemData,
+    'update',
+    'SystemDataGet() - after update',
+);
+
+$SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
+    Key      => $SystemDataNameRand1,
+    Value   => '',
+    UserID  => 1,
+);
+
+$Self->True(
+    $SystemDataUpdate,
+    'SystemDataUpdate()',
+);
+
+$SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand1 );
+
+$Self->Is(
+    $SystemData,
+    '',
+    'SystemDataGet() - after update empty string',
+);
+
+$SystemDataDelete = $SystemDataObject->SystemDataDelete(
+    Key      => $SystemDataNameRand1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $SystemDataDelete,
+    'SystemDataDelete() - removed key',
+);
+
 1;

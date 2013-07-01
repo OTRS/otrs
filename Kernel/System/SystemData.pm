@@ -119,11 +119,15 @@ sub SystemDataAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key Value UserID)) {
+    for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+    if ( !defined $Param{Value} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        return;
     }
 
     # lowercase key
@@ -231,11 +235,15 @@ sub SystemDataUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Key Value UserID)) {
+    for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+    if ( !defined $Param{Value} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        return;
     }
 
     # lowercase key
