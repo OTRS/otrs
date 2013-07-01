@@ -247,7 +247,7 @@ sub GroupMemberList {
         $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID} ) . "'";
     }
     else {
-        $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID} ) . "";
+        $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' ) . "";
     }
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
