@@ -504,7 +504,7 @@ sub Run {
             UserID           => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             HistoryType      => $Self->{Config}->{HistoryType},
             HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
-            AutoResponseType => 'auto reply',
+            AutoResponseType => ( $Self->{ConfigObject}->Get('AutoResponseForWebTickets') ) ? 'auto reply' : '',
             OrigHeader       => {
                 From    => $From,
                 To      => $Self->{UserLogin},
