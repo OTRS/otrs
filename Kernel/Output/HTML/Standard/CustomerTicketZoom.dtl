@@ -231,7 +231,7 @@
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
-                    <input class="DontPrint" type="text" name="Subject" id="Subject" value="$QData{"Subject"}" />
+                    <input class="DontPrint" type="text" name="Subject" id="Subject" title="$Text{"Subject"}" value="$QData{"Subject"}" />
 <!-- dtl:block:RichText-->
                     $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
