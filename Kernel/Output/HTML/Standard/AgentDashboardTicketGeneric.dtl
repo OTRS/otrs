@@ -9,76 +9,17 @@
 
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
 <ul class="Tab Actions">
-    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"My locked tickets"} ($QData{"Locked"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Locked').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
+    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked" data-filter="Locked">$Text{"My locked tickets"} ($QData{"Locked"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"My watched tickets"} ($QData{"Watcher"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Watcher').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
+    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher" data-filter="Watcher">$Text{"My watched tickets"} ($QData{"Watcher"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"My responsibilities"} ($QData{"Responsible"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Responsible').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
+    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible" data-filter="Responsible">$Text{"My responsibilities"} ($QData{"Responsible"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
 <!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
-    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues">$Text{"Tickets in My Queues"} ($QData{"MyQueues"})</a></li>
+    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues" data-filter="MyQueues">$Text{"Tickets in My Queues"} ($QData{"MyQueues"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
-    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All tickets"} ($QData{"All"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}MyQueues').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-    $('#Dashboard$QData{"Name"}All').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
+    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All" data-filter="All">$Text{"All tickets"} ($QData{"All"})</a></li>
 </ul>
 
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
@@ -120,15 +61,46 @@
     </tbody>
 </table>
 
+<!-- dtl:block:ContentLargeTicketGenericRefresh -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('.MasterAction').bind('click', function (Event) {
-    var $MasterActionLink = $(this).find('.MasterActionLink');
-    // only act if the link was not clicked directly
-    if (Event.target !== $MasterActionLink.get(0)) {
-        window.location = $MasterActionLink.attr('href');
+Core.Config.Set('RefreshSeconds_$QData{"NameHTML"}', parseInt("$QData{"RefreshTime"}", 10) || 0);
+if (Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}')) {
+    Core.Config.Set('Timer_$QData{"NameHTML"}', window.setTimeout(function() {
+
+        // get active filter
+        var Filter = $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"}', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        clearTimeout(Core.Config.Get('Timer_$QData{"NameHTML"}'));
+    }, Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}') * 1000));
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericRefresh -->
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('.MasterAction').bind('click', function (Event) {
+        var $MasterActionLink = $(this).find('.MasterActionLink');
+        // only act if the link was not clicked directly
+        if (Event.target !== $MasterActionLink.get(0)) {
+            window.location = $MasterActionLink.attr('href');
+            return false;
+        }
+    });
+
+    $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
+        var Filter = $(this).attr('data-filter');
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"}', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
         return false;
-    }
-});
+    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->

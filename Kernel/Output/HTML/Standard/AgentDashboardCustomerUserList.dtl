@@ -86,3 +86,24 @@
 <!-- dtl:block:ContentLargeCustomerUserListNone -->
     </tbody>
 </table>
+
+<!-- dtl:block:ContentLargeTicketGenericRefresh -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('RefreshSeconds_$QData{"NameHTML"}', parseInt("$QData{"RefreshTime"}", 10) || 0);
+if (Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}')) {
+    Core.Config.Set('Timer_$QData{"NameHTML"}', window.setTimeout(function() {
+
+        // get active filter
+        var Filter = $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"}', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        clearTimeout(Core.Config.Get('Timer_$QData{"NameHTML"}'));
+    }, Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}') * 1000));
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericRefresh -->

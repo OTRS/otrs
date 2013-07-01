@@ -405,6 +405,25 @@ sub Run {
         );
     }
 
+    # check for refresh time
+    my $Refresh = '';
+    if ( $Self->{UserRefreshTime} ) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+        my $NameHTML = $Self->{Name};
+        $NameHTML =~ s{-}{_}xmsg;
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketGenericRefresh',
+            Data => {
+                %{ $Self->{Config} },
+                Name        => $Self->{Name},
+                NameHTML    => $NameHTML,
+                RefreshTime => $Refresh,
+                CustomerID  => $Param{CustomerID},
+                %{$Summary},
+            },
+        );
+    }
+
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardTicketGeneric',
         Data         => {

@@ -82,7 +82,6 @@ sub Run {
         );
     }
 
-
     if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
 
         $Self->{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' );
@@ -100,7 +99,6 @@ sub Run {
                 return $Output;
             }
         }
-
     }
 
     # update/close item
@@ -286,7 +284,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Element' ) {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-
+$Self->{LogObject}->Dumper($Config);
         my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
@@ -469,12 +467,6 @@ sub Run {
         }
     }
 
-    # get output back
-    my $Refresh = '';
-    if ( $Self->{UserRefreshTime} ) {
-        $Refresh = 60 * $Self->{UserRefreshTime};
-    }
-
     # build main menu
     my $MainMenuConfig = $Self->{ConfigObject}->Get($MainMenuConfigKey);
     if ( IsHashRefWithData($MainMenuConfig) ) {
@@ -492,7 +484,7 @@ sub Run {
         }
     }
 
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => $Self->{Action},
