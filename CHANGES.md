@@ -1,5 +1,4 @@
 #3.3.0.beta1 2013-??-??
- - 2013-07-01 Fixed bug#[9481](http://bugs.otrs.org/show_bug.cgi?id=9481) - Possible to select invalid services in SLA admin screen.
  - 2013-06-28 Added support for CustomerID in GenericInterface TicketCreate and TicketUpdate.
  - 2013-06-28 Fixed bug#[9233](http://bugs.otrs.org/show_bug.cgi?id=9233) - GenericInterface (TicketCreate and TicketUpdate can't set a defined CustomerID).
  - 2013-06-28 Fixed bug#[6502](http://bugs.otrs.org/show_bug.cgi?id=6502) - AdminQueueAutoResponse interface changes.
@@ -61,6 +60,7 @@
     and hard-coded to use /tmp.
 
 #3.2.9 2013-??-??
+ - 2013-07-01 Fixed bug#[9481](http://bugs.otrs.org/show_bug.cgi?id=9481) - Possible to select invalid services in SLA admin screen.
  - 2013-06-29 Fixed bug#[9539](http://bugs.otrs.org/show_bug.cgi?id=9539) - Cannot send notification to a group of customers.
  - 2013-06-28 Fixed bug#[8273](http://bugs.otrs.org/show_bug.cgi?id=8273) - Copying text in preview mode not possible.
  - 2013-06-27 Fixed bug#[9011](http://bugs.otrs.org/show_bug.cgi?id=9011) - GenericInterface: New value after value mapping can't be 0.
