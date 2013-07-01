@@ -280,8 +280,13 @@ sub Run {
         my $IsUpload = 0;
 
         # attachment delete
+        my @AttachmentIDs = map{
+            my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
+            $ID ? $ID : ();
+        }$Self->{ParamObject}->GetParamNames();
+
         COUNT:
-        for my $Count ( 1 .. 32 ) {
+        for my $Count ( reverse sort @AttachmentIDs ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
             next COUNT if !$Delete;
             %Error = ();

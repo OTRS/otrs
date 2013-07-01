@@ -742,9 +742,15 @@ sub SendEmail {
     }
 
     # attachment delete
-    for my $Count ( 1 .. 32 ) {
+    my @AttachmentIDs = map{
+        my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
+        $ID ? $ID : ();
+    }$Self->{ParamObject}->GetParamNames();
+
+    COUNT:
+    for my $Count ( reverse sort @AttachmentIDs ) {
         my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-        next if !$Delete;
+        next COUNT if !$Delete;
         %Error = ();
         $Error{AttachmentDelete} = 1;
         $Self->{UploadCacheObject}->FormIDRemoveFile(
