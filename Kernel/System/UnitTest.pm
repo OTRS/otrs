@@ -329,7 +329,7 @@ sub Run {
     }
 
     chomp $ResultSummary{Vendor};
-    $ResultSummary{Database}  = $Self->{DBObject}->{'DB::Type'};
+    $ResultSummary{Database}  = $Self->{DBObject}->Version();
     $ResultSummary{TestOk}    = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
