@@ -15,6 +15,8 @@ use warnings;
 use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
+use Kernel::System::VariableCheck qw(:all);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -81,6 +83,62 @@ sub Check {
                 Value     => $Decrypt{Data},
                 UserID    => $Self->{UserID},
             );
+
+            # get a list of all article attachments
+            my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
+                ArticleID                  => $Self->{ArticleID},
+                UserID                     => $Self->{UserID},
+            );
+
+            my @Attachments;
+            if ( IsHashRefWithData(\%Index) ) {
+                for my $FileID ( sort keys %Index ) {
+
+                    # get attachment details
+                    my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                        ArticleID => $Self->{ArticleID},
+                        FileID    => $FileID,
+                        UserID    => $Self->{UserID},
+                    );
+
+                    # store attachemnts attributes that might change after decryption
+                    my $AttachmentContent = $Attachment{Content};
+                    my $AttachmentFilename = $Attachment{Filename};
+
+                    # try to decrypt the attachment, non ecrypted attachments will succeed too.
+                    %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Attachment{Content} );
+
+                    if ( $Decrypt{Successful} ) {
+
+                        # set decrypted content
+                        $AttachmentContent= $Decrypt{Data};
+
+                        # remove .pgp .gpg or asc extensions (if any)
+                        $AttachmentFilename  =~ s{ (\. [^\.]+) \. (?: pgp|gpg|asc) \z}{$1}msx;
+                    }
+
+                    # remember decrypted attachement, to add it later
+                    push @Attachments, {
+                        Content            => $AttachmentContent,
+                        ContentType        => $Attachment{ContentType},
+                        Filename           => $AttachmentFilename,
+                        ArticleID          => $Self->{ArticleID},
+                        UserID             => $Self->{UserID},
+                    };
+                }
+
+                # delete crypted attachments
+                $Self->{TicketObject}->ArticleDeleteAttachment(
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+
+                # write decrypted attachments to the storage
+                for my $Attachment ( @Attachments ) {
+                    $Self->{TicketObject}->ArticleWriteAttachment( %{$Attachment} );
+                }
+            }
+
             push(
                 @Return,
                 {
