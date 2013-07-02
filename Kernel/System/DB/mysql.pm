@@ -36,6 +36,9 @@ sub LoadPreferences {
     $Self->{'DB::CaseSensitive'}        = 0;
     $Self->{'DB::LikeEscapeString'}     = '';
 
+    # how to determine server version
+    $Self->{'DB::Version'} = "SELECT CONCAT('MySQL ', VERSION())";
+
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
     # cause charset problems

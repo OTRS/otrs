@@ -301,6 +301,32 @@ sub Disconnect {
     return 1;
 }
 
+
+=item Version()
+
+to get the database version
+
+    my $DBVersion = $DBObject->Version();
+
+    returns: "MySQL 5.1.1";
+
+=cut
+
+sub Version {
+    my ( $Self, %Param ) = @_;
+
+    my $Version = 'unknown';
+
+    if ( $Self->{Backend}->{'DB::Version'} ) {
+        $Self->Prepare( SQL => $Self->{Backend}->{'DB::Version'} );
+        while ( my @Row = $Self->FetchrowArray() ) {
+            $Version = $Row[0];
+        }
+    }
+
+    return $Version;
+}
+
 =item Quote()
 
 to quote sql parameters

@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-02 Added Version() function to DBObject that reports back version of database.
  - 2013-07-01 Re-implemented auto refresh feature for dashboards on a per-widget basis. Widgets now refresh via AJAX instead of reloading the whole screen with meta refresh.
  - 2013-07-01 Added new config option 'AutoResponseForWebTickets' to turn off auto responses for new tickets created via the web interface (auto responses are active by default), thanks to Theo van Hoesel!
  - 2013-06-28 Added support for CustomerID in GenericInterface TicketCreate and TicketUpdate.

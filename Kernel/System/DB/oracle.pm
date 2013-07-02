@@ -36,6 +36,9 @@ sub LoadPreferences {
     $Self->{'DB::CaseSensitive'}        = 1;
     $Self->{'DB::LikeEscapeString'}     = q{ESCAPE '\\'};
 
+    # how to determine server version
+    $Self->{'DB::Version'} = "SELECT * FROM V$VERSION WHERE BANNER LIKE 'Oracle%'";
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
