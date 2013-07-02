@@ -1,7 +1,8 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-07-02 09:20:17
+--  driver: oracle, generated: 2013-07-02 09:36:51
 -- ----------------------------------------------------------
-SET DEFINE OFF; SET SQLBLANKLINES ON;
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
 -- ----------------------------------------------------------
 --  insert into table valid
 -- ----------------------------------------------------------
@@ -1424,4 +1425,5 @@ INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type,
     (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---
 DefaultValue: ''''
 ', 1, 1, current_timestamp, 1, current_timestamp);
-SET DEFINE OFF; SET SQLBLANKLINES ON;
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
