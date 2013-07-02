@@ -1,5 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
+# Kernel/System/DynamicField/Driver/Checkbox.pm - Delegate for DynamicField Checkbox Driver
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,22 +7,23 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::Backend::Checkbox;
+package Kernel::System::DynamicField::Driver::Checkbox;
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
-use Kernel::System::DynamicField::Backend::BackendCommon;
+
+use base qw(Kernel::System::DynamicField::Driver::DriverBase);
 
 =head1 NAME
 
-Kernel::System::DynamicField::Backend::Checkbox
+Kernel::System::DynamicField::Driver::Checkbox
 
 =head1 SYNOPSIS
 
-DynamicFields Checkbox backend delegate
+DynamicFields Checkbox Driver delegate
 
 =head1 PUBLIC INTERFACE
 
@@ -54,8 +55,6 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -99,29 +98,6 @@ sub ValueSet {
             },
         ],
         UserID => $Param{UserID},
-    );
-
-    return $Success;
-}
-
-sub ValueDelete {
-    my ( $Self, %Param ) = @_;
-
-    my $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        UserID   => $Param{UserID},
-    );
-
-    return $Success;
-}
-
-sub AllValuesDelete {
-    my ( $Self, %Param ) = @_;
-
-    my $Success = $Self->{DynamicFieldValueObject}->AllValuesDelete(
-        FieldID => $Param{DynamicFieldConfig}->{ID},
-        UserID  => $Param{UserID},
     );
 
     return $Success;
@@ -291,7 +267,7 @@ EOF
     }
 
     # call EditLabelRender on the common backend
-    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+    my $LabelString = $Self->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName,
@@ -497,7 +473,7 @@ sub SearchFieldRender {
     );
 
     # call EditLabelRender on the common backend
-    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+    my $LabelString = $Self->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         FieldName          => $FieldName,
     );

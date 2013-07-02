@@ -1,5 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
+# Kernel/System/DynamicField/Driver/DriverBase.pm - Dynamic field backend functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::Backend::BackendCommon;
+package Kernel::System::DynamicField::Driver::DriverBase;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use vars qw(@ISA);
 
 =head1 NAME
 
-Kernel::System::DynamicField::Backend::BackendCommon - common fields backend functions
+Kernel::System::DynamicField::Driver::BackendCommon - common fields backend functions
 
 =head1 SYNOPSIS
 
@@ -28,57 +28,27 @@ Kernel::System::DynamicField::Backend::BackendCommon - common fields backend fun
 
 =cut
 
-=item new()
+sub ValueDelete {
+    my ( $Self, %Param ) = @_;
 
-create an object
-
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DynamicField::Backend::BackendCommon;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    );
-    my $BackendCommonObject = Kernel::System::DynamicField::Backend::BackendCommon->new(
-        LogObject          => $LogObject,
-        MainObject         => $MainObject,
+    my $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        UserID   => $Param{UserID},
     );
 
-=cut
+    return $Success;
+}
 
-sub new {
-    my ( $Type, %Param ) = @_;
+sub AllValuesDelete {
+    my ( $Self, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Success = $Self->{DynamicFieldValueObject}->AllValuesDelete(
+        FieldID => $Param{DynamicFieldConfig}->{ID},
+        UserID  => $Param{UserID},
+    );
 
-    # check needed objects
-    for my $Needed (qw(MainObject LogObject)) {
-
-        if ( !$Param{$Needed} ) {
-            return {
-                Success      => 0,
-                ErrorMessage => "Got no $Needed!"
-            };
-        }
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    return $Self;
+    return $Success;
 }
 
 =item EditLabelRender()

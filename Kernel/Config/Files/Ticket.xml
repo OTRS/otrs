@@ -8434,7 +8434,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Text</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::Text</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Text</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
             </Hash>
         </Setting>
@@ -8446,7 +8446,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Textarea</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::TextArea</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::TextArea</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
             </Hash>
         </Setting>
@@ -8458,7 +8458,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Checkbox</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::Checkbox</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Checkbox</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldCheckbox</Item>
             </Hash>
         </Setting>
@@ -8470,7 +8470,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Dropdown</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::Dropdown</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Dropdown</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDropdown</Item>
             </Hash>
         </Setting>
@@ -8482,7 +8482,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Date / Time</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::DateTime</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::DateTime</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
             </Hash>
         </Setting>
@@ -8494,7 +8494,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Date</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::Date</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Date</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
             </Hash>
         </Setting>
@@ -8507,7 +8507,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Multiselect</Item>
-                <Item Key="Module">Kernel::System::DynamicField::Backend::Multiselect</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::Multiselect</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldMultiselect</Item>
                 <Item Key="ItemSeparator">, </Item>
             </Hash>

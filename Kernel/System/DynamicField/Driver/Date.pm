@@ -1,5 +1,5 @@
 # --
-# Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
+# Kernel/System/DynamicField/Driver/Date.pm - Delegate for DynamicField Date Driver
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::Backend::DateTime;
+package Kernel::System::DynamicField::Driver::Date;
 
 use strict;
 use warnings;
@@ -15,15 +15,16 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::Time;
-use Kernel::System::DynamicField::Backend::BackendCommon;
+
+use base qw(Kernel::System::DynamicField::Driver::DriverBaseDate);
 
 =head1 NAME
 
-Kernel::System::DynamicField::Backend::DateTime
+Kernel::System::DynamicField::Driver::Date
 
 =head1 SYNOPSIS
 
-DynamicFields DateTime backend delegate
+DynamicFields Date Driver delegate
 
 =head1 PUBLIC INTERFACE
 
@@ -56,29 +57,22 @@ sub new {
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
     $Self->{TimeObject}              = Kernel::System::Time->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
 
-sub ValueGet {
-    my ( $Self, %Param ) = @_;
-
-    my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-    );
-
-    return if !$DFValue;
-    return if !IsArrayRefWithData($DFValue);
-    return if !IsHashRefWithData( $DFValue->[0] );
-
-    return $DFValue->[0]->{ValueDateTime};
-}
-
 sub ValueSet {
     my ( $Self, %Param ) = @_;
+
+    # check for no time in date fields
+    if ( $Param{Value} && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The value for the field Date is invalid!\n"
+                . "The date must be valid and the time must be 00:00:00",
+        );
+        return;
+    }
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
@@ -94,31 +88,18 @@ sub ValueSet {
     return $Success;
 }
 
-sub ValueDelete {
-    my ( $Self, %Param ) = @_;
-
-    my $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        UserID   => $Param{UserID},
-    );
-
-    return $Success;
-}
-
-sub AllValuesDelete {
-    my ( $Self, %Param ) = @_;
-
-    my $Success = $Self->{DynamicFieldValueObject}->AllValuesDelete(
-        FieldID => $Param{DynamicFieldConfig}->{ID},
-        UserID  => $Param{UserID},
-    );
-
-    return $Success;
-}
-
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
+
+    # check for no time in date fields
+    if ( $Param{Value} && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The value for the field Date is invalid!\n"
+                . "The date must be valid and the time must be 00:00:00",
+        );
+        return;
+    }
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
         Value => {
@@ -142,8 +123,15 @@ sub SearchSQLGet {
     );
 
     if ( $Operators{ $Param{Operator} } ) {
-        my $SQL = " $Param{TableAlias}.value_date $Operators{$Param{Operator}} '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        my $SQL = " $Param{TableAlias}.value_date $Operators{$Param{Operator}} '"
+            . $Self->{DBObject}->Quote( $Param{SearchTerm} );
+
+        # Append hh:mm:ss if only the ISO date was supplied to get a full datetime string.
+        if ( $Param{SearchTerm} =~ m{\A \d{4}-\d{2}-\d{2}\z}xms ) {
+            $SQL .= " 00:00:00";
+        }
+
+        $SQL .= "' ";
         return $SQL;
     }
 
@@ -153,12 +141,6 @@ sub SearchSQLGet {
     );
 
     return;
-}
-
-sub SearchSQLOrderFieldGet {
-    my ( $Self, %Param ) = @_;
-
-    return "$Param{TableAlias}.value_date";
 }
 
 sub EditFieldRender {
@@ -212,8 +194,7 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    # Bug#9358: Class 'DateSelection' is needed for CustomerInterface
-    my $FieldClass = 'DynamicFieldText DateSelection';
+    my $FieldClass = 'DynamicFieldText';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
@@ -242,7 +223,7 @@ sub EditFieldRender {
     my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName,
-        Format               => 'DateInputFormatLong',
+        Format               => 'DateInputFormat',
         $FieldName . 'Class' => $FieldClass,
         DiffTime             => $DiffTime,
         $FieldName . Required => $Param{Mandatory} || 0,
@@ -282,8 +263,8 @@ EOF
 EOF
     }
 
-    # call EditLabelRender on the common backend
-    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+    # call EditLabelRender on the common Driver
+    my $LabelString = $Self->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName . 'Used',
@@ -307,27 +288,30 @@ sub EditFieldValueGet {
 
     # check if there is a Template and retreive the dinalic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
+        for my $Type (qw(Used Year Month Day)) {
             $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type };
         }
     }
 
     # otherwise get dynamic field value form param
     else {
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
+        for my $Type (qw(Used Year Month Day)) {
             $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
                 Param => $Prefix . $Type,
             );
         }
     }
 
+    # complete the rest of the date with 0s to have a valid Date/Time value
+    for my $Type (qw(Hour Minute Second)) {
+        $DynamicFieldValues{ $Prefix . $Type } = '00';
+    }
+
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
         && !$DynamicFieldValues{ $Prefix . 'Year' }
         && !$DynamicFieldValues{ $Prefix . 'Month' }
-        && !$DynamicFieldValues{ $Prefix . 'Day' }
-        && !$DynamicFieldValues{ $Prefix . 'Hour' }
-        && !$DynamicFieldValues{ $Prefix . 'Minute' };
+        && !$DynamicFieldValues{ $Prefix . 'Day' };
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
@@ -368,12 +352,12 @@ sub EditFieldValueGet {
             }
         }
 
-        my $Year   = $DynamicFieldValues{ $Prefix . 'Year' }   || '0000';
-        my $Month  = $DynamicFieldValues{ $Prefix . 'Month' }  || '00';
-        my $Day    = $DynamicFieldValues{ $Prefix . 'Day' }    || '00';
-        my $Hour   = $DynamicFieldValues{ $Prefix . 'Hour' }   || '00';
-        my $Minute = $DynamicFieldValues{ $Prefix . 'Minute' } || '00';
-        my $Second = $DynamicFieldValues{ $Prefix . 'Second' } || '00';
+        my $Year  = $DynamicFieldValues{ $Prefix . 'Year' }  || '0000';
+        my $Month = $DynamicFieldValues{ $Prefix . 'Month' } || '00';
+        my $Day   = $DynamicFieldValues{ $Prefix . 'Day' }   || '00';
+        my $Hour  = '00';
+        my $Minute = '00';
+        my $Second = '00';
 
         $ManualTimeStamp =
             $Year . '-' . $Month . '-' . $Day . ' '
@@ -381,45 +365,6 @@ sub EditFieldValueGet {
     }
 
     return $ManualTimeStamp;
-}
-
-sub EditFieldValueValidate {
-    my ( $Self, %Param ) = @_;
-
-    # get the field value from the http request
-    my $Value = $Self->EditFieldValueGet(
-        DynamicFieldConfig   => $Param{DynamicFieldConfig},
-        ParamObject          => $Param{ParamObject},
-        ReturnValueStructure => 1,
-    );
-
-    # on normal basis Used field could be empty but if there was no value from EditFieldValueGet()
-    # it must be an error
-    if ( !defined $Value ) {
-        return {
-            ServerError  => 1,
-            ErrorMessage => 'Invalid Date!'
-            }
-    }
-
-    my $ServerError;
-    my $ErrorMessage;
-
-    # set the date time prefix as field name
-    my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-    # perform necessary validations
-    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
-        $ServerError = 1;
-    }
-
-    # create resulting structure
-    my $Result = {
-        ServerError  => $ServerError,
-        ErrorMessage => $ErrorMessage,
-    };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
@@ -430,12 +375,12 @@ sub DisplayValueRender {
     # convert date to localized string
     if ( defined $Param{Value} ) {
         $Value = $Param{LayoutObject}->Output(
-            Template => '$TimeShort{"$Data{"Value"}"}',
+            Template => '$Date{"$Data{"Value"}"}',
             Data => { Value => $Param{Value}, },
         );
     }
 
-    # in this backend there is no need for HTMLOutput
+    # in this Driver there is no need for HTMLOutput
     # Title is always equal to Value
     my $Title = $Value;
 
@@ -449,12 +394,6 @@ sub DisplayValueRender {
     };
 
     return $Data;
-}
-
-sub IsSortable {
-    my ( $Self, %Param ) = @_;
-
-    return 1;
 }
 
 sub SearchFieldRender {
@@ -522,7 +461,7 @@ EOF
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName . 'Start',
-        Format               => 'DateInputFormatLong',
+        Format               => 'DateInputFormat',
         $FieldName . 'Class' => $FieldClass,
         DiffTime             => -( ( 60 * 60 * 24 ) * 30 ),
         Validate             => 1,
@@ -532,14 +471,13 @@ EOF
     # build HTML for "and" separator
     $HTMLString .= <<'EOF';
   $Text{"and"}
-  <br/>
 EOF
 
     # build HTML for stop value set
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName . 'Stop',
-        Format               => 'DateInputFormatLong',
+        Format               => 'DateInputFormat',
         $FieldName . 'Class' => $FieldClass,
         DiffTime             => +( ( 60 * 60 * 24 ) * 30 ),
         Validate             => 1,
@@ -551,8 +489,8 @@ EOF
         $AdditionalText = 'between';
     }
 
-    # call EditLabelRender on the common backend
-    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+    # call EditLabelRender on the common Driver
+    my $LabelString = $Self->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         FieldName          => $FieldName,
         AdditionalText     => $AdditionalText,
@@ -575,7 +513,7 @@ sub SearchFieldValueGet {
     # get dynamic field value
     my %DynamicFieldValues;
     for my $Type (qw(Start Stop)) {
-        for my $Part (qw(Year Month Day Hour Minute)) {
+        for my $Part (qw(Year Month Day)) {
 
             # get dynamic field value form param object
             if ( defined $Param{ParamObject} ) {
@@ -611,7 +549,11 @@ sub SearchFieldValueGet {
         && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
         && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
+    $DynamicFieldValues{ $Prefix . 'StartHour' }   = '00';
+    $DynamicFieldValues{ $Prefix . 'StartMinute' } = '00';
     $DynamicFieldValues{ $Prefix . 'StartSecond' } = '00';
+    $DynamicFieldValues{ $Prefix . 'StopHour' }    = '23';
+    $DynamicFieldValues{ $Prefix . 'StopMinute' }  = '59';
     $DynamicFieldValues{ $Prefix . 'StopSecond' }  = '59';
 
     $DynamicFieldValues{$Prefix} = 1;
@@ -696,95 +638,37 @@ sub SearchFieldParameterBuild {
             . $Value->{ValueStop}->{ $Prefix . 'StopMinute' } . ':'
             . $Value->{ValueStop}->{ $Prefix . 'StopSecond' };
 
+        my $DisplayValueStart
+            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+            . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
+            . $Value->{ValueStart}->{ $Prefix . 'StartDay' };
+
+        my $DisplayValueStop
+            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+            . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
+            . $Value->{ValueStop}->{ $Prefix . 'StopDay' };
+
         # return search parameter structure
         return {
             Parameter => {
                 GreaterThanEquals => $ValueStart,
                 SmallerThanEquals => $ValueStop,
             },
-            Display => $ValueStart . ' - ' . $ValueStop,
+            Display => $DisplayValueStart . ' - ' . $DisplayValueStop,
         };
     }
 
     return;
 }
 
-sub StatsFieldParameterBuild {
-    my ( $Self, %Param ) = @_;
-
-    # this field should not be shown in stats
-    return;
-}
-
-sub CommonSearchFieldParameterBuild {
-    my ( $Self, %Param ) = @_;
-
-    # this field should not be shown in stats
-    return;
-}
-
-sub ReadableValueRender {
-    my ( $Self, %Param ) = @_;
-
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
-
-    # Title is always equal to Value
-    my $Title = $Value;
-
-    my $Data = {
-        Value => $Value,
-        Title => $Title,
-    };
-
-    return $Data;
-}
-
-sub TemplateValueTypeGet {
-    my ( $Self, %Param ) = @_;
-
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-    # set the field types
-    my $EditValueType   = 'SCALAR';
-    my $SearchValueType = 'SCALAR';
-
-    # return the correct structure
-    if ( $Param{FieldType} eq 'Edit' ) {
-        return {
-            $FieldName => $EditValueType,
-            }
-    }
-    elsif ( $Param{FieldType} eq 'Search' ) {
-        return {
-            'Search_' . $FieldName => $SearchValueType,
-            }
-    }
-    else {
-        return {
-            $FieldName             => $EditValueType,
-            'Search_' . $FieldName => $SearchValueType,
-            }
-    }
-}
-
-sub IsAJAXUpdateable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
-}
-
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $YearValue   = int( rand(40) ) + 1_990;
-    my $MonthValue  = int( rand(9) ) + 1;
-    my $DayValue    = int( rand(10) ) + 10;
-    my $HourValue   = int( rand(12) ) + 10;
-    my $MinuteValue = int( rand(30) ) + 10;
-    my $SecondValue = int( rand(30) ) + 10;
+    my $YearValue  = int( rand(40) ) + 1_990;
+    my $MonthValue = int( rand(9) ) + 1;
+    my $DayValue   = int( rand(10) ) + 10;
 
-    my $Value = $YearValue . '-0' . $MonthValue . '-' . $DayValue . ' '
-        . $HourValue . ':' . $MinuteValue . ':' . $SecondValue;
+    my $Value = $YearValue . '-0' . $MonthValue . '-' . $DayValue . ' 00:00:00';
 
     my $Success = $Self->ValueSet(
         %Param,
@@ -800,42 +684,6 @@ sub RandomValueSet {
         Success => 1,
         Value   => $Value,
     };
-}
-
-sub IsMatchable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
-}
-
-sub ObjectMatch {
-    my ( $Self, %Param ) = @_;
-
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-    # not supported
-    return 0;
-}
-
-sub HistoricalValuesGet {
-    my ( $Self, %Param ) = @_;
-
-    # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
-        FieldID   => $Param{DynamicFieldConfig}->{ID},
-        ValueType => 'DateTime',
-    );
-
-    # return the historical values from database
-    return $HistoricalValues;
-}
-
-sub ValueLookup {
-    my ( $Self, %Param ) = @_;
-
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
-
-    return $Value;
 }
 
 1;
