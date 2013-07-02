@@ -126,11 +126,11 @@ MySQL:
 
 PostgreSQL 8.2+:
 
-    shell> cat scripts/DBUpdate-to-3.2.postgresql.sql | psql otrs
+    shell> cat scripts/DBUpdate-to-3.2.postgresql.sql | psql otrs otrs
 
 PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-to-3.2.postgresql_before_8_2.sql | psql otrs
+    shell> cat scripts/DBUpdate-to-3.2.postgresql_before_8_2.sql | psql otrs otrs
 
 
  NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
@@ -162,11 +162,11 @@ MySQL:
 
 PostgreSQL 8.2+:
 
-    shell> cat scripts/DBUpdate-3.2.beta.postgresql.sql | psql otrs
+    shell> cat scripts/DBUpdate-3.2.beta.postgresql.sql | psql otrs otrs
 
 PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-3.2.beta.postgresql_before_8_2.sql | psql otrs
+    shell> cat scripts/DBUpdate-3.2.beta.postgresql_before_8_2.sql | psql otrs otrs
 
 
 
