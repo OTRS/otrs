@@ -556,7 +556,7 @@ sub _ShowEdit {
 
         # remove .pm
         $Item =~ s/^.*\/(.+?)\.pm$/$1/;
-        $TransitionAction{ 'Kernel::System::ProcessManagement::' . $Item } = $Item;
+        $TransitionAction{ 'Kernel::System::ProcessManagement::TransitionAction::' . $Item } = $Item;
     }
 
     # build TransitionAction string
