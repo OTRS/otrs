@@ -63,7 +63,7 @@
  - 2013-03-27 Fixed bug#[8962](http://bugs.otrs.org/show_bug.cgi?id=8962) - RequestObject GetUploadAll Source 'File' option is unused
     and hard-coded to use /tmp.
 
-#3.2.9 2013-??-??
+#3.2.9 2013-07-09
  - 2013-07-03 Fixed bug#[9561](http://bugs.otrs.org/show_bug.cgi?id=9561) - ACL restriction with CustomerID for DynamicFields at new Ticket screen not working.
  - 2013-07-02 Fixed bug#[8728](http://bugs.otrs.org/show_bug.cgi?id=8728) - Problem loading otrs-initial_insert.oracle.sql.
  - 2013-07-01 Fixed bug#[9481](http://bugs.otrs.org/show_bug.cgi?id=9481) - Possible to select invalid services in SLA admin screen.
