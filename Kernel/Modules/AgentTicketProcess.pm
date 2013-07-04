@@ -287,6 +287,13 @@ sub Run {
         )
         )
     {
+
+        # get process id (if any, a process should be pre-selected)
+        $Param{ProcessID} = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        if ($Param{ProcessID}) {
+            $Param{PreSelectProcess} = 1;
+        }
+
         return $Self->_DisplayProcessList(
             %Param,
             ProcessList     => $ProcessList,
@@ -4441,6 +4448,15 @@ sub _DisplayProcessList {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
+        );
+    }
+
+    if ($Param{PreSelectProcess} && $Param{ProcessID}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'PreSelectProcess',
+            Data => {
+                ProcessID => $Param{ProcessID},
+            },
         );
     }
 

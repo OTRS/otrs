@@ -101,4 +101,9 @@
         return false;
     });
 //]]></script>
+<!-- dtl:block:PreSelectProcess -->
+<script type="text/javascript">//<![CDATA[
+$('#ProcessEntityID').val('$QData{"ProcessID"}').trigger('change');
+//]]></script>
+<!-- dtl:block:PreSelectProcess -->
 <!-- dtl:js_on_document_complete -->
