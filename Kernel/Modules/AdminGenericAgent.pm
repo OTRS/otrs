@@ -1029,6 +1029,30 @@ sub _MaskRun {
     }
     $JobData{Profile} = $Self->{Profile};
 
+    # dynamic fields search parameters for ticket search
+    my %DynamicFieldSearchParameters;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD
+            if !$JobData{ 'Search_DynamicField_' . $DynamicFieldConfig->{Name} };
+
+        # extract the dynamic field value form the profile
+        my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Profile            => \%JobData,
+            LayoutObject       => $Self->{LayoutObject},
+        );
+
+        # set search parameter
+        if ( defined $SearchParameter ) {
+            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $SearchParameter->{Parameter};
+        }
+    }
+
     # perform ticket search
     my $Counter = $Self->{TicketObject}->TicketSearch(
         Result          => 'COUNT',
@@ -1038,6 +1062,7 @@ sub _MaskRun {
         Limit           => 60_000,
         ConditionInline => 1,
         %JobData,
+        %DynamicFieldSearchParameters,
     ) || 0;
 
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
@@ -1048,6 +1073,7 @@ sub _MaskRun {
         Limit           => 30,
         ConditionInline => 1,
         %JobData,
+        %DynamicFieldSearchParameters,
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList', );
