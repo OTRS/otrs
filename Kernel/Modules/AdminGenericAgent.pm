@@ -709,7 +709,12 @@ sub _MaskUpdate {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
         # get list type
-        my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            Valid        => 1,
+            KeepChildren => 1,
+            UserID       => $Self->{UserID},
+        );
+        my %NewService = %Service;
         $JobData{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Service,
             Name        => 'ServiceIDs',
@@ -721,11 +726,11 @@ sub _MaskUpdate {
             Max         => 200,
         );
         $JobData{NewServicesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data        => \%Service,
+            Data        => \%NewService,
             Name        => 'NewServiceID',
             SelectedID  => $JobData{NewServiceID},
             Size        => 5,
-            Multiple    => 0,
+            Multiple    => 1,
             TreeView    => $TreeView,
             Translation => 0,
             Max         => 200,
