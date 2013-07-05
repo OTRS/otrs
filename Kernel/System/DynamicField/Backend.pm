@@ -1467,11 +1467,11 @@ sub StatsFieldParameterBuild {
 
 }
 
-=item CommonSearchFieldParameterBuild()
+=item StatsSearchFieldParameterBuild()
 
 build the search parameters to be passed to the search engine within the stats module.
 
-    my $DynamicFieldStatsSearchParameter = $BackendObject->CommonSearchFieldParameterBuild(
+    my $DynamicFieldStatsSearchParameter = $BackendObject->StatsSearchFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         Value                => $Value,                 # the serach profile
     );
@@ -1491,7 +1491,7 @@ build the search parameters to be passed to the search engine within the stats m
     };
 =cut
 
-sub CommonSearchFieldParameterBuild {
+sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -1534,7 +1534,7 @@ sub CommonSearchFieldParameterBuild {
     }
 
     # return value from the specific backend
-    return $Self->{$DynamicFieldBackend}->CommonSearchFieldParameterBuild(%Param);
+    return $Self->{$DynamicFieldBackend}->StatsSearchFieldParameterBuild(%Param);
 
 }
 

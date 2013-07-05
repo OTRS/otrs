@@ -1,5 +1,6 @@
 #3.3.0.beta1 2013-??-??
- - 2013-06-28 Fixed bug#[3436](http://bugs.otrs.org/show_bug.cgi?id=3436) - PGP attachments not decrypted.
+ - 2013-07-05 Changed Dynamic Field function name from CommonSearchFieldParameterBuild() to StatsSearchFieldParameterBuild() as it is now only used in statistics.
+ - 2013-07-02 Fixed bug#[3436](http://bugs.otrs.org/show_bug.cgi?id=3436) - PGP attachments not decrypted.
  - 2013-07-02 Added Version() function to DBObject that reports back version of database.
  - 2013-07-01 Re-implemented auto refresh feature for dashboards on a per-widget basis. Widgets now refresh via AJAX instead of reloading the whole screen with meta refresh.
  - 2013-07-01 Added new config option 'AutoResponseForWebTickets' to turn off auto responses for new tickets created via the web interface (auto responses are active by default), thanks to Theo van Hoesel!

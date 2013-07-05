@@ -104,7 +104,7 @@ sub StatsFieldParameterBuild {
     return;
 }
 
-sub CommonSearchFieldParameterBuild {
+sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     # this field should not be shown in stats

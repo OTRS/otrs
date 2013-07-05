@@ -596,7 +596,7 @@ sub StatsFieldParameterBuild {
     };
 }
 
-sub CommonSearchFieldParameterBuild {
+sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     my $Operator = 'Equals';

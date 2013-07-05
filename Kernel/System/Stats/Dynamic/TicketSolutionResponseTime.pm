@@ -850,7 +850,7 @@ sub _ReportingValues {
 
                 # get new search parameter
                 my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
                     );

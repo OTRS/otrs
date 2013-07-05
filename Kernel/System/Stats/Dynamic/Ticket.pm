@@ -577,7 +577,7 @@ sub GetStatElement {
 
                 # get new search parameter
                 my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
                     );
