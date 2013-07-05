@@ -1807,9 +1807,9 @@ $Self->True(
     UserID   => 1,
 );
 
-$Self->True(
-    ( $TicketPending{RealTillTimeNotUsed} == ( $CurrentSystemTime + $Diff * 60 ) )
-    || ( $TicketPending{RealTillTimeNotUsed} == ( $CurrentSystemTime + ( $Diff * 60 ) + 1 ) ), # epoch seconds might have just changed
+$Self->Is(
+    $TicketPending{RealTillTimeNotUsed},
+    $CurrentSystemTime + $Diff * 60,
     "TicketPendingTimeSet() - diff time check",
 );
 
