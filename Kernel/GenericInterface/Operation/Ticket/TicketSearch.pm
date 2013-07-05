@@ -159,8 +159,8 @@ perform TicketSearch Operation. This will return a Ticket ID list.
             Like              => 'value*',                # "equals" operator with wildcard support
             GreaterThan       => '2001-01-01 01:01:01',
             GreaterThanEquals => '2001-01-01 01:01:01',
-            SmallerThan         => '2002-02-02 02:02:02',
-            SmallerThanEquals   => '2002-02-02 02:02:02',
+            SmallerThan       => '2002-02-02 02:02:02',
+            SmallerThanEquals => '2002-02-02 02:02:02',
         }
 
         # article stuff (optional)
@@ -526,19 +526,11 @@ sub _GetDynamicFields {
                 # without the 'DynamicField_' prefix
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-                # get new search parameter
-                my $SearchParameter
-                    = $Self->{DFBackendObject}->CommonSearchFieldParameterBuild(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Param{$ParameterName},
-                    );
-
-                # add new search parameter
                 # set search parameter
-                if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-                }
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                    = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+
+                last DYNAMICFIELD;
             }
         }
     }
