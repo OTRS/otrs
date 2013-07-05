@@ -46,7 +46,7 @@ sub LoadPreferences {
     # version string contains a comma, we only need what's on the left of it
     # example of full string: "PostgreSQL 9.2.4, compiled by Visual C++ build 1600, 64-bit"
     # our result: "PostgreSQL 9.2.4"
-    $Self->{'DB::Version'} = "SELECT LEFT(VERSION(), (STRPOS(VERSION(),',') -1))";
+    $Self->{'DB::Version'} = "SELECT SUBSTR(VERSION(), 0, STRPOS(VERSION(),','))";
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
