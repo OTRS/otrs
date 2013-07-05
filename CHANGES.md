@@ -1,3 +1,6 @@
+#3.2.10 2013-07-10
+ - 2013-07-04 Fixed bug#[9573](http://bugs.otrs.org/show_bug.cgi?id=9573) - Date and DateTime dynamic fields not considered in GenericAgent Jobs.
+
 #3.2.9 2013-07-09
  - 2013-07-03 Fixed bug#[9561](http://bugs.otrs.org/show_bug.cgi?id=9561) - ACL restriction with CustomerID for DynamicFields at new Ticket screen not working.
  - 2013-07-02 Fixed bug#[8728](http://bugs.otrs.org/show_bug.cgi?id=8728) - Problem loading otrs-initial_insert.oracle.sql.

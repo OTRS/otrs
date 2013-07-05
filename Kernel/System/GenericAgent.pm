@@ -296,24 +296,19 @@ sub JobRun {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD
+            if !$DynamicFieldSearchTemplate{ 'Search_DynamicField_' . $DynamicFieldConfig->{Name} };
 
-        # get field value from the information extracted from Generic Agent job
-        my $Value = $Self->{BackendObject}->SearchFieldValueGet(
+        # extract the dynamic field value form the Generic Agent Job
+        my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
             DynamicFieldConfig => $DynamicFieldConfig,
             Profile            => \%DynamicFieldSearchTemplate,
-        ) || '';
+        );
 
-        if ($Value) {
-
-            # get search attibutes
-            my $SearchParameter = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Value,
-            );
-
-            # add search attribute to the search structure
+        # set search parameter
+        if ( defined $SearchParameter ) {
             $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = $SearchParameter;
+                = $SearchParameter->{Parameter};
         }
     }
 
