@@ -1346,8 +1346,8 @@ build the search parameters to be passed to the search engine.
 
     my $DynamicFieldSearchParameter = $BackendObject->SearchFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
-        LayoutObject         => $LayoutObject,
-        Profile              => $ProfileData,           # the serach profile
+        LayoutObject         => $LayoutObject,          # optional
+        Profile              => $ProfileData,           # optional, the serach profile
     );
 
     Returns
@@ -1360,8 +1360,8 @@ build the search parameters to be passed to the search engine.
                                                         #   Like              => 'value*',
                                                         #   GreaterThan       => '2001-01-01 01:01:01',
                                                         #   GreaterThanEquals => '2001-01-01 01:01:01',
-                                                        #   SmallerThan         => '2002-02-02 02:02:02',
-                                                        #   SmallerThanEquals   => '2002-02-02 02:02:02',
+                                                        #   SmallerThan       => '2002-02-02 02:02:02',
+                                                        #   SmallerThanEquals => '2002-02-02 02:02:02',
         },
         Display => $DisplayValue,                       # the value to be displayed in the search terms section
     };
@@ -1371,7 +1371,7 @@ sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject Profile)) {
+    for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -1499,8 +1499,8 @@ build the search parameters to be passed to the search engine within the stats m
                                                         #   Like              => 'value*',
                                                         #   GreaterThan       => '2001-01-01 01:01:01',
                                                         #   GreaterThanEquals => '2001-01-01 01:01:01',
-                                                        #   SmallerThan         => '2002-02-02 02:02:02',
-                                                        #   SmallerThanEquals   => '2002-02-02 02:02:02',
+                                                        #   SmallerThan       => '2002-02-02 02:02:02',
+                                                        #   SmallerThanEquals => '2002-02-02 02:02:02',
         },
     };
 =cut
