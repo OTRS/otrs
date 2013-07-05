@@ -523,19 +523,11 @@ sub _GetDynamicFields {
                 # without the 'DynamicField_' prefix
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-                # get new search parameter
-                my $SearchParameter
-                    = $Self->{DFBackendObject}->CommonSearchFieldParameterBuild(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Param{$ParameterName},
-                    );
-
-                # add new search parameter
                 # set search parameter
-                if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-                }
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                    = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+
+                last DYNAMICFIELD;
             }
         }
     }
