@@ -18,23 +18,24 @@ $Self->True(
     "DBObject Version() generated version $Version",
 );
 
+$Self->IsNot(
+    $Version,
+    'unknown',
+    "DBObject Version() generated version $Version",
+);
+
 # extract text string and version number from Version
 # just as a sanity check
-my $Text    = '';
-my $Numeral = '';
-if ( $Version =~ /(\w*)\s*([0-9\.]*)/ ) {
-    $Text    = $1;
-    $Numeral = $2;
-}
+my ($Text, $Number) = $Version =~ /(\w+)\s+([0-9\.]+)/;
 
 $Self->True(
-    $Version,
-    "DBObject Version() contains text '$Text'",
+    $Text,
+    "DBObject Version() $Version contains a name (found $Text)",
 );
 
 $Self->True(
-    $Version,
-    "DBObject Version() contains numeral '$Numeral'",
+    $Number,
+    "DBObject Version() $Version contains a version number (found $Number)",
 );
 
 1;
