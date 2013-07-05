@@ -3308,6 +3308,14 @@ or use a time stamp:
         UserID   => 23,
     );
 
+or use a diff (set pending time to "now" + diff minutes)
+
+    my $Success = $TicketObject->TicketPendingTimeSet(
+        Diff     => ( 7 * 24 * 60 ),  # minutes (here: 10080 minutes - 7 days)
+        TicketID => 123,
+        UserID   => 23,
+    );
+
 If you want to set the pending time to null, just supply zeros:
 
     my $Success = $TicketObject->TicketPendingTimeSet(
@@ -3337,8 +3345,19 @@ sub TicketPendingTimeSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{String} ) {
+    if ( !$Param{String} && !$Param{Diff} ) {
         for my $Needed (qw(Year Month Day Hour Minute TicketID UserID)) {
+            if ( !defined $Param{$Needed} ) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                return;
+            }
+        }
+    }
+    elsif (
+        !$Param{String} && 
+        !( $Param{Year} && $Param{Month} && $Param{Day} && $Param{Hour} && $Param{Minute} )
+    ) {
+        for my $Needed (qw(Diff TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
                 $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
                 return;
@@ -3367,6 +3386,7 @@ sub TicketPendingTimeSet {
     }
     elsif (
         !$Param{String}
+        && !$Param{Diff}
         && $Param{Minute} == 0
         && $Param{Hour} == 0 && $Param{Day} == 0
         && $Param{Month} == 0
@@ -3383,6 +3403,13 @@ sub TicketPendingTimeSet {
             $Time = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{String}, );
             ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
                 = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Time, );
+        }
+        elsif ( $Param{Diff} ) {
+            $Time = $Self->{TimeObject}->SystemTime() + ( $Param{Diff} * 60 );
+            ($Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} ) =
+                $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Time,
+                );
         }
         else {
             $Time = $Self->{TimeObject}->TimeStamp2SystemTime(

@@ -1789,6 +1789,30 @@ $Self->Is(
     "TicketPendingTimeSet() - Pending Time - not set",
 );
 
+my $Diff               = 60;
+my $CurrentSystemTime  = $Self->{TimeObject}->SystemTime();
+my $PendingTimeSetDiff = $TicketObject->TicketPendingTimeSet(
+    Diff     => $Diff,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $PendingTimeSetDiff,
+    "TicketPendingTimeSet() - Pending Time - set diff",
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    ( $TicketPending{RealTillTimeNotUsed} == ( $CurrentSystemTime + $Diff * 60 ) )
+    || ( $TicketPending{RealTillTimeNotUsed} == ( $CurrentSystemTime + ( $Diff * 60 ) + 1 ) ), # epoch seconds might have just changed
+    "TicketPendingTimeSet() - diff time check",
+);
+
 my $PendingTimeSet = $TicketObject->TicketPendingTimeSet(
     TicketID => $TicketID,
     UserID   => 1,
