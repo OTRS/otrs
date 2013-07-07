@@ -1692,7 +1692,7 @@ sub Data {
         'Activities are not being used in this process.' => 'Er zijn geen activiteiten in dit proces.',
         'Assigned fields' => 'Toegewezen velden',
         'Activity dialogs are not being used in this process.' => 'Er zijn geen dialogen in dit proces.',
-        'Condition linking' => 'Contities koppelen',
+        'Condition linking' => 'Condities koppelen',
         'Conditions' => 'Condities',
         'Condition' => 'Conditie',
         'Transitions are not being used in this process.' => 'Er zijn geen overgangen in dit proces.',
