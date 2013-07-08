@@ -28,8 +28,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
-use vars qw($VERSION);
-
 use Getopt::Std;
 
 use Kernel::Config;
@@ -45,7 +43,7 @@ my $DB     = '';
 my $DBDump = '';
 getopt( 'hbd', \%Opts );
 if ( exists $Opts{h} ) {
-    print "restore.pl <Revision $VERSION> - restore script\n";
+    print "restore.pl - restore script\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;

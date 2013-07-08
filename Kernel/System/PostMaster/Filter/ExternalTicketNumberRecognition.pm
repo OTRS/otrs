@@ -14,9 +14,6 @@ use warnings;
 
 use Kernel::System::State;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -246,9 +243,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.10 $ $Date: 2012/09/12 12:15:11 $
 
 =cut

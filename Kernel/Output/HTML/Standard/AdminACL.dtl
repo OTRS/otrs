@@ -90,7 +90,7 @@
                 <h2>$Text{"ACLs"}</h2>
             </div>
             <div class="Content">
-                <p class="ACLNote">$Text{"Please note: The table beyond represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."}</p>
+                <p class="ACLNote">$Text{"Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."}</p>
                 <table class="DataTable" id="ACLs">
                     <thead>
                         <tr>

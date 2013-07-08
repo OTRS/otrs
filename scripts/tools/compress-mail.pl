@@ -28,8 +28,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin) . "/../";
 use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
-use vars qw($VERSION);
-
 # config
 my @Compress
     = qw(xls doc dot bmp tiff tif jpg pdf exe class pm pl ps eps ppt rft php php3 php4 js com latex tex tcl sql wav wbmp css html htm phtml sgm shml xml xsl rtx txt asc vcf vcs);

@@ -5,7 +5,7 @@
 <Table Name="acl">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
-    <Column Name="comments" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="description" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="stop_after_match" Required="false" Type="SMALLINT"/>
