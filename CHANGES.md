@@ -65,6 +65,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-07-10
+ - 2013-07-08 Fixed bug#[9577](http://bugs.otrs.org/show_bug.cgi?id=9577) - Engine translate date to dado from english to pt_BR.
  - 2013-07-08 Fixed bug#[5920](http://bugs.otrs.org/show_bug.cgi?id=5920) - Search restriction for dates is not displayed in customer interface.
  - 2013-07-08 Fixed bug#[8380](http://bugs.otrs.org/show_bug.cgi?id=8380) - Middle name not displayed in AdminCustomerUser.
  - 2013-07-05 Fixed bug#[9576](http://bugs.otrs.org/show_bug.cgi?id=9576) - GI TicketSearch Date and Date/Time dynamic fields are ignored.
