@@ -114,7 +114,7 @@ sub Run {
             qw(TicketNumber Title From To Cc Subject Body CustomerID
             CustomerUserLogin Agent SearchInArchive
             NewTitle
-            NewCustomerID NewCustomerUserLogin
+            NewCustomerID NewPendingTime NewPendingTimeType NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID NewResponsibleID
             NewTypeID NewServiceID NewSLAID
             NewNoteFrom NewNoteSubject NewNoteBody NewNoteTimeUnits NewModule
@@ -688,6 +688,37 @@ sub _MaskUpdate {
         Size       => 5,
         Multiple   => 0,
         SelectedID => $JobData{NewStateID},
+    );
+    $JobData{NewPendingTimeTypeStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => [
+            {
+                Key   => 60,
+                Value => 'minute(s)',
+            },
+            {
+                Key   => 3600,
+                Value => 'hour(s)',
+            },
+            {
+                Key   => 86400,
+                Value => 'day(s)',
+            },
+            {
+                Key   => 2592000,
+                Value => 'month(s)',
+            },
+            {
+                Key   => 31536000,
+                Value => 'year(s)',
+            },
+
+        ],
+        Name        => 'NewPendingTimeType',
+        Size        => 1,
+        Multiple    => 0,
+        SelectedID  => $JobData{NewPendingTimeType},
+        Translation => 1,
+        Title       => $Self->{LayoutObject}->{LanguageObject}->Get('Time unit'),
     );
     $JobData{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
         Data               => { $Self->{QueueObject}->GetAllQueues(), },

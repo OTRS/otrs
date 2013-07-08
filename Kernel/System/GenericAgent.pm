@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::State;
 use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
@@ -107,6 +108,15 @@ sub new {
     # create additional objects
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+
+    my %PendingStates = $Self->{StateObject}->StateGetStatesByType(
+        StateType => ['pending auto', 'pending reminder'],
+        Result    => 'HASH',
+    );
+
+    $Self->{PendingStateList} = \%PendingStates || {};
+    $Self->{CurrentSystemTime} = $Self->{TimeObject}->SystemTime();
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -868,6 +878,8 @@ sub _JobRunTicket {
         }
     }
 
+    my $IsPendingState;
+    
     # set new state
     if ( $Param{Config}->{New}->{State} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -878,6 +890,8 @@ sub _JobRunTicket {
             UserID   => $Param{UserID},
             State    => $Param{Config}->{New}->{State},
         );
+
+        $IsPendingState = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
     }
     if ( $Param{Config}->{New}->{StateID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -888,6 +902,41 @@ sub _JobRunTicket {
             UserID   => $Param{UserID},
             StateID  => $Param{Config}->{New}->{StateID},
         );
+
+        $IsPendingState = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
+    }
+
+    # set pending time, if new state is pending state
+    if ( $IsPendingState ) {
+        if ( $Param{Config}->{New}->{PendingTime} ) {
+
+            # pending time
+            my $PendingTime = $Param{Config}->{New}->{PendingTime};
+
+            # calculate pending time based on hours, minutes, years...
+            if ( $Param{Config}->{New}->{PendingTimeType} ) {
+                $PendingTime *= $Param{Config}->{New}->{PendingTimeType};
+            }
+
+            # add systemtime
+            $PendingTime += $Self->{CurrentSystemTime};
+            
+            # get date
+            my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $PendingTime,
+            );
+
+            # set pending time
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                Year     => $Year,
+                Month    => $Month,
+                Day      => $Day,
+                Hour     => $Hour,
+                Minute   => $Min,
+                TicketID => $Param{TicketID},
+                UserID   => $Param{UserID},
+            );
+        }
     }
 
     # set customer id and customer user

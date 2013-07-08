@@ -515,6 +515,13 @@
                         </div>
                         <div class="Clear"></div>
 
+                        <label for="NewPendingTime">$Text{"Pending date"}:</label>
+                        <div class="Field">
+                            <input type="text" name="NewPendingTime" id="NewPendingTime" value="$QData{"NewPendingTime"}" class="W10pc"/>
+                            $Data{"NewPendingTimeTypeStrg"}
+                        </div>
+                        <div class="Clear"></div>
+
                         <label for="NewOwnerID">$Text{"Set new agent"}/$Text{"new owner"}:</label>
                         <div class="Field">
                             $Data{"NewOwnerStrg"}
