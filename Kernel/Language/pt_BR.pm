@@ -2919,7 +2919,7 @@ sub Data {
         'Customers <-> Groups' => 'Clientes <-> Grupos',
         'Customers <-> Services' => 'Clientes <-> Serviços',
         'Data used to export the search result in CSV format.' => 'Os dados utilizados para exportar o resultado da pesquisa no formato CSV.',
-        'Date / Time' => 'Data / Hora',
+        'Date / Time' => 'Dado / Hora',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'Depura a tradução definida. Se isso for ajustado para "Sim" todas as cadeias (texto), sem traduções são escritas no stderr. Isso pode ser útil quando você está criando um novo arquivo de tradução. Caso contrário, essa opção deve permanecer definida para "Não ".',
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
