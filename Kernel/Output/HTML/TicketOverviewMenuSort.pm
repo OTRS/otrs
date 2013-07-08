@@ -2,8 +2,6 @@
 # Kernel/Output/HTML/TicketOverviewMenuSort.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
-# $Id: TicketOverviewMenuSort.pm,v 1.26 2012/11/20 15:04:18 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -17,9 +15,6 @@ use warnings;
 use Kernel::Language;
 
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

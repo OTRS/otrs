@@ -18,9 +18,6 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::User;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
-
 =head1 NAME
 
 Kernel::System::ACL::DB::ACL.pm

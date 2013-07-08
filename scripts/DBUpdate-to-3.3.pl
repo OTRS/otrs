@@ -28,8 +28,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
-use vars qw($VERSION);
-
 use Getopt::Std qw();
 use Kernel::Config;
 use Kernel::System::Log;
@@ -51,7 +49,7 @@ use Kernel::System::VariableCheck qw(:all);
     if ( exists $Opts{h} ) {
         print <<"EOF";
 
-DBUpdate-to-3.3.pl <Revision $VERSION> - Upgrade scripts for OTRS 3.2.x to 3.3.x migration.
+DBUpdate-to-3.3.pl - Upgrade scripts for OTRS 3.2.x to 3.3.x migration.
 Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
 EOF
