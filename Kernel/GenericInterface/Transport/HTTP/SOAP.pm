@@ -344,7 +344,7 @@ sub ProviderGenerateResponse {
     }
     my $Serialized = SOAP::Serializer
         ->autotype(0)
-        ->ns( $Self->{TransportConfig}->{Config}->{NameSpace} )
+        ->default_ns( $Self->{TransportConfig}->{Config}->{NameSpace} )
         ->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
