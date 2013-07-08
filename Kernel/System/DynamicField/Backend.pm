@@ -331,7 +331,7 @@ and will transform dates to the current user's timezone.
     my $ValueStrg = $BackendObject->DisplayValueRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         Value              => 'Any value',              # Optional
-        HTMLOutput         => 1,                        # or 0, defult 1, to return HTML ready
+        HTMLOutput         => 1,                        # or 0, default 1, to return HTML ready
                                                         #    values
         ValueMaxChars      => 20,                       # Optional (for HTMLOutput only)
         TitleMaxChars      => 20,                       # Optional (for HTMLOutput only)
