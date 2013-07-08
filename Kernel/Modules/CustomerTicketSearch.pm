@@ -954,18 +954,47 @@ sub Run {
                 }
                 $Value = $Item;
             }
+            if ( $Key eq 'TimeSearchType' ) {
 
-            if ( $Key ne 'TimeSearchType' ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'SearchTerms',
-                    Data => {
-                        %Param,
-                        Attribute => $Attribute,
-                        Key       => $Key,
-                        Value     => $Value,
-                    },
-                );
+                my $Mapping = {
+                    'Last'   => 'within the last',
+                    'Before' => 'more than ... ago',
+                };
+
+                if ($GetParam{TimeSearchType} eq 'TimeSlot') {
+
+                    my $StartDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                                $GetParam{TicketCreateTimeStartYear}
+                        . '-' . $GetParam{TicketCreateTimeStartMonth}
+                        . '-' . $GetParam{TicketCreateTimeStartDay}
+                        . ' 00:00:00', 'DateFormatShort'
+                    );
+
+                    my $StopDate  = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                                $GetParam{TicketCreateTimeStopYear}
+                        . '-' . $GetParam{TicketCreateTimeStopMonth}
+                        . '-' . $GetParam{TicketCreateTimeStopDay}
+                        . ' 00:00:00', 'DateFormatShort'
+                    );
+
+                    $Attribute = 'Created between';
+                    $Value     = $StartDate . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' ' . $StopDate;
+                }
+                else {
+                    $Attribute = 'Created ' . $Mapping->{$GetParam{TicketCreateTimePointStart}};
+                    $Value     = $GetParam{TicketCreateTimePoint} . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get($GetParam{TicketCreateTimePointFormat} . '(s)');
+                }
             }
+
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchTerms',
+                Data => {
+                    %Param,
+                    Attribute => $Attribute,
+                    Key       => $Key,
+                    Value     => $Value,
+                },
+            );
         }
 
         # cycle through the activated Dynamic Fields for this screen
