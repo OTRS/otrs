@@ -120,7 +120,7 @@ returns the id of the created ACL if success or undef otherwise
 
     my $ID = $ACL->ACLAdd(
         Name           => 'NameOfACL'           # mandatory
-        Comment        => 'Comment',            # mandatory
+        Comment        => 'Comment',            # optional
         Description    => 'Description',        # optional
         StopAfterMatch => 1,                    # optional
         ConfigMatch    => $ConfigMatchHashRef,  # optional
@@ -139,7 +139,7 @@ sub ACLAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(Name Comment ValidID UserID)) {
+    for my $Key (qw(Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -439,7 +439,7 @@ returns 1 if success or undef otherwise
     my $Success = $ACLObject->ACLUpdate(
         ID             => 123,                  # mandatory
         Name           => 'NameOfACL',          # mandatory
-        Comment        => 'Comment',            # mandatory
+        Comment        => 'Comment',            # optional
         Description    => 'Description',        # optional
         StopAfterMatch => 1,                    # optional
         ValidID        => 'ValidID',            # mandatory
@@ -454,7 +454,7 @@ sub ACLUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID Name Comment ValidID UserID)) {
+    for my $Key (qw(ID Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -995,8 +995,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 =cut
 
 =head1 VERSION
-
-$Revision: 1.13 $ $Date: 2013/05/08 17:18:35 $
 
 =cut
 

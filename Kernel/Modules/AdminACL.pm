@@ -235,13 +235,6 @@ sub Run {
             $Error{NameServerErrorMessage} = 'This field is required';
         }
 
-        if ( !$GetParam->{Comment} ) {
-
-            # add server error error class
-            $Error{CommentServerError}        = 'ServerError';
-            $Error{CommentServerErrorMessage} = 'This field is required';
-        }
-
         if ( !$GetParam->{ValidID} ) {
 
             # add server error error class
@@ -356,13 +349,6 @@ sub Run {
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
             $Error{NameServerErrorMessage} = 'This field is required';
-        }
-
-        if ( !$GetParam->{Comment} ) {
-
-            # add server error error class
-            $Error{CommentServerError}        = 'ServerError';
-            $Error{CommentServerErrorMessage} = 'This field is required';
         }
 
         if ( !$GetParam->{ValidID} ) {
@@ -821,7 +807,9 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    $Param{Checked} = 'checked="checked"' if $ACLData->{StopAfterMatch} == 1;
+    if ( defined $ACLData->{StopAfterMatch} && $ACLData->{StopAfterMatch} == 1 ) {
+        $Param{Checked} = 'checked="checked"';
+    }
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
