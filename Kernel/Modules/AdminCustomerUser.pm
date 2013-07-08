@@ -682,6 +682,10 @@ sub _Overview {
             for my $ListKey ( sort { lc($a) cmp lc($b) } keys %List ) {
 
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $ListKey );
+                $UserData{UserFullname} = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $UserData{UserLogin},
+                );
+
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {

@@ -116,7 +116,7 @@
 <!-- dtl:block:OverviewResultRowLinkNone -->
                             <td><a class="AsBlock" href="#">$QData{"UserLogin"}</a></td>
 <!-- dtl:block:OverviewResultRowLinkNone -->
-                            <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
+                            <td>$QData{"UserFullname"}</td>
                             <td>$QData{"UserEmail"}</td>
                             <td>$QData{"UserCustomerID"}</td>
                             <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
