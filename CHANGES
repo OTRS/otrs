@@ -10,6 +10,7 @@
 # --
 
 3.1.19 2013-??-??
+ - 2013-07-09 Fixed bug#8835 - No article found for TicketID <TICKET ID> when showing group tickets
  - 2013-07-08 Fixed bug#[9583](http://bugs.otrs.org/show_bug.cgi?id=9583) - Dynamic Fields of type Date have timestamp in notifications.
  - 2013-07-08 Fixed bug#9579 - SOAP Serializer used in Kernel/GenericInterface/Transport/HTTP/SOAP.pm does not correctly set namespace.
  - 2013-07-08 Fixed bug#7359 - Setting pending states via generic agent does not set pending time.
