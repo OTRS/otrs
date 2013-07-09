@@ -956,11 +956,6 @@ sub Run {
             }
             if ( $Key eq 'TimeSearchType' ) {
 
-                my $Mapping = {
-                    'Last'   => 'within the last',
-                    'Before' => 'more than ... ago',
-                };
-
                 if ($GetParam{TimeSearchType} eq 'TimeSlot') {
 
                     my $StartDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
@@ -981,7 +976,13 @@ sub Run {
                     $Value     = $StartDate . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' ' . $StopDate;
                 }
                 else {
-                    $Attribute = 'Created ' . $Mapping->{$GetParam{TicketCreateTimePointStart}};
+
+                    my $Mapping = {
+                        'Last'   => 'Created within the last',
+                        'Before' => 'Created more than ... ago',
+                    };
+
+                    $Attribute = $Mapping->{$GetParam{TicketCreateTimePointStart}};
                     $Value     = $GetParam{TicketCreateTimePoint} . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get($GetParam{TicketCreateTimePointFormat} . '(s)');
                 }
             }
@@ -1343,6 +1344,7 @@ sub MaskForm {
             Last   => 'within the last ...',
             Before => 'more than ... ago',
         },
+        Translation => 1,
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
@@ -1355,6 +1357,7 @@ sub MaskForm {
             month  => 'month(s)',
             year   => 'year(s)',
         },
+        Translation => 1,
         Name       => 'TicketCreateTimePointFormat',
         SelectedID => $Param{TicketCreateTimePointFormat},
     );
