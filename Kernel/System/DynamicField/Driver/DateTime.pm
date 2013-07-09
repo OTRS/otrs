@@ -371,7 +371,9 @@ sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
     my $Value = defined $Param{Value} ? $Param{Value} : '';
-    $Value =~ s/^(\d\d\d\d-\d\d-\d\d[ ]\d\d:\d\d).+?$/$1/xms;
+
+    # only keep date and time without seconds or milliseconds
+    $Value =~ s{\A (\d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} ) }{$1}xms;
 
     # Title is always equal to Value
     my $Title = $Value;

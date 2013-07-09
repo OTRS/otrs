@@ -167,9 +167,10 @@ sub EditFieldRender {
     # is configured for this dynamic field
     if (
         IsHashRefWithData( $Param{Template} )
-        && defined $Param{Template}->{ $FieldName }
-    ) {
-        $Value = $Param{Template}->{ $FieldName };
+        && defined $Param{Template}->{$FieldName}
+        )
+    {
+        $Value = $Param{Template}->{$FieldName};
     }
 
     # extract the dynamic field value form the web request
@@ -215,23 +216,24 @@ sub EditFieldRender {
     }
 
     my $DataValues = $Self->BuildSelectionDataGet(
-        DynamicFieldConfig   => $Param{DynamicFieldConfig},
-        PossibleValues       => $PossibleValues,
-        Value                => $Value,
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        PossibleValues     => $PossibleValues,
+        Value              => $Value,
     );
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data         => $DataValues || {},
-        Name         => $FieldName,
-        SelectedID   => $SelectedValuesArrayRef,
-        Translation  => $FieldConfig->{TranslatableValues} || 0,
-        Class        => $FieldClass,
-        HTMLQuote    => 1,
-        Multiple     => 1,
+        Data => $DataValues || {},
+        Name => $FieldName,
+        SelectedID  => $SelectedValuesArrayRef,
+        Translation => $FieldConfig->{TranslatableValues} || 0,
+        Class       => $FieldClass,
+        HTMLQuote   => 1,
+        Multiple    => 1,
     );
 
-    if ($FieldConfig->{TreeView}) {
-        $HTMLString .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+    if ( $FieldConfig->{TreeView} ) {
+        $HTMLString
+            .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
     }
 
     if ( $Param{Mandatory} ) {
@@ -764,9 +766,9 @@ sub ValueLookup {
 }
 
 sub BuildSelectionDataGet {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldConfig            = $Param{DynamicFieldConfig}->{Config};
     my $FilteredPossibleValues = $Param{PossibleValues};
 
     # get the possible values again as it might or might not contain the possible none and it could
@@ -775,9 +777,9 @@ sub BuildSelectionDataGet {
 
     # check if $PossibleValues differs from configured PossibleValues
     # and show values which are not contained as disabled if TreeView => 1
-    if ($FieldConfig->{TreeView}) {
+    if ( $FieldConfig->{TreeView} ) {
 
-        if (keys %{$ConfigPossibleValues} != keys %{$FilteredPossibleValues}) {
+        if ( keys %{$ConfigPossibleValues} != keys %{$FilteredPossibleValues} ) {
 
             # define variables to use later in the for loop
             my @Values;
@@ -787,22 +789,22 @@ sub BuildSelectionDataGet {
             my $PosibleNoneSet;
 
             my %Values;
-            if (defined $Param{Value} && IsArrayRefWithData( $Param{Value} ) ) {
+            if ( defined $Param{Value} && IsArrayRefWithData( $Param{Value} ) ) {
 
                 # create a lookup table
                 %Values = map { $_ => 1 } @{ $Param{Value} };
             }
 
             # loop on all filtred possible values
-            for my $Key (sort keys %{$FilteredPossibleValues} ) {
+            for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
                 if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
 
                     my $Selected;
                     if (
-                        !IsHashRefWithData(\%Values)
-                        || ( defined $Values{''} &&  $Values{''} )
+                        !IsHashRefWithData( \%Values )
+                        || ( defined $Values{''} && $Values{''} )
                         )
                     {
                         $Selected = 1;
@@ -856,7 +858,7 @@ sub BuildSelectionDataGet {
 
                     # check if the current element is the selected one
                     my $Selected;
-                    if ( IsHashRefWithData(\%Values) && $Values{$ElementLongName} ) {
+                    if ( IsHashRefWithData( \%Values ) && $Values{$ElementLongName} ) {
                         $Selected = 1;
                     }
 
