@@ -342,19 +342,6 @@ for my $Test (@Tests) {
         Success => 0,
     },
     {
-        Name   => 'ACLUpdate Test 5: No Comment',
-        Config => {
-            ID           => 1,
-            Name         => "ACL-$RandomID",
-            Comment      => undef,
-            ValidID      => 1,
-            ConfigMatch  => { 'Properties' => {} },
-            ConfigChange => { 'Possible' => {} },
-            UserID       => $UserID,
-        },
-        Success => 0,
-    },
-    {
         Name   => 'ACLUpdate Test 6: No UserID',
         Config => {
             ID           => 1,

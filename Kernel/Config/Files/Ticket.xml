@@ -5406,15 +5406,15 @@ $QData{"Body"}
         <SubGroup>Frontend::Agent::Dashboard::EventsTicketCalendar</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Type">Type</Item>
-                <Item Key="CustomerUserID">Customer user</Item>
                 <Item Key="CustomerID">Customer ID</Item>
-                <Item Key="ServiceID">Service</Item>
-                <Item Key="SLAID">SLA</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Title">Title</Item>
+                <Item Key="CustomerUserID">Customer user</Item>
                 <Item Key="Priority">Priority</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="SLA">SLA</Item>
+                <Item Key="Service">Service</Item>
                 <Item Key="State">State</Item>
+                <Item Key="Title">Title</Item>
+                <Item Key="Type">Type</Item>
             </Hash>
         </Setting>
     </ConfigItem>

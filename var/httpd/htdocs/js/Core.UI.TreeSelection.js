@@ -84,7 +84,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 CurrentElement;
 
             // skip entry if no ID (should only occur for the leading empty element, '-')
-            if (!ElementID || ElementID === "||-") {
+            // also skip entries which only contain '------------' as visible text (e.g. in AgentLinkObject)
+            if ( !ElementID || ElementID === "||-" || ( ElementDisabled && ElementName.match(/^-+$/) ) ) {
                 return true;
             }
 

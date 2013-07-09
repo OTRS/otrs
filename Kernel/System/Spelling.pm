@@ -272,7 +272,7 @@ sub Check {
 
 check if spelling check returns a system error (read log backend for error message)
 
-    my $TrueIfErro = $SpellObject->Error();
+    my $TrueIfError = $SpellObject->Error();
 
 =cut
 

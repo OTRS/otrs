@@ -2886,6 +2886,7 @@ sub Data {
         'Create and manage attachments.' => 'Anlagen erzeugen und verwalten.',
         'Create and manage companies.' => 'Unternehmen erzeugen und verwalten.',
         'Create and manage customers.' => 'Kunden erzeugen und verwalten.',
+        'Configure and manage ACLs.' => 'ACLs konfigurieren und verwalten.',
         'Create and manage dynamic fields.' => 'Dynamische Felder erzeugen und verwalten.',
         'Create and manage event based notifications.' => 'Ereignisbasierte Benachrichtigungen erzeugen und verwalten.',
         'Create and manage groups.' => 'Gruppen erzeugen und verwalten.',

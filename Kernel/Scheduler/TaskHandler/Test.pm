@@ -57,7 +57,7 @@ performs the selected test task.
         Data     => {
             File              => $Filename,        # optional, create file $FileName
             Success           => 1,                # 0 or 1, controls return value
-            ReSchedule        => $ReSchedule,      # 0 or 1, constrols re-scheduling
+            ReSchedule        => $ReSchedule,      # 0 or 1, controls re-scheduling
             ReScheduleDueTime => $TimeStamp,
             ReScheduleData    => $Data,
         },
