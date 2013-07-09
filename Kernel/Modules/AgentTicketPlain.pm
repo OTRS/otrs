@@ -93,8 +93,6 @@ sub Run {
     $Plain =~ s/^(Date:.*)/<span class="Error">$1<\/span>/m;
     $Plain
         =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<span class="Error">$1<\/span>/gmi;
-    $Plain
-        =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<span class="Error">$1$2<\/span>/gmi;
     $Plain =~ s/^((Resent-.*):.*)/<span class="Error">$1<\/span>/gmi;
     $Plain =~ s/^(From .*)/<span class="Error">$1<\/span>/gm;
     $Plain =~ s/^(X-OTRS.*)/<span class="Error">$1<\/span>/gmi;

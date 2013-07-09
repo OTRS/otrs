@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-08 Fixed bug#[9583](http://bugs.otrs.org/show_bug.cgi?id=9583) - Dynamic Fields of type Date have timestamp in notifications.
  - 2013-07-05 Changed Dynamic Field function name from CommonSearchFieldParameterBuild() to StatsSearchFieldParameterBuild() as it is now only used in statistics.
  - 2013-07-02 Fixed bug#[3436](http://bugs.otrs.org/show_bug.cgi?id=3436) - PGP attachments not decrypted.
  - 2013-07-02 Added Version() function to DBObject that reports back version of database.
@@ -65,11 +66,13 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-07-10
+ - 2013-07-08 Fixed bug#[9579](http://bugs.otrs.org/show_nug.cgi?id=9579) - SOAP Serializer used in Kernel/GenericInterface/Transport/HTTP/SOAP.pm does not correctly set namespace.
  - 2013-07-08 Fixed bug#[7359](http://bugs.otrs.org/show_bug.cgi?id=7359) - Setting pending states via generic agent does not set pending time.
  - 2013-07-08 Fixed bug#[9577](http://bugs.otrs.org/show_bug.cgi?id=9577) - Engine translate date to dado from english to pt_BR.
  - 2013-07-08 Fixed bug#[5920](http://bugs.otrs.org/show_bug.cgi?id=5920) - Search restriction for dates is not displayed in customer interface.
  - 2013-07-08 Fixed bug#[8380](http://bugs.otrs.org/show_bug.cgi?id=8380) - Middle name not displayed in AdminCustomerUser.
  - 2013-07-05 Fixed bug#[9576](http://bugs.otrs.org/show_bug.cgi?id=9576) - GI TicketSearch Date and Date/Time dynamic fields are ignored.
+ - 2013-07-04 Changed Dynamic Field SearchFieldParameterBuild() API, LayoutObject is now optional.
  - 2013-07-04 Fixed bug#[9573](http://bugs.otrs.org/show_bug.cgi?id=9573) - Date and DateTime dynamic fields not considered in GenericAgent Jobs.
 
 #3.2.9 2013-07-09
