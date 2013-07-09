@@ -2055,7 +2055,7 @@ for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
             $SearchParam . $ParamOption => '2000-02-31 00:00:00',
             UserID                      => 1,
         );
-        my $ErrorMessage = $LogObject->GetLogEntry(
+        my $ErrorMessage = $Self->{LogObject}->GetLogEntry(
             Type => 'error',
             What => 'Message',
         );
