@@ -372,6 +372,12 @@ sub _Edit {
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     $Param{RecipientsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             AgentOwner            => 'Agent (Owner)',
@@ -454,6 +460,7 @@ sub _Edit {
         Size               => 5,
         Multiple           => 1,
         Name               => 'QueueID',
+        TreeView           => $TreeView,
         SelectedIDRefArray => $Param{Data}->{QueueID},
         OnChangeSubmit     => 0,
     );
@@ -541,7 +548,7 @@ sub _Edit {
             Multiple    => 1,
             Translation => 0,
             Max         => 200,
-            TreeView    => 1,
+            TreeView    => $TreeView,
         );
         my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
         $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
