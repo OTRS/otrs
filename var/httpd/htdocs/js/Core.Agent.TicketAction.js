@@ -101,6 +101,25 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     /**
      * @function
+     * @private
+     * @description Mark the primary customer
+     */
+    function MarkPrimaryCustomer() {
+        $('.CustomerContainer').children('div').each(function() {
+            var $InputObj = $(this).find('.CustomerTicketText'),
+                $RadioObj = $(this).find('.CustomerTicketRadio');
+
+            if ($RadioObj.prop('checked')) {
+                $InputObj.addClass('MainCustomer');
+            }
+            else {
+                $InputObj.removeClass('MainCustomer');
+            }
+        });
+    }
+
+    /**
+     * @function
      * @description
      *      This function initializes the ticket action popups
      * @return nothing
@@ -122,6 +141,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
         $('#OptionCustomer').bind('click', function (Event) {
             OpenCustomerDialog();
             return false;
+        });
+
+        // Subscribe to the reloading of the CustomerInfo box to
+        // specially mark the primary customer
+        MarkPrimaryCustomer();
+        Core.App.Subscribe('Event.Agent.CustomerSearch.GetCustomerInfo.Callback', function() {
+            MarkPrimaryCustomer();
         });
     };
 

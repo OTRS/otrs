@@ -1,4 +1,5 @@
 #3.2.10 2013-07-10
+ - 2013-07-09 Fixed bug#[8428](http://bugs.otrs.org/show_bug.cgi?id=8428) - Bad usability of multiple sender/recipient feature.
  - 2013-07-09 Fixed bug#[9556](http://bugs.otrs.org/show_bug.cgi?id=9556) - Bounce and merge require notification recipient, subject and body even if no notification is sent.
  - 2013-07-09 Fixed bug#[9584](http://bugs.otrs.org/show_bug.cgi?id=9584) - No server side validation of To/Subject/Body in merge mask.
  - 2013-07-09 Fixed bug#[9578](http://bugs.otrs.org/show_bug.cgi?id=9578) - DynamicField sorting does not work on TicketSearch results in Customer Interface.

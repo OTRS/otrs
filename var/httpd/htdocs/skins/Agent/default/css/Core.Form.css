@@ -212,6 +212,15 @@ form label.LabelError {
     color: #ff505e !important;
 }
 
+.CustomerContainer .CustomerTicketText {
+    transition: background-color 1s ease, border 1s ease;
+}
+
+.CustomerContainer .CustomerTicketText.MainCustomer {
+    background-color: #FFD6BC;
+    border: 1px solid #E77A34;
+}
+
 /**
  * @note        Give the user a hint about linked label elements (they are clickable and
  *                  give focus to the linked element.
