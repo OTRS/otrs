@@ -344,6 +344,15 @@ form label.LabelError {
     margin-left: 7px;
 }
 
+.CustomerContainer .CustomerTicketText {
+    transition: background-color 1s ease, border 1s ease;
+}
+
+.CustomerContainer .CustomerTicketText.MainCustomer {
+    background-color: #FFD6BC;
+    border: 1px solid #E77A34;
+}
+
 .CustomerContainer .CustomerTicketText.Radio {
     width: 84%;
     margin-left: 0px;

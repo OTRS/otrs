@@ -89,7 +89,7 @@ $Include{"AgentCustomerSearch"}
                             <div class="SpacingTopSmall ">
                                 <input name="CustomerSelected" title="$Text{"Select this customer as the main customer."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
                                 <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
-                                <input class="CustomerTicketText $QData{"CustomerError"}" title="$Text{"From customer"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
+                                <input class="CustomerTicketText Radio $QData{"CustomerError"}" title="$Text{"From customer"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
 
 <!-- dtl:block:CustomerErrorExplantion -->
