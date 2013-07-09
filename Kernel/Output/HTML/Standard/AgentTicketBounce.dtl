@@ -50,7 +50,23 @@
                 <div class="Field">
                     <input type="text" name="BounceTo" id="BounceTo" value="" class="W50pc Validate_Required $QData{"BounceToInvalid"}"/>
                     <div id="BounceToError" class="TooltipErrorMessage" ><p>$Text{"You need a email address."}</p></div>
-                    <div id="BounceToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
+                    <div id="BounceToServerError" class="TooltipErrorMessage">
+<!-- dtl:block:BounceToCustomerGenericServerErrorMsg -->
+                        <p>$Text{"Need a valid email address or don't use a local email address."}</p>
+<!-- dtl:block:BounceToCustomerGenericServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidConfigServerErrorMsg -->
+                        <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:BounceToInvalidConfigServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidMXServerErrorMsg -->
+                        <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:BounceToInvalidMXServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidDNSServerErrorMsg -->
+                        <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
+<!-- dtl:block:BounceToInvalidDNSServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidSyntaxServerErrorMsg -->
+                        <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:BounceToInvalidSyntaxServerErrorMsg -->
+                    </div>
                 </div>
                 <div class="Clear"></div>
 
@@ -77,7 +93,23 @@
                 <div class="Field">
                     <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_Required $QData{"ToInvalid"}"/>
                     <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
-                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="ToServerError" class="TooltipErrorMessage">
+<!-- dtl:block:ToCustomerGenericServerErrorMsg -->
+                        <p>$Text{"This field is required."}</p>
+<!-- dtl:block:ToCustomerGenericServerErrorMsg -->
+<!-- dtl:block:ToInvalidConfigServerErrorMsg -->
+                        <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:ToInvalidConfigServerErrorMsg -->
+<!-- dtl:block:ToInvalidMXServerErrorMsg -->
+                        <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:ToInvalidMXServerErrorMsg -->
+<!-- dtl:block:ToInvalidDNSServerErrorMsg -->
+                        <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
+<!-- dtl:block:ToInvalidDNSServerErrorMsg -->
+<!-- dtl:block:ToInvalidSyntaxServerErrorMsg -->
+                        <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:ToInvalidSyntaxServerErrorMsg -->
+                    </div>
                 </div>
                 <div class="Clear"></div>
 
