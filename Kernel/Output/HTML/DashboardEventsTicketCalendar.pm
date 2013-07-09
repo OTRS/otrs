@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::DynamicField;
+use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -33,6 +34,7 @@ sub new {
     # create extra needed object
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     # get dynamic fields list
     $Self->{DynamicFieldsList} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -202,6 +204,12 @@ sub Run {
 
                         next TICKETFIELD if !$Key;
                         next TICKETFIELD if !$EventTicketFields->{$Key};
+
+                        if ($Key eq 'CustomerUserID') {
+                            $TicketDetail{$Key} = $Self->{CustomerUserObject}->CustomerName(
+                                UserLogin => $TicketDetail{$Key},
+                            );
+                        }
 
                         $Self->{LayoutObject}->Block(
                             Name => 'CalendarEventInfoTicketFieldElement',
