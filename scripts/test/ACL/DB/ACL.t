@@ -61,17 +61,6 @@ my @Tests = (
 
     },
     {
-        Name   => 'ACLAdd Test 4: No Comment',
-        Config => {
-            Name           => undef,
-            UserID         => $UserID,
-            StopAfterMatch => 1,
-            ValidID        => 1,
-        },
-        Success => 0,
-
-    },
-    {
         Name   => 'ACLAdd Test 5: No UserID',
         Config => {
             Name           => "ACL-$RandomID",

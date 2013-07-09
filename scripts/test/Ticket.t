@@ -511,6 +511,34 @@ $Self->True(
     'TicketSearch() (HASH:Body,StateType:Open)',
 );
 
+$TicketObject->MoveTicket(
+    Queue              => 'Junk',
+    TicketID           => $TicketID,
+    SendNoNotification => 1,
+    UserID             => 1,
+);
+
+$TicketObject->MoveTicket(
+    Queue              => 'Raw',
+    TicketID           => $TicketID,
+    SendNoNotification => 1,
+    UserID             => 1,
+);
+
+my %HD = $TicketObject->HistoryTicketGet(
+    StopYear  => 4000,
+    StopMonth => 1,
+    StopDay   => 1,
+    TicketID  => $TicketID,
+    Force     => 1,
+);
+my $QueueLookupID = $QueueObject->QueueLookup(Queue => $HD{Queue});
+$Self->Is(
+    $QueueLookupID,
+    $HD{QueueID},
+    'HistoryTicketGet() Check history queue',
+);
+
 my $TicketMove = $TicketObject->MoveTicket(
     Queue              => 'Junk',
     TicketID           => $TicketID,
@@ -521,6 +549,7 @@ $Self->True(
     $TicketMove,
     'MoveTicket()',
 );
+
 
 my $TicketState = $TicketObject->StateSet(
     State    => 'open',

@@ -707,7 +707,7 @@ sub Run {
                         $Self->{SortBy}
                         && (
                             $Self->{SortBy} eq
-                            ( 'Search_DynamicField_' . $DynamicFieldConfig->{Name} )
+                            ( 'DynamicField_' . $DynamicFieldConfig->{Name} )
                         )
                         )
                     {
