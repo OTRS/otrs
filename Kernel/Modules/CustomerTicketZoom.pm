@@ -418,9 +418,9 @@ sub _Mask {
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # error screen, don't show ticket
-    if ( !@ArticleBox ) {
-        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
-    }
+#    if ( !@ArticleBox ) {
+#        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
+#    }
 
     # prepare errors!
     if ( $Param{Errors} ) {
@@ -430,36 +430,40 @@ sub _Mask {
         }
     }
 
-    # get last customer article
-    my $CounterArray = 0;
-    my $LastCustomerArticleID;
-    my $LastCustomerArticle = $#ArticleBox;
+    my $ArticleID           = '';
+    my $LastCustomerArticle = 0;
+    if (@ArticleBox) {
+        # get last customer article
+        my $CounterArray = 0;
+        my $LastCustomerArticleID;
+        my $LastCustomerArticle = $#ArticleBox;
 
-    my $ArticleID = '';
-    for my $ArticleTmp (@ArticleBox) {
-        my %Article = %{$ArticleTmp};
+        my $ArticleID = '';
+        for my $ArticleTmp (@ArticleBox) {
+            my %Article = %{$ArticleTmp};
 
-        # if it is a customer article
-        if ( $Article{SenderType} eq 'customer' ) {
-            $LastCustomerArticleID = $Article{ArticleID};
-            $LastCustomerArticle   = $CounterArray;
+            # if it is a customer article
+            if ( $Article{SenderType} eq 'customer' ) {
+                $LastCustomerArticleID = $Article{ArticleID};
+                $LastCustomerArticle   = $CounterArray;
+            }
+            $CounterArray++;
+            if ( ($SelectedArticleID) && ( $SelectedArticleID eq $Article{ArticleID} ) ) {
+                $ArticleID = $Article{ArticleID};
+            }
         }
-        $CounterArray++;
-        if ( ($SelectedArticleID) && ( $SelectedArticleID eq $Article{ArticleID} ) ) {
-            $ArticleID = $Article{ArticleID};
+
+        # try to use the latest non internal agent article
+        if ( !$ArticleID ) {
+            $ArticleID         = $ArticleBox[-1]->{ArticleID};
+            $SelectedArticleID = $ArticleID;
         }
-    }
 
-    # try to use the latest non internal agent article
-    if ( !$ArticleID ) {
-        $ArticleID         = $ArticleBox[-1]->{ArticleID};
-        $SelectedArticleID = $ArticleID;
-    }
-
-    # try to use the latest customer article
-    if ( !$ArticleID && $LastCustomerArticleID ) {
-        $ArticleID         = $LastCustomerArticleID;
-        $SelectedArticleID = $ArticleID;
+        # try to use the latest customer article
+        if ( !$ArticleID && $LastCustomerArticleID ) {
+            $ArticleID         = $LastCustomerArticleID;
+            $SelectedArticleID = $ArticleID;
+        }
     }
 
     # ticket priority flag
@@ -813,8 +817,17 @@ sub _Mask {
         }
     }
 
-    my $ArticleOB = $ArticleBox[$LastCustomerArticle];
-    my %Article   = %$ArticleOB;
+    # if there are no viewable articles show NoArticles message
+    my %Article;
+    if ( !@ArticleBox ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'NoArticles',
+        );
+    }
+    else {
+        my $ArticleOB = $ArticleBox[$LastCustomerArticle];
+        %Article   = %$ArticleOB;
+    }
 
     my $ArticleArray = 0;
     for my $ArticleTmp (@ArticleBox) {

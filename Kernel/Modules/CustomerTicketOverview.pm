@@ -419,13 +419,6 @@ sub ShowTicketStatus {
         }
     }
 
-    if ( !%Article ) {
-        $Self->{LayoutObject}->FatalError(
-            Message => "No article found for TicketID $Param{TicketID}!"
-        );
-        return;
-    }
-
     # get ticket info
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID      => $TicketID,

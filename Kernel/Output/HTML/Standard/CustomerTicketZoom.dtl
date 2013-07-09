@@ -184,6 +184,13 @@
                 </li>
 <!-- dtl:block:Article -->
             </ul> <!-- /Messages -->
+<!-- dtl:block:NoArticles -->
+            <ul id="NoArticles">
+                <li>
+                    <br>$Text{"This item has no articles yet."}
+                </li>
+            </ul>
+<!-- dtl:block:NoArticles -->
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
