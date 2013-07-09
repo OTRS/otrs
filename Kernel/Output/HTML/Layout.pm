@@ -4748,12 +4748,19 @@ sub _BuildSelectionDataRefCreate {
     # for HashRef and ArrayRef only
     my %DisabledElements;
 
+    # dclone $Param{Data} because the subroutine unfortunately modifies
+    # the original data ref
+    if ( !$Self->{MainObject}->Require("Storable") ) {
+        $Self->FatalError();
+    }
+    my $DataLocal = Storable::dclone( $Param{Data} );
+
     # if HashRef was given
-    if ( ref $Param{Data} eq 'HASH' ) {
+    if ( ref $DataLocal eq 'HASH' ) {
 
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
-            my %List = reverse %{ $Param{Data} };
+            my %List = reverse %{ $DataLocal };
 
             # get each data value
             for my $Key ( sort keys %List ) {
@@ -4775,7 +4782,7 @@ sub _BuildSelectionDataRefCreate {
                         $DisabledElements{$ElementLongName} = 1;
 
                         # add the element to the original data to be disabled later
-                        $Param{Data}->{ $ElementLongName . '_Disabled' } = $ElementLongName;
+                        $DataLocal->{ $ElementLongName . '_Disabled' } = $ElementLongName;
                     }
                     $Parents .= $Element . '::';
                 }
@@ -4785,7 +4792,7 @@ sub _BuildSelectionDataRefCreate {
         # sort hash (before the translation)
         my @SortKeys;
         if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = reverse %{ $Param{Data} };
+            my %List = reverse %{ $DataLocal };
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
                 if ( $List{$Key} ) {
                     push @SortKeys, $List{$Key};
@@ -4797,33 +4804,33 @@ sub _BuildSelectionDataRefCreate {
 
         # translate value
         if ( $OptionRef->{Translation} ) {
-            for my $Row ( sort keys %{ $Param{Data} } ) {
-                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get( $Param{Data}->{$Row} );
+            for my $Row ( sort keys %{ $DataLocal } ) {
+                $DataLocal->{$Row} = $Self->{LanguageObject}->Get( $DataLocal->{$Row} );
             }
         }
 
         # sort hash (after the translation)
         if ( $OptionRef->{Sort} eq 'NumericKey' ) {
-            @SortKeys = sort { $a <=> $b } ( keys %{ $Param{Data} } );
+            @SortKeys = sort { $a <=> $b } ( keys %{ $DataLocal } );
         }
         elsif ( $OptionRef->{Sort} eq 'NumericValue' ) {
             @SortKeys
-                = sort { $Param{Data}->{$a} <=> $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
+                = sort { $DataLocal->{$a} <=> $DataLocal->{$b} } ( keys %{ $DataLocal } );
         }
         elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
-            @SortKeys = sort( keys %{ $Param{Data} } );
+            @SortKeys = sort( keys %{ $DataLocal } );
         }
         elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
 
             # add suffix for correct sorting
             my %SortHash;
-            for ( sort keys %{ $Param{Data} } ) {
-                $SortHash{$_} = $Param{Data}->{$_} . '::';
+            for ( sort keys %{ $DataLocal } ) {
+                $SortHash{$_} = $DataLocal->{$_} . '::';
             }
             @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
         }
         elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
-            my %List = %{ $Param{Data} };
+            my %List = %{ $DataLocal };
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
                 if ( $List{$Key} ) {
                     push @SortKeys, $Key;
@@ -4838,23 +4845,23 @@ sub _BuildSelectionDataRefCreate {
         }
         else {
             @SortKeys
-                = sort { $Param{Data}->{$a} cmp $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
+                = sort { $DataLocal->{$a} cmp $DataLocal->{$b} } ( keys %{ $DataLocal } );
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 
         # create DataRef
         for my $Row (@SortKeys) {
             $DataRef->[$Counter]->{Key}   = $Row;
-            $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row};
+            $DataRef->[$Counter]->{Value} = $DataLocal->{$Row};
             $Counter++;
         }
     }
 
     # if ArrayHashRef was given
-    elsif ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] eq 'HASH' ) {
+    elsif ( ref $DataLocal eq 'ARRAY' && ref $DataLocal->[0] eq 'HASH' ) {
 
         # create DataRef
-        for my $Row ( @{ $Param{Data} } ) {
+        for my $Row ( @{ $DataLocal } ) {
             if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {
                 $DataRef->[$Counter]->{Key}   = $Row->{Key};
                 $DataRef->[$Counter]->{Value} = $Row->{Value};
@@ -4878,11 +4885,11 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # if ArrayRef was given
-    elsif ( ref $Param{Data} eq 'ARRAY' ) {
+    elsif ( ref $DataLocal eq 'ARRAY' ) {
 
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
-            my %List = map { $_ => 1 } @{ $Param{Data} };
+            my %List = map { $_ => 1 } @{ $DataLocal };
 
             # get each data value
             for my $Key ( sort keys %List ) {
@@ -4904,7 +4911,7 @@ sub _BuildSelectionDataRefCreate {
                         $DisabledElements{$ElementLongName} = 1;
 
                         # add the element to the original data to be disabled later
-                        push @{ $Param{Data} }, $ElementLongName;
+                        push @{ $DataLocal }, $ElementLongName;
                     }
                     $Parents .= $Element . '::';
                 }
@@ -4912,15 +4919,15 @@ sub _BuildSelectionDataRefCreate {
         }
 
         if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = map { $_ => 1 } @{ $Param{Data} };
-            $Param{Data} = [];
+            my %List = map { $_ => 1 } @{ $DataLocal };
+            $DataLocal = [];
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
                 if ( $List{$Key} ) {
-                    push @{ $Param{Data} }, $Key;
+                    push @{ $DataLocal }, $Key;
                     delete $List{$Key};
                 }
             }
-            push @{ $Param{Data} }, sort { $a cmp $b } ( keys %List );
+            push @{ $DataLocal }, sort { $a cmp $b } ( keys %List );
         }
 
         my %ReverseHash;
@@ -4928,15 +4935,15 @@ sub _BuildSelectionDataRefCreate {
         # translate value
         if ( $OptionRef->{Translation} ) {
             my @TranslateArray;
-            for my $Row ( @{ $Param{Data} } ) {
+            for my $Row ( @{ $DataLocal } ) {
                 my $TranslateString = $Self->{LanguageObject}->Get($Row);
                 push @TranslateArray, $TranslateString;
                 $ReverseHash{$TranslateString} = $Row;
             }
-            $Param{Data} = \@TranslateArray;
+            $DataLocal = \@TranslateArray;
         }
         else {
-            for my $Row ( @{ $Param{Data} } ) {
+            for my $Row ( @{ $DataLocal } ) {
                 $ReverseHash{$Row} = $Row;
             }
         }
@@ -4944,22 +4951,22 @@ sub _BuildSelectionDataRefCreate {
         # sort array
         if ( $OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue' )
         {
-            my @SortArray = sort( @{ $Param{Data} } );
-            $Param{Data} = \@SortArray;
+            my @SortArray = sort( @{ $DataLocal } );
+            $DataLocal = \@SortArray;
         }
         elsif ( $OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue' ) {
-            my @SortArray = sort { $a <=> $b } ( @{ $Param{Data} } );
-            $Param{Data} = \@SortArray;
+            my @SortArray = sort { $a <=> $b } ( @{ $DataLocal } );
+            $DataLocal = \@SortArray;
         }
         elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
 
             # sort array, add '::' in the comparison, for proper sort of Items with Items::SubItems
-            my @SortArray = sort { $a . '::' cmp $b . '::' } @{ $Param{Data} };
-            $Param{Data} = \@SortArray;
+            my @SortArray = sort { $a . '::' cmp $b . '::' } @{ $DataLocal };
+            $DataLocal = \@SortArray;
         }
 
         # create DataRef
-        for my $Row ( @{ $Param{Data} } ) {
+        for my $Row ( @{ $DataLocal } ) {
             $DataRef->[$Counter]->{Key}   = $ReverseHash{$Row};
             $DataRef->[$Counter]->{Value} = $Row;
             $Counter++;
@@ -4968,8 +4975,8 @@ sub _BuildSelectionDataRefCreate {
 
     # check disabled items on ArrayRef or HashRef only
     if (
-        ref $Param{Data} eq 'HASH'
-        || ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] ne 'HASH' )
+        ref $DataLocal eq 'HASH'
+        || ( ref $DataLocal eq 'ARRAY' && ref $DataLocal->[0] ne 'HASH' )
         )
     {
         for my $Row ( @{$DataRef} ) {

@@ -367,6 +367,23 @@ sub DisplayValueRender {
     return $Data;
 }
 
+sub ReadableValueRender {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    $Value =~ s/^(\d\d\d\d-\d\d-\d\d[ ]\d\d:\d\d).+?$/$1/xms;
+
+    # Title is always equal to Value
+    my $Title = $Value;
+
+    my $Data = {
+        Value => $Value,
+        Title => $Title,
+    };
+
+    return $Data;
+}
+
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
