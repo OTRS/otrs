@@ -188,9 +188,11 @@ sub Run {
             $Error{'MainTicketNumberInvalid'} = 'ServerError';
         }
 
-        for my $Parameter (qw( To Subject Body )) {
-            if ( !$GetParam{$Parameter} ) {
-                $Error{ $Parameter . 'Invalid' } = 'ServerError';
+        if ( $GetParam{InformSender} ) {
+            for my $Parameter (qw( To Subject Body )) {
+                if ( !$GetParam{$Parameter} ) {
+                    $Error{ $Parameter . 'Invalid' } = 'ServerError';
+                }
             }
         }
 

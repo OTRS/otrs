@@ -60,7 +60,7 @@
 
                     <label class="Mandatory" for="To"><span class="Marker">*</span>$Text{"To"}:</label>
                     <div class="Field">
-                        <input type="text" id="To" name="To" value="$QData{"To"}" class="Validate_Required $Data{"ToInvalid"} W75pc"/>
+                        <input type="text" id="To" name="To" value="$QData{"To"}" class="Validate_DependingRequiredAND Validate_Depending_InformSender $Data{"ToInvalid"} W75pc"/>
                         <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
                         <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
@@ -68,7 +68,7 @@
 
                     <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
-                        <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_Required $Data{"SubjectInvalid"} W75pc"/>
+                        <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_DependingRequiredAND Validate_Depending_InformSender $Data{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
@@ -81,7 +81,7 @@
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 
-                        <textarea id="RichText" class="RichText Validate_Required $Data{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" >$QData{"Body"}</textarea>
+                        <textarea id="RichText" class="RichText Validate_DependingRequiredAND Validate_Depending_InformSender $Data{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" >$QData{"Body"}</textarea>
                         <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>

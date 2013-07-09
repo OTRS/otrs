@@ -310,15 +310,17 @@ $Param{Signature}";
             }
         }
 
-        if ( !$Param{To} ) {
-            $Error{'ToInvalid'} = 'ServerError';
-        }
+        if ( $Param{InformSender} ) {
+            if ( !$Param{To} ) {
+                $Error{'ToInvalid'} = 'ServerError';
+            }
 
-        if ( !$Param{Subject} ) {
-            $Error{'SubjectInvalid'} = 'ServerError';
-        }
-        if ( !$Param{Body} ) {
-            $Error{'BodyInvalid'} = 'ServerError';
+            if ( !$Param{Subject} ) {
+                $Error{'SubjectInvalid'} = 'ServerError';
+            }
+            if ( !$Param{Body} ) {
+                $Error{'BodyInvalid'} = 'ServerError';
+            }
         }
 
         #check for error
