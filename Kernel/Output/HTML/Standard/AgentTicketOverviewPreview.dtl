@@ -357,7 +357,7 @@ $Data{"Body"}
         var $MasterActionLink = $(this).find('.MasterActionLink');
 
         // if the user is trying to select text from an article, MasterAction should not be executed
-        if (typeof Event.target === 'object' && $(Event.target).hasClass('ArticleBody')) {
+        if (typeof Event.target === 'object' && ($(Event.target).hasClass('ArticleBody') || $(Event.target).hasClass('ActionRow'))) {
             return false;
         }
 

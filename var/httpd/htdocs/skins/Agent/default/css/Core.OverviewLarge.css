@@ -28,6 +28,10 @@
     margin-left: 16px;
 }
 
+.OverviewLarge .ActionRow {
+    cursor: default;
+}
+
 #EmptyMessageLarge {
    padding: 20px 8px 8px;
    border-bottom: 1px solid #DDD;
@@ -103,6 +107,10 @@
     padding-top: 12px;
     position: relative;
     cursor: pointer;
+}
+
+.OverviewLarge .Content.ArticleBody {
+    cursor: text;
 }
 
 .OverviewLarge .Content.ShowInlineActions {
