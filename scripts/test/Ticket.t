@@ -2061,7 +2061,7 @@ for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
         );
         $Self->Is(
             $ErrorMessage,
-            "Search not executed due to invalid time '2002-02-31 00:00:00'!",
+            "Search not executed due to invalid time '2000-02-31 00:00:00'!",
             "TicketSearch() (Handling invalid timestamp in '$SearchParam$ParamOption')",
         );
     }
