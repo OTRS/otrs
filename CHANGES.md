@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-09 Fixed bug#[9589](http://bugs.otrs.org/show_bug.cgi?id=9589) - AgentLinkObject does not show TreeView option for linkable ITSMConfigurationManagement objects.
  - 2013-07-09 Fixed bug#[9581](http://bugs.otrs.org/show_bug.cgi?id=9581) - No TreeView for Queues in AdminNotificationEvent.
  - 2013-07-09 Fixed bug#[9563](http://bugs.otrs.org/show_bug.cgi?id=9563) - Dashboard Calendar Floater shows numeric values.
  - 2013-07-08 Fixed bug#[9583](http://bugs.otrs.org/show_bug.cgi?id=9583) - Dynamic Fields of type Date have timestamp in notifications.

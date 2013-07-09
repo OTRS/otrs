@@ -596,6 +596,7 @@ sub LinkObjectSelectableObjectList {
     my $TargetObjectStrg = $LayoutObject->BuildSelection(
         Data     => \@SelectableObjectList,
         Name     => 'TargetIdentifier',
+        TreeView => 1,
     );
 
     return $TargetObjectStrg;
