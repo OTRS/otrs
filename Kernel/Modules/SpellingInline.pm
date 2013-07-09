@@ -46,14 +46,19 @@ sub Run {
 
     my $TextAll = '';
     for ( my $i = 0; $i <= $#Text; $i++ ) {
+
+        # change hex escapes to the proper characters
+        $Text[$i] =~ s/%([a-fA-F0-9]{2})/pack "H2", $1/eg;
+        $Text[$i] = $Self->{LayoutObject}->RichText2Ascii(
+            String => $Text[$i],
+        );
+
         my $Line = $Self->{LayoutObject}->JSONEncode(
             Data     => $Text[$i],
             NoQuotes => 1,
         );
-        $JSData .= "textinputs[$i] = decodeURIComponent('$Line')\n";
 
-        # change hex escapes to the proper characters
-        $Text[$i] =~ s/%([a-fA-F0-9]{2})/pack "H2", $1/eg;
+        $JSData .= "textinputs[$i] = '$Line';\n";
 
         my @Lines = split( /\n/, $Text[$i] );
         for my $Line (@Lines) {
@@ -63,10 +68,6 @@ sub Run {
 
     # do spell check
     my $SpellingObject = Kernel::System::Spelling->new( %{$Self} );
-    $TextAll = $Self->{LayoutObject}->RichText2Ascii(
-        String => $TextAll,
-    );
-
     my %SpellCheck = $SpellingObject->Check(
         Text          => $TextAll,
         SpellLanguage => $SpellLanguage,
@@ -107,6 +108,7 @@ sub Run {
         TemplateFile => 'SpellingInline',
         Data         => \%Param,
     );
+
     return $Self->{LayoutObject}->Attachment(
         ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
         Content     => $Output,
