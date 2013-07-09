@@ -564,7 +564,9 @@ sub SearchFieldParameterBuild {
                     :               '';
 
                 # translate the value
-                $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
+                if ( defined $Param{LayoutObject} ) {
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
+                }
 
                 push @DisplayItemList, $DisplayItem;
 
@@ -588,7 +590,9 @@ sub SearchFieldParameterBuild {
                 :                '';
 
             # translate the value
-            $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+            if ( defined $Param{LayoutObject} ) {
+                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+            }
         }
 
         # set the correct value for "unchecked" (-1) search options
