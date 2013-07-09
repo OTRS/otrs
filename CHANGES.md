@@ -66,6 +66,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-07-10
+ - 2013-07-09 Fixed bug#[9556](http://bugs.otrs.org/show_bug.cgi?id=9556) - Bounce and merge require notification recipient, subject and body even if no notification is sent.
  - 2013-07-09 Fixed bug#[9584](http://bugs.otrs.org/show_bug.cgi?id=9584) - No server side validation of To/Subject/Body in merge mask.
  - 2013-07-08 Fixed bug#[9579](http://bugs.otrs.org/show_nug.cgi?id=9579) - SOAP Serializer used in Kernel/GenericInterface/Transport/HTTP/SOAP.pm does not correctly set namespace.
  - 2013-07-08 Fixed bug#[7359](http://bugs.otrs.org/show_bug.cgi?id=7359) - Setting pending states via generic agent does not set pending time.
