@@ -189,7 +189,7 @@ sub Run {
         }
 
         for my $Parameter (qw( To Subject Body )) {
-            if ( !$Parameter ) {
+            if ( !$GetParam{$Parameter} ) {
                 $Error{ $Parameter . 'Invalid' } = 'ServerError';
             }
         }

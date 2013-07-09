@@ -1,4 +1,5 @@
 #3.2.10 2013-07-10
+ - 2013-07-09 Fixed bug#[9584](http://bugs.otrs.org/show_bug.cgi?id=9584) - No server side validation of To/Subject/Body in merge mask.
  - 2013-07-08 Fixed bug#[9579](http://bugs.otrs.org/show_nug.cgi?id=9579) - SOAP Serializer used in Kernel/GenericInterface/Transport/HTTP/SOAP.pm does not correctly set namespace.
  - 2013-07-08 Fixed bug#[9577](http://bugs.otrs.org/show_bug.cgi?id=9577) - Engine translate date to dado from english to pt_BR.
  - 2013-07-08 Fixed bug#[7359](http://bugs.otrs.org/show_bug.cgi?id=7359) - Setting pending states via generic agent does not set pending time.
