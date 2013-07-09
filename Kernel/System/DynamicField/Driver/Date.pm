@@ -400,9 +400,10 @@ sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
     my $Value = defined $Param{Value} ? $Param{Value} : '';
-    warn "VALUE: $Value";
+
+    # only keep date part, loose time part of timestamp
     $Value =~ s/^(\d\d\d\d-\d\d-\d\d).+?$/$1/xms;
-warn "NVALUE: $Value";
+
     # Title is always equal to Value
     my $Title = $Value;
 
