@@ -1333,7 +1333,7 @@ build the search parameters to be passed to the search engine.
     my $DynamicFieldSearchParameter = $BackendObject->SearchFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         LayoutObject         => $LayoutObject,          # optional
-        Profile              => $ProfileData,           # optional, the serach profile
+        Profile              => $ProfileData,           # the serach profile
     );
 
     Returns
@@ -1357,7 +1357,7 @@ sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig)) {
+    for my $Needed (qw(DynamicFieldConfig Profile)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;

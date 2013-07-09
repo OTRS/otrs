@@ -72,6 +72,7 @@
  - 2013-07-08 Fixed bug#[5920](http://bugs.otrs.org/show_bug.cgi?id=5920) - Search restriction for dates is not displayed in customer interface.
  - 2013-07-08 Fixed bug#[8380](http://bugs.otrs.org/show_bug.cgi?id=8380) - Middle name not displayed in AdminCustomerUser.
  - 2013-07-05 Fixed bug#[9576](http://bugs.otrs.org/show_bug.cgi?id=9576) - GI TicketSearch Date and Date/Time dynamic fields are ignored.
+ - 2013-07-04 Changed Dynamic Field SearchFieldParameterBuild() API, LayoutObject is now optional.
  - 2013-07-04 Fixed bug#[9573](http://bugs.otrs.org/show_bug.cgi?id=9573) - Date and DateTime dynamic fields not considered in GenericAgent Jobs.
 
 #3.2.9 2013-07-09
