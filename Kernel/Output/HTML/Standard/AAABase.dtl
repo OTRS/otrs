@@ -26,6 +26,8 @@ $Text{"Reset"}
 $Text{"more than ... ago"}
 $Text{"within the last ..."}
 $Text{"within the next ..."}
+$Text{"Created within the last"}
+$Text{"Created more than ... ago"}
 $Text{"Today"}
 $Text{"Tomorrow"}
 $Text{"Next week"}

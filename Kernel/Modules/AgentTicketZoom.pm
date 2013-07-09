@@ -1149,7 +1149,7 @@ sub MaskAgentZoom {
             Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
             LayoutObject       => $Self->{LayoutObject},
             ValueMaxChars      => $Self->{ConfigObject}->
-                                    Get('Ticket::Frontend::DynamicFieldsZoomMaxSize')||18,    # limit for sidebar display
+                                    Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar')||18,    # limit for sidebar display
         );
 
         if (
@@ -2280,7 +2280,8 @@ sub _ArticleItem {
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Value,
-            ValueMaxChars      => 160,
+            ValueMaxChars      => $Self->{ConfigObject}->
+                                    Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeArticle')||160,    # limit for article display
             LayoutObject       => $Self->{LayoutObject},
         );
 
