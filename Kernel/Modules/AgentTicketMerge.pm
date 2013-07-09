@@ -194,6 +194,27 @@ sub Run {
                     $Error{ $Parameter . 'Invalid' } = 'ServerError';
                 }
             }
+
+            # check forward email address(es)
+            if ( $GetParam{To} ) {
+                for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
+                    my $Address = $Email->address();
+                    if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+                        $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
+                        $Error{'ToInvalid'} = 'ServerError';
+                    }
+
+                    # check email address
+                    elsif ( !$Self->{CheckItemObject}->CheckEmail( Address => $Address ) ) {
+                        my $ToErrorMsg =
+                            'To'
+                            . $Self->{CheckItemObject}->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $Self->{LayoutObject}->Block( Name => $ToErrorMsg );
+                        $Error{'ToInvalid'} = 'ServerError';
+                    }
+                }
+            }
         }
 
         if (%Error) {
@@ -281,28 +302,6 @@ sub Run {
 
             # send customer info?
             if ( $GetParam{InformSender} ) {
-
-                # check notify email address
-                if ( $GetParam{To} ) {
-                    for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
-                        my $Address = $Email->address();
-                        if (
-                            $Self->{SystemAddress}->SystemAddressIsLocalAddress(
-                                Address => $Address
-                            )
-                            )
-                        {
-
-                            # error page
-                            return $Self->{LayoutObject}->ErrorScreen(
-                                Message => "Can't send notification to $Address! It's a local "
-                                    . "address! You need to move it!",
-                                Comment => 'Please contact the admin.',
-                            );
-                        }
-                    }
-                }
-
                 my $MimeType = 'text/plain';
                 if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                     $MimeType = 'text/html';

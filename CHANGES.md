@@ -1,4 +1,5 @@
 #3.2.10 2013-07-10
+ - 2013-07-09 Fixed bug#[3007](http://bugs.otrs.org/show_bug.cgi?id=3007) - CheckMXRecord and CheckEmailAddresses have no effect on AgentTicketBounce.
  - 2013-07-09 Fixed bug#[9512](http://bugs.otrs.org/show_bug.cgi?id=9512) - Database error for invalid date in AgentTicketSearch.
  - 2013-07-09 Fixed bug#[4465](http://bugs.otrs.org/show_bug.cgi?id=4465) - Spell checker ispell ignores some characters such German umlauts.
  - 2013-07-09 Fixed bug#[8428](http://bugs.otrs.org/show_bug.cgi?id=8428) - Bad usability of multiple sender/recipient feature.
