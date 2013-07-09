@@ -2048,4 +2048,23 @@ for my $NewStateID (@NewStates) {
     );
 }
 
+# check response of ticket search for invalid timestamps
+for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
+    for my $ParamOption (qw(OlderDate NewerDate)) {
+        $TicketObject->TicketSearch(
+            $SearchParam . $ParamOption => '2000-02-31 00:00:00',
+            UserID                      => 1,
+        );
+        my $ErrorMessage = $LogObject->GetLogEntry(
+            Type => 'error',
+            What => 'Message',
+        );
+        $Self->Is(
+            $ErrorMessage,
+            "Search not executed due to invalid time '2002-02-31 00:00:00'!",
+            "TicketSearch() (Handling invalid timestamp in '$SearchParam$ParamOption')",
+        );
+    }
+}
+
 1;
