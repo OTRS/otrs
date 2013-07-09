@@ -710,9 +710,13 @@ sub SearchFieldParameterBuild {
 
                 # set the display value
                 my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item};
-                if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
-                    # translate the value
+                # translate the value
+                if (
+                    $Param{DynamicFieldConfig}->{Config}->{TranslatableValues}
+                    && defined $Param{LayoutObject}
+                    )
+                {
                     $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
                 }
 
@@ -727,9 +731,12 @@ sub SearchFieldParameterBuild {
             # set the display value
             $DisplayValue = $Param{DynamicFieldConfig}->{PossibleValues}->{$Value};
 
-            if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
-
-                # translate the value
+            # translate the value
+            if (
+                $Param{DynamicFieldConfig}->{Config}->{TranslatableValues}
+                && defined $Param{LayoutObject}
+                )
+            {
                 $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
             }
         }
