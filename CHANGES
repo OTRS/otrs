@@ -14,6 +14,7 @@
  - 2013-07-08 Fixed bug#[7359](http://bugs.otrs.org/show_bug.cgi?id=7359) - Setting pending states via generic agent does not set pending time.
  - 2013-07-08 Fixed bug#8380 - Middle name not displayed in AdminCustomerUser.
  - 2013-07-05 Fixed bug#9576 - GI TicketSearch Date and Date/Time dynamic fields are ignored.
+ - 2013-07-04 Changed Dynamic Field SearchFieldParameterBuild() API, LayoutObject is now optional.
  - 2013-07-04 Fixed bug#9573 - Date and DateTime dynamic fields not considered in GenericAgent Jobs.
 
 3.1.18 2013-07-09
