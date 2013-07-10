@@ -176,7 +176,7 @@ sub Run {
             };
         }
 
-        if ( ($UpdatedACLsStrg || $AddedACLsStrg) && !$SynchronizedMessageVisible ) {
+        if ( ( $UpdatedACLsStrg || $AddedACLsStrg ) && !$SynchronizedMessageVisible ) {
 
             $Param{NotifyData} = [
                 @{ $Param{NotifyData} || [] },

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardTicketQueueOverview.pm
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -164,7 +164,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericHeaderStatus',
             Data => {
-                Text  => $HeaderItem,
+                Text => $HeaderItem,
             },
         );
     }

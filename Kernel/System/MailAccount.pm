@@ -77,6 +77,7 @@ sub new {
     for (qw(DBObject ConfigObject LogObject)) {
         die "Got no $_" if !$Self->{$_};
     }
+
     # create addititional objects
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
@@ -334,14 +335,16 @@ returns a list (Key, Name) of all mail accounts
 sub MailAccountList {
     my ( $Self, %Param ) = @_;
 
-    my $Where = $Param{Valid} ? 'WHERE valid_id IN ( ' . join ', ', $Self->{ValidObject}->ValidIDsGet() .' )' : '';
+    my $Where = $Param{Valid}
+        ? 'WHERE valid_id IN ( ' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ' )'
+        : '';
 
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT id, host, login FROM mail_account $Where",
     );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{$Row[0]} = "$Row[1] ($Row[2])";
+        $Data{ $Row[0] } = "$Row[1] ($Row[2])";
     }
 
     return %Data;

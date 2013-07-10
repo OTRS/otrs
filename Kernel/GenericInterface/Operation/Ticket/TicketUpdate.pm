@@ -1725,14 +1725,15 @@ sub _TicketUpdate {
                 }
         }
     }
+
     # update Ticket->CustomerUser && Ticket->CustomerID
     if ( $Ticket->{CustomerUser} || $Ticket->{CustomerID} ) {
 
         # set values to empty if they are not defined
         $TicketData{CustomerUserID} = $TicketData{CustomerUserID} || '';
-        $TicketData{CustomerID} = $TicketData{CustomerID} || '';
-        $Ticket->{CustomerUser} = $Ticket->{CustomerUser} || '';
-        $Ticket->{CustomerID} = $Ticket->{CustomerID} || '';
+        $TicketData{CustomerID}     = $TicketData{CustomerID}     || '';
+        $Ticket->{CustomerUser}     = $Ticket->{CustomerUser}     || '';
+        $Ticket->{CustomerID}       = $Ticket->{CustomerID}       || '';
 
         my $Success;
         if (

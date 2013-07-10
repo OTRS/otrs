@@ -93,13 +93,14 @@ sub ActionRow {
     if (
         $Param{Config}->{OverviewMenuModules}
         && ref $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') eq 'HASH'
-    ) {
+        )
+    {
 
         my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') };
         MENUMODULE:
         for my $Menu ( sort keys %Menus ) {
 
-            next MENUMODULE if !IsHashRefWithData($Menus{$Menu});
+            next MENUMODULE if !IsHashRefWithData( $Menus{$Menu} );
             next MENUMODULE if ( $Menus{$Menu}->{View} && $Menus{$Menu}->{View} ne $Param{View} );
 
             # load module
@@ -142,9 +143,9 @@ sub ActionRow {
                 $Self->{LayoutObject}->Block(
                     Name => $Item->{Block},
                     Data => {
-                        ID          => $Item->{ID},
-                        Name        => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
-                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        ID   => $Item->{ID},
+                        Name => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                        Link => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
                         Class       => $Class,

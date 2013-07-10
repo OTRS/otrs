@@ -294,7 +294,7 @@ sub Sign {
     }
 
     my $Certificate = $Self->CertificateGet(%Param);
-    my %Attributes = $Self->CertificateAttributes(
+    my %Attributes  = $Self->CertificateAttributes(
         Certificate => $Certificate,
         Filename    => $Param{Filename}
     );
@@ -771,7 +771,6 @@ sub CertificateRemove {
             Type => 'SMIME_Private',
         );
     }
-
 
     %Result = (
         Successful => $Success,

@@ -407,10 +407,10 @@ sub Form {
         );
 
         # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+        if ( IsHashRefWithData($PossibleValues) ) {
 
             # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{ $PossibleValues };
+            my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
             # set possible values filter from ACLs
@@ -611,10 +611,10 @@ sub SendEmail {
         );
 
         # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+        if ( IsHashRefWithData($PossibleValues) ) {
 
             # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{ $PossibleValues };
+            my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
             # set possible values filter from ACLs
@@ -742,10 +742,10 @@ sub SendEmail {
     }
 
     # attachment delete
-    my @AttachmentIDs = map{
+    my @AttachmentIDs = map {
         my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
         $ID ? $ID : ();
-    }$Self->{ParamObject}->GetParamNames();
+    } $Self->{ParamObject}->GetParamNames();
 
     COUNT:
     for my $Count ( reverse sort @AttachmentIDs ) {

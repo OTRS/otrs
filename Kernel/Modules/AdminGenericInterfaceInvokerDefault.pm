@@ -637,7 +637,7 @@ sub _ShowScreen {
 
         EVENT:
         for my $Event ( @{ $RegisteredEvents{$Type} || [] } ) {
-            next EVENT if $InvokerEventLookup{$Event}; # only add events that are not used yet
+            next EVENT if $InvokerEventLookup{$Event};    # only add events that are not used yet
             push @EventList, $Event;
         }
 

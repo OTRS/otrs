@@ -420,10 +420,10 @@ sub Run {
                 );
 
                 # check if field has PossibleValues property in its configuration
-                if ( IsHashRefWithData( $PossibleValues ) ) {
+                if ( IsHashRefWithData($PossibleValues) ) {
 
                     # convert possible values key => value to key => key for ACLs usign a Hash slice
-                    my %AclData = %{ $PossibleValues };
+                    my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
                     # set possible values filter from ACLs
@@ -671,10 +671,10 @@ sub Run {
         }
 
         # attachment delete
-        my @AttachmentIDs = map{
+        my @AttachmentIDs = map {
             my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
             $ID ? $ID : ();
-        }$Self->{ParamObject}->GetParamNames();
+        } $Self->{ParamObject}->GetParamNames();
 
         COUNT:
         for my $Count ( reverse sort @AttachmentIDs ) {
@@ -718,10 +718,10 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $PossibleValues };
+                my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -1409,7 +1409,7 @@ sub Run {
                 CustomerUserID => $CustomerUser || '',
                 Action         => $Self->{Action},
                 TicketID       => $Self->{TicketID},
-                QueueID        => $QueueID || 0,
+                QueueID        => $QueueID      || 0,
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,
@@ -1921,7 +1921,7 @@ sub _MaskEmailNew {
             Size           => 0,
             Class          => 'Validate_Required' . ( $Param{Errors}->{DestinationInvalid} || ' ' ),
             Name           => 'Dest',
-            TreeView   => $TreeView,
+            TreeView       => $TreeView,
             SelectedID     => $Param{FromSelected},
             OnChangeSubmit => 0,
         );

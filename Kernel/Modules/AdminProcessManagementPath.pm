@@ -171,7 +171,11 @@ sub Run {
 
             my $EntityID;
 
-            if ( $RedirectSubaction eq 'TransitionActionEdit' || $RedirectSubaction eq 'TransitionActionNew') {
+            if (
+                $RedirectSubaction eq 'TransitionActionEdit'
+                || $RedirectSubaction eq 'TransitionActionNew'
+                )
+            {
                 $EntityID = $TransferData->{TransitionEntityID};
             }
             elsif ( $RedirectSubaction eq 'TransitionEdit' ) {

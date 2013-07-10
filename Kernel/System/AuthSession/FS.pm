@@ -251,8 +251,8 @@ sub CreateSessionID {
 
     # create challenge token
     my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
-         Length => 32,
-    ); 
+        Length => 32,
+    );
 
     my %Data;
     KEY:

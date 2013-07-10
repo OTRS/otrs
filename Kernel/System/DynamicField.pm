@@ -191,7 +191,8 @@ sub DynamicFieldAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO dynamic_field (internal_field, name, label, field_Order, field_type, object_type,' .
+            'INSERT INTO dynamic_field (internal_field, name, label, field_Order, field_type, object_type,'
+            .
             ' config, valid_id, create_time, create_by, change_time, change_by)' .
             ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [

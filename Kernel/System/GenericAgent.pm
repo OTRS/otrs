@@ -113,8 +113,8 @@ sub new {
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
 
     my %PendingStates = $Self->{StateObject}->StateGetStatesByType(
-        StateType => ['pending auto', 'pending reminder'],
-        Result    => 'HASH',
+        StateType => [ 'pending auto', 'pending reminder' ],
+        Result => 'HASH',
     );
 
     $Self->{PendingStateList} = \%PendingStates || {};
@@ -326,7 +326,7 @@ sub JobRun {
         }
     }
 
-    if ($Param{OnlyTicketID}) {
+    if ( $Param{OnlyTicketID} ) {
         $Job{TicketID} = $Param{OnlyTicketID};
     }
     my %Tickets;
@@ -521,7 +521,7 @@ sub JobList {
 
     # check cache
     my $CacheKey = "JobList";
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache    = $Self->{CacheObject}->Get(
         Type => 'GenericAgent',
         Key  => $CacheKey,
     );
@@ -566,14 +566,14 @@ sub JobGet {
 
     # check cache
     my $CacheKey = 'JobGet::' . $Param{Name};
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache    = $Self->{CacheObject}->Get(
         Type => 'GenericAgent',
         Key  => $CacheKey,
     );
     return %{$Cache} if ref $Cache;
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => '
+        SQL => '
             SELECT job_key, job_value
             FROM generic_agent_jobs
             WHERE job_name = ?',
@@ -692,10 +692,12 @@ sub JobGet {
                     $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 356;
                 }
                 if ( $Data{ $Type . 'TimePointStart' } eq 'Before' ) {
+
                     # more than ... ago
                     $Data{ $Type . 'TimeOlderMinutes' } = $Time;
                 }
                 elsif ( $Data{ $Type . 'TimePointStart' } eq 'Next' ) {
+
                     # within the next ...
                     $Data{ $Type . 'TimeNewerMinutes' } = 0;
                     $Data{ $Type . 'TimeOlderMinutes' } = -$Time;
@@ -793,7 +795,7 @@ sub JobAdd {
     );
 
     $Self->{CacheObject}->CleanUp(
-        Type  => 'GenericAgent',
+        Type => 'GenericAgent',
     );
 
     return 1;
@@ -829,7 +831,7 @@ sub JobDelete {
     );
 
     $Self->{CacheObject}->CleanUp(
-        Type  => 'GenericAgent',
+        Type => 'GenericAgent',
     );
 
     return 1;
@@ -848,7 +850,7 @@ sub JobEventList {
 
     # check cache
     my $CacheKey = "JobEventList";
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache    = $Self->{CacheObject}->Get(
         Type => 'GenericAgent',
         Key  => $CacheKey,
     );
@@ -860,7 +862,7 @@ sub JobEventList {
     for my $JobName ( sort keys %JobList ) {
         my %Job = $Self->JobGet( Name => $JobName );
         next JOB_NAME if !$Job{Valid};
-        $Data{ $JobName } = $Job{ EventValues };
+        $Data{$JobName} = $Job{EventValues};
     }
 
     $Self->{CacheObject}->Set(
@@ -971,7 +973,7 @@ sub _JobRunTicket {
     }
 
     my $IsPendingState;
-    
+
     # set new state
     if ( $Param{Config}->{New}->{State} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -983,7 +985,8 @@ sub _JobRunTicket {
             State    => $Param{Config}->{New}->{State},
         );
 
-        $IsPendingState = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
+        $IsPendingState
+            = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
     }
     if ( $Param{Config}->{New}->{StateID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -995,11 +998,12 @@ sub _JobRunTicket {
             StateID  => $Param{Config}->{New}->{StateID},
         );
 
-        $IsPendingState = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
+        $IsPendingState
+            = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
     }
 
     # set pending time, if new state is pending state
-    if ( $IsPendingState ) {
+    if ($IsPendingState) {
         if ( $Param{Config}->{New}->{PendingTime} ) {
 
             # pending time
@@ -1012,11 +1016,12 @@ sub _JobRunTicket {
 
             # add systemtime
             $PendingTime += $Self->{CurrentSystemTime};
-            
+
             # get date
-            my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $Self->{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $PendingTime,
-            );
+                );
 
             # set pending time
             $Self->{TicketObject}->TicketPendingTimeSet(
@@ -1244,7 +1249,8 @@ sub _JobRunTicket {
                 $DynamicFieldConfig->{Config}->{PossibleNone}
                 || $Value ne ''
             )
-        ) {
+            )
+        {
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Param{TicketID},

@@ -301,7 +301,6 @@ sub Disconnect {
     return 1;
 }
 
-
 =item Version()
 
 to get the database version
@@ -1158,10 +1157,10 @@ sub QueryCondition {
     my $Close = 0;
 
     # for processing
-    my @Array = split( //, $Param{Value} );
-    my $SQL   = '';
-    my $Word  = '';
-    my $Not   = 0;
+    my @Array     = split( //, $Param{Value} );
+    my $SQL       = '';
+    my $Word      = '';
+    my $Not       = 0;
     my $Backslash = 0;
 
     my $SpecialCharacters = $Self->_SpecialCharactersGet();
@@ -1170,7 +1169,7 @@ sub QueryCondition {
     for my $Position ( 0 .. $#Array ) {
 
         # find word
-        if ( $Backslash ) {
+        if ($Backslash) {
             $Word .= $Array[$Position];
             $Backslash = 0;
             next POSITION;
@@ -1178,9 +1177,12 @@ sub QueryCondition {
 
         # remember if next token is a part of word
         elsif (
-            $Array[ $Position ] eq '\\'
+            $Array[$Position] eq '\\'
             && $Position < $#Array
-            && ( $SpecialCharacters->{ $Array[ $Position + 1 ] } || $Array[ $Position + 1 ] eq '\\' )
+            && (
+                $SpecialCharacters->{ $Array[ $Position + 1 ] }
+                || $Array[ $Position + 1 ] eq '\\'
+            )
             )
         {
             $Backslash = 1;
@@ -1241,7 +1243,7 @@ sub QueryCondition {
             }
 
             # if it's a NOT LIKE condition
-            if ( $Not ) {
+            if ($Not) {
                 $Not = 0;
 
                 my $SQLA;
@@ -1328,7 +1330,8 @@ sub QueryCondition {
                 if ( $SQL =~ / OR $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message  => "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
+                        Message =>
+                            "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
                     return "1=0";
                 }
@@ -1342,7 +1345,8 @@ sub QueryCondition {
                 if ( $SQL =~ / AND $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message  => "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
+                        Message =>
+                            "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
                     return "1=0";
                 }
@@ -1367,8 +1371,16 @@ sub QueryCondition {
             if (
                 $Position < $#Array
                 && ( $Position > $#Array - 1 || $Array[ $Position + 1 ] ne ')' )
-                && ( $Position > $#Array - 2 || $Array[ $Position + 1 ] ne '&' || $Array[ $Position + 2 ] ne '&' )
-                && ( $Position > $#Array - 2 || $Array[ $Position + 1 ] ne '|' || $Array[ $Position + 2 ] ne '|' )
+                && (
+                    $Position > $#Array - 2
+                    || $Array[ $Position + 1 ] ne '&'
+                    || $Array[ $Position + 2 ] ne '&'
+                )
+                && (
+                    $Position > $#Array - 2
+                    || $Array[ $Position + 1 ] ne '|'
+                    || $Array[ $Position + 2 ] ne '|'
+                )
                 )
             {
                 $SQL .= ' AND ';

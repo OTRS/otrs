@@ -100,7 +100,7 @@ sub Run {
         return $Self->{LayoutObject}->ErrorScreen();
     }
 
-    if ($Self->{Subaction} eq 'Run') {
+    if ( $Self->{Subaction} eq 'Run' ) {
 
         return $Self->_MaskRun();
     }
@@ -910,10 +910,10 @@ sub _MaskUpdate {
         );
 
         # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+        if ( IsHashRefWithData($PossibleValues) ) {
 
             # convert possible values key => value to key => key for ACLs usign a Hash slice
-            my %AclData = %{ $PossibleValues };
+            my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
             # set possible values filter from ACLs
@@ -966,7 +966,7 @@ sub _MaskUpdate {
 
     # get registered event triggers from the config
     my %RegisteredEvents = $Self->{EventObject}->EventList(
-        ObjectTypes => ['Ticket', 'Article'],
+        ObjectTypes => [ 'Ticket', 'Article' ],
     );
 
     # create the event triggers table
@@ -976,7 +976,7 @@ sub _MaskUpdate {
         my $EventType;
         EVENTTYPE:
         for my $Type ( sort keys %RegisteredEvents ) {
-            if ( grep {$_ eq $Event } @{ $RegisteredEvents{$Type} } ) {
+            if ( grep { $_ eq $Event } @{ $RegisteredEvents{$Type} } ) {
                 $EventType = $Type;
                 last EVENTTYPE;
             }
@@ -986,8 +986,8 @@ sub _MaskUpdate {
         $Self->{LayoutObject}->Block(
             Name => 'EventRow',
             Data => {
-                Event        => $Event,
-                EventType    => $EventType || '-',
+                Event => $Event,
+                EventType => $EventType || '-',
             },
         );
     }
@@ -1009,9 +1009,9 @@ sub _MaskUpdate {
 
         # paint each selector
         my $EventStrg = $Self->{LayoutObject}->BuildSelection(
-            Data         => $RegisteredEvents{$Type} || [],
-            Name         => $Type . 'Event',
-            Sort         => 'AlphanumericValue',
+            Data => $RegisteredEvents{$Type} || [],
+            Name => $Type . 'Event',
+            Sort => 'AlphanumericValue',
             PossibleNone => 0,
             Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
             Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Event'),
@@ -1035,7 +1035,7 @@ sub _MaskUpdate {
         SelectedValue => $SelectedEventType,
         PossibleNone  => 0,
         Class         => '',
-        Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Type'),
+        Title         => $Self->{LayoutObject}->{LanguageObject}->Get('Type'),
     );
     $Self->{LayoutObject}->Block(
         Name => 'EventTypeStrg',

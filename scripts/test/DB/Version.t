@@ -26,7 +26,7 @@ $Self->IsNot(
 
 # extract text string and version number from Version
 # just as a sanity check
-my ($Text, $Number) = $Version =~ /(\w+)\s+([0-9\.]+)/;
+my ( $Text, $Number ) = $Version =~ /(\w+)\s+([0-9\.]+)/;
 
 $Self->True(
     $Text,

@@ -86,12 +86,12 @@ sub Check {
 
             # get a list of all article attachments
             my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
-                ArticleID                  => $Self->{ArticleID},
-                UserID                     => $Self->{UserID},
+                ArticleID => $Self->{ArticleID},
+                UserID    => $Self->{UserID},
             );
 
             my @Attachments;
-            if ( IsHashRefWithData(\%Index) ) {
+            if ( IsHashRefWithData( \%Index ) ) {
                 for my $FileID ( sort keys %Index ) {
 
                     # get attachment details
@@ -102,7 +102,7 @@ sub Check {
                     );
 
                     # store attachemnts attributes that might change after decryption
-                    my $AttachmentContent = $Attachment{Content};
+                    my $AttachmentContent  = $Attachment{Content};
                     my $AttachmentFilename = $Attachment{Filename};
 
                     # try to decrypt the attachment, non ecrypted attachments will succeed too.
@@ -111,19 +111,19 @@ sub Check {
                     if ( $Decrypt{Successful} ) {
 
                         # set decrypted content
-                        $AttachmentContent= $Decrypt{Data};
+                        $AttachmentContent = $Decrypt{Data};
 
                         # remove .pgp .gpg or asc extensions (if any)
-                        $AttachmentFilename  =~ s{ (\. [^\.]+) \. (?: pgp|gpg|asc) \z}{$1}msx;
+                        $AttachmentFilename =~ s{ (\. [^\.]+) \. (?: pgp|gpg|asc) \z}{$1}msx;
                     }
 
                     # remember decrypted attachement, to add it later
                     push @Attachments, {
-                        Content            => $AttachmentContent,
-                        ContentType        => $Attachment{ContentType},
-                        Filename           => $AttachmentFilename,
-                        ArticleID          => $Self->{ArticleID},
-                        UserID             => $Self->{UserID},
+                        Content     => $AttachmentContent,
+                        ContentType => $Attachment{ContentType},
+                        Filename    => $AttachmentFilename,
+                        ArticleID   => $Self->{ArticleID},
+                        UserID      => $Self->{UserID},
                     };
                 }
 
@@ -134,7 +134,7 @@ sub Check {
                 );
 
                 # write decrypted attachments to the storage
-                for my $Attachment ( @Attachments ) {
+                for my $Attachment (@Attachments) {
                     $Self->{TicketObject}->ArticleWriteAttachment( %{$Attachment} );
                 }
             }

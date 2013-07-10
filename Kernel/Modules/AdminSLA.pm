@@ -345,7 +345,7 @@ sub _MaskNew {
         Multiple    => 1,
         Size        => 5,
         Translation => 0,
-        TreeView    => ($ListType eq 'tree') ? 1 : 0,
+        TreeView    => ( $ListType eq 'tree' ) ? 1 : 0,
         Max         => 200,
     );
 

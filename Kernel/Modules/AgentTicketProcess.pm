@@ -290,7 +290,7 @@ sub Run {
 
         # get process id (if any, a process should be pre-selected)
         $Param{ProcessID} = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        if ($Param{ProcessID}) {
+        if ( $Param{ProcessID} ) {
             $Param{PreSelectProcess} = 1;
         }
 
@@ -2088,10 +2088,10 @@ sub _RenderDynamicField {
         grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
     # check if field has PossibleValues property in its configuration
-    if ( IsHashRefWithData( $PossibleValues ) ) {
+    if ( IsHashRefWithData($PossibleValues) ) {
 
         # convert possible values key => value to key => key for ACLs usign a Hash slice
-        my %AclData = %{ $PossibleValues };
+        my %AclData = %{$PossibleValues};
         @AclData{ keys %AclData } = keys %AclData;
 
         # set possible values filter from ACLs
@@ -3697,10 +3697,10 @@ sub _StoreActivityDialog {
     my $IsUpload = 0;
 
     # attachment delete
-    my @AttachmentIDs = map{
+    my @AttachmentIDs = map {
         my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
         $ID ? $ID : ();
-    }$Self->{ParamObject}->GetParamNames();
+    } $Self->{ParamObject}->GetParamNames();
 
     COUNT:
     for my $Count ( reverse sort @AttachmentIDs ) {
@@ -4362,15 +4362,15 @@ sub _StoreActivityDialog {
                         # asssined SLA is still valid
                         if (
                             $UpdateFieldName eq 'ServiceID'
-                            && !defined $TicketParam{ SLAID }
+                            && !defined $TicketParam{SLAID}
                             )
                         {
 
                             # get ticket details
                             my %Ticket = $Self->{TicketObject}->TicketGet(
-                                    TicketID      => $TicketID,
-                                    DynamicFields => 0,
-                                    UserID        => $Self->{UserID},
+                                TicketID      => $TicketID,
+                                DynamicFields => 0,
+                                UserID        => $Self->{UserID},
                             );
 
                             # if ticket already have an SLA assigned get the list SLAs for the new
@@ -4451,7 +4451,7 @@ sub _DisplayProcessList {
         );
     }
 
-    if ($Param{PreSelectProcess} && $Param{ProcessID}) {
+    if ( $Param{PreSelectProcess} && $Param{ProcessID} ) {
         $Self->{LayoutObject}->Block(
             Name => 'PreSelectProcess',
             Data => {

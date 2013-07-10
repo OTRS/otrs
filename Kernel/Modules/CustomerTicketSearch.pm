@@ -152,7 +152,9 @@ sub Run {
         }
 
         # get array params
-        for my $Key (qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs TypeIDs))
+        for my $Key (
+            qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs TypeIDs)
+            )
         {
 
             # get search array params (get submitted params)
@@ -270,12 +272,12 @@ sub Run {
             }
         }
 
-
         my %TimeMap = (
-            TicketCreate             => 'Time',
+            TicketCreate => 'Time',
         );
 
-        for my $TimeType (sort keys %TimeMap) {
+        for my $TimeType ( sort keys %TimeMap ) {
+
             # get create time settings
             if ( !$GetParam{ $TimeMap{$TimeType} . 'SearchType' } ) {
 
@@ -283,75 +285,77 @@ sub Run {
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimeSlot' ) {
                 for my $Key (qw(Month Day)) {
-                    $GetParam{$TimeType . 'TimeStart'  . $Key}
-                        = sprintf( "%02d", $GetParam{$TimeType . 'TimeStart' . $Key} );
-                    $GetParam{$TimeType . 'TimeStop' . $Key}
-                        = sprintf( "%02d", $GetParam{$TimeType . 'TimeStop' . $Key} );
+                    $GetParam{ $TimeType . 'TimeStart' . $Key }
+                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStop' . $Key }
+                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
                 }
                 if (
-                    $GetParam{$TimeType . 'TimeStartDay'}
-                    && $GetParam{$TimeType . 'TimeStartMonth'}
-                    && $GetParam{$TimeType . 'TimeStartYear'}
+                    $GetParam{ $TimeType . 'TimeStartDay' }
+                    && $GetParam{ $TimeType . 'TimeStartMonth' }
+                    && $GetParam{ $TimeType . 'TimeStartYear' }
                     )
                 {
-                    $GetParam{$TimeType . 'TimeNewerDate'}
-                        = $GetParam{$TimeType . 'TimeStartYear'} . '-'
-                        . $GetParam{$TimeType . 'TimeStartMonth'} . '-'
-                        . $GetParam{$TimeType . 'TimeStartDay'}
+                    $GetParam{ $TimeType . 'TimeNewerDate' }
+                        = $GetParam{ $TimeType . 'TimeStartYear' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStartMonth' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStartDay' }
                         . ' 00:00:00';
                 }
                 if (
-                    $GetParam{$TimeType . 'TimeStopDay'}
-                    && $GetParam{$TimeType . 'TimeStopMonth'}
-                    && $GetParam{$TimeType . 'TimeStopYear'}
+                    $GetParam{ $TimeType . 'TimeStopDay' }
+                    && $GetParam{ $TimeType . 'TimeStopMonth' }
+                    && $GetParam{ $TimeType . 'TimeStopYear' }
                     )
                 {
-                    $GetParam{$TimeType . 'TimeOlderDate'}
-                        = $GetParam{$TimeType . 'TimeStopYear'} . '-'
-                        . $GetParam{$TimeType . 'TimeStopMonth'} . '-'
-                        . $GetParam{$TimeType . 'TimeStopDay'}
+                    $GetParam{ $TimeType . 'TimeOlderDate' }
+                        = $GetParam{ $TimeType . 'TimeStopYear' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStopMonth' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStopDay' }
                         . ' 23:59:59';
                 }
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimePoint' ) {
                 if (
-                    $GetParam{$TimeType . 'TimePoint'}
-                    && $GetParam{$TimeType . 'TimePointStart'}
-                    && $GetParam{$TimeType . 'TimePointFormat'}
+                    $GetParam{ $TimeType . 'TimePoint' }
+                    && $GetParam{ $TimeType . 'TimePointStart' }
+                    && $GetParam{ $TimeType . 'TimePointFormat' }
                     )
                 {
                     my $Time = 0;
-                    if ( $GetParam{$TimeType . 'TimePointFormat'} eq 'minute' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'};
+                    if ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'minute' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' };
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'hour' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'hour' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'day' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'day' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'week' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 7;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'week' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 7;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'month' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 30;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'month' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 30;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'year' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 365;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'year' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 365;
                     }
-                    if ( $GetParam{$TimeType . 'TimePointStart'} eq 'Before' ) {
+                    if ( $GetParam{ $TimeType . 'TimePointStart' } eq 'Before' ) {
+
                         # more than ... ago
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = $Time;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = $Time;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointStart'} eq 'Next' ) {
+                    elsif ( $GetParam{ $TimeType . 'TimePointStart' } eq 'Next' ) {
+
                         # within next
-                        $GetParam{$TimeType . 'TimeNewerMinutes'} = 0;
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = -$Time;
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = 0;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = -$Time;
                     }
                     else {
                         # within last ...
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = 0;
-                        $GetParam{$TimeType . 'TimeNewerMinutes'} = $Time;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = 0;
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = $Time;
                     }
                 }
             }
@@ -956,24 +960,27 @@ sub Run {
             }
             if ( $Key eq 'TimeSearchType' ) {
 
-                if ($GetParam{TimeSearchType} eq 'TimeSlot') {
+                if ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
 
                     my $StartDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
-                                $GetParam{TicketCreateTimeStartYear}
-                        . '-' . $GetParam{TicketCreateTimeStartMonth}
-                        . '-' . $GetParam{TicketCreateTimeStartDay}
-                        . ' 00:00:00', 'DateFormatShort'
+                        $GetParam{TicketCreateTimeStartYear}
+                            . '-' . $GetParam{TicketCreateTimeStartMonth}
+                            . '-' . $GetParam{TicketCreateTimeStartDay}
+                            . ' 00:00:00', 'DateFormatShort'
                     );
 
-                    my $StopDate  = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
-                                $GetParam{TicketCreateTimeStopYear}
-                        . '-' . $GetParam{TicketCreateTimeStopMonth}
-                        . '-' . $GetParam{TicketCreateTimeStopDay}
-                        . ' 00:00:00', 'DateFormatShort'
+                    my $StopDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                        $GetParam{TicketCreateTimeStopYear}
+                            . '-' . $GetParam{TicketCreateTimeStopMonth}
+                            . '-' . $GetParam{TicketCreateTimeStopDay}
+                            . ' 00:00:00', 'DateFormatShort'
                     );
 
                     $Attribute = 'Created between';
-                    $Value     = $StartDate . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' ' . $StopDate;
+                    $Value
+                        = $StartDate . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' '
+                        . $StopDate;
                 }
                 else {
 
@@ -982,8 +989,11 @@ sub Run {
                         'Before' => 'Created more than ... ago',
                     };
 
-                    $Attribute = $Mapping->{$GetParam{TicketCreateTimePointStart}};
-                    $Value     = $GetParam{TicketCreateTimePoint} . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get($GetParam{TicketCreateTimePointFormat} . '(s)');
+                    $Attribute = $Mapping->{ $GetParam{TicketCreateTimePointStart} };
+                    $Value
+                        = $GetParam{TicketCreateTimePoint} . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}
+                        ->Get( $GetParam{TicketCreateTimePointFormat} . '(s)' );
                 }
             }
 
@@ -1120,8 +1130,9 @@ sub Run {
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
+
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # get historical values from database
                 my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
@@ -1345,8 +1356,8 @@ sub MaskForm {
             Before => 'more than ... ago',
         },
         Translation => 1,
-        Name => 'TicketCreateTimePointStart',
-        SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+        Name        => 'TicketCreateTimePointStart',
+        SelectedID  => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -1358,8 +1369,8 @@ sub MaskForm {
             year   => 'year(s)',
         },
         Translation => 1,
-        Name       => 'TicketCreateTimePointFormat',
-        SelectedID => $Param{TicketCreateTimePointFormat},
+        Name        => 'TicketCreateTimePointFormat',
+        SelectedID  => $Param{TicketCreateTimePointFormat},
     );
     $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,

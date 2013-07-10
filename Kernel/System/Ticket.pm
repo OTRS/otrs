@@ -3354,9 +3354,10 @@ sub TicketPendingTimeSet {
         }
     }
     elsif (
-        !$Param{String} && 
+        !$Param{String} &&
         !( $Param{Year} && $Param{Month} && $Param{Day} && $Param{Hour} && $Param{Minute} )
-    ) {
+        )
+    {
         for my $Needed (qw(Diff TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
                 $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
@@ -3406,9 +3407,10 @@ sub TicketPendingTimeSet {
         }
         elsif ( $Param{Diff} ) {
             $Time = $Self->{TimeObject}->SystemTime() + ( $Param{Diff} * 60 );
-            ($Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} ) =
+            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
+                =
                 $Self->{TimeObject}->SystemTime2Date(
-                    SystemTime => $Time,
+                SystemTime => $Time,
                 );
         }
         else {

@@ -54,7 +54,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-        Param  => 'UserPGPKey',
+        Param => 'UserPGPKey',
     );
     return 1 if !$UploadStuff{Content};
 

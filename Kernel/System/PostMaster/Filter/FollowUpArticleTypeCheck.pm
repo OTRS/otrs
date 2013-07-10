@@ -64,7 +64,7 @@ sub Run {
 
         # check recipients
         next if !$Article->{To};
-        
+
         my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{To},
         );
