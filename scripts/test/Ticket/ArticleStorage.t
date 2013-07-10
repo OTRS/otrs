@@ -189,7 +189,7 @@ for my $Backend (qw(DB FS)) {
     );
 
     # Store file 2 times
-    my $FileName = "[Terminology Guide äöß].pdf";
+    my $FileName               = "[Terminology Guide äöß].pdf";
     my $Content                = '123';
     my $FileNew                = $FileName;
     my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
@@ -239,18 +239,21 @@ for my $Backend (qw(DB FS)) {
         "$Backend ArticleWriteAttachment() - collision check number of attachments",
     );
 
-    my ($Entry1) = grep { $AttachmentIndex{$_}->{Filename} eq "$TargetFilename.pdf"} keys %AttachmentIndex;
-    my ($Entry2) = grep { $AttachmentIndex{$_}->{Filename} eq "$TargetFilename-1.pdf"} keys %AttachmentIndex;
+    my ($Entry1)
+        = grep { $AttachmentIndex{$_}->{Filename} eq "$TargetFilename.pdf" } keys %AttachmentIndex;
+    my ($Entry2)
+        = grep { $AttachmentIndex{$_}->{Filename} eq "$TargetFilename-1.pdf" }
+        keys %AttachmentIndex;
 
     $Self->IsDeeply(
         $AttachmentIndex{$Entry1},
         {
             'ContentAlternative' => '',
-            'ContentID' => '',
-            'ContentType' => 'image/png',
-            'Filename' => "$TargetFilename.pdf",
-            'Filesize' => '3 Bytes',
-            'FilesizeRaw' => '3'
+            'ContentID'          => '',
+            'ContentType'        => 'image/png',
+            'Filename'           => "$TargetFilename.pdf",
+            'Filesize'           => '3 Bytes',
+            'FilesizeRaw'        => '3'
         },
         "$Backend ArticleAttachmentIndex - collision check entry 1",
     );
@@ -259,11 +262,11 @@ for my $Backend (qw(DB FS)) {
         $AttachmentIndex{$Entry2},
         {
             'ContentAlternative' => '',
-            'ContentID' => '',
-            'ContentType' => 'image/png',
-            'Filename' => "$TargetFilename-1.pdf",
-            'Filesize' => '3 Bytes',
-            'FilesizeRaw' => '3'
+            'ContentID'          => '',
+            'ContentType'        => 'image/png',
+            'Filename'           => "$TargetFilename-1.pdf",
+            'Filesize'           => '3 Bytes',
+            'FilesizeRaw'        => '3'
         },
         "$Backend ArticleAttachmentIndex - collision check entry 2",
     );

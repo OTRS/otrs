@@ -349,6 +349,7 @@ sub Send {
     for my $Key ( 'In-Reply-To', 'References' ) {
         next if !$Param{$Key};
         my $Value = $Param{$Key};
+
         # Split up '<msgid><msgid>' to allow line folding (see bug#9345).
         $Value =~ s{><}{> <}xmsg;
         $Header->replace( $Key, $Value );

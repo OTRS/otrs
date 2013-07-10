@@ -346,7 +346,9 @@ sub Run {
             }
 
             my $CustomerKey = '';
-            if ( defined $CustomerDataFrom{UserEmail} && $CustomerDataFrom{UserEmail} eq $EmailAddress ) {
+            if ( defined $CustomerDataFrom{UserEmail}
+                && $CustomerDataFrom{UserEmail} eq $EmailAddress )
+            {
                 $CustomerKey = $Article{CustomerUserID};
             }
 
@@ -1414,7 +1416,7 @@ sub Run {
                 %ACLCompatGetParam,
                 CustomerUserID => $CustomerUser || '',
                 Action         => $Self->{Action},
-                QueueID        => $QueueID || 0,
+                QueueID        => $QueueID      || 0,
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,

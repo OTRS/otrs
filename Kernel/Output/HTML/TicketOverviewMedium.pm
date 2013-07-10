@@ -247,8 +247,8 @@ sub _Show {
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
-       TicketID      => $Param{TicketID},
-       DynamicFields => 0,
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
     );
 
     # show ticket create time in current view

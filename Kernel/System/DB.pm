@@ -1235,11 +1235,11 @@ sub QueryCondition {
 
 # check if database supports LIKE in large text types
 # the first condition is a little bit opaque
-# CaseSensitive of the database defines, if the database handles case sensitivity or not
+# CaseInsensitive of the database defines, if the database handles case sensitivity or not
 # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
 # so if the database dont support case sensitivity or the configuration of the customer database want to do this
 # then we prevent the LOWER() statements.
-                    if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
+                    if ( $Self->GetDatabaseFunction('CaseInsensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type '$Word'";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
@@ -1272,11 +1272,11 @@ sub QueryCondition {
 
 # check if database supports LIKE in large text types
 # the first condition is a little bit opaque
-# CaseSensitive of the database defines, if the database handles case sensitivity or not
+# CaseInsensitive of the database defines, if the database handles case sensitivity or not
 # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
 # so if the database dont support case sensitivity or the configuration of the customer database want to do this
 # then we prevent the LOWER() statements.
-                    if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
+                    if ( $Self->GetDatabaseFunction('CaseInsensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type '$Word'";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {

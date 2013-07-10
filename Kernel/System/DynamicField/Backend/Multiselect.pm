@@ -232,9 +232,10 @@ sub EditFieldRender {
     # is configured for this dynamic field
     if (
         IsHashRefWithData( $Param{Template} )
-        && defined $Param{Template}->{ $FieldName }
-    ) {
-        $Value = $Param{Template}->{ $FieldName };
+        && defined $Param{Template}->{$FieldName}
+        )
+    {
+        $Value = $Param{Template}->{$FieldName};
     }
 
     #d extract the dynamic field value form the web request

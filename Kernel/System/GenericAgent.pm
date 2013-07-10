@@ -1152,7 +1152,8 @@ sub _JobRunTicket {
                 $DynamicFieldConfig->{Config}->{PossibleNone}
                 || $Value ne ''
             )
-        ) {
+            )
+        {
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Param{TicketID},

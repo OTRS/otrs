@@ -30,7 +30,7 @@ sub new {
     }
 
     # create extra needed objects
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
     $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new(%Param);
     $Self->{QueueObject}        = Kernel::System::Queue->new(%Param);
 

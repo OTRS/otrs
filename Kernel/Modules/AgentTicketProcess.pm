@@ -4341,15 +4341,15 @@ sub _StoreActivityDialog {
                         # asssined SLA is still valid
                         if (
                             $UpdateFieldName eq 'ServiceID'
-                            && !defined $TicketParam{ SLAID }
+                            && !defined $TicketParam{SLAID}
                             )
                         {
 
                             # get ticket details
                             my %Ticket = $Self->{TicketObject}->TicketGet(
-                                    TicketID      => $TicketID,
-                                    DynamicFields => 0,
-                                    UserID        => $Self->{UserID},
+                                TicketID      => $TicketID,
+                                DynamicFields => 0,
+                                UserID        => $Self->{UserID},
                             );
 
                             # if ticket already have an SLA assigned get the list SLAs for the new

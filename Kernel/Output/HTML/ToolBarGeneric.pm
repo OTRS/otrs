@@ -35,8 +35,8 @@ sub Run {
 
     # check if there is extended data available
     my %Data;
-    if ($Param{Config}->{Data} && %{$Param{Config}->{Data}}) {
-        %Data = %{$Param{Config}->{Data}};
+    if ( $Param{Config}->{Data} && %{ $Param{Config}->{Data} } ) {
+        %Data = %{ $Param{Config}->{Data} };
     }
 
     $Return{ $Priority++ } = {

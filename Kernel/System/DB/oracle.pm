@@ -49,9 +49,10 @@ sub LoadPreferences {
     $Self->{'DB::Encode'} = 0;
 
     # shell setting
-    $Self->{'DB::Comment'}      = '-- ';
-    $Self->{'DB::ShellCommit'}  = ';';
-    $Self->{'DB::ShellConnect'} = "SET DEFINE OFF;\nSET SQLBLANKLINES ON"; # must be on separate lines!
+    $Self->{'DB::Comment'}     = '-- ';
+    $Self->{'DB::ShellCommit'} = ';';
+    $Self->{'DB::ShellConnect'}
+        = "SET DEFINE OFF;\nSET SQLBLANKLINES ON";    # must be on separate lines!
 
     # init sql setting on db connect
     #$Self->{'DB::Connect'} = '';

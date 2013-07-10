@@ -111,7 +111,7 @@ sub Run {
                 Param => $ParamItem->{Name},
                 Raw => $ParamItem->{Raw} || 0,
             );
-            if (defined $ParamItem->{Name}) {
+            if ( defined $ParamItem->{Name} ) {
                 $GetParam{ $ParamItem->{Name} } = \@Array;
             }
         }

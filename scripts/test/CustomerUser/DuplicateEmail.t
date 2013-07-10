@@ -103,10 +103,10 @@ $Self->False(
 # update user 1 with email address of customer 2
 my $Update = $CustomerUserObject->CustomerUserUpdate(
     %CustomerData,
-    Source         => 'CustomerUser',
-    ID             => $CustomerData{UserLogin},
-    UserEmail      => $Customer1Email,
-    UserID         => 1,
+    Source    => 'CustomerUser',
+    ID        => $CustomerData{UserLogin},
+    UserEmail => $Customer1Email,
+    UserID    => 1,
 );
 
 $Self->False(

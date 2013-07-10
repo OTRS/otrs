@@ -365,7 +365,7 @@ sub Run {
         }
 
         # prevent tamper with (Queue/Dest), see bug#9408
-        if ($NewQueueID && !$IsUpload) {
+        if ( $NewQueueID && !$IsUpload ) {
 
             # get the original list of queues to display
             my $Tos = $Self->_GetTos(
@@ -373,15 +373,15 @@ sub Run {
                 %ACLCompatGetParam,
                 QueueID => $NewQueueID,
             );
-    
+
             # check if current selected QueueID exists in the list of queues,\
             # otherwise rise an error
             if ( !$Tos->{$NewQueueID} ) {
                 $Error{QueueInvalid} = 'ServerError';
             }
-    
+
             # set the correct queue name in $To if it was altered
-            if ( $To ne $Tos->{$NewQueueID} ){
+            if ( $To ne $Tos->{$NewQueueID} ) {
                 $To = $Tos->{$NewQueueID}
             }
         }

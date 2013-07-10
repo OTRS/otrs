@@ -160,8 +160,10 @@ sub Run {
                     Type  => 'Small',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => $Self->{LayoutObject}->{LanguageObject}->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
+                    Message => $Self->{LayoutObject}->{LanguageObject}
+                        ->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}
+                        ->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -626,7 +628,7 @@ sub Run {
             my $From = $LastCustomerArticle{From};
 
             # If we don't have a customer article, use the agent as From
-            if (!$From) {
+            if ( !$From ) {
                 my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
                 $From = $TemplateGenerator->Sender(
                     QueueID => $Ticket{QueueID},
@@ -635,16 +637,16 @@ sub Run {
             }
 
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $Self->{TicketID},
-                ArticleType => $Self->{Config}->{ArticleType},
-                SenderType  => $Self->{Config}->{SenderType},
-                From        => $From,
-                Subject     => $GetParam{Subject},
-                Body        => $GetParam{Body},
-                MimeType    => $MimeType,
-                Charset     => $Self->{LayoutObject}->{UserCharset},
-                UserID      => $Self->{UserID},
-                HistoryType => $Self->{Config}->{HistoryType},
+                TicketID       => $Self->{TicketID},
+                ArticleType    => $Self->{Config}->{ArticleType},
+                SenderType     => $Self->{Config}->{SenderType},
+                From           => $From,
+                Subject        => $GetParam{Subject},
+                Body           => $GetParam{Body},
+                MimeType       => $MimeType,
+                Charset        => $Self->{LayoutObject}->{UserCharset},
+                UserID         => $Self->{UserID},
+                HistoryType    => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
             );
 

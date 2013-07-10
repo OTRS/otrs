@@ -157,7 +157,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
 
 my @Tests = (
     {
-        Name => "Regular string",
+        Name   => "Regular string",
         String => 'Regular subject string',
         Result => [
             "regular",
@@ -166,7 +166,7 @@ my @Tests = (
         ],
     },
     {
-        Name => "Filtered characters",
+        Name   => "Filtered characters",
         String => 'Test characters ,&<>?"!*|;[]()+$^=',
         Result => [
             "test",
@@ -174,7 +174,7 @@ my @Tests = (
         ],
     },
     {
-        Name => "String with quotes",
+        Name   => "String with quotes",
         String => '"String with quotes"',
         Result => [
             "string",
@@ -183,7 +183,7 @@ my @Tests = (
         ],
     },
     {
-        Name => "Sentence",
+        Name   => "Sentence",
         String => 'This is a full sentence',
         Result => [
             "this",
@@ -192,27 +192,26 @@ my @Tests = (
         ],
     },
     {
-        Name => "Stop words",
+        Name   => "Stop words",
         String => 'is a the of for and und der',
         Result => [
         ],
     },
     {
-        Name => "Word too short",
+        Name   => "Word too short",
         String => 'Word x',
         Result => [
             'word',
         ],
     },
     {
-        Name => "Word too long",
+        Name   => "Word too long",
         String => 'Word ' . 'x' x 50,
         Result => [
             'word',
         ],
     },
 );
-
 
 for my $Module (qw(StaticDB)) {
     for my $Test (@Tests) {
@@ -236,6 +235,5 @@ for my $Module (qw(StaticDB)) {
         );
     }
 }
-
 
 1;

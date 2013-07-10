@@ -54,10 +54,10 @@ sub new {
     {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{LayoutObject}    = Kernel::Output::HTML::Layout->new( %{$Self} );
-    $Self->{StateObject}     = Kernel::System::State->new( %{$Self} );
-    $Self->{PriorityObject}  = Kernel::System::Priority->new( %{$Self} );
-    $Self->{TypeObject}      = Kernel::System::Type->new( %{$Self} );
+    $Self->{LayoutObject}   = Kernel::Output::HTML::Layout->new( %{$Self} );
+    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
+    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
 
     # define needed variables
     $Self->{ObjectData} = {
@@ -462,11 +462,11 @@ sub SearchOptionList {
 
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         push @SearchOptionList,
-        {
+            {
             Key  => 'TypeIDs',
             Name => 'Type',
             Type => 'List',
-        };
+            };
     }
 
     # add formkey

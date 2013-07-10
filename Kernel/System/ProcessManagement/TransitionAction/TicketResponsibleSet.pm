@@ -167,7 +167,7 @@ sub Run {
         # add a separator
         $CommonMessage .= " - ";
     }
-    else{
+    else {
 
         # otherwise at least define it to prevent errors
         $CommonMessage = '';
@@ -245,7 +245,7 @@ sub Run {
             Priority => 'error',
             Message  => $CommonMessage
                 . 'Ticket responsible could not be updated to '
-                . $CustomMessage 
+                . $CustomMessage
                 . ' for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );

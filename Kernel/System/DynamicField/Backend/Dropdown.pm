@@ -198,9 +198,10 @@ sub EditFieldRender {
     # is configured for this dynamic field
     if (
         IsHashRefWithData( $Param{Template} )
-        && defined $Param{Template}->{ $FieldName }
-    ) {
-        $Value = $Param{Template}->{ $FieldName };
+        && defined $Param{Template}->{$FieldName}
+        )
+    {
+        $Value = $Param{Template}->{$FieldName};
     }
 
     # extract the dynamic field value form the web request
@@ -253,7 +254,7 @@ sub EditFieldRender {
     }
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data         => $PossibleValues || {},
+        Data => $PossibleValues || {},
         SelectedID   => $Value,
         Name         => $FieldName,
         Translation  => $FieldConfig->{TranslatableValues} || 0,

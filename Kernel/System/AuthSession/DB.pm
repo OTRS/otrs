@@ -687,24 +687,24 @@ sub _SQLCreate {
                 SQL  => $SQL,
                 Bind => \@BindCopy,
             );
-    
+
             push @{ $Param{SQLs} }, \%Row;
-            
+
             # clean variable
-            $SQL  = '';
-            @Bind = ();
+            $SQL     = '';
+            @Bind    = ();
             $Counter = 0;
         }
 
         if ( $SQL && @Bind ) {
 
             $SQL .= 'SELECT * FROM dual';
-    
+
             my %Row = (
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-    
+
             push @{ $Param{SQLs} }, \%Row;
         }
 

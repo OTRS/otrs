@@ -22,7 +22,6 @@ $ConfigObject->Set(
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
 
-
 # generate email
 my $EmailObject = Kernel::System::Email->new(
     %{$Self},
@@ -79,7 +78,5 @@ $Self->Is(
 ',
     'Check that in-reply-to header is split across lines',
 );
-
-
 
 1;

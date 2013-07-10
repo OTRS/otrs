@@ -176,7 +176,7 @@ sub Run {
         # add a separator
         $CommonMessage .= " - ";
     }
-    else{
+    else {
 
         # otherwise at least define it to prevent errors
         $CommonMessage = '';
