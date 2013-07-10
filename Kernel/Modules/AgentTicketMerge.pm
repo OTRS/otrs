@@ -236,6 +236,8 @@ sub Run {
 
             }
 
+            $Param{InformSenderChecked} = $GetParam{InformSender} ? 'checked="checked"' : '';
+
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
                 Data => { %Param, %GetParam, %Ticket, %Error },
