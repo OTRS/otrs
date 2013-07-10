@@ -85,7 +85,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    # create addititional objects
+    # create additional objects
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
