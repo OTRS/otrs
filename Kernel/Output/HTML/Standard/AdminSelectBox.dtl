@@ -50,6 +50,7 @@
 <!-- dtl:block:BindParamServerError -->
                                     $Text{"There is at least one parameter missing for the binding. Please check it."}
 <!-- dtl:block:BindParamServerError -->
+
                                 </p>
                             </div>
                         </div>
@@ -94,13 +95,18 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
                 <h2>$Text{"Results"}</h2>
             </div>
             <div class="Content">
-<!-- dtl:block:NoMatches -->
-                <p>$Text{"No matches found."}</p>
-<!-- dtl:block:NoMatches -->
-<!-- dtl:block:ResultTableStart -->
                 <table class="DataTable">
+                    <thead>
+                        <tr>
+<!-- dtl:block:ColumnHead -->
+                            <th>$QData{"ColumnName"}</th>
+<!-- dtl:block:ColumnHead -->
+                        </tr>
+                    </thead>
                     <tbody>
-<!-- dtl:block:ResultTableStart -->
+<!-- dtl:block:NoMatches -->
+                        <tr><td colspan="$QData{"Colspan"}">$Text{"No matches found."}</td></tr>
+<!-- dtl:block:NoMatches -->
 <!-- dtl:block:Row -->
                         <tr>
 <!-- dtl:block:Cell -->
@@ -108,10 +114,8 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
 <!-- dtl:block:Cell -->
                         </tr>
 <!-- dtl:block:Row -->
-<!-- dtl:block:ResultTableEnd -->
                     </tbody>
                 </table>
-<!-- dtl:block:ResultTableEnd -->
             </div>
         </div>
 <!-- dtl:block:Result -->

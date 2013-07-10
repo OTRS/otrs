@@ -646,6 +646,8 @@ sub Prepare {
         return;
     }
 
+    my $cols = $Self->{Cursor}->{NAME};
+
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
         $DBListener->PostPrepare( SQL => $SQL, Bind => \@Array );
     }
@@ -727,6 +729,27 @@ sub FetchrowArray {
     }
 
     return @Row;
+}
+
+=item GetColumnNames()
+
+to retrieve the column names of a database statement
+
+    $DBObject->Prepare(
+        SQL   => "SELECT * FROM table",
+        Limit => 10
+    );
+
+    my @Names = $DBObject->GetColumnNames();
+
+=cut
+
+sub GetColumnNames {
+    my $Self = shift;
+
+    my $ColumnNames = $Self->{Cursor}->{NAME};
+
+    return @{$ColumnNames};
 }
 
 =item SelectAll()
