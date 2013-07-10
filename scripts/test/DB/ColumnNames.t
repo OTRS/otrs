@@ -39,11 +39,16 @@ for my $Test (@Tests) {
     );
     my @Names = $DBObject->GetColumnNames();
 
-    $Self->IsDeeply(
-        \@Names,
-        $Test->{Result},
-        'GetColumnNames - ' . $Test->{Name}
-    );
+    my $Counter = 0;
+    for my $Field ( @{$Test->{Result}} ) {
+
+        $Self->Is(
+            lc $Names[$Counter],
+            $Field,
+            "GetColumnNames - field $Field - $Test->{Name}",
+        );
+        $Counter++;
+    }
 }
 
 1;
