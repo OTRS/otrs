@@ -69,7 +69,8 @@
  - 2013-03-27 Fixed bug#[8962](http://bugs.otrs.org/show_bug.cgi?id=8962) - RequestObject GetUploadAll Source 'File' option is unused
     and hard-coded to use /tmp.
 
-#3.2.10 2013-07-10
+#3.2.10 2013-??-??
+ - 2013-07-10 Fixed bug#[5307](http://bugs.otrs.org/show_bug.cgi?id=5307) - Tickets can be raised against an invalid Customer Company.
  - 2013-07-10 Fixed bug#[9596](http://bugs.otrs.org/show_bug.cgi?id=9596) - On merge and bounce screens is confusing when fill or not 'To',  'Subject' and 'Body' fields.
  - 2013-07-10 Fixed bug#[9514](http://bugs.otrs.org/show_bug.cgi?id=9514) - Bulk action (send email) uses senders address instead of customer id.
  - 2013-07-09 Fixed bug#[3007](http://bugs.otrs.org/show_bug.cgi?id=3007) - CheckMXRecord and CheckEmailAddresses have no effect on AgentTicketBounce.
