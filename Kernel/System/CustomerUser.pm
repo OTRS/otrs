@@ -365,9 +365,11 @@ sub CustomerUserDataGet {
             );
             
             $Company{CustomerCompanyValidID} = $Company{ValidID};
-            $Company{CustomerCompanyValid} = $Self->{ValidObject}->ValidLookup(
-                ValidID => $Company{ValidID},
-            );
+            if ( $Company{ValidID} ) {
+                $Company{CustomerCompanyValid} = $Self->{ValidObject}->ValidLookup(
+                    ValidID => $Company{ValidID},
+                );
+            }
         }
 
         # return customer data
