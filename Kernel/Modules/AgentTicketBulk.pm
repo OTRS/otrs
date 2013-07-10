@@ -386,8 +386,7 @@ sub Run {
                         User => $Ticket{CustomerUserID}
                     );
                     if ( $Customer{UserEmail} ) {
-                        $Customer
-                            = "$Customer{UserFirstname} $Customer{UserLastname} <$Customer{UserEmail}>";
+                        $Customer = $Customer{UserEmail};
                     }
                 }
 
