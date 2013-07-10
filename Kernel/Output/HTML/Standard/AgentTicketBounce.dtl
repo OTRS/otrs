@@ -89,7 +89,41 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="To">$Text{"To"}:</label>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+# initial setting for to/subject/body
+SwitchMandatoryFields();
+
+# watch for changes of inform sender field
+$('#InformSender').bind('click', function(){
+    SwitchMandatoryFields();
+});
+
+# function to switch between mandatory and optional
+function SwitchMandatoryFields() {
+    var InformSenderChecked = $('#InformSender').prop('checked'),
+        $ElementsLabelObj = $('#To,#Subject,#RichText').parent().prev('label');
+
+    if ( InformSenderChecked ) {
+        $ElementsLabelObj
+            .addClass('Mandatory')
+            .find('.Marker')
+            .removeClass('Hidden');
+    }
+    else if ( !InformSenderChecked ) {
+        $ElementsLabelObj
+            .removeClass('Mandatory')
+            .find('.Marker')
+            .addClass('Hidden');
+    }
+
+    return;
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+                <label for="To"><span class="Marker Hidden">*</span>$Text{"To"}:</label>
                 <div class="Field">
                     <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_Required $QData{"ToInvalid"}"/>
                     <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
@@ -113,7 +147,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="Subject">$Text{"Subject"}:</label>
+                <label for="Subject"><span class="Marker Hidden">*</span>$Text{"Subject"}:</label>
                 <div class="Field">
                     <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $QData{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
@@ -121,7 +155,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="RichText">$Text{"Text"}:</label>
+                <label for="RichText"><span class="Marker Hidden">*</span>$Text{"Text"}:</label>
                 <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
