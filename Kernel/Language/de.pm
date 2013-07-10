@@ -82,6 +82,7 @@ sub Data {
         'Error' => 'Fehler',
         'Bug Report' => 'Fehler berichten',
         'Attention' => 'Achtung',
+        'Note: Company is invalid!' => 'Hinweis: Firma ist ungültig!',
         'Warning' => 'Warnung',
         'Module' => 'Modul',
         'Modulefile' => 'Moduldatei',
