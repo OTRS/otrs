@@ -516,7 +516,7 @@ for my $Test (@Tests) {
 
 # Generate Random string test
 
-my $Token = $Self->{MainObject}->GenerateRandomString();
+my $Token  = $Self->{MainObject}->GenerateRandomString();
 my $Length = length($Token);
 
 $Self->True(
@@ -549,11 +549,11 @@ $Self->Is(
 my %Values;
 my $Seen = 0;
 for my $Counter ( 1 ... 100_000 ) {
-   my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
-   if ( $Values{$Random}++ ) {
-      $Seen = 1;
-      last;
-   }
+    my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
+    if ( $Values{$Random}++ ) {
+        $Seen = 1;
+        last;
+    }
 }
 
 $Self->Is(
@@ -561,6 +561,5 @@ $Self->Is(
     0,
     "GenerateRandomString - no duplicates in 100k iterations",
 );
-
 
 1;

@@ -20,9 +20,9 @@ my $SystemDataObject = Kernel::System::SystemData->new( %{$Self} );
 my $SystemDataNameRand0 = 'systemdata' . int( rand(1000000) );
 
 my $Success = $SystemDataObject->SystemDataAdd(
-    Key     => $SystemDataNameRand0,
-    Value   => $SystemDataNameRand0,
-    UserID  => 1,
+    Key    => $SystemDataNameRand0,
+    Value  => $SystemDataNameRand0,
+    UserID => 1,
 );
 
 $Self->True(
@@ -32,9 +32,9 @@ $Self->True(
 
 # another time, it should fail
 $Success = $SystemDataObject->SystemDataAdd(
-    Key     => $SystemDataNameRand0,
-    Value   => $SystemDataNameRand0,
-    UserID  => 1,
+    Key    => $SystemDataNameRand0,
+    Value  => $SystemDataNameRand0,
+    UserID => 1,
 );
 
 $Self->False(
@@ -47,9 +47,9 @@ my $UpperCaseKey = uc $SystemDataNameRand0;
 
 # another time, it should fail
 $Success = $SystemDataObject->SystemDataAdd(
-    Key     => $UpperCaseKey,
-    Value   => $SystemDataNameRand0,
-    UserID  => 1,
+    Key    => $UpperCaseKey,
+    Value  => $SystemDataNameRand0,
+    UserID => 1,
 );
 
 $Self->False(
@@ -65,9 +65,9 @@ $Self->True(
 );
 
 my $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key      => $SystemDataNameRand0,
-    Value   => 'update' . $SystemDataNameRand0,
-    UserID  => 1,
+    Key    => $SystemDataNameRand0,
+    Value  => 'update' . $SystemDataNameRand0,
+    UserID => 1,
 );
 
 $Self->True(
@@ -79,14 +79,14 @@ $SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand0 );
 
 $Self->Is(
     $SystemData,
-    'update'. $SystemDataNameRand0,
+    'update' . $SystemDataNameRand0,
     'SystemDataGet() - after update',
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key      => $UpperCaseKey,
-    Value   => 'uc' . $SystemDataNameRand0,
-    UserID  => 1,
+    Key    => $UpperCaseKey,
+    Value  => 'uc' . $SystemDataNameRand0,
+    UserID => 1,
 );
 
 $Self->True(
@@ -98,14 +98,14 @@ $SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand0 );
 
 $Self->Is(
     $SystemData,
-    'uc'. $SystemDataNameRand0,
+    'uc' . $SystemDataNameRand0,
     'SystemDataGet() - after update',
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key     => 'NonExisting' . $UpperCaseKey,   
-    Value   => 'some value',
-    UserID  => 1,
+    Key    => 'NonExisting' . $UpperCaseKey,
+    Value  => 'some value',
+    UserID => 1,
 );
 
 $Self->False(
@@ -114,15 +114,14 @@ $Self->False(
 );
 
 my $SystemDataDelete = $SystemDataObject->SystemDataDelete(
-    Key      => $SystemDataNameRand0,
-    UserID  => 1,
+    Key    => $SystemDataNameRand0,
+    UserID => 1,
 );
 
 $Self->True(
     $SystemDataDelete,
     'SystemDataDelete() - removed key',
 );
-
 
 $SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand0 );
 
@@ -135,10 +134,10 @@ $Self->False(
 # add system data 1
 my $SystemDataNameRand1 = 'systemdata' . int( rand(1000000) );
 
-my $Success = $SystemDataObject->SystemDataAdd(
-    Key     => $SystemDataNameRand1,
-    Value   => '',
-    UserID  => 1,
+$Success = $SystemDataObject->SystemDataAdd(
+    Key    => $SystemDataNameRand1,
+    Value  => '',
+    UserID => 1,
 );
 
 $Self->True(
@@ -155,9 +154,9 @@ $Self->Is(
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key      => $SystemDataNameRand1,
-    Value   => 'update',
-    UserID  => 1,
+    Key    => $SystemDataNameRand1,
+    Value  => 'update',
+    UserID => 1,
 );
 
 $Self->True(
@@ -174,9 +173,9 @@ $Self->Is(
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key      => $SystemDataNameRand1,
-    Value   => '',
-    UserID  => 1,
+    Key    => $SystemDataNameRand1,
+    Value  => '',
+    UserID => 1,
 );
 
 $Self->True(
@@ -193,8 +192,8 @@ $Self->Is(
 );
 
 $SystemDataDelete = $SystemDataObject->SystemDataDelete(
-    Key      => $SystemDataNameRand1,
-    UserID  => 1,
+    Key    => $SystemDataNameRand1,
+    UserID => 1,
 );
 
 $Self->True(

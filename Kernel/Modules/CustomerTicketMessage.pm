@@ -145,10 +145,10 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $PossibleValues };
+                my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -245,10 +245,10 @@ sub Run {
         my $IsUpload = 0;
 
         # attachment delete
-        my @AttachmentIDs = map{
+        my @AttachmentIDs = map {
             my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
             $ID ? $ID : ();
-        }$Self->{ParamObject}->GetParamNames();
+        } $Self->{ParamObject}->GetParamNames();
 
         COUNT:
         for my $Count ( reverse sort @AttachmentIDs ) {
@@ -296,10 +296,10 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $PossibleValues };
+                my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -380,7 +380,7 @@ sub Run {
         }
 
         # prevent tamper with (Queue/Dest), see bug#9408
-        if ($NewQueueID && !$IsUpload) {
+        if ( $NewQueueID && !$IsUpload ) {
 
             # get the original list of queues to display
             my $Tos = $Self->_GetTos(
@@ -396,7 +396,7 @@ sub Run {
             }
 
             # set the correct queue name in $To if it was altered
-            if ( $To ne $Tos->{$NewQueueID} ){
+            if ( $To ne $Tos->{$NewQueueID} ) {
                 $To = $Tos->{$NewQueueID}
             }
         }
@@ -510,8 +510,10 @@ sub Run {
             UserID           => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             HistoryType      => $Self->{Config}->{HistoryType},
             HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
-            AutoResponseType => ( $Self->{ConfigObject}->Get('AutoResponseForWebTickets') ) ? 'auto reply' : '',
-            OrigHeader       => {
+            AutoResponseType => ( $Self->{ConfigObject}->Get('AutoResponseForWebTickets') )
+            ? 'auto reply'
+            : '',
+            OrigHeader => {
                 From    => $From,
                 To      => $Self->{UserLogin},
                 Subject => $GetParam{Subject},

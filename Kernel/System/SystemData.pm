@@ -189,7 +189,7 @@ sub SystemDataGet {
     return $Cache if $Cache;
 
     return if !$Self->{DBObject}->Prepare(
-        SQL   => '
+        SQL => '
             SELECT data_value
             FROM system_data
             WHERE data_key = ?
@@ -205,7 +205,7 @@ sub SystemDataGet {
 
     # set cache
     $Self->{CacheInternalObject}->Set(
-        Key   => $CacheKey,
+        Key => $CacheKey,
         Value => $Value || '',
     );
 
@@ -333,7 +333,6 @@ sub SystemDataDelete {
 
     return 1;
 }
-
 
 1;
 

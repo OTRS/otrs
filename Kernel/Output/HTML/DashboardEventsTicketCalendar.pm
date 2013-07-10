@@ -205,7 +205,7 @@ sub Run {
                         next TICKETFIELD if !$Key;
                         next TICKETFIELD if !$EventTicketFields->{$Key};
 
-                        if ($Key eq 'CustomerUserID') {
+                        if ( $Key eq 'CustomerUserID' && $TicketDetail{$Key} ) {
                             $TicketDetail{$Key} = $Self->{CustomerUserObject}->CustomerName(
                                 UserLogin => $TicketDetail{$Key},
                             );

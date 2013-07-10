@@ -1494,11 +1494,14 @@ sub Run {
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data           => $ObjectAttribute->{Values},
-                    Name           => $ObjectAttribute->{Element},
-                    Multiple       => 1,
-                    Size           => 5,
-                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
+                    Data     => $ObjectAttribute->{Values},
+                    Name     => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size     => 5,
+                    Class =>
+                        ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                    ? 'DynamicFieldWithTreeView'
+                    : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1509,8 +1512,9 @@ sub Run {
 
                 );
 
-                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
-                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    $BlockData{SelectField}
+                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
                 }
             }
 
@@ -1590,11 +1594,14 @@ sub Run {
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data           => $ObjectAttribute->{Values},
-                    Name           => $ObjectAttribute->{Element},
-                    Multiple       => 1,
-                    Size           => 5,
-                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
+                    Data     => $ObjectAttribute->{Values},
+                    Name     => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size     => 5,
+                    Class =>
+                        ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                    ? 'DynamicFieldWithTreeView'
+                    : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1604,8 +1611,9 @@ sub Run {
                         . $ObjectAttribute->{Element} . "')",
                 );
 
-                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
-                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    $BlockData{SelectField}
+                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
                 }
             }
 
@@ -1718,11 +1726,14 @@ sub Run {
                 )
             {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data           => $ObjectAttribute->{Values},
-                    Name           => $ObjectAttribute->{Element},
-                    Multiple       => 1,
-                    Size           => 5,
-                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
+                    Data     => $ObjectAttribute->{Values},
+                    Name     => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size     => 5,
+                    Class =>
+                        ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                    ? 'DynamicFieldWithTreeView'
+                    : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1732,8 +1743,9 @@ sub Run {
                         . $ObjectAttribute->{Element} . "')",
                 );
 
-                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
-                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    $BlockData{SelectField}
+                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
                 }
             }
 
@@ -2698,10 +2710,10 @@ sub _ColumnAndRowTranslation {
         # sort
         my $DisableDefaultResultSort = grep {
             $_->{DisableDefaultResultSort}
-            && $_->{DisableDefaultResultSort} == 1
+                && $_->{DisableDefaultResultSort} == 1
         } @{ $Param{StatRef}->{UseAsXvalue} };
 
-        if (!$DisableDefaultResultSort) {
+        if ( !$DisableDefaultResultSort ) {
             @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
         }
 

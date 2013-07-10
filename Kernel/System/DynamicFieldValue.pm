@@ -305,7 +305,7 @@ sub ValueGet {
         TTL   => $Self->{CacheTTL},
     );
 
-    if (exists $CacheData{ $Param{FieldID} }) {
+    if ( exists $CacheData{ $Param{FieldID} } ) {
         return $CacheData{ $Param{FieldID} }
     }
 

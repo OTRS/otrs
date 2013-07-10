@@ -30,7 +30,7 @@ sub new {
         }
     }
 
-    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+    $Self->{CacheObject}           = Kernel::System::Cache->new(%Param);
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
     $Self->{SlaveDBObject}     = $Self->{DBObject};
@@ -64,25 +64,25 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $BackendConfigKey = 'DashboardBackend';
+    my $BackendConfigKey  = 'DashboardBackend';
     my $MainMenuConfigKey = 'AgentDashboard::MainMenu';
-    my $UserSettingsKey  = 'UserDashboard';
+    my $UserSettingsKey   = 'UserDashboard';
 
-    if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
-        $BackendConfigKey = 'AgentCustomerInformationCenter::Backend';
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
+        $BackendConfigKey  = 'AgentCustomerInformationCenter::Backend';
         $MainMenuConfigKey = 'AgentCustomerInformationCenter::MainMenu';
-        $UserSettingsKey  = 'UserCustomerInformationCenter';
+        $UserSettingsKey   = 'UserCustomerInformationCenter';
     }
 
     # load backends
-    my $Config = $Self->{ConfigObject}->Get( $BackendConfigKey );
+    my $Config = $Self->{ConfigObject}->Get($BackendConfigKey);
     if ( !$Config ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No such config for ' . $BackendConfigKey,
         );
     }
 
-    if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
 
         $Self->{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' );
 
@@ -127,7 +127,7 @@ sub Run {
         }
 
         my $URL = "Action=$Self->{Action}";
-        if ($Self->{CustomerID}) {
+        if ( $Self->{CustomerID} ) {
             $URL .= ";CustomerID=" . $Self->{LayoutObject}->LinkEncode( $Self->{CustomerID} );
         }
 
@@ -231,7 +231,7 @@ sub Run {
         }
 
         my $URL = "Action=$Self->{Action}";
-        if ($Self->{CustomerID}) {
+        if ( $Self->{CustomerID} ) {
             $URL .= ";CustomerID=" . $Self->{LayoutObject}->LinkEncode( $Self->{CustomerID} );
         }
 
@@ -284,7 +284,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Element' ) {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-$Self->{LogObject}->Dumper($Config);
+        $Self->{LogObject}->Dumper($Config);
         my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
@@ -309,7 +309,7 @@ $Self->{LogObject}->Dumper($Config);
 
     my %ContentBlockData;
 
-    if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
 
         $ContentBlockData{CustomerID} = $Self->{CustomerID};
 
@@ -321,7 +321,8 @@ $Self->{LogObject}->Dumper($Config);
         );
 
         if ( $CustomerCompanyData{CustomerCompanyName} ) {
-            $ContentBlockData{CustomerIDTitle} = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
+            $ContentBlockData{CustomerIDTitle}
+                = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
         }
     }
 
@@ -408,9 +409,9 @@ $Self->{LogObject}->Dumper($Config);
             Name => $Element{Config}->{Block},
             Data => {
                 %{ $Element{Config} },
-                Name     => $Name,
-                NameForm => $NameForm,
-                Content  => ${ $Element{Content} },
+                Name       => $Name,
+                NameForm   => $NameForm,
+                Content    => ${ $Element{Content} },
                 CustomerID => $Self->{CustomerID} || '',
             },
         );
@@ -556,7 +557,10 @@ sub _Element {
     my $Content;
     my $CacheKey = $Config{CacheKey};
     if ( !$CacheKey ) {
-        $CacheKey = $Name . '-' . ($Self->{CustomerID} || '') . '-' . $Self->{LayoutObject}->{UserLanguage};
+        $CacheKey
+            = $Name . '-'
+            . ( $Self->{CustomerID} || '' ) . '-'
+            . $Self->{LayoutObject}->{UserLanguage};
     }
     if ( $Config{CacheTTL} ) {
         $Content = $Self->{CacheObject}->Get(
@@ -569,7 +573,7 @@ sub _Element {
     my $CacheUsed = 1;
     if ( !defined $Content ) {
         $CacheUsed = 0;
-        $Content = $Object->Run(
+        $Content   = $Object->Run(
             AJAX => $Param{AJAX},
             CustomerID => $Self->{CustomerID} || '',
         );

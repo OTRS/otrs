@@ -948,12 +948,13 @@ sub SetPassword {
     }
 
     # bcrypt
-    elsif ( $CryptType eq 'bcrypt'  ) {
+    elsif ( $CryptType eq 'bcrypt' ) {
 
         if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message =>
+                    "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }

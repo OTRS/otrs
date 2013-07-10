@@ -201,7 +201,10 @@ sub Run {
             if ( $GetParam{To} ) {
                 for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
                     my $Address = $Email->address();
-                    if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+                    if (
+                        $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address )
+                        )
+                    {
                         $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
                         $Error{'ToInvalid'} = 'ServerError';
                     }
@@ -237,6 +240,8 @@ sub Run {
                 );
 
             }
+
+            $Param{InformSenderChecked} = $GetParam{InformSender} ? 'checked="checked"' : '';
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',

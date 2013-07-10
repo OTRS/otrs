@@ -202,7 +202,7 @@ sub GetParam {
     chomp($Line);
     my $ReturnLine = '';
     my %Remember;
-    for my $Array ( $Self->_decode_mimewords( String => $Line ) ) {
+    for my $Array ( $Self->_DecodeMimewords( String => $Line ) ) {
         for ( @{$Array} ) {
 
             # I don't know, but decode_mimewords() returns each mime
@@ -718,7 +718,7 @@ sub PartsAttachments {
     # check if there is no recommended_filename or subject -> add file-NoFilenamePartCounter
     if ( $Part->head()->recommended_filename() ) {
         $PartData{Filename}
-            = $Self->_decode_mimewords( String => $Part->head()->recommended_filename() );
+            = $Self->_DecodeMimewords( String => $Part->head()->recommended_filename() );
         $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
         if ( $PartData{ContentDisposition} ) {
             my %Data = $Self->GetContentTypeParams(
@@ -745,7 +745,7 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
         my $Subject;
-        foreach my $Decoded ( $Self->_decode_mimewords( String => $SubjectString ) ) {
+        foreach my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
             if ( $Decoded->[0] ) {
                 $Subject .= $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Decoded->[0],
@@ -936,30 +936,30 @@ sub CheckMessageBody {
 
 =begin internal
 
-=item _decode_mimewords()
+=item _DecodeMimewords()
 
 Wrapper for MIME::Words::decode_mimewords().
 
 This wrapper joins splitted quoted strings since the original split might not always split the lines
 in the corect byte (e.g. for utf-8 encoded strings), see bug$9418 for more details
 
-    my $Result = $Self->_decode_mimewords(
+    my $Result = $Self->_DecodeMimewords(
         String => 'some text',
     );
 
 =cut
 
-sub _decode_mimewords{
-    my ($Self, %Param) = @_;
+sub _DecodeMimewords {
+    my ( $Self, %Param ) = @_;
 
     my $String = $Param{String};
 
     # check is the string in encoded quote printable (e.g '=?utf-8?Q?=D0=95?=')
     if ( $String =~ m{\A = \? ([^\?]+) \? Q \?}msx ) {
-        
+
         # use capturing group as encoding
         my $Encoding = $1;
-        
+
         # remove multiple encoding lines, as the line could be splitted in the middle of the byte
         # but leave the first (regular expession will convert cases like ...=D0?= =?utf-8?Q?=BE...
         # into ...=D0=BE...)
@@ -967,7 +967,7 @@ sub _decode_mimewords{
         $String =~ s{\? = \s+ = \? $Encoding \? Q \?}{}gmsx;
     }
     return decode_mimewords($String);
-};
+}
 
 1;
 

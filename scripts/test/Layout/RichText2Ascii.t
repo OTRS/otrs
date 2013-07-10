@@ -48,13 +48,13 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 
 my @Tests = (
     {
-        Name => 'Plain',
+        Name   => 'Plain',
         String => 'some plain text',
         Result => 'some plain text',
 
     },
     {
-        Name => 'Umlauts',
+        Name   => 'Umlauts',
         String => '&Auml;nderung',
         Result => 'Änderung',
 

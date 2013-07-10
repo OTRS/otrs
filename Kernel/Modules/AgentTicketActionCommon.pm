@@ -280,10 +280,10 @@ sub Run {
         my $IsUpload = 0;
 
         # attachment delete
-        my @AttachmentIDs = map{
+        my @AttachmentIDs = map {
             my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
             $ID ? $ID : ();
-        }$Self->{ParamObject}->GetParamNames();
+        } $Self->{ParamObject}->GetParamNames();
 
         COUNT:
         for my $Count ( reverse sort @AttachmentIDs ) {
@@ -435,10 +435,10 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $PossibleValues };
+                my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
@@ -1071,10 +1071,10 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{ $PossibleValues };
+                my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs

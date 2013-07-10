@@ -32,7 +32,7 @@ sub new {
     # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get configured object types

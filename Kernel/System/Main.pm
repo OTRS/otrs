@@ -127,7 +127,7 @@ sub Require {
     # if there was an error
     if ($@) {
 
-        if (!$Param{Silent}) {
+        if ( !$Param{Silent} ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',
@@ -141,7 +141,7 @@ sub Require {
     # check result value, should be true
     if ( !$Result ) {
 
-        if (!$Param{Silent}) {
+        if ( !$Param{Silent} ) {
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',

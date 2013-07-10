@@ -532,7 +532,7 @@ my %HD = $TicketObject->HistoryTicketGet(
     TicketID  => $TicketID,
     Force     => 1,
 );
-my $QueueLookupID = $QueueObject->QueueLookup(Queue => $HD{Queue});
+my $QueueLookupID = $QueueObject->QueueLookup( Queue => $HD{Queue} );
 $Self->Is(
     $QueueLookupID,
     $HD{QueueID},
@@ -549,7 +549,6 @@ $Self->True(
     $TicketMove,
     'MoveTicket()',
 );
-
 
 my $TicketState = $TicketObject->StateSet(
     State    => 'open',

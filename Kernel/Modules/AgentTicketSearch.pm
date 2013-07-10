@@ -374,14 +374,15 @@ sub Run {
         }
 
         my %TimeMap = (
-            ArticleCreate            => 'ArticleTime',
-            TicketCreate             => 'Time',
-            TicketChange             => 'ChangeTime',
-            TicketClose              => 'CloseTime',
-            TicketEscalation         => 'EscalationTime',
+            ArticleCreate    => 'ArticleTime',
+            TicketCreate     => 'Time',
+            TicketChange     => 'ChangeTime',
+            TicketClose      => 'CloseTime',
+            TicketEscalation => 'EscalationTime',
         );
 
-        for my $TimeType (sort keys %TimeMap) {
+        for my $TimeType ( sort keys %TimeMap ) {
+
             # get create time settings
             if ( !$GetParam{ $TimeMap{$TimeType} . 'SearchType' } ) {
 
@@ -389,75 +390,77 @@ sub Run {
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimeSlot' ) {
                 for my $Key (qw(Month Day)) {
-                    $GetParam{$TimeType . 'TimeStart'  . $Key}
-                        = sprintf( "%02d", $GetParam{$TimeType . 'TimeStart' . $Key} );
-                    $GetParam{$TimeType . 'TimeStop' . $Key}
-                        = sprintf( "%02d", $GetParam{$TimeType . 'TimeStop' . $Key} );
+                    $GetParam{ $TimeType . 'TimeStart' . $Key }
+                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStop' . $Key }
+                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
                 }
                 if (
-                    $GetParam{$TimeType . 'TimeStartDay'}
-                    && $GetParam{$TimeType . 'TimeStartMonth'}
-                    && $GetParam{$TimeType . 'TimeStartYear'}
+                    $GetParam{ $TimeType . 'TimeStartDay' }
+                    && $GetParam{ $TimeType . 'TimeStartMonth' }
+                    && $GetParam{ $TimeType . 'TimeStartYear' }
                     )
                 {
-                    $GetParam{$TimeType . 'TimeNewerDate'}
-                        = $GetParam{$TimeType . 'TimeStartYear'} . '-'
-                        . $GetParam{$TimeType . 'TimeStartMonth'} . '-'
-                        . $GetParam{$TimeType . 'TimeStartDay'}
+                    $GetParam{ $TimeType . 'TimeNewerDate' }
+                        = $GetParam{ $TimeType . 'TimeStartYear' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStartMonth' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStartDay' }
                         . ' 00:00:00';
                 }
                 if (
-                    $GetParam{$TimeType . 'TimeStopDay'}
-                    && $GetParam{$TimeType . 'TimeStopMonth'}
-                    && $GetParam{$TimeType . 'TimeStopYear'}
+                    $GetParam{ $TimeType . 'TimeStopDay' }
+                    && $GetParam{ $TimeType . 'TimeStopMonth' }
+                    && $GetParam{ $TimeType . 'TimeStopYear' }
                     )
                 {
-                    $GetParam{$TimeType . 'TimeOlderDate'}
-                        = $GetParam{$TimeType . 'TimeStopYear'} . '-'
-                        . $GetParam{$TimeType . 'TimeStopMonth'} . '-'
-                        . $GetParam{$TimeType . 'TimeStopDay'}
+                    $GetParam{ $TimeType . 'TimeOlderDate' }
+                        = $GetParam{ $TimeType . 'TimeStopYear' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStopMonth' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStopDay' }
                         . ' 23:59:59';
                 }
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimePoint' ) {
                 if (
-                    $GetParam{$TimeType . 'TimePoint'}
-                    && $GetParam{$TimeType . 'TimePointStart'}
-                    && $GetParam{$TimeType . 'TimePointFormat'}
+                    $GetParam{ $TimeType . 'TimePoint' }
+                    && $GetParam{ $TimeType . 'TimePointStart' }
+                    && $GetParam{ $TimeType . 'TimePointFormat' }
                     )
                 {
                     my $Time = 0;
-                    if ( $GetParam{$TimeType . 'TimePointFormat'} eq 'minute' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'};
+                    if ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'minute' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' };
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'hour' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'hour' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'day' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'day' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'week' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 7;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'week' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 7;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'month' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 30;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'month' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 30;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'year' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 365;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'year' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 365;
                     }
-                    if ( $GetParam{$TimeType . 'TimePointStart'} eq 'Before' ) {
+                    if ( $GetParam{ $TimeType . 'TimePointStart' } eq 'Before' ) {
+
                         # more than ... ago
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = $Time;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = $Time;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointStart'} eq 'Next' ) {
+                    elsif ( $GetParam{ $TimeType . 'TimePointStart' } eq 'Next' ) {
+
                         # within next
-                        $GetParam{$TimeType . 'TimeNewerMinutes'} = 0;
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = -$Time;
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = 0;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = -$Time;
                     }
                     else {
                         # within last ...
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = 0;
-                        $GetParam{$TimeType . 'TimeNewerMinutes'} = $Time;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = 0;
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = $Time;
                     }
                 }
             }
@@ -732,7 +735,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title};
-                    $Data{From} = '--';
+                    $Data{From}    = '--';
                 }
 
                 # customer info
@@ -1266,7 +1269,7 @@ sub Run {
             );
 
             # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
+            if ( IsHashRefWithData($PossibleValues) ) {
 
                 # get historical values from database
                 my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(

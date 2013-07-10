@@ -277,7 +277,7 @@ sub CreateSessionID {
 
     # create challenge token
     my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
-         Length => 32,
+        Length => 32,
     );
 
     my %Data;
@@ -470,7 +470,7 @@ sub CleanUp {
 
     # use 'truncate table' if possible in order to reset the auto increment value
     if (
-        $Self->{DBType}    eq 'mysql'
+        $Self->{DBType} eq 'mysql'
         || $Self->{DBType} eq 'postgresql'
         || $Self->{DBType} eq 'oracle'
         || $Self->{DBType} eq 'mssql'
@@ -588,7 +588,7 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                ref $Value    eq 'HASH'
+                ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
                 )
@@ -638,7 +638,7 @@ sub _SQLCreate {
 
             if (
                 !defined $Value
-                || $Value     eq ''
+                || $Value eq ''
                 || ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
@@ -718,7 +718,7 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                ref $Value    eq 'HASH'
+                ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
                 )

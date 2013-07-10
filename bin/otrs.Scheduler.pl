@@ -568,7 +568,7 @@ sub _AutoRestart {
 
     my $StartExitCode = system("$Scheduler -a start");
 
-    if ( $StartExitCode ) {
+    if ($StartExitCode) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not start-up new Scheduler instance.",

@@ -32,7 +32,7 @@ sub new {
     # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get configured object types
@@ -342,7 +342,7 @@ sub _ChangeAction {
             $Errors{ $Needed . 'ServerErrorMessage' } = 'This field is required.';
         }
     }
-    
+
     # get the TreeView option and set it to '0' if it is undefined
     $GetParam{TreeView} = $Self->{ParamObject}->GetParam( Param => 'TreeView' );
     $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';

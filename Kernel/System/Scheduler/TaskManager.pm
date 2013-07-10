@@ -18,7 +18,7 @@ use vars qw(@ISA);
 
 =head1 NAME
 
-Kernel::Systrem::Scheduler::TaskManager - TaskManager backend for Scheduler
+Kernel::System::Scheduler::TaskManager - TaskManager backend for Scheduler
 
 =head1 SYNOPSIS
 

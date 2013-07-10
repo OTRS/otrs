@@ -691,7 +691,8 @@ sub SetPassword {
         if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message =>
+                    "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
@@ -700,14 +701,14 @@ sub SetPassword {
         my $Salt = $Self->{MainObject}->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Self->{EncodeObject}->EncodeOutput(\$Pw);
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
             {
-                    key_nul => 1,
-                    cost => 9,
-                    salt => $Salt,
+                key_nul => 1,
+                cost    => 9,
+                salt    => $Salt,
             },
             $Pw
         );
@@ -913,7 +914,8 @@ sub UserList {
     # sql query
     if ($Valid) {
         return if !$Self->{DBObject}->Prepare(
-            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
+            SQL =>
+                "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
                 . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
         );
     }
@@ -933,7 +935,8 @@ sub UserList {
             $Users{ $Row[0] } = "$Row[1], $Row[2] ($Row[3])";
         }
     }
-     # check vacation option
+
+    # check vacation option
     for my $UserID ( sort keys %Users ) {
         next if !$UserID;
 

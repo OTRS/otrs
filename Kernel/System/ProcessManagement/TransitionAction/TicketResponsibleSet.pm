@@ -140,10 +140,10 @@ sub Run {
 
     for my $Needed (
         qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
-            TransitionActionEntityID Config
-            )
-            )
-        {
+        TransitionActionEntityID Config
+        )
+        )
+    {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -155,8 +155,8 @@ sub Run {
 
     # define a common message to output in case of any error
     my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
-        ." Transition: $Param{TransitionEntityID}"
-        ." TransitionAction: $Param{TransitionActionEntityID} - ";
+        . " Transition: $Param{TransitionEntityID}"
+        . " TransitionAction: $Param{TransitionActionEntityID} - ";
 
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
@@ -230,7 +230,7 @@ sub Run {
             Priority => 'error',
             Message  => $CommonMessage
                 . 'Ticket responsible could not be updated to '
-                . $CustomMessage 
+                . $CustomMessage
                 . ' for Ticket: '
                 . $Param{Ticket}->{TicketID} . '!',
         );

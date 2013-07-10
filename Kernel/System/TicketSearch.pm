@@ -466,7 +466,7 @@ sub TicketSearch {
     # Limit the search to just one TicketID (used by the GenericAgent
     #   to filter for events on single tickets with the job's ticket filter).
     if ( $Param{TicketID} ) {
-        $SQLExt .= ' AND st.id = ' . $Self->{DBObject}->Quote($Param{TicketID}, 'Integer');
+        $SQLExt .= ' AND st.id = ' . $Self->{DBObject}->Quote( $Param{TicketID}, 'Integer' );
     }
 
     # add ticket flag table
@@ -932,7 +932,8 @@ sub TicketSearch {
 
             $SQLExt .= " AND tf$Index.ticket_key = '" . $Self->{DBObject}->Quote($Key) . "'";
             $SQLExt .= " AND tf$Index.ticket_value = '" . $Self->{DBObject}->Quote($Value) . "'";
-            $SQLExt .= " AND tf$Index.create_by = " . $Self->{DBObject}->Quote($TicketFlagUserID, 'Integer');
+            $SQLExt .= " AND tf$Index.create_by = "
+                . $Self->{DBObject}->Quote( $TicketFlagUserID, 'Integer' );
 
             $Index++;
         }
@@ -1135,7 +1136,7 @@ sub TicketSearch {
             if ( !$SystemTime ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1172,7 +1173,7 @@ sub TicketSearch {
             if ( !$SystemTime ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1255,7 +1256,7 @@ sub TicketSearch {
             if ( !$Time ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1288,7 +1289,7 @@ sub TicketSearch {
             if ( !$Time ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1514,7 +1515,7 @@ sub TicketSearch {
         if ( !$TimeStamp ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  =>
+                Message =>
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeOlderDate} . "'!",
             );
@@ -1542,7 +1543,7 @@ sub TicketSearch {
         if ( !$TimeStamp ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  =>
+                Message =>
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeNewerDate} . "'!",
             );

@@ -275,7 +275,7 @@ sub _ArticleIndexStringToWord {
     my @ListOfWords;
 
     WORD:
-    for my $Word (split /\s+/, ${ $Param{String} }) {
+    for my $Word ( split /\s+/, ${ $Param{String} } ) {
 
         # Apply filters
         for my $Filter (@Filters) {
@@ -287,7 +287,7 @@ sub _ArticleIndexStringToWord {
 
         # only index words/strings within length boundaries
         my $Length = length $Word;
-        if ( $Length < $LengthMin || $Length > $LengthMax) {
+        if ( $Length < $LengthMin || $Length > $LengthMax ) {
             next WORD;
         }
 

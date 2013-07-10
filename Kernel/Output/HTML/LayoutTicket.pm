@@ -362,8 +362,9 @@ sub AgentQueueListOption {
     }
     $Param{MoveQueuesStrg} .= "</select>\n";
 
-    if ($Param{TreeView}) {
-        $Param{MoveQueuesStrg} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+    if ( $Param{TreeView} ) {
+        $Param{MoveQueuesStrg}
+            .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
     }
 
     return $Param{MoveQueuesStrg};

@@ -22,7 +22,6 @@ use Kernel::System::PostMaster;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::Request;
 
-
 # create local config object
 my $ConfigObject = Kernel::Config->new();
 
@@ -210,8 +209,8 @@ for my $Test (@Tests) {
 
     # read email content (from a file)
     my $Email = $MainObject->FileRead(
-        Location  =>  $ConfigObject->Get('Home') . $Test->{EmailFile},
-        Result    => 'ARRAY',
+        Location => $ConfigObject->Get('Home') . $Test->{EmailFile},
+        Result   => 'ARRAY',
     );
 
     # use post master to import mail into OTRS
@@ -228,7 +227,7 @@ for my $Test (@Tests) {
         $PostMasterResult[0],
         0,
         "$Test->{Name} - PostMaster result should not be 0"
-            ." ($PostMasterReturnLookup{ $PostMasterResult[0] })",
+            . " ($PostMasterReturnLookup{ $PostMasterResult[0] })",
     );
 
     # check if we get a new TicketID
@@ -256,7 +255,7 @@ for my $Test (@Tests) {
             UserID        => 1,
         );
 
-         # use ArticleCheckPGP to decript the article
+        # use ArticleCheckPGP to decript the article
         my $CheckObject = Kernel::Output::HTML::ArticleCheckPGP->new(
             %{$Self},
             ConfigObject => $ConfigObject,
@@ -298,7 +297,7 @@ for my $Test (@Tests) {
         );
 
         FILEID:
-        for my $FileID (sort keys %AtmIndex) {
+        for my $FileID ( sort keys %AtmIndex ) {
 
             # skip non important attachments
             next FILEID if $AtmIndex{$FileID}->{Filename} =~ m{\A file-\d+ \z}msx;
@@ -312,7 +311,7 @@ for my $Test (@Tests) {
 
             # read the original file (from file system)
             my $FileStringRef = $MainObject->FileRead(
-                Location  => $ConfigObject->Get('Home')
+                Location => $ConfigObject->Get('Home')
                     . '/scripts/test/sample/Crypt/'
                     . $AtmIndex{$FileID}->{Filename},
             );
@@ -325,10 +324,10 @@ for my $Test (@Tests) {
             );
         }
     }
-};
+}
 
 # delete the tickets
-for my $TicketID ( @AddedTickets) {
+for my $TicketID (@AddedTickets) {
 
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
@@ -341,7 +340,6 @@ for my $TicketID ( @AddedTickets) {
         "TicketDelete() successful for Ticket ID $TicketID",
     );
 }
-
 
 # delete PGP keys
 for my $Count ( 1 .. 2 ) {

@@ -57,9 +57,9 @@ sub new {
         ObjectType => ['Ticket'],
     );
 
-    $Self->{EventObject}        = Kernel::System::Event->new(
+    $Self->{EventObject} = Kernel::System::Event->new(
         %Param,
-        DynamicFieldObject =>  $Self->{DynamicFieldObject},
+        DynamicFieldObject => $Self->{DynamicFieldObject},
     );
 
     return $Self;
@@ -424,12 +424,12 @@ sub _Edit {
     }
 
     my %RegisteredEvents = $Self->{EventObject}->EventList(
-        ObjectTypes => ['Ticket', 'Article',],
+        ObjectTypes => [ 'Ticket', 'Article', ],
     );
 
     my @Events;
-    for my $ObjectType (sort keys %RegisteredEvents) {
-        push @Events, @{ $RegisteredEvents{$ObjectType} ||  [] };
+    for my $ObjectType ( sort keys %RegisteredEvents ) {
+        push @Events, @{ $RegisteredEvents{$ObjectType} || [] };
     }
 
     # Build the list...

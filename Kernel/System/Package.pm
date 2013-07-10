@@ -1402,8 +1402,10 @@ sub PackageVerify {
 
     # define package verification info
     my $PackageVerifyInfo = {
-        Description => "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
-        Title       => 'Package not verified by the OTRS Group! It is recommended not to use this package.',
+        Description =>
+            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
+        Title =>
+            'Package not verified by the OTRS Group! It is recommended not to use this package.',
     };
 
     # investigate name
@@ -1467,7 +1469,7 @@ sub PackageVerify {
         Type  => 'PackageVerification',
         Key   => $Sum,
         Value => $PackageVerify,
-        TTL   => 30 * 24 * 60 * 60,  # 30 days
+        TTL   => 30 * 24 * 60 * 60,       # 30 days
     );
 
     return $PackageVerify;
@@ -1595,7 +1597,7 @@ sub PackageVerifyAll {
             Type  => 'PackageVerification',
             Key   => $PackageList{$Package},
             Value => $PackageVerify,
-            TTL   => 30 * 24 * 60 * 60,  # 30 days
+            TTL   => 30 * 24 * 60 * 60,        # 30 days
         );
     }
 
@@ -2199,7 +2201,6 @@ sub PackageInstallDefaultFiles {
 
     return 1;
 }
-
 
 =begin Internal:
 
@@ -3040,15 +3041,15 @@ sub _PackageUninstallMerged {
     }
 
     # check if the package is installed, otherwise return success (nothing to do)
-    my $PackageInstalled  = $Self->PackageIsInstalled(
-        Name   => $Param{Name},
+    my $PackageInstalled = $Self->PackageIsInstalled(
+        Name => $Param{Name},
     );
     return 1 if !$PackageInstalled;
 
     # get the package details
-    my @PackageList = $Self->RepositoryList();
+    my @PackageList       = $Self->RepositoryList();
     my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
-    my %PackageDetails = %{ $PackageListLookup{ $Param{Name} } };
+    my %PackageDetails    = %{ $PackageListLookup{ $Param{Name} } };
 
     # get the list of framework files
     my %FrameworkFiles = $Self->_ReadDistArchive( Home => $Home );
@@ -3060,7 +3061,7 @@ sub _PackageUninstallMerged {
     if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
 
         FILE:
-        for my $FileHash ( @{ $PackageDetails{Filelist} } ){
+        for my $FileHash ( @{ $PackageDetails{Filelist} } ) {
 
             my $File = $FileHash->{Location};
 
@@ -3078,7 +3079,7 @@ sub _PackageUninstallMerged {
 
                         # check if file was overridden by the package
                         my $SavedFile = $RealFile . '.save';
-                        if (-e  $SavedFile) {
+                        if ( -e $SavedFile ) {
 
                             # remove old file
                             if ( !$Self->{MainObject}->FileDelete( Location => $SavedFile ) ) {

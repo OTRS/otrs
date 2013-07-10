@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-10 Fixed bug#[9595](http://bugs.otrs.org/show_bug.cgi?id=9595) - Incomplete page reload handling in merge and bounce.
  - 2013-07-09 Fixed bug#[9589](http://bugs.otrs.org/show_bug.cgi?id=9589) - AgentLinkObject does not show TreeView option for linkable ITSMConfigurationManagement objects.
  - 2013-07-09 Fixed bug#[9581](http://bugs.otrs.org/show_bug.cgi?id=9581) - No TreeView for Queues in AdminNotificationEvent.
  - 2013-07-09 Fixed bug#[9563](http://bugs.otrs.org/show_bug.cgi?id=9563) - Dashboard Calendar Floater shows numeric values.
@@ -69,6 +70,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-07-10
+ - 2013-07-10 Fixed bug#[9514](http://bugs.otrs.org/show_bug.cgi?id=9514) - Bulk action (send email) uses senders address instead of customer id.
  - 2013-07-09 Fixed bug#[3007](http://bugs.otrs.org/show_bug.cgi?id=3007) - CheckMXRecord and CheckEmailAddresses have no effect on AgentTicketBounce.
  - 2013-07-09 Fixed bug#[9512](http://bugs.otrs.org/show_bug.cgi?id=9512) - Database error for invalid date in AgentTicketSearch.
  - 2013-07-09 Fixed bug#[4465](http://bugs.otrs.org/show_bug.cgi?id=4465) - Spell checker ispell ignores some characters such German umlauts.
