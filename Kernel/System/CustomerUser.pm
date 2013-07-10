@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::CustomerCompany;
 use Kernel::System::EventHandler;
+use Kernel::System::Valid;
 
 use vars qw(@ISA);
 
@@ -109,6 +110,7 @@ sub new {
     }
 
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # init of event handler
     push @ISA, 'Kernel::System::EventHandler';
@@ -371,6 +373,11 @@ sub CustomerUserDataGet {
         {
             %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
                 CustomerID => $Customer{UserCustomerID},
+            );
+            
+            $Company{CustomerCompanyValidID} = $Company{ValidID};
+            $Company{CustomerCompanyValid} = $Self->{ValidObject}->ValidLookup(
+                ValidID => $Company{ValidID},
             );
         }
 
