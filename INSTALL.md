@@ -68,7 +68,7 @@ Usually the package for My::Module would be called "perl-My-Module".
 first determine the name of the package the module is shipped in.
 Usually the package for My::Module would be called "libmy-module-perl".
 
-        shell> apt-get search Digest::MD5
+        shell> apt-cache search Digest::MD5
 
         Then install:
 
