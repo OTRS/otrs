@@ -365,9 +365,9 @@ $Param{Signature}";
                 $NextStates{''} = '-';
             }
             $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data     => \%NextStates,
-                Name     => 'BounceStateID',
-                Selected => $Param{BounceStateID},
+                Data       => \%NextStates,
+                Name       => 'BounceStateID',
+                SelectedID => $Param{BounceStateID},
             );
 
             # add rich text editor
@@ -377,7 +377,17 @@ $Param{Signature}";
                 );
             }
 
+
+            # prepare bounce tags if body is rich text
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+                # prepare bounce tags
+                $Param{Body} =~ s/&lt;OTRS_TICKET&gt;/&amp;lt;OTRS_TICKET&amp;gt;/gi;
+                $Param{Body} =~ s/&lt;OTRS_BOUNCE_TO&gt;/&amp;lt;OTRS_BOUNCE_TO&amp;gt;/gi;
+            }
+
             $Param{InformationFormat} = $Param{Body};
+            $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
 
             my $Output = $Self->{LayoutObject}->Header(
                 Type => 'Small',

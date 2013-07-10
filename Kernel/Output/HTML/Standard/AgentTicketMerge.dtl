@@ -53,7 +53,7 @@
 
                     <label for="InformSender">$Text{"Inform sender"}:</label>
                     <div class="Field">
-                        <input type="checkbox" id="InformSender" name="InformSender" value="1"/>
+                        <input type="checkbox" id="InformSender" name="InformSender" value="1" $QData{"InformSenderChecked"}/>
                     </div>
                     <div class="Clear"></div>
 
