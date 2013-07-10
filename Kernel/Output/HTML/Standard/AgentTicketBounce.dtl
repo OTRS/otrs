@@ -42,7 +42,7 @@
             <fieldset class="TableLike FixedLabel">
                 <label for="BounceTo">$Text{"Bounce to"}:</label>
                 <div class="Field">
-                    <input type="$QEnv{"EmailFieldType"}" name="BounceTo" id="BounceTo" value="" class="W50pc Validate_Required $QData{"BounceToInvalid"}"/>
+                    <input type="$QEnv{"EmailFieldType"}" name="BounceTo" id="BounceTo" value="$QData{"BounceTo"}" class="W50pc Validate_Required $QData{"BounceToInvalid"}"/>
                     <div id="BounceToError" class="TooltipErrorMessage" ><p>$Text{"You need a email address."}</p></div>
                     <div id="BounceToServerError" class="TooltipErrorMessage">
 <!-- dtl:block:BounceToCustomerGenericServerErrorMsg -->
@@ -72,7 +72,7 @@
 
                 <label for="InformSender">$Text{"Inform sender"}:</label>
                 <div class="Field">
-                    <input type="checkbox" name="InformSender" id="InformSender" value="1"/>
+                    <input type="checkbox" name="InformSender" id="InformSender" value="1" $QData{"InformSenderChecked"}/>
                 </div>
                 <div class="Clear"></div>
 
