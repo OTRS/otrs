@@ -1029,6 +1029,8 @@ generate SQL condition query based on a search expression
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
+    Returns the SQL string or "1=0" if the query could not be parsed correctly.
+
 Note that the comparisons are usually performed case insensitively.
 Only VARCHAR colums with a size less or equal 3998 are supported,
 as for locator objects the functioning of SQL function LOWER() can't
@@ -1051,8 +1053,8 @@ sub QueryCondition {
     my $LikeEscapeString = $Self->GetDatabaseFunction('LikeEscapeString');
 
     # search prefix/suffix check
-    my $SearchPrefix = $Param{SearchPrefix} || '';
-    my $SearchSuffix = $Param{SearchSuffix} || '';
+    my $SearchPrefix  = $Param{SearchPrefix}  || '';
+    my $SearchSuffix  = $Param{SearchSuffix}  || '';
     my $CaseSensitive = $Param{CaseSensitive} || 0;
 
     # remove leading/trailing spaces
@@ -1130,10 +1132,11 @@ sub QueryCondition {
     my $Close = 0;
 
     # for processing
-    my @Array = split( //, $Param{Value} );
-    my $SQL   = '';
-    my $Word  = '';
-    my $Not   = 0;
+    my @Array     = split( //, $Param{Value} );
+    my $SQL       = '';
+    my $Word      = '';
+    my $Not       = 0;
+    my $Backslash = 0;
 
     my $SpecialCharacters = $Self->_SpecialCharactersGet();
 
@@ -1141,43 +1144,52 @@ sub QueryCondition {
     for my $Position ( 0 .. $#Array ) {
 
         # find word
-        if (
+        if ($Backslash) {
+            $Word .= $Array[$Position];
+            $Backslash = 0;
+            next POSITION;
+        }
 
-            # if the previous element was '\\', the current element has to be added as word
-            # so that search queries like '\(Test\)' (searching for round brackets) work
-            (
-                $Position > 0
-                && $Array[ $Position - 1 ] eq '\\'
-                && $SpecialCharacters->{ $Array[$Position] }
+        # remember if next token is a part of word
+        elsif (
+            $Array[$Position] eq '\\'
+            && $Position < $#Array
+            && (
+                $SpecialCharacters->{ $Array[ $Position + 1 ] }
+                || $Array[ $Position + 1 ] eq '\\'
             )
-
-            # "default" case: don't add brackets, etc. to a word being searched for
-            || $Array[$Position] !~ /(\(|\)|\!|\|)/
             )
         {
-            if ( $Array[$Position] =~ m{&} ) {
-                if (
-                    !(
-                        (
-                            $Array[ $Position - 1 ]
-                            && $Array[ $Position - 1 ] =~ m{&}
-                        )
-                        ||
-                        (
-                            $Array[ $Position + 1 ]
-                            && $Array[ $Position + 1 ] =~ m{&}
-                        )
-                    )
-                    )
-                {
-                    $Word .= $Array[$Position];
-                    next POSITION;
-                }
+            $Backslash = 1;
+            next POSITION;
+        }
+
+        # remember if it's a NOT condition
+        elsif ( $Word eq '' && $Array[$Position] eq '!' ) {
+            $Not = 1;
+            next POSITION;
+        }
+        elsif ( $Array[$Position] eq '&' ) {
+            if ( $Position >= 1 && $Array[ $Position - 1 ] eq '&' ) {
+                next POSITION;
             }
-            else {
+            if ( $Position == $#Array || $Array[ $Position + 1 ] ne '&' ) {
                 $Word .= $Array[$Position];
                 next POSITION;
             }
+        }
+        elsif ( $Array[$Position] eq '|' ) {
+            if ( $Position >= 1 && $Array[ $Position - 1 ] eq '|' ) {
+                next POSITION;
+            }
+            if ( $Position == $#Array || $Array[ $Position + 1 ] ne '|' ) {
+                $Word .= $Array[$Position];
+                next POSITION;
+            }
+        }
+        elsif ( !$SpecialCharacters->{ $Array[$Position] } ) {
+            $Word .= $Array[$Position];
+            next POSITION;
         }
 
         # if word exists, do something with it
@@ -1206,7 +1218,7 @@ sub QueryCondition {
             }
 
             # if it's a NOT LIKE condition
-            if ( $Array[$Position] eq '!' || $Not ) {
+            if ($Not) {
                 $Not = 0;
 
                 my $SQLA;
@@ -1221,13 +1233,13 @@ sub QueryCondition {
                         $Type = '!=';
                     }
 
-                    # check if database supports LIKE in large text types
-                    # the first condition is a little bit opaque
-                    # CaseInsensitive of the database defines, if the database handles case sensitivity or not
-                    # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-                    # so if the database dont support case sensitivity or the configuration of the customer database want to do this
-                    # then we prevent the LOWER() statements.
-                    if ( $Self->GetDatabaseFunction('CaseInsensitive') || $CaseSensitive ) {
+# check if database supports LIKE in large text types
+# the first condition is a little bit opaque
+# CaseSensitive of the database defines, if the database handles case sensitivity or not
+# and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+# so if the database dont support case sensitivity or the configuration of the customer database want to do this
+# then we prevent the LOWER() statements.
+                    if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type '$Word'";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
@@ -1258,13 +1270,13 @@ sub QueryCondition {
                         $Type = '=';
                     }
 
-                    # check if database supports LIKE in large text types
-                    # the first condition is a little bit opaque
-                    # CaseInsensitive of the database defines, if the database handles case sensitivity or not
-                    # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-                    # so if the database dont support case sensitivity or the configuration of the customer database want to do this
-                    # then we prevent the LOWER() statements.
-                    if ( $Self->GetDatabaseFunction('CaseInsensitive') || $CaseSensitive ) {
+# check if database supports LIKE in large text types
+# the first condition is a little bit opaque
+# CaseSensitive of the database defines, if the database handles case sensitivity or not
+# and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+# so if the database dont support case sensitivity or the configuration of the customer database want to do this
+# then we prevent the LOWER() statements.
+                    if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type '$Word'";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
@@ -1290,48 +1302,77 @@ sub QueryCondition {
 
             # if it's an AND condition
             if ( $Array[$Position] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
-                $SQL .= ' AND ';
+                if ( $SQL =~ / OR $/ ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message =>
+                            "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
+                    );
+                    return "1=0";
+                }
+                elsif ( $SQL !~ / AND $/ ) {
+                    $SQL .= ' AND ';
+                }
             }
 
             # if it's an OR condition
             elsif ( $Array[$Position] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
-                $SQL .= ' OR ';
+                if ( $SQL =~ / AND $/ ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message =>
+                            "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
+                    );
+                    return "1=0";
+                }
+                elsif ( $SQL !~ / OR $/ ) {
+                    $SQL .= ' OR ';
+                }
             }
         }
 
         # add ( or ) for query
-        if (
-
-            # if the previous element was '\\', don't handle the current one as an SQL bracket
-            # (it was a bracket to search for)
-            ( $Position == 0 || $Array[ $Position - 1 ] ne '\\' )
-            && $Array[$Position] =~ /(\(|\))/
-            )
-        {
+        if ( $Array[$Position] eq '(' ) {
+            if ( $SQL ne '' && $SQL !~ /(?: (?:AND|OR) |\(\s*)$/ ) {
+                $SQL .= ' AND ';
+            }
             $SQL .= $Array[$Position];
 
             # remember for syntax check
-            if ( $1 eq '(' ) {
-                $Open++;
-            }
-            elsif ( $1 eq ')' ) {
-                $Close++;
-            }
+            $Open++;
         }
+        if ( $Array[$Position] eq ')' ) {
+            $SQL .= $Array[$Position];
+            if (
+                $Position < $#Array
+                && ( $Position > $#Array - 1 || $Array[ $Position + 1 ] ne ')' )
+                && (
+                    $Position > $#Array - 2
+                    || $Array[ $Position + 1 ] ne '&'
+                    || $Array[ $Position + 2 ] ne '&'
+                )
+                && (
+                    $Position > $#Array - 2
+                    || $Array[ $Position + 1 ] ne '|'
+                    || $Array[ $Position + 2 ] ne '|'
+                )
+                )
+            {
+                $SQL .= ' AND ';
+            }
 
-        # remember if it's a NOT condition
-        elsif ( $Array[$Position] eq '!' ) {
-            $Not = 1;
+            # remember for syntax check
+            $Close++;
         }
     }
 
     # check syntax
     if ( $Open != $Close ) {
         $Self->{LogObject}->Log(
-            Priority => 'Error',
+            Priority => 'notice',
             Message  => "Invalid condition '$Param{Value}', $Open open and $Close close!",
         );
-        return;
+        return "1=0";
     }
 
     return $SQL;
