@@ -1,4 +1,5 @@
 #3.2.10 2013-07-10
+ - 2013-07-10 Fixed bug#[9596](http://bugs.otrs.org/show_bug.cgi?id=9596) - On merge and bounce screens is confusing when fill or not 'To',  'Subject' and 'Body' fields.
  - 2013-07-10 Fixed bug#[9514](http://bugs.otrs.org/show_bug.cgi?id=9514) - Bulk action (send email) uses senders address instead of customer id.
  - 2013-07-10 Fixed bug#[9595](http://bugs.otrs.org/show_bug.cgi?id=9595) - Incomplete page reload handling in merge and bounce.
  - 2013-07-10 Fixed bug#[9570](http://bugs.otrs.org/show_bug.cgi?id=9570) - AgentTicketSearch with exclamation mark emits invalid SQL

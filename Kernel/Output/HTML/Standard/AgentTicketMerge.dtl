@@ -58,7 +58,41 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label class="Mandatory" for="To"><span class="Marker">*</span>$Text{"To"}:</label>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+# initial setting for to/subject/body
+SwitchMandatoryFields();
+
+# watch for changes of inform sender field
+$('#InformSender').bind('click', function(){
+    SwitchMandatoryFields();
+});
+
+# function to switch between mandatory and optional
+function SwitchMandatoryFields() {
+    var InformSenderChecked = $('#InformSender').prop('checked'),
+        $ElementsLabelObj = $('#To,#Subject,#RichText').parent().prev('label');
+
+    if ( InformSenderChecked ) {
+        $ElementsLabelObj
+            .addClass('Mandatory')
+            .find('.Marker')
+            .removeClass('Hidden');
+    }
+    else if ( !InformSenderChecked ) {
+        $ElementsLabelObj
+            .removeClass('Mandatory')
+            .find('.Marker')
+            .addClass('Hidden');
+    }
+
+    return;
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+                    <label for="To"><span class="Marker Hidden">*</span>$Text{"To"}:</label>
                     <div class="Field">
                         <input type="text" id="To" name="To" value="$QData{"To"}" class="Validate_DependingRequiredAND Validate_Depending_InformSender $Data{"ToInvalid"} W75pc"/>
                         <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"Need a valid email address."}</p></div>
@@ -82,7 +116,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
+                    <label for="Subject"><span class="Marker Hidden">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
                         <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="Validate_DependingRequiredAND Validate_Depending_InformSender $Data{"SubjectInvalid"} W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -90,7 +124,7 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
+                    <label for="RichText"><span class="Marker Hidden">*</span>$Text{"Text"}:</label>
                     <div class="RichTextField">
 
 <!-- dtl:block:RichText -->
