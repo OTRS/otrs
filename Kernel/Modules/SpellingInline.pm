@@ -68,7 +68,7 @@ sub Run {
 
     # do spell check
     my $SpellingObject = Kernel::System::Spelling->new( %{$Self} );
-    my %SpellCheck = $SpellingObject->Check(
+    my %SpellCheck     = $SpellingObject->Check(
         Text          => $TextAll,
         SpellLanguage => $SpellLanguage,
     );

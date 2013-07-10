@@ -241,7 +241,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     # CustomerIDList
-    my @List = $CustomerUserObject->CustomerIDList(
+    @List = $CustomerUserObject->CustomerIDList(
         SearchTerm => lc($UserRand . '-Customer-Update-Id'),
         ValidID    => 1,
     );

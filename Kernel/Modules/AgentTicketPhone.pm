@@ -346,8 +346,10 @@ sub Run {
             }
 
             my $CustomerKey = '';
-            if ( defined $CustomerDataFrom{UserEmail}
-                && $CustomerDataFrom{UserEmail} eq $EmailAddress )
+            if (
+                defined $CustomerDataFrom{UserEmail}
+                && $CustomerDataFrom{UserEmail} eq $EmailAddress
+                )
             {
                 $CustomerKey = $Article{CustomerUserID};
             }

@@ -943,24 +943,27 @@ sub Run {
             }
             if ( $Key eq 'TimeSearchType' ) {
 
-                if ($GetParam{TimeSearchType} eq 'TimeSlot') {
+                if ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
 
                     my $StartDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
-                                $GetParam{TicketCreateTimeStartYear}
-                        . '-' . $GetParam{TicketCreateTimeStartMonth}
-                        . '-' . $GetParam{TicketCreateTimeStartDay}
-                        . ' 00:00:00', 'DateFormatShort'
+                        $GetParam{TicketCreateTimeStartYear}
+                            . '-' . $GetParam{TicketCreateTimeStartMonth}
+                            . '-' . $GetParam{TicketCreateTimeStartDay}
+                            . ' 00:00:00', 'DateFormatShort'
                     );
 
-                    my $StopDate  = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
-                                $GetParam{TicketCreateTimeStopYear}
-                        . '-' . $GetParam{TicketCreateTimeStopMonth}
-                        . '-' . $GetParam{TicketCreateTimeStopDay}
-                        . ' 00:00:00', 'DateFormatShort'
+                    my $StopDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                        $GetParam{TicketCreateTimeStopYear}
+                            . '-' . $GetParam{TicketCreateTimeStopMonth}
+                            . '-' . $GetParam{TicketCreateTimeStopDay}
+                            . ' 00:00:00', 'DateFormatShort'
                     );
 
                     $Attribute = 'Created between';
-                    $Value     = $StartDate . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' ' . $StopDate;
+                    $Value
+                        = $StartDate . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' '
+                        . $StopDate;
                 }
                 else {
 
@@ -969,8 +972,11 @@ sub Run {
                         'Before' => 'Created more than ... ago',
                     };
 
-                    $Attribute = $Mapping->{$GetParam{TicketCreateTimePointStart}};
-                    $Value     = $GetParam{TicketCreateTimePoint} . ' ' . $Self->{LayoutObject}->{LanguageObject}->Get($GetParam{TicketCreateTimePointFormat} . '(s)');
+                    $Attribute = $Mapping->{ $GetParam{TicketCreateTimePointStart} };
+                    $Value
+                        = $GetParam{TicketCreateTimePoint} . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}
+                        ->Get( $GetParam{TicketCreateTimePointFormat} . '(s)' );
                 }
             }
 
@@ -1299,8 +1305,8 @@ sub MaskForm {
             Before => 'before',
         },
         Translation => 1,
-        Name => 'TicketCreateTimePointStart',
-        SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+        Name        => 'TicketCreateTimePointStart',
+        SelectedID  => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -1312,8 +1318,8 @@ sub MaskForm {
             year   => 'year(s)',
         },
         Translation => 1,
-        Name       => 'TicketCreateTimePointFormat',
-        SelectedID => $Param{TicketCreateTimePointFormat},
+        Name        => 'TicketCreateTimePointFormat',
+        SelectedID  => $Param{TicketCreateTimePointFormat},
     );
     $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,

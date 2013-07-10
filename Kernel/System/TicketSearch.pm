@@ -1127,7 +1127,7 @@ sub TicketSearch {
             if ( !$SystemTime ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1164,7 +1164,7 @@ sub TicketSearch {
             if ( !$SystemTime ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1247,7 +1247,7 @@ sub TicketSearch {
             if ( !$Time ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1280,7 +1280,7 @@ sub TicketSearch {
             if ( !$Time ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1506,7 +1506,7 @@ sub TicketSearch {
         if ( !$TimeStamp ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  =>
+                Message =>
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeOlderDate} . "'!",
             );
@@ -1534,7 +1534,7 @@ sub TicketSearch {
         if ( !$TimeStamp ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  =>
+                Message =>
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeNewerDate} . "'!",
             );

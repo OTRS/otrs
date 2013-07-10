@@ -775,7 +775,7 @@ sub CustomerUserUpdate {
 
     # if we update the email address, check if it already exists
     if (
-           $Param{UserEmail}
+        $Param{UserEmail}
         && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck}
         && lc $Param{UserEmail} ne lc $UserData{UserEmail}
         )

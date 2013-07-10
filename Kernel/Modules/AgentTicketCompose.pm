@@ -1204,8 +1204,10 @@ sub Run {
         # do not add customer email to cc, if article type is email-internal
         my $DataArticleType
             = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
-        if (   $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress')
-            && $DataArticleType !~ m{internal} )
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress')
+            && $DataArticleType !~ m{internal}
+            )
         {
 
             # check if customer is in recipient list
