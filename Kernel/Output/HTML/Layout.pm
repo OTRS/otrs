@@ -3198,11 +3198,11 @@ sub BuildDateSelection {
     # Datepicker
     $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
         Core.UI.Datepicker.Init({
-            Day: $(\'#' . $Prefix . 'Day\'),
-            Month: $(\'#' . $Prefix . 'Month\'),
-            Year: $(\'#' . $Prefix . 'Year\'),
-            Hour: $(\'#' . $Prefix . 'Hour\'),
-            Minute: $(\'#' . $Prefix . 'Minute\'),
+            Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
+            Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
+            Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
+            Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
+            Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
             DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
             WeekDayStart: ' . $WeekDayStart . '
         });
