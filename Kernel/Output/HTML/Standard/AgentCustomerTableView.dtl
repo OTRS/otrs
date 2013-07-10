@@ -27,6 +27,9 @@
             <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Alt"}"}" />
         </a>
 <!-- dtl:block:CustomerRowItem -->
+<!-- dtl:block:CustomerRowCustomerCompanyInvalid -->
+        <em class="Error">$Text{"Note: Company is invalid!"}</em>
+<!-- dtl:block:CustomerRowCustomerCompanyInvalid -->
     </p>
     <div class="Clear"></div>
 <!-- dtl:block:CustomerRow -->
