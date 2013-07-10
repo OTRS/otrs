@@ -5223,6 +5223,60 @@ sub _RemoveScriptTags {
     return $Code;
 }
 
+=item WrapPlainText()
+
+This sub has two main functionalities:
+1. Check every line and make sure thatb "\n" is the ending of the line.
+2. If the line does _not_ start with ">" (e.g. not cited text) 
+wrap it after the number of "MaxCharacters" (e.g. if MaxCharacters is "80" wrap after 80 characters).
+Do this _just_ if the line, that should be wrapped, contains space characters at which the line can be wrapped.
+
+If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see 
+use cases there.
+
+my $WrappedPlainText = $LayoutObject->WrapPlainText(
+    PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
+    MaxCharacters => 80,
+);
+
+=cut
+
+sub WrapPlainText {
+    my ( $Self, %Param ) = @_;
+
+    # Return if we did not get MaxCharacters
+    # or MaxCharacters doesn't contain just an int
+    if ( ! defined $Param{MaxCharacters} 
+         || $Param{MaxCharacters} !~ /^\d+$/ ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Got no or invalid MaxCharacters!",
+        );
+        return;
+    }
+
+    # Return if we didn't get PlainText
+    if ( ! defined $Param{PlainText} ) {
+        return;
+    }
+    # Return if we got no Scalar
+    if ( ref $Param{PlainText} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Had no string in PlainText!",
+        );
+        return;
+    }
+    # Return PlainText if we have less than MaxCharacters
+    if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
+        return $Param{PlainText};
+    }
+
+    my $WorkString = $Param{PlainText};
+    $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
+    return $WorkString;
+}
+
 #COMPAT: to 3.0.x and lower (can be removed later)
 sub TransfromDateSelection {
     my $Self = shift;

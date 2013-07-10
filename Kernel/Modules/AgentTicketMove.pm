@@ -211,8 +211,10 @@ sub Run {
 
     # rewrap body if no rich text is used
     if ( $GetParam{Body} && !$Self->{LayoutObject}->{BrowserRichText} ) {
-        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
-        $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
+        $GetParam{Body} = $Self->{LayoutObject}->WrapPlainText(
+            MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote'),
+            PlainText     => $GetParam{Body},
+        );
     }
 
     # error handling
