@@ -617,6 +617,19 @@ sub Run {
         my $NewResponsibleID = $Self->{ParamObject}->GetParam( Param => 'NewResponsibleID' ) || '';
         my $NewUserID        = $Self->{ParamObject}->GetParam( Param => 'NewUserID' ) || '';
         my $Dest             = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+
+        # see if only a name has been passed
+        if ( $Dest && $Dest !~ m{\A\d+\|\|.+} ) {
+
+            # see if we can get an ID for this queue name
+            my $DestID = $Self->{QueueObject}->QueueLookup(
+                Queue => $Dest,
+            );
+            if ($DestID) {
+                $Dest = $DestID . '||' . $Dest;
+            }
+        }
+
         my ( $NewQueueID, $From ) = split( /\|\|/, $Dest );
         if ( !$NewQueueID ) {
             $GetParam{OwnerAll} = 1;
