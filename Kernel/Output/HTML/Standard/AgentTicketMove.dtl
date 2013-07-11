@@ -250,14 +250,14 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:DynamicField_Field2 -->
 
 <!-- dtl:block:TimeUnitsLabel -->
-                    <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                    <label for="TimeUnits">$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabel -->
 <!-- dtl:block:TimeUnitsLabelMandatory -->
-                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabelMandatory -->
 <!-- dtl:block:TimeUnits -->
                     <div class="Field">
-                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
+                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W50pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                         <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
