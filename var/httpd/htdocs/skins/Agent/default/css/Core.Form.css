@@ -292,6 +292,14 @@ form fieldset {
     margin: 5px 0;
 }
 
+.SidebarColumn .FieldExplanation.Error {
+    border: 1px solid #F03432;
+    color: #F03432;
+    line-height: 150%;
+    margin: 7px 0px;
+    padding: 7px 10px;
+}
+
 form label.Mandatory {
     color: black !important;
 }
