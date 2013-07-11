@@ -193,9 +193,11 @@ sub Run {
             $Error{'MainTicketNumberInvalid'} = 'ServerError';
         }
 
-        for my $Parameter (qw( To Subject Body )) {
-            if ( !$GetParam{$Parameter} ) {
-                $Error{ $Parameter . 'Invalid' } = 'ServerError';
+        if ( $GetParam{InformSender} ) {
+            for my $Parameter (qw( To Subject Body )) {
+                if ( !$GetParam{$Parameter} ) {
+                    $Error{ $Parameter . 'Invalid' } = 'ServerError';
+                }
             }
 
             # check forward email address(es)
@@ -217,6 +219,9 @@ sub Run {
                         $Error{'ToInvalid'} = 'ServerError';
                     }
                 }
+            }
+            else {
+                $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
             }
         }
 
