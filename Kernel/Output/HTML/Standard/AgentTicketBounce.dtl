@@ -70,7 +70,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label class="Mandatory" for="BounceStateID"><span class="Marker">*</span>$Text{"Next ticket state"}:</label>
+                <label for="BounceStateID">$Text{"Next ticket state"}:</label>
                 <div class="Field">
                     $Data{"NextStatesStrg"}
                 </div>
