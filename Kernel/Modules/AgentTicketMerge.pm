@@ -196,7 +196,6 @@ sub Run {
             for my $Parameter (qw( To Subject Body )) {
                 if ( !$GetParam{$Parameter} ) {
                     $Error{ $Parameter . 'Invalid' } = 'ServerError';
-                    $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
                 }
             }
 
@@ -222,6 +221,9 @@ sub Run {
                         $Error{'ToInvalid'} = 'ServerError';
                     }
                 }
+            }
+            else {
+                $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
             }
         }
 
