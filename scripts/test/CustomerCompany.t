@@ -220,6 +220,29 @@ for my $Key ( 1 .. 3 ) {
         "CustomerCompanyGet() - ChangeTime Not Define",
     );
 
+    $CustomerCompanyObject->CustomerCompanyUpdate(
+        CustomerCompanyID      => $CompanyRand . '- updated',
+        CustomerID             => $CompanyRand . '- updated',
+        CustomerCompanyName    => $CompanyRand . '- updated Inc',
+        CustomerCompanyStreet  => 'Some Street',
+        CustomerCompanyZIP     => '12345',
+        CustomerCompanyCity    => 'Some city',
+        CustomerCompanyCountry => 'Germany',
+        CustomerCompanyURL     => 'http://updated.example.com',
+        CustomerCompanyComment => 'some comment updated',
+        ValidID                => 1,
+        UserID                 => 1,
+    );
+
+    %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+        CustomerID => $CompanyRand . '- updated',
+    );
+
+    $Self->Is(
+        $CustomerCompany{CustomerCompanyCountry},
+        'Germany',
+        "CustomerCompanyGet() cached - Changed country from USA to Germany and check value",
+    );
 }
 
 $XML      = '<TableDrop Name="customer_company_test"/>';
@@ -360,6 +383,30 @@ for my $Key ( 1 .. 3 ) {
     $Self->True(
         $CustomerCompany{ChangeTime},
         "CustomerCompanyGet() - ChangeTime",
+    );
+
+    $CustomerCompanyObject->CustomerCompanyUpdate(
+        CustomerCompanyID      => $CompanyRand . '- updated',
+        CustomerID             => $CompanyRand . '- updated',
+        CustomerCompanyName    => $CompanyRand . '- updated Inc',
+        CustomerCompanyStreet  => 'Some Street',
+        CustomerCompanyZIP     => '12345',
+        CustomerCompanyCity    => 'Some city',
+        CustomerCompanyCountry => 'Germany',
+        CustomerCompanyURL     => 'http://updated.example.com',
+        CustomerCompanyComment => 'some comment updated',
+        ValidID                => 1,
+        UserID                 => 1,
+    );
+
+    %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+        CustomerID => $CompanyRand . '- updated',
+    );
+
+    $Self->Is(
+        $CustomerCompany{CustomerCompanyCountry},
+        'Germany',
+        "CustomerCompanyGet() cached - Changed country from USA to Germany and check value",
     );
 }
 
