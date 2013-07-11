@@ -417,11 +417,6 @@ sub _Mask {
     my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
-    # error screen, don't show ticket
-#    if ( !@ArticleBox ) {
-#        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
-#    }
-
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
