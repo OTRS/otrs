@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-11 Fixed bug#[8588](http://bugs.otrs.org/show_bug.cgi?id=8588) - DynamicFieldOrderSrtg doesn't include field name.
  - 2013-07-11 Fixed bug#[7805](http://bugs.otrs.org/show_bug.cgi?id=7805) - Adding an agent requires a password in the frontend which is not neccessary from the backend.
  - 2013-07-11 Fixed bug#[5852](http://bugs.otrs.org/show_bug.cgi?id=5852) - Queue preselection via URL.
  - 2013-07-11 Fixed bug#[9051](http://bugs.otrs.org/show_bug.cgi?id=9051) - Unified field sizes.
