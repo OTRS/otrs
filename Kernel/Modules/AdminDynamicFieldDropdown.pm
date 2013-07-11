@@ -33,7 +33,6 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
@@ -301,9 +300,10 @@ sub _Change {
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
 
         # set PossibleValues
-        $Config{PossibleValues} = $Self->{DynamicFieldBackendObject}->PossibleValuesGet(
-            DynamicFieldConfig => $DynamicFieldData,
-        ) || {};
+        $Config{PossibleValues} = {};
+        if ( IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ) {
+            $Config{PossibleValues} = $DynamicFieldData->{Config}->{PossibleValues};
+        }
 
         # set DefaultValue
         $Config{DefaultValue} = $DynamicFieldData->{Config}->{DefaultValue};
