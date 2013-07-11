@@ -15,6 +15,7 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
+use Kernel::System::VariableCheck qw(:all);
 
 use Mail::Address;
 use URI::Escape qw();
@@ -5226,7 +5227,7 @@ sub _RemoveScriptTags {
 =item WrapPlainText()
 
 This sub has two main functionalities:
-1. Check every line and make sure thatb "\n" is the ending of the line.
+1. Check every line and make sure that "\n" is the ending of the line.
 2. If the line does _not_ start with ">" (e.g. not cited text) 
 wrap it after the number of "MaxCharacters" (e.g. if MaxCharacters is "80" wrap after 80 characters).
 Do this _just_ if the line, that should be wrapped, contains space characters at which the line can be wrapped.
@@ -5246,8 +5247,7 @@ sub WrapPlainText {
 
     # Return if we did not get MaxCharacters
     # or MaxCharacters doesn't contain just an int
-    if ( ! defined $Param{MaxCharacters} 
-         || $Param{MaxCharacters} !~ /^\d+$/ ) {
+    if ( ! IsPositiveInteger($Param{MaxCharacters}) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
