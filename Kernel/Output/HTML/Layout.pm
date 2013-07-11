@@ -15,6 +15,7 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
+use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
@@ -114,6 +115,7 @@ sub new {
     # create additional objects
     $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
     $Self->{JSONObject}      = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # reset block data
     delete $Self->{BlockData};
