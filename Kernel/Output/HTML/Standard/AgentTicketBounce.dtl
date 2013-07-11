@@ -46,7 +46,7 @@
             </div>
 
             <fieldset class="TableLike FixedLabel">
-                <label for="BounceTo">$Text{"Bounce to"}:</label>
+                <label class="Mandatory" for="BounceTo"><span class="Marker">*</span>$Text{"Bounce to"}:</label>
                 <div class="Field">
                     <input type="text" name="BounceTo" id="BounceTo" value="$QData{"BounceTo"}" class="W50pc Validate_Required $QData{"BounceToInvalid"}"/>
                     <div id="BounceToError" class="TooltipErrorMessage" ><p>$Text{"You need a email address."}</p></div>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="BounceStateID">$Text{"Next ticket state"}:</label>
+                <label class="Mandatory" for="BounceStateID"><span class="Marker">*</span>$Text{"Next ticket state"}:</label>
                 <div class="Field">
                     $Data{"NextStatesStrg"}
                 </div>
