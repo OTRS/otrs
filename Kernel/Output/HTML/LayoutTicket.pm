@@ -120,6 +120,18 @@ sub AgentCustomerViewTable {
                 Name => 'CustomerRow',
                 Data => \%Record,
             );
+
+            if ( $Param{Data}->{Config}->{CustomerCompanySupport} && $Field->[0] eq 'CustomerCompanyName' ) {
+                my $CompanyValidID = $Param{Data}->{ CustomerCompanyValidID };
+                my @ValidIDs = $Self->{ValidObject}->ValidIDsGet();
+                my $CompanyIsValid = grep { $CompanyValidID == $_ } @ValidIDs;
+
+                if ( !$CompanyIsValid ) {
+                    $Self->Block(
+                        Name => 'CustomerRowCustomerCompanyInvalid',
+                    );
+                }
+            }
         }
     }
 

@@ -663,6 +663,19 @@ sub Run {
         }
         my $NextState = $StateData{Name} || '';
         my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+
+        # see if only a name has been passed
+        if ( $Dest && $Dest !~ m{\A\d+\|\|.+} ) {
+
+            # see if we can get an ID for this queue name
+            my $DestID = $Self->{QueueObject}->QueueLookup(
+                Queue => $Dest,
+            );
+            if ($DestID) {
+                $Dest = $DestID . '||' . $Dest;
+            }
+        }
+
         my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )

@@ -176,16 +176,16 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="$QData{"ClassMandatory"}" for="UserPw">
-<!-- dtl:block:MarkerMandatory -->
-                            <span class="Marker">*</span>
-<!-- dtl:block:MarkerMandatory -->
+                        <label for="UserPw">
                             $Text{"Password"}:
                         </label>
                         <div class="Field">
-                            <input type="password" name="UserPw" id="UserPw" value="" class="W50pc $QData{"UserPwRequired"} $QData{"UserPwInvalid"} " maxlength="100" autocomplete="off" />
-                            <div id="UserPwError" class="TooltipErrorMessage"><p>$Text{"Password is required."}</p></div>
-                            <div id="UserPwServerError" class="TooltipErrorMessage"><p>$Text{"Password is required."}</p></div>
+                            <input type="password" name="UserPw" id="UserPw" value="" class="W50pc $QData{"UserPwInvalid"} " maxlength="100" autocomplete="off" />
+<!-- dtl:block:ShowPasswordHint -->
+                            <p class="FieldExplanation">
+                                $Text{"Will be auto-generated if left empty."}
+                            </p>
+<!-- dtl:block:ShowPasswordHint -->
                         </div>
                         <div class="Clear"></div>
 

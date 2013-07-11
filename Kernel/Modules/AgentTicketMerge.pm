@@ -222,6 +222,9 @@ sub Run {
                     }
                 }
             }
+            else {
+                $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
+            }
         }
 
         if (%Error) {

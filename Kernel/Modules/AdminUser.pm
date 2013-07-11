@@ -305,7 +305,7 @@ sub Run {
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
-        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID UserPw)) {
+        for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
@@ -469,9 +469,9 @@ sub _Edit {
     else {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
         $Self->{LayoutObject}->Block( Name => 'MarkerMandatory' );
-        $Param{ClassMandatory} = 'Mandatory';
-        $Param{UserPwRequired} = 'Validate_Required';
-
+        $Self->{LayoutObject}->Block(
+            Name => 'ShowPasswordHint',
+        );
     }
 
     # add the correct server error msg

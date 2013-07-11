@@ -474,8 +474,10 @@ sub _ShowScreen {
 
     # get the list of order numbers (is already sorted).
     my @DynamicfieldOrderList;
+    my %DynamicfieldNamesList;
     for my $Dynamicfield ( @{$DynamicFieldList} ) {
         push @DynamicfieldOrderList, $Dynamicfield->{FieldOrder};
+        $DynamicfieldNamesList{$Dynamicfield->{FieldOrder}} = $Dynamicfield->{Label};
     }
 
     # when adding we need to create an extra order number for the new field
@@ -489,13 +491,24 @@ sub _ShowScreen {
         push @DynamicfieldOrderList, $LastOrderNumber;
     }
 
-    my $DynamicFieldOrderSrtg = $Self->{LayoutObject}->BuildSelection(
-        Data          => \@DynamicfieldOrderList,
+    # show the names of the other fields to ease ordering
+    my %OrderNamesList;
+    my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Get('Currently') . ': ';
+    for my $OrderNumber (sort @DynamicfieldOrderList) {
+        $OrderNamesList{$OrderNumber} = $OrderNumber;
+        if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
+            $OrderNamesList{$OrderNumber} = $OrderNumber . ' - ' . $CurrentlyText . $DynamicfieldNamesList{$OrderNumber}
+        }
+    }
+
+    my $DynamicFieldOrderStrg = $Self->{LayoutObject}->BuildSelection(
+        Data          => \%OrderNamesList,
         Name          => 'FieldOrder',
         SelectedValue => $Param{FieldOrder} || 1,
         PossibleNone  => 0,
         Translation   => 0,
-        Class         => 'W50pc Validate_Number',
+        Sort          => 'NumericKey',
+        Class         => 'W75pc Validate_Number',
     );
 
     my %ValidList = $Self->{ValidObject}->ValidList();
@@ -567,7 +580,7 @@ sub _ShowScreen {
         Data         => {
             %Param,
             ValidityStrg          => $ValidityStrg,
-            DynamicFieldOrderSrtg => $DynamicFieldOrderSrtg,
+            DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             DefaultValue          => $DefaultValue,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,

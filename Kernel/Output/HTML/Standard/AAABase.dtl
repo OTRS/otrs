@@ -278,6 +278,7 @@ $Text{"Type updated!"}
 $Text{"Customer updated!"}
 $Text{"Customer company added!"}
 $Text{"Customer company updated!"}
+$Text{"Note: Company is invalid!"}
 $Text{"Mail account added!"}
 $Text{"Mail account updated!"}
 $Text{"System e-mail address added!"}

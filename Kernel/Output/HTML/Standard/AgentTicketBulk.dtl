@@ -70,14 +70,14 @@ $Include{"RichTextEditor"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:TimeUnitsLabel -->
-                            <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                            <label for="TimeUnits">$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabel -->
 <!-- dtl:block:TimeUnitsLabelMandatory -->
-                            <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                            <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabelMandatory -->
 <!-- dtl:block:TimeUnits -->
                             <div class="Field">
-                                <input type="text" class="Validate_TimeUnits W20pc $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}"/>
+                                <input type="text" class="Validate_TimeUnits W50pc $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}" id="TimeUnits" name="TimeUnits" value="$QData{"TimeUnits"}"/>
                                 <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                                 <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>
@@ -124,10 +124,10 @@ $Include{"RichTextEditor"}
                             </div>
                             <div class="Clear"></div>
 <!-- dtl:block:TimeUnitsLabelEmail -->
-                            <label for="EmailTimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                            <label for="EmailTimeUnits">$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabelEmail -->
 <!-- dtl:block:TimeUnitsLabelMandatoryEmail -->
-                            <label class="Mandatory" for="EmailTimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                            <label class="Mandatory" for="EmailTimeUnits"><span class="Marker">*</span>$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabelMandatoryEmail -->
 <!-- dtl:block:TimeUnitsEmail -->
                             <div class="Field">

@@ -562,6 +562,11 @@ fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
 fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
     width: 143px;
 }
+fieldset.TableLike.FixedLabelSmall > p.FixedValueSmall > em.Error {
+    display: block;
+    font-size: 11px;
+    margin-top: 3px;
+}
 
 fieldset.TableLike.Narrow > label,
 fieldset.TableLike.Narrow > .Row > label {

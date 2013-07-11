@@ -82,6 +82,7 @@ sub Data {
         'Error' => 'Fehler',
         'Bug Report' => 'Fehler berichten',
         'Attention' => 'Achtung',
+        'Note: Company is invalid!' => 'Hinweis: Firma ist ungültig!',
         'Warning' => 'Warnung',
         'Module' => 'Modul',
         'Modulefile' => 'Moduldatei',
@@ -267,7 +268,7 @@ sub Data {
         'Cannot create %s!' => '%s kann nicht erzeugt werden!',
         'Check to activate this date' => 'Auswählen, um dieses Datum zu aktivieren',
         'You have Out of Office enabled, would you like to disable it?' =>
-            'Sie haben die Abwesenheitszeit eingeschaltet, möchten Sie diese deaktiveren?',
+            'Sie haben die Abwesenheitszeit eingeschaltet, möchten Sie diese deaktivieren?',
         'Customer %s added' => 'Kunde %s hinzugefügt',
         'Role added!' => 'Rolle hinzugefügt!',
         'Role updated!' => 'Rolle aktualisiert!',

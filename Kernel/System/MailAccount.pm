@@ -78,7 +78,7 @@ sub new {
         die "Got no $_" if !$Self->{$_};
     }
 
-    # create addititional objects
+    # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
