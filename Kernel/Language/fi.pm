@@ -444,7 +444,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Salasanan päivitys ei onnistunut, se sisälsi virheellisiä merkkejä!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään %s merkkiä!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 1 numero!',
         'Can\'t update password, it must contain at least 2 characters!' =>

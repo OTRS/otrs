@@ -442,7 +442,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Şifreniz güncellenemiyor. Geçersiz karakter içeriyor!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Şifreniz güncellenemiyor. En az %s karakter uzunluğunda olmalı!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Şifreniz güncellenemiyor. En az 2 küçük harf, 2 büyük harf içermeli!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Şifreniz güncellenemiyor. En az 1 rakam içermeli!',
         'Can\'t update password, it must contain at least 2 characters!' =>

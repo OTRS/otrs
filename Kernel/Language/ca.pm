@@ -442,7 +442,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'No es pot actualitzar la contrasenya, conté caràcters no vàlids!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'No es pot actualitzar la contrasenya, ha de tenir almenys %s caràcters!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'No es pot actualitzar la contrasenya, ha de contenir almenys 2 lletres minúscules i 2 majúscules!',
         'Can\'t update password, it must contain at least 1 digit!' => 'No es pot actualitzar la contrasenya, ha de contenir almenys un dígit 1!',
         'Can\'t update password, it must contain at least 2 characters!' =>

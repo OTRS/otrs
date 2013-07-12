@@ -442,7 +442,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '¡No se puede actualizar su contraseña, porque contiene caracteres inválidos!',
         'Can\'t update password, it must be at least %s characters long!' =>
             '¡No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
         'Can\'t update password, it must contain at least 1 digit!' => '¡No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!',
         'Can\'t update password, it must contain at least 2 characters!' =>

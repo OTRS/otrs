@@ -448,7 +448,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Nelze zaktualizovat heslo, protože obsahuje neplatné znaky. Zkuste to prosím znovu!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje minimálně %s znaků. Zkuste to prosím znovu!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 malá a 2 velká písmena!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Nelze zaktualizovat heslo, protože neobsahuje alespoň 1 číslici!',
         'Can\'t update password, it must contain at least 2 characters!' =>
