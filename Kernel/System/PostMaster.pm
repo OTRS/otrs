@@ -123,20 +123,17 @@ sub new {
         QueueObject          => $Self->{QueueObject},
         StateObject          => $Self->{StateObject},
         PriorityObject       => $Self->{PriorityObject},
-        LoopProtectionObject => $Self->{LoopProtectionObject},
     );
     $Self->{FollowUp} = Kernel::System::PostMaster::FollowUp->new(
         %Param,
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
-        LoopProtectionObject => $Self->{LoopProtectionObject},
         ParserObject         => $Self->{ParserObject},
     );
     $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
         %Param,
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
-        LoopProtectionObject => $Self->{LoopProtectionObject},
         ParserObject         => $Self->{ParserObject},
     );
 
