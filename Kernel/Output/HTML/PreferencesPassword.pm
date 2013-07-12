@@ -156,7 +156,7 @@ sub Run {
         return;
     }
 
-    # check min 1 lower and 1 upper char
+    # check min 2 lower and 2 upper char
     if ( $Config->{PasswordMin2Lower2UpperCharacters} && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ ) ) {
         $Self->{Error}
             = 'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!';
