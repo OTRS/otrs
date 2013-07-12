@@ -80,6 +80,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
+ - 2013-07-12 Fixed bug#[3434](http://bugs.otrs.org/show_bug.cgi?id=3434) - Validity of search time frame not checked by OTRS.
  - 2013-07-10 Fixed bug#[9598](http://bugs.otrs.org/show_bug.cgi?id=9598) - Typo in vacation message for German locale.
  - 2013-07-10 Fixed bug#[9595](http://bugs.otrs.org/show_bug.cgi?id=9595) - Incomplete page reload handling in merge and bounce.
  - 2013-07-10 Fixed bug#[9537](http://bugs.otrs.org/show_bug.cgi?id=9537) - DB.pm 'QueryCondition' removes backslashes (from CustomerUserID/CustomerUserLogin).

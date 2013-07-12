@@ -1998,6 +1998,56 @@ $Self->Is(
     "TicketPendingTimeSet() - Set to new - Pending Time not set",
 );
 
+# check that searches with NewerDate in the future are not executed
+$HelperObject->FixedTimeAddSeconds( - 60 * 60 );
+
+# Test TicketCreateTimeNewerDate (future date)
+$SystemTime = $Self->{TimeObject}->SystemTime();
+%TicketIDs = $TicketObject->TicketSearch(
+    Result                    => 'HASH',
+    Limit                     => 100,
+    TicketCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime + ( 60 * 60 ),
+    ),
+    UserID     => 1,
+    Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketCreateTimeNewerDate => -60)',
+);
+
+# Test ArticleCreateTimeNewerDate (future date)
+$SystemTime = $Self->{TimeObject}->SystemTime();
+%TicketIDs  = $TicketObject->TicketSearch(
+    Result                     => 'HASH',
+    Limit                      => 100,
+    ArticleCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime + ( 60 * 60 ),
+    ),
+    UserID     => 1,
+    Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:ArticleCreateTimeNewerDate => -60)',
+);
+
+# Test TicketCloseTimeNewerDate (future date)
+%TicketIDs = $TicketObject->TicketSearch(
+    Result                   => 'HASH',
+    Limit                    => 100,
+    TicketCloseTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime + ( 60 * 60 ),
+    ),
+    UserID     => 1,
+    Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketCloseTimeNewerDate => -60)',
+);
+
 # the ticket is no longer needed
 $TicketObject->TicketDelete(
     TicketID => $TicketID,
