@@ -141,7 +141,7 @@ my %DynamicFieldConfigs = (
         Name          => 'DateField',
         Label         => 'DateField',
         FieldOrder    => 123,
-        FieldType     => 'DateTime',
+        FieldType     => 'Date',
         ObjectType    => 'Ticket',
         Config        => {
             DefaultValue  => '',
@@ -323,7 +323,7 @@ my @Tests = (
         Name   => 'Multiple Values Multiselect',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => ['Value1', 'Value2'],
+            Value => [ 'Value1', 'Value2' ],
         },
         ExpectedResults => {
             Value => 'Value1, Value2',
@@ -338,8 +338,8 @@ my @Tests = (
             Value              => '1977-12-12 00:00:00',
         },
         ExpectedResults => {
-            Value => '1977-12-12 00:00:00',
-            Title => '1977-12-12 00:00:00',
+            Value => '1977-12-12',
+            Title => '1977-12-12',
         },
         Success => 1,
     },
@@ -350,8 +350,8 @@ my @Tests = (
             Value              => '2013-02-31 00:00:00',
         },
         ExpectedResults => {
-            Value => '2013-02-31 00:00:00',
-            Title => '2013-02-31 00:00:00',
+            Value => '2013-02-31',
+            Title => '2013-02-31',
         },
         Success => 1,
     },
@@ -453,7 +453,7 @@ my @Tests = (
         Name   => 'Multiple Values Multiselect (reduced)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => ['Value1', 'Value2'],
+            Value              => [ 'Value1', 'Value2' ],
             ValueMaxChars      => 2,
             TitleMaxChars      => 4,
         },
@@ -472,8 +472,8 @@ my @Tests = (
             TitleMaxChars      => 4,
         },
         ExpectedResults => {
-            Value => '1977-12-12 00:00:00',
-            Title => '1977-12-12 00:00:00',
+            Value => '1977-12-12',
+            Title => '1977-12-12',
         },
         Success => 1,
     },
@@ -486,8 +486,8 @@ my @Tests = (
             TitleMaxChars      => 4,
         },
         ExpectedResults => {
-            Value => '2013-02-31 00:00:00',
-            Title => '2013-02-31 00:00:00',
+            Value => '2013-02-31',
+            Title => '2013-02-31',
         },
         Success => 1,
     },
@@ -527,7 +527,7 @@ for my $Test (@Tests) {
     my $ValueStrg = $DFBackendObject->ReadableValueRender( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
-       $Self->IsDeeply(
+        $Self->IsDeeply(
             $ValueStrg,
             $Test->{ExpectedResults},
             "$Test->{Name} | ReadableValueRender()",
