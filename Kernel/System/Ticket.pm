@@ -2934,7 +2934,7 @@ sub TicketSLASet {
 
 =item TicketCustomerSet()
 
-Set customer data of ticket. Can set 'No' (CustomerID), 
+Set customer data of ticket. Can set 'No' (CustomerID),
 'User' (CustomerUserID), or both.
 
     my $Success = $TicketObject->TicketCustomerSet(
