@@ -318,7 +318,7 @@ sub _Show {
         UserID        => $Self->{UserID},
         DynamicFields => 0,
         Order         => 'DESC',
-        Limit         => 5,
+        Limit         => $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleLimit') || 5,
     );
 
     # check if certain article sender types should be excluded from preview

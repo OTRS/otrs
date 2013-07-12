@@ -585,6 +585,14 @@ Description>
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Overview::PreviewArticleLimit" Required="1" Valid="1">
+        <Description Translatable="1">Sets the count of articles visible in preview mode of ticket overviews.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]$">5</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview::PreviewArticleTypeExpanded" Required="0" Valid="0">
         <Description Translatable="1">Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.</Description>
         <Group>Ticket</Group>
