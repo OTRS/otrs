@@ -447,7 +447,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '无法更改密码，密码不能包含非法字符！',
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法更改密码，密码至少 %s 个字符长度！',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Can\'t update password, it must contain at least 1 digit!' => '无法更改密码，密码必须包含至少1个数字！',
         'Can\'t update password, it must contain at least 2 characters!' =>
