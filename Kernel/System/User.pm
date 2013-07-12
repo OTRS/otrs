@@ -154,6 +154,9 @@ sub GetUserData {
         return;
     }
 
+    # get configuration for the full name order
+    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+
     # check if result is cached
     if ( $Param{Valid} ) {
         $Param{Valid} = 1;
@@ -174,6 +177,7 @@ sub GetUserData {
             = 'GetUserData::User::'
             . $Param{User} . '::'
             . $Param{Valid} . '::'
+            . $FirstnameLastNameOrder . '::'
             . $Param{NoOutOfOffice};
     }
     else {
@@ -181,6 +185,7 @@ sub GetUserData {
             = 'GetUserData::UserID::'
             . $Param{UserID} . '::'
             . $Param{Valid} . '::'
+            . $FirstnameLastNameOrder . '::'
             . $Param{NoOutOfOffice};
     }
 
@@ -259,6 +264,40 @@ sub GetUserData {
             return;
         }
     }
+
+    # generate the full name and save it in the hash
+    my $UserFullname;
+    if ( $FirstnameLastNameOrder eq '0' ) {
+        $UserFullname = $Data{UserFirstname} . ' '
+                        . $Data{UserLastname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '1' ) {
+        $UserFullname = $Data{UserLastname} . ', '
+                        . $Data{UserFirstname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '2' ) {
+        $UserFullname = $Data{UserFirstname} . ' '
+                        . $Data{UserLastname} . ' ('
+                        . $Data{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '3' ) {
+        $UserFullname = $Data{UserLastname} . ', '
+                        . $Data{UserFirstname} . ' ('
+                        . $Data{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '4' ) {
+        $UserFullname = '(' . $Data{UserLogin}
+                        . ') ' . $Data{UserFirstname}
+                        . ' ' . $Data{UserLastname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '5' ) {
+        $UserFullname = '(' . $Data{UserLogin}
+                        . ') ' . $Data{UserLastname}
+                        . ', ' . $Data{UserFirstname};
+    }
+
+    # save the generated fullname in the hash.
+    $Data{UserFullname} = $UserFullname;
 
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
@@ -865,7 +904,7 @@ sub UserName {
     my %User = $Self->GetUserData(%Param);
 
     return if !%User;
-    return "$User{UserFirstname} $User{UserLastname}";
+    return $User{UserFullname};
 }
 
 =item UserList()
@@ -893,8 +932,12 @@ sub UserList {
         $Valid = 0;
     }
 
+    # get configuration for the full name order
+    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+
     # check cache
-    my $CacheKey = 'UserList::' . $Type . '::' . $Valid;
+    my $CacheKey = 'UserList::' . $Type . '::' . $Valid
+                   . '::' . $FirstnameLastNameOrder;
     my $Cache    = $Self->{CacheInternalObject}->Get(
         Key => $CacheKey,
     );
@@ -926,13 +969,19 @@ sub UserList {
     }
 
     # fetch the result
+    my %UsersRaw;
     my %Users;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Type eq 'Short' ) {
-            $Users{ $Row[0] } = $Row[1];
-        }
-        else {
-            $Users{ $Row[0] } = "$Row[1], $Row[2] ($Row[3])";
+        $UsersRaw{ $Row[0] } = $Row[1];
+    }
+
+    if ( $Type eq 'Short' ) {
+        %Users = %UsersRaw;
+    }
+    else {
+        for my $CurrentUserID ( sort keys %UsersRaw ) {
+            my $UserFullname = $Self->UserName( UserID => $CurrentUserID );
+            $Users{ $CurrentUserID } = $UserFullname;
         }
     }
 
@@ -1019,23 +1068,7 @@ sub SetPreferences {
 
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
-    my @CacheKeys = (
-        'GetUserData::User::' . $Login . '::0::0',
-        'GetUserData::User::' . $Login . '::0::1',
-        'GetUserData::User::' . $Login . '::1::0',
-        'GetUserData::User::' . $Login . '::1::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::1',
-        'UserList::Short::0',
-        'UserList::Short::1',
-        'UserList::Long::0',
-        'UserList::Long::1',
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    $Self->{CacheInternalObject}->CleanUp();
 
     # set preferences
     return $Self->{PreferencesObject}->SetPreferences(%Param);

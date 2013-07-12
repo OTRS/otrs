@@ -4,6 +4,7 @@
  - 2013-07-12 Fixed bug#[9602](http://bugs.otrs.org/show_bug.cgi?id=9602) - Dynamic Field sorting in Customer Interface looks broken.
  - 2013-07-12 Added Recursive option to DirectoryRead() in MainObject.
  - 2013-07-12 Fixed bug#[8469](http://bugs.otrs.org/show_bug.cgi?id=8469) - Warning message about max_allowed_packet should be in the Package Manager.
+ - 2013-07-12 Fixed bug#[5127](http://bugs.otrs.org/show_bug.cgi?id=5127) - Configurable listing of agent names in stead of hardcoded layout.
  - 2013-07-11 Fixed bug#[8588](http://bugs.otrs.org/show_bug.cgi?id=8588) - DynamicFieldOrderSrtg doesn't include field name.
  - 2013-07-11 Fixed bug#[7805](http://bugs.otrs.org/show_bug.cgi?id=7805) - Adding an agent requires a password in the frontend which is not neccessary from the backend.
  - 2013-07-11 Fixed bug#[5852](http://bugs.otrs.org/show_bug.cgi?id=5852) - Queue preselection via URL.

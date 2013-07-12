@@ -4551,6 +4551,14 @@ sub Data {
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
+        'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
+            'Legt die Reihenfolge fest, in der Vorname und Nachname von Agenten angezeigt wird.',
+        'Firstname Lastname' => 'Vorname Nachname',
+        'Lastname, Firstname' => 'Nachname, Vorname',
+        'Firstname Lastname (UserLogin)' => 'Vorname Nachname (BenutzerLogin)',
+        'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
+        '(UserLogin) Firstname Lastname' => '(BenutzerLogin) Vorname Nachname',
+        '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!

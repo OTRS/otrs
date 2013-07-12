@@ -5898,6 +5898,23 @@ M
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="FirstnameLastnameOrder" Required="1" Valid="1">
+        <Description Translatable="1">Specifies the order in which the firstname and the lastname of agents will be displayed.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">Firstname Lastname</Item>
+                <Item Key="1" Translatable="1">Lastname, Firstname</Item>
+                <Item Key="2" Translatable="1">Firstname Lastname (UserLogin)</Item>
+                <Item Key="3" Translatable="1">Lastname, Firstname (UserLogin)</Item>
+                <Item Key="4" Translatable="1">(UserLogin) Firstname Lastname</Item>
+                <Item Key="5" Translatable="1">(UserLogin) Lastname, Firstname</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Loader::Agent::Skin###000-default" Required="0" Valid="1">
         <Description Translatable="1">Default skin for interface.</Description>
         <Group>Framework</Group>

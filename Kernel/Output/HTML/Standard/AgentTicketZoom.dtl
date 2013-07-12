@@ -196,13 +196,13 @@
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
                         <label>$Text{"Owner"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
+                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}","18"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
                         <label>$Text{"Responsible"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
+                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}","18"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Responsible -->
