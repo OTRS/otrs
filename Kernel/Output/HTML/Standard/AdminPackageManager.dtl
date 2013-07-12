@@ -206,7 +206,7 @@
                                 <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 <!-- dtl:block:DatabasePackageSizeWarning -->
                                 <p class="FieldExplanation Error">
-                                    $Text{"Please make sure your database accepts packages over $QData{"MaxAllowedPacketRecommended"} MB in size (it currently only accepts packages up to $QData{"MaxAllowedPacket"} MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors."}
+                                    $Text{"Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.", "$QData{"MaxAllowedPacketRecommended"}", "$QData{"MaxAllowedPacket"}"}
                                 </p>
 <!-- dtl:block:DatabasePackageSizeWarning -->
                                 <button class="Fullsize CallForAction LittleSpacingTop Upload" type="submit" value="$Text{"Install"}">
