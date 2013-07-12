@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-12 Fixed bug#[7885](http://bugs.otrs.org/show_bug.cgi?id=7885) - Links of 'merged' tickets are not displayed with a 'line-through'.
  - 2013-07-12 Fixed bug#[8629](http://bugs.otrs.org/show_bug.cgi?id=8629) - number of articles on the ticket.
  - 2013-07-12 Fixed bug#[9602](http://bugs.otrs.org/show_bug.cgi?id=9602) - Dynamic Field sorting in Customer Interface looks broken.
  - 2013-07-12 Added Recursive option to DirectoryRead() in MainObject.
@@ -80,7 +81,6 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
- - 2013-07-12 Fixed bug#[3434](http://bugs.otrs.org/show_bug.cgi?id=3434) - Validity of search time frame not checked by OTRS.
  - 2013-07-10 Fixed bug#[9598](http://bugs.otrs.org/show_bug.cgi?id=9598) - Typo in vacation message for German locale.
  - 2013-07-10 Fixed bug#[9595](http://bugs.otrs.org/show_bug.cgi?id=9595) - Incomplete page reload handling in merge and bounce.
  - 2013-07-10 Fixed bug#[9537](http://bugs.otrs.org/show_bug.cgi?id=9537) - DB.pm 'QueryCondition' removes backslashes (from CustomerUserID/CustomerUserLogin).

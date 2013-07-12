@@ -62,7 +62,7 @@ $Text{"none"}
 <ul class="Tablelike SpacingTopSmall">
     <li class="Header">$Text{"Object#"}</li>
 <!-- dtl:block:TableSimpleTypeRow -->
-    <li>$Data{"Content"}</li>
+    <li class="$QData{"CssClass"}">$Data{"Content"}</li>
 <!-- dtl:block:TableSimpleTypeRow -->
 </ul>
 <!-- dtl:block:TableSimpleType -->
@@ -104,7 +104,7 @@ $Text{"none"}
 <!-- dtl:block:TableComplexBlockRow -->
                     <tr>
 <!-- dtl:block:TableComplexBlockRowColumn -->
-                        <td>
+                        <td class="$QData{"CssClass"}">
                             $Data{"Content"}
                         </td>
 <!-- dtl:block:TableComplexBlockRowColumn -->
