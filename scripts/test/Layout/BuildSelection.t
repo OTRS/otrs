@@ -37,7 +37,6 @@ $CommonObject{ParamObject} = Kernel::System::Web::Request->new(
 );
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
     %CommonObject,
-    DBObject => $Self->{DBObject},
     Lang     => 'de',
 );
 
