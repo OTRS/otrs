@@ -553,6 +553,38 @@ $Self->True(
     'GroupMemberList3()',
 );
 
+my %GroupUserRoleMemberlist1 = $GroupObject->GroupUserRoleMemberList(
+    UserID => $UserID1,
+    Result => 'HASH',
+);
+
+$Self->True(
+    $GroupUserRoleMemberlist1{$RoleID1},
+    "GroupUserRoleMemberList - UserID - HASH - key",
+);
+
+$Self->Is(
+    $GroupUserRoleMemberlist1{$RoleID1},
+    $RoleRand1 . '1',
+    "GroupUserRoleMemberList - UserID - HASH - value",
+);
+
+my %GroupUserRoleMemberRolelist1 = $GroupObject->GroupUserRoleMemberList(
+    RoleID => $RoleID1,
+    Result => 'HASH',
+);
+
+$Self->True(
+    $GroupUserRoleMemberRolelist1{$UserID1},
+    "GroupUserRoleMemberList - RoleID - HASH - key",
+);
+
+$Self->Is(
+    $GroupUserRoleMemberRolelist1{$UserID1},
+    $UserLogin1,
+    "GroupUserRoleMemberList - RoleID - HASH - value",
+);
+
 # check groupmembers of Group1
 my %MemberList4 = $GroupObject->GroupMemberList(
     GroupID => $GroupID1,

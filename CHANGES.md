@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-12 Fixed bug#[7593](http://bugs.otrs.org/show_bug.cgi?id=7593) - GroupUserRoleMemberList returns user ID, not role name.
  - 2013-07-12 Fixed bug#[7885](http://bugs.otrs.org/show_bug.cgi?id=7885) - Links of 'merged' tickets are not displayed with a 'line-through'.
  - 2013-07-12 Fixed bug#[8629](http://bugs.otrs.org/show_bug.cgi?id=8629) - number of articles on the ticket.
  - 2013-07-12 Fixed bug#[9602](http://bugs.otrs.org/show_bug.cgi?id=9602) - Dynamic Field sorting in Customer Interface looks broken.
