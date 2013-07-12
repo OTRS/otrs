@@ -175,13 +175,17 @@ sub Run {
         $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
 
+    # get personal page shown count
+    my $PageShownPreferencesKey = 'UserTicketOverview' . $Self->{View} . 'PageShown';
+    my $PageShown = $Self->{$PageShownPreferencesKey} || 10;
+
     # get data (viewable tickets...)
     # search all tickets
     my @ViewableTickets;
     if (@ViewableQueueIDs) {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Self->{Filter} }->{Search} },
-            Limit  => $Self->{Start} + 50,
+            Limit  => $Self->{Start} + $PageShown - 1,
             Result => 'ARRAY',
         );
     }
@@ -228,7 +232,7 @@ sub Run {
 
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
 
-    # show ticket's
+    # show tickets
     $Self->{LayoutObject}->Print(
         Output => \$Self->{LayoutObject}->TicketListShow(
 

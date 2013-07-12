@@ -83,6 +83,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
+ - 2013-07-12 Fixed bug#[5475](http://bugs.otrs.org/show_bug.cgi?id=5475) - Incorrectly limited ticket list queries in queue view.
  - 2013-07-12 Fixed bug#[8667](http://bugs.otrs.org/show_bug.cgi?id=8667) - No error Message when tryiing to Merge Ticket with itself.
  - 2013-07-12 Fixed bug#[6985](http://bugs.otrs.org/show_bug.cgi?id=6985) - SMTPTLS backend requires username and password.
  - 2013-07-10 Fixed bug#[9598](http://bugs.otrs.org/show_bug.cgi?id=9598) - Typo in vacation message for German locale.
