@@ -150,6 +150,8 @@ sub Run {
         }
         return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
+
+    $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid subaction' );
 }
 
 1;

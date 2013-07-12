@@ -111,13 +111,24 @@ for my $BaseURL ( sort keys %Frontends ) {
             "Module $Frontend status code",
         );
 
+        $Self->True(
+            $Response->header('Content-type'),
+            "Module $Frontend content type",
+        );
+
         $Self->False(
             scalar $Response->header('X-OTRS-Login'),
             "Module $Frontend is no OTRS login screen",
         );
 
-        # Check JSON response
-        if ( $Response->header('Content-type') =~ 'json' ) {
+        # Check response contents
+        if ( $Response->header('Content-type') =~ 'html' ) {
+            $Self->True(
+                $Response->content() =~ m{<body|<div|<script}xms,
+                "Module $Frontend returned HTML",
+            );
+        }
+        elsif ( $Response->header('Content-type') =~ 'json' ) {
             my $Data = $JSONObject->Decode( Data => $Response->content() );
 
             $Self->True(
