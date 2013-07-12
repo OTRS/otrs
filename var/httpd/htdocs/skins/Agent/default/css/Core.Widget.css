@@ -27,6 +27,10 @@ ul.Tablelike:first-child {
     margin-right: 0;
 }
 
+.StrikeThrough a {
+    text-decoration: line-through;
+}
+
 ul.Tablelike li {
     line-height: 20px;
     padding: 0 4px;
