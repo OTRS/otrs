@@ -68,6 +68,7 @@ table.Overview {
     text-transform: uppercase;
     display: block;
     text-shadow: 0 1px 0 #EEE;
+    position: relative;
 }
 
 .Overview thead span {
@@ -93,6 +94,7 @@ table.Overview {
     background: -ms-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
     background: linear-gradient(to bottom,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
     text-shadow: 0 1px 0 #BBB;
+    padding-right: 20px;
 }
 
 .Overview thead .SortDescending a {
@@ -108,14 +110,18 @@ table.Overview {
 .Overview thead .SortDescending a:after {
     content: "\25BC";
     display: block;
-    float: right;
+    position: absolute;
+    right: 2px;
+    top: 0px;
     text-shadow: 1px 1px 0px #fff;
 }
 
 .Overview thead .SortAscending a:after {
     content: "\25B2";
     display: block;
-    float: right;
+    position: absolute;
+    right: 2px;
+    top: 0px;
     text-shadow: 1px 1px 0px #fff;
 }
 

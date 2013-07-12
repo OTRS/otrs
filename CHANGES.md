@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-12 Fixed bug#[9602](http://bugs.otrs.org/show_bug.cgi?id=9602) - Dynamic Field sorting in Customer Interface looks broken.
  - 2013-07-12 Added Recursive option to DirectoryRead() in MainObject.
  - 2013-07-12 Fixed bug#[8469](http://bugs.otrs.org/show_bug.cgi?id=8469) - Warning message about max_allowed_packet should be in the Package Manager.
  - 2013-07-11 Fixed bug#[8588](http://bugs.otrs.org/show_bug.cgi?id=8588) - DynamicFieldOrderSrtg doesn't include field name.
