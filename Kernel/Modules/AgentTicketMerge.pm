@@ -187,6 +187,11 @@ sub Run {
             TicketNumber => $GetParam{'MainTicketNumber'},
         );
 
+        # check if source and target TicketID are the same (bug#8667)
+        if ($MainTicketID == $Self->{TicketID}) {
+            $Self->{LayoutObject}->FatalError( Message => "Can't merge ticket with itself!" );
+        }
+
         # check for errors
         if ( !$MainTicketID ) {
             $Error{'MainTicketNumberInvalid'} = 'ServerError';
