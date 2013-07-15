@@ -2998,10 +2998,11 @@ sub _Encode {
 =item _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
+OR FROM A CODEUPGRADE SECTION IN AN SOPM FLE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADDON.
 
-Uninstall an already framework merged package.
+Uninstall an already framework (or module) merged package.
 
-Package files that a not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
+Package files that are not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
 CodeUninstall are not called.
 
     $Success = PackageObject->_PackageUninstallMerged(
