@@ -665,14 +665,18 @@ sub Run {
         my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
 
         # see if only a name has been passed
-        if ( $Dest && $Dest !~ m{\A\d+\|\|.+} ) {
+        if ( $Dest && $Dest !~ m{\A \d+ \| \| .+ \z}msx ) {
 
             # see if we can get an ID for this queue name
             my $DestID = $Self->{QueueObject}->QueueLookup(
                 Queue => $Dest,
             );
+
             if ($DestID) {
                 $Dest = $DestID . '||' . $Dest;
+            }
+            else {
+                $Dest = '';
             }
         }
 
