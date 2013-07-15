@@ -11,6 +11,10 @@
 
 @media screen,projection,tv,handheld {
 
+body.Popup {
+    background-color: #f6f6f6;
+}
+
 /**
  * @subsection  LayoutFixedSidebar
  */
@@ -141,16 +145,9 @@
  * @subsection  LayoutPopup
  */
 .LayoutPopup > .Header {
-    background: #f6f6f6;
-    background: -moz-linear-gradient(top,  #fafafa 0%, #f6f6f6 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f6f6f6));
-    background: -webkit-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
-    background: -o-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
-    background: -ms-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
-    background: linear-gradient(to bottom,  #fafafa 0%,#f6f6f6 100%);
     padding: 5px 20px;
     border-bottom: 1px solid #999;
-    margin-bottom: 10px;
+    background-color: #f6f6f6;
 }
 
 .RTL .LayoutPopup > .Header {
@@ -162,6 +159,7 @@
     font-weight: bold;
     padding: 5px 5px 0 0;
     margin-bottom: 0px;
+    line-height: 20px;
 }
 
 .RTL .LayoutPopup > .Header h1 {
@@ -181,7 +179,8 @@
 }
 
 .LayoutPopup > .Content {
-    padding: 5px 20px;
+    padding: 20px;
+    background-color: #fff;
 }
 
 .RTL .LayoutPopup > .Content {
@@ -189,17 +188,16 @@
 }
 
 .LayoutPopup > .Footer {
-    background: #f6f6f6;
-    background: -moz-linear-gradient(top,  #fafafa 0%, #f6f6f6 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f6f6f6));
-    background: -webkit-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
-    background: -o-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
-    background: -ms-linear-gradient(top,  #fafafa 0%,#f6f6f6 100%);
-    background: linear-gradient(to bottom,  #fafafa 0%,#f6f6f6 100%);
     padding: 5px;
     border-top: 1px solid #999;
     text-align: center;
     min-height: 28px;
+}
+
+.LayoutPopup > .Footer .CallForAction {
+    display: inline-block;
+    margin: 10px 0px 5px 0px;
+    min-width: 150px;
 }
 
 } /* end @media */

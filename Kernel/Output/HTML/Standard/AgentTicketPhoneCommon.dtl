@@ -25,7 +25,7 @@
 
         </div>
 
-        <div class="LayoutFixedSidebar SidebarLast">
+        <div class="LayoutFixedSidebar SidebarLast Content">
 
             <div class="SidebarColumn">
 <!-- dtl:block:CustomerTable -->
@@ -191,7 +191,7 @@ $Include{"RichTextEditor"}
             </div>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
         </div>
     </div>
 </form>

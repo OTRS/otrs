@@ -49,14 +49,14 @@ $Include{"AgentCustomerSearch"}
 
                             <label for="CustomerID">$Text{"CustomerID"}:</label>
                             <div class="Field">
-                                <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc Validate_Required $QData{"CustomerIDInvalid"}"/>
+                                <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W75pc Validate_Required $QData{"CustomerIDInvalid"}"/>
                                 <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             </div>
                             <div class="Clear"></div>
-                            <div class="Field SpacingTop">
+                            <div class="Field">
 <!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->
-                                <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                                <button class="CallForAction Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
                             </div>
                         </fieldset>
                     </form>

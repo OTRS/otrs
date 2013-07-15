@@ -115,7 +115,8 @@ sub Run {
         );
         if ( !$AccessOk ) {
             my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => $Self->{LayoutObject}->{LanguageObject}
@@ -630,7 +631,8 @@ sub Run {
     if (%Error) {
 
         my $Output = $Self->{LayoutObject}->Header(
-            Type => 'Small',
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
 
         # get lock state && write (lock) permissions

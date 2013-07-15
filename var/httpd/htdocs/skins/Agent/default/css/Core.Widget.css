@@ -377,6 +377,7 @@ ul.Tablelike li.Header + li {
     border-radius: 3px;
     display: inline-block;
     cursor: pointer;
+    transition: all ease-in 1s;
 }
 
 .CallForAction.LittleSpacingTop {

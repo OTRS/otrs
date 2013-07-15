@@ -125,8 +125,9 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Value => $Ticket{Number},
-                    Type  => 'Small',
+                    Value     => $Ticket{Number},
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -234,7 +235,8 @@ sub Run {
 
         if (%Error) {
             my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
 
             # add rich text editor
@@ -289,7 +291,8 @@ sub Run {
             )
         {
             my $Output .= $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
 
             # add rich text editor
@@ -370,8 +373,9 @@ sub Run {
 
         # merge box
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $Ticket{TicketNumber},
-            Type  => 'Small',
+            Value     => $Ticket{TicketNumber},
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
 
         # prepare salutation

@@ -156,8 +156,9 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Value => $Ticket{Number},
-                    Type  => 'Small',
+                    Value     => $Ticket{Number},
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -334,7 +335,8 @@ sub Run {
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header(
-            Type => 'Small',
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
         $Output .= $Self->_MaskPhone(
             TicketID     => $Self->{TicketID},
@@ -568,7 +570,8 @@ sub Run {
 
             # header
             my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
             $Output .= $OutputNotify;
             $Output .= $Self->_MaskPhone(
