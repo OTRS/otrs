@@ -14,6 +14,22 @@ use warnings;
 
 use vars qw(@ISA);
 
+=head1 NAME
+
+Kernel::Output::HTML::LayoutTicket - all Ticket-related HTML functions
+
+=head1 SYNOPSIS
+
+All Ticket-related HTML functions
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=item AgentCustomerViewTable
+   ...
+=cut
+
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
 
@@ -646,7 +662,7 @@ sub ArticleQuote {
     else {
         $Article{Body} = $Self->WrapPlainText(
             MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 82,
-            PlainText     => $Article{Body},
+            PlainText => $Article{Body},
         );
     }
 
@@ -1060,3 +1076,15 @@ sub TicketMetaItems {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut

@@ -934,7 +934,7 @@ sub CheckMessageBody {
     return;
 }
 
-=begin internal
+=begin Internal:
 
 =item _DecodeMimewords()
 
@@ -969,7 +969,7 @@ sub _DecodeMimewords {
     return decode_mimewords($String);
 }
 
-1;
+=end Internal:
 
 =back
 
@@ -982,3 +982,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
+
+1;

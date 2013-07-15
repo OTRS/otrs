@@ -14,6 +14,18 @@ use warnings;
 
 use vars qw(@ISA);
 
+=head1 NAME
+
+Kernel::Output::HTML::LayoutAJAX - all AJAX-related HTML functions
+
+=head1 SYNOPSIS
+
+All AJAX-related HTML functions
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
 =item BuildSelectionJSON()
 
 build a JSON output js witch can be used for e. g. data for pull downs
@@ -115,3 +127,15 @@ sub BuildSelectionJSON {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut

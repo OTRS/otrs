@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/TicketProcessTransitions.pm - a event module to chage from one activity to another based on the transition
+# Kernel/System/Ticket/Event/TicketProcessTransitions.pm - a event module to change from one activity to another based on the transition
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-=cut
+=head1 NAME
+
+Kernel/System/Ticket/Event/TicketProcessTransitions - event module for transitions
+
+=head1 SYNOPSIS
+
+A module to parse and encode an email.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
 
 This event handler will fire on ticket events and check if a transition of
 a process ticket needs to be made.
@@ -19,6 +29,7 @@ ticket, the check is only done once.
 =cut
 
 package Kernel::System::Ticket::Event::TicketProcessTransitions;
+
 use strict;
 use warnings;
 
@@ -146,3 +157,15 @@ sub Run {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
