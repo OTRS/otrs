@@ -19,36 +19,28 @@
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>
-
 <!-- dtl:block:HeaderAgentTicketFreeText -->
-                $Text{"Change Free Text of Ticket"}
+$Text{"Change Free Text of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketFreeText -->
-
 <!-- dtl:block:HeaderAgentTicketOwner -->
-                $Text{"Change Owner of Ticket"}
+$Text{"Change Owner of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketOwner -->
-
 <!-- dtl:block:HeaderAgentTicketClose -->
-                $Text{"Close Ticket"}
+$Text{"Close Ticket"}:
 <!-- dtl:block:HeaderAgentTicketClose -->
-
 <!-- dtl:block:HeaderAgentTicketNote -->
-                $Text{"Add Note to Ticket"}
+$Text{"Add Note to Ticket"}:
 <!-- dtl:block:HeaderAgentTicketNote -->
-
 <!-- dtl:block:HeaderAgentTicketPending -->
-                $Text{"Set Pending"}
+$Text{"Set Pending"}:
 <!-- dtl:block:HeaderAgentTicketPending -->
-
 <!-- dtl:block:HeaderAgentTicketPriority -->
-                $Text{"Change Priority of Ticket"}
+$Text{"Change Priority of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketPriority -->
-
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-                $Text{"Change Responsible of Ticket"}
+$Text{"Change Responsible of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-
-                : $Data{"TicketNumber"} - $QData{"Title","60"}
+$Data{"TicketNumber"} - $QData{"Title","60"}
             </h1>
 
 <!-- dtl:block:TicketBack -->
@@ -215,9 +207,15 @@ $('#TypeID').bind('change', function (Event) {
                 <div class="Clear"></div>
 <!-- dtl:block:InvolvedAgent -->
 
+<!-- dtl:block:SubjectLabel -->
+                <label for="Subject">$Text{"Subject"}:</label>
+<!-- dtl:block:SubjectLabel -->
+<!-- dtl:block:SubjectLabelMandatory -->
                 <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
+<!-- dtl:block:SubjectLabelMandatory -->
+
                 <div class="Field">
-                    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $Data{"SubjectInvalid"}"/>
+                    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc $Data{"SubjectRequired"} $Data{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
@@ -241,14 +239,18 @@ $('#TypeID').bind('change', function (Event) {
 
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
+<!-- dtl:block:RichTextLabel -->
+                <label for="RichText">$Text{"Text"}:</label>
+<!-- dtl:block:RichTextLabel -->
+<!-- dtl:block:RichTextLabelMandatory -->
                 <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
-                <div class="RichTextField">
+<!-- dtl:block:RichTextLabelMandatory -->
 
+                <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-
-                    <textarea id="RichText" class="RichText Validate_Required $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText $Data{"BodyRequired"} $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
@@ -391,7 +393,7 @@ $Include{"RichTextEditor"}
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+            <button class="CallForAction Save Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
         </div>
     </div>
 </form>

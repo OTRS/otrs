@@ -1739,6 +1739,17 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Subject" Required="0" Valid="1">
         <Description Translatable="1">Defines the default subject of a note in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2405,6 +2416,17 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Subject" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the close ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2631,6 +2653,17 @@ Description>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket note screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -2874,6 +2907,17 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Subject" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3097,6 +3141,17 @@ Description>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -3340,6 +3395,17 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Subject" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3565,6 +3631,17 @@ Description>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket responsible screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -6803,6 +6880,22 @@ $QData{"Body"}
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###RichTextWidth" Required="0" Valid="1">
+        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <String Regex="^\d+%?$">620</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###RichTextHeight" Required="0" Valid="1">
+        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <String Regex="^\d+%?$">100</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketHistory" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
@@ -9087,7 +9180,7 @@ Thanks for your help!
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
         <Setting>
-            <String Regex="^\d+%?$">620</String>
+            <String Regex="^\d+%?$">475</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextHeight" Required="0" Valid="1">
@@ -9095,7 +9188,7 @@ Thanks for your help!
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
         <Setting>
-            <String Regex="^\d+%?$">320</String>
+            <String Regex="^\d+%?$">200</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextWidth" Required="0" Valid="1">
@@ -9103,7 +9196,7 @@ Thanks for your help!
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="^\d+%?$">620</String>
+            <String Regex="^\d+%?$">475</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextHeight" Required="0" Valid="1">
@@ -9111,7 +9204,7 @@ Thanks for your help!
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="^\d+%?$">320</String>
+            <String Regex="^\d+%?$">200</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###RichTextWidth" Required="0" Valid="1">
