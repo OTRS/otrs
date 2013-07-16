@@ -27,6 +27,10 @@ ul.Tablelike:first-child {
     margin-right: 0;
 }
 
+.StrikeThrough a {
+    text-decoration: line-through;
+}
+
 ul.Tablelike li {
     line-height: 20px;
     padding: 0 4px;
@@ -126,8 +130,8 @@ ul.Tablelike li.Header + li {
     overflow: auto;
     /**
      *   START IE9 Hover Bug Workaround
-     *   The problem occurs when you have a container that has a fixed width set, an overflow set to 
-     *   auto, content long enough to trigger the horizontal scroll and a hover style set 
+     *   The problem occurs when you have a container that has a fixed width set, an overflow set to
+     *   auto, content long enough to trigger the horizontal scroll and a hover style set
      *   on elements inside the container.
      *   The container mysteriously increases in size.
      *   (e.g. if you have installed OTRSDashboardOverviewFilters and many dynamic fields are
@@ -335,6 +339,12 @@ ul.Tablelike li.Header + li {
     margin-bottom: 7px;
 }
 
+.ActionList li.Separated {
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
 .ActionList li:last-child {
     margin-bottom: 0px;
 }
@@ -367,10 +377,20 @@ ul.Tablelike li.Header + li {
     border-radius: 3px;
     display: inline-block;
     cursor: pointer;
+    transition: all ease-in 1s;
 }
 
-.ActionList li a.Fullsize {
+.CallForAction.LittleSpacingTop {
+    margin-top: 5px;
+}
+
+.ActionList li a.Fullsize, .CallForAction.Fullsize {
     display: block;
+}
+
+.CallForAction.Fullsize {
+    width: 100%;
+    text-align: center;
 }
 
 /**

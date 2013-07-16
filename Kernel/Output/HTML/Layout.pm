@@ -15,7 +15,6 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
-use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
@@ -88,6 +87,9 @@ create a new object
         TicketObject
         GroupObject
 
+    in addition for AgentCustomerViewTable() you need
+        DBObject
+
 =cut
 
 sub new {
@@ -115,7 +117,6 @@ sub new {
     # create additional objects
     $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
     $Self->{JSONObject}      = Kernel::System::JSON->new( %{$Self} );
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # reset block data
     delete $Self->{BlockData};
@@ -5221,11 +5222,11 @@ sub _RemoveScriptTags {
 
 This sub has two main functionalities:
 1. Check every line and make sure that "\n" is the ending of the line.
-2. If the line does _not_ start with ">" (e.g. not cited text) 
+2. If the line does _not_ start with ">" (e.g. not cited text)
 wrap it after the number of "MaxCharacters" (e.g. if MaxCharacters is "80" wrap after 80 characters).
 Do this _just_ if the line, that should be wrapped, contains space characters at which the line can be wrapped.
 
-If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see 
+If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see
 use cases there.
 
 my $WrappedPlainText = $LayoutObject->WrapPlainText(

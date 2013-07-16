@@ -125,8 +125,9 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Value => $Ticket{Number},
-                    Type  => 'Small',
+                    Value     => $Ticket{Number},
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -187,6 +188,11 @@ sub Run {
             TicketNumber => $GetParam{'MainTicketNumber'},
         );
 
+        # check if source and target TicketID are the same (bug#8667)
+        if ($MainTicketID == $Self->{TicketID}) {
+            $Self->{LayoutObject}->FatalError( Message => "Can't merge ticket with itself!" );
+        }
+
         # check for errors
         if ( !$MainTicketID ) {
             $Error{'MainTicketNumberInvalid'} = 'ServerError';
@@ -229,7 +235,8 @@ sub Run {
 
         if (%Error) {
             my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
 
             # add rich text editor
@@ -284,7 +291,8 @@ sub Run {
             )
         {
             my $Output .= $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
 
             # add rich text editor
@@ -365,8 +373,9 @@ sub Run {
 
         # merge box
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $Ticket{TicketNumber},
-            Type  => 'Small',
+            Value     => $Ticket{TicketNumber},
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
 
         # prepare salutation

@@ -171,8 +171,9 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Type  => 'Small',
-                    Value => $Ticket{Number},
+                    Type      => 'Small',
+                    Value     => $Ticket{Number},
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -353,7 +354,7 @@ sub Run {
         }
 
         if ( !$IsUpload ) {
-            if ( $Self->{Config}->{Note} ) {
+            if ( $Self->{Config}->{Note} && $Self->{Config}->{NoteMandatory} ) {
 
                 # check subject
                 if ( !$GetParam{Subject} ) {
@@ -510,8 +511,9 @@ sub Run {
         if (%Error) {
 
             my $Output = $Self->{LayoutObject}->Header(
-                Type  => 'Small',
-                Value => $Ticket{TicketNumber},
+                Type      => 'Small',
+                Value     => $Ticket{TicketNumber},
+                BodyClass => 'Popup',
             );
             $Output .= $Self->_Mask(
                 Attachments       => \@Attachments,
@@ -668,7 +670,17 @@ sub Run {
 
         # add note
         my $ArticleID = '';
-        if ( $Self->{Config}->{Note} ) {
+        if ( $Self->{Config}->{Note} && ($GetParam{Subject} || $GetParam{Body}) ) {
+
+            if (!$GetParam{Subject}) {
+                if ($Self->{Config}->{Subject}) {
+                    my $Subject = $Self->{LayoutObject}->Output(
+                        Template => $Self->{Config}->{Subject},
+                    );
+                    $GetParam{Subject} = $Subject;
+                }
+                $GetParam{Subject} = $GetParam{Subject} || $Self->{LayoutObject}->{LanguageObject}->Get('No subject');
+            }
 
             # if there is no ArticleTypeID, use the default value
             if ( !defined $GetParam{ArticleTypeID} ) {
@@ -1127,8 +1139,9 @@ sub Run {
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header(
-            Type  => 'Small',
-            Value => $Ticket{TicketNumber},
+            Type      => 'Small',
+            Value     => $Ticket{TicketNumber},
+            BodyClass => 'Popup',
         );
         $Output .= $Self->_Mask(
             TimeUnitsRequired => (
@@ -1492,6 +1505,12 @@ sub _Mask {
     }
 
     if ( $Self->{Config}->{Note} ) {
+
+        if ( $Self->{Config}->{NoteMandatory} ) {
+            $Param{SubjectRequired} = 'Validate_Required';
+            $Param{BodyRequired}    = 'Validate_Required';
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'Note',
             Data => {%Param},
@@ -1507,6 +1526,23 @@ sub _Mask {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
+            );
+        }
+
+        if ( $Self->{Config}->{NoteMandatory} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SubjectLabelMandatory',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'RichTextLabelMandatory',
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'SubjectLabel',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'RichTextLabel',
             );
         }
 

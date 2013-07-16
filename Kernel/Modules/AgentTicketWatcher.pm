@@ -153,6 +153,8 @@ sub Run {
             OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
         );
     }
+
+    $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid subaction' );
 }
 
 1;

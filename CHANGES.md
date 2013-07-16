@@ -1,8 +1,18 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-15 Fixed bug#[5412](http://bugs.otrs.org/show_bug.cgi?id=5412) - Textfields are sometimes required, sometimes optional.
+ - 2013-07-12 Fixed bug#[7593](http://bugs.otrs.org/show_bug.cgi?id=7593) - GroupUserRoleMemberList returns user ID, not role name.
+ - 2013-07-12 Fixed bug#[7885](http://bugs.otrs.org/show_bug.cgi?id=7885) - Links of 'merged' tickets are not displayed with a 'line-through'.
+ - 2013-07-12 Fixed bug#[8629](http://bugs.otrs.org/show_bug.cgi?id=8629) - number of articles on the ticket.
+ - 2013-07-12 Fixed bug#[9602](http://bugs.otrs.org/show_bug.cgi?id=9602) - Dynamic Field sorting in Customer Interface looks broken.
+ - 2013-07-12 Added Recursive option to DirectoryRead() in MainObject.
+ - 2013-07-12 Fixed bug#[8469](http://bugs.otrs.org/show_bug.cgi?id=8469) - Warning message about max_allowed_packet should be in the Package Manager.
+ - 2013-07-12 Fixed bug#[5127](http://bugs.otrs.org/show_bug.cgi?id=5127) - Configurable listing of agent names in stead of hardcoded layout.
  - 2013-07-11 Fixed bug#[8588](http://bugs.otrs.org/show_bug.cgi?id=8588) - DynamicFieldOrderSrtg doesn't include field name.
  - 2013-07-11 Fixed bug#[7805](http://bugs.otrs.org/show_bug.cgi?id=7805) - Adding an agent requires a password in the frontend which is not neccessary from the backend.
  - 2013-07-11 Fixed bug#[5852](http://bugs.otrs.org/show_bug.cgi?id=5852) - Queue preselection via URL.
  - 2013-07-11 Fixed bug#[9051](http://bugs.otrs.org/show_bug.cgi?id=9051) - Unified field sizes.
+ - 2013-07-10 Added Column Headers to SQL Box output.
+ - 2013-07-10 Added GetColumnNames() function to DBObject.
  - 2013-07-10 Fixed bug#[9597](http://bugs.otrs.org/show_bug.cgi?id=9597) - customer company cache data will not deleted corretly by changing data.
  - 2013-07-09 Fixed bug#[9589](http://bugs.otrs.org/show_bug.cgi?id=9589) - AgentLinkObject does not show TreeView option for linkable ITSMConfigurationManagement objects.
  - 2013-07-09 Fixed bug#[9581](http://bugs.otrs.org/show_bug.cgi?id=9581) - No TreeView for Queues in AdminNotificationEvent.
@@ -74,6 +84,10 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
+ - 2013-07-12 Fixed bug#[3434](http://bugs.otrs.org/show_bug.cgi?id=3434) - Validity of search time frame not checked by OTRS.
+ - 2013-07-12 Fixed bug#[5475](http://bugs.otrs.org/show_bug.cgi?id=5475) - Incorrectly limited ticket list queries in queue view.
+ - 2013-07-12 Fixed bug#[8667](http://bugs.otrs.org/show_bug.cgi?id=8667) - No error Message when tryiing to Merge Ticket with itself.
+ - 2013-07-12 Fixed bug#[6985](http://bugs.otrs.org/show_bug.cgi?id=6985) - SMTPTLS backend requires username and password.
  - 2013-07-10 Fixed bug#[9598](http://bugs.otrs.org/show_bug.cgi?id=9598) - Typo in vacation message for German locale.
  - 2013-07-10 Fixed bug#[9595](http://bugs.otrs.org/show_bug.cgi?id=9595) - Incomplete page reload handling in merge and bounce.
  - 2013-07-10 Fixed bug#[9537](http://bugs.otrs.org/show_bug.cgi?id=9537) - DB.pm 'QueryCondition' removes backslashes (from CustomerUserID/CustomerUserLogin).

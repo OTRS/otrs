@@ -756,7 +756,7 @@ sub Dump {
     # sort hash keys
     $Data::Dumper::Sortkeys = 1;
 
-    # This Dump() is using Data::Dumer with a utf8 workarounds to handle
+    # This Dump() is using Data::Dumper with a utf8 workarounds to handle
     # the bug [rt.cpan.org #28607] Data::Dumper::Dumper is dumping utf8
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
@@ -764,8 +764,8 @@ sub Dump {
     if ( $Self->Require('Storable') && $Type eq 'binary' ) {
 
         # Clone the data because we need to disable the utf8 flag in all
-        # reference variables and we want not to do this in the orig.
-        # variables because this will still used in the system.
+        # reference variables and do not to want to do this in the orig.
+        # variables because they will still used in the system.
         my $DataNew = Storable::dclone( \$Data );
 
         # Disable utf8 flag.
@@ -799,6 +799,14 @@ reads a directory and returns an array with results.
         Filter    => '*',
     );
 
+read all files in subdirectories as well (recursive):
+
+    my @FilesInDirectory = $MainObject->DirectoryRead(
+        Directory => $Path,
+        Filter    => '*',
+        Recursive => 1,
+    );
+
 You can pass several additional filters at once:
 
     my @FilesInDirectory = $MainObject->DirectoryRead(
@@ -806,8 +814,7 @@ You can pass several additional filters at once:
         Filter    => \@MyFilters,
     );
 
-The result strings are absolute paths, and they are converted to the
-internally used charset utf-8, if it is configured.
+The result strings are absolute paths, and they are converted to utf8.
 
 Use the 'Silent' parameter to suppress log messages when a directory
 does not have to exist:
@@ -861,28 +868,51 @@ sub DirectoryRead {
     }
 
     # executes glob for every filter
-    my @GlobResults;
-    my %Seen;
+    my %Result;
 
     for my $Filter ( @{ $Param{Filter} } ) {
         my @Glob = glob "$Param{Directory}/$Filter";
 
         # look for repeated values
         for my $GlobName (@Glob) {
+
             next if !-e $GlobName;
-            if ( !$Seen{$GlobName} ) {
-                push @GlobResults, $GlobName;
-                $Seen{$GlobName} = 1;
+            $Result{$GlobName} = 1;
+        }
+    }
+
+    if ( $Param{Recursive} ) {
+
+        # loop protection to prevent symlinks causing lockups
+        $Param{LoopProtection}++;
+        last if $Param{LoopProtection} > 100;
+
+        # check all files in current directory
+        my @Directories = glob "$Param{Directory}/*";
+        for my $Directory (@Directories) {
+
+            # return if file is not a directory
+            next if !-d $Directory;
+
+            # repeat same glob for directory
+            my @SubResult = $Self->DirectoryRead(
+                %Param,
+                Directory => $Directory,
+            );
+
+            # add result to hash
+            for my $Result (@SubResult) {
+                $Result{$Result} = 1;
             }
         }
     }
 
-    # if clean results
-    return if !@GlobResults;
+    # if no results
+    return if !keys %Result;
 
     # compose normalize every name in the file list
     my @Results;
-    for my $Filename (@GlobResults) {
+    for my $Filename ( sort keys %Result ) {
 
         # first convert filename to utf-8 if utf-8 is used internally
         $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(

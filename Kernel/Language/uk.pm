@@ -442,7 +442,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Неможливо обновити пароль, тому що він містить заборонені символи!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Неможливо обновити пароль, тому що його довжина повинна бути не менш %s символів!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Неможливо обновити пароль, тому що він повинен містити не менш 1-й цифри!',
         'Can\'t update password, it must contain at least 2 characters!' =>

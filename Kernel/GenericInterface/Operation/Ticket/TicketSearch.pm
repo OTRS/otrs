@@ -25,8 +25,6 @@ use vars qw(@ISA);
 
 Kernel::GenericInterface::Operation::Ticket::TicketSearch - GenericInterface Ticket Search Operation backend
 
-=head1 SYNOPSIS
-
 =head1 PUBLIC INTERFACE
 
 =over 4
@@ -734,7 +732,7 @@ sub _CreateTimeSettings {
     return %GetParam;
 }
 
-1;
+=end Internal:
 
 =back
 
@@ -747,3 +745,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
+
+1;

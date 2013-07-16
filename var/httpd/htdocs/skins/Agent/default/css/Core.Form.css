@@ -30,6 +30,36 @@ select[multiple=multiple] {
     box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
 }
 
+input[type=text] {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+}
+
+select[multiple=multiple] {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    min-width: 300px;
+    padding: 3px;
+    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+}
+
+select[multiple=multiple] option {
+    padding: 2px;
+}
+
+select[multiple=multiple] option:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+input#Subject {
+    font-size: 13px;
+    padding: 5px;
+    font-weight: bold;
+}
+
 input[type=text],
 input[type=password],
 input[type=email],
@@ -292,6 +322,14 @@ form fieldset {
     margin: 5px 0;
 }
 
+.SidebarColumn .FieldExplanation.Error {
+    border: 1px solid #F03432;
+    color: #F03432;
+    line-height: 150%;
+    margin: 7px 0px;
+    padding: 7px 10px;
+}
+
 form label.Mandatory {
     color: black !important;
 }
@@ -476,6 +514,13 @@ fieldset.TableLike > .Row > .FloatingField {
     float: left;
 }
 
+body.Popup fieldset.TableLike > .RichTextField,
+body.Popup fieldset.TableLike > .Row > .RichTextField,
+body.Popup fieldset.TableLike > .FloatingField,
+body.Popup fieldset.TableLike > .Row > .FloatingField {
+    margin: 7px 7px 0px 7px;
+}
+
 .RTL fieldset.TableLike > .RichTextField,
 .RTL fieldset.TableLike > .Row > .RichTextField,
 .RTL fieldset.TableLike > .FloatingField,
@@ -483,6 +528,13 @@ fieldset.TableLike > .Row > .FloatingField {
     padding-left: 0;
     padding-right: 10px;
     float: right;
+}
+
+body.Popup .RTL fieldset.TableLike > .RichTextField,
+body.Popup .RTL fieldset.TableLike > .Row > .RichTextField,
+body.Popup .RTL fieldset.TableLike > .FloatingField,
+body.Popup .RTL fieldset.TableLike > .Row > .FloatingField {
+    margin: 7px 7px 0px 7px;
 }
 
 fieldset.TableLike > .Value,

@@ -94,10 +94,10 @@ Return
             ItemList => [
                 [
                     {
-                        Type    => 'Link',
-                        Key     => $TicketID,
-                        Content => '123123123',
-                        Css     => 'style="text-decoration: line-through"',
+                        Type     => 'Link',
+                        Key      => $TicketID,
+                        Content  => '123123123',
+                        CssClass => 'StrikeThrough',
                     },
                     {
                         Type      => 'Text',
@@ -178,18 +178,18 @@ sub TableCreateComplex {
         my $Ticket = $LinkList{$TicketID}{Data};
 
         # set css
-        my $Css = '';
+        my $CssClass;
         if ( $Ticket->{StateType} eq 'merged' ) {
-            $Css = ' style="text-decoration: line-through"';
+            $CssClass = 'StrikeThrough';
         }
 
         my @ItemColumns = (
             {
-                Type    => 'Link',
-                Key     => $TicketID,
-                Content => $Ticket->{TicketNumber},
-                Link    => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
-                Css     => $Css,
+                Type     => 'Link',
+                Key      => $TicketID,
+                Content  => $Ticket->{TicketNumber},
+                Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                CssClass => $CssClass,
             },
             {
                 Type      => 'Text',
@@ -258,10 +258,10 @@ Return
         Normal::Source => {
             Ticket => [
                 {
-                    Type    => 'Link',
-                    Content => 'T:55555',
-                    Title   => 'Ticket#555555: The ticket title',
-                    Css     => 'style="text-decoration: line-through"',
+                    Type     => 'Link',
+                    Content  => 'T:55555',
+                    Title    => 'Ticket#555555: The ticket title',
+                    CssClass => 'StrikeThrough',
                 },
                 {
                     Type    => 'Link',
@@ -315,18 +315,18 @@ sub TableCreateSimple {
                 my $Ticket = $DirectionList->{$TicketID};
 
                 # set css
-                my $Css = '';
+                my $CssClass;
                 if ( $Ticket->{StateType} eq 'merged' ) {
-                    $Css = ' style="text-decoration: line-through"';
+                    $CssClass = 'StrikeThrough';
                 }
 
                 # define item data
                 my %Item = (
-                    Type    => 'Link',
-                    Content => 'T:' . $Ticket->{TicketNumber},
-                    Title   => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
-                    Link    => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
-                    Css     => $Css,
+                    Type     => 'Link',
+                    Content  => 'T:' . $Ticket->{TicketNumber},
+                    Title    => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
+                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                    CssClass => $CssClass,
                 );
 
                 push @ItemList, \%Item;

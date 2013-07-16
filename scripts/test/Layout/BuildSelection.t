@@ -37,7 +37,7 @@ $CommonObject{ParamObject} = Kernel::System::Web::Request->new(
 );
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
     %CommonObject,
-    Lang => 'de',
+    Lang     => 'de',
 );
 
 # set JSON values

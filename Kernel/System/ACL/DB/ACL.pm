@@ -927,6 +927,8 @@ sub ACLDump {
 # OTRS config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZACL;
+use strict;
+use warnings;
 use utf8;
 sub Load {
     my ($File, $Self) = @_;
@@ -976,8 +978,6 @@ sub _ACLItemOutput {
     return $Output . "\n";
 }
 
-=cut
-
 1;
 
 =back
@@ -989,10 +989,6 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut
-
-=head1 VERSION
 
 =cut
 

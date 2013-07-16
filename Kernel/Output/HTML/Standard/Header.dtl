@@ -97,10 +97,10 @@ $Include{"HTMLHead"}
 <!-- dtl:block:DebugRTLButton -->
 <!-- dtl:block:Login -->
             $Text{"You are logged in as"}
-            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$QEnv{"UserFirstname"} $QEnv{"UserLastname"}</a>
+            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$QEnv{"UserFullname"}</a>
 <!-- dtl:block:Login -->
 <!-- dtl:block:LoginWithoutLink -->
-            $Text{"You are logged in as"} $QEnv{"UserFirstname"} $QEnv{"UserLastname"}
+            $Text{"You are logged in as"} $QEnv{"UserFullname"}
 <!-- dtl:block:LoginWithoutLink -->
 <!-- dtl:block:Logout -->
             <a class="LogoutButton" id="LogoutButton" href="$Env{"Baselink"}Action=Logout;$QEnv{"ChallengeTokenParam"}" title="$Text{"Logout"}"></a>

@@ -444,7 +444,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Nie można zmienić hasła ponieważ nowe hasło zawiera nidozwolone znaki.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Nie można zmienić hasła, nowe hasło musi zawierać co najmniej $s znaków.',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Nie można zmienić hasła. Hasło musi zawierać co najmniej 2 wielkie i 2 małe litery.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Nie można zmienić hasła. Hasło musi zawierać co najmniej 1 cyfrę.',
         'Can\'t update password, it must contain at least 2 characters!' =>
