@@ -297,6 +297,7 @@ sub FixedTimeSet {
     my @Objects = (
         'Kernel::System::Time',
         'Kernel::System::Cache::FileStorable',
+        'Kernel::System::PID',
     );
 
     for my $Object (@Objects) {
