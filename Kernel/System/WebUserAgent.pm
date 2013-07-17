@@ -14,6 +14,8 @@ use warnings;
 
 use LWP::UserAgent;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use vars qw(@ISA);
 
 =head1 NAME
@@ -100,12 +102,20 @@ Simple GET request:
         URL => 'http://example.com/somedata.xml',
     );
 
-Or a POST:
+Or a POST request; attributes can be a hashref like this:
 
     my %Response = $WebUserAgentObject->Request(
         URL  => 'http://example.com/someurl',
         Type => 'POST',
         Data => { Attribute1 => 'Value', Attribute2 => 'Value2' },
+    );
+
+alternatively, you can use an arrayref like this:
+
+    my %Response = $WebUserAgentObject->Request(
+        URL  => 'http://example.com/someurl',
+        Type => 'POST',
+        Data => [ Attribute => 'Value', Attribute => 'OtherValue' ],
     );
 
 returns
@@ -144,10 +154,22 @@ sub Request {
 
     if ( $Param{Type} eq 'GET' ) {
 
-        # get file
+        # perform get request on URL
         $Response = $UserAgent->get( $Param{URL} );
     }
     elsif ( $Param{Type} eq 'POST' ) {
+
+        # check for Data param
+        if ( !IsArrayRefWithData( $Param{Data} ) && !IsHashRefWithData( $Param{Data} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    'WebUserAgent POST: Need Data param containing a hashref or arrayref with data.',
+            );
+            return ( Status => 0 );
+        }
+
+        # perform post request plus data
         $Response = $UserAgent->post( $Param{URL}, $Param{Data} );
     }
 
