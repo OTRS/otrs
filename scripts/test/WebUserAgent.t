@@ -83,6 +83,19 @@ my @Tests = (
         Proxy   => $Proxy,
         Success => '1',
     },
+    {
+        Name => 'Test ' . $TestNumber++,
+        URL  => "https://pav.otrs.com/otrs/public.pl",
+        Type => "POST",
+        Data => {
+            'Action'  => 'PublicPackageVerification',
+            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
+        },
+        Timeout => $TimeOut,
+        Proxy   => $Proxy,
+        Success => '1',
+        Content => '{"Test":"not_verified"}',
+    },
 
 );
 
@@ -120,7 +133,9 @@ for my $Test (@Tests) {
     );
 
     my %Response = $WebUserAgentObject->Request(
-        URL => $Test->{URL},
+        URL  => $Test->{URL},
+        Type => $Test->{Type},
+        Data => $Test->{Data},
     );
 
     $Self->True(
@@ -149,6 +164,13 @@ for my $Test (@Tests) {
             substr( $Response{Status}, 0, 3 ),
             '200',
             "$Test->{Name} - WebUserAgent - Check request status",
+        );
+    }
+    if ( $Test->{Content} ) {
+        $Self->Is(
+            ${ $Response{Content} },
+            $Test->{Content},
+            "$Test->{Name} - WebUserAgent - Check request content",
         );
     }
 }

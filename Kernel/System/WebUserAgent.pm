@@ -92,23 +92,37 @@ sub new {
 
 =item Request()
 
-return the content of requested URL
+return the content of requested URL.
+
+Simple GET request:
 
     my %Response = $WebUserAgentObject->Request(
         URL => 'http://example.com/somedata.xml',
+    );
+
+Or a POST:
+
+    my %Response = $WebUserAgentObject->Request(
+        URL  => 'http://example.com/someurl',
+        Type => 'POST',
+        Data => { Attribute1 => 'Value', Attribute2 => 'Value2' },
     );
 
 returns
 
     %Response = (
         Status  => '200 OK',    # http status
-        Content => $ContentRef, # content of requested site
+        Content => $ContentRef, # content of requested URL
     );
 
 =cut
 
 sub Request {
     my ( $Self, %Param ) = @_;
+
+    # define method - default to GET
+    $Param{Type} = 'GET' if !defined $Param{Type};
+    $Param{Type} = 'GET' if $Param{Type} ne 'POST';
 
     # init agent
     my $UserAgent = LWP::UserAgent->new();
@@ -126,12 +140,21 @@ sub Request {
         $UserAgent->proxy( [ 'http', 'https', 'ftp' ], $Self->{Proxy} );
     }
 
-    # get file
-    my $Response = $UserAgent->get( $Param{URL} );
+    my $Response;
+
+    if ( $Param{Type} eq 'GET' ) {
+
+        # get file
+        $Response = $UserAgent->get( $Param{URL} );
+    }
+    elsif ( $Param{Type} eq 'POST' ) {
+        $Response = $UserAgent->post( $Param{URL}, $Param{Data} );
+    }
+
     if ( !$Response->is_success() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't get file from $Param{URL}: " . $Response->status_line(),
+            Message  => "Can't do $Param{Type} on $Param{URL}: " . $Response->status_line(),
         );
         return (
             Status => $Response->status_line(),
