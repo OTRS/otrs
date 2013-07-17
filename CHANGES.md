@@ -1,5 +1,6 @@
 #3.2.10 2013-??-??
 =======
+ - 2013-07-18 Fixed bug#[9613](http://bugs.otrs.org/show_bug.cgi?id=9613) - CustomerTicketZoom shows JSLint error if no dynamic fields are configured
  - 2013-07-17 Updated Turkish translation, thanks to Sefer Şimşek @ Network Group!
  - 2013-07-17 Fixed bug#[9594](http://bugs.otrs.org/show_bug.cgi?id=9594) - No auro-reply sent with multiple From addresses in
     AgentTicketPhone on PostgreSQL and Oracle.
