@@ -2745,6 +2745,11 @@ sub SendAutoResponse {
         return;
     }
 
+    # check reply to for auto response recipient
+    if ( $OrigHeader{ReplyTo} ) {
+        $OrigHeader{From} = $OrigHeader{ReplyTo};
+    }
+
     # check / loop protection!
     my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new(
         LogObject    => $Self->{LogObject},
@@ -2752,84 +2757,95 @@ sub SendAutoResponse {
         MainObject   => $Self->{MainObject},
         DBObject     => $Self->{DBObject},
     );
-    if ( !$LoopProtectionObject->Check( To => $OrigHeader{From} ) ) {
 
-        # add history row
-        $Self->HistoryAdd(
-            TicketID     => $Param{TicketID},
-            HistoryType  => 'LoopProtection',
-            Name         => "\%\%$OrigHeader{From}",
-            CreateUserID => $Param{UserID},
-        );
+    my $EmailParser = Kernel::System::EmailParser->new(
+        %{$Self},
+        Mode => 'Standalone',
+    );
 
-        # log
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
-                . "$Ticket{TicketNumber}] ($OrigHeader{From}) "
-        );
-        return;
+    my @AutoReplyAddresses;
+    my @Addresses = $EmailParser->SplitAddressLine( Line => $OrigHeader{From} );
+    ADDRESS:
+    for my $Address (@Addresses) {
+        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
+        if ( !$Email ) {
+
+            # add it to ticket history
+            $Self->HistoryAdd(
+                TicketID     => $Param{TicketID},
+                CreateUserID => $Param{UserID},
+                HistoryType  => 'Misc',
+                Name         => "Sent no auto response to '$Address' - no valid email address.",
+            );
+
+            # log
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Sent no auto response to '$Address' because of invalid address.",
+            );
+            next ADDRESS;
+
+        }
+        if ( !$LoopProtectionObject->Check( To => $Email ) ) {
+
+            # add history row
+            $Self->HistoryAdd(
+                TicketID     => $Param{TicketID},
+                HistoryType  => 'LoopProtection',
+                Name         => "\%\%$Email",
+                CreateUserID => $Param{UserID},
+            );
+
+            # log
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
+                    . "$Ticket{TicketNumber}] ($Email) "
+            );
+            next ADDRESS;
+        }
+        else {
+            # increase loop count
+            return if !$LoopProtectionObject->SendEmail( To => $Email );
+
+        }
+
+        # check if sender is e. g. MAILER-DAEMON or Postmaster
+        my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
+        if ( $Email =~ /$NoAutoRegExp/i ) {
+
+            # add it to ticket history
+            $Self->HistoryAdd(
+                TicketID     => $Param{TicketID},
+                CreateUserID => $Param{UserID},
+                HistoryType  => 'Misc',
+                Name => "Sent no auto response to '$Email', SendNoAutoResponseRegExp matched.",
+            );
+
+            # log
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Sent no auto response to '$Email' because config"
+                    . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) matched.",
+            );
+            next ADDRESS;
+        }
+
+        push @AutoReplyAddresses, $Address;
     }
 
-    # return if loop count has reached
-    return if !$LoopProtectionObject->SendEmail( To => $OrigHeader{From} );
+    my $AutoReplyAddresses = join( ', ', @AutoReplyAddresses );
+    my $ToAll = $AutoReplyAddresses;
+    my $Cc;
 
-    # check reply to for auto response recipient
-    if ( $OrigHeader{ReplyTo} ) {
-        $OrigHeader{From} = $OrigHeader{ReplyTo};
-    }
-
-    # check if sender has an valid email address
-    if ( $OrigHeader{From} !~ /@/ ) {
-
-        # add it to ticket history
-        $Self->HistoryAdd(
-            TicketID     => $Param{TicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType  => 'Misc',
-            Name         => 'Sent no auto response - no valid email address found in From field.',
-        );
-
-        # log
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Sent no auto response to '$OrigHeader{From}' because of"
-                . " invalid From address.",
-        );
-        return 1;
-    }
-
-    # check if sender is e. g. MAILER-DAEMON or Postmaster
-    my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
-    if ( $OrigHeader{From} =~ /$NoAutoRegExp/i ) {
-
-        # add it to ticket history
-        $Self->HistoryAdd(
-            TicketID     => $Param{TicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType  => 'Misc',
-            Name         => 'Sent no auto response, SendNoAutoResponseRegExp matched.',
-        );
-
-        # log
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Sent no auto response to '$OrigHeader{From}' because config"
-                . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) matched.",
-        );
-        return 1;
-    }
-
-    # set new To address if customer user id is used
-    my $Cc    = '';
-    my $ToAll = $OrigHeader{From};
+    # also send CC to customer user if customer user id is used and addresses do not match
     if ( $Ticket{CustomerUserID} ) {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
         );
         if ( $CustomerUser{UserEmail} && $OrigHeader{From} !~ /\Q$CustomerUser{UserEmail}\E/i ) {
+            $ToAll .= ', ' . $CustomerUser{UserEmail};
             $Cc = $CustomerUser{UserEmail};
-            $ToAll .= ', ' . $Cc;
         }
     }
 
@@ -2857,9 +2873,9 @@ sub SendAutoResponse {
         SenderType     => 'system',
         TicketID       => $Param{TicketID},
         HistoryType    => $HistoryType,
-        HistoryComment => "\%\%$ToAll",
+        HistoryComment => "\%\%$AutoReplyAddresses",
         From           => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
-        To             => $OrigHeader{From},
+        To             => $AutoReplyAddresses,
         Cc             => $Cc,
         Charset        => $AutoResponse{Charset},
         MimeType       => $AutoResponse{ContentType},
@@ -2874,7 +2890,7 @@ sub SendAutoResponse {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message  => "Sent auto response ($HistoryType) for Ticket [$Ticket{TicketNumber}]"
-            . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$ToAll'."
+            . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$AutoReplyAddresses'."
     );
 
     # event

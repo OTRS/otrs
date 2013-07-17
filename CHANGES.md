@@ -1,4 +1,8 @@
 #3.2.10 2013-??-??
+=======
+ - 2013-07-17 Fixed bug#[9594](http://bugs.otrs.org/show_bug.cgi?id=9594) - No auro-reply sent with multiple From addresses in 
+    AgentTicketPhone on PostgreSQL and Oracle.
+ - 2013-07-12 Fixed bug#[3434](http://bugs.otrs.org/show_bug.cgi?id=3434) - Validity of search time frame not checked by OTRS.
  - 2013-07-12 Fixed bug#[5475](http://bugs.otrs.org/show_bug.cgi?id=5475) - Incorrectly limited ticket list queries in queue view.
  - 2013-07-12 Fixed bug#[8667](http://bugs.otrs.org/show_bug.cgi?id=8667) - No error Message when tryiing to Merge Ticket with itself.
  - 2013-07-12 Fixed bug#[6985](http://bugs.otrs.org/show_bug.cgi?id=6985) - SMTPTLS backend requires username and password.
