@@ -1,5 +1,5 @@
 # --
-# Kernel/System/DynamicField/Driver/Multiselect.pm - Delegate for DynamicField Multiselect Driver
+# Kernel/System/DynamicField/Driver/BaseSelect.pm - Dynamic field Driver functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,66 +7,30 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::Driver::Multiselect;
+package Kernel::System::DynamicField::Driver::BaseSelect;
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::BaseSelect);
+use base qw(Kernel::System::DynamicField::Driver::Base);
 
 =head1 NAME
 
+Kernel::System::DynamicField::Driver::BaseSelect - sub module of
+Kernel::System::DynamicField::Driver::Dropdown and
 Kernel::System::DynamicField::Driver::Multiselect
 
 =head1 SYNOPSIS
 
-DynamicFields Multiselect Driver delegate
+Date common functions.
 
 =head1 PUBLIC INTERFACE
 
-This module implements the public interface of L<Kernel::System::DynamicField::Backend>.
-Please look there for a detailed reference of the functions.
-
 =over 4
 
-=item new()
-
-usually, you want to create an instance of this
-by using Kernel::System::DynamicField::Backend->new();
-
 =cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # create additional objects
-    $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-
-    # set field behaviors
-    $Self->{Behaviors} = {
-        'IsACLReducible'               => 1,
-        'IsNotificationEventCondition' => 1,
-        'IsSortable'                   => 0,
-        'IsStatsCondition'             => 1,
-        'IsCustomerInterfaceCapable'   => 1,
-    };
-
-    return $Self;
-}
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
@@ -80,13 +44,7 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
-    # extract real values
-    my @ReturnData;
-    for my $Item ( @{$DFValue} ) {
-        push @ReturnData, $Item->{ValueText}
-    }
-
-    return \@ReturnData;
+    return $DFValue->[0]->{ValueText};
 }
 
 sub ValueSet {
@@ -101,30 +59,15 @@ sub ValueSet {
         return;
     }
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
-
-    my @ValueText;
-    if ( IsArrayRefWithData( \@Values ) ) {
-        for my $Item (@Values) {
-            push @ValueText, { ValueText => $Item };
-        }
-    }
-    else {
-        push @ValueText, { ValueText => '' };
-    }
-
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => \@ValueText,
-        UserID   => $Param{UserID},
+        Value    => [
+            {
+                ValueText => $Param{Value},
+            },
+        ],
+        UserID => $Param{UserID},
     );
 
     return $Success;
@@ -133,27 +76,55 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # check value
-    my @Values;
-    if ( IsArrayhRefWithData( $Param{Value} ) ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
+    my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
+        Value => {
+            ValueText => $Param{Value},
+        },
+        UserID => $Param{UserID}
+    );
 
-    my $Success;
-    for my $Item (@Values) {
-
-        $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
-            Value => {
-                ValueText => $Item,
-            },
-            UserID => $Param{UserID}
-        );
-        return if !$Success
-    }
     return $Success;
+}
+
+sub SearchSQLGet {
+    my ( $Self, %Param ) = @_;
+
+    my %Operators = (
+        Equals            => '=',
+        GreaterThan       => '>',
+        GreaterThanEquals => '>=',
+        SmallerThan       => '<',
+        SmallerThanEquals => '<=',
+    );
+
+    if ( $Operators{ $Param{Operator} } ) {
+        my $SQL = " $Param{TableAlias}.value_text $Operators{$Param{Operator}} '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
+    if ( $Param{Operator} eq 'Like' ) {
+
+        my $SQL = $Self->{DBObject}->QueryCondition(
+            Key   => "$Param{TableAlias}.value_text",
+            Value => $Param{SearchTerm},
+        );
+
+        return $SQL;
+    }
+
+    $Self->{'LogObject'}->Log(
+        'Priority' => 'error',
+        'Message'  => "Unsupported Operator $Param{Operator}",
+    );
+
+    return;
+}
+
+sub SearchSQLOrderFieldGet {
+    my ( $Self, %Param ) = @_;
+
+    return "$Param{TableAlias}.value_text";
 }
 
 sub EditFieldRender {
@@ -188,7 +159,7 @@ sub EditFieldRender {
     );
 
     # set values from ParamObject if present
-    if ( IsArrayRefWithData($FieldValue) ) {
+    if ( defined $FieldValue ) {
         $Value = $FieldValue;
     }
 
@@ -213,15 +184,15 @@ sub EditFieldRender {
     # use PossibleValuesFilter if defined
     $PossibleValues = $Param{PossibleValuesFilter} if defined $Param{PossibleValuesFilter};
 
-    # check value
-    my $SelectedValuesArrayRef;
-    if ( defined $Value ) {
-        if ( ref $Value eq 'ARRAY' ) {
-            $SelectedValuesArrayRef = $Value;
-        }
-        else {
-            $SelectedValuesArrayRef = [$Value];
-        }
+    my $Size = 1;
+
+    # TODO change ConfirmationNeeded parameter name to something more generic
+
+    # when ConfimationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
+    # as an open list, because you might not want to change the value, otherwise a value will be
+    # selected
+    if ( $Param{ConfirmationNeeded} ) {
+        $Size = 5;
     }
 
     my $DataValues = $Self->BuildSelectionDataGet(
@@ -233,11 +204,11 @@ sub EditFieldRender {
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data => $DataValues || {},
         Name => $FieldName,
-        SelectedID  => $SelectedValuesArrayRef,
+        SelectedID  => $Value,
         Translation => $FieldConfig->{TranslatableValues} || 0,
         Class       => $FieldClass,
+        Size        => $Size,
         HTMLQuote   => 1,
-        Multiple    => 1,
     );
 
     if ( $FieldConfig->{TreeView} ) {
@@ -278,7 +249,7 @@ EOF
 
         my $FieldSelector = '#' . $FieldName;
 
-        my $FieldsToUpdate;
+        my $FieldsToUpdate = '';
         if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
             my $FirstItem = 1;
             FIELD:
@@ -341,9 +312,7 @@ sub EditFieldValueGet {
 
     # otherwise get dynamic field value form param
     else {
-        my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
-
-        $Value = \@Data;
+        $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
@@ -360,7 +329,7 @@ sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
     # get the field value from the http request
-    my $Values = $Self->EditFieldValueGet(
+    my $Value = $Self->EditFieldValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ParamObject        => $Param{ParamObject},
 
@@ -372,7 +341,7 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # perform necessary validations
-    if ( $Param{Mandatory} && !IsArrayRefWithData($Values) ) {
+    if ( $Param{Mandatory} && !$Value ) {
         return {
             ServerError => 1,
         };
@@ -388,11 +357,9 @@ sub EditFieldValueValidate {
         }
 
         # validate if value is in possible values list (but let pass empty values)
-        for my $Item ( @{$Values} ) {
-            if ( !$PossibleValues->{$Item} ) {
-                $ServerError  = 1;
-                $ErrorMessage = 'The field content is invalid';
-            }
+        if ( $Value && !$PossibleValues->{$Value} ) {
+            $ServerError  = 1;
+            $ErrorMessage = 'The field content is invalid';
         }
     }
 
@@ -413,103 +380,50 @@ sub DisplayValueRender {
         $Param{HTMLOutput} = 1;
     }
 
-    # set Value and Title variables
-    my $Value         = '';
-    my $Title         = '';
-    my $ValueMaxChars = $Param{ValueMaxChars} || '';
-    my $TitleMaxChars = $Param{TitleMaxChars} || '';
+    # get raw Value strings from field value
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
+    # get real value
+    if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+
+        # get readeable value
+        $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+    }
+
+    # check is needed to translate values
+    if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+
+        # translate value
+        $Value = $Param{LayoutObject}->{LanguageObject}->Get($Value);
+    }
+
+    # set title as value after update and before limit
+    my $Title = $Value;
+
+    # HTMLOuput transformations
+    if ( $Param{HTMLOutput} ) {
+        $Value = $Param{LayoutObject}->Ascii2Html(
+            Text => $Value,
+            Max => $Param{ValueMaxChars} || '',
+        );
+
+        $Title = $Param{LayoutObject}->Ascii2Html(
+            Text => $Title,
+            Max => $Param{TitleMaxChars} || '',
+        );
     }
     else {
-        @Values = ( $Param{Value} );
+        if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
+            $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
+        }
+        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+        }
     }
 
-    # get real values
-    my $PossibleValues     = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
-    my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
+    # set field link form config
+    my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
 
-    my @ReadableValues;
-    my @ReadableTitles;
-
-    my $ShowValueEllipsis;
-    my $ShowTitleEllipsis;
-
-    VALUEITEM:
-    for my $Item (@Values) {
-        next VALUEITEM if !$Item;
-
-        my $ReadableValue = $Item;
-
-        if ( $PossibleValues->{$Item} ) {
-            $ReadableValue = $PossibleValues->{$Item};
-            if ($TranslatableValues) {
-                $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Get($ReadableValue);
-            }
-        }
-
-        my $ReadableLength = length $ReadableValue;
-
-        # set title equal value
-        my $ReadableTitle = $ReadableValue;
-
-        # cut strings if needed
-        if ( $ValueMaxChars ne '' ) {
-
-            $ShowValueEllipsis = 1 if ( length $ReadableValue > $ValueMaxChars );
-            $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
-
-            # decrease the max parameter
-            $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-            $ValueMaxChars = 0 if $ValueMaxChars < 0;
-
-        }
-
-        if ( $TitleMaxChars ne '' ) {
-
-            $ShowTitleEllipsis = 1 if ( length $ReadableTitle > $ValueMaxChars );
-            $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
-
-            # decrease the max parameter
-            $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-            $TitleMaxChars = 0 if $TitleMaxChars < 0;
-        }
-
-        # HTMLOuput transformations
-        if ( $Param{HTMLOutput} ) {
-
-            $ReadableValue = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableValue,
-            );
-
-            $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
-                Text => $ReadableTitle,
-            );
-        }
-
-        push @ReadableValues, $ReadableValue if length $ReadableValue;
-        push @ReadableTitles, $ReadableTitle if length $ReadableTitle;
-    }
-
-    # get specific field settings
-    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{Multiselect} || {};
-
-    # set new line separator
-    my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
-
-    $Value = join( $ItemSeparator, @ReadableValues );
-    $Title = join( $ItemSeparator, @ReadableTitles );
-
-    $Value .= '...' if $ShowValueEllipsis;
-    $Title .= '...' if $ShowTitleEllipsis;
-
-    # this field type does not support the Link Feature
-    my $Link;
-
-    # create return structure
     my $Data = {
         Value => $Value,
         Title => $Title,
@@ -517,6 +431,141 @@ sub DisplayValueRender {
     };
 
     return $Data;
+}
+
+sub SearchFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    my $Value;
+
+    my @DefaultValue;
+
+    if ( defined $Param{DefaultValue} ) {
+        my @DefaultValue = split /;/, $Param{DefaultValue};
+    }
+
+    # set the field value
+    if (@DefaultValue) {
+        $Value = \@DefaultValue;
+    }
+
+    # get the field value, this fuction is always called after the profile is loaded
+    my $FieldValues = $Self->SearchFieldValueGet(
+        %Param,
+    );
+
+    if ( defined $FieldValues ) {
+        $Value = $FieldValues;
+    }
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldMultiSelect';
+
+    # set TreeView class
+    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+
+    # set PossibleValues
+    my $SelectionData = $FieldConfig->{PossibleValues};
+
+    # get historical values from database
+    my $HistoricalValues = $Self->HistoricalValuesGet(%Param);
+
+    # add historic values to current values (if they don't exist anymore)
+    if ( IsHashRefWithData($HistoricalValues) ) {
+        for my $Key ( sort keys %{$HistoricalValues} ) {
+            if ( !$SelectionData->{$Key} ) {
+                $SelectionData->{$Key} = $HistoricalValues->{$Key}
+            }
+        }
+    }
+
+    # use PossibleValuesFilter if defined
+    $SelectionData = $Param{PossibleValuesFilter}
+        if defined $Param{PossibleValuesFilter};
+
+    # check if $SelectionData differs from configured PossibleValues
+    # and show values which are not contained as disabled if TreeView => 1
+    if ( $FieldConfig->{TreeView} ) {
+
+        if ( keys %{ $FieldConfig->{PossibleValues} } != keys %{$SelectionData} ) {
+
+            my @Values;
+            for my $Key ( keys %{ $FieldConfig->{PossibleValues} } ) {
+
+                push @Values, {
+                    Key      => $Key,
+                    Value    => $FieldConfig->{PossibleValues}->{$Key},
+                    Disabled => ( defined $SelectionData->{$Key} ) ? 0 : 1,
+                };
+            }
+            $SelectionData = \@Values;
+        }
+    }
+
+    my $HTMLString = $Param{LayoutObject}->BuildSelection(
+        Data         => $SelectionData,
+        Name         => $FieldName,
+        SelectedID   => $Value,
+        Translation  => $FieldConfig->{TranslatableValues} || 0,
+        PossibleNone => 0,
+        Class        => $FieldClass,
+        Multiple     => 1,
+        HTMLQuote    => 1,
+    );
+
+    if ( $FieldConfig->{TreeView} ) {
+        $HTMLString
+            .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+    }
+
+    # call EditLabelRender on the common Driver
+    my $LabelString = $Self->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        FieldName          => $FieldName,
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
+}
+
+sub SearchFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Value;
+
+    # get dynamic field value form param object
+    if ( defined $Param{ParamObject} ) {
+        my @FieldValues = $Param{ParamObject}->GetArray(
+            Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
+        );
+
+        $Value = \@FieldValues;
+    }
+
+    # otherwise get the value from the profile
+    elsif ( defined $Param{Profile} ) {
+        $Value = $Param{Profile}->{ 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
+    }
+    else {
+        return;
+    }
+
+    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
+        return {
+            'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
+        };
+    }
+
+    return $Value;
 }
 
 sub SearchFieldParameterBuild {
@@ -534,7 +583,8 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item};
+                my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item}
+                    || $Item;
 
                 # translate the value
                 if (
@@ -607,37 +657,24 @@ sub StatsFieldParameterBuild {
     };
 }
 
+sub StatsSearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    my $Operator = 'Equals';
+    my $Value    = $Param{Value};
+
+    return {
+        $Operator => $Value,
+    };
+}
+
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set Value and Title variables
-    my $Value = '';
-    my $Title = '';
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
-
-    my @ReadableValues;
-
-    VALUEITEM:
-    for my $Item (@Values) {
-        next VALUEITEM if !$Item;
-
-        push @ReadableValues, $Item;
-    }
-
-    # set new line separator
-    my $ItemSeparator = ', ';
-
-    # Ouput transformations
-    $Value = join( $ItemSeparator, @ReadableValues );
-    $Title = $Value;
+    # set title as value after update and before limit
+    my $Title = $Value;
 
     # cut strings if needed
     if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
@@ -647,7 +684,6 @@ sub ReadableValueRender {
         $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
     }
 
-    # create return structure
     my $Data = {
         Value => $Value,
         Title => $Title,
@@ -662,7 +698,7 @@ sub TemplateValueTypeGet {
     my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # set the field types
-    my $EditValueType   = 'ARRAY';
+    my $EditValueType   = 'SCALAR';
     my $SearchValueType = 'ARRAY';
 
     # return the correct structure
@@ -684,30 +720,41 @@ sub TemplateValueTypeGet {
     }
 }
 
+sub RandomValueSet {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = int( rand(500) );
+
+    my $Success = $Self->ValueSet(
+        %Param,
+        Value => $Value,
+    );
+
+    if ( !$Success ) {
+        return {
+            Success => 0,
+        };
+    }
+    return {
+        Success => 1,
+        Value   => $Value,
+    };
+}
+
 sub ObjectMatch {
     my ( $Self, %Param ) = @_;
 
     my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    # the attribute must be an array
-    return 0 if !IsArrayRefWithData( $Param{ObjectAttributes}->{$FieldName} );
+    # return false if field is not defined
+    return 0 if ( !defined $Param{ObjectAttributes}->{$FieldName} );
 
-    my $Match;
-
-    # search in all values for this attribute
-    VALUE:
-    for my $AttributeValue ( @{ $Param{ObjectAttributes}->{$FieldName} } ) {
-
-        next VALUE if !defined $AttributeValue;
-
-        # only need to match one
-        if ( $Param{Value} eq $AttributeValue ) {
-            $Match = 1;
-            last VALUE;
-        }
+    # return false if not match
+    if ( $Param{ObjectAttributes}->{$FieldName} ne $Param{Value} ) {
+        return 0;
     }
 
-    return $Match;
+    return 1;
 }
 
 sub HistoricalValuesGet {
@@ -726,30 +773,18 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my @Keys;
-    if ( ref $Param{Key} eq 'ARRAY' ) {
-        @Keys = @{ $Param{Key} };
-    }
-    else {
-        @Keys = ( $Param{Key} );
-    }
+    my $Value = defined $Param{Key} ? $Param{Key} : '';
 
     # get real values
     my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
-    # to store final values
-    my @Values;
+    if ($Value) {
 
-    KEYITEM:
-    for my $Item (@Keys) {
-        next KEYITEM if !$Item;
+        # check if there is a real value for this key (otherwise keep the key)
+        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
 
-        # set the value as the key by default
-        my $Value = $Item;
-
-        # try to convert key to real value
-        if ( $PossibleValues->{$Item} ) {
-            $Value = $PossibleValues->{$Item};
+            # get readeable value
+            $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
 
             # check if translation is possible
             if (
@@ -762,10 +797,9 @@ sub ValueLookup {
                 $Value = $Param{LanguageObject}->Get($Value);
             }
         }
-        push @Values, $Value;
     }
 
-    return \@Values;
+    return $Value;
 }
 
 sub BuildSelectionDataGet {
@@ -791,33 +825,17 @@ sub BuildSelectionDataGet {
             my %ProcessedElements;
             my $PosibleNoneSet;
 
-            my %Values;
-            if ( defined $Param{Value} && IsArrayRefWithData( $Param{Value} ) ) {
-
-                # create a lookup table
-                %Values = map { $_ => 1 } @{ $Param{Value} };
-            }
-
             # loop on all filtred possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
                 if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
 
-                    my $Selected;
-                    if (
-                        !IsHashRefWithData( \%Values )
-                        || ( defined $Values{''} && $Values{''} )
-                        )
-                    {
-                        $Selected = 1;
-                    }
-
                     # add possible none
                     push @Values, {
                         Key      => $Key,
                         Value    => $ConfigPossibleValues->{$Key} || '-',
-                        Selected => $Selected,
+                        Selected => defined $Param{Value} || !$Param{Value} ? 1 : 0,
                     };
                 }
 
@@ -861,7 +879,12 @@ sub BuildSelectionDataGet {
 
                     # check if the current element is the selected one
                     my $Selected;
-                    if ( IsHashRefWithData( \%Values ) && $Values{$ElementLongName} ) {
+                    if (
+                        defined $Param{Value}
+                        && $Param{Value}
+                        && $ElementLongName eq $Param{Value}
+                        )
+                    {
                         $Selected = 1;
                     }
 
@@ -879,6 +902,38 @@ sub BuildSelectionDataGet {
     }
 
     return $FilteredPossibleValues;
+}
+
+sub PossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # to store the possible values
+    my %PossibleValues;
+
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $Param{DynamicFieldConfig}->{Config}->{PossibleNone} || 0;
+    }
+
+    # set none value if defined on field config
+    if ($FieldPossibleNone) {
+        %PossibleValues = ( '' => '-' );
+    }
+
+    # set all other possible values if defined on field config
+    if ( IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
+        %PossibleValues = (
+            %PossibleValues,
+            %{ $Param{DynamicFieldConfig}->{Config}->{PossibleValues} },
+        );
+    }
+
+    # return the possible values hash as a reference
+    return \%PossibleValues;
 }
 
 1;

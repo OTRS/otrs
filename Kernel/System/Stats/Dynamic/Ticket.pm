@@ -483,32 +483,48 @@ sub GetObjectAttributes {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
+        # skip all fields not designed to be supported by statistics
+        my $IsStatsCondition = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsStatsCondition',
+        );
+
+        next DYNAMICFIELD if !$IsStatsCondition;
+
         my $PossibleValuesFilter;
 
-        # get PossibleValues
-        my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
         );
 
-        # convert possible values key => value to key => key for ACLs usign a Hash slice
-        my %AclData = %{ $PossibleValues || {} };
-        @AclData{ keys %AclData } = keys %AclData;
+        if ($IsACLReducible) {
 
-        # set possible values filter from ACLs
-        my $ACL = $Self->{TicketObject}->TicketAcl(
-            Action        => 'AgentStats',
-            Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data          => \%AclData || {},
-            UserID        => 1,
-        );
-        if ($ACL) {
-            my %Filter = $Self->{TicketObject}->TicketAclData();
+            # get PossibleValues
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
 
-            # convert Filer key => key back to key => value using map
-            %{$PossibleValuesFilter}
-                = map { $_ => $PossibleValues->{$_} } keys %Filter;
+            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            my %AclData = %{ $PossibleValues || {} };
+            @AclData{ keys %AclData } = keys %AclData;
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Action        => 'AgentStats',
+                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => \%AclData || {},
+                UserID        => 1,
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+
+                # convert Filer key => key back to key => value using map
+                %{$PossibleValuesFilter}
+                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+            }
         }
 
         # get field html
@@ -574,6 +590,14 @@ sub GetStatElement {
                 # skip all fields that does not match with current field name ($1)
                 # without the 'DynamicField_' prefix
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+
+                # skip all fields not designed to be supported by statistics
+                my $IsStatsCondition = $Self->{BackendObject}->HasBehavior(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Behavior           => 'IsStatsCondition',
+                );
+
+                next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
                 my $DynamicFieldStatsSearchParameter

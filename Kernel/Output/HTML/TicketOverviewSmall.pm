@@ -361,8 +361,9 @@ sub Run {
             my $Label = $DynamicFieldConfig->{Label};
 
             # get field sortable condition
-            my $IsSortable = $Self->{BackendObject}->IsSortable(
+            my $IsSortable = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsSortable',
             );
 
             if ($IsSortable) {

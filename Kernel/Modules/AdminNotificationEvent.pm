@@ -575,10 +575,13 @@ sub _Edit {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # skip all dynamic fields where ObjectMatch is not yet implemented
-        next DYNAMICFIELD if !$Self->{BackendObject}->IsMatchable(
+        # skip all dynamic fields that are not designed to be notification triggers
+        my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsNotificationEventCondition',
         );
+
+        next DYNAMICFIELD if !$IsNotificationEventCondition;
 
         # get field html
         my $DynamicFieldHTML = $Self->{BackendObject}->SearchFieldRender(
