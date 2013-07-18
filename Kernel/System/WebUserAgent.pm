@@ -134,49 +134,72 @@ sub Request {
     $Param{Type} = 'GET' if !defined $Param{Type};
     $Param{Type} = 'GET' if $Param{Type} ne 'POST';
 
-    # init agent
-    my $UserAgent = LWP::UserAgent->new();
-
-    # set timeout
-    $UserAgent->timeout( $Self->{Timeout} );
-
-    # set user agent
-    $UserAgent->agent(
-        $Self->{ConfigObject}->Get('Product') . ' ' . $Self->{ConfigObject}->Get('Version')
-    );
-
-    # set proxy
-    if ( $Self->{Proxy} ) {
-        $UserAgent->proxy( [ 'http', 'https', 'ftp' ], $Self->{Proxy} );
-    }
-
     my $Response;
 
-    if ( $Param{Type} eq 'GET' ) {
+    {
 
-        # perform get request on URL
-        $Response = $UserAgent->get( $Param{URL} );
-    }
-    elsif ( $Param{Type} eq 'POST' ) {
+        # set HTTPS proxy for ssl requests, localize %ENV because of mod_perl
+        local %ENV = %ENV;
 
-        # check for Data param
-        if ( !IsArrayRefWithData( $Param{Data} ) && !IsHashRefWithData( $Param{Data} ) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    'WebUserAgent POST: Need Data param containing a hashref or arrayref with data.',
-            );
-            return ( Status => 0 );
+        # if a proxy is set, extract it and use it as environment variables for HTTPS
+        if ( $Self->{Proxy} =~ /:\/\/(.*)\// ) {
+            my $ProxyAddress = $1;
+
+            # extract authentication information if needed
+            if ( $ProxyAddress =~ /(.*):(.*)@(.*)/ ) {
+                $ENV{HTTPS_PROXY_USERNAME} = $1;
+                $ENV{HTTPS_PROXY_PASSWORD} = $2;
+                $ProxyAddress              = $3;
+            }
+            $ENV{HTTPS_PROXY} = $ProxyAddress;
         }
 
-        # perform post request plus data
-        $Response = $UserAgent->post( $Param{URL}, $Param{Data} );
-    }
+        # force Net::SSL; Crypt::SSLeay can't verify hostnames
+        $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS} = "Net::SSL";
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}    = 0;
 
+        # init agent
+        my $UserAgent = LWP::UserAgent->new();
+
+        # set timeout
+        $UserAgent->timeout( $Self->{Timeout} );
+
+        # set user agent
+        $UserAgent->agent(
+            $Self->{ConfigObject}->Get('Product') . ' ' . $Self->{ConfigObject}->Get('Version')
+        );
+
+        # set proxy - but only for non-https urls, the https urls must use the environment
+        # variables:
+        if ( $Self->{Proxy} && $Param{URL} !~ /^https/ ) {
+            $UserAgent->proxy( [ 'http', 'ftp' ], $Self->{Proxy} );
+        }
+
+        if ( $Param{Type} eq 'GET' ) {
+
+            # perform get request on URL
+            $Response = $UserAgent->get( $Param{URL} );
+        }
+        elsif ( $Param{Type} eq 'POST' ) {
+
+            # check for Data param
+            if ( !IsArrayRefWithData( $Param{Data} ) && !IsHashRefWithData( $Param{Data} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        'WebUserAgent POST: Need Data param containing a hashref or arrayref with data.',
+                );
+                return ( Status => 0 );
+            }
+
+            # perform post request plus data
+            $Response = $UserAgent->post( $Param{URL}, $Param{Data} );
+        }
+    }
     if ( !$Response->is_success() ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't do $Param{Type} on $Param{URL}: " . $Response->status_line(),
+            Message  => "Can't perform $Param{Type} on $Param{URL}: " . $Response->status_line(),
         );
         return (
             Status => $Response->status_line(),
