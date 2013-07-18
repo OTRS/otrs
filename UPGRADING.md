@@ -59,6 +59,17 @@ Restore old configuration files.
 - Kernel/Config/GenericAgent.pm
 - Kernel/Config/Files/ZZZAuto.pm
 
+Restore TicketCounter.log
+
+In order to let OTRS continue with the correct ticket number, restore the 'TicketCounter.log' to
+`$OTRS_HOME/var/log/` (default: `OTRS_HOME=/opt/otrs`)
+
+This is especially important if you are using incremental ticketnumbers.
+
+Restore article data
+
+If you are saving article data to the filesystem you have to restore the 'article' folder to `$OTRS_HOME/var/` (default: `OTRS_HOME=/opt/otrs`)
+
 
 With the RPM:
 
