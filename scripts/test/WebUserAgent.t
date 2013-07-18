@@ -76,6 +76,13 @@ my @Tests = (
         Success => '1',
     },
     {
+        Name    => 'GET - https - Test ' . $TestNumber++,
+        URL     => "https://portal.otrs.com/",
+        Timeout => $TimeOut,
+        Proxy   => $Proxy,
+        Success => '1',
+    },
+    {
         Name => 'POST - hashref - Test ' . $TestNumber++,
         URL  => "https://pav.otrs.com/otrs/public.pl",
         Type => "POST",
