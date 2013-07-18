@@ -1,5 +1,5 @@
 # --
-# Kernel/System/DynamicField/Driver/DriverBase.pm - Dynamic field backend functions
+# Kernel/System/DynamicField/Driver/Base.pm - Dynamic field backend functions
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,18 +7,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::Driver::DriverBase;
+package Kernel::System::DynamicField::Driver::Base;
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BackendCommon - common fields backend functions
+Kernel::System::DynamicField::Driver::Base - common fields backend functions
 
 =head1 SYNOPSIS
 
@@ -50,6 +48,19 @@ sub AllValuesDelete {
 
     return $Success;
 }
+
+sub HasBehavior {
+    my ( $Self, %Param ) = @_;
+
+    # return fail if Behaviors hash does not exists
+    return if !IsHashRefWithData( $Self->{Behaviors} );
+
+    # return success if the dynamic field has the expected behavior
+    return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
+
+    # otherwise return fail
+    return;
+};
 
 =item EditLabelRender()
 

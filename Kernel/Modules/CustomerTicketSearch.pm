@@ -62,6 +62,22 @@ sub new {
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @CustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @CustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $Self->{DynamicField} = \@CustomerDynamicFields;
+
     # get the ticket dynamic fields for overview display
     $Self->{OverviewDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
@@ -69,12 +85,44 @@ sub new {
         FieldFilter => $Self->{Config}->{SearchOverviewDynamicField} || {},
     );
 
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @OverviewCustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{OverviewDynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @OverviewCustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $Self->{OverviewDynamicField} = \@OverviewCustomerDynamicFields;
+
     # get the ticket dynamic fields for CSV display
     $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => ['Ticket'],
         FieldFilter => $Self->{Config}->{SearchCSVDynamicField} || {},
     );
+
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @CSVCustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @CSVCustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $Self->{CSVDynamicField} = \@CSVCustomerDynamicFields;
 
     return $Self;
 }
@@ -700,8 +748,9 @@ sub Run {
                 my $Label = $DynamicFieldConfig->{Label};
 
                 # get field sortable condition
-                my $IsSortable = $Self->{BackendObject}->IsSortable(
+                my $IsSortable = $Self->{BackendObject}->HasBehavior(
                     DynamicFieldConfig => $DynamicFieldConfig,
+                    Behavior           => 'IsSortable',
                 );
 
                 if ($IsSortable) {
@@ -1126,47 +1175,55 @@ sub Run {
 
             my $PossibleValuesFilter;
 
-            # get PossibleValues
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
 
-            # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData($PossibleValues) ) {
+            if ($IsACLReducible) {
 
-                # get historical values from database
-                my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+                # get PossibleValues
+                my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                 );
 
-                my $Data = $PossibleValues;
+                # check if field has PossibleValues property in its configuration
+                if ( IsHashRefWithData($PossibleValues) ) {
 
-                # add historic values to current values (if they don't exist anymore)
-                if ( IsHashRefWithData($HistoricalValues) ) {
-                    for my $Key ( sort keys %{$HistoricalValues} ) {
-                        if ( !$Data->{$Key} ) {
-                            $Data->{$Key} = $HistoricalValues->{$Key}
+                    # get historical values from database
+                    my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                    );
+
+                    my $Data = $PossibleValues;
+
+                    # add historic values to current values (if they don't exist anymore)
+                    if ( IsHashRefWithData($HistoricalValues) ) {
+                        for my $Key ( sort keys %{$HistoricalValues} ) {
+                            if ( !$Data->{$Key} ) {
+                                $Data->{$Key} = $HistoricalValues->{$Key}
+                            }
                         }
                     }
-                }
 
-                # convert possible values key => value to key => key for ACLs using a Hash slice
-                my %AclData = %{$Data};
-                @AclData{ keys %AclData } = keys %AclData;
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
+                    my %AclData = %{$Data};
+                    @AclData{ keys %AclData } = keys %AclData;
 
-                # set possible values filter from ACLs
-                my $ACL = $Self->{TicketObject}->TicketAcl(
-                    Action         => $Self->{Action},
-                    ReturnType     => 'Ticket',
-                    ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data           => \%AclData,
-                    CustomerUserID => $Self->{UserID},
-                );
-                if ($ACL) {
-                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    # set possible values filter from ACLs
+                    my $ACL = $Self->{TicketObject}->TicketAcl(
+                        Action         => $Self->{Action},
+                        ReturnType     => 'Ticket',
+                        ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        Data           => \%AclData,
+                        CustomerUserID => $Self->{UserID},
+                    );
+                    if ($ACL) {
+                        my %Filter = $Self->{TicketObject}->TicketAclData();
 
-                    # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
+                        # convert Filer key => key back to key => value using map
+                        %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
+                    }
                 }
             }
 

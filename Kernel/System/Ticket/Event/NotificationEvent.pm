@@ -142,6 +142,13 @@ sub Run {
 
                     next if !$DynamicFieldConfig;
 
+                    my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Behavior           => 'IsNotificationEventCondition',
+                    );
+
+                    next if !$IsNotificationEventCondition;
+
                     $Match = $Self->{BackendObject}->ObjectMatch(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Value,

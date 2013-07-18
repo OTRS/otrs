@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::DriverBase);
+use base qw(Kernel::System::DynamicField::Driver::Base);
 
 =head1 NAME
 
@@ -55,6 +55,15 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 0,
+        'IsNotificationEventCondition' => 1,
+        'IsSortable'                   => 1,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+    };
 
     return $Self;
 }
@@ -407,12 +416,6 @@ sub DisplayValueRender {
     return $Data;
 }
 
-sub IsSortable {
-    my ( $Self, %Param ) = @_;
-
-    return 1;
-}
-
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
@@ -673,12 +676,6 @@ sub TemplateValueTypeGet {
     }
 }
 
-sub IsAJAXUpdateable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
-}
-
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
@@ -698,12 +695,6 @@ sub RandomValueSet {
         Success => 1,
         Value   => $Value,
     };
-}
-
-sub IsMatchable {
-    my ( $Self, %Param ) = @_;
-
-    return 1;
 }
 
 sub ObjectMatch {

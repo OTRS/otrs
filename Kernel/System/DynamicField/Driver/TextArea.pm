@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::DriverBaseText);
+use base qw(Kernel::System::DynamicField::Driver::BaseText);
 
 =head1 NAME
 
@@ -59,6 +59,15 @@ sub new {
     # set the maximum lenght for the textarea fields to still be a searchable field in some
     # databases
     $Self->{MaxLength} = 3800;
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 0,
+        'IsNotificationEventCondition' => 1,
+        'IsSortable'                   => 0,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+    };
 
     return $Self;
 }
@@ -260,12 +269,6 @@ sub DisplayValueRender {
     };
 
     return $Data;
-}
-
-sub IsSortable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
 }
 
 sub SearchFieldRender {

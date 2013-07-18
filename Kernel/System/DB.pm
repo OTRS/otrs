@@ -1243,6 +1243,9 @@ sub QueryCondition {
         # if word exists, do something with it
         if ($Word) {
 
+            # remove escape characters from $Word
+            $Word =~ s{\\}{}smxg;
+
             # replace word if it's an "some expression" expression
             if ( $Expression{$Word} ) {
                 $Word = $Expression{$Word};
@@ -1347,7 +1350,7 @@ sub QueryCondition {
 
             # if it's an AND condition
             if ( $Array[$Position] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
-                if ( $SQL =~ / OR $/ ) {
+                if ( $SQL =~ m/ OR $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message =>
@@ -1355,14 +1358,14 @@ sub QueryCondition {
                     );
                     return "1=0";
                 }
-                elsif ( $SQL !~ / AND $/ ) {
+                elsif ( $SQL !~ m/ AND $/ ) {
                     $SQL .= ' AND ';
                 }
             }
 
             # if it's an OR condition
             elsif ( $Array[$Position] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
-                if ( $SQL =~ / AND $/ ) {
+                if ( $SQL =~ m/ AND $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message =>
@@ -1370,7 +1373,7 @@ sub QueryCondition {
                     );
                     return "1=0";
                 }
-                elsif ( $SQL !~ / OR $/ ) {
+                elsif ( $SQL !~ m/ OR $/ ) {
                     $SQL .= ' OR ';
                 }
             }

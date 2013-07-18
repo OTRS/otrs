@@ -1263,47 +1263,55 @@ sub Run {
 
             my $PossibleValuesFilter;
 
-            # get PossibleValues
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
 
-            # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData($PossibleValues) ) {
+            if ($IsACLReducible) {
 
-                # get historical values from database
-                my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+                # get PossibleValues
+                my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                 );
 
-                my $Data = $PossibleValues;
+                # check if field has PossibleValues property in its configuration
+                if ( IsHashRefWithData($PossibleValues) ) {
 
-                # add historic values to current values (if they don't exist anymore)
-                if ( IsHashRefWithData($HistoricalValues) ) {
-                    for my $Key ( sort keys %{$HistoricalValues} ) {
-                        if ( !$Data->{$Key} ) {
-                            $Data->{$Key} = $HistoricalValues->{$Key}
+                    # get historical values from database
+                    my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                    );
+
+                    my $Data = $PossibleValues;
+
+                    # add historic values to current values (if they don't exist anymore)
+                    if ( IsHashRefWithData($HistoricalValues) ) {
+                        for my $Key ( sort keys %{$HistoricalValues} ) {
+                            if ( !$Data->{$Key} ) {
+                                $Data->{$Key} = $HistoricalValues->{$Key}
+                            }
                         }
                     }
-                }
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
-                my %AclData = %{$Data};
-                @AclData{ keys %AclData } = keys %AclData;
+                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    my %AclData = %{$Data};
+                    @AclData{ keys %AclData } = keys %AclData;
 
-                # set possible values filter from ACLs
-                my $ACL = $Self->{TicketObject}->TicketAcl(
-                    Action        => $Self->{Action},
-                    ReturnType    => 'Ticket',
-                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data          => \%AclData,
-                    UserID        => $Self->{UserID},
-                );
-                if ($ACL) {
-                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    # set possible values filter from ACLs
+                    my $ACL = $Self->{TicketObject}->TicketAcl(
+                        Action        => $Self->{Action},
+                        ReturnType    => 'Ticket',
+                        ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        Data          => \%AclData,
+                        UserID        => $Self->{UserID},
+                    );
+                    if ($ACL) {
+                        my %Filter = $Self->{TicketObject}->TicketAclData();
 
-                    # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
+                        # convert Filer key => key back to key => value using map
+                        %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
+                    }
                 }
             }
 

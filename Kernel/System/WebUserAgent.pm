@@ -154,7 +154,8 @@ sub Request {
             $ENV{HTTPS_PROXY} = $ProxyAddress;
         }
 
-        # force Net::SSL; Crypt::SSLeay can't verify hostnames
+        # force Net::SSL from Crypt::SSLeay. It does SSL connections through proxies
+        # but it can't verify hostnames
         $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS} = "Net::SSL";
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}    = 0;
 
