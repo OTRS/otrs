@@ -1302,7 +1302,7 @@ sub QueryCondition {
 
             # if it's an AND condition
             if ( $Array[$Position] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
-                if ( $SQL =~ / OR $/ ) {
+                if ( $SQL =~ m/ OR $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message =>
@@ -1310,14 +1310,14 @@ sub QueryCondition {
                     );
                     return "1=0";
                 }
-                elsif ( $SQL !~ / AND $/ ) {
+                elsif ( $SQL !~ m/ AND $/ ) {
                     $SQL .= ' AND ';
                 }
             }
 
             # if it's an OR condition
             elsif ( $Array[$Position] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
-                if ( $SQL =~ / AND $/ ) {
+                if ( $SQL =~ m/ AND $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message =>
@@ -1325,7 +1325,7 @@ sub QueryCondition {
                     );
                     return "1=0";
                 }
-                elsif ( $SQL !~ / OR $/ ) {
+                elsif ( $SQL !~ m/ OR $/ ) {
                     $SQL .= ' OR ';
                 }
             }
