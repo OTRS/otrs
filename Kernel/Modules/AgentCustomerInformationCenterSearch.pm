@@ -78,32 +78,28 @@ sub Run {
         my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
             Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
         );
-        push @CustomerIDs, keys %CustomerCompanyList;
 
-        my @Result;
-
+        # add CustomerIDs for which no CustomerCompany are registered
         my %Seen;
-
-        CUSTOMERID:
-        for my $CustomerID ( sort @CustomerIDs ) {
+        for my $CustomerID ( @CustomerIDs ) {
 
             # skip duplicates
             next CUSTOMERID if $Seen{$CustomerID};
             $Seen{$CustomerID} = 1;
 
-            my %CustomerCompanyData = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
-                CustomerID => $CustomerID,
-            );
-
-            my $Label = $CustomerID;
-
-            if ( $CustomerCompanyData{CustomerCompanyName} ) {
-                $Label .= " ($CustomerCompanyData{CustomerCompanyName})";
+            # identifies unknown companies
+            if ( !exists $CustomerCompanyList{$CustomerID} ) {
+                $CustomerCompanyList{$CustomerID} = $CustomerID;
             }
 
-            push @Result, { Label => $Label || $CustomerID, Value => $CustomerID };
+        }
 
-            last CUSTOMERID if scalar keys %Seen >= $MaxResults;
+        # build result list
+        my @Result;
+        CUSTOMERID:
+        for my $CustomerID ( sort keys %CustomerCompanyList ) {
+            push @Result, { Label => $CustomerCompanyList{$CustomerID}, Value => $CustomerID };
+            last CUSTOMERID if scalar @Result >= $MaxResults;
         }
 
         my $JSON = $Self->{LayoutObject}->JSONEncode(
