@@ -93,42 +93,41 @@ sub Run {
     }
     my $Table   = '';
     my $Counter = 1;
-    for my $DataTmp (@NewLines) {
+    for my $Data (@NewLines) {
         $Counter++;
-        my %Data = %{$DataTmp};
 
         # replace text
-        if ( $Data{Name} && $Data{Name} =~ m/^%%/x ) {
+        if ( $Data->{Name} && $Data->{Name} =~ m/^%%/x ) {
             my %Info = ();
-            $Data{Name} =~ s/^%%//xg;
-            my @Values = split( /%%/x, $Data{Name} );
-            $Data{Name} = '';
+            $Data->{Name} =~ s/^%%//xg;
+            my @Values = split( /%%/x, $Data->{Name} );
+            $Data->{Name} = '';
             for my $Value (@Values) {
-                if ( $Data{Name} ) {
-                    $Data{Name} .= "\", ";
+                if ( $Data->{Name} ) {
+                    $Data->{Name} .= "\", ";
                 }
-                $Data{Name} .= "\"$Value";
+                $Data->{Name} .= "\"$Value";
             }
-            if ( !$Data{Name} ) {
-                $Data{Name} = '" ';
+            if ( !$Data->{Name} ) {
+                $Data->{Name} = '" ';
             }
-            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
-                'History::' . $Data{HistoryType} . '", ' . $Data{Name}
+            $Data->{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                'History::' . $Data->{HistoryType} . '", ' . $Data->{Name}
             );
 
             # remove not needed place holder
-            $Data{Name} =~ s/\%s//xg;
+            $Data->{Name} =~ s/\%s//xg;
         }
 
         $Self->{LayoutObject}->Block(
             Name => 'Row',
-            Data => {%Data},
+            Data => $Data,
         );
 
-        if ( $Data{ArticleID} ne "0" ) {
+        if ( $Data->{ArticleID} ne "0" ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLinkZoom',
-                Data => {%Data},
+                Data => $Data,
             );
         }
         else {
