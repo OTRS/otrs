@@ -84,17 +84,10 @@ sub Run {
     my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
 
     # get shown user info
-    my @NewLines = ();
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::HistoryOrder') eq 'reverse' ) {
-        @NewLines = reverse(@Lines);
+        @Lines = reverse(@Lines);
     }
-    else {
-        @NewLines = @Lines;
-    }
-    my $Table   = '';
-    my $Counter = 1;
-    for my $Data (@NewLines) {
-        $Counter++;
+    for my $Data (@Lines) {
 
         # replace text
         if ( $Data->{Name} && $Data->{Name} =~ m/^%%/x ) {
