@@ -4333,6 +4333,7 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketQueue</Item>
                 <Item Key="AccessKey">q</Item>
                 <Item Key="CssClass">QueueView</Item>
+                <Item Key="Icon">icon-folder-close</Item>
                 <Item Key="Priority">1010010</Item>
             </Hash>
         </Setting>
@@ -4349,6 +4350,7 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketStatusView</Item>
                 <Item Key="AccessKey">o</Item>
                 <Item Key="CssClass">StatusView</Item>
+                <Item Key="Icon">icon-list-ol</Item>
                 <Item Key="Priority">1010020</Item>
             </Hash>
         </Setting>
@@ -4365,6 +4367,7 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketEscalationView</Item>
                 <Item Key="AccessKey">w</Item>
                 <Item Key="CssClass">EscalationView</Item>
+                <Item Key="Icon">icon-exclamation</Item>
                 <Item Key="Priority">1010030</Item>
             </Hash>
         </Setting>
@@ -4381,6 +4384,7 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketPhone</Item>
                 <Item Key="AccessKey">l</Item>
                 <Item Key="CssClass">PhoneTicket</Item>
+                <Item Key="Icon">icon-phone</Item>
                 <Item Key="Priority">1020010</Item>
             </Hash>
         </Setting>
@@ -4397,6 +4401,7 @@ $QData{"Body"}
                 <Item Key="Action">AgentTicketEmail</Item>
                 <Item Key="AccessKey">l</Item>
                 <Item Key="CssClass">EmailTicket</Item>
+                <Item Key="Icon">icon-envelope</Item>
                 <Item Key="Priority">1020020</Item>
             </Hash>
         </Setting>
@@ -4411,6 +4416,9 @@ $QData{"Body"}
                 <Item Key="CssClass">Responsible</Item>
                 <Item Key="CssClassNew">Responsible New</Item>
                 <Item Key="CssClassReached">Responsible Reached</Item>
+                <Item Key="Icon">icon-user</Item>
+                <Item Key="IconNew">icon-user</Item>
+                <Item Key="IconReached">icon-user</Item>
                 <Item Key="Priority">1030010</Item>
             </Hash>
         </Setting>
@@ -4425,6 +4433,9 @@ $QData{"Body"}
                 <Item Key="CssClass">Watcher</Item>
                 <Item Key="CssClassNew">Watcher New</Item>
                 <Item Key="CssClassReached">Watcher Reached</Item>
+                <Item Key="Icon">icon-eye-open</Item>
+                <Item Key="IconNew">icon-eye-open</Item>
+                <Item Key="IconReached">icon-eye-open</Item>
                 <Item Key="Priority">1030020</Item>
             </Hash>
         </Setting>
@@ -4439,6 +4450,9 @@ $QData{"Body"}
                 <Item Key="CssClass">Locked</Item>
                 <Item Key="CssClassNew">Locked New</Item>
                 <Item Key="CssClassReached">Locked Reached</Item>
+                <Item Key="Icon">icon-lock</Item>
+                <Item Key="IconNew">icon-lock</Item>
+                <Item Key="IconReached">icon-lock</Item>
                 <Item Key="Priority">1030030</Item>
             </Hash>
         </Setting>

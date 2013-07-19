@@ -27,7 +27,7 @@ $Include{"HTMLHead"}
 <!-- dtl:block:ToolBar -->
         <ul id="ToolBar">
 <!-- dtl:block:ToolBarItem -->
-            <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Description"}"}: $QData{"Count"}$QData{"AccessKeyReference"}"><span class="Counter">$QData{"Count"}</span> $Text{"$Data{"Description"}"}<span class="Gloss"></span></a></li>
+            <li class="$QData{"Class"}"><a href="$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Description"}"}: $QData{"Count"}$QData{"AccessKeyReference"}">$Text{"$Data{"Description"}"} <i class="icon-small icon-time icon-show-reached"></i> <i class="icon-small icon-star icon-show-new"></i><i class="$QData{"Icon"}"></i> <span class="Counter">$QData{"Count"}</span> </a></li>
 <!-- dtl:block:ToolBarItem -->
 <!-- dtl:block:ToolBarSearchProfile -->
             <li class="Extended SearchProfile">
@@ -36,7 +36,7 @@ $Include{"HTMLHead"}
                     <input type="hidden" name="Subaction" value="LoadProfile"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     $Data{"Link"}
-#                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$Data{"Description"}"}  ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
+#                    <a href="#" id="ToolbarProfileSearch" title="$Text{"$Data{"Description"}"}  ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
                 </form>
             </li>
 <!-- dtl:js_on_document_complete -->
@@ -58,7 +58,7 @@ $Include{"HTMLHead"}
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     <input type="hidden" name="CheckTicketNumberAndRedirect" value="1"/>
                     <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}" placeholder="$Text{"Fulltext search"}" title="$Text{"Fulltext Search"}"/>
-#                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"} ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
+#                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"} ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
                 </form>
             </li>
 <!-- dtl:block:ToolBarSearchFulltext -->

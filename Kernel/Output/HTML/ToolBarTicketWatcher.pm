@@ -92,6 +92,10 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
+    my $Icon         = $Param{Config}->{Icon};
+    my $IconNew      = $Param{Config}->{IconNew};
+    my $IconReached  = $Param{Config}->{IconReached};
+
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
     if ($CountNew) {
@@ -100,6 +104,7 @@ sub Run {
             Description => 'Watched Tickets New',
             Count       => $CountNew,
             Class       => $ClassNew,
+            Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketWatchView;Filter=New',
             AccessKey   => '',
         };
@@ -110,6 +115,7 @@ sub Run {
             Description => 'Watched Tickets Reminder Reached',
             Count       => $CountReached,
             Class       => $ClassReached,
+            Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
             AccessKey   => '',
         };
@@ -120,6 +126,7 @@ sub Run {
             Description => 'Watched Tickets Total',
             Count       => $Count,
             Class       => $Class,
+            Icon        => $Icon,
             Link        => $URL . 'Action=AgentTicketWatchView',
             AccessKey   => '',
         };

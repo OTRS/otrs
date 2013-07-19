@@ -5748,6 +5748,7 @@ M
                 <Item>Core.Tooltip.css</Item>
                 <Item>Core.Dialog.css</Item>
                 <Item>Core.Print.css</Item>
+                <Item>thirdparty/fontawesome/font-awesome.css</Item>
             </Array>
         </Setting>
     </ConfigItem>
