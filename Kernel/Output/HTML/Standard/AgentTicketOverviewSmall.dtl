@@ -186,7 +186,8 @@
                         <div title="$QData{"Queue"}">$QData{"Queue","30"}</div>
                     </td>
                     <td>
-                        <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
+                        <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">
+                        $QData{"UserFullname"}</div>
                     </td>
                     <td>
                         <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">

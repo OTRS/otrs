@@ -19,7 +19,7 @@
         <tr>
             <td>
                 <p title="$QData{"UserEmail"}">
-                    $QData{"UserLastname"} $QData{"UserFirstname"} $Text{"until"} $Date{"$QData{"OutOfOfficeUntil"}"}
+                    $QData{"UserFullname"} $Text{"until"} $Date{"$QData{"OutOfOfficeUntil"}"}
                 </p>
             </td>
         </tr>

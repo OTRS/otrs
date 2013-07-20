@@ -55,7 +55,7 @@
 <!-- dtl:block:ShowLinkZoom -->
                             </td>
                             <td>
-                                $QData{"UserLogin"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
+                                $QData{"UserFullname"}
                             </td>
                             <td>
                                 $TimeLong{"$Data{"CreateTime"}"}
