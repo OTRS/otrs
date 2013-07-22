@@ -1,6 +1,6 @@
 #3.3.0.beta1 2013-??-??
- - 2013-07-22 Implemented bug#[8023](http://bugs.otrs.org/show_bug.xgi?id=8023) - Added possibility to set Owner or Responsible for tickets using Postmaster Filters.
- - 2013-07-15 Fixed bug#[5412](http://bugs.otrs.org/show_bug.cgi?id=5412) - Textfields are sometimes required, sometimes optional.
+ - 2013-07-22 Implemented bug#[8023](http://bugs.otrs.org/show_bug.cgi?id=8023) - Added possibility to set Owner or Responsible for tickets using Postmaster Filters.
+ - 2013-07-15 Fixed bug#[5412](http://bugs.otrs.org/show_bug.cgi?id=5412) - Text fields are sometimes required, sometimes optional.
  - 2013-07-12 Fixed bug#[7593](http://bugs.otrs.org/show_bug.cgi?id=7593) - GroupUserRoleMemberList returns user ID, not role name.
  - 2013-07-12 Fixed bug#[7885](http://bugs.otrs.org/show_bug.cgi?id=7885) - Links of 'merged' tickets are not displayed with a 'line-through'.
  - 2013-07-12 Fixed bug#[8629](http://bugs.otrs.org/show_bug.cgi?id=8629) - number of articles on the ticket.
@@ -14,7 +14,7 @@
  - 2013-07-11 Fixed bug#[9051](http://bugs.otrs.org/show_bug.cgi?id=9051) - Unified field sizes.
  - 2013-07-10 Added Column Headers to SQL Box output.
  - 2013-07-10 Added GetColumnNames() function to DBObject.
- - 2013-07-10 Fixed bug#[9597](http://bugs.otrs.org/show_bug.cgi?id=9597) - customer company cache data will not deleted corretly by changing data.
+ - 2013-07-10 Fixed bug#[9597](http://bugs.otrs.org/show_bug.cgi?id=9597) - Customer company cache data will not be deleted correctly when changing data.
  - 2013-07-09 Fixed bug#[9589](http://bugs.otrs.org/show_bug.cgi?id=9589) - AgentLinkObject does not show TreeView option for linkable ITSMConfigurationManagement objects.
  - 2013-07-09 Fixed bug#[9581](http://bugs.otrs.org/show_bug.cgi?id=9581) - No TreeView for Queues in AdminNotificationEvent.
  - 2013-07-09 Fixed bug#[9563](http://bugs.otrs.org/show_bug.cgi?id=9563) - Dashboard Calendar Floater shows numeric values.
@@ -35,7 +35,7 @@
  - 2013-06-21 Fixed bug#[8200](http://bugs.otrs.org/show_bug.cgi?id=8200) - GenericAgent Ticket filter escalation times not working.
  - 2013-06-20 Added support to mark important articles.
  - 2013-06-18 Added graphical ACL editor feature.
- - 2013-06-18 Added SystemData backend - a key/value store for artbitrary data.
+ - 2013-06-18 Added SystemData backend - a key/value store for arbitrary data.
  - 2013-06-18 Added tree mode feature for dynamic fields (dropdown and multiselect).
  - 2013-06-14 Fixed bug#[9489](http://bugs.otrs.org/show_bug.cgi?id=9489) - Setting Ticket::DefaultNextMoveStateType name is confusing and not consistent with similar settings in other screens.
  - 2013-06-14 Fixed bug#[9251](http://bugs.otrs.org/show_bug.cgi?id=9251) - Sending a too large mail doesn't generate error message.
@@ -71,7 +71,7 @@
  - 2013-04-30 Fixed bug#[9372](http://bugs.otrs.org/show_bug.cgi?id=9372) - Configurable envelope sender address.
  - 2013-04-30 Added article link to every article box in ticket zoom.
  - 2013-04-30 Added possibility to specify relative dates for X-OTRS-State-PendingTime and X-OTRS-FollowUp-State-PendingTime in postmaster filters.
- - 2013-04-29 Fixed bug#[9339](http://bugs.otrs.org/show_bug.cgi?id=9339) - Poor stat generation preformance with dynamic fields.
+ - 2013-04-29 Fixed bug#[9339](http://bugs.otrs.org/show_bug.cgi?id=9339) - Poor stat generation performance with dynamic fields.
  - 2013-04-24 Added support to bin/otrs.SetPassword.pl to set passwords for customers
     and to generate passwords for logins.
  - 2013-04-08 Fixed bug#[8490](http://bugs.otrs.org/show_bug.cgi?id=8490) - No History record added when changing ticket title.
@@ -88,11 +88,11 @@
  - 2013-07-22 Fixed bug pull#[83](https://github.com/OTRS/otrs/pull/83) - Pagination next page link, thanks to Renée Bäcker.
  - 2013-07-18 Fixed bug#[9613](http://bugs.otrs.org/show_bug.cgi?id=9613) - CustomerTicketZoom shows JSLint error if no dynamic fields are configured
  - 2013-07-17 Updated Turkish translation, thanks to Sefer Şimşek @ Network Group!
- - 2013-07-17 Fixed bug#[9594](http://bugs.otrs.org/show_bug.cgi?id=9594) - No auro-reply sent with multiple From addresses in
+ - 2013-07-17 Fixed bug#[9594](http://bugs.otrs.org/show_bug.cgi?id=9594) - No auto-reply sent with multiple From addresses in
     AgentTicketPhone on PostgreSQL and Oracle.
  - 2013-07-12 Fixed bug#[3434](http://bugs.otrs.org/show_bug.cgi?id=3434) - Validity of search time frame not checked by OTRS.
  - 2013-07-12 Fixed bug#[5475](http://bugs.otrs.org/show_bug.cgi?id=5475) - Incorrectly limited ticket list queries in queue view.
- - 2013-07-12 Fixed bug#[8667](http://bugs.otrs.org/show_bug.cgi?id=8667) - No error Message when tryiing to Merge Ticket with itself.
+ - 2013-07-12 Fixed bug#[8667](http://bugs.otrs.org/show_bug.cgi?id=8667) - No error Message when trying to Merge Ticket with itself.
  - 2013-07-12 Fixed bug#[6985](http://bugs.otrs.org/show_bug.cgi?id=6985) - SMTPTLS backend requires username and password.
  - 2013-07-10 Fixed bug#[9598](http://bugs.otrs.org/show_bug.cgi?id=9598) - Typo in vacation message for German locale.
  - 2013-07-10 Fixed bug#[9595](http://bugs.otrs.org/show_bug.cgi?id=9595) - Incomplete page reload handling in merge and bounce.
@@ -108,7 +108,7 @@
  - 2013-07-09 Fixed bug#[9578](http://bugs.otrs.org/show_bug.cgi?id=9578) - DynamicField sorting does not work on TicketSearch results in Customer Interface.
  - 2013-07-08 Fixed bug#[9579](http://bugs.otrs.org/show_nug.cgi?id=9579) - SOAP Serializer used in Kernel/GenericInterface/Transport/HTTP/SOAP.pm does not correctly set namespace.
  - 2013-07-08 Fixed bug#[7359](http://bugs.otrs.org/show_bug.cgi?id=7359) - Setting pending states via generic agent does not set pending time.
- - 2013-07-08 Fixed bug#[9577](http://bugs.otrs.org/show_bug.cgi?id=9577) - Engine translate date to dado from english to pt_BR.
+ - 2013-07-08 Fixed bug#[9577](http://bugs.otrs.org/show_bug.cgi?id=9577) - Engine translate date to dado from English to pt_BR.
  - 2013-07-08 Fixed bug#[5920](http://bugs.otrs.org/show_bug.cgi?id=5920) - Search restriction for dates is not displayed in customer interface.
  - 2013-07-08 Fixed bug#[8380](http://bugs.otrs.org/show_bug.cgi?id=8380) - Middle name not displayed in AdminCustomerUser.
  - 2013-07-05 Fixed bug#[9576](http://bugs.otrs.org/show_bug.cgi?id=9576) - GI TicketSearch Date and Date/Time dynamic fields are ignored.
@@ -161,7 +161,7 @@
  - 2013-05-31 Fixed bug#[9284](http://bugs.otrs.org/show_bug.cgi?id=9284) - Improve user experience of accordion widget.
  - 2013-05-31 Fixed bug#[9105](http://bugs.otrs.org/show_bug.cgi?id=9105) - Opening reply view crashes browsers on iPad 3.
  - 2013-05-28 Added '-a reinstall-all' feature to bin/otrs.PackageManager.pl.
- - 2013-05-27 Fixed bug#[9476](http://bugs.otrs.org/show_bug.cgi?id=9476) - AgentTicketZoom: translation of "split" into german language.
+ - 2013-05-27 Fixed bug#[9476](http://bugs.otrs.org/show_bug.cgi?id=9476) - AgentTicketZoom: translation of "split" into German language.
  - 2013-05-27 Fixed bug#[9459](http://bugs.otrs.org/show_bug.cgi?id=9459) - Creating a new transition action coming from the transition path view produces errors.
  - 2013-05-27 Fixed bug#[9458](http://bugs.otrs.org/show_bug.cgi?id=9458) - Double click on Transition opens error message.
  - 2013-05-24 Fixed bug#[9241](http://bugs.otrs.org/show_bug.cgi?id=9241) - Article ignored in article search index if body is almost empty.
