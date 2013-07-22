@@ -917,16 +917,8 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
 }
 
 # test X-OTRS-(Owner|Responsible)
-my $Login   = 'UnitTest-PostMaster-' . int rand 1_000_000;
-my $Counter = int rand 10_000;
-my $UserID  = $UserObject->UserAdd(
-    UserFirstname => 'PostMaster' . $Counter,
-    UserLastname  => 'UnitTest',
-    UserLogin     => $Login,
-    UserEmail     => 'UnitTest.PostMaster.' . $Counter . '@localhost.tld',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-);
+my $Login = $HelperObject->TestUserCreate();
+my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
 
 my %OwnerResponsibleTests = (
     Owner => {
