@@ -9,7 +9,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.23 2013-07-10
+3.0.23 2013-??-??
+ - 2013-07-22 Fixed bug#9541 - Package manager cannot use https proxy.
  - 2013-07-10 Backport of bugfix#7518 - Escalation Notify by not working properly (follow-up fix).
 
 3.0.22 2013-07-09
