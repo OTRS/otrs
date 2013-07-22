@@ -918,7 +918,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
 
 # test X-OTRS-(Owner|Responsible)
 my $Login = $HelperObject->TestUserCreate();
-my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
+my $UserID = $UserObject->UserLookup( UserLogin => $Login );
 
 my %OwnerResponsibleTests = (
     Owner => {
@@ -949,7 +949,7 @@ my %OwnerResponsibleTests = (
 
 for my $Test ( keys %OwnerResponsibleTests ) {
     my $FileSuffix = $OwnerResponsibleTests{$Test}->{File};
-    my $Location = $ConfigObject->Get('Home')
+    my $Location   = $ConfigObject->Get('Home')
         . "/scripts/test/sample/PostMaster/PostMaster-Test-$FileSuffix.box";
     my $ContentRef = $Self->{MainObject}->FileRead(
         Location => $Location,
@@ -957,7 +957,7 @@ for my $Test ( keys %OwnerResponsibleTests ) {
         Result   => 'ARRAY',
     );
 
-    for my $Line ( @{ $ContentRef } ) {
+    for my $Line ( @{$ContentRef} ) {
         $Line =~ s{ ^ (X-OTRS-(?:Owner|Responsible):) .*? $ }{$1$Login}x;
         $Line =~ s{ ^ (X-OTRS-(?:Owner|Responsible)ID:) .*? $ }{$1$UserID}x;
     }
