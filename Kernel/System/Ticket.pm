@@ -567,7 +567,7 @@ sub TicketCreate {
 
     # log ticket creation
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
             . "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
     );

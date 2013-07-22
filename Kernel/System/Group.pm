@@ -208,9 +208,9 @@ sub GroupAdd {
         $GroupID = $Row[0];
     }
 
-    # log notice
+    # log 
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
     );
 
@@ -1554,9 +1554,9 @@ sub RoleAdd {
         $RoleID = $Row[0];
     }
 
-    # log notice
+    # log
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
     );
 

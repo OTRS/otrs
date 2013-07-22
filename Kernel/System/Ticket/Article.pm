@@ -2092,7 +2092,7 @@ sub ArticleSend {
 
     # log
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Sent email to '$ToOrig' from '$Param{From}'. "
             . "HistoryType => $HistoryType, Subject => $Param{Subject};",
     );
@@ -2300,7 +2300,7 @@ sub SendAgentNotification {
 
     # log event
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Sent agent '$Param{Type}' notification to '$User{UserEmail}'.",
     );
 
@@ -2386,7 +2386,7 @@ sub SendCustomerNotification {
         )
     {
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => 'Send no customer notification because no customer is set!',
         );
         return;
@@ -2399,7 +2399,7 @@ sub SendCustomerNotification {
         );
         if ( !$CustomerUser{UserEmail} ) {
             $Self->{LogObject}->Log(
-                Priority => 'notice',
+                Priority => 'info',
                 Message  => "Send no customer notification because of missing "
                     . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
             );
@@ -2629,7 +2629,7 @@ sub SendCustomerNotification {
 
     # log event
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Sent customer '$Param{Type}' notification to '$Article{From}'.",
     );
 
@@ -2744,7 +2744,7 @@ sub SendAutoResponse {
             CreateUserID => $Param{UserID},
         );
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
                 . "$Ticket{TicketNumber}] ($OrigHeader{From}) because the "
                 . "sender doesn't want an auto-response (e. g. loop or precedence header)"
@@ -2807,14 +2807,13 @@ sub SendAutoResponse {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
-                    . "$Ticket{TicketNumber}] ($Email) "
+                    . "$Ticket{TicketNumber}] ($Email) because of loop protection."
             );
             next ADDRESS;
         }
         else {
             # increase loop count
             return if !$LoopProtectionObject->SendEmail( To => $Email );
-
         }
 
         # check if sender is e. g. MAILER-DAEMON or Postmaster
@@ -2831,7 +2830,7 @@ sub SendAutoResponse {
 
             # log
             $Self->{LogObject}->Log(
-                Priority => 'notice',
+                Priority => 'info',
                 Message  => "Sent no auto response to '$Email' because config"
                     . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) matched.",
             );
@@ -2895,7 +2894,7 @@ sub SendAutoResponse {
 
     # log
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Sent auto response ($HistoryType) for Ticket [$Ticket{TicketNumber}]"
             . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$AutoReplyAddresses'."
     );
