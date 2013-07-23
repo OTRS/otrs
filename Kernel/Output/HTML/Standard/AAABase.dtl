@@ -231,6 +231,10 @@ $Text{"Database"}
 $Text{"Configure Mail"}
 $Text{"Finished"}
 $Text{"Database deleted."}
+$Text{"Enter the password for the administrative database user."}
+$Text{"Enter the password for the database user."}
+$Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty."}
+$Text{"Database already contains data - it should be empty!"}
 
 # misc
 $Text{"Login is needed!"}
