@@ -166,4 +166,55 @@ textarea.Focus  {
     background-image: url(../img/dialog_alert.png);
 }
 
+/*
+ * @subsection  Slim styles
+ *
+ */
+
+#Header {
+    height: 42px;
+    background-position: bottom;
+}
+
+#Logo {
+    right: 246px;
+}
+
+.RTL #Logo {
+    right: auto;
+    left: 246px;
+}
+
+#ToolBar {
+    top: 24px;
+    left: auto;
+    right: 45px;
+}
+
+#ToolBar a {
+    margin-top: -7px;
+}
+
+.RTL #ToolBar {
+    right: auto;
+    left: 45px;
+}
+
+#UserInfo {
+    top: 2px;
+}
+
+#Navigation {
+    top: 21px;
+}
+
+.DataTable tr td {
+    line-height: 14px;
+}
+
+.FixedHeader td {
+    line-height: 16px;
+}
+
+
 } /* end @media */
