@@ -90,6 +90,19 @@ if (RefreshSeconds) {
           font-weight: normal;
           font-style: normal;
         }
+
+        /* Fix poor font rendering on chrome based browsers on windows */
+        @media all and (-webkit-min-device-pixel-ratio:0) {
+            @font-face {
+                font-family: 'FontAwesome';
+                src: url('$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular') format('svg'),
+                     url('$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'),
+                     url('$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=3.2.1') format('woff'),
+                     url('$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=3.2.1') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+        }
     </style>
 
     <title>$QData{"TitleArea"} $Config{"ProductName"}</title>
