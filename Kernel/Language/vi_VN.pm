@@ -2616,7 +2616,7 @@ sub Data {
             '',
         'Database-User' => 'Người dùng cơ sở dữ liệu',
         'New' => 'Mới',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'mặc định \'hot\'',
         'DB host' => '',

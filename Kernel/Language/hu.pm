@@ -2622,7 +2622,7 @@ sub Data {
             '',
         'Database-User' => 'Adatbázis felhasználó',
         'New' => 'Új',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'alapértelmezett',
         'DB host' => '',

@@ -2619,7 +2619,7 @@ sub Data {
             'Jika anda ingin memasang OTRS pada pangkalan data lain, sila baca fail README.database.',
         'Database-User' => 'Pengguna database',
         'New' => 'Baru',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Seorang pengguna pangkalan data baru dengan keistimewaan yang terhad dicipta pada sistem OTRS ini.',
         'default \'hot\'' => 'asal \'hot\'',
         'DB host' => '',

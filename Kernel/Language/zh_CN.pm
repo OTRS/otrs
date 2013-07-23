@@ -2622,7 +2622,7 @@ sub Data {
             '如果使用其他数据库安装OTRS，请参考README文档。',
         'Database-User' => '数据库用户名',
         'New' => '新建',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库用户',
         'default \'hot\'' => '默认密码 \'hot\'',
         'DB host' => '数据库服务器',

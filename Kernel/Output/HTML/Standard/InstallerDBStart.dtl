@@ -91,7 +91,7 @@
                     <div class="Field">
                         <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W25pc" autocomplete="off"/>
                         <p class="FieldExplanation">
-                            $Text{"A new database user with limited rights will be created for this OTRS system."}
+                            $Text{"A new database user with limited permissions will be created for this OTRS system."}
                         </p>
                     </div>
                     <div class="Clear"></div>

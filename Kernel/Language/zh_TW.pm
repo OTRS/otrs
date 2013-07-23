@@ -2619,7 +2619,7 @@ sub Data {
             '',
         'Database-User' => '數據庫用戶名稱',
         'New' => '新',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => '默認密碼 \'hot\'',
         'DB host' => '',

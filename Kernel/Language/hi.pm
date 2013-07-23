@@ -2619,7 +2619,7 @@ sub Data {
             'यदि आप किसी अन्य डेटाबेस के प्रकार पर OTRS स्थापित करना चाहते हैं,तो कृपया README.database फ़ाइल का संदर्भ लें।',
         'Database-User' => 'आंकड़ाकोष उपयोगकर्ता',
         'New' => 'नया',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'सीमित अधिकार के साथ एक नया आंकड़ाकोष उपयोगकर्ता इस OTRS प्रणाली के लिए बनाया जाएगा।',
         'default \'hot\'' => 'तयशुदा \'hot\'',
         'DB host' => 'आंकड़ाकोष मेजबान',

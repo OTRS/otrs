@@ -2618,7 +2618,7 @@ sub Data {
             'もしOTRSに違うタイプのデータベースをインストールしたい場合、README.databaseファイルを参照してください。',
         'Database-User' => 'データベースユーザー',
         'New' => '新規',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'このOTRSシステム用に限られた権限の新規データベースユーザーが作成されます。',
         'default \'hot\'' => '既定パスワード \'hot\'',
         'DB host' => 'データベース - ホスト',

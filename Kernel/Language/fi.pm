@@ -2619,7 +2619,7 @@ sub Data {
             'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
         'Database-User' => 'Tietokantakäyttäjä',
         'New' => 'Uusi',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'oletuspalvelin',
         'DB host' => '',
