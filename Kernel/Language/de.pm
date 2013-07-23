@@ -2578,6 +2578,7 @@ sub Data {
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
+        'Database already contains data - it should be empty!' => 'Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Mailversand konfigurieren',
