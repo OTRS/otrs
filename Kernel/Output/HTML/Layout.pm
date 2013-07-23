@@ -1621,6 +1621,24 @@ sub Footer {
         );
     }
 
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
+
+    for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+            Data => $AutocompleteConfig,
+        );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
+
     # Banner
     if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
         $Self->Block(
@@ -3516,6 +3534,24 @@ sub CustomerFooter {
             Name => 'Banner',
         );
     }
+
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Customer');
+
+    for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+            Data => $AutocompleteConfig,
+        );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
 
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );

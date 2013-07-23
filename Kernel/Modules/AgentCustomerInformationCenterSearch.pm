@@ -65,7 +65,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+        = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
 
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
@@ -145,17 +145,6 @@ sub Run {
             NoCache     => 1,
         );
     }
-
-    # build customer search autocomplete fields
-    $Self->{LayoutObject}->Block(
-        Name => 'CustomerSearchAutoComplete',
-        Data => {
-            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 100,
-            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-        },
-    );
 
     my $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentCustomerInformationCenterSearch',

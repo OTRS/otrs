@@ -68,9 +68,6 @@ $Include{"HTMLHead"}
             </li>
 <!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[
-                Core.Config.Set('Autocomplete.QueryDelay', "$QData{"QueryDelay"}");
-                Core.Config.Set('Autocomplete.MaxResultsDisplayed', "$QData{"MaxResultsDisplayed"}");
-                Core.Config.Set('Autocomplete.MinQueryLength', "$QData{"MinQueryLength"}");
                 Core.Agent.CustomerInformationCenterSearch.InitAutocomplete( $('#ToolBarCICSearchCustomerID'), "SearchCustomerID" );
             //]]></script>
 <!-- dtl:js_on_document_complete -->
@@ -81,9 +78,6 @@ $Include{"HTMLHead"}
             </li>
 <!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[
-                Core.Config.Set('Autocomplete.QueryDelay', "$QData{"QueryDelay"}");
-                Core.Config.Set('Autocomplete.MaxResultsDisplayed', "$QData{"MaxResultsDisplayed"}");
-                Core.Config.Set('Autocomplete.MinQueryLength', "$QData{"MinQueryLength"}");
                 Core.Agent.CustomerInformationCenterSearch.InitAutocomplete( $('#ToolBarCICSearchCustomerUser'), "SearchCustomerUser" );
             //]]></script>
 <!-- dtl:js_on_document_complete -->

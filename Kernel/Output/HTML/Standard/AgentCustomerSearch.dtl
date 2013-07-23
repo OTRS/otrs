@@ -10,17 +10,12 @@
 <!-- dtl:block:CustomerSearchAutoComplete -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Autocomplete.QueryDelay', "$QData{"queryDelay"}");
-    Core.Config.Set('Autocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
-    Core.Config.Set('Autocomplete.MinQueryLength', "$QData{"minQueryLength"}");
-    Core.Config.Set('Autocomplete.DynamicWidth', "$Config{"Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth"}");
-    Core.Config.Set('Autocomplete.ShowCustomerTickets', "$Config{"Ticket::Frontend::ShowCustomerTickets"}");
-    Core.Config.Set('Autocomplete.SearchButtonText', "$JSText{"Search Customer"}");
+    Core.Config.Set('CustomerSearch.ShowCustomerTickets', "$Config{"Ticket::Frontend::ShowCustomerTickets"}");
     Core.Config.Set('Duplicated.TitleText', "$JSText{"Duplicated entry"}");
     Core.Config.Set('Duplicated.ContentText', "$JSText{"This address already exists on the address list."}");
     Core.Config.Set('Duplicated.RemoveText', "$JSText{"It is going to be deleted from the field, please try again."}");
     Core.Config.Set('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom', "$Config{"Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom"}");
-    Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"), $QData{"ActiveAutoComplete"});
+    Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:CustomerSearchAutoComplete -->

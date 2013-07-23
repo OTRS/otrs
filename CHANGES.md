@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-23 Refactored AutoComplete feature (code cleanup, configuration cleanup).
  - 2013-07-22 Implemented bug#[8023](http://bugs.otrs.org/show_bug.cgi?id=8023) - Added possibility to set Owner or Responsible for tickets using Postmaster Filters.
  - 2013-07-18 Renamed CommonSearchFieldParameterBuild() to StatsSearchFieldParameterBuild() in Dynamic Fields BackendObject and Drivers.
  - 2013-07-18 Removed IsMatchable(), IsSortable(), IsAJAXUpdatable() from Dynamic Fields BackendObject and Drivers.
