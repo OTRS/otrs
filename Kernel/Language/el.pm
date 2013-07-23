@@ -2624,7 +2624,7 @@ sub Data {
             '',
         'Database-User' => 'Ονομα χρήστη βάσης',
         'New' => 'Νέο',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'Προεπιλογή \'hot\'',
         'DB host' => '',

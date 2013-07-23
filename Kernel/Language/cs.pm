@@ -2623,7 +2623,7 @@ sub Data {
             '',
         'Database-User' => 'Uživatel',
         'New' => 'Nové',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'výchozí \'hot\'',
         'DB host' => '',

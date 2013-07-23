@@ -2622,7 +2622,7 @@ sub Data {
             'اگر می‌خواهید که نرم‌افزار را روی نوع دیگری از پایگاه داده نصب کنید، لطفا به فایل RAEDME.database. مراجعه نمایید.',
         'Database-User' => 'نام کاربری بانک اطلاعاتی',
         'New' => 'جدید',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'یک کاربر برای پایگاه داده با دسترسی‌های محدود برای این سیستم ساخته خواهند شد.',
         'default \'hot\'' => 'پیش فرض \'hot\'',
         'DB host' => 'میزبان--- پایگاه داده',

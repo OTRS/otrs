@@ -2617,7 +2617,7 @@ sub Data {
             '',
         'Database-User' => 'Користувач бази даних',
         'New' => 'Новий',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => ' За замовчуванням: «hot»',
         'DB host' => '',

@@ -2618,7 +2618,7 @@ sub Data {
             'Se quiser instalar o OTRS com outro motor de base de dados, consulte o ficheiro README.database',
         'Database-User' => 'Utilizador da Base de Dados',
         'New' => 'Novo',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Vai ser criado um novo utilizador de base de dados com permissões limitadas para o OTRS',
         'default \'hot\'' => 'por omissão \'hot\'',
         'DB host' => 'Servidor de BD',
