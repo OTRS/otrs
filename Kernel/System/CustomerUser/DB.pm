@@ -197,8 +197,7 @@ sub CustomerSearch {
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
 
     # check needed stuff
-    if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} && !$Param{CustomerID} )
-    {
+    if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} && !$Param{CustomerID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Need Search, UserLogin, PostMasterSearch or CustomerID!',
