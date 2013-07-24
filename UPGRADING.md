@@ -199,7 +199,7 @@ installed before):
 - OTRSDynamicFieldMultiLevelSelection
 - OTRSKeepFAQAttachments
 - OTRSTicketAclEditor
-
+- OTRSCustomerProcessSelection
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------

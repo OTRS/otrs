@@ -371,6 +371,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSEventBasedTicketActions
         OTRSKeepFAQAttachments
         OTRSTicketAclEditor
+        OTRSCustomerProcessSelection
         )
         )
     {
