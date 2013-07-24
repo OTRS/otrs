@@ -232,7 +232,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             # calculate time difference
             my $DeltaTime = $Time - $PID{Changed};
 
-            # remove PID if changed time is grater than
+            # remove PID if changed time is greater than
             if ( $DeltaTime > $PIDUpdateTime ) {
 
                 # _AutoStop returns an exit code for the OS, we need the opposite value
