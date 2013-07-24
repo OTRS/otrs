@@ -89,6 +89,8 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
+ - 2013-07-24 Updated Danish translation, thanks to Lars Jørgensen!
+ - 2013-07-22 Fixed bug#[9541](http://bugs.otrs.org/show_bug.cgi?id=9541) - Package manager cannot use https proxy.
  - 2013-07-22 Fixed bug pull#[83](https://github.com/OTRS/otrs/pull/83) - Pagination next page link, thanks to Renée Bäcker.
  - 2013-07-18 Fixed bug#[9613](http://bugs.otrs.org/show_bug.cgi?id=9613) - CustomerTicketZoom shows JSLint error if no dynamic fields are configured
  - 2013-07-17 Updated Turkish translation, thanks to Sefer Şimşek @ Network Group!
