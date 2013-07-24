@@ -217,6 +217,14 @@ sub Run {
                         );
                     }
 
+                    # add session id if needed
+                    if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
+                        $Item->{Link}
+                            .= ';'
+                            . $Self->{LayoutObject}->{SessionName} . '='
+                            . $Self->{LayoutObject}->{SessionID};
+                    }
+
                     # create id
                     $Item->{ID} = $Item->{Name};
                     $Item->{ID} =~ s/(\s|&|;)//ig;
