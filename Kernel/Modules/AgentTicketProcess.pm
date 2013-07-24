@@ -473,7 +473,7 @@ sub _RenderAjax {
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsACLReducible',
             );
-            next DYNAMICFIELD if !$IsACLReducible;
+            next DIALOGFIELD if !$IsACLReducible;
 
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
