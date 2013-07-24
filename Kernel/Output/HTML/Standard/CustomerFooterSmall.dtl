@@ -55,6 +55,12 @@ Core.App.Ready(function() {
 $Include{"Datepicker"}
 
 });
+
+// Register event for tree selection dialog
+$('.ShowTreeSelection').bind('click', function (Event) {
+    Core.UI.TreeSelection.ShowTreeSelection($(this));
+    return false;
+});
 //]]></script>
 
 <script type="text/javascript">//<![CDATA[

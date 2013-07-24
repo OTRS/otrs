@@ -4862,7 +4862,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1] eq 'StateUpdate'
+            $Row[1]    eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -4870,7 +4870,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -6106,6 +6106,19 @@ sub TicketAcl {
     # to store the restricted actvity dialogs (ProcessManagement)
     my %AllActivityDialogs;
 
+    # to store all active processes (ProcessManagement), later they will be reduced to only the
+    # available processes after ACL rules
+    my %AllProcesses;
+
+    my $Processes = $Self->{ConfigObject}->Get('Process');
+    if ( IsHashRefWithData($Processes) ) {
+        for my $ProcessEntityID ( sort keys %{$Processes} ) {
+            if ( grep { $_ eq $Processes->{$ProcessEntityID}{State} } 'Active' ) {
+                $AllProcesses{$ProcessEntityID} = $Processes->{$ProcessEntityID}{Name} || '';
+            }
+        }
+    }
+
     # match also frontend options
     my %Checks;
     my %ChecksDatabase;
@@ -7081,6 +7094,12 @@ sub TicketAcl {
     my %PossibleActivityDialogs;
     my %PossibleNotActivityDialogs;
 
+    # to Check if there was already a matching ACL
+    # that had Possible->{Processes} configured (ProcessManagement)
+    my $HadPossibleProcesses = 0;
+    my %PossibleProcesses;
+    my %PossibleNotProcesses;
+
     ACLRULES:
     for my $Acl ( sort keys %Acls ) {
 
@@ -7328,6 +7347,53 @@ sub TicketAcl {
             }
         }
 
+        # build new Process data hash (ProcessManagement)
+        # for Step{Possible}
+        if ( IsArrayRefWithData( $Step{Possible}{'Process'} ) )
+        {
+            $HadPossibleProcesses = 1;
+            if ( !%PossibleProcesses ) {
+
+                # Reformat @{ $Step{Possible}->{'Processes'} } array so that each array
+                # value becomes a hashkey with hashvalue 1
+                %PossibleProcesses = map { $_ => 1 } @{ $Step{Possible}{'Process'} };
+            }
+            else {
+
+                # 1. grep line: Find all Values of the
+                #   @{ $Step{Possible}->{'Process'} } array
+                #   that are already in the %PossibleProcesses Hash
+                # 2. map line: Just those that were found will form become keys
+                #   of the %PossibleProcesses Hash
+                %PossibleProcesses
+                    = map { $_ => 1 } grep { $PossibleProcesses{$_} }
+                    @{ $Step{Possible}{'Process'} };
+            }
+        }
+
+        # for Step{PossibleNot}
+        if ( IsArrayRefWithData( $Step{PossibleNot}{'Process'} ) )
+        {
+
+            if ( !%PossibleNotProcesses ) {
+
+                # Reformat @{ $Step{PossibleNot}->{'Process'} } array so that each array
+                # value becomes a hashkey with hashvalue 1
+                %PossibleNotProcesses
+                    = map { $_ => 1 } @{ $Step{PossibleNot}{'Process'} };
+            }
+            else {
+
+                # Add the Arrayvalues of the PossibleNot as hash keys with hashvalue 1
+                # to the existing %PossibleNotProcesses Hash
+                # (map returns an anonymous hash in here)
+                %PossibleNotProcesses = (
+                    %PossibleNotProcesses,
+                    map { $_ => 1 } @{ $Step{PossibleNot}{'Process'} }
+                );
+            }
+        }
+
         # build new ticket data hash
         if (
             ( %Checks || %ChecksDatabase )
@@ -7492,6 +7558,42 @@ sub TicketAcl {
     }
     else {
         %{ $Self->{TicketAclActivityDialogData} } = ();
+    }
+
+    # after all ACL checks, sum up the PossibleProcesses
+    # as well as the PossibleNotProcesses
+    # Rules:
+    # 1. %AllProcesses is the origin
+    # 2. if there are %PossibleProcesses find the processes of %AllProcesses
+    #       that are also present in %PossibleProcesses
+    # 3. if there are %PossibleNotProcesses the %AllProcesses hash of above
+    #       is reduced by the %PossibleNotProcesses
+
+    if ($HadPossibleProcesses) {
+
+        # grep part: find those keys of %AllProcesses that are
+        # in %PossibleProcesses
+        # map part: reformat array returned by grep
+        # to become the new AllProcesses hash
+
+        %AllProcesses
+            = map { $_ => 1 } grep { $PossibleProcesses{$_} } keys %AllProcesses;
+    }
+
+    if ( IsHashRefWithData( \%PossibleNotProcesses ) ) {
+
+        # grep part: find those keys of %AllProcesses that are NOT
+        # in the %PossibleNotProcesses
+        # map part: reformat array returned by grep
+        # to become the new AllProcesses hash
+        %AllProcesses
+            = map { $_ => 1 } grep { !$PossibleNotProcesses{$_} } keys %AllProcesses;
+    }
+    if (%AllProcesses) {
+        %{ $Self->{TicketAclProcessData} } = %AllProcesses;
+    }
+    else {
+        %{ $Self->{TicketAclProcessData} } = ();
     }
 
     # return if no new param exists
@@ -7877,9 +7979,52 @@ sub TicketAclActivityDialogData {
     }
 
     # Limit the activity dialogs to the ones allowed by acls
-    #        my @returners
-    #            = grep { $Self->{TicketAclActivityDialogData}->{$_} } @{ $Param{ActivityDialogs} };
     return grep { $Self->{TicketAclActivityDialogData}->{$_} } @{ $Param{ActivityDialogs} };
+}
+
+=item TicketAclProcessData()
+
+return the ACL validated possible processes as hash after TicketAcl()
+
+    my %PossibleActivityDialogs = $TicketObject->TicketAclProcessData(
+        Processes => {
+            P1 => 'Process1 Name',
+            P2 => 'Process2 Name',
+            P3 => 'Process3 Name',
+        },
+    );
+
+=cut
+
+sub TicketAclProcessData {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !IsHashRefWithData( $Param{Processes} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Processes!'
+        );
+        return;
+    }
+
+    # Root user didn't produce TicketAclProcessData
+    # -> Return all questioned processes
+    if ( !defined $Self->{TicketAclProcessData} ) {
+        return $Param{Processes};
+    }
+
+    # If no restriction was set, allow all processes
+    if ( !IsHashRefWithData( $Self->{TicketAclProcessData} ) ) {
+        return $Param{Processes};
+    }
+
+    # Limit the processes to the ones allowed by acls
+    my %ACLValidatedProcesses
+        = map { $_ => $Param{Processes}->{$_} }
+        grep { $Self->{TicketAclProcessData}->{$_} } keys %{ $Param{Processes} };
+
+    return \%ACLValidatedProcesses;
 }
 
 sub DESTROY {

@@ -273,6 +273,18 @@ sub Run {
         );
     }
 
+    # validate the ProcessList with stored acls
+    $Self->{TicketObject}->TicketAcl(
+        ReturnType    => 'Ticket',
+        ReturnSubType => '-',
+        Data          => $ProcessList,
+        UserID        => $Self->{UserID},
+    );
+
+    $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+        Processes => $ProcessList,
+    );
+
     # set AJAXDialog for proper error responses and screen display
     $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
 
@@ -650,6 +662,14 @@ sub _RenderAjax {
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'SLAID' ) {
             next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+
+            # if SLA is render before service (by it order in the fields) it needs to create
+            # the service list
+            if ( !IsHashRefWithData($Services) ) {
+                $Services = $Self->_GetServices(
+                    %{ $Param{GetParam} },
+                );
+            }
 
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
