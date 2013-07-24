@@ -1,4 +1,5 @@
 #3.2.10 2013-??-??
+ - 2013-07-24 Fixed bug#[9622](http://bugs.otrs.org/show_bug.cgi?id=9622) - Actions in Small ticket overview don't work when cookies are turned off.
  - 2013-07-24 Updated Danish translation, thanks to Lars Jørgensen!
  - 2013-07-22 Fixed bug#[9541](http://bugs.otrs.org/show_bug.cgi?id=9541) - Package manager cannot use https proxy.
  - 2013-07-22 Fixed bug pull#[83](https://github.com/OTRS/otrs/pull/83) - Pagination next page link, thanks to Renée Bäcker.
