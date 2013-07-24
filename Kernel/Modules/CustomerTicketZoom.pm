@@ -1203,15 +1203,14 @@ sub _Mask {
     }
 
     # Expand option
-    my $ExpandOption = ( $Self->{ZoomExpand}    ? 'One' : 'All' );
-    my $ExpandPlural = ( $ExpandOption eq 'All' ? 's'   : '' );
+    my $ExpandOption = ( $Self->{ZoomExpand} ? 'One' : 'All' );
+    my $ExpandText = ( $Self->{ZoomExpand} ? 'Show one article' : 'Show all articles' );
     $Self->{LayoutObject}->Block(
         Name => 'Expand',
         Data => {
             ZoomExpand   => !$Self->{ZoomExpand},
             ExpandOption => $ExpandOption,
-            ExpandText   => lc($ExpandOption),
-            ExpandPlural => $ExpandPlural,
+            ExpandText   => $ExpandText,
             %Param,
         },
     );

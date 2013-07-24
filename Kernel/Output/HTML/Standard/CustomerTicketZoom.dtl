@@ -32,7 +32,7 @@
 
 <!-- dtl:block:Expand -->
                 <li>
-                    <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"};ZoomExpand=$LQData{"ZoomExpand"}" class="ZoomExpand$Data{"ExpandOption"}" title="$Text{"Show $Data{"ExpandText"} article$Data{"ExpandPlural"}"}">$Text{"Show $Data{"ExpandText"} article$Data{"ExpandPlural"}"}</a>
+                    <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"};ZoomExpand=$LQData{"ZoomExpand"}" class="ZoomExpand$Data{"ExpandOption"}"} title="$Text{"$Data{"ExpandText"}"}">$Text{"$Data{"ExpandText"}"}</a>
                     <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="$QData{"ZoomExpand"}" />
                 </li>
 <!-- dtl:block:Expand -->
