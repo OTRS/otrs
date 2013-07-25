@@ -297,6 +297,32 @@ EOF
             ContentType => 'text/html; charset="utf-8"',
         },
     },
+    {
+        Name => 'Standard ',
+        Data => {
+            Content     => 'Some Content',
+            ContentType => 'text/html; charset="us-ascii"',
+        },
+        Attachments => {},
+        URL         => 'Action=SomeAction;FileID=',
+        Result => {
+            Content     => 'Some Content',
+            ContentType => 'text/html; charset="utf-8"',
+        },
+    },
+    {
+        Name => 'Standard - no charset defined, see bug#9610',
+        Data => {
+            Content     => 'Some Content',
+            ContentType => 'text/html',
+        },
+        Attachments => {},
+        URL         => 'Action=SomeAction;FileID=',
+        Result => {
+            Content     => 'Some Content',
+            ContentType => 'text/html; charset="utf-8"',
+        },
+    },
 );
 
 for my $Test (@Tests) {
