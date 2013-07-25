@@ -98,8 +98,9 @@ sub Run {
 
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
+    my $Priority = $Param{Config}->{Priority};
     if ($CountNew) {
-        $Return{'0999977'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => 'Watched Tickets New',
             Count       => $CountNew,
@@ -110,7 +111,7 @@ sub Run {
         };
     }
     if ($CountReached) {
-        $Return{'0999978'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => 'Watched Tickets Reminder Reached',
             Count       => $CountReached,
@@ -121,7 +122,7 @@ sub Run {
         };
     }
     if ($Count) {
-        $Return{'0999979'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => 'Watched Tickets Total',
             Count       => $Count,

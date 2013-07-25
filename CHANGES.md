@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-07-25 Fixed bug#[7759](http://bugs.otrs.org/show_bug.cgi?id=7759) - Ticket watcher ToolBar position configuration isn't applied.
  - 2013-07-24 Added support for start processes in the Customer Interface.
  - 2013-07-24 Added support to restrict processes by ACLs.
  - 2013-07-23 Refactored AutoComplete feature (code cleanup, configuration cleanup).
