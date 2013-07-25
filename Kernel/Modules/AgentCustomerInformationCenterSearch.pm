@@ -165,7 +165,12 @@ sub Run {
         TemplateFile => 'AgentCustomerInformationCenterSearch',
         Data         => \%Param,
     );
-    return $Output;
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $Output || '',
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 1;
