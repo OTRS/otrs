@@ -4070,17 +4070,22 @@ sub RichTextDocumentServe {
 
     # get charset and convert content to internal charset
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        my $Charset = $Param{Data}->{ContentType};
-        $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-        $Charset =~ s/"|'//g;
-        $Charset =~ s/(.+?);.*/$1/g;
+        my $Charset;
+        if ( $Param{Data}->{ContentType} =~ m/.+?charset=("|'|)(.+)/ig ) {
+            $Charset = $2;
+            $Charset =~ s/"|'//g;
+        }
+        if (!$Charset) {
+            $Charset = 'us-ascii';
+            $Param{Data}->{ContentType} .= '; charset="us-ascii"';
+        }
 
         # convert charset
         if ($Charset) {
             $Param{Data}->{Content} = $Self->{EncodeObject}->Convert(
                 Text => $Param{Data}->{Content},
                 From => $Charset,
-                To   => $Self->{UserCharset},
+                To   => 'utf-8',
             );
 
             # replace charset in content
