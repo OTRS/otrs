@@ -2058,7 +2058,7 @@ sub _MaskPhoneNew {
 
     # build service string
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
-        
+
         if ( $Self->{Config}->{ServiceMandatory} ) {
             $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data         => $Param{Services},
@@ -2091,7 +2091,7 @@ sub _MaskPhoneNew {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketService',
                 Data => {%Param},
-            );            
+            );
         }
 
         if ( $Self->{Config}->{SLAMandatory} ) {
