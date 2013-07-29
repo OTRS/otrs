@@ -1,14 +1,15 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-06-24 12:38:54
+--  driver: oracle, generated: 2013-07-29 14:03:11
 -- ----------------------------------------------------------
 SET DEFINE OFF;
+SET SQLBLANKLINES ON;
 -- ----------------------------------------------------------
 --  create table acl
 -- ----------------------------------------------------------
 CREATE TABLE acl (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (250) NOT NULL,
+    comments VARCHAR2 (250) NULL,
     description VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     stop_after_match NUMBER (5, 0) NULL,

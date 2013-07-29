@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2013-06-24 12:38:54
+--  driver: postgresql_before_8_2, generated: 2013-07-29 14:03:11
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table acl
@@ -7,7 +7,7 @@
 CREATE TABLE acl (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     stop_after_match INTEGER NULL,

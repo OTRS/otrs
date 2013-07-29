@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-06-24 12:38:54
+--  driver: mssql, generated: 2013-07-29 14:03:10
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table acl
@@ -7,7 +7,7 @@
 CREATE TABLE acl (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name NVARCHAR (200) NOT NULL,
-    comments NVARCHAR (250) NOT NULL,
+    comments NVARCHAR (250) NULL,
     description NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     stop_after_match SMALLINT NULL,

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-06-24 12:38:54
+#  driver: mysql, generated: 2013-07-29 14:03:11
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table acl
@@ -7,7 +7,7 @@
 CREATE TABLE acl (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     stop_after_match SMALLINT NULL,

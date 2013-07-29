@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-06-24 12:38:54
+--  driver: postgresql, generated: 2013-07-29 14:03:11
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -8,7 +8,7 @@ SET standard_conforming_strings TO ON;
 CREATE TABLE acl (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     stop_after_match INTEGER NULL,
