@@ -23,7 +23,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
             AutoCompleteActive: 1,
             MinQueryLength: 2,
             QueryDelay: 100,
-            MaxResultsDisplayed: 20,
+            MaxResultsDisplayed: 20
         },
         ConfigElements = ['AutoCompleteActive', 'MinQueryLength', 'QueryDelay', 'MaxResultsDisplayed', 'ButtonText'],
         Config = {};
