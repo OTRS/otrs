@@ -291,14 +291,31 @@ $('#Dest').bind('change', function (Event) {
                         <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid."}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-$('#ServiceID').bind('change', function (Event) {
-    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SLAID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}, 'To', 'Cc', 'Bcc']);
-});
+    $('#ServiceID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SLAID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}, 'To', 'Cc', 'Bcc']);
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketService -->
+
+<!-- dtl:block:TicketServiceMandatory -->
+                    <label class="Mandatory" for="ServiceID"><span class="Marker">*</span> $Text{"Service"}:</label>
+                    <div class="Field">
+                        $Data{"ServiceStrg"}
+                        <div id="ServiceIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                        <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ServiceID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'SLAID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}, 'To', 'Cc', 'Bcc']);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:TicketServiceMandatory -->
 
 <!-- dtl:block:TicketSLA -->
                     <label for="SLAID">$Text{"Service Level Agreement"}:</label>
@@ -306,14 +323,31 @@ $('#ServiceID').bind('change', function (Event) {
                         $Data{"SLAStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-$('#SLAID').bind('change', function (Event) {
-    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'ServiceID', 'NextStateID', 'PriorityID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}, 'To', 'Cc', 'Bcc']);
-});
+    $('#SLAID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'ServiceID', 'NextStateID', 'PriorityID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}, 'To', 'Cc', 'Bcc']);
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:TicketSLA -->
+
+<!-- dtl:block:TicketSLAMandatory -->
+                    <label class="Mandatory" for="SLAID"><span class="Marker">*</span> $Text{"Service Level Agreement"}:</label>
+                    <div class="Field">
+                        $Data{"SLAStrg"}
+                        <div id="SLAIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                        <div id="SLAIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#SLAID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'ServiceID', 'NextStateID', 'PriorityID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}, 'To', 'Cc', 'Bcc']);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:TicketSLAMandatory -->
 
 <!-- dtl:block:OwnerSelection -->
                     <label for="NewUserID">$Text{"Owner"}:</label>

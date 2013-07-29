@@ -72,6 +72,23 @@
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:TicketService -->
 
+<!-- dtl:block:TicketServiceMandatory -->
+                <div>
+                    <label for="ServiceID" class="Mandatory"><span class="Marker">*</span> $Text{"Service"}:</label>
+                    $Data{"ServiceStrg"}
+                    <div id="ServiceIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="ServiceIDServerError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div class="Clear"></div>
+                </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ServiceID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'PriorityID', 'SLAID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:TicketServiceMandatory -->
+
 <!-- dtl:block:TicketSLA -->
                 <div>
                     <label for="SLAID" title="$Text{"Service level agreement"}">$Text{"SLA"}:</label>
@@ -86,6 +103,23 @@
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:TicketSLA -->
+
+<!-- dtl:block:TicketSLAMandatory -->
+                <div>
+                    <label for="SLAID" title="$Text{"Service level agreement"}" class="Mandatory"><span class="Marker">*</span> $Text{"SLA"}:</label>
+                    $Data{"SLAStrg"}
+                    <div id="SLAIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="SLAIDServerError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div class="Clear"></div>
+                </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#SLAID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'ServiceID', 'PriorityID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:TicketSLAMandatory -->
 
                 <div>
                     <label for="Subject" class="Mandatory">

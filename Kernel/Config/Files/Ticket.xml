@@ -1605,6 +1605,28 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2164,6 +2186,29 @@ Description>
         </Setting>
     </ConfigItem>
 
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Priority" Required="1" Valid="1">
         <Description Translatable="1">Sets the default priority for new email tickets in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2244,6 +2289,29 @@ Description>
         </Setting>
     </ConfigItem>
 
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the close ticket screen in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2285,6 +2353,30 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2528,6 +2620,30 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -2774,6 +2890,30 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3018,6 +3158,30 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3262,6 +3426,30 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3507,6 +3695,30 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -6009,6 +6221,30 @@ $QData{"Body"}
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###ServiceMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if service must be selected by the customer.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###SLAMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if SLA must be selected by the customer.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###StateDefault" Required="1" Valid="1">
         <Description Translatable="1">Defines the default state of new customer tickets in the customer interface.</Description>
         <Group>Ticket</Group>

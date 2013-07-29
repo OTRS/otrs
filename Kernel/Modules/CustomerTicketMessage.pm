@@ -449,6 +449,28 @@ sub Run {
             $Error{Expand} = 1;
         }
 
+        # check mandatory service
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Service')
+            && $Self->{Config}->{Service}
+            && $Self->{Config}->{ServiceMandatory}
+            && !$GetParam{ServiceID}
+            )
+        {
+            $Error{'ServiceIDInvalid'} = ' ServerError';
+        }
+
+        # check mandatory sla
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Service')
+            && $Self->{Config}->{SLA}
+            && $Self->{Config}->{SLAMandatory}
+            && !$GetParam{SLAID}
+            )
+        {
+            $Error{'SLAIDInvalid'} = ' ServerError';
+        }        
+
         # check type
         if (
             $Self->{ConfigObject}->Get('Ticket::Type')
@@ -1015,20 +1037,40 @@ sub _MaskNew {
                 CustomerUserID => $Self->{UserID},
             );
         }
-        $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%Services,
-            Name         => 'ServiceID',
-            SelectedID   => $Param{ServiceID},
-            PossibleNone => 1,
-            TreeView     => $TreeView,
-            Sort         => 'TreeView',
-            Translation  => 0,
-            Max          => 200,
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketService',
-            Data => \%Param,
-        );
+        
+        if ( $Self->{Config}->{ServiceMandatory} ) {
+            $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data         => \%Services,
+                Name         => 'ServiceID',
+                SelectedID   => $Param{ServiceID},
+                Class        => "Validate_Required " . ( $Param{Errors}->{ServiceIDInvalid} || '' ),
+                PossibleNone => 1,
+                TreeView     => $TreeView,
+                Sort         => 'TreeView',
+                Translation  => 0,
+                Max          => 200,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketServiceMandatory',
+                Data => \%Param,
+            );
+        }
+        else {
+            $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data         => \%Services,
+                Name         => 'ServiceID',
+                SelectedID   => $Param{ServiceID},
+                PossibleNone => 1,
+                TreeView     => $TreeView,
+                Sort         => 'TreeView',
+                Translation  => 0,
+                Max          => 200,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketService',
+                Data => \%Param,
+            );
+        }
 
         # reset previous ServiceID to reset SLA-List if no service is selected
         if ( !$Services{ $Param{ServiceID} || '' } ) {
@@ -1043,19 +1085,38 @@ sub _MaskNew {
                     CustomerUserID => $Self->{UserID},
                 );
             }
-            $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data         => \%SLA,
-                Name         => 'SLAID',
-                SelectedID   => $Param{SLAID},
-                PossibleNone => 1,
-                Sort         => 'AlphanumericValue',
-                Translation  => 0,
-                Max          => 200,
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketSLA',
-                Data => \%Param,
-            );
+
+            if ( $Self->{Config}->{SLAMandatory} ) {
+                $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
+                    Data         => \%SLA,
+                    Name         => 'SLAID',
+                    SelectedID   => $Param{SLAID},
+                    Class        => "Validate_Required " . ( $Param{Errors}->{SLAIDInvalid} || '' ),
+                    PossibleNone => 1,
+                    Sort         => 'AlphanumericValue',
+                    Translation  => 0,
+                    Max          => 200,
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketSLAMandatory',
+                    Data => \%Param,
+                );
+            }
+            else {
+                $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
+                    Data         => \%SLA,
+                    Name         => 'SLAID',
+                    SelectedID   => $Param{SLAID},
+                    PossibleNone => 1,
+                    Sort         => 'AlphanumericValue',
+                    Translation  => 0,
+                    Max          => 200,
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketSLA',
+                    Data => \%Param,
+                );
+            }
         }
     }
 
