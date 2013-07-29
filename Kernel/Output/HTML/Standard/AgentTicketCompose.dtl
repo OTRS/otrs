@@ -20,7 +20,7 @@ $Include{"AgentCustomerSearch"}
     <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}"/>
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
-            <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+            <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
 <!-- dtl:block:TicketBack -->
             <p>
                 <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>

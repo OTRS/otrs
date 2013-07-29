@@ -144,7 +144,7 @@
                             <ul class="AllocationList Tablelike W90pc" id="AvailableFields">
 <!-- dtl:block:AvailableFieldRow -->
                                 <li title="Name: $QData{"Field"}" data-id="$QData{"Field"}" data-config="">
-                                    $QData{"Field", "55"}
+                                    $QData{"Field"}
                                     <span class="Functions ShowOnAssignedList">
                                         <a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" class="FieldDetailsOverlay Icon Icon_Edit" title="$Text{"Edit"}"></a>
                                     </span>

@@ -129,7 +129,7 @@
                         <div class="Clear"></div>
 
                         <label>$Text{"Created by"}:</label>
-                        <div class="Value">$QData{"CreatedBy","20"}</div>
+                        <div class="Value">$QData{"CreatedBy"}</div>
                         <div class="Clear"></div>
 
                         <label>$Text{"Changed"}:</label>
@@ -137,7 +137,7 @@
                         <div class="Clear"></div>
 
                         <label>$Text{"Changed by"}:</label>
-                        <div class="Value">$QData{"ChangedBy","20"}</div>
+                        <div class="Value">$QData{"ChangedBy"}</div>
                         <div class="Clear"></div>
                     </fieldset>
 

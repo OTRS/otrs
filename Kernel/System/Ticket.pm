@@ -876,7 +876,7 @@ strip/clean up a ticket subject
     my $NewSubject = $TicketObject->TicketSubjectClean(
         TicketNumber => '2004040510440485',
         Subject      => $OldSubject,
-        Size         => $SubjectSizeToBeDisplayed   # optional
+        Size         => $SubjectSizeToBeDisplayed   # optional, if 0 do not cut subject
     );
 
 =cut
@@ -895,10 +895,11 @@ sub TicketSubjectClean {
     # get config options
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $TicketSubjectSize
-        = $Param{Size}
-        || $Self->{ConfigObject}->Get('Ticket::SubjectSize')
+    my $TicketSubjectSize = $Param{Size};
+    if ( !defined $TicketSubjectSize ) {
+        $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize')
         || 120;
+    }
     my $TicketSubjectRe  = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
     my $TicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
 
@@ -935,7 +936,10 @@ sub TicketSubjectClean {
     $Subject =~ s/(^\s+|\s+$)//;
 
     # resize subject based on config
-    $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
+    # do not cut subject, if size parameter was 0
+    if ( $TicketSubjectSize ) {
+        $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
+    }
 
     return $Subject;
 }

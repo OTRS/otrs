@@ -203,10 +203,13 @@
 }
 
 .OverviewLarge h2 {
+    width: 90%;
     height: 15px;
     margin: 0 10px 5px 50px;
     font-weight: bold;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .RTL .OverviewLarge h2 {
@@ -216,6 +219,9 @@
 .OverviewLarge h2 a {
     color: #000;
     display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .OverviewLarge .Infos table {
@@ -250,6 +256,15 @@
     overflow: hidden;
     border-left: 1px dotted #CCC;
     line-height: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.OverviewLarge .Infos table td > div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;    
 }
 
 .OverviewLarge li:hover .Infos table td  {

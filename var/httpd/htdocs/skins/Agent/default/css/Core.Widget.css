@@ -39,6 +39,13 @@ ul.Tablelike li {
     border-radius: 3px;
 }
 
+ul.Tablelike li.OneRow,
+ul.Tablelike li.OneRow .AsBlock {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 ul.Tablelike li.Even {
     background-color: #F5F5F5;
 }
@@ -119,6 +126,9 @@ ul.Tablelike li.Header + li {
 .WidgetSimple > .Header h3 {
     padding: 4px 3px;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .WidgetSimple > .Content {
@@ -192,10 +202,14 @@ ul.Tablelike li.Header + li {
 .WidgetBox > .Header .WidgetAction + h2 {
     margin: 0;
     padding-left: 30px;
+    padding-right: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .RTL .WidgetBox > .Header .WidgetAction + h2 {
-    padding-left: 0;
+    padding-left: 200px;
     padding-right: 30px;
 }
 

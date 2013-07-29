@@ -81,7 +81,7 @@
                 <h2>$Text{"Add Service"}</h2>
 <!-- dtl:block:HeaderAdd -->
 <!-- dtl:block:HeaderEdit -->
-                <h2>$Text{"Edit Service"} : $QData{"Name","70"}</h2>
+                <h2>$Text{"Edit Service"} : $QData{"Name"}</h2>
 <!-- dtl:block:HeaderEdit -->
             </div>
             <div class="Content">

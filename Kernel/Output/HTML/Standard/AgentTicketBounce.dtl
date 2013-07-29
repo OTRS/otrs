@@ -19,7 +19,7 @@
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Bounce Ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+            <h1>$Text{"Bounce Ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
 
 <!-- dtl:block:TicketBack -->
             <p>

@@ -88,7 +88,7 @@
                             <div class="String">
                                 <input type="$QData{"InputType"}" name="$QData{"ElementKey"}" value="$QData{"Content"}"/>
                                 <p class="DefaultValue">
-                                    $Text{"Default value"}: $QData{"Default","45"}
+                                    $Text{"Default value"}: $QData{"Default"}
                                 </p>
 <!-- dtl:block:ConfigElementStringErrorFileNotFound -->
                                 <p class="Error">$Text{"Error: this file could not be found."}</p>

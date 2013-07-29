@@ -40,7 +40,7 @@ $Text{"Change Priority of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 $Text{"Change Responsible of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-$Data{"TicketNumber"} - $QData{"Title","60"}
+$Data{"TicketNumber"} - $QData{"Title"}
             </h1>
 
 <!-- dtl:block:TicketBack -->

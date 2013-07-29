@@ -344,12 +344,20 @@ dd {
     width: 50%;
 }
 
+.W60pc {
+    width: 60%;
+}
+
 .W70pc {
     width: 70%;
 }
 
 .W75pc {
     width: 75%;
+}
+
+.W80pc {
+    width: 80%;
 }
 
 .W90pc {

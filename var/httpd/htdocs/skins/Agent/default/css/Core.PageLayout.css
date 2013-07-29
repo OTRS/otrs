@@ -160,6 +160,9 @@ body.Popup {
     padding: 5px 5px 0 0;
     margin-bottom: 0px;
     line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .RTL .LayoutPopup > .Header h1 {

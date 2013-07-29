@@ -19,7 +19,7 @@ $Include{"AgentCustomerSearch"}
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
-            <h1>$Text{"Forward ticket: %s - %s", "$QData{"TicketNumber"}", "$QData{"Title","60"}"}</h1>
+            <h1>$Text{"Forward ticket: %s - %s", "$QData{"TicketNumber"}", "$QData{"Title"}"}</h1>
 
 <!-- dtl:block:TicketBack -->
             <p>

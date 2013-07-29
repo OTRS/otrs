@@ -12,7 +12,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:Customer -->
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">
-        <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+        <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
         <p>
             <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
         </p>

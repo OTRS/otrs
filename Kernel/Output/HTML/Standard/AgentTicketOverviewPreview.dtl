@@ -94,7 +94,7 @@
 <!-- dtl:block:Meta -->
             <div class="Infos">
                 <h2>
-                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title","60"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title"}</a>
                 </h2>
 <!-- dtl:block:MenuItem -->
                 <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} class="menuitem" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
@@ -142,13 +142,13 @@
 <!-- dtl:block:CustomerID -->
                                 <label>$Text{"CustomerID"}</label>
 <!-- dtl:block:CustomerIDRW -->
-                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a></div>
+                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID"}</a></div>
 <!-- dtl:block:CustomerIDRW -->
 <!-- dtl:block:CustomerIDRO -->
-                                <div title="$QData{"CustomerID"}">$QData{"CustomerID", "26"}</div>
+                                <div title="$QData{"CustomerID"}">$QData{"CustomerID"}</div>
 <!-- dtl:block:CustomerIDRO -->
 <!-- dtl:block:CustomerName -->
-                                <div title="$QData{"CustomerName"}">$QData{"CustomerName","26"}</div>
+                                <div title="$QData{"CustomerName"}">$QData{"CustomerName"}</div>
 <!-- dtl:block:CustomerName -->
 <!-- dtl:block:CustomerID -->
                             </td>
@@ -162,7 +162,7 @@
                         <tr>
                             <td>
 <!-- dtl:block:Type -->
-                                <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","18"}</div>
+                                <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type"}</div>
 <!-- dtl:block:Type -->
                             </td>
                             <td>
