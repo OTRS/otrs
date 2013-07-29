@@ -37,7 +37,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
                 Config[ConfigElement] = Options[ConfigElement];
             }
             else if (Type && TypeConfig[Type]) {
-                Config[ConfigElement] = TypeConfig[Type][ConfigElement];   
+                Config[ConfigElement] = TypeConfig[Type][ConfigElement];
             }
             else {
                 Config[ConfigElement] = ConfigFallback[ConfigElement];
@@ -54,7 +54,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
 
     TargetNS.GetConfig = function(Key) {
         return Config[Key];
-    }
+    };
 
     /**
      * @function
