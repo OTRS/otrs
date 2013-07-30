@@ -123,10 +123,10 @@ sub EditFieldRender {
 
     # create field HTML
     # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
-    # is nedded to be set by JS code (otherwise wc3 validator will complaint about it)
-    # notice that some browsers count new lines \n\r as only 1 character in this cases the
-    # validation framework might rise an error while the user is still capable to enter text in the
-    # textarea, otherwise the maxlenght property will prevent to enter more text than the maximum
+    # is needed to be set by JS code (otherwise wc3 validator will complain about it)
+    # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
+    # validation framework might generate an error while the user is still capable to enter text in the
+    # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
 <!--dtl:js_on_document_complete-->

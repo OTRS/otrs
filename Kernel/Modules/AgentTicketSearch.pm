@@ -665,7 +665,7 @@ sub Run {
                         }
                     }
 
-                    # otherwise retreive data from article
+                    # otherwise retrieve data from article
                     else {
                         push @Data, $Info{$Header};
                     }

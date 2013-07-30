@@ -297,7 +297,7 @@ sub EditFieldValueGet {
 
     my %Data;
 
-    # check if there is a Template and retreive the dinalic field value from there
+    # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
 
         # get dynamic field value form Template
@@ -307,22 +307,22 @@ sub EditFieldValueGet {
         $Data{UsedValue} = $Param{Template}->{ $FieldName . 'Used' };
     }
 
-    # otherwise get dynamic field value form param
+    # otherwise get dynamic field value from param
     else {
 
-        # get dynamic field value form param
+        # get dynamic field value from param
         $Data{FieldValue} = $Param{ParamObject}->GetParam( Param => $FieldName );
 
-        # get dynamic field used value form param
+        # get dynamic field used value from param
         $Data{UsedValue} = $Param{ParamObject}->GetParam( Param => $FieldName . 'Used' );
     }
 
-    # check if return value structure is nedded
+    # check if return value structure is needed
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
         return \%Data;
     }
 
-    # check if return template structure is nedded
+    # check if return template structure is needed
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
         return {
             $FieldName          => $Data{FieldValue},
@@ -494,7 +494,7 @@ sub SearchFieldValueGet {
 
     my $Value;
 
-    # get dynamic field value form param object
+    # get dynamic field value from param object
     if ( defined $Param{ParamObject} ) {
         my @FieldValues = $Param{ParamObject}->GetArray(
             Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}

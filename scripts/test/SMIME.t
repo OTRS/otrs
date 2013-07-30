@@ -505,7 +505,7 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
-# function to retreive the certificate data from test files
+# function to retrieve the certificate data from test files
 my $GetCertificateDataFromFiles = sub {
     my ( $CertificateFileName, $PrivateKeyFileName, $PrivateSecretFileName ) = @_;
 

@@ -209,12 +209,12 @@ sub EditFieldValueGet {
 
     my $Value;
 
-    # check if there is a Template and retreive the dynamic field value from there
+    # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # otherwise get dynamic field value form param
+    # otherwise get dynamic field value from param
     else {
         $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
     }
@@ -360,7 +360,7 @@ sub SearchFieldValueGet {
 
     my $Value;
 
-    # get dynamic field value form param object
+    # get dynamic field value from param object
     if ( defined $Param{ParamObject} ) {
         $Value = $Param{ParamObject}->GetParam(
             Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
