@@ -1,4 +1,6 @@
 #3.2.10 2013-??-??
+=======
+ - 2013-07-30 Fixed bug#[9631](http://bugs.otrs.org/show_bug.cgi?id=9631) - BuildSelection() Selected does not work if value contains strings that are HTML-escaped.
  - 2013-07-30 Fixed bug#[9630](http://bugs.otrs.org/show_bug.cgi?id=9630) - Dynamic Fields of type Date can record wrong date when TimeZoneSettings are used.
  - 2013-07-25 Fixed bug#[9316](http://bugs.otrs.org/show_bug.cgi?id=9316) - Under nginx CustomerInformationCenter search returns Bad Gateway.
  - 2013-07-25 Fixed bug#[9610](http://bugs.otrs.org/show_bug.cgi?id=9610) - When email does not specify charset, content is not displayed in IE10.
