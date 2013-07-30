@@ -303,15 +303,8 @@ sub EditFieldValueGet {
         # add a leading zero for date parts that could be less than ten to generate a correct
         # time stamp
         for my $Type (qw(Month Day Hour Minute Second)) {
-            if (
-                $DynamicFieldValues{ $Prefix . $Type }
-                && $DynamicFieldValues{ $Prefix . $Type } < 10
-                && $DynamicFieldValues{ $Prefix . $Type } !~ m{\A 0 \d \z}smx
-                )
-            {
-                $DynamicFieldValues{ $Prefix . $Type }
-                    = '0' . $DynamicFieldValues{ $Prefix . $Type };
-            }
+            $DynamicFieldValues{ $Prefix . $Type } = sprintf "%02d",
+                $DynamicFieldValues{ $Prefix . $Type };
         }
 
         my $Year   = $DynamicFieldValues{ $Prefix . 'Year' }   || '0000';
@@ -565,15 +558,8 @@ sub SearchFieldValueGet {
     # time stamp
     for my $Type (qw(Start Stop)) {
         for my $Part (qw(Month Day Hour Minute Second)) {
-            if (
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                && $DynamicFieldValues{ $Prefix . $Type . $Part } < 10
-                && length $DynamicFieldValues{ $Prefix . $Type . $Part } == 1
-                )
-            {
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                    = '0' . $DynamicFieldValues{ $Prefix . $Type . $Part };
-            }
+            $DynamicFieldValues{ $Prefix . $Type . $Part } = sprintf "%02d",
+                $DynamicFieldValues{ $Prefix . $Type . $Part };
         }
     }
 
