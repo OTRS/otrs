@@ -5057,14 +5057,6 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
-    # HTMLQuote option
-    if ( $OptionRef->{HTMLQuote} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
-            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
-        }
-    }
-
     # SortReverse option
     if ( $OptionRef->{SortReverse} ) {
         @{$DataRef} = reverse( @{$DataRef} );
@@ -5092,6 +5084,14 @@ sub _BuildSelectionDataRefCreate {
             {
                 $Row->{Selected} = 1;
             }
+        }
+    }
+
+    # HTMLQuote option
+    if ( $OptionRef->{HTMLQuote} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
         }
     }
 
