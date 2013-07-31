@@ -1593,14 +1593,14 @@ sub Footer {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
         my $VacationDays     = $Self->DatepickerGetVacationDays();
         my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays
+            Data => $VacationDays,
         );
 
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
@@ -1617,7 +1617,7 @@ sub Footer {
     # NewTicketInNewWindow
     if ( $Self->{ConfigObject}->Get('NewTicketInNewWindow::Enabled') ) {
         $Self->Block(
-            Name => 'NewTicketInNewWindow'
+            Name => 'NewTicketInNewWindow',
         );
     }
 
@@ -1625,12 +1625,12 @@ sub Footer {
     my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
 
     for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
-        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
-            Data => $AutocompleteConfig,
-        );
+        Data => $AutocompleteConfig,
+    );
 
     $Self->Block(
         Name => 'AutoCompleteConfig',
@@ -1642,7 +1642,7 @@ sub Footer {
     # Banner
     if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
         $Self->Block(
-            Name => 'Banner'
+            Name => 'Banner',
         );
     }
 
