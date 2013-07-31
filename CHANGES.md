@@ -1,5 +1,5 @@
 #3.2.10 2013-??-??
-=======
+ - 2013-07-31 Fixed bug#[9629](http://bugs.otrs.org/show_bug.cgi?id=9629) - ORA-936 error in AgentTicketSearch with some search clauses.
  - 2013-07-30 Fixed bug#[9631](http://bugs.otrs.org/show_bug.cgi?id=9631) - BuildSelection() Selected does not work if value contains strings that are HTML-escaped.
  - 2013-07-30 Fixed bug#[9630](http://bugs.otrs.org/show_bug.cgi?id=9630) - Dynamic Fields of type Date can record wrong date when TimeZoneSettings are used.
  - 2013-07-25 Fixed bug#[9316](http://bugs.otrs.org/show_bug.cgi?id=9316) - Under nginx CustomerInformationCenter search returns Bad Gateway.
