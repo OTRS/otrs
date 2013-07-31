@@ -1128,6 +1128,9 @@ sub QueryCondition {
         "###$Count###";
     }egx;
 
+    # remove empty parentheses
+    $Param{Value} =~ s/(?<!\\)\(\s*(?<!\\)\)//g;
+
     # remove double spaces
     $Param{Value} =~ s/\s+/ /g;
 
