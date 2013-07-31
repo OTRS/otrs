@@ -436,7 +436,7 @@ sub SearchFieldRender {
         $Value = \@DefaultValue;
     }
 
-    # get the field value, this fuction is always called after the profile is loaded
+    # get the field value, this function is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
 
     # set values from profile if present

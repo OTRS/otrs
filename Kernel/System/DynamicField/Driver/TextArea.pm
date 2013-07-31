@@ -121,12 +121,12 @@ sub EditFieldRender {
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';
 
-    # create field HTML
-    # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
-    # is needed to be set by JS code (otherwise wc3 validator will complain about it)
-    # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
-    # validation framework might generate an error while the user is still capable to enter text in the
-    # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
+ # create field HTML
+ # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
+ # is needed to be set by JS code (otherwise wc3 validator will complain about it)
+ # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
+ # validation framework might generate an error while the user is still capable to enter text in the
+ # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
 <!--dtl:js_on_document_complete-->
@@ -282,7 +282,7 @@ sub SearchFieldRender {
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
 
-    # get the field value, this fuction is always called after the profile is loaded
+    # get the field value, this function is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
 
     # set values from profile if present

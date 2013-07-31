@@ -58,7 +58,7 @@ sub new {
 
         $Self->{TicketObject} = $Param{TicketObject};
 
-     # Make ticket object reference weak so it will not count as a reference on objetcs destroy.
+     # Make ticket object reference weak so it will not count as a reference on objects destroy.
      #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
      #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
         Scalar::Util::weaken( $Self->{TicketObject} );
@@ -76,7 +76,7 @@ sub new {
 
 =item PostValueSet()
 
-perform specific fuctions after the Value set for this object type.
+perform specific functions after the Value set for this object type.
 
     my $Success = $DynamicFieldTicketHandlerObject->PostValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
