@@ -140,6 +140,14 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
         }
+
+        my $SecureAttribute;
+        if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
+
+            # Restrict Cookie to HTTPS if it is used.
+            $SecureAttribute = 1;
+        }
+
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
             SetCookies => {
@@ -147,6 +155,7 @@ sub Run {
                     Key     => $SessionName,
                     Value   => $NewSessionID,
                     Expires => $Expires,
+                    Secure  => scalar $SecureAttribute,
                 ),
             },
             SessionID   => $NewSessionID,
