@@ -132,8 +132,8 @@ Core.UI.Autocomplete = (function (TargetNS) {
         });
 
         if (!Config.AutoCompleteActive) {
-            $Element.after('<button id="' + $Element.attr('id') + 'Search" type="button">' + Config.ButtonText + '</button>');
-            $('#' + $Element.attr('id') + 'Search').click(function () {
+            $Element.after('<button id="' + Core.App.EscapeSelector($Element.attr('id')) + 'Search" type="button">' + Config.ButtonText + '</button>');
+            $('#' + Core.App.EscapeSelector($Element.attr('id')) + 'Search').click(function () {
                 $Element.autocomplete("option", "minLength", 0);
                 $Element.autocomplete("search");
                 $Element.autocomplete("option", "minLength", 500);
