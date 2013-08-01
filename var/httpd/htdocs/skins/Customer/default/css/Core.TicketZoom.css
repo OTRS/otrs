@@ -38,11 +38,6 @@
     float: right;
 }
 
-.TicketHeader .TicketHook {
-    color: #666;
-    font-size: 12px;
-}
-
 .Flag span.PriorityID-1 {
     background-color:#03c4f0;
 }

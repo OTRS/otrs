@@ -21,8 +21,7 @@
 <!-- dtl:block:PriorityFlag -->
                 <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
 <!-- dtl:block:PriorityFlag -->
-                $QData{"Title","65"}
-                <span class="TicketHook">$QData{"TicketNumber"}</span>
+                $QData{"Title"}
             </h2>
             <ul id="TicketOptions">
 
@@ -157,6 +156,7 @@
                             <div class="Clear"></div>
                         </div>
                     </li>
+                    <li><span class="Key">$Config{"Ticket::Hook"}:</span> <span>$QData{"TicketNumber"}</span>
 
 <!-- dtl:block:Type -->
                     <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type"}</span></li>
