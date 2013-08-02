@@ -2205,7 +2205,7 @@ sub _MaskEmailNew {
 
     # build service string
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
-        
+
         if ( $Self->{Config}->{ServiceMandatory} ) {
             $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data         => $Param{Services},
