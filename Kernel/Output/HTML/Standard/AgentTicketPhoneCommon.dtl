@@ -127,7 +127,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NextStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate( $(this).parents('form'), 'AJAXUpdate', 'NextStateID', [ $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate( $(this).parents('form'), 'AJAXUpdate', 'NextStateID' [ $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->

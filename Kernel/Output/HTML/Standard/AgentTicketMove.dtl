@@ -49,7 +49,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#DestQueueID').bind('change', function (Event) {
         $('#NoSubmit').val('1');
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'OldUserID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'OldUserID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -72,7 +72,7 @@
     });
 
     $('#NewUserID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewUserID', ['DestQueueID', 'OldUserID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewUserID', ['DestQueueID', 'OldUserID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"}]);
     });
     $('#NewUserID').bind('click', function () {
         Core.Agent.TicketAction.SelectRadioButton('New','UserSelection');
@@ -90,7 +90,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#OldUserID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OldUserID', ['DestQueueID', 'NewUserID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OldUserID', ['DestQueueID', 'NewUserID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"}]);
     });
 
     $('#OldUserID').bind('click', function () {
@@ -184,7 +184,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -209,7 +209,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewPriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewStateID', $Data{"DynamicFieldNamesStrg"}]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewStateID' $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
