@@ -188,18 +188,6 @@ my @NeededModules = (
         Required => 1,
     },
     {
-        Module   => 'Mail::POP3Client',
-        Comment  => 'Required for POP3 SSL connections.',
-        Required => 0,
-        Depends  => [
-            {
-                Module   => 'IO::Socket::SSL',
-                Required => 0,
-                Comment  => 'Required for POP3 SSL connections.',
-            },
-        ],
-    },
-    {
         Module   => 'Mail::IMAPClient',
         Comment  => 'Required for IMAP TLS connections.',
         Required => 0,
@@ -277,16 +265,6 @@ my @NeededModules = (
                 Required => 0,
                 Comment  => 'Required for SMTP backend.',
             },
-            {
-                Module   => 'Net::SMTP::SSL',
-                Required => 0,
-                Comment  => 'Required for SSL/SMTPS connections.',
-            },
-            {
-                Module   => 'Net::SMTP::TLS::ButMaintained',
-                Required => 0,
-                Comment  => 'Required for TLS/SMTP connections.',
-            },
         ],
     },
     {
@@ -298,6 +276,18 @@ my @NeededModules = (
         Module   => 'Net::SSL',
         Required => 0,
         Comment  => 'Required for Generic Interface SOAP SSL connections.',
+    },
+    {
+        Module   => 'Net::SSLGlue',
+        Required => 0,
+        Comment  => 'Required for TLS and SSL SMTP and POP3 connections.',
+        Depends  => [
+            {
+                Module   => 'IO::Socket::SSL',
+                Required => 0,
+                Comment  => 'Required for SSL connections.',
+            },
+        ],
     },
     {
         Module       => 'PDF::API2',

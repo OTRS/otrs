@@ -45,12 +45,12 @@ sub Connect {
 
     # connect to host
     my $PopObject
-        = Net::POP3->new( $Param{Host}, Timeout => $Param{Timeout}, Debug => $Param{Debug} );
+        = Net::POP3->new( $Param{Host}, Timeout => 5, Debug => 1 );
     if ( !$PopObject ) {
         return ( Successful => 0, Message => "POP3: Can't connect to $Param{Host}" );
     }
 
-    # authentcation
+    # authentication
     my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
     if ( !defined $NOM ) {
         $PopObject->quit();
@@ -63,7 +63,8 @@ sub Connect {
     return (
         Successful => 1,
         PopObject  => $PopObject,
-        NOM        => $NOM
+        NOM        => $NOM,
+        Type       => 'POP3',
     );
 }
 
@@ -71,9 +72,10 @@ sub _Fetch {
     my ( $Self, %Param ) = @_;
 
     # fetch again if still messages on the account
-    for ( 1 .. 200 ) {
+    MESSAGE:
+    while (1) {
         return if !$Self->_Fetch(%Param);
-        last   if !$Self->{Reconnect};
+        last MESSAGE if $Self->{Reconnect};
     }
     return 1;
 }
@@ -105,9 +107,7 @@ sub Fetch {
     # MaxPopEmailSession
     my $MaxPopEmailSession = $Self->{ConfigObject}->Get('PostMasterReconnectMessage') || 20;
 
-    my $Timeout      = 60;
     my $FetchCounter = 0;
-    my $AuthType     = 'POP3';
 
     $Self->{Reconnect} = 0;
 
@@ -115,7 +115,7 @@ sub Fetch {
         Host     => $Param{Host},
         Login    => $Param{Login},
         Password => $Param{Password},
-        Timeout  => $Timeout,
+        Timeout  => 15,
         Debug    => $Debug
     );
 
@@ -128,6 +128,7 @@ sub Fetch {
     }
     my $PopObject = $Connect{PopObject};
     my $NOM       = $Connect{NOM};
+    my $AuthType  = $Connect{Type};
 
     # fetch messages
     if ( !$NOM ) {
@@ -136,10 +137,11 @@ sub Fetch {
         }
     }
     else {
-        for my $Messageno ( sort { $a <=> $b } keys %{ $PopObject->list() } ) {
+        my $MessageList = $PopObject->list();
+        for my $Messageno ( sort keys %{$MessageList} ) {
 
             # check if reconnect is needed
-            if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
+            if ( $FetchCounter >= $MaxPopEmailSession ) {
                 $Self->{Reconnect} = 1;
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
@@ -151,31 +153,27 @@ sub Fetch {
             }
 
             # check message size
-            my $MessageSize = int( $PopObject->list($Messageno) / 1024 );
-            if ( $MessageSize > $MaxEmailSize ) {
+            if ( $MessageList->{$Messageno} > ( $MaxEmailSize * 1024 ) ) {
+
+                # convert sizes to MB
+                my $MessageSizeMB = int( $MessageList->{$Messageno} / ( 1024 * 1024 ) );
+                my $MaxEmailSizeMB = int( $MaxEmailSize / ( 1024 * 1024 ) );
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
-                        . "Email too big ($MessageSize KB - max $MaxEmailSize KB)!",
+                        . "Email too big ($MessageSizeMB MB - max $MaxEmailSizeMB MB)!",
                 );
             }
             else {
 
                 # safety protection
                 $FetchCounter++;
-                if ( $FetchCounter > 10 && $FetchCounter < 25 ) {
+                if ( $FetchCounter > 10 ) {
                     if ($CMD) {
                         print
-                            "$AuthType: Safety protection waiting 2 second till processing next mail...\n";
+                            "$AuthType: Safety protection: waiting 2 second before processing next mail...\n";
                     }
                     sleep 2;
-                }
-                elsif ( $FetchCounter > 25 ) {
-                    if ($CMD) {
-                        print
-                            "$AuthType: Safety protection waiting 3 seconds till processing next mail...\n";
-                    }
-                    sleep 3;
                 }
 
                 # get message (header and body)
@@ -195,11 +193,10 @@ sub Fetch {
                     );
                     my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                     if ( !$Return[0] ) {
-                        my $Lines = $PopObject->get($Messageno);
                         my $File = $Self->_ProcessFailed( Email => $Lines );
                         $Self->{LogObject}->Log(
                             Priority => 'error',
-                            Message  => "$AuthType: Can't process mail, see log sub system ("
+                            Message  => "$AuthType: Can't process mail, mail saved ("
                                 . "$File, report it on http://bugs.otrs.org/)!",
                         );
                     }
@@ -226,7 +223,7 @@ sub Fetch {
     # log status
     if ( $Debug > 0 || $FetchCounter ) {
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
@@ -235,7 +232,7 @@ sub Fetch {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
 
-    # return it everything is done
+    # return if everything is done
     return 1;
 }
 
@@ -243,11 +240,9 @@ sub _ProcessFailed {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Email)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
-            return;
-        }
+    if ( !defined $Param{Email} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "'Email' not defined!" );
+        return;
     }
 
     # get content of email

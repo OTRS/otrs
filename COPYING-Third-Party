@@ -122,20 +122,10 @@ o Name:    CPAN Net::IMAP::Simple
            # Copyright (c) 2004 Casey West.
            # Copyright (c) 1999 Joao Fonseca.
 
-o Name:    CPAN Net::POP3::SSLWrapper
+o Name:    CPAN Net::SSLGlue
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    CPAN Net::SMTP::SSL
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 2004 Casey West.  All rights reserved.
-
-o Name:    CPAN Net::SMTP::TLS::ButMaintained
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (C) Alexander Christian Westholm
-           # Copyright (C) Fayland Lam <fayland@gmail.com>
+  Note:    # (c) 2008-2013, Steffen Ullrich. All Rights Reserved.
 
 o Name:    CPAN Text::CSV
   Web:     n/a
