@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-08-05 Fixed bug#[9644](http://bugs.otrs.org/show_bug.cgi?id=9644) - External Ticket Number filter does not work with Ticket::SubjectFormat None.
  - 2013-07-25 Fixed bug#[7759](http://bugs.otrs.org/show_bug.cgi?id=7759) - Ticket watcher ToolBar position configuration isn't applied.
  - 2013-07-24 Added support for start processes in the Customer Interface.
  - 2013-07-24 Added support to restrict processes by ACLs.

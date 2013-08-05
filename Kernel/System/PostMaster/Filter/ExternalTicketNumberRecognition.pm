@@ -200,10 +200,9 @@ sub Run {
         }
 
         # build subject
-        $Param{GetParam}->{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $TicketNumber,
-            Subject      => $Param{GetParam}->{Subject},
-        );
+        my $TicketHook          = $Self->{ConfigObject}->Get('Ticket::Hook');
+        my $TicketHookDivider   = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+        $Param{GetParam}->{Subject} .=  " [$TicketHook$TicketHookDivider$TicketNumber]";
 
         # set sender type and article type
         $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}  = $Param{JobConfig}->{SenderType};
