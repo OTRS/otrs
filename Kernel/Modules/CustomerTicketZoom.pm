@@ -1451,22 +1451,11 @@ sub _Mask {
             OnlyDynamicFields => 1,
         );
 
-        # create a string with the quoted dynamic field names separated by a commas
+        # create a string with the quoted dynamic field names separated by commas
         if ( IsArrayRefWithData($DynamicFieldNames) ) {
-            my $FirstItem = 1;
-            FIELD:
-            for my $Field ( @{$DynamicFieldNames} ) {
-                if ($FirstItem) {
-                    $FirstItem = 0;
-                }
-                else {
-                    $Param{DynamicFieldNamesStrg} .= ', ';
-                }
-                $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+            for my $Field ( @{$DynamicFieldNames} ) 
+                $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
             }
-        }
-        else {
-            $Param{DynamicFieldNamesStrg} = "''";
         }
 
         # check subject

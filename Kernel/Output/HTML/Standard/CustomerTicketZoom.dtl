@@ -283,7 +283,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#StateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -295,7 +295,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#PriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->

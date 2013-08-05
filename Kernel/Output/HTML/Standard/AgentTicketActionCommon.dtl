@@ -89,7 +89,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 $('#TypeID').bind('change', function (Event) {
-    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'TypeID', [ 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'TypeID', [ 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -105,7 +105,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -120,7 +120,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -137,7 +137,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewQueueID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -154,7 +154,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewOwnerID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
     $('#NewOwnerID').bind('focus', function () {
         Core.Agent.TicketAction.SelectRadioButton('New','NewOwnerType');
@@ -172,7 +172,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#OldOwnerID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'OldOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'OldOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
     $('#OldOwnerID').bind('focus', function () {
         Core.Agent.TicketAction.SelectRadioButton('Old','NewOwnerType');
@@ -190,7 +190,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewResponsibleID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewResponsibleID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewResponsibleID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -308,7 +308,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewStateID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewStateID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -333,7 +333,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewPriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewPriorityID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewPriorityID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->

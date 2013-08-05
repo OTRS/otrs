@@ -299,17 +299,10 @@ EOF
 
         my $FieldsToUpdate = '';
         if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-            my $FirstItem = 1;
             FIELD:
             for my $Field ( @{ $Param{UpdatableFields} } ) {
                 next FIELD if $Field eq $FieldName;
-                if ($FirstItem) {
-                    $FirstItem = 0;
-                }
-                else {
-                    $FieldsToUpdate .= ', ';
-                }
-                $FieldsToUpdate .= "'" . $Field . "'";
+                $FieldsToUpdate .= ", '" . $Field . "'";
             }
         }
 
@@ -318,7 +311,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
-        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
+        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName' [ $FieldsToUpdate ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
