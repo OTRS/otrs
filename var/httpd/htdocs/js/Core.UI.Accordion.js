@@ -110,8 +110,15 @@ Core.UI.Accordion = (function (TargetNS) {
 
             $AllListElements.find('div.Content div').css('overflow', 'hidden');
 
+            $AllListElements.find('div.Content div').each(function () {
+                $(this).data('overflow', $(this).css('overflow'));
+                $(this).css('overflow', 'hidden');
+            });
+
             $ActiveListElement.find(TargetNS.ContentSelector).add($ListElement.find(TargetNS.ContentSelector)).slideToggle("slow", function () {
-                $AllListElements.find('div.Content div').css('overflow', 'scroll');
+                $AllListElements.find('div.Content div').each(function () {
+                    $(this).css('overflow', $(this).data('overflow'));
+                });
                 $ListElement.addClass('Active');
                 $ActiveListElement.removeClass('Active');
                 TargetNS.StopAnimation();

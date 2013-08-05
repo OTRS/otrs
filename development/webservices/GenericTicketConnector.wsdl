@@ -19,7 +19,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -468,7 +468,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -713,7 +713,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -1433,7 +1433,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -1892,7 +1892,7 @@
                 <xsd:sequence>
                     <xsd:choice minOccurs="1" maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>Equals, Like, GraterThan, GraterThanEquals, SmallerThan or SmallerThanEqueals is mandatory</xsd:documentation>
+                            <xsd:documentation>Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan or SmallerThanEquals is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="Equals"

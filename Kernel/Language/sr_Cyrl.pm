@@ -2617,7 +2617,7 @@ sub Data {
             'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
         'Database-User' => 'Корисник базе података',
         'New' => 'Нов',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Нови корисника базе са ограниченим правима ће бити креиран за овај "OTRS" систем',
         'default \'hot\'' => 'подразумевано \'hot\'',
         'DB host' => 'Назив или адреса ДБ-Сервера',

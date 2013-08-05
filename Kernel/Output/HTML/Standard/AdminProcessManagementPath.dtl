@@ -82,7 +82,7 @@
                             <ul class="AllocationList Tablelike W90pc" id="AvailableTransitionActions">
 <!-- dtl:block:AvailableTransitionActionRow -->
                                 <li data-id="$QData{"ID"}" id="$QData{"EntityID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
-                                    $QData{"Name", "55"} ($QData{"EntityID"})
+                                    $QData{"Name"} ($QData{"EntityID"})
                                     <span class="Functions">
                                         <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon Icon_Edit" title="$Text{"Edit"}"></a>
                                     </span>

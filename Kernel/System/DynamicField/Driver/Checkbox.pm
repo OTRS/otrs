@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::DriverBase);
+use base qw(Kernel::System::DynamicField::Driver::Base);
 
 =head1 NAME
 
@@ -55,6 +55,15 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 0,
+        'IsNotificationEventCondition' => 1,
+        'IsSortable'                   => 1,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+    };
 
     return $Self;
 }
@@ -288,7 +297,7 @@ sub EditFieldValueGet {
 
     my %Data;
 
-    # check if there is a Template and retreive the dinalic field value from there
+    # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
 
         # get dynamic field value form Template
@@ -298,22 +307,22 @@ sub EditFieldValueGet {
         $Data{UsedValue} = $Param{Template}->{ $FieldName . 'Used' };
     }
 
-    # otherwise get dynamic field value form param
+    # otherwise get dynamic field value from param
     else {
 
-        # get dynamic field value form param
+        # get dynamic field value from param
         $Data{FieldValue} = $Param{ParamObject}->GetParam( Param => $FieldName );
 
-        # get dynamic field used value form param
+        # get dynamic field used value from param
         $Data{UsedValue} = $Param{ParamObject}->GetParam( Param => $FieldName . 'Used' );
     }
 
-    # check if return value structure is nedded
+    # check if return value structure is needed
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
         return \%Data;
     }
 
-    # check if return template structure is nedded
+    # check if return template structure is needed
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
         return {
             $FieldName          => $Data{FieldValue},
@@ -407,12 +416,6 @@ sub DisplayValueRender {
     return $Data;
 }
 
-sub IsSortable {
-    my ( $Self, %Param ) = @_;
-
-    return 1;
-}
-
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
@@ -433,7 +436,7 @@ sub SearchFieldRender {
         $Value = \@DefaultValue;
     }
 
-    # get the field value, this fuction is always called after the profile is loaded
+    # get the field value, this function is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
 
     # set values from profile if present
@@ -491,7 +494,7 @@ sub SearchFieldValueGet {
 
     my $Value;
 
-    # get dynamic field value form param object
+    # get dynamic field value from param object
     if ( defined $Param{ParamObject} ) {
         my @FieldValues = $Param{ParamObject}->GetArray(
             Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
@@ -673,12 +676,6 @@ sub TemplateValueTypeGet {
     }
 }
 
-sub IsAJAXUpdateable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
-}
-
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
@@ -698,12 +695,6 @@ sub RandomValueSet {
         Success => 1,
         Value   => $Value,
     };
-}
-
-sub IsMatchable {
-    my ( $Self, %Param ) = @_;
-
-    return 1;
 }
 
 sub ObjectMatch {

@@ -397,6 +397,8 @@ sub LinkDeletePost {
     return 1;
 }
 
+1;
+
 =back
 
 =head1 TERMS AND CONDITIONS
@@ -408,5 +410,3 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-1;

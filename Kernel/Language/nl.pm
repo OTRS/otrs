@@ -2626,7 +2626,7 @@ sub Data {
             'Als u OTRS op een ander type database wilt installeren, kijk dan in het bestand README.database voor instructies.',
         'Database-User' => 'OTRS database gebruiker',
         'New' => 'Nieuw',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor deze OTRS omgeving.',
         'default \'hot\'' => 'Standaard \'hot\'',
         'DB host' => 'Database host',

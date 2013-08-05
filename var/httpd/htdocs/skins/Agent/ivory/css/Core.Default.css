@@ -30,8 +30,10 @@ span.Pagination a:hover {
 }
 
 a:hover,
-a:active {
-    color: #265D66;
+a:active,
+a:focus,
+#ToolBar a.Active {
+    color: #82CED8;
 }
 
 .Admin .Size1of2:hover h4 {
@@ -147,10 +149,6 @@ textarea.Focus  {
 /**
  * @subsection  Image Replacements
  */
-
-#ToolBar a .Gloss, #ToolBar a {
-    background-image: url(../img/toolbar_sprite.png);
-}
 
 #UserInfo a.LogoutButton {
     background-image: url(../img/logout_sprite.png);

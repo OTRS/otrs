@@ -24,6 +24,10 @@ ul.AllocationList li {
     padding: 2px 5px;
     cursor: move;
     position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 60px;
 }
 
 ul.AllocationList li span.Functions {

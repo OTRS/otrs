@@ -40,7 +40,7 @@ $Text{"Change Priority of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 $Text{"Change Responsible of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-$Data{"TicketNumber"} - $QData{"Title","60"}
+$Data{"TicketNumber"} - $QData{"Title"}
             </h1>
 
 <!-- dtl:block:TicketBack -->
@@ -105,6 +105,23 @@ $('#TypeID').bind('change', function (Event) {
                 <div class="Clear"></div>
 <!-- dtl:block:Service -->
 
+<!-- dtl:block:ServiceMandatory -->
+                <label class="Mandatory" for="ServiceID"><span class="Marker">*</span>$Text{"Service"}:</label>
+                <div class="Field">
+                    $Data{"ServiceStrg"}
+                    <div id="ServiceIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ServiceID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:ServiceMandatory -->
+
 <!-- dtl:block:SLA -->
                 <label for="SLAID">$Text{"Service Level Agreement"}:</label>
                 <div class="Field">
@@ -119,6 +136,23 @@ $('#TypeID').bind('change', function (Event) {
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:SLA -->
+
+<!-- dtl:block:SLAMandatory -->
+                <label class="Mandatory" for="SLAID"><span class="Marker">*</span>$Text{"Service Level Agreement"}:</label>
+                <div class="Field">
+                    $Data{"SLAStrg"}
+                    <div id="SLAIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="SLAIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#SLAID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:SLAMandatory -->
 
 <!-- dtl:block:Queue -->
                 <label for="NewQueueID">$Text{"Queue"}:</label>

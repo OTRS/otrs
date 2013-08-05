@@ -73,6 +73,10 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
+    my $Icon         = $Param{Config}->{Icon};
+    my $IconNew      = $Param{Config}->{IconNew};
+    my $IconReached  = $Param{Config}->{IconReached};
+
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
     my $Priority = $Param{Config}->{Priority};
@@ -82,6 +86,7 @@ sub Run {
             Description => 'Responsible Tickets New',
             Count       => $CountNew,
             Class       => $ClassNew,
+            Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=New',
             AccessKey   => 'r',
         };
@@ -92,6 +97,7 @@ sub Run {
             Description => 'Responsible Tickets Reminder Reached',
             Count       => $CountReached,
             Class       => $ClassReached,
+            Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=ReminderReached',
             AccessKey   => 'r',
         };
@@ -102,6 +108,7 @@ sub Run {
             Description => 'Responsible Tickets Total',
             Count       => $Count,
             Class       => $Class,
+            Icon        => $Icon,
             Link        => $URL . 'Action=AgentTicketResponsibleView',
             AccessKey   => 'r',
         };

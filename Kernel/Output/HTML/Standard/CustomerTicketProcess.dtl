@@ -1,0 +1,102 @@
+# --
+# CustomerTicketProcess.dtl - provides HTML for CustomerTicketProcess.pm
+# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<!-- dtl:block:RichText -->
+<script src="$Config{"Frontend::RichTextPath"}ckeditor.js" type="text/javascript"></script>
+<!-- dtl:block:RichText -->
+
+<div id="MainBox" class="TicketProcess ARIARoleMain">
+    <div class="Content">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewProcessTicket" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+            <input type="hidden" name="Subaction" value="DisplayActivityDialog"/>
+            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+            <fieldset>
+                <div>
+<!-- dtl:block:ProcessList -->
+                    <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>$Text{"Process"}:</label>
+                    $Data{"ProcessList"}
+                    <div id="ProcessEntityIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="ProcessEntityIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                </div>
+                <div class="Spacing Clear"></div>
+<!-- dtl:block:ProcessList -->
+            </fieldset>
+        </form>
+        <div id="AJAXLoader" class="Spacing Center Hidden">
+            <span class="AJAXLoader" title="$Text{"Loading"}"></span>
+        </div>
+        <div id="ActivityDialogContent"></div>
+    </div>
+</div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#ProcessEntityID').bind('change', function() {
+
+        if ($('#ProcessEntityID').val()) {
+
+            // remove the content of the activity dialog
+            $('#ActivityDialogContent').empty();
+
+            // fade out the empty container so it will fade in again on processes change
+            // is not recommended to empty after fade out at this point since the transition offect
+            // will not look so nice
+            $('#ActivityDialogContent').fadeOut('fast');
+
+            // show loader icon
+            $('#AJAXLoader').removeClass('Hidden');
+
+            // get new ActivityDialog content
+            Core.AJAX.FunctionCall('$Env{"Baselink"}', 'Action=$Env{"Action"};Subaction=DisplayActivityDialogAJAX;AJAXDialog=1;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
+                var $ElementToUpdate = $('#ActivityDialogContent'),
+                    JavaScriptString = '';
+                if (!Response) {
+
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content received.", 'CommunicationError'));
+                    $('#AJAXLoader').addClass('Hidden');
+                }
+                else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
+                    $ElementToUpdate.get(0).innerHTML = Response;
+                    $ElementToUpdate.find('script').each(function() {
+                        JavaScriptString += $(this).text();
+                        $(this).remove();
+                    });
+                    $ElementToUpdate.fadeIn();
+                    try {
+                        /*jslint evil: true */
+                        eval(JavaScriptString);
+                    }
+                    catch (Exception) {}
+                    Core.Form.Validate.Init();
+                    $('#AJAXLoader').addClass('Hidden');
+                    $('#AJAXDialog').val('1');
+
+                    // Register event for tree selection dialog
+                    $('.ShowTreeSelection').bind('click', function (Event) {
+                        Core.UI.TreeSelection.ShowTreeSelection($(this));
+                        return false;
+                    });
+                }
+                else {
+
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError'));
+                    $('#AJAXLoader').addClass('Hidden');
+                }
+            }, 'html');
+        }
+        else {
+            $('#ActivityDialogContent').fadeOut(400, function() {
+                $('#ActivityDialogContent').empty();
+            });
+        }
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->

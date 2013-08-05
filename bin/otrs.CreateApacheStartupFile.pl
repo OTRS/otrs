@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.CreateApacheStartupFile.pl - create new translation file
+# bin/otrs.CreateApacheStartupFile.pl - create optimal Apache startup file
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
@@ -108,13 +108,13 @@ use warnings;
 BEGIN {
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
-    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';    ## no critic
+    \$ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';    ## no critic
 
-    # set $0 to index.pl if it is not an existing file:
+    # set \$0 to index.pl if it is not an existing file:
     # on Fedora, $0 is not a path which would break OTRS.
     # see bug # 8533
-    if ( !-e $0 ) {
-        $0 = '/opt/otrs/bin/cgi-bin/index.pl';
+    if ( !-e \$0 ) {
+        \$0 = '$Home/bin/cgi-bin/index.pl';
     }
 }
 
@@ -168,10 +168,26 @@ sub GetPackageList {
 
     my $Home = $CommonObject{ConfigObject}->Get('Home');
 
+    # add all language files for configued languages
+    my $Languages = $CommonObject{ConfigObject}->Get('DefaultUsedLanguages');
+    for my $Language ( sort keys %{$Languages} ) {
+        my @LanguageFiles = $CommonObject{MainObject}->DirectoryRead(
+            Directory => "$Home/Kernel/Language",
+            Filter    => "$Language*.pm",
+        );
+        for my $LanguageFile ( sort @LanguageFiles ) {
+            my $Package = CheckPerlPackage(
+                CommonObject => \%CommonObject,
+                Filename     => $LanguageFile,
+            );
+            next FILE if !$Package;
+            push @Packages, $Package;
+        }
+    }
+
     # Directories to check
     my @Directories = (
         "$Home/Kernel/GenericInterface",
-        "$Home/Kernel/Language",
         "$Home/Kernel/Modules",
         "$Home/Kernel/Output",
         "$Home/Kernel/System",
@@ -185,6 +201,7 @@ sub GetPackageList {
         "IMAP",
         "POP3",
         "SMTP",
+        "UnitTest",
     );
 
     my @Files;
@@ -202,7 +219,7 @@ sub GetPackageList {
     }
 
     FILE:
-    foreach my $File (@Files) {
+    foreach my $File ( sort @Files ) {
         my $Package = CheckPerlPackage(
             CommonObject => \%CommonObject,
             Filename     => $File,

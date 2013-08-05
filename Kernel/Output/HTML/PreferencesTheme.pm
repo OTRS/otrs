@@ -51,6 +51,9 @@ sub Param {
         }
     }
 
+   # only show the theme preference if there are two or more themes to choose from
+   return if scalar %ActiveThemes < 2;
+
     my @Params;
     push(
         @Params,

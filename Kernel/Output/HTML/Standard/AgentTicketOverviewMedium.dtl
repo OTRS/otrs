@@ -93,7 +93,7 @@
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
             <h2>
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","80"}</a>
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title"}</a>
             </h2>
 <!-- dtl:block:MenuItem -->
             <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
@@ -102,22 +102,22 @@
                 <tbody>
                     <tr>
                         <td>
-                            <label>$Text{"From"}</label><div title="$QData{"From"}">$QData{"FromRealname","80"}</div>
+                            <label>$Text{"From"}</label><div title="$QData{"From"}">$QData{"FromRealname"}</div>
                         </td>
                         <td>
                             <label>$Text{"Age"}</label>$QData{"Age"}
                         </td>
                         <td>
-                            <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>
+                            <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue"}</div>
                         </td>
                         <td>
 <!-- dtl:block:CustomerIDRW -->
-                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a>
+                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID"}</a>
 <!-- dtl:block:CustomerIDRW -->
 <!-- dtl:block:CustomerIDRO -->
-                            <label>$Text{"CustomerID"}</label>$QData{"CustomerID", "26"}
+                            <label>$Text{"CustomerID"}</label>$QData{"CustomerID"}
 <!-- dtl:block:CustomerIDRO -->
-                            <br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","26"}</div>
+                            <br /><div title="$QData{"CustomerName"}">$QData{"CustomerName"}</div>
                         </td>
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 is the name of the field and had to be replaced with the actual
@@ -142,7 +142,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label>$Text{"To"}</label><div title="$QData{"To"}">$QData{"ToRealname","80"}</div>
+                            <label>$Text{"To"}</label><div title="$QData{"To"}">$QData{"ToRealname"}</div>
                         </td>
                         <td>
                             <label>$Text{"Created"}</label>$TimeLong{"$Data{"Created"}"}
@@ -152,7 +152,7 @@
                         </td>
                         <td>
 <!-- dtl:block:Type -->
-                            <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","26"}</div>
+                            <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type"}</div>
 <!-- dtl:block:Type -->
                         </td>
 # example of how to use fixed dynamic field blocks for customizations
@@ -178,20 +178,20 @@
                     </tr>
                     <tr>
                         <td>
-                            <label>$Text{"Subject"}</label><div title="$QData{"Subject"}">$QData{"Subject","80"}</div>
+                            <label>$Text{"Subject"}</label><div title="$QData{"Subject"}">$QData{"Subject"}</div>
                         </td>
                         <td>
-                            <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
+                            <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname"} $QData{"UserLastname"}</div>
                         </td>
                         <td>
                             <label>$Text{"Lock"}</label><div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}"}</div>
                         </td>
                         <td>
 <!-- dtl:block:Service -->
-                            <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service","26"}</div>
+                            <label>$Text{"Service"}</label><div title="$QData{"Service"}">$QData{"Service"}</div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                            <label>$Text{"Service Level Agreement"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
+                            <label>$Text{"Service Level Agreement"}</label><div title="$QData{"SLA"}">$QData{"SLA"}</div>
 <!-- dtl:block:SLA -->
                         </td>
 # example of how to use fixed dynamic field blocks for customizations

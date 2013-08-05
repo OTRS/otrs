@@ -44,8 +44,8 @@
                             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" title="$Text{"Filter Activities..."}" />
                             <ul class="Tablelike" id="Activities">
 <!-- dtl:block:ActivityRow -->
-                                <li title="$QData{"Name"} ($QData{"EntityID"})" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
-                                    $QData{"Name","30"}
+                                <li class="OneRow" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                                    <div class="AsBlock W80pc" title="$QData{"Name"} ($QData{"EntityID"})">$QData{"Name"}</div>
                                     <span>
                                         <a href="#" title="$Text{"Delete"}" class="DeleteEntity DeleteActivity Icon Icon_Delete"></a>
                                         <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" title="$Text{"Edit"}" class="AsPopup PopupType_Activity Icon Icon_Edit"></a>
@@ -67,8 +67,8 @@
                             <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" title="$Text{"Filter Activity Dialogs..."}" />
                             <ul class="Tablelike" id="ActivityDialogs">
 <!-- dtl:block:ActivityDialogRow -->
-                                <li title="$QData{"Name"} ($QData{"EntityID"})" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
-                                    $QData{"Name","30"}
+                                <li class="OneRow" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                                    <div class="AsBlock W60pc" title="$QData{"Name"} ($QData{"EntityID"})">$QData{"Name"}</div>
                                     <span>
                                         <a href="#" title="$Text{"Delete"}"  class="DeleteEntity DeleteActivityDialog Icon Icon_Delete"></a>
                                         <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" title="$Text{"Edit"}" class="AsPopup PopupType_ActivityDialog Icon Icon_Edit"></a>
@@ -91,8 +91,8 @@
                             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" title="$Text{"Filter Transitions..."}" />
                             <ul class="Tablelike" id="Transitions">
 <!-- dtl:block:TransitionRow -->
-                                <li title="$QData{"Name"} *$QData{"EntityID"})" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
-                                    $QData{"Name","30"}
+                                <li class="OneRow" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                                    <div class="AsBlock W80pc" title="$QData{"Name"} ($QData{"EntityID"})">$QData{"Name"}</div>
                                     <span>
                                         <a href="#" title="$Text{"Delete"}" class="DeleteEntity DeleteTransition Icon Icon_Delete"></a>
                                         <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" title="$Text{"Edit"}" class="AsPopup PopupType_Transition Icon Icon_Edit"></a>
@@ -114,8 +114,8 @@
                             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" title="$Text{"Filter Transition Actions..."}" />
                             <ul class="Tablelike" id="TransitionActions">
 <!-- dtl:block:TransitionActionRow -->
-                                <li title="$QData{"Name"} ($QData{"EntityID"})" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
-                                    $QData{"Name","30"}
+                                <li class="OneRow" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                                    <div class="AsBlock W80pc" title="$QData{"Name"} ($QData{"EntityID"})">$QData{"Name"}</div>
                                     <span>
                                         <a href="#" title="$Text{"Delete"}" class="DeleteEntity DeleteTransitionAction Icon Icon_Delete"></a>
                                         <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" title="$Text{"Edit"}" class="AsPopup PopupType_TransitionAction Icon Icon_Edit"></a>

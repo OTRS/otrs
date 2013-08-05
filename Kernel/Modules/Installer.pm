@@ -320,6 +320,13 @@ sub Run {
         my $GeneratedPassword = $Self->{MainObject}->GenerateRandomString();
 
         if ( $DBType eq 'mysql' ) {
+            my $PasswordExplanation
+                = $DBInstallType eq 'CreateDB'
+                ? $Self->{LayoutObject}->{LanguageObject}->Get(
+                'If you have set a root password for your database, it must be entered here. If not, leave this field empty.'
+                )
+                : $Self->{LayoutObject}->{LanguageObject}
+                ->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -328,9 +335,11 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMySQL',
                 Data => {
-                    Item        => 'Configure MySQL',
-                    Step        => $StepCounter,
-                    InstallType => $DBInstallType,
+                    Item                => 'Configure MySQL',
+                    Step                => $StepCounter,
+                    InstallType         => $DBInstallType,
+                    DefaultDBUser       => $DBInstallType eq 'CreateDB' ? 'root' : 'otrs',
+                    PasswordExplanation => $PasswordExplanation,
                 },
             );
             if ( $DBInstallType eq 'CreateDB' ) {
@@ -339,6 +348,11 @@ sub Run {
                     Data => {
                         Password => $GeneratedPassword,
                     },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseMySQLUseExisting',
                 );
             }
 
@@ -353,6 +367,12 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'mssql' ) {
+            my $PasswordExplanation
+                = $DBInstallType eq 'CreateDB'
+                ? $Self->{LayoutObject}->{LanguageObject}
+                ->Get('Enter the password for the administrative database user.')
+                : $Self->{LayoutObject}->{LanguageObject}
+                ->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -362,9 +382,10 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMSSQL',
                 Data => {
-                    Item        => 'Database',
-                    Step        => $StepCounter,
-                    InstallType => $DBInstallType,
+                    Item          => 'Database',
+                    Step          => $StepCounter,
+                    InstallType   => $DBInstallType,
+                    DefaultDBUser => $DBInstallType eq 'CreateDB' ? 'sa' : 'otrs',
                 },
             );
 
@@ -374,6 +395,11 @@ sub Run {
                     Data => {
                         Password => $GeneratedPassword,
                     },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseMSSQLUseExisting',
                 );
             }
 
@@ -389,6 +415,12 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'postgresql' ) {
+            my $PasswordExplanation
+                = $DBInstallType eq 'CreateDB'
+                ? $Self->{LayoutObject}->{LanguageObject}
+                ->Get('Enter the password for the administrative database user.')
+                : $Self->{LayoutObject}->{LanguageObject}
+                ->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -397,9 +429,10 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabasePostgreSQL',
                 Data => {
-                    Item        => 'Database',
-                    Step        => $StepCounter,
-                    InstallType => $DBInstallType,
+                    Item          => 'Database',
+                    Step          => $StepCounter,
+                    InstallType   => $DBInstallType,
+                    DefaultDBUser => $DBInstallType eq 'CreateDB' ? 'postgres' : 'otrs',
                 },
             );
             if ( $DBInstallType eq 'CreateDB' ) {
@@ -408,6 +441,11 @@ sub Run {
                     Data => {
                         Password => $GeneratedPassword,
                     },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabasePostgreSQLUseExisting',
                 );
             }
 
@@ -503,32 +541,35 @@ sub Run {
         # create database, add user
         if ( $DB{DBType} eq 'mysql' ) {
 
-            # determine current host for MySQL account
-            my $ConnectionID;
-            my $StatementHandle = $DBH->prepare("select connection_id()");
-            $StatementHandle->execute();
-            while ( my @Row = $StatementHandle->fetchrow_array() ) {
-                $ConnectionID = $Row[0];
-            }
+            if ( $DB{InstallType} eq 'CreateDB' ) {
 
-            $StatementHandle = $DBH->prepare("show processlist");
-            $StatementHandle->execute();
-            PROCESSLIST:
-            while ( my @Row = $StatementHandle->fetchrow_array() ) {
-                if ( $Row[0] eq $ConnectionID ) {
-                    $DB{Host} = $Row[2];
-                    last PROCESSLIST;
+                # determine current host for MySQL account
+                my $ConnectionID;
+                my $StatementHandle = $DBH->prepare("select connection_id()");
+                $StatementHandle->execute();
+                while ( my @Row = $StatementHandle->fetchrow_array() ) {
+                    $ConnectionID = $Row[0];
                 }
+
+                $StatementHandle = $DBH->prepare("show processlist");
+                $StatementHandle->execute();
+                PROCESSLIST:
+                while ( my @Row = $StatementHandle->fetchrow_array() ) {
+                    if ( $Row[0] eq $ConnectionID ) {
+                        $DB{Host} = $Row[2];
+                        last PROCESSLIST;
+                    }
+                }
+
+                # strip off port, i.e. 'localhost:14962' should become 'localhost'
+                $DB{Host} =~ s{:\d*$}{}xms;
+
+                @Statements = (
+                    "CREATE DATABASE `$DB{DBName}` charset utf8",
+                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTRSDBUser}`\@`$DB{Host}` IDENTIFIED BY '$DB{OTRSDBPassword}' WITH GRANT OPTION;",
+                    "FLUSH PRIVILEGES",
+                );
             }
-
-            # strip off port, i.e. 'localhost:14962' should become 'localhost'
-            $DB{Host} =~ s{:\d*$}{}xms;
-
-            @Statements = (
-                "CREATE DATABASE `$DB{DBName}` charset utf8",
-                "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTRSDBUser}`\@`$DB{Host}` IDENTIFIED BY '$DB{OTRSDBPassword}' WITH GRANT OPTION;",
-                "FLUSH PRIVILEGES",
-            );
 
             # set DSN for Config.pm
             $DB{ConfigDSN} = 'DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost}';
@@ -536,14 +577,16 @@ sub Run {
         }
         elsif ( $DB{DBType} eq 'mssql' ) {
 
-            @Statements = (
-                "CREATE DATABASE [$DB{DBName}]",
-                "CREATE LOGIN [$DB{OTRSDBUser}] WITH PASSWORD = '$DB{OTRSDBPassword}'",
-                "USE [$DB{DBName}]",
-                "CREATE USER  [$DB{OTRSDBUser}] FOR LOGIN [$DB{OTRSDBUser}]",
-                "exec sp_addrolemember 'db_owner', '$DB{OTRSDBUser}'",
-                "exec sp_defaultdb '$DB{OTRSDBUser}', '$DB{DBName}'",
-            );
+            if ( $DB{InstallType} eq 'CreateDB' ) {
+                @Statements = (
+                    "CREATE DATABASE [$DB{DBName}]",
+                    "CREATE LOGIN [$DB{OTRSDBUser}] WITH PASSWORD = '$DB{OTRSDBPassword}'",
+                    "USE [$DB{DBName}]",
+                    "CREATE USER  [$DB{OTRSDBUser}] FOR LOGIN [$DB{OTRSDBUser}]",
+                    "exec sp_addrolemember 'db_owner', '$DB{OTRSDBUser}'",
+                    "exec sp_defaultdb '$DB{OTRSDBUser}', '$DB{DBName}'",
+                );
+            }
 
             # set DSN for Config.pm
             $DB{ConfigDSN}
@@ -552,10 +595,12 @@ sub Run {
         }
         elsif ( $DB{DBType} eq 'postgresql' ) {
 
-            @Statements = (
-                "CREATE ROLE \"$DB{OTRSDBUser}\" WITH LOGIN PASSWORD '$DB{OTRSDBPassword}'",
-                "CREATE DATABASE \"$DB{DBName}\" OWNER=\"$DB{OTRSDBUser}\" ENCODING 'utf-8'",
-            );
+            if ( $DB{InstallType} eq 'CreateDB' ) {
+                @Statements = (
+                    "CREATE ROLE \"$DB{OTRSDBUser}\" WITH LOGIN PASSWORD '$DB{OTRSDBPassword}'",
+                    "CREATE DATABASE \"$DB{DBName}\" OWNER=\"$DB{OTRSDBUser}\" ENCODING 'utf-8'",
+                );
+            }
 
             # set DSN for Config.pm
             $DB{ConfigDSN}
@@ -940,7 +985,7 @@ sub Run {
         # create sysconfig object
         my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
-        # take care that default config file exists
+        # make sure the default config file exists
         if ( !$SysConfigObject->WriteDefault() ) {
             return $Self->{LayoutObject}->FatalError();
         }
@@ -1179,12 +1224,19 @@ sub ConnectToDB {
 
     # check params
     my @NeededKeys = qw ( DBType DBHost DBUser DBPassword );
+
     if ( $Param{InstallType} eq 'CreateDB' ) {
         push @NeededKeys, qw ( OTRSDBUser OTRSDBPassword );
     }
 
+    # for Oracle we require DBSID and DBPort
     if ( $Param{DBType} eq 'oracle' ) {
         push @NeededKeys, qw ( DBSID DBPort );
+    }
+
+    # for existing databases we require the database name
+    if ( $Param{DBType} ne 'oracle' && $Param{InstallType} eq 'UseDB' ) {
+        push @NeededKeys, 'DBName';
     }
 
     for my $Key (@NeededKeys) {
@@ -1205,14 +1257,23 @@ sub ConnectToDB {
     }
 
     # create DSN string for backend
-    if ( $Param{DBType} eq 'mysql' ) {
+    if ( $Param{DBType} eq 'mysql' && $Param{InstallType} eq 'CreateDB' ) {
         $Param{DSN} = "DBI:mysql:database=;host=$Param{DBHost};";
     }
-    elsif ( $Param{DBType} eq 'mssql' ) {
+    elsif ( $Param{DBType} eq 'mysql' && $Param{InstallType} eq 'UseDB' ) {
+        $Param{DSN} = "DBI:mysql:database=;host=$Param{DBHost};database=$Param{DBName}";
+    }
+    elsif ( $Param{DBType} eq 'mssql' && $Param{InstallType} eq 'CreateDB' ) {
         $Param{DSN} = "DBI:ODBC:driver={SQL Server};Server=$Param{DBHost};";
     }
-    elsif ( $Param{DBType} eq 'postgresql' ) {
+    elsif ( $Param{DBType} eq 'mssql' && $Param{InstallType} eq 'UseDB' ) {
+        $Param{DSN} = "DBI:ODBC:driver={SQL Server};Server=$Param{DBHost};Database=$Param{DBName}";
+    }
+    elsif ( $Param{DBType} eq 'postgresql' && $Param{InstallType} eq 'CreateDB' ) {
         $Param{DSN} = "DBI:Pg:host=$Param{DBHost};";
+    }
+    elsif ( $Param{DBType} eq 'postgresql' && $Param{InstallType} eq 'UseDB' ) {
+        $Param{DSN} = "DBI:Pg:host=$Param{DBHost};dbname=$Param{DBName}";
     }
     elsif ( $Param{DBType} eq 'oracle' ) {
         $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};"
@@ -1242,6 +1303,22 @@ sub ConnectToDB {
             DB         => undef,
             DBH        => undef,
         );
+    }
+
+    # if we use an existing database, check if it already contains tables
+    if ( $Param{InstallType} ne 'CreateDB' ) {
+
+        my $Data = $DBH->selectall_arrayref('SELECT * FROM valid');
+        if ($Data) {
+            return (
+                Successful => 0,
+                Message    => $Self->{LayoutObject}->{LanguageObject}
+                    ->Get("Database already contains data - it should be empty!"),
+                Comment => "",
+                DB      => undef,
+                DBH     => undef,
+            );
+        }
     }
 
     return (
@@ -1378,7 +1455,7 @@ sub CheckMailConfiguration {
         );
     }
 
-    # now check inbound mail config. if outbound config threw error, theres no need to carry on
+    # now check inbound mail config. return if the outbound config threw an error
     if ( !$Result{Successful} ) {
         return %Result;
     }

@@ -922,7 +922,7 @@ sub CertificateRead {
         return;
     }
 
-    # set options to retreive certiciate contents
+    # set options to retrieve certiciate contents
     my $Options = "x509 -in $File -noout -text";
 
     # get the output string

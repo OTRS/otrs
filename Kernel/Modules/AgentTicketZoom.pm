@@ -1838,6 +1838,7 @@ sub _ArticleItem {
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
         Subject => $Article{Subject} || '',
+        Size => 0,
     );
 
     $Self->{LayoutObject}->Block(

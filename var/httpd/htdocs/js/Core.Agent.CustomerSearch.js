@@ -72,7 +72,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      */
     function GetCustomerTickets(CustomerUserID, CustomerID) {
         // check if customer tickets should be shown
-        if (!parseInt(Core.Config.Get('Autocomplete.ShowCustomerTickets'), 10)) {
+        if (!parseInt(Core.Config.Get('CustomerSearch.ShowCustomerTickets'), 10)) {
             return;
         }
 
@@ -169,11 +169,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     /**
      * @function
      * @param {jQueryObject} $Element The jQuery object of the input field with autocomplete
-     * @param {Boolean} ActiveAutoComplete Set to false, if autocomplete should only be started by click on a button next to the input field
      * @return nothing
      *      This function initializes the special module functions
      */
-    TargetNS.Init = function ($Element, ActiveAutoComplete) {
+    TargetNS.Init = function ($Element) {
         // get customer tickets for AgentTicketCustomer
         if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
             GetCustomerTickets($('#CustomerAutoComplete').val(), $('#CustomerID').val());
@@ -182,13 +181,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // get customer tickets for AgentTicketPhone and AgentTicketEmail
         if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketPhone') && $('#SelectedCustomerUser').val() !== '') {
             GetCustomerTickets($('#SelectedCustomerUser').val());
-        }
-
-        if (typeof ActiveAutoComplete === 'undefined') {
-            ActiveAutoComplete = true;
-        }
-        else {
-            ActiveAutoComplete = !!ActiveAutoComplete;
         }
 
         // just save the initial state of the customer info
@@ -206,87 +198,72 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                }
             });
 
-            $Element.autocomplete({
-                minLength: ActiveAutoComplete ? Core.Config.Get('Autocomplete.MinQueryLength') : 500,
-                delay: Core.Config.Get('Autocomplete.QueryDelay'),
-                source: function (Request, Response) {
-                    var URL = Core.Config.Get('Baselink'),
-                        Data = {
-                            Action: 'AgentCustomerSearch',
-                            Term: Request.term,
-                            MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
-                        };
+            Core.UI.Autocomplete.Init($Element, function (Request, Response) {
+                var URL = Core.Config.Get('Baselink'),
+                    Data = {
+                        Action: 'AgentCustomerSearch',
+                        Term: Request.term,
+                        MaxResults: Core.UI.Autocomplete.GetConfig('MaxResultsDisplayed')
+                    };
 
-                    // if an old ajax request is already running, stop the old request and start the new one
-                    if ($Element.data('AutoCompleteXHR')) {
-                        $Element.data('AutoCompleteXHR').abort();
-                        $Element.removeData('AutoCompleteXHR');
-                        // run the response function to hide the request animation
-                        Response({});
-                    }
-
-                    $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                        var Data = [];
-                        $Element.removeData('AutoCompleteXHR');
-                        $.each(Result, function () {
-                            Data.push({
-                                label: this.CustomerValue + " (" + this.CustomerKey + ")",
-                                // customer list representation (see CustomerUserListFields from Defaults.pm)
-                                value: this.CustomerValue,
-                                // customer user id
-                                key: this.CustomerKey
-                            });
+                $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
+                    var Data = [];
+                    $Element.removeData('AutoCompleteXHR');
+                    $.each(Result, function () {
+                        Data.push({
+                            label: this.CustomerValue + " (" + this.CustomerKey + ")",
+                            // customer list representation (see CustomerUserListFields from Defaults.pm)
+                            value: this.CustomerValue,
+                            // customer user id
+                            key: this.CustomerKey
                         });
-                        Response(Data);
-                    }));
-                },
-                select: function (Event, UI) {
-                    var CustomerKey = UI.item.key,
-                        CustomerValue = UI.item.value;
+                    });
+                    Response(Data);
+                }));
+            }, function (Event, UI) {
+                var CustomerKey = UI.item.key,
+                    CustomerValue = UI.item.value;
 
-                    BackupData.CustomerKey = CustomerKey;
-                    BackupData.CustomerEmail = CustomerValue;
+                BackupData.CustomerKey = CustomerKey;
+                BackupData.CustomerEmail = CustomerValue;
 
-                    if (Core.Config.Get('Action') === 'AgentBook') {
-                        $('#' + $(this).attr('id')).val(CustomerValue);
-                        return false;
-                    }
-
-                    $Element.val(CustomerValue);
-
-                    if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
-                        $Element.val('');
-                    }
-
-                    if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
-                        // set hidden field SelectedCustomerUser
-                        $('#SelectedCustomerUser').val(CustomerKey);
-
-                        // needed for AgentTicketCustomer.pm
-                        if ($('#CustomerUserID').length) {
-                            $('#CustomerUserID').val(CustomerKey);
-                            if ($('#CustomerUserOption').length) {
-                                $('#CustomerUserOption').val(CustomerKey);
-                            }
-                            else {
-                                $('<input type="hidden" name="CustomerUserOption" id="CustomerUserOption">').val(CustomerKey).appendTo($Element.closest('form'));
-                            }
-                        }
-
-                        // get customer tickets
-                        GetCustomerTickets(CustomerKey);
-
-                        // get customer data for customer info table
-                        GetCustomerInfo(CustomerKey);
-                    }
-                    else {
-                        TargetNS.AddTicketCustomer($(this).attr('id'), CustomerValue, CustomerKey);
-                    }
-
-                    Event.preventDefault();
+                if (Core.Config.Get('Action') === 'AgentBook') {
+                    $('#' + $(this).attr('id')).val(CustomerValue);
                     return false;
                 }
-            });
+
+                $Element.val(CustomerValue);
+
+                if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
+                    $Element.val('');
+                }
+
+                if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
+                    // set hidden field SelectedCustomerUser
+                    $('#SelectedCustomerUser').val(CustomerKey);
+
+                    // needed for AgentTicketCustomer.pm
+                    if ($('#CustomerUserID').length) {
+                        $('#CustomerUserID').val(CustomerKey);
+                        if ($('#CustomerUserOption').length) {
+                            $('#CustomerUserOption').val(CustomerKey);
+                        }
+                        else {
+                            $('<input type="hidden" name="CustomerUserOption" id="CustomerUserOption">').val(CustomerKey).appendTo($Element.closest('form'));
+                        }
+                    }
+
+                    // get customer tickets
+                    GetCustomerTickets(CustomerKey);
+
+                    // get customer data for customer info table
+                    GetCustomerInfo(CustomerKey);
+                }
+                else {
+                    console.log($(this));
+                    TargetNS.AddTicketCustomer($Element.attr('id'), CustomerValue, CustomerKey);
+                }
+            }, 'CustomerSearch');
 
             if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
                 $Element.blur(function () {
@@ -311,25 +288,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             else {
                 // initializes the customer fields
                 TargetNS.InitCustomerField();
-            }
-
-            // Special treatment for the new ticket masks only
-            if (Core.Config.Get('Action') === 'AgentTicketPhone' || Core.Config.Get('Action') === 'AgentTicketEmail') {
-
-                // If the field was already prefilled, but a customer user could not be found on the server side,
-                //  the auto complete should be fired to give the user a selection of possible matches to choose from.
-//                if (ActiveAutoComplete && $Element.val() && $Element.val().length && !$('#SelectedCustomerUser').val().length) {
-//                    $($Element).focus().autocomplete('search', $Element.val());
-//                }
-            }
-
-            if (!ActiveAutoComplete) {
-                $Element.after('<button id="' + $Element.attr('id') + 'Search" type="button">' + Core.Config.Get('Autocomplete.SearchButtonText') + '</button>');
-                $('#' + $Element.attr('id') + 'Search').click(function () {
-                    $Element.autocomplete("option", "minLength", 0);
-                    $Element.autocomplete("search");
-                    $Element.autocomplete("option", "minLength", 500);
-                });
             }
         }
 

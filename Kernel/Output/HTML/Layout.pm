@@ -1593,14 +1593,14 @@ sub Footer {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
 
     # get datepicker data, if needed in module
     if ($HasDatepicker) {
         my $VacationDays     = $Self->DatepickerGetVacationDays();
         my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays
+            Data => $VacationDays,
         );
 
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
@@ -1617,14 +1617,32 @@ sub Footer {
     # NewTicketInNewWindow
     if ( $Self->{ConfigObject}->Get('NewTicketInNewWindow::Enabled') ) {
         $Self->Block(
-            Name => 'NewTicketInNewWindow'
+            Name => 'NewTicketInNewWindow',
         );
     }
+
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
+
+    for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+        Data => $AutocompleteConfig,
+    );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
 
     # Banner
     if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
         $Self->Block(
-            Name => 'Banner'
+            Name => 'Banner',
         );
     }
 
@@ -2665,7 +2683,7 @@ sub PageNavBar {
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
-            my $BaselinkAllBack = $Baselink . "StartHit=" . ( $i - 1 ) * $Param{PageShown};
+            my $BaselinkAllBack = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
             my $BaselinkAllNext
                 = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
@@ -3517,6 +3535,24 @@ sub CustomerFooter {
         );
     }
 
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Customer');
+
+    for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+            Data => $AutocompleteConfig,
+        );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
+
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
 }
@@ -4034,17 +4070,22 @@ sub RichTextDocumentServe {
 
     # get charset and convert content to internal charset
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        my $Charset = $Param{Data}->{ContentType};
-        $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-        $Charset =~ s/"|'//g;
-        $Charset =~ s/(.+?);.*/$1/g;
+        my $Charset;
+        if ( $Param{Data}->{ContentType} =~ m/.+?charset=("|'|)(.+)/ig ) {
+            $Charset = $2;
+            $Charset =~ s/"|'//g;
+        }
+        if (!$Charset) {
+            $Charset = 'us-ascii';
+            $Param{Data}->{ContentType} .= '; charset="us-ascii"';
+        }
 
         # convert charset
         if ($Charset) {
             $Param{Data}->{Content} = $Self->{EncodeObject}->Convert(
                 Text => $Param{Data}->{Content},
                 From => $Charset,
-                To   => $Self->{UserCharset},
+                To   => 'utf-8',
             );
 
             # replace charset in content
@@ -5016,14 +5057,6 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
-    # HTMLQuote option
-    if ( $OptionRef->{HTMLQuote} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
-            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
-        }
-    }
-
     # SortReverse option
     if ( $OptionRef->{SortReverse} ) {
         @{$DataRef} = reverse( @{$DataRef} );
@@ -5051,6 +5084,14 @@ sub _BuildSelectionDataRefCreate {
             {
                 $Row->{Selected} = 1;
             }
+        }
+    }
+
+    # HTMLQuote option
+    if ( $OptionRef->{HTMLQuote} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
         }
     }
 

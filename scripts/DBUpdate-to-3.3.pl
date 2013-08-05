@@ -355,7 +355,7 @@ sub _UninstallMergedFeatureAddOns {
 
     my $PackageObject = Kernel::System::Package->new( %{$CommonObject} );
 
-    # qw( ) contains a list of the feture add-ons to uninstall
+    # qw( ) contains a list of the feature add-ons to uninstall
     for my $PackageName (
         qw(
         OTRSPostMasterFilterExtensions
@@ -371,6 +371,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSEventBasedTicketActions
         OTRSKeepFAQAttachments
         OTRSTicketAclEditor
+        OTRSCustomerProcessSelection
         )
         )
     {

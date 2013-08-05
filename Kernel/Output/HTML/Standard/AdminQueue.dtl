@@ -236,7 +236,7 @@
                         <div class="Clear"></div>
 
 <!-- dtl:block:OptionalField -->
-                        <label for="DefaultSignKey">$Text{"Default sign key"} <em>($QData{"Email","14"})</em>:</label>
+                        <label for="DefaultSignKey">$Text{"Default sign key"} <em>($QData{"Email"})</em>:</label>
                         <div class="Field">
                             $Data{"DefaultSignKeyOption"}
                         </div>

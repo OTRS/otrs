@@ -10,10 +10,10 @@
 <!-- dtl:block:DatabasePostgreSQL -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormDB" class="PreventMultipleSubmits">
-        <input type="hidden" name="Action"    value="Installer">
-        <input type="hidden" name="Subaction" value="DBCreate">
-        <input type="hidden" name="DBType"    value="postgresql">
-        <input type="hidden" name="InstallType" value="$QData{"InstallType"}">
+        <input type="hidden" name="Action"    value="Installer" />
+        <input type="hidden" name="Subaction" value="DBCreate" />
+        <input type="hidden" name="DBType"    value="postgresql" />
+        <input type="hidden" name="InstallType" value="$QData{"InstallType"}" />
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -24,64 +24,32 @@
                 <fieldset class="TableLike">
                     <label for="DBUser">$Text{"User"}:</label>
                     <div class="Field">
-                        <input type="text" id="DBUser" name="DBUser" class="W50pc" autocomplete="off">
+                        <input type="text" id="DBUser" name="DBUser" value="$QData{"DefaultDBUser"}" class="W50pc" autocomplete="off" />
                     </div>
                     <div class="Clear"></div>
 
                     <label for="DBPassword">$Text{"Password"}:</label>
                     <div class="Field">
-                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off">
+                        <input type="password" id="DBPassword" name="DBPassword" value="" class="W50pc" autocomplete="off" />
                     </div>
                     <div class="Clear"></div>
 
                     <label for="DBHost">$Text{"Host"}:</label>
                     <div class="Field">
-                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W50pc">
+                        <input type="text" id="DBHost" name="DBHost" value="$Config{"DatabaseHost"}" class="W50pc" />
                     </div>
                     <div class="Clear"></div>
+
+<!-- dtl:block:DatabasePostgreSQLUseExisting -->
+                    <label for="DBName">$Text{"Database name"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W50pc" />
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:DatabasePostgreSQLUseExisting -->
 
                     <div class="Field">
                         <button class="Primary" type="button" id="ButtonCheckDB">$Text{"Check database settings"}</button>
-                    </div>
-                    <div class="Clear"></div>
-                </fieldset>
-
-                <fieldset class="TableLike Hidden HideMe">
-                    <h4>
-                        $Text{"Database User"} ($Text{"New"})
-                    </h4>
-
-                    <label for="OTRSDBUser">$Text{"User"}:</label>
-                    <div class="Field">
-                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W50pc" autocomplete="off">
-                        <p class="FieldExplanation">
-                            $Text{"A new database user with limited rights will be created for this OTRS system."}
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="OTRSDBPassword">$Text{"Password"}:</label>
-                    <div class="Field">
-                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off">
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="RepeatOTRSDBPassword">$Text{"Repeat Password"}:</label>
-                    <div class="Field">
-                        <input type="password" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off">
-                        <p class="FieldExplanation">
-                            $Text{"Generated password"}: <span="Emphasis">$QData{"Password"}</span>
-                        </p>
-                    </div>
-                    <div class="Clear"></div>
-
-                    <h4>
-                        $Text{"Database"}
-                    </h4>
-
-                    <label for="DBName">$Text{"Name"}:</label>
-                    <div class="Field">
-                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W50pc">
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
@@ -95,6 +63,58 @@
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
+
+                <fieldset class="TableLike Hidden Success">
+                    <h4>$Text{"Result of database check"}</h4>
+
+                    <div class="Center Result">
+                        <p><img src="$Config{"Frontend::ImagePath"}/icons/tick.png" alt="$Text{"OK"}" />&nbsp;$Text{"Database check successful."}</p>
+                    </div>
+
+                    <div class="Clear"></div>
+                </fieldset>
+
+<!-- dtl:block:DatabasePostgreSQLCreate -->
+                <fieldset class="TableLike Hidden HideMe">
+                    <h4>
+                        $Text{"Database User"} ($Text{"New"})
+                    </h4>
+
+                    <label for="OTRSDBUser">$Text{"User"}:</label>
+                    <div class="Field">
+                        <input type="text" id="OTRSDBUser" name="OTRSDBUser" value="$Config{"DatabaseUser"}" class="W50pc" autocomplete="off" />
+                        <p class="FieldExplanation">
+                            $Text{"A new database user with limited permissions will be created for this OTRS system."}
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="OTRSDBPassword">$Text{"Password"}:</label>
+                    <div class="Field">
+                        <input type="password" id="OTRSDBPassword" name="OTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off" />
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="RepeatOTRSDBPassword">$Text{"Repeat Password"}:</label>
+                    <div class="Field">
+                        <input type="password" id="RepeatOTRSDBPassword" name="RepeatOTRSDBPassword" value="$QData{"Password"}" class="W50pc" autocomplete="off" />
+                        <p class="FieldExplanation">
+                            $Text{"Generated password"}: <span="Emphasis">$QData{"Password"}</span>
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <h4>
+                        $Text{"Database"}
+                    </h4>
+
+                    <label for="DBName">$Text{"Database name"}:</label>
+                    <div class="Field">
+                        <input type="text" id="DBName" name="DBName" value="$Config{"Database"}" class="W50pc" />
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+<!-- dtl:block:DatabasePostgreSQLCreate -->
 
                 <div class="Spacing Right">
                     <button type="button" id="ButtonBack">$Text{"Back"}</button>

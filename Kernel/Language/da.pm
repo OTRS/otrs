@@ -240,7 +240,7 @@ sub Data {
         'Configure Mail' => 'Konfigurer Mail',
         'Database deleted.' => 'Database slettet.',
         'Database setup successful!' => 'Database konfigureret!',
-        'Generated password' => '',
+        'Generated password' => 'Genereret password',
         'Login is needed!' => 'Login er påkrævet',
         'Password is needed!' => 'Adgangskode er påkrævet',
         'Take this Customer' => 'Tag denne kunde',
@@ -256,9 +256,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Sendes via mail til: felt.',
         'Dispatching by selected Queue.' => 'Sendes via den valgte kø.',
         'No entry found!' => 'Ingen post fundet',
-        'Session invalid. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'Ugyldig session. Log venligst ind igen.',
         'Session has timed out. Please log in again.' => 'Sessionens tidsfrist er udløbet. Vær venlig at logge ind igen.',
-        'Session limit reached! Please try again later.' => '',
+        'Session limit reached! Please try again later.' => 'Systemet kan ikke håndtere flere brugere nu. Prøv venligst igen senere.',
         'No Permission!' => 'Ingen tilladelse.',
         '(Click here to add)' => '(Klik her for at tilføje)',
         'Preview' => 'Vis udskrift',
@@ -270,22 +270,22 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Du har Out of Office aktiveret. Vil du deaktivere det?',
         'Customer %s added' => 'Kunde %s er tilføjet',
-        'Role added!' => 'Rolle tilføjet',
-        'Role updated!' => 'Rolle opdateret',
-        'Attachment added!' => 'Vedhæftet fil tilføjet',
-        'Attachment updated!' => 'Vedhæftet fil opdateret',
-        'Response added!' => 'Svar tilføjet',
-        'Response updated!' => 'Svar opdateret',
-        'Group updated!' => 'Gruppe opdateret',
-        'Queue added!' => 'Kø tilføjet',
-        'Queue updated!' => 'Kø opdateret',
-        'State added!' => 'Tilstand tilføjet',
-        'State updated!' => 'Tilstand opdateret',
-        'Type added!' => 'Type tilføjet',
-        'Type updated!' => 'Type opdateret',
-        'Customer updated!' => 'Kunde opdateret',
-        'Customer company added!' => '',
-        'Customer company updated!' => '',
+        'Role added!' => 'Rolle tilføjet.',
+        'Role updated!' => 'Rolle opdateret.',
+        'Attachment added!' => 'Vedhæftet fil tilføjet.',
+        'Attachment updated!' => 'Vedhæftet fil opdateret.',
+        'Response added!' => 'Svar tilføjet.',
+        'Response updated!' => 'Svar opdateret.',
+        'Group updated!' => 'Gruppe opdateret.',
+        'Queue added!' => 'Kø tilføjet.',
+        'Queue updated!' => 'Kø opdateret.',
+        'State added!' => 'Tilstand tilføjet.',
+        'State updated!' => 'Tilstand opdateret.',
+        'Type added!' => 'Type tilføjet.',
+        'Type updated!' => 'Type opdateret.',
+        'Customer updated!' => 'Kunde opdateret.',
+        'Customer company added!' => 'Kunde-firma tilføjet.',
+        'Customer company updated!' => 'Kunde-firma opdateret.',
         'Mail account added!' => 'Mail-konto tilføjet.',
         'Mail account updated!' => 'Mail-konto opdateret.',
         'System e-mail address added!' => 'System-mail-adresse tilføjet.',
@@ -349,7 +349,7 @@ sub Data {
         'more' => 'mere',
         'Collapse' => 'Sammenfold',
         'Shown' => 'Viste',
-        'Shown customer users' => '',
+        'Shown customer users' => 'Viste kunder',
         'News' => 'Nyheder',
         'Product News' => 'Produktnyheder',
         'OTRS News' => 'OTRS-nyheder',
@@ -357,9 +357,9 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             '',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'Pakken er ikke godtkendt af OTRS-gruppen! Det anbefales ikke af bruge denne pakke.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
+            'Hvis du fortsætter installationen af denne pakke, kan følgende opstå:<br><br>&nbsp;-Sikkerhedsproblemer<br>&nbsp;-Stabilitetsproblemer<br>&nbsp;-Performance-problemer<br><br>Vær opmærksom på at problemer opstået ved brug af denne pakke ikke af dækket af OTRS-servicekontrakter!<br>br>',
         'Bold' => 'Fed',
         'Italic' => 'Kursiv',
         'Underline' => 'Understreget',
@@ -394,8 +394,8 @@ sub Data {
         'New Year\'s Eve' => 'Nytårs aften',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
+        'OTRS as requester' => 'OTRS som requester',
+        'OTRS as provider' => 'OTRS som provider',
         'Webservice "%s" created!' => 'Webservice "%s" oprettet.',
         'Webservice "%s" updated!' => 'Webservice "%s" opdateret.',
 
@@ -496,11 +496,11 @@ sub Data {
         'extended' => 'udvidet',
         'Agent/Owner' => 'Agent/Ejer',
         'Created by Agent/Owner' => 'Oprettet af Agent/Ejer',
-        'Created Priority' => 'Oprettet prioritet',
-        'Created State' => 'Oprettet status',
-        'Create Time' => 'Oprettet tid',
+        'Created Priority' => 'Oprettet med prioritet',
+        'Created State' => 'Oprettet med status',
+        'Create Time' => 'Oprettet tidspunkt',
         'CustomerUserLogin' => 'KundeBrugerLogin',
-        'Close Time' => 'Sluttid',
+        'Close Time' => 'Lukket tidspunkt',
         'TicketAccumulation' => 'Sagsakkumulering',
         'Attributes to be printed' => 'Attributter til udskrift',
         'Sort sequence' => 'Sorteringsrækkefølge',
@@ -641,8 +641,8 @@ sub Data {
         '3 normal' => '3 normal',
         '4 high' => '4 høj',
         '5 very high' => '5 meget høj',
-        'auto follow up' => '',
-        'auto reject' => '',
+        'auto follow up' => 'automatisk opfølgning',
+        'auto reject' => 'automatisk afvisning',
         'auto remove' => '',
         'auto reply' => 'autosvar',
         'auto reply/new ticket' => 'autosvar/ny sag',
@@ -653,7 +653,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'Du har ikke rettigheder til at ændre denne sag.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Du skal eje denne sag for at udføre handlingen.',
-        'Please change the owner first.' => '',
+        'Please change the owner first.' => 'Skift venligst ejeren først.',
         'Ticket selected.' => 'Sag valgt.',
         'Ticket is locked by another agent.' => 'Sagen ejes af en anden agent.',
         'Ticket locked.' => 'Sag trukker.',
@@ -690,7 +690,7 @@ sub Data {
         'Show the ticket history' => 'Vis sagens historik',
         'Print this ticket' => 'Udskriv denne sag',
         'Print this article' => 'Udskriv dette indlæg',
-        'Split' => '',
+        'Split' => 'Opdel',
         'Split this article' => 'Opdel dette indlæg',
         'Forward article via mail' => 'Videresend indlæg via mail',
         'Change the ticket priority' => 'Ændr sagens prioritet',
@@ -860,9 +860,9 @@ sub Data {
         'Ticket responsible options' => 'Valgmuligheder for sagens ansvarlige',
         'Options of the current user who requested this action' => 'Valgmuligheder for den bruger, der udfører denne handling',
         'Options of the ticket data' => 'Valgmuligheder for sagens oplysninger',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Valgmuligheder for sagens dynamiske felters interne nøgleværdier',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Valgmuligheder for sagens dynamiske felters visningsværdier, brugbart for Dropdown- og Multiselect-felter',
         'Config options' => 'Konfigrationsvalgmuligheder',
         'Example response' => 'Eksempel på svar',
 
@@ -875,7 +875,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Administrer Kunde',
-        'Back to search results' => '',
+        'Back to search results' => 'Tilbage til søgeresultater',
         'Add customer' => 'Tilføj kunde',
         'Select' => 'Vælg',
         'Hint' => 'Tip',
@@ -884,7 +884,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Angiv søgeord for at lede efter kunder',
         'Last Login' => 'Sidste login',
         'Login as' => 'Login som',
-        'Switch to customer' => '',
+        'Switch to customer' => 'Skift til kunde',
         'Add Customer' => 'Tilføj kunde',
         'Edit Customer' => 'Rediger kunde',
         'This field is required and needs to be a valid email address.' =>
@@ -940,12 +940,12 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Administrer Dynamiske Felter',
-        'Add new field for object' => '',
+        'Add new field for object' => 'Tilføj nyt felt for objekt',
         'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '',
+            'For at tilføje et nyt felt, vælg felttype fra objektets liste. Objektet definerer afgrænsningen af feltet og det kan ikke ændres efter feltet er oprettet.',
         'Dynamic Fields List' => 'Liste over Dynamiske Felter',
         'Dynamic fields per page' => 'Dynamiske felter pr. side',
-        'Label' => '',
+        'Label' => 'Label',
         'Order' => 'Rækkefølge',
         'Object' => 'Objekt',
         'Delete this field' => 'Slet dette felt',
@@ -959,41 +959,41 @@ sub Data {
         'Go back to overview' => 'Gå tilbage til oversigt',
         'General' => 'Generelt',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            '',
+            'Dette felt er påkrævet og værdien skal kun bestå af bogstaver og tal.',
         'Must be unique and only accept alphabetic and numeric characters.' =>
-            '',
+            'Skal være unik og kun bogstaver og tal.',
         'Changing this value will require manual changes in the system.' =>
-            '',
+            'At ændre denne værdi vil kræve manuelle ændringer i systemet.',
         'This is the name to be shown on the screens where the field is active.' =>
-            '',
+            'Dette er navnet, der bliver vist på de skærmbilleder, hvor feltet er aktivt.',
         'Field order' => 'Feltrækkefølge',
         'This field is required and must be numeric.' => 'Dette felt er påkrævet og skal være numerisk.',
         'This is the order in which this field will be shown on the screens where is active.' =>
-            '',
+            'Dette er rækkefølgen som dette felt vil blive vist på skærmbilleder, hvor det er aktivt.',
         'Field type' => 'Felttype',
         'Object type' => 'Objekttype',
-        'Internal field' => '',
-        'This field is protected and can\'t be deleted.' => '',
+        'Internal field' => 'Internt felt',
+        'This field is protected and can\'t be deleted.' => 'Dette felt er beskyttet og kan ikke slettes.',
         'Field Settings' => 'Feltindstillinger',
         'Default value' => 'Standardværdi',
-        'This is the default value for this field.' => '',
+        'This is the default value for this field.' => 'Dette er standardværdien for dette felt.',
         'Save' => 'Gem',
 
         # Template: AdminDynamicFieldDateTime
-        'Default date difference' => '',
+        'Default date difference' => 'Standard dato-forskel',
         'This field must be numeric.' => 'Dette felt skal være numerisk.',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' =>
-            '',
-        'Define years period' => '',
+            'Forskellen fra NU (i sekunder) for at beregne feltets standardværdi (f.eks. 3600 eller -60).',
+        'Define years period' => 'Definer årsperiode',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '',
+            'Aktiver denne funktion for at definere en fast række af år (i fremtiden og i fortiden), der vises i års-delen af feltet.',
         'Years in the past' => 'År tilbage',
-        'Years in the past to display (default: 5 years).' => '',
+        'Years in the past to display (default: 5 years).' => 'År tilbage, der skal vises (standard: 5 år).',
         'Years in the future' => 'År frem',
-        'Years in the future to display (default: 5 years).' => '',
+        'Years in the future to display (default: 5 years).' => 'År frem, der skal vises (standard: 5 år).',
         'Show link' => 'Vis link',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            '',
+            'Her kan du angive et valgfrit HTTP-link for felt-værdien i oversigter og Zoom-skærmbilleder.',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Mulige værdier',
@@ -1003,23 +1003,23 @@ sub Data {
         'Add value' => 'Tilføj værdi',
         'Add Value' => 'Tilføj Værdi',
         'Add empty value' => 'Tilføj tom værdi',
-        'Activate this option to create an empty selectable value.' => '',
-        'Translatable values' => '',
+        'Activate this option to create an empty selectable value.' => 'Aktiver denne valgmulighed for at oprette en tom, valgbar værdi.',
+        'Translatable values' => 'Oversættelige værdier',
         'If you activate this option the values will be translated to the user defined language.' =>
-            '',
+            'Hvis du aktiverer denne valgmulighed, vil værdierne blive oversat til brugerens sprog.',
         'Note' => 'Note',
         'You need to add the translations manually into the language translation files.' =>
-            '',
+            'Du skal manuelt tilføje oversættelserne til oversættelses-filen.',
 
         # Template: AdminDynamicFieldMultiselect
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Antal rækker',
         'Specify the height (in lines) for this field in the edit mode.' =>
-            '',
+            'Angiv højden (i linier) for dette felt, når det redigeres.',
         'Number of cols' => 'Antal kolonner',
         'Specify the width (in characters) for this field in the edit mode.' =>
-            '',
+            'Angiv bredden (i tegn) for dette felt, når det redigeres.',
 
         # Template: AdminEmail
         'Admin Notification' => 'Besked til admin',
@@ -1104,7 +1104,7 @@ sub Data {
         'New customer ID' => 'Nyt kunde-ID',
         'New title' => 'Ny titel',
         'New type' => 'Ny type',
-        'New Dynamic Field Values' => '',
+        'New Dynamic Field Values' => 'Ny Dynamisk Felt-værdi',
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
@@ -1133,13 +1133,13 @@ sub Data {
         'GenericInterface Debugger for Web Service %s' => '',
         'Web Services' => '',
         'Debugger' => '',
-        'Go back to web service' => '',
-        'Clear' => '',
+        'Go back to web service' => 'Gå tilbage til web-service',
+        'Clear' => 'Tøm',
         'Do you really want to clear the debug log of this web service?' =>
-            '',
+            'Vil du virkelig tømme debug-loggen for denne web-service?',
         'Request List' => '',
         'Time' => 'Tid',
-        'Remote IP' => '',
+        'Remote IP' => 'Fjern-IP',
         'Loading' => 'Indlæser',
         'Select a single request to see its details.' => '',
         'Filter by type' => '',
@@ -1150,7 +1150,7 @@ sub Data {
         'Request Details' => '',
         'An error occurred during communication.' => 'En fejl skete under kommunikation.',
         'Show or hide the content' => 'Vis eller skjul indhold',
-        'Clear debug log' => '',
+        'Clear debug log' => 'Tøm debug-log',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '',
@@ -1168,14 +1168,14 @@ sub Data {
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
         'Mapping for outgoing request data' => '',
-        'Configure' => '',
+        'Configure' => 'Konfigurer',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
         'Mapping for incoming response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
             '',
         'Event Triggers' => '',
-        'Asynchronous' => '',
+        'Asynchronous' => 'Asynkron',
         'Delete this event' => '',
         'This invoker will be triggered by the configured events.' => '',
         'Do you really want to delete this event trigger?' => '',
@@ -1186,8 +1186,8 @@ sub Data {
             '',
         'Synchronous event triggers would be processed directly during the web request.' =>
             '',
-        'Save and continue' => '',
-        'Save and finish' => '',
+        'Save and continue' => 'Gem og fortsæt',
+        'Save and finish' => 'Gem og afslut',
         'Delete this Invoker' => '',
         'Delete this Event Trigger' => '',
 
@@ -1240,7 +1240,7 @@ sub Data {
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
         'Network transport' => '',
-        'Properties' => '',
+        'Properties' => 'Egenskaber',
         'Endpoint' => '',
         'URI to indicate a specific location for accessing a service.' =>
             '',
@@ -1294,19 +1294,19 @@ sub Data {
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => '',
-        'Add web service' => '',
-        'Clone web service' => '',
-        'The name must be unique.' => '',
-        'Clone' => '',
-        'Export web service' => '',
-        'Import web service' => '',
-        'Configuration File' => '',
+        'Add web service' => 'Tilføj web-service',
+        'Clone web service' => 'Klon web-service',
+        'The name must be unique.' => 'Navnet skal være unikt.',
+        'Clone' => 'Klon',
+        'Export web service' => 'Eksporter web-service',
+        'Import web service' => 'Importer web-service',
+        'Configuration File' => 'Konfigurationsfil',
         'The file must be a valid web service configuration YAML file.' =>
             '',
         'Import' => 'Importer',
-        'Configuration history' => '',
-        'Delete web service' => '',
-        'Do you really want to delete this web service?' => '',
+        'Configuration history' => 'Konfigurationshistorie',
+        'Delete web service' => 'Slet web-service',
+        'Do you really want to delete this web service?' => 'Vil du virkelig slette denne web-service?',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1315,7 +1315,7 @@ sub Data {
         'Remote system' => '',
         'Provider transport' => '',
         'Requester transport' => '',
-        'Details' => '',
+        'Details' => 'Detaljer',
         'Debug threshold' => '',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
             '',
@@ -1339,7 +1339,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => '',
-        'Go back to Web Service' => '',
+        'Go back to Web Service' => 'Gå tilbage til web-service',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
             '',
         'Configuration History List' => '',
@@ -1352,7 +1352,7 @@ sub Data {
             '',
         'Your current web service configuration will be overwritten.' => '',
         'Show or hide the content.' => '',
-        'Restore' => '',
+        'Restore' => 'Gendan',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -1419,7 +1419,7 @@ sub Data {
         'Recipient email addresses' => 'Modtageres mail-adresser',
         'Article type' => 'Indlægstype',
         'Only for ArticleCreate event' => 'Kun ved ArticleCreate-hændelse (oprettelse af indlæg)',
-        'Article sender type' => '',
+        'Article sender type' => 'Indlægs-afsendertype',
         'Subject match' => 'Match emne',
         'Body match' => 'Match brødtekst',
         'Include attachments to notification' => 'Inkluder vedhæftninger til beskeden',
@@ -1462,7 +1462,7 @@ sub Data {
         'Install Package' => 'Installer pakke',
         'Update repository information' => 'Opdater information i repositoriet',
         'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            '',
+            'Fandt du ikke den ønskede funktionalitet? OTRS Group tilbyder deres servicekontrakt-kunder eksklusive tilføjelser:',
         'Online Repository' => 'Online lagerdepot',
         'Vendor' => 'Leverandør',
         'Module documentation' => 'Modul-dokumentation',
@@ -1470,7 +1470,7 @@ sub Data {
         'Local Repository' => 'Lokalt lagerdepot',
         'Uninstall' => 'Afinstaller',
         'Reinstall' => 'Geninstaller',
-        'Feature Add-Ons' => '',
+        'Feature Add-Ons' => 'Funktionstilføjelser',
         'Download package' => 'Download pakke',
         'Rebuild package' => 'Genopbyg pakke',
         'Metadata' => 'Metadata',
@@ -1552,19 +1552,19 @@ sub Data {
             '',
         'Processes' => '',
         'Process name' => '',
-        'Copy' => '',
+        'Copy' => 'Kopier',
         'Print' => 'Udskriv',
         'Export Process Configuration' => '',
-        'Copy Process' => '',
+        'Copy Process' => 'Kopier proces',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Afbryd og luk vindue',
-        'Go Back' => '',
+        'Go Back' => 'Gå tilbage',
         'Please note, that changing this activity will affect the following processes' =>
             '',
-        'Activity' => '',
-        'Activity Name' => '',
-        'Activity Dialogs' => '',
+        'Activity' => 'Aktivitet',
+        'Activity Name' => 'Aktivitetsnavn',
+        'Activity Dialogs' => 'Aktivitetsdialoger',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
@@ -1602,7 +1602,7 @@ sub Data {
         'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
-        'Path' => '',
+        'Path' => 'Sti',
         'Edit this transition' => '',
         'Transition Actions' => '',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
@@ -1832,25 +1832,25 @@ sub Data {
         'Filter for certificates' => 'Filter for certifikater',
         'Filter for SMIME certs' => 'Filter for SMIME-certifikater',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            '',
+            'Her kan du tilføje relationer til dit private certifikat. Disse vil blive lagt ind i SMIME-signaturen hver gang du bruger dette certifikat til at signere en mail.',
         'See also' => 'Se også',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Du kan på denne måde direkte redigere certificeringsnøgler og private nøgler i filsystemet.',
         'Hash' => 'Hash',
         'Create' => 'Opret',
-        'Handle related certificates' => '',
-        'Read certificate' => '',
+        'Handle related certificates' => 'Håndter relaterede certifikater',
+        'Read certificate' => 'Læs certifikat',
         'Delete this certificate' => 'Slet dette certifikat',
         'Add Certificate' => 'Tilføj certifikat',
         'Add Private Key' => 'Tilføj privat nøgle',
         'Secret' => 'Hemmelig',
-        'Related Certificates for' => '',
-        'Delete this relation' => '',
+        'Related Certificates for' => 'Relaterede certifikater for',
+        'Delete this relation' => 'Slet denne relation',
         'Available Certificates' => 'Tilgængelige Certifikater',
-        'Relate this certificate' => '',
+        'Relate this certificate' => 'Relater dette certifikat',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => '',
+        'SMIME Certificate' => 'SMIME-certifikat',
         'Close window' => 'Luk vindue',
 
         # Template: AdminSalutation
@@ -1915,7 +1915,7 @@ sub Data {
         # Template: AdminState
         'State Management' => 'Administrer Tilstande',
         'Add state' => 'Tilføj tilstand',
-        'Please also update the states in SysConfig where needed.' => '',
+        'Please also update the states in SysConfig where needed.' => 'Husk også at opdatere tilstandene i SysConfig, hvor der er behov for det.',
         'Add State' => 'Tilføj tilstand',
         'Edit State' => 'Rediger tilstand',
         'State type' => 'Tilstandstype',
@@ -2019,19 +2019,19 @@ sub Data {
         'Apply' => 'Opdater',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'Kundeinformations-center',
 
         # Template: AgentCustomerInformationCenterBlank
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'Kunde-ID',
-        'Customer User' => '',
+        'Customer User' => 'Kunde',
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Søg kunde',
         'Duplicated entry' => 'Dublet',
         'This address already exists on the address list.' => 'Denne adresse eksisterer allerede i adresselisten.',
-        'It is going to be deleted from the field, please try again.' => '',
+        'It is going to be deleted from the field, please try again.' => 'Det vil blive slettet fra feltet. Prøv venligst igen.',
 
         # Template: AgentCustomerTableView
 
@@ -2044,16 +2044,16 @@ sub Data {
         # Template: AgentDashboardCustomerCompanyInformation
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'Eskalerede sager',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer information' => '',
-        'Phone ticket' => '',
-        'Email ticket' => '',
-        '%s open ticket(s) of %s' => '',
-        '%s closed ticket(s) of %s' => '',
-        'New phone ticket from %s' => '',
-        'New email ticket to %s' => '',
+        'Customer information' => 'Kundeinformation',
+        'Phone ticket' => 'Sager',
+        'Email ticket' => 'Mail-sager',
+        '%s open ticket(s) of %s' => '%s åbne sager af %s',
+        '%s closed ticket(s) of %s' => '%s lukkede sager af %s',
+        'New phone ticket from %s' => 'Nye sager fra %s',
+        'New email ticket to %s' => 'Nye mail-sager til %s',
 
         # Template: AgentDashboardIFrame
 
@@ -2077,10 +2077,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'ude af kontoret',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'til',
 
         # Template: AgentHTMLReferenceForms
 
@@ -2145,9 +2145,9 @@ sub Data {
         'Please contact your administrator.' => 'Kontakt din administrator.',
         'Graph size' => 'Grafstørrelse',
         'If you use a graph as output format you have to select at least one graph size.' =>
-            'iHvis du bruger en graf som output format skal du vælge mindst en graf størrelse',
-        'Sum rows' => 'Antal rækker',
-        'Sum columns' => 'Antal Kollonner',
+            'Hvis du bruger en graf som output format skal du vælge mindst en graf størrelse',
+        'Sum rows' => 'Summér rækker',
+        'Sum columns' => 'Summér Kolonner',
         'Use cache' => 'Brug cache',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'De fleste statistikker kan blive cachet, det vil gøre præsentationen hurtigere',
@@ -2252,7 +2252,7 @@ sub Data {
         'Remove Cc' => 'Fjern Cc',
         'Remove Bcc' => 'Fjern Bcc',
         'Address book' => 'Adressebog',
-        'Pending Date' => 'Afventer dato',
+        'Pending Date' => 'Afventer til dato',
         'for pending* states' => 'for afventende tilstande',
         'Date Invalid!' => 'Ugyldig dato!',
 
@@ -2386,13 +2386,13 @@ sub Data {
         'Article Type' => 'Indlægstype',
         'Sender Type' => 'Afsendertype',
         'Save filter settings as default' => 'Gem disse filterinstillinger som standard',
-        'Archive' => '',
-        'This ticket is archived.' => '',
+        'Archive' => 'Arkiver',
+        'This ticket is archived.' => 'Denne sag er arkiveret',
         'Linked Objects' => 'Sammenkædede objekter',
         'Article(s)' => 'Indlæg',
         'Change Queue' => 'Skift kø',
         'There are no dialogs available at this point in the process.' =>
-            '',
+            'Der er ingen dialoger tilgængelige på dette sted i processen.',
         'This item has no articles yet.' => '',
         'Article Filter' => 'Filtrer indlæg',
         'Add Filter' => 'Tilføj filter',
@@ -2409,7 +2409,7 @@ sub Data {
         'Resize' => 'Ændr størrelse',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => '',
+        'To protect your privacy, remote content was blocked.' => 'For at beskytte dit privatliv blev fjernindhold blokeret.',
         'Load blocked content.' => 'Vis blokeret indhold',
 
         # Template: Copyright
@@ -2486,7 +2486,7 @@ sub Data {
         'Recipient' => 'Modtager',
         'Carbon Copy' => 'Cc',
         'Time restrictions' => 'Tidsbegrænsninger',
-        'No time settings' => '',
+        'No time settings' => 'Ingen tidsindstillinger',
         'Only tickets created' => 'Kun sager oprettet',
         'Only tickets created between' => 'Kun sager oprettet mellem',
         'Ticket archive system' => 'Sagsarkivet',
@@ -2507,10 +2507,10 @@ sub Data {
         'Search Results for' => 'Søgeresultater for',
 
         # Template: CustomerTicketZoom
-        'Show  article' => '',
+        'Show article' => 'Vis indlæg',
         'Expand article' => 'Fold indlæg ud',
-        'Information' => '',
-        'Next Steps' => '',
+        'Information' => 'Information',
+        'Next Steps' => 'Næste skridt',
         'Reply' => 'Svar',
 
         # Template: CustomerWarning
@@ -2551,7 +2551,7 @@ sub Data {
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Et pop-up vindue med dette billede er allerede åbent. Vil du lukke det og åbne denne i stedet?',
         'Please enter at least one search value or * to find anything.' =>
-            '',
+            'Angiv venligst mindst ét søgeord eller * for at finde alt.',
 
         # Template: FooterSmall
 
@@ -2560,7 +2560,7 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
+        'Fulltext search' => 'Fuldtekst-søgning',
         'CustomerID Search' => '',
         'CustomerUser Search' => '',
         'You are logged in as' => 'Du er logget ind som',
@@ -2618,7 +2618,7 @@ sub Data {
             'Hvis du vil installere OTRS på en anden database-type, tjek venligst filen README.database.',
         'Database-User' => 'Database-bruger',
         'New' => 'Ny',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'En ny database-bruger med begrænsede rettigheder vil blive oprettet til dette OTRS-system.',
         'default \'hot\'' => 'standard \'hot\'',
         'DB host' => 'DB--- server',
@@ -2904,10 +2904,10 @@ sub Data {
         'Create new phone ticket (inbound)' => 'Opret ny sag',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Tekst til den side, der vises til kunder, der endnu ikke har nogen sager.',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
-        'Customer User Administration' => '',
-        'Customer Users' => '',
+        'Customer Company Administration' => 'Kunde-Firma-administration',
+        'Customer Company Information' => 'Kunde-Firma-information',
+        'Customer User Administration' => 'Kunde-administration',
+        'Customer Users' => 'Kunder',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3526,13 +3526,13 @@ sub Data {
         'Dynamic Fields Drop-down Backend GUI' => '',
         'Dynamic Fields GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => '',
-        'Dynamic Fields Overview Limit' => '',
+        'Dynamic Fields Overview Limit' => 'Dynamiske Felter oversigtsgrænse',
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => '',
+        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Antal dynamiske felter pr side for oversigter med dynamiske felter',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
@@ -3914,7 +3914,7 @@ sub Data {
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => '',
-        'Overview Refresh Time' => '',
+        'Overview Refresh Time' => 'Genopfrisk oversigt',
         'Overview of all open Tickets.' => 'Oversigt over alle åbne sager.',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
@@ -3989,7 +3989,7 @@ sub Data {
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Køer',
-        'Refresh Overviews after' => '',
+        'Refresh Overviews after' => 'Genopfrisk oversigter efter x minutter',
         'Refresh interval' => 'Opdateringsfrekvens',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
@@ -4558,6 +4558,15 @@ sub Data {
         'Please supply a last name' => 'Indtast venligst dit efternavn',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
+            
+        #
+        # VARIOUS BITS NOT FOUND ELSEWHERE
+        #
+        'Room' => 'Kontor',
+        'Department' => 'Afdeling',
+        'Manager' => 'Leder',
+        'Out Of Office' => 'Ude af Kontoret',
+        'Online' => 'Logget ind',
 
     };
     # $$STOP$$

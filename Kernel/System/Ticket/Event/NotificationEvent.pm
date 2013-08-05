@@ -142,6 +142,13 @@ sub Run {
 
                     next if !$DynamicFieldConfig;
 
+                    my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Behavior           => 'IsNotificationEventCondition',
+                    );
+
+                    next if !$IsNotificationEventCondition;
+
                     $Match = $Self->{BackendObject}->ObjectMatch(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Value,
@@ -324,7 +331,7 @@ sub _SendNotificationToRecipients {
                     )
                 {
                     $Self->{LogObject}->Log(
-                        Priority => 'notice',
+                        Priority => 'info',
                         Message  => 'Send no customer notification because no customer is set!',
                     );
                     next RECIPIENT;
@@ -337,7 +344,7 @@ sub _SendNotificationToRecipients {
                     );
                     if ( !$CustomerUser{UserEmail} ) {
                         $Self->{LogObject}->Log(
-                            Priority => 'notice',
+                            Priority => 'info',
                             Message  => "Send no customer notification because of missing "
                                 . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
                         );
@@ -827,7 +834,7 @@ sub _SendNotification {
 
         # log event
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent agent '$Notification{Name}' notification to '$Recipient{Email}'.",
         );
 
@@ -872,7 +879,7 @@ sub _SendNotification {
 
         # log event
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent customer '$Notification{Name}' notification to '$Recipient{Email}'.",
         );
 

@@ -141,7 +141,7 @@ my $CheckAction = sub {
                 if ( $Seconds == $Param{SleepAfterAction} ) {
                     $Self->True(
                         0,
-                        "$Name timeout wating for $Seconds seconds state is $IntStateAfter!",
+                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
                     );
                 }
             }
@@ -192,11 +192,11 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
 # special case where scheduler is not running but PID is registered
 if ( $PreviousSchedulerStatus =~ m{registered}i ) {
 
-    # force stop direcly before CheckAction
+    # force stop directly before CheckAction
     my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
     $Self->True(
         1,
-        "Force stoping due to bad status...",
+        "Force stopping due to bad status...",
     );
 
     $Self->Is(
@@ -326,7 +326,7 @@ $CheckAction->(
 
 my %PIDInfo1 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
-# this sleep is needed just to test that scheduler is still runing and not self-restart on a short
+# this sleep is needed just to test that scheduler is still running and not self-restart on a short
 # wait
 print "Sleeping 2s\n";
 sleep 2;
@@ -392,7 +392,7 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
-# set new configuration so shceduler will not be auto-restarted anymore during the test
+# set new configuration so scheduler will not be auto-restarted during the test
 $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',

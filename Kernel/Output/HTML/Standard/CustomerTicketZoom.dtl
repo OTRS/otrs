@@ -21,8 +21,7 @@
 <!-- dtl:block:PriorityFlag -->
                 <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
 <!-- dtl:block:PriorityFlag -->
-                $QData{"Title","65"}
-                <span class="TicketHook">$QData{"TicketNumber"}</span>
+                $QData{"Title"}
             </h2>
             <ul id="TicketOptions">
 
@@ -32,7 +31,7 @@
 
 <!-- dtl:block:Expand -->
                 <li>
-                    <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"};ZoomExpand=$LQData{"ZoomExpand"}" class="ZoomExpand$Data{"ExpandOption"}" title="$Text{"Show $Data{"ExpandText"} article$Data{"ExpandPlural"}"}">$Text{"Show $Data{"ExpandText"} article$Data{"ExpandPlural"}"}</a>
+                    <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"};ZoomExpand=$LQData{"ZoomExpand"}" class="ZoomExpand$Data{"ExpandOption"}"} title="$Text{"$Data{"ExpandText"}"}">$Text{"$Data{"ExpandText"}"}</a>
                     <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="$QData{"ZoomExpand"}" />
                 </li>
 <!-- dtl:block:Expand -->
@@ -51,11 +50,11 @@
                     <div class="MessageHeader">
 
 <!-- dtl:block:ArticleContracted -->
-                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$Text{"Expand article"}...">$QData{"Subject","120"}</span></a></h3>
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname"} &ndash; <span title="$Text{"Expand article"}...">$QData{"Subject"}</span></a></h3>
 <!-- dtl:block:ArticleContracted -->
 
 <!-- dtl:block:ArticleExpanded -->
-                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$QData{"Subject"}">$QData{"Subject","120"}</span></a></h3>
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname"} &ndash; <span title="$QData{"Subject"}">$QData{"Subject"}</span></a></h3>
 <!-- dtl:block:ArticleExpanded -->
 
                         <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
@@ -66,12 +65,12 @@
                         <div class="Details SeperatorRow">
 <!-- dtl:block:ArticleRow -->
                             <div>
-                                <div class="Label">$Text{"$Data{"Key"}"}:</div> <span title="$QData{"Value"}">$QData{"Realname","100"}</span>
+                                <div class="Label">$Text{"$Data{"Key"}"}:</div> <span title="$QData{"Value"}">$QData{"Realname"}</span>
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleRow -->
                             <div>
-                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","150"}</span>
+                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject"}</span>
                                 <div class="Clear"></div>
                             </div>
 
@@ -157,9 +156,10 @@
                             <div class="Clear"></div>
                         </div>
                     </li>
+                    <li><span class="Key">$Config{"Ticket::Hook"}:</span> <span>$QData{"TicketNumber"}</span>
 
 <!-- dtl:block:Type -->
-                    <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
+                    <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type"}</span></li>
 <!-- dtl:block:Type -->
 <!-- dtl:block:Service -->
                     <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}"}</span></li>
@@ -174,7 +174,7 @@
                     <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}"}</span></li>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:Queue -->
-                    <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
+                    <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue"}</span></li>
 <!-- dtl:block:Queue -->
 <!-- dtl:block:Owner -->
                     <li><span class="Key">$Text{"Owner"}:</span> $QData{"OwnerName"}</li>

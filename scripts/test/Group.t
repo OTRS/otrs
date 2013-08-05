@@ -29,10 +29,6 @@ my $GroupObject = Kernel::System::Group->new(
 );
 
 # add three users
-my $UserRand1 = 'example-user' . int( rand(1000000) );
-my $UserRand2 = 'example-user' . int( rand(1000000) );
-my $UserRand3 = 'example-user' . int( rand(1000000) );
-
 my $UserLogin1 = $HelperObject->TestUserCreate();
 my $UserLogin2 = $HelperObject->TestUserCreate();
 my $UserLogin3 = $HelperObject->TestUserCreate();

@@ -2617,7 +2617,7 @@ sub Data {
             'Jeigu OTRS diegimui norite naudoti kitokį duombazės tipą skaitykite failą README.database',
         'Database-User' => 'Duomenų bazės naudotojas',
         'New' => 'Naujas',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų bazės naudotojas.',
         'default \'hot\'' => 'standartiškai \'hot\'',
         'DB host' => 'Duomenų bazės serveris',

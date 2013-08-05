@@ -23,6 +23,7 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::DynamicField;
 use Kernel::System::UnitTest::Helper;
+use Kernel::System::User;
 
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
@@ -33,6 +34,12 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
+
+# user object
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # add or update dynamic fields if needed
 my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
@@ -135,6 +142,10 @@ my %NeededXHeaders = (
     'X-OTRS-TicketTime4'                  => 1,
     'X-OTRS-TicketTime5'                  => 1,
     'X-OTRS-TicketTime6'                  => 1,
+    'X-OTRS-Owner'                        => 1,
+    'X-OTRS-OwnerID'                      => 1,
+    'X-OTRS-Responsible'                  => 1,
+    'X-OTRS-ResponsibleID'                => 1,
 );
 
 my $XHeaders          = $ConfigObject->Get('PostmasterX-Header');
@@ -903,6 +914,89 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
         $FieldDelete,
         "Deleted dynamic field with id $DynamicFieldID.",
     );
+}
+
+# test X-OTRS-(Owner|Responsible)
+my $Login = $HelperObject->TestUserCreate();
+my $UserID = $UserObject->UserLookup( UserLogin => $Login );
+
+my %OwnerResponsibleTests = (
+    Owner => {
+        File  => 'Owner',
+        Check => {
+            Owner => $Login,
+        },
+    },
+    OwnerID => {
+        File  => 'OwnerID',
+        Check => {
+            OwnerID => $UserID,
+        },
+    },
+    Responsible => {
+        File  => 'Responsible',
+        Check => {
+            Responsible => $Login,
+        },
+    },
+    ResponsibleID => {
+        File  => 'ResponsibleID',
+        Check => {
+            ResponsibleID => $UserID,
+        },
+    },
+);
+
+for my $Test ( keys %OwnerResponsibleTests ) {
+    my $FileSuffix = $OwnerResponsibleTests{$Test}->{File};
+    my $Location   = $ConfigObject->Get('Home')
+        . "/scripts/test/sample/PostMaster/PostMaster-Test-$FileSuffix.box";
+    my $ContentRef = $Self->{MainObject}->FileRead(
+        Location => $Location,
+        Mode     => 'binmode',
+        Result   => 'ARRAY',
+    );
+
+    for my $Line ( @{$ContentRef} ) {
+        $Line =~ s{ ^ (X-OTRS-(?:Owner|Responsible):) .*? $ }{$1$Login}x;
+        $Line =~ s{ ^ (X-OTRS-(?:Owner|Responsible)ID:) .*? $ }{$1$UserID}x;
+    }
+
+    my $PostMasterObject = Kernel::System::PostMaster->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+        Email        => $ContentRef,
+    );
+
+    my @Return = $PostMasterObject->Run();
+
+    $Self->Is(
+        $Return[0] || 0,
+        1,
+        $Test . ' Run() - NewTicket',
+    );
+
+    $Self->True(
+        $Return[1],
+        $Test . ' Run() - NewTicket/TicketID',
+    );
+
+    my $TicketObject = Kernel::System::Ticket->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID      => $Return[1],
+        DynamicFields => 0,
+    );
+
+    for my $Field ( keys %{ $OwnerResponsibleTests{$Test}->{Check} } ) {
+        $Self->Is(
+            $Ticket{$Field},
+            $OwnerResponsibleTests{$Test}->{Check}->{$Field},
+            $Test . ' Check Field - ' . $Field,
+        );
+    }
 }
 
 1;

@@ -211,13 +211,18 @@
     width: 16.67%;
     padding: 0 10px 5px 10px;
     overflow: hidden;
-    border-left: 1px dotted #CCC;
     line-height: 16px;
-}
-
-.OverviewMedium table.Infos td {
     border-left: none;
     border-right: 1px dotted #CCC;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.OverviewMedium table.Infos td > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .OverviewMedium table.Infos td.Last {

@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
+use Kernel::System::User;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +36,7 @@ sub new {
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
+    $Self->{UserObject}         = Kernel::System::User->new(%Param);
 
     return $Self;
 }
@@ -164,6 +166,23 @@ sub Run {
         $GetParam{'X-OTRS-CustomerUser'} = $GetParam{SenderEmailAddress};
     }
 
+    # get ticket owner
+    my $OwnerID = $GetParam{'X-OTRS-OwnerID'} || $Param{InmailUserID};
+    if ( $GetParam{'X-OTRS-Owner'} ) {
+        my $TmpOwnerID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Owner'} );
+        $OwnerID       = $TmpOwnerID if $TmpOwnerID;
+    }
+
+    my %Opts;
+    if ( $GetParam{'X-OTRS-ResponsibleID'} ) {
+        $Opts{ResponsibleID} = $GetParam{'X-OTRS-ResponsibleID'};
+    }
+
+    if ( $GetParam{'X-OTRS-Responsible'} ) {
+        my $TmpResponsibleID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
+        $Opts{ResponsibleID}  = $TmpResponsibleID if $TmpResponsibleID;
+    }
+
     # create new ticket
     my $NewTn    = $Self->{TicketObject}->TicketCreateNumber();
     my $TicketID = $Self->{TicketObject}->TicketCreate(
@@ -178,8 +197,9 @@ sub Run {
         SLA          => $GetParam{'X-OTRS-SLA'} || '',
         CustomerID   => $GetParam{'X-OTRS-CustomerNo'},
         CustomerUser => $GetParam{'X-OTRS-CustomerUser'},
-        OwnerID      => $Param{InmailUserID},
+        OwnerID      => $OwnerID,
         UserID       => $Param{InmailUserID},
+        %Opts,
     );
 
     if ( !$TicketID ) {

@@ -1,0 +1,13 @@
+# --
+# CustomerTicketProcessNavigationBar.dtl - to show or hide CustomerTicketProcess menu item
+# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('a:contains("$QData{"NameForHidden"}")').parent().addClass('Hidden');
+//]]></script>
+<!-- dtl:js_on_document_complete -->

@@ -96,7 +96,7 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
         `$Scheduler -a stop -f 1`;
         $Self->True(
             1,
-            "Force stoping due to bad status...",
+            "Force stopping due to bad status...",
         );
 
         # Wait for slow systems

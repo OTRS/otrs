@@ -10,7 +10,7 @@
 <!-- dtl:block:DatabaseResult -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" class="PreventMultipleSubmits">
-        <input type="hidden" name="Action" value="Installer">
+        <input type="hidden" name="Action" value="Installer" />
 
         <div class="WidgetSimple">
             <div class="Header">

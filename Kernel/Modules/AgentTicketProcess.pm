@@ -273,6 +273,18 @@ sub Run {
         );
     }
 
+    # validate the ProcessList with stored acls
+    $Self->{TicketObject}->TicketAcl(
+        ReturnType    => 'Ticket',
+        ReturnSubType => '-',
+        Data          => $ProcessList,
+        UserID        => $Self->{UserID},
+    );
+
+    $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+        Processes => $ProcessList,
+    );
+
     # set AJAXDialog for proper error responses and screen display
     $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
 
@@ -468,9 +480,12 @@ sub _RenderAjax {
                 = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             next DIALOGFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DIALOGFIELD if !$Self->{BackendObject}->IsAJAXUpdateable(
+
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
+            next DIALOGFIELD if !$IsACLReducible;
 
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -647,6 +662,14 @@ sub _RenderAjax {
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'SLAID' ) {
             next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+
+            # if SLA is render before service (by it order in the fields) it needs to create
+            # the service list
+            if ( !IsHashRefWithData($Services) ) {
+                $Services = $Self->_GetServices(
+                    %{ $Param{GetParam} },
+                );
+            }
 
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
@@ -2077,39 +2100,47 @@ sub _RenderDynamicField {
 
     my $PossibleValuesFilter;
 
-    # get PossibleValues
-    my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+    my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,
+        Behavior           => 'IsACLReducible',
     );
 
-    # All Ticket DynamicFields
-    # used for ACL checking
-    my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-        grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
+    if ($IsACLReducible) {
 
-    # check if field has PossibleValues property in its configuration
-    if ( IsHashRefWithData($PossibleValues) ) {
-
-        # convert possible values key => value to key => key for ACLs usign a Hash slice
-        my %AclData = %{$PossibleValues};
-        @AclData{ keys %AclData } = keys %AclData;
-
-        # set possible values filter from ACLs
-        my $ACL = $Self->{TicketObject}->TicketAcl(
-            %{ $Param{GetParam} },
-            DynamicField  => \%DynamicFieldCheckParam,
-            Action        => $Self->{Action},
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data          => \%AclData,
-            UserID        => $Self->{UserID},
+        # get PossibleValues
+        my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
         );
-        if ($ACL) {
-            my %Filter = $Self->{TicketObject}->TicketAclData();
 
-            # convert Filer key => key back to key => value using map
-            %{$PossibleValuesFilter}
-                = map { $_ => $PossibleValues->{$_} } keys %Filter;
+        # All Ticket DynamicFields
+        # used for ACL checking
+        my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
+            grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
+
+        # check if field has PossibleValues property in its configuration
+        if ( IsHashRefWithData($PossibleValues) ) {
+
+            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            my %AclData = %{$PossibleValues};
+            @AclData{ keys %AclData } = keys %AclData;
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                %{ $Param{GetParam} },
+                DynamicField  => \%DynamicFieldCheckParam,
+                Action        => $Self->{Action},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => \%AclData,
+                UserID        => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+
+                # convert Filer key => key back to key => value using map
+                %{$PossibleValuesFilter}
+                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+            }
         }
     }
 
@@ -2389,9 +2420,6 @@ sub _RenderCustomer {
         };
     }
 
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
-
     my %CustomerUserData = ();
 
     my $SubmittedCustomerUserID = $Param{GetParam}{CustomerUserID};
@@ -2422,12 +2450,6 @@ sub _RenderCustomer {
     # set some customer search autocomplete properties
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
-        Data => {
-            minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 100,
-            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-        },
     );
 
     if (
@@ -5141,13 +5163,13 @@ sub _GetAJAXUpdatableFields {
             # skip any field with wrong config
             next FIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # get field update status
-            my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            # skip field if is not IsACLReducible (updatable)
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
+            next FIELD if !$IsACLReducible;
 
-            # skip field if is not updatable
-            next FIELD if !$Updateable;
 
             push @UpdatableFields, $Field;
         }

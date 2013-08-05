@@ -2621,7 +2621,7 @@ sub Data {
             'Se você quiser instalar o OTRS em outro tipo de banco de dados, consulte o arquivo README.database.',
         'Database-User' => 'Usuário do Banco',
         'New' => 'Nova',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Um novo usuário de banco de dados com direitos limitados será criado para este sistema OTRS.',
         'default \'hot\'' => 'padrão \'quente\'',
         'DB host' => 'Servidor do Banco',
