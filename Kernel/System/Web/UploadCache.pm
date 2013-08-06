@@ -83,7 +83,7 @@ sub new {
         || 'Kernel::System::Web::UploadCache::DB';
 
     if ( $Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
-        $Self->{Backend} = $Self->{GenericModule}->new(%Param);
+        $Self->{Backend} = $Self->{GenericModule}->new( %{$Self} );
         return $Self;
     }
     return;

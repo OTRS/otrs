@@ -28,7 +28,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{UserObject} = Kernel::System::User->new(%Param);
+    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
 
     return $Self;
 }

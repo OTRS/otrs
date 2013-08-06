@@ -28,8 +28,8 @@ sub new {
     }
 
     # create extra needed objects
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get dynamic fields list
     my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(

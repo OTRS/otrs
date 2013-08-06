@@ -83,7 +83,7 @@ sub new {
         die "Can't load backend module $CacheModule! $@";
     }
 
-    $Self->{CacheObject} = $CacheModule->new(%Param);
+    $Self->{CacheObject} = $CacheModule->new( %{$Self} );
 
     return $Self;
 }

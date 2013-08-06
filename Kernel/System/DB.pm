@@ -205,7 +205,7 @@ sub new {
 
                     next KEY;
                 }
-                my $Instance = $Object->new(%Param);
+                my $Instance = $Object->new( %{$Self} );
                 if ( ref $Instance ne $Object ) {
                     $Self->{'LogObject'}->Log(
                         'Priority' => 'error',

@@ -90,33 +90,35 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
+
+
 
     # check needed objects
     for (qw(DBObject LogObject ConfigObject TimeObject MainObject EncodeObject Email)) {
-        die "Got no $_" if !$Param{$_};
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
     $Self->{Debug} = $Param{Debug} || 0;
 
     # create common objects
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     $Self->{ParserObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
         %Param,
     );
-    $Self->{QueueObject}     = Kernel::System::Queue->new(%Param);
-    $Self->{StateObject}     = Kernel::System::State->new(%Param);
-    $Self->{PriorityObject}  = Kernel::System::Priority->new(%Param);
+    $Self->{QueueObject}     = Kernel::System::Queue->new( %{$Self} );
+    $Self->{StateObject}     = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject}  = Kernel::System::Priority->new( %{$Self} );
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
-        %Param,
+        %{$Self},
         QueueObject  => $Self->{QueueObject},
         ParserObject => $Self->{ParserObject},
     );
     $Self->{NewTicket} = Kernel::System::PostMaster::NewTicket->new(
-        %Param,
+        %{$Self},
         Debug                => $Self->{Debug},
         ParserObject         => $Self->{ParserObject},
         TicketObject         => $Self->{TicketObject},
@@ -125,13 +127,13 @@ sub new {
         PriorityObject       => $Self->{PriorityObject},
     );
     $Self->{FollowUp} = Kernel::System::PostMaster::FollowUp->new(
-        %Param,
+        %{$Self},
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
         ParserObject         => $Self->{ParserObject},
     );
     $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
-        %Param,
+        %{$Self},
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
         ParserObject         => $Self->{ParserObject},

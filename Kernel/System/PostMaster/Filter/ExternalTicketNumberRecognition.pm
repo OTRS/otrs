@@ -32,7 +32,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new( %{$Self} );
 
     return $Self;
 }

@@ -34,9 +34,9 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die 'Got no $Object';
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
-    $Self->{UserObject}         = Kernel::System::User->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{LinkObject}         = Kernel::System::LinkObject->new( %{$Self} );
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
 
     return $Self;
 }

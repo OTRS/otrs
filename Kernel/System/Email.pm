@@ -100,9 +100,9 @@ sub new {
     return if !$Self->{MainObject}->Require($GenericModule);
 
     # create backend object
-    $Self->{Backend} = $GenericModule->new(%Param);
+    $Self->{Backend} = $GenericModule->new( %{$Self} );
 
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
+    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
 
     return $Self;
 }

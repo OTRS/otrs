@@ -89,7 +89,7 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Queue',
@@ -97,15 +97,15 @@ sub new {
     );
 
     # lib object
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
+    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new( %{$Self} );
     if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+        $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
     }
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
     if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
     }
     else {
         $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
