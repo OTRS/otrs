@@ -141,7 +141,7 @@ sub Run {
 
                 if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
                     my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-                    $UserCSVSeparator = $UserData{UserCSVSeparator};
+                    $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
                 }
 
                 # generate csv output
