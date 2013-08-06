@@ -2871,7 +2871,7 @@ sub Data {
         'Company Tickets' => 'Firmen-Tickets',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
-        'Configure Processes.' => '',
+        'Configure Processes.' => 'Prozesse verwalten.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -2901,7 +2901,7 @@ sub Data {
         'Create and manage ticket priorities.' => 'Ticket-Prioritäten erzeugen und verwalten.',
         'Create and manage ticket states.' => 'Ticket-Status  erzeugen und verwalten.',
         'Create and manage ticket types.' => 'Ticket-Typen erzeugen und verwalten.',
-        'Create and manage web services.' => '',
+        'Create and manage web services.' => 'Webservices erzeugen und verwalten.',
         'Create new email ticket and send this out (outbound)' => 'Neues E-Mail-Ticket erzeugen und versenden (ausgehend)',
         'Create new phone ticket (inbound)' => 'Neues Telefonticket erstellen (eingehend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
@@ -3844,7 +3844,7 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3- oder IMAP-Konten für das Abholen von E-Mail verwalten.',
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
         'Manage existing sessions.' => 'Sitzungen verwalten.',
-        'Manage notifications that are sent to agents.' => '',
+        'Manage notifications that are sent to agents.' => 'Benachrichtigungen für Agenten verwalten',
         'Manage periodic tasks.' => 'Periodische Aufgaben verwalten.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
