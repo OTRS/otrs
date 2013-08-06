@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-08-05 Fixed bug#[9644](http://bugs.otrs.org/show_bug.cgi?id=9644) - External Ticket Number filter does not work with Ticket::SubjectFormat None.
  - 2013-07-25 Fixed bug#[7759](http://bugs.otrs.org/show_bug.cgi?id=7759) - Ticket watcher ToolBar position configuration isn't applied.
  - 2013-07-24 Added support for start processes in the Customer Interface.
  - 2013-07-24 Added support to restrict processes by ACLs.
@@ -92,6 +93,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
+ - 2013-08-06 Fixed bug#[8408](http://bugs.otrs.org/show_bug.cgi?id=8408) - No separator used in CSV files if UserCSVSeparator enabled and not set.
  - 2013-08-01 Fixed bug#[9635](http://bugs.otrs.org/show_bug.cgi?id=9635) - article_search not updated on ticket merges.
  - 2013-07-31 Fixed bug#[9629](http://bugs.otrs.org/show_bug.cgi?id=9629) - ORA-936 error in AgentTicketSearch with some search clauses.
  - 2013-07-30 Fixed bug#[9631](http://bugs.otrs.org/show_bug.cgi?id=9631) - BuildSelection() Selected does not work if value contains strings that are HTML-escaped.

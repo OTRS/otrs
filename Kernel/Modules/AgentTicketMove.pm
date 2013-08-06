@@ -1047,16 +1047,7 @@ sub AgentMove {
 
     # create a string with the quoted dynamic field names separated by commas
     if ( IsArrayRefWithData($DynamicFieldNames) ) {
-        my $FirstItem = 1;
-        FIELD:
-        for my $Field ( @{$DynamicFieldNames} ) {
-            if ($FirstItem) {
-                $FirstItem = 0;
-            }
-            else {
-                $Param{DynamicFieldNamesStrg} .= ', ';
-            }
-            $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+            $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
         }
     }
 
