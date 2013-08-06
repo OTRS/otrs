@@ -997,6 +997,7 @@ sub AgentMove {
 
     # create a string with the quoted dynamic field names separated by commas
     if ( IsArrayRefWithData($DynamicFieldNames) ) {
+        for my $Field ( @{$DynamicFieldNames} ) {
             $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
         }
     }
