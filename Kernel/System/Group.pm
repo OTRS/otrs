@@ -208,7 +208,7 @@ sub GroupAdd {
         $GroupID = $Row[0];
     }
 
-    # log 
+    # log
     $Self->{LogObject}->Log(
         Priority => 'info',
         Message  => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",

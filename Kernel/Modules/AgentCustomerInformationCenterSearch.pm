@@ -81,7 +81,7 @@ sub Run {
 
         # add CustomerIDs for which no CustomerCompany are registered
         my %Seen;
-        for my $CustomerID ( @CustomerIDs ) {
+        for my $CustomerID (@CustomerIDs) {
 
             # skip duplicates
             next CUSTOMERID if $Seen{$CustomerID};

@@ -159,40 +159,40 @@
                     <li><span class="Key">$Config{"Ticket::Hook"}:</span> <span>$QData{"TicketNumber"}</span>
 
 <!-- dtl:block:Type -->
-                    <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type"}</span></li>
+                        <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type"}</span></li>
 <!-- dtl:block:Type -->
 <!-- dtl:block:Service -->
-                    <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}"}</span></li>
+                        <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}"}</span></li>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
-                    <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}"}</span></li>
+                        <li><span class="Key">$Text{"SLA"}:</span> <span title="$Text{"$Data{"SLA"}"}">$Text{"$Data{"SLA"}"}</span></li>
 <!-- dtl:block:SLA -->
 <!-- dtl:block:State -->
-                    <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</span></li>
+                        <li><span class="Key">$Text{"State"}:</span> <span title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</span></li>
 <!-- dtl:block:State -->
 <!-- dtl:block:Priority -->
-                    <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}"}</span></li>
+                        <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}"}</span></li>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:Queue -->
-                    <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue"}</span></li>
+                        <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue"}</span></li>
 <!-- dtl:block:Queue -->
 <!-- dtl:block:Owner -->
-                    <li><span class="Key">$Text{"Owner"}:</span> $QData{"OwnerName"}</li>
+                        <li><span class="Key">$Text{"Owner"}:</span> $QData{"OwnerName"}</li>
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
-                    <li><span class="Key">$Text{"Responsible"}:</span> $QData{"ResponsibleName"}</li>
+                        <li><span class="Key">$Text{"Responsible"}:</span> $QData{"ResponsibleName"}</li>
 <!-- dtl:block:Responsible -->
 <!-- dtl:block:ProcessData -->
-                    <li><span class="Key">$Text{"Process"}:</span> <span title="$QData{"Process"}">$QData{"Process"}</span></li>
-                    <li><span class="Key">$Text{"Activity"}:</span> <span title="$QData{"Activity"}">$QData{"Activity"}</span></li>
+                        <li><span class="Key">$Text{"Process"}:</span> <span title="$QData{"Process"}">$QData{"Process"}</span></li>
+                        <li><span class="Key">$Text{"Activity"}:</span> <span title="$QData{"Activity"}">$QData{"Activity"}</span></li>
 <!-- dtl:block:ProcessData -->
 
 # show ticket dynamic fields
 <!-- dtl:block:TicketDynamicField -->
-                    <li>
-                        <span class="Key">$Text{"$Data{"Label"}"}:</span>
-                        <span title="$QData{"Title"}">$Data{"Value"}</span>
-                    </li>
+                        <li>
+                            <span class="Key">$Text{"$Data{"Label"}"}:</span>
+                            <span title="$QData{"Title"}">$Data{"Value"}</span>
+                        </li>
 <!-- dtl:block:TicketDynamicField -->
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
@@ -210,43 +210,43 @@
 #                </li>
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 
-                </ul>
+                    </ul>
 <!-- dtl:block:NextActivities -->
-                <ul id="Activities">
-                    <li class="Header">
-                        <div class="MessageHeader">
-                            <h3>$Text{"Next Steps"}</h3>
-                            <div class="Clear"></div>
-                        </div>
-                    </li>
+                    <ul id="Activities">
+                        <li class="Header">
+                            <div class="MessageHeader">
+                                <h3>$Text{"Next Steps"}</h3>
+                                <div class="Clear"></div>
+                            </div>
+                        </li>
 <!-- dtl:block:ActivityDialog -->
-                    <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
+                        <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
 <!-- dtl:block:ActivityDialog -->
 <!-- dtl:block:NoActivityDialog -->
-                    <li>$Text{"There are no dialogs available at this point in the process."}</li>
+                        <li>$Text{"There are no dialogs available at this point in the process."}</li>
 <!-- dtl:block:NoActivityDialog -->
-                </ul>
+                    </ul>
 <!-- dtl:block:NextActivities -->
-            </div>
+                </div>
 <!-- dtl:block:FollowUp -->
-            <div id="FollowUp" class="$QData{"FollowUpVisible"}">
-                <div id="Messenger">
-                    <input class="DontPrint" type="text" name="Subject" id="Subject" title="$Text{"Subject"}" value="$QData{"Subject"}" />
+                <div id="FollowUp" class="$QData{"FollowUpVisible"}">
+                    <div id="Messenger">
+                        <input class="DontPrint" type="text" name="Subject" id="Subject" title="$Text{"Subject"}" value="$QData{"Subject"}" />
 <!-- dtl:block:RichText-->
-                    $Include{"CustomerRichTextEditor"}
+                        $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
-                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <div id="RichTextError" class="TooltipErrorMessage">
-                        <p>$Text{"This field is required."}</p>
-                    </div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
-                        <p>$Text{"This field is required."}</p>
-                    </div>
-                    <fieldset class="DontPrint">
-                        <div id="AttachmentHolder">
-                            <label for="Attachment">$Text{"Attachment"}:</label>
-                            <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />
-                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+                        <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                        <div id="RichTextError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
+                        </div>
+                        <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
+                            <p>$Text{"This field is required."}</p>
+                        </div>
+                        <fieldset class="DontPrint">
+                            <div id="AttachmentHolder">
+                                <label for="Attachment">$Text{"Attachment"}:</label>
+                                <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />
+                                <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#Attachment').bind('change', function (Event) {
@@ -258,10 +258,10 @@
 <!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:FollowUpAttachment -->
-                            <div class="Attachment" title="$QData{"Filename"} - $QData{"Filesize"}">
-                                $QData{"Filename"} ($QData{"Filesize"})
-                                <button type="button" id="AttachmentDeleteButton$QData{"FileID"}" name="AttachmentDeleteButton$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
-                                <input type="hidden" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" />
+                                <div class="Attachment" title="$QData{"Filename"} - $QData{"Filesize"}">
+                                    $QData{"Filename"} ($QData{"Filesize"})
+                                    <button type="button" id="AttachmentDeleteButton$QData{"FileID"}" name="AttachmentDeleteButton$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                                    <input type="hidden" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" />
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#AttachmentDeleteButton$QData{"FileID"}').bind('click', function () {
@@ -272,14 +272,14 @@
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                            </div>
+                                </div>
 <!-- dtl:block:FollowUpAttachment -->
 
-                        </div>
+                            </div>
 <!-- dtl:block:FollowUpState -->
-                        <div>
-                            <label for="StateID">$Text{"Next state"}:</label> $Data{"NextStatesStrg"}
-                        </div>
+                            <div>
+                                <label for="StateID">$Text{"Next state"}:</label> $Data{"NextStatesStrg"}
+                            </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#StateID').bind('change', function (Event) {
@@ -289,9 +289,9 @@
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:FollowUpState -->
 <!-- dtl:block:FollowUpPriority -->
-                        <div>
-                            <label for="PriorityID">$Text{"Priority"}:</label> $Data{"PriorityStrg"}
-                        </div>
+                            <div>
+                                <label for="PriorityID">$Text{"Priority"}:</label> $Data{"PriorityStrg"}
+                            </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#PriorityID').bind('change', function (Event) {
@@ -302,13 +302,13 @@
 <!-- dtl:block:FollowUpPriority -->
 
 <!-- dtl:block:FollowUpDynamicField -->
-                        <div class="Row Row_DynamicField_$QData{"Name"}">
-                            $Data{"Label"}
-                            <div class="Field">
-                                $Data{"Field"}
+                            <div class="Row Row_DynamicField_$QData{"Name"}">
+                                $Data{"Label"}
+                                <div class="Field">
+                                    $Data{"Field"}
+                                </div>
+                                <div class="Clear"></div>
                             </div>
-                            <div class="Clear"></div>
-                        </div>
 <!-- dtl:block:FollowUpDynamicField -->
 
 # example of how to use fixed dynamic field blocks for customizations
@@ -333,19 +333,19 @@
 #                </div>
 #<!-- dtl:block:FollowUpDynamicField_Field2 -->
 
-                    </fieldset>
-                    <div class="ActionRow">
-                        <button type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
+                        </fieldset>
+                        <div class="ActionRow">
+                            <button type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button> $Text{"or"} <a id="CloseButton" href="">$Text{"Cancel"}</a>
+                        </div>
                     </div>
+                    <a id="ReplyButton" class="DontPrint" href="">$Text{"Reply"}</a>
                 </div>
-                <a id="ReplyButton" class="DontPrint" href="">$Text{"Reply"}</a>
-            </div>
 <!-- dtl:block:FollowUp -->
-            <div class="Clear"></div>
-        </form>
+                <div class="Clear"></div>
+            </form>
 
+        </div>
     </div>
-</div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">
     Core.Customer.TicketZoom.Init();

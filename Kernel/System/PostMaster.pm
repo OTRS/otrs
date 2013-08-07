@@ -93,8 +93,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-
-
     # check needed objects
     for (qw(DBObject LogObject ConfigObject TimeObject MainObject EncodeObject Email)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
@@ -119,24 +117,24 @@ sub new {
     );
     $Self->{NewTicket} = Kernel::System::PostMaster::NewTicket->new(
         %{$Self},
-        Debug                => $Self->{Debug},
-        ParserObject         => $Self->{ParserObject},
-        TicketObject         => $Self->{TicketObject},
-        QueueObject          => $Self->{QueueObject},
-        StateObject          => $Self->{StateObject},
-        PriorityObject       => $Self->{PriorityObject},
+        Debug          => $Self->{Debug},
+        ParserObject   => $Self->{ParserObject},
+        TicketObject   => $Self->{TicketObject},
+        QueueObject    => $Self->{QueueObject},
+        StateObject    => $Self->{StateObject},
+        PriorityObject => $Self->{PriorityObject},
     );
     $Self->{FollowUp} = Kernel::System::PostMaster::FollowUp->new(
         %{$Self},
-        Debug                => $Self->{Debug},
-        TicketObject         => $Self->{TicketObject},
-        ParserObject         => $Self->{ParserObject},
+        Debug        => $Self->{Debug},
+        TicketObject => $Self->{TicketObject},
+        ParserObject => $Self->{ParserObject},
     );
     $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
         %{$Self},
-        Debug                => $Self->{Debug},
-        TicketObject         => $Self->{TicketObject},
-        ParserObject         => $Self->{ParserObject},
+        Debug        => $Self->{Debug},
+        TicketObject => $Self->{TicketObject},
+        ParserObject => $Self->{ParserObject},
     );
 
     # check needed config options

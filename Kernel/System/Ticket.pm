@@ -898,7 +898,7 @@ sub TicketSubjectClean {
     my $TicketSubjectSize = $Param{Size};
     if ( !defined $TicketSubjectSize ) {
         $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize')
-        || 120;
+            || 120;
     }
     my $TicketSubjectRe  = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
     my $TicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
@@ -937,7 +937,7 @@ sub TicketSubjectClean {
 
     # resize subject based on config
     # do not cut subject, if size parameter was 0
-    if ( $TicketSubjectSize ) {
+    if ($TicketSubjectSize) {
         $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
     }
 
@@ -4866,7 +4866,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1]    eq 'StateUpdate'
+            $Row[1] eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -4874,7 +4874,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -5386,7 +5386,7 @@ sub TicketMerge {
     # do the same with article_search (harmless if not used)
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE article_search SET ticket_id = ? WHERE ticket_id = ?',
-        Bind => [\$Param{MainTicketID}, \$Param{MergeTicketID}],
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
     # reassign article history

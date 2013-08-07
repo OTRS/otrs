@@ -5170,7 +5170,6 @@ sub _GetAJAXUpdatableFields {
             );
             next FIELD if !$IsACLReducible;
 
-
             push @UpdatableFields, $Field;
         }
 

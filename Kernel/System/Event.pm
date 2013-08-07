@@ -87,7 +87,8 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject)) {
+    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject))
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 

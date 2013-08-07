@@ -305,7 +305,7 @@ EOF
         },
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
-        Result => {
+        Result      => {
             Content     => 'Some Content',
             ContentType => 'text/html; charset="utf-8"',
         },
@@ -318,7 +318,7 @@ EOF
         },
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
-        Result => {
+        Result      => {
             Content     => 'Some Content',
             ContentType => 'text/html; charset="utf-8"',
         },

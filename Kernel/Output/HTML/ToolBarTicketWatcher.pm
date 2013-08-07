@@ -92,9 +92,9 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
-    my $Icon         = $Param{Config}->{Icon};
-    my $IconNew      = $Param{Config}->{IconNew};
-    my $IconReached  = $Param{Config}->{IconReached};
+    my $Icon        = $Param{Config}->{Icon};
+    my $IconNew     = $Param{Config}->{IconNew};
+    my $IconReached = $Param{Config}->{IconReached};
 
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;

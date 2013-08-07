@@ -22,7 +22,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject TicketObject LogObject TimeObject ParserObject MainObject EncodeObject)) {
+    for (
+        qw(DBObject ConfigObject TicketObject LogObject TimeObject ParserObject MainObject EncodeObject)
+        )
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 

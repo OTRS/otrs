@@ -40,7 +40,7 @@ for my $Test (@Tests) {
     my @Names = $DBObject->GetColumnNames();
 
     my $Counter = 0;
-    for my $Field ( @{$Test->{Result}} ) {
+    for my $Field ( @{ $Test->{Result} } ) {
 
         $Self->Is(
             lc $Names[$Counter],

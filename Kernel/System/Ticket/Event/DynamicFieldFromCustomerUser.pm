@@ -23,7 +23,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject TicketObject LogObject EncodeObject MainObject DBObject TimeObject CustomerUserObject)) {
+    for my $Needed (
+        qw(ConfigObject TicketObject LogObject EncodeObject MainObject DBObject TimeObject CustomerUserObject)
+        )
+    {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 

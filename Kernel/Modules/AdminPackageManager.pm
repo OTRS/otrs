@@ -1285,7 +1285,7 @@ sub Run {
 
         # check if we're on MySQL and show a max_allowed_packet notice
         # if the actual value for this setting is too low
-        if ($Self->{DBObject}->{'DB::Type'} eq 'mysql') {
+        if ( $Self->{DBObject}->{'DB::Type'} eq 'mysql' ) {
 
             # check the actual setting
             $Self->{DBObject}->Prepare(
@@ -1295,12 +1295,12 @@ sub Run {
             my $MaxAllowedPacket            = 0;
             my $MaxAllowedPacketRecommended = 20;
             while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-                if ($Data[1]) {
+                if ( $Data[1] ) {
                     $MaxAllowedPacket = $Data[1] / 1024 / 1024;
                 }
             }
 
-            if ($MaxAllowedPacket < $MaxAllowedPacketRecommended) {
+            if ( $MaxAllowedPacket < $MaxAllowedPacketRecommended ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabasePackageSizeWarning',
                     Data => {
