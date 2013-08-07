@@ -1,8 +1,6 @@
 # --
 # Helper.pm - unit test helper functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-# --
-# $Id: Helper.pm,v 1.12 2011-04-01 10:41:42 mg Exp $
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +10,7 @@
 package Kernel::System::UnitTest::Helper;
 
 use strict;
+use warnings;
 
 use Kernel::Config;
 use Kernel::System::User;
@@ -31,12 +30,24 @@ Kernel::System::UnitTest::Helper - unit test helper functions
 
 construct a helper object.
 
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
     use Kernel::System::UnitTest::Helper;
 
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
     my $Helper = Kernel::System::UnitTest::Helper->new(
         %{$Self},
         RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm and restore it in the destructor
     );
+
 =cut
 
 sub new {
@@ -94,6 +105,21 @@ sub new {
         $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration' );
     }
 
+    #
+    # Set environment variable to skip SSL certificate verification if needed
+    #
+    if ( $Param{SkipSSLVerify} ) {
+
+        # remember original value
+        $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
+
+        # set environment value to 0
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
+
+        $Self->{RestoreSSLVerify} = 1;
+        $Self->{UnitTestObject}->True( 1, 'Skipping SSL certificates verification' );
+    }
+
     return $Self;
 }
 
@@ -106,7 +132,7 @@ creates a random ID that can be used in tests as a unique identifier.
 sub GetRandomID {
     my ( $Self, %Param ) = @_;
 
-    return 'test-' . int( rand(1000000) )
+    return 'test' . int( rand(1000000) )
 }
 
 =item TestUserCreate()
@@ -115,7 +141,7 @@ creates a test user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
 the login name of the new user, the password is the same.
 
-    my $TestUserLogin = $sel->TestUserCreate(
+    my $TestUserLogin = $Helper->TestUserCreate(
         Groups => ['admin', 'users'],           # optional, list of groups to add this user to (rw rights)
     );
 
@@ -176,7 +202,7 @@ creates a test customer user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
 the login name of the new customer user, the password is the same.
 
-    my $TestUserLogin = $sel->TestCustomerUserCreate();
+    my $TestUserLogin = $Helper->TestCustomerUserCreate();
 
 =cut
 
@@ -246,8 +272,103 @@ sub SeleniumScenariosGet {
     return $Scenarios;
 }
 
+my $FixedTime;
+
+=item FixedTimeSet()
+
+makes it possible to override the system time as long as this object lives.
+You can pass an optional time parameter that should be used, if not,
+the current system time will be used.
+
+All regular perl calls to time(), localtime() and gmtime() will use this
+fixed time afterwards. If this object goes out of scope, the 'normal' system
+time will be used again.
+
+=cut
+
+sub FixedTimeSet {
+    my ( $Self, $TimeToSave ) = @_;
+
+    $TimeToSave = CORE::time() if ( !defined $TimeToSave );
+    $FixedTime = $TimeToSave;
+
+    # This is needed to reload objects that directly use the time functions
+    #   to get a hold of the overrides.
+    my @Objects = (
+        'Kernel::System::Time',
+        'Kernel::System::Cache::FileStorable',
+        'Kernel::System::PID',
+    );
+
+    for my $Object (@Objects) {
+        my $FilePath = $Object;
+        $FilePath =~ s{::}{/}xmsg;
+        $FilePath .= '.pm';
+        if ( $INC{$FilePath} ) {
+            no warnings 'redefine';
+            delete $INC{$FilePath};
+            $Self->{MainObject}->Require($Object);
+        }
+    }
+
+    return $FixedTime;
+}
+
+=item FixedTimeUnset()
+
+restores the regular system time behaviour.
+
+=cut
+
+sub FixedTimeUnset {
+    my ($Self) = @_;
+
+    undef $FixedTime;
+
+    return;
+}
+
+=item FixedTimeAddSeconds()
+
+adds a number of seconds to the fixed system time which was previously
+set by FixedTimeSet(). You can pass a negative value to go back in time.
+
+=cut
+
+sub FixedTimeAddSeconds {
+    my ( $Self, $SecondsToAdd ) = @_;
+
+    return if ( !defined $FixedTime );
+
+    $FixedTime += $SecondsToAdd;
+}
+
+# See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
+BEGIN {
+    *CORE::GLOBAL::time = sub {
+        return defined $FixedTime ? $FixedTime : CORE::time();
+    };
+    *CORE::GLOBAL::localtime = sub {
+        my ($Time) = @_;
+        if ( !defined $Time ) {
+            $Time = defined $FixedTime ? $FixedTime : CORE::time();
+        }
+        return CORE::localtime($Time);
+    };
+    *CORE::GLOBAL::gmtime = sub {
+        my ($Time) = @_;
+        if ( !defined $Time ) {
+            $Time = defined $FixedTime ? $FixedTime : CORE::time();
+        }
+        return CORE::gmtime($Time);
+    };
+}
+
 sub DESTROY {
     my $Self = shift;
+
+    # Reset time freeze
+    FixedTimeUnset();
 
     #
     # Restore system configuration if needed
@@ -257,6 +378,18 @@ sub DESTROY {
         $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
 
         $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
+    }
+
+    #
+    # Restore environment variable to skip SSL certificate verification if needed
+    #
+    if ( $Self->{RestoreSSLVerify} ) {
+
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};
+
+        $Self->{RestoreSSLVerify} = 0;
+
+        $Self->{UnitTestObject}->True( 1, 'Restored SSL certificates verification' );
     }
 
     # invalidate test users
@@ -295,8 +428,9 @@ sub DESTROY {
                 UserID         => 1,
             );
 
-            $Self->{UnitTestObject}
-                ->True( $Success, "Set test customer user $TestCustomerUser to invalid" );
+            $Self->{UnitTestObject}->True(
+                $Success, "Set test customer user $TestCustomerUser to invalid"
+            );
         }
     }
 }
@@ -312,11 +446,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut
-
-=head1 VERSION
-
-$Revision: 1.12 $ $Date: 2011-04-01 10:41:42 $
 
 =cut
