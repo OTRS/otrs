@@ -126,34 +126,6 @@ for my $Test (@Tests) {
         $Test->{Value},
         'TicketFlagGet()',
     );
-    $Delete = $TicketObject->TicketFlagDelete(
-        TicketID => $TicketID,
-        Key      => $Test->{Key},
-        AllUsers => 1,
-    );
-    $Self->True(
-        $Delete,
-        'TicketFlagDelete() for AllUsers',
-    );
-    %Flag = $TicketObject->TicketFlagGet(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->False(
-        $Flag{ $Test->{Key} },
-        'TicketFlagGet()',
-    );
-
-    $Set = $TicketObject->TicketFlagSet(
-        TicketID => $TicketID,
-        Key      => $Test->{Key},
-        Value    => $Test->{Value},
-        UserID   => 1,
-    );
-    $Self->True(
-        $Set,
-        'TicketFlagSet()',
-    );
 }
 
 my @SearchTests = (
