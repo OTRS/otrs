@@ -152,12 +152,12 @@ sub Request {
                 $ProxyAddress              = $3;
             }
             $ENV{HTTPS_PROXY} = $ProxyAddress;
-        }
 
-        # force Net::SSL from Crypt::SSLeay. It does SSL connections through proxies
-        # but it can't verify hostnames
-        $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS} = "Net::SSL";
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}    = 0;
+            # force Net::SSL from Crypt::SSLeay. It does SSL connections through proxies
+            # but it can't verify hostnames
+            $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS} = "Net::SSL";
+            $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}    = 0;
+        }
 
         # init agent
         my $UserAgent = LWP::UserAgent->new();
