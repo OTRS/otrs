@@ -1,8 +1,6 @@
 # --
 # TicketFlags.t - ticket module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: TicketFlags.t,v 1.2 2012-01-27 12:04:19 mg Exp $
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,21 +14,22 @@ use utf8;
 
 use vars (qw($Self));
 
-use Time::HiRes qw( usleep );
-
 use Kernel::Config;
 use Kernel::System::Ticket;
 use Kernel::System::User;
+use Kernel::System::UnitTest::Helper;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    UnitTestObject => $Self,
+    %{$Self},
+    RestoreSystemConfiguration => 0,
+);
+my $UserObject = Kernel::System::User->new(
     %{$Self},
 );
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
-    ConfigObject => $ConfigObject,
 );
 
 # create a new ticket
@@ -97,6 +96,44 @@ for my $Test (@Tests) {
     $Self->True(
         $Delete,
         'TicketFlagDelete()',
+    );
+    %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Key} },
+        'TicketFlagGet()',
+    );
+
+    # check delete for all users
+    $Set = $TicketObject->TicketFlagSet(
+        TicketID => $TicketID,
+        Key      => $Test->{Key},
+        Value    => $Test->{Value},
+        UserID   => 1,
+    );
+    $Self->True(
+        $Set,
+        'TicketFlagSet()',
+    );
+    %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->Is(
+        $Flag{ $Test->{Key} },
+        $Test->{Value},
+        'TicketFlagGet()',
+    );
+    $Delete = $TicketObject->TicketFlagDelete(
+        TicketID => $TicketID,
+        Key      => $Test->{Key},
+        AllUsers => 1,
+    );
+    $Self->True(
+        $Delete,
+        'TicketFlagDelete() for AllUsers',
     );
     %Flag = $TicketObject->TicketFlagGet(
         TicketID => $TicketID,
@@ -192,16 +229,8 @@ $Self->True(
 # create 2 new users
 my @UserIDs;
 for ( 1 .. 2 ) {
-    my $random_number = rand(1000);
-
-    my $UserID = $UserObject->UserAdd(
-        UserFirstname => "MyExampleUserName$random_number",
-        UserLastname  => "MyExampleUserLastName$random_number",
-        UserLogin     => "example$random_number",
-        UserEmail     => "myuser$random_number\@mydomain.com",
-        ValidID       => 1,
-        ChangeUserID  => 1,
-    );
+    my $UserLogin = $HelperObject->TestUserCreate();
+    my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 
@@ -349,14 +378,19 @@ for my $TicketID (@TicketIDs) {
 
 # set created users to invalid
 for my $UserID (@UserIDs) {
-    my $random_number = rand(1000);
 
+    # get current user data
+    my %User = $UserObject->GetUserData(
+        UserID => $UserID,
+    );
+
+    # invalidate user
     $UserObject->UserUpdate(
         UserID        => $UserID,
-        UserFirstname => "MyExampleUserName$random_number",
-        UserLastname  => "MyExampleUserLastName$random_number",
-        UserLogin     => "example$random_number",
-        UserEmail     => "myuser$random_number\@mydomain.com",
+        UserFirstname => $User{UserFirstname},
+        UserLastname  => $User{UserLastname},
+        UserLogin     => $User{UserLogin},
+        UserEmail     => $User{UserEmail},
         ValidID       => 2,
         ChangeUserID  => 1,
     );
