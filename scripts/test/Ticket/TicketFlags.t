@@ -195,7 +195,6 @@ my @SearchTests = (
         },
         Result => 0,
     },
-
 );
 
 for my $SearchTest (@SearchTests) {
@@ -213,7 +212,6 @@ for my $SearchTest (@SearchTests) {
         $SearchTest->{Result},
         "$SearchTest->{Name} - number of found tickets",
     );
-
 }
 
 # cleanup
