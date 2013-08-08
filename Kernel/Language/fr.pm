@@ -546,7 +546,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Vue des statuts',
-        'Bulk' => 'Combiné',
+        'Bulk' => 'Actions groupées',
         'Lock' => 'Verrouiller',
         'Unlock' => 'Déverrouiller',
         'History' => 'Historique',
@@ -647,8 +647,8 @@ sub Data {
         'phone' => 'téléphone',
         'sms' => 'SMS',
         'webrequest' => 'Requête par le web',
-        'lock' => 'verrouiller',
-        'unlock' => 'déverrouiller',
+        'lock' => 'verrouillé.',
+        'unlock' => 'déverrouillé',
         'very low' => 'très basse',
         'low' => 'confort de fonctionnement',
         'normal' => 'normal',
@@ -699,7 +699,7 @@ sub Data {
         'Customer automatically added in Cc.' => 'Client automatiquement ajouté dans Cc.',
         'Overview of all open Tickets' => 'Aperçu de tous les Tickets ouverts',
         'Locked Tickets' => 'Tickets verrouillés',
-        'My Locked Tickets' => 'Mes tickets vérrouillés',
+        'My Locked Tickets' => 'Mes tickets verrouillés',
         'My Watched Tickets' => 'Mes tickets surveillés',
         'My Responsible Tickets' => 'Mes tickets en responsabilité',
         'Watched Tickets' => 'Tickets surveillés',
@@ -1219,7 +1219,7 @@ sub Data {
         'Results' => 'Résultat',
         '%s Tickets affected! What do you want to do?' => '%s Tickets impactés! Que voulez vous faire?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'Attention: Vous devriez utiliser l\'option supprimer. Tous les tickets supprimés seront perdus!',
+            'Attention: Vous allez utiliser l\'option supprimer. Tous les tickets supprimés seront perdus!',
         'Edit job' => 'Editer tâche',
         'Run job' => 'Exécuter tâche',
         'Affected Tickets' => 'Tickets impactés',
@@ -2409,6 +2409,7 @@ sub Data {
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
 
+
         # Template: AgentTicketOwner
 
         # Template: AgentTicketPending
@@ -2459,16 +2460,16 @@ sub Data {
         'Created in Queue' => 'Créé dans la file',
         'Lock state' => 'État verrouillé',
         'Watcher' => 'Surveillance',
-        'Article Create Time (before/after)' => 'Heure de Création Article (avant/après)',
-        'Article Create Time (between)' => 'Heure de Création Article (avant)',
-        'Ticket Create Time (before/after)' => 'Heure de Création Ticket (avant/après)',
-        'Ticket Create Time (between)' => 'Heure de Création Ticket (avant)',
-        'Ticket Change Time (before/after)' => 'Heure de Modification Ticket (avant/après)',
-        'Ticket Change Time (between)' => 'Heure de Modification Ticket (avant)',
-        'Ticket Close Time (before/after)' => 'Heure de Fermeture Ticket (avant/après)',
-        'Ticket Close Time (between)' => 'Heure de Fermeture Ticket (avant)',
-        'Ticket Escalation Time (before/after)' => 'Heure de Remontée Ticket (avant/après)',
-        'Ticket Escalation Time (between)' => 'Heure de Remontée Ticket (avant)',
+        'Article Create Time (before/after)' => 'Date Création Article (avant/après)',
+        'Article Create Time (between)' => 'Date Création Article (Période)',
+        'Ticket Create Time (before/after)' => 'Date Création Ticket (avant/après)',
+        'Ticket Create Time (between)' => 'Date Création Ticket (Période)',
+        'Ticket Change Time (before/after)' => 'Date Modification Ticket (avant/après)',
+        'Ticket Change Time (between)' => 'Date Modification Ticket (Période)',
+        'Ticket Close Time (before/after)' => 'Date Fermeture Ticket (avant/après)',
+        'Ticket Close Time (between)' => 'Date Fermeture Ticket (Période)',
+        'Ticket Escalation Time (before/after)' => 'Date Remontée Ticket (avant/après)',
+        'Ticket Escalation Time (between)' => 'Date Remontée Ticket (Période)',
         'Archive Search' => 'Recherche Archive',
         'Run search' => 'Lancer la recherche',
 
@@ -4168,9 +4169,9 @@ sub Data {
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
             '',
-        'Queue view' => 'Vue de la file',
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
+        'Queue view' => 'Vue Files',
         'Refresh Overviews after' => 'Rafraîchir les vues d\'ensemble après',
         'Refresh interval' => 'Intervalle d\'actualisation',
         'Removes the ticket watcher information when a ticket is archived.' =>
