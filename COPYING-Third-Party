@@ -122,6 +122,11 @@ o Name:    CPAN MailTools
   Note:    # Copyrights 1995-2000 Graham Barr <gbarr@pobox.com> and 2001-2007
            # Mark Overmeer <perl@overmeer.net>.
 
+o Name:    CPAN Net::HTTP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2001-2003 Gisle Aas.
+
 o Name:    CPAN Net::IMAP::Simple
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
