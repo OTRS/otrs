@@ -251,19 +251,20 @@ EOF
 
         my $FieldsToUpdate = '';
         if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-            FIELD:
-            for my $Field ( @{ $Param{UpdatableFields} } ) {
-                next FIELD if $Field eq $FieldName;
-                $FieldsToUpdate .= ", '" . $Field . "'";
-            }
+
+            # Remove current field from updatable fields list
+            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
+
+            # quote all fields, put commas in between them
+            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
         }
 
-        #add js to call FormUpdate()
+        # add js to call FormUpdate()
         $HTMLString .= <<"EOF";
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
-        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName' [ $FieldsToUpdate ]);
+        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
     });
     Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
         var FieldName = '$FieldName';
