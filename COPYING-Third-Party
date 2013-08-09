@@ -84,12 +84,6 @@ o Name:    CPAN IO::Interactive
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 2005, Damian Conway <DCONWAY@cpan.org>. All rights reserved.
 
-o Name:    CPAN IO::Lines
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 1996 by Eryq.  All rights reserved.
-           # Copyright (c) 1999,2001 by ZeeGee Software Inc. All rights reserved.
-
 o Name:    CPAN Locale::Codes
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

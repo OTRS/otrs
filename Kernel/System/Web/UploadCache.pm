@@ -74,7 +74,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ConfigObject LogObject MainObject EncodeObject)) {
+    for (qw(ConfigObject LogObject MainObject EncodeObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -83,7 +83,7 @@ sub new {
         || 'Kernel::System::Web::UploadCache::DB';
 
     if ( $Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
-        $Self->{Backend} = $Self->{GenericModule}->new(%Param);
+        $Self->{Backend} = $Self->{GenericModule}->new( %{$Self} );
         return $Self;
     }
     return;

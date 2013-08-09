@@ -60,7 +60,7 @@ sub HasBehavior {
 
     # otherwise return fail
     return;
-};
+}
 
 =item EditLabelRender()
 

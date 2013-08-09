@@ -69,7 +69,7 @@ sub new {
     }
 
     # create file template object
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
+    $Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
 
     # spell checker config options
     $Self->{SpellChecker} = $Self->{ConfigObject}->Get('SpellCheckerBin') || 'ispell';

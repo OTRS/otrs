@@ -157,7 +157,6 @@ my %DynamicFieldConfigs = (
     },
 );
 
-
 # define tests
 my @Tests = (
     {
@@ -276,8 +275,8 @@ for my $Test (@Tests) {
     BEHAVIOR:
     for my $Behavior (
         qw(
-            IsACLReducible IsNotificationEventCondition IsSortable IsStatsCondition NotExisting
-            IsCustomerInterfaceCapable
+        IsACLReducible IsNotificationEventCondition IsSortable IsStatsCondition NotExisting
+        IsCustomerInterfaceCapable
         )
         )
     {
@@ -294,7 +293,7 @@ for my $Test (@Tests) {
         }
 
         # call HasBehavior for each test for each known behavior
-        my $Success = $DFBackendObject->HasBehavior( %Config );
+        my $Success = $DFBackendObject->HasBehavior(%Config);
 
         # if the test is a success then check the expected results with true
         if ($Success) {

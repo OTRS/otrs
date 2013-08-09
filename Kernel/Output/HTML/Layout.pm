@@ -1593,7 +1593,7 @@ sub Footer {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
 
     # get datepicker data, if needed in module
@@ -1624,8 +1624,9 @@ sub Footer {
     # AutoComplete-Config
     my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
 
-    for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
-        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
+    for my $ConfigElement ( keys %{$AutocompleteConfig} ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText}
+            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
@@ -3538,13 +3539,14 @@ sub CustomerFooter {
     # AutoComplete-Config
     my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Customer');
 
-    for my $ConfigElement ( keys %{ $AutocompleteConfig } ) {
-        $AutocompleteConfig->{$ConfigElement}->{ButtonText} = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+    for my $ConfigElement ( keys %{$AutocompleteConfig} ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText}
+            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
-            Data => $AutocompleteConfig,
-        );
+        Data => $AutocompleteConfig,
+    );
 
     $Self->Block(
         Name => 'AutoCompleteConfig',
@@ -4075,7 +4077,7 @@ sub RichTextDocumentServe {
             $Charset = $2;
             $Charset =~ s/"|'//g;
         }
-        if (!$Charset) {
+        if ( !$Charset ) {
             $Charset = 'us-ascii';
             $Param{Data}->{ContentType} .= '; charset="us-ascii"';
         }
@@ -5282,7 +5284,7 @@ sub WrapPlainText {
 
     # Return if we did not get MaxCharacters
     # or MaxCharacters doesn't contain just an int
-    if ( ! IsPositiveInteger($Param{MaxCharacters}) ) {
+    if ( !IsPositiveInteger( $Param{MaxCharacters} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
@@ -5291,9 +5293,10 @@ sub WrapPlainText {
     }
 
     # Return if we didn't get PlainText
-    if ( ! defined $Param{PlainText} ) {
+    if ( !defined $Param{PlainText} ) {
         return;
     }
+
     # Return if we got no Scalar
     if ( ref $Param{PlainText} ) {
         $Self->{LogObject}->Log(
@@ -5302,6 +5305,7 @@ sub WrapPlainText {
         );
         return;
     }
+
     # Return PlainText if we have less than MaxCharacters
     if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
         return $Param{PlainText};

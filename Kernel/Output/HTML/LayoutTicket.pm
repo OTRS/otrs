@@ -137,8 +137,10 @@ sub AgentCustomerViewTable {
                 Data => \%Record,
             );
 
-            if (   $Param{Data}->{Config}->{CustomerCompanySupport}
-                && $Field->[0] eq 'CustomerCompanyName' )
+            if (
+                $Param{Data}->{Config}->{CustomerCompanySupport}
+                && $Field->[0] eq 'CustomerCompanyName'
+                )
             {
                 my $CompanyValidID = $Param{Data}->{CustomerCompanyValidID};
 

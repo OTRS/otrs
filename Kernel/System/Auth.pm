@@ -122,7 +122,7 @@ sub new {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
 
-        $Self->{"AuthBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        $Self->{"AuthBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     # load sync modules
@@ -137,7 +137,7 @@ sub new {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
 
-        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     return $Self;

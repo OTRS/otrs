@@ -12,6 +12,7 @@ package Kernel::System::MailAccount;
 use strict;
 use warnings;
 
+use Kernel::System::Time;
 use Kernel::System::Valid;
 
 =head1 NAME
@@ -70,16 +71,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if !$Self->{$_};
+    # check needed objects
+    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # create additional objects
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{TimeObject}  = Kernel::System::Time->new( %{$Self} );
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }

@@ -386,7 +386,6 @@ $Param{Signature}";
                 );
             }
 
-
             # prepare bounce tags if body is rich text
             if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 

@@ -28,7 +28,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
+    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new( %{$Self} );
 
     return $Self;
 }

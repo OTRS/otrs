@@ -469,7 +469,7 @@ sub Run {
             )
         {
             $Error{'SLAIDInvalid'} = ' ServerError';
-        }        
+        }
 
         # check type
         if (
@@ -1037,7 +1037,7 @@ sub _MaskNew {
                 CustomerUserID => $Self->{UserID},
             );
         }
-        
+
         if ( $Self->{Config}->{ServiceMandatory} ) {
             $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data         => \%Services,

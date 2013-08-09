@@ -477,7 +477,7 @@ sub _ShowScreen {
     my %DynamicfieldNamesList;
     for my $Dynamicfield ( @{$DynamicFieldList} ) {
         push @DynamicfieldOrderList, $Dynamicfield->{FieldOrder};
-        $DynamicfieldNamesList{$Dynamicfield->{FieldOrder}} = $Dynamicfield->{Label};
+        $DynamicfieldNamesList{ $Dynamicfield->{FieldOrder} } = $Dynamicfield->{Label};
     }
 
     # when adding we need to create an extra order number for the new field
@@ -494,10 +494,13 @@ sub _ShowScreen {
     # show the names of the other fields to ease ordering
     my %OrderNamesList;
     my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Get('Currently') . ': ';
-    for my $OrderNumber (sort @DynamicfieldOrderList) {
+    for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
-            $OrderNamesList{$OrderNumber} = $OrderNumber . ' - ' . $CurrentlyText . $DynamicfieldNamesList{$OrderNumber}
+            $OrderNamesList{$OrderNumber}
+                = $OrderNumber . ' - '
+                . $CurrentlyText
+                . $DynamicfieldNamesList{$OrderNumber}
         }
     }
 

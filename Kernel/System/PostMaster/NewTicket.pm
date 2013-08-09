@@ -28,15 +28,15 @@ sub new {
 
     # get all objects
     for my $Object (
-        qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject PriorityObject)
+        qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject MainObject EncodeObject PriorityObject)
         )
     {
         $Self->{$Object} = $Param{$Object} || die 'Got no $Object';
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
-    $Self->{UserObject}         = Kernel::System::User->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{LinkObject}         = Kernel::System::LinkObject->new( %{$Self} );
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
 
     return $Self;
 }
@@ -170,7 +170,7 @@ sub Run {
     my $OwnerID = $GetParam{'X-OTRS-OwnerID'} || $Param{InmailUserID};
     if ( $GetParam{'X-OTRS-Owner'} ) {
         my $TmpOwnerID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Owner'} );
-        $OwnerID       = $TmpOwnerID if $TmpOwnerID;
+        $OwnerID = $TmpOwnerID if $TmpOwnerID;
     }
 
     my %Opts;
@@ -179,8 +179,9 @@ sub Run {
     }
 
     if ( $GetParam{'X-OTRS-Responsible'} ) {
-        my $TmpResponsibleID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
-        $Opts{ResponsibleID}  = $TmpResponsibleID if $TmpResponsibleID;
+        my $TmpResponsibleID
+            = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
+        $Opts{ResponsibleID} = $TmpResponsibleID if $TmpResponsibleID;
     }
 
     # create new ticket

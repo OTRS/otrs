@@ -145,14 +145,14 @@ sub new {
 
     $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
 
-    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
-    $Self->{SalutationObject}       = Kernel::System::Salutation->new(%Param);
-    $Self->{SignatureObject}        = Kernel::System::Signature->new(%Param);
-    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new(%Param);
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
-    $Self->{NotificationObject}     = Kernel::System::Notification->new(%Param);
-    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new(%Param);
-    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new( %{$Self} );
+    $Self->{SalutationObject}       = Kernel::System::Salutation->new( %{$Self} );
+    $Self->{SignatureObject}        = Kernel::System::Signature->new( %{$Self} );
+    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new( %{$Self} );
+    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new( %{$Self} );
+    $Self->{NotificationObject}     = Kernel::System::Notification->new( %{$Self} );
+    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new( %{$Self} );
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(
         TimeObject => $Self->{TicketObject}->{TimeObject},
         %Param

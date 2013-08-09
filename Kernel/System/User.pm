@@ -269,31 +269,31 @@ sub GetUserData {
     my $UserFullname;
     if ( $FirstnameLastNameOrder eq '0' ) {
         $UserFullname = $Data{UserFirstname} . ' '
-                        . $Data{UserLastname};
+            . $Data{UserLastname};
     }
     elsif ( $FirstnameLastNameOrder eq '1' ) {
         $UserFullname = $Data{UserLastname} . ', '
-                        . $Data{UserFirstname};
+            . $Data{UserFirstname};
     }
     elsif ( $FirstnameLastNameOrder eq '2' ) {
         $UserFullname = $Data{UserFirstname} . ' '
-                        . $Data{UserLastname} . ' ('
-                        . $Data{UserLogin} . ')';
+            . $Data{UserLastname} . ' ('
+            . $Data{UserLogin} . ')';
     }
     elsif ( $FirstnameLastNameOrder eq '3' ) {
         $UserFullname = $Data{UserLastname} . ', '
-                        . $Data{UserFirstname} . ' ('
-                        . $Data{UserLogin} . ')';
+            . $Data{UserFirstname} . ' ('
+            . $Data{UserLogin} . ')';
     }
     elsif ( $FirstnameLastNameOrder eq '4' ) {
         $UserFullname = '(' . $Data{UserLogin}
-                        . ') ' . $Data{UserFirstname}
-                        . ' ' . $Data{UserLastname};
+            . ') ' . $Data{UserFirstname}
+            . ' ' . $Data{UserLastname};
     }
     elsif ( $FirstnameLastNameOrder eq '5' ) {
         $UserFullname = '(' . $Data{UserLogin}
-                        . ') ' . $Data{UserLastname}
-                        . ', ' . $Data{UserFirstname};
+            . ') ' . $Data{UserLastname}
+            . ', ' . $Data{UserFirstname};
     }
 
     # save the generated fullname in the hash.
@@ -937,8 +937,8 @@ sub UserList {
 
     # check cache
     my $CacheKey = 'UserList::' . $Type . '::' . $Valid
-                   . '::' . $FirstnameLastNameOrder;
-    my $Cache    = $Self->{CacheInternalObject}->Get(
+        . '::' . $FirstnameLastNameOrder;
+    my $Cache = $Self->{CacheInternalObject}->Get(
         Key => $CacheKey,
     );
     return %{$Cache} if $Cache;
@@ -981,7 +981,7 @@ sub UserList {
     else {
         for my $CurrentUserID ( sort keys %UsersRaw ) {
             my $UserFullname = $Self->UserName( UserID => $CurrentUserID );
-            $Users{ $CurrentUserID } = $UserFullname;
+            $Users{$CurrentUserID} = $UserFullname;
         }
     }
 

@@ -369,7 +369,6 @@ sub _UninstallMergedFeatureAddOns {
         OTRSMultiQueueSelect
         OTRSDynamicFieldMultiLevelSelection
         OTRSEventBasedTicketActions
-        OTRSKeepFAQAttachments
         OTRSTicketAclEditor
         OTRSCustomerProcessSelection
         )

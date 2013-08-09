@@ -144,14 +144,6 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'IO::Scalar',
-        Required => 1,
-    },
-    {
-        Module   => 'IO::Wrap',
-        Required => 1,
-    },
-    {
         Module   => 'JavaScript::Minifier',
         Version  => '1.05',
         Required => 1,

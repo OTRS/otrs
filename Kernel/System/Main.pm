@@ -72,7 +72,7 @@ sub new {
 
     # get or create encode object
     $Self->{EncodeObject} = $Param{EncodeObject};
-    $Self->{EncodeObject} ||= Kernel::System::Encode->new(%Param);
+    $Self->{EncodeObject} ||= Kernel::System::Encode->new( %{$Self} );
 
     # set debug mode
     $Self->{Debug} = $Param{Debug} || 0;

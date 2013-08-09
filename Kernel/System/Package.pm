@@ -812,8 +812,7 @@ sub PackageUpgrade {
     $Self->{SysConfigObject}->WriteDefault();
 
     # upgrade database (post)
-    if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' )
-    {
+    if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' ) {
 
         my @Parts;
         my $Use = 0;

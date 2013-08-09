@@ -195,7 +195,6 @@ my @SearchTests = (
         },
         Result => 0,
     },
-
 );
 
 for my $SearchTest (@SearchTests) {
@@ -213,7 +212,6 @@ for my $SearchTest (@SearchTests) {
         $SearchTest->{Result},
         "$SearchTest->{Name} - number of found tickets",
     );
-
 }
 
 # cleanup
@@ -378,14 +376,19 @@ for my $TicketID (@TicketIDs) {
 
 # set created users to invalid
 for my $UserID (@UserIDs) {
-    my $RandomNumber = rand(1000);
 
+    # get current user data
+    my %User = $UserObject->GetUserData(
+        UserID => $UserID,
+    );
+
+    # invalidate user
     $UserObject->UserUpdate(
         UserID        => $UserID,
-        UserFirstname => "MyExampleUserName$RandomNumber",
-        UserLastname  => "MyExampleUserLastName$RandomNumber",
-        UserLogin     => "example$RandomNumber",
-        UserEmail     => "myuser$RandomNumber\@mydomain.com",
+        UserFirstname => $User{UserFirstname},
+        UserLastname  => $User{UserLastname},
+        UserLogin     => $User{UserLogin},
+        UserEmail     => $User{UserEmail},
         ValidID       => 2,
         ChangeUserID  => 1,
     );

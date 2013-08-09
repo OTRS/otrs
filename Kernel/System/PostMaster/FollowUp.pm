@@ -18,17 +18,20 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # check needed Objects
-    for (qw(DBObject ConfigObject TicketObject LogObject TimeObject ParserObject)) {
+    # check needed objects
+    for (
+        qw(DBObject ConfigObject TicketObject LogObject TimeObject ParserObject MainObject EncodeObject)
+        )
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{UserObject} = Kernel::System::User->new(%Param);
+    $Self->{Debug} = $Param{Debug} || 0;
+
+    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
 
     return $Self;
 }

@@ -2202,7 +2202,7 @@ sub _MaskEmailNew {
             $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data         => $Param{Services},
                 Name         => 'ServiceID',
-                Class        => 'Validate_Required '  . ($Param{Errors}->{ServiceInvalid} || ' '),
+                Class        => 'Validate_Required ' . ( $Param{Errors}->{ServiceInvalid} || ' ' ),
                 SelectedID   => $Param{ServiceID},
                 PossibleNone => 1,
                 TreeView     => $TreeView,
@@ -2238,7 +2238,7 @@ sub _MaskEmailNew {
                 Data         => $Param{SLAs},
                 Name         => 'SLAID',
                 SelectedID   => $Param{SLAID},
-                Class        => 'Validate_Required '  . ($Param{Errors}->{SLAInvalid} || ' '),
+                Class        => 'Validate_Required ' . ( $Param{Errors}->{SLAInvalid} || ' ' ),
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 0,

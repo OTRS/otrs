@@ -156,7 +156,7 @@
                             <div class="Clear"></div>
                         </div>
                     </li>
-                    <li><span class="Key">$Config{"Ticket::Hook"}:</span> <span>$QData{"TicketNumber"}</span>
+                    <li><span class="Key">$Config{"Ticket::Hook"}:</span> <span>$QData{"TicketNumber"}</span></li>
 
 <!-- dtl:block:Type -->
                     <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type"}</span></li>
@@ -198,16 +198,16 @@
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
 #<!-- dtl:block:TicketDynamicField_Field1 -->
-#                <li>
-#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-#                    <span title="$QData{"Title1"}">$Data{"Value"}</span>
-#                </li>
+#                    <li>
+#                        <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                        <span title="$QData{"Title1"}">$Data{"Value"}</span>
+#                    </li>
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #<!-- dtl:block:TicketDynamicField_Field2 -->
-#                <li>
-#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-#                    <span title="$QData{"Title2"}">$Data{"Value"}</span>
-#                </li>
+#                    <li>
+#                        <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                        <span title="$QData{"Title2"}">$Data{"Value"}</span>
+#                    </li>
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 
                 </ul>
