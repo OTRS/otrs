@@ -447,7 +447,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '无法更改密码，密码不能包含非法字符！',
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法更改密码，密码至少 %s 个字符长度！',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Can\'t update password, it must contain at least 1 digit!' => '无法更改密码，密码必须包含至少1个数字！',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2622,7 +2622,7 @@ sub Data {
             '如果使用其他数据库安装OTRS，请参考README文档。',
         'Database-User' => '数据库用户名',
         'New' => '新建',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库用户',
         'default \'hot\'' => '默认密码 \'hot\'',
         'DB host' => '数据库服务器',

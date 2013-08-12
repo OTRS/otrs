@@ -84,12 +84,6 @@ o Name:    CPAN IO::Interactive
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 2005, Damian Conway <DCONWAY@cpan.org>. All rights reserved.
 
-o Name:    CPAN IO::Lines
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 1996 by Eryq.  All rights reserved.
-           # Copyright (c) 1999,2001 by ZeeGee Software Inc. All rights reserved.
-
 o Name:    CPAN Locale::Codes
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
@@ -114,6 +108,11 @@ o Name:    CPAN MailTools
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyrights 1995-2000 Graham Barr <gbarr@pobox.com> and 2001-2007
            # Mark Overmeer <perl@overmeer.net>.
+
+o Name:    CPAN Net::HTTP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2001-2003 Gisle Aas.
 
 o Name:    CPAN Net::IMAP::Simple
   Web:     n/a

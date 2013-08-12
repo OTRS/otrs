@@ -70,6 +70,12 @@ sub new {
 
     $Self->{CacheKey} = $Self->{Name};
 
+    # get configuration for the full name order for usernames
+    # and append it to the cache key to make sure, that the
+    # correct data will be displayed everytime
+    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+    $Self->{CacheKey} .= '::' . $FirstnameLastNameOrder;
+
     return $Self;
 }
 

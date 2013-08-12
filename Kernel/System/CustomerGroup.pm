@@ -82,8 +82,8 @@ sub new {
     for (qw(DBObject ConfigObject LogObject EncodeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},

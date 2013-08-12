@@ -251,7 +251,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.</Description>
+        <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -266,7 +266,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.0/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.2/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -2424,7 +2424,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the maximal size (in bytes) for file uploads via the browser.</Description>
+        <Description Translatable="1">Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5693,8 +5693,8 @@ M
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="StandardResponse2QueueByCreating" Required="0" Valid="0">
-        <Description Translatable="1">List of default StandardResponses which are assigned automatically to new Queues upon creation.</Description>
+    <ConfigItem Name="StandardTemplate2QueueByCreating" Required="0" Valid="0">
+        <Description Translatable="1">List of default Standard Templates which are assigned automatically to new Queues upon creation.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -5748,6 +5748,7 @@ M
                 <Item>Core.Tooltip.css</Item>
                 <Item>Core.Dialog.css</Item>
                 <Item>Core.Print.css</Item>
+                <Item>thirdparty/fontawesome/font-awesome.css</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5795,6 +5796,7 @@ M
                 <Item>Core.UI.ActionRow.js</Item>
                 <Item>Core.UI.Popup.js</Item>
                 <Item>Core.UI.TreeSelection.js</Item>
+                <Item>Core.UI.Autocomplete.js</Item>
                 <Item>Core.Form.js</Item>
                 <Item>Core.Form.ErrorTooltips.js</Item>
                 <Item>Core.Form.Validate.js</Item>
@@ -5859,6 +5861,7 @@ M
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Exception.js</Item>
+                <Item>Core.JSON.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Config.js</Item>
                 <Item>Core.AJAX.js</Item>
@@ -5870,6 +5873,7 @@ M
                 <Item>Core.UI.Datepicker.js</Item>
                 <Item>Core.UI.Popup.js</Item>
                 <Item>Core.UI.TreeSelection.js</Item>
+                <Item>Core.UI.Autocomplete.js</Item>
                 <Item>Core.Form.js</Item>
                 <Item>Core.Form.ErrorTooltips.js</Item>
                 <Item>Core.Form.Validate.js</Item>
@@ -5898,8 +5902,25 @@ M
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="FirstnameLastnameOrder" Required="1" Valid="1">
+        <Description Translatable="1">Specifies the order in which the firstname and the lastname of agents will be displayed.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">Firstname Lastname</Item>
+                <Item Key="1" Translatable="1">Lastname, Firstname</Item>
+                <Item Key="2" Translatable="1">Firstname Lastname (UserLogin)</Item>
+                <Item Key="3" Translatable="1">Lastname, Firstname (UserLogin)</Item>
+                <Item Key="4" Translatable="1">(UserLogin) Firstname Lastname</Item>
+                <Item Key="5" Translatable="1">(UserLogin) Lastname, Firstname</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Loader::Agent::Skin###000-default" Required="0" Valid="1">
-        <Description Translatable="1">Default skin for interface.</Description>
+        <Description Translatable="1">Default skin for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -5907,6 +5928,19 @@ M
                 <Item Key="InternalName">default</Item>
                 <Item Key="VisibleName">Default</Item>
                 <Item Key="Description">This is the default orange - black skin.</Item>
+                <Item Key="HomePage">www.otrs.org</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Agent::Skin###001-slim" Required="0" Valid="1">
+        <Description Translatable="1">Default skin for the agent interface (slim version).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="InternalName">slim</Item>
+                <Item Key="VisibleName">Default (Slim)</Item>
+                <Item Key="Description">"Slim" skin which tries to save screen space for power users.</Item>
                 <Item Key="HomePage">www.otrs.org</Item>
             </Hash>
         </Setting>
@@ -5924,16 +5958,16 @@ M
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Agent::Skin###001-slim" Required="0" Valid="1">
-        <Description Translatable="1">"Slim" Skin which tries to save screen space for power users.</Description>
+    <ConfigItem Name="Loader::Agent::Skin###001-ivory-slim" Required="0" Valid="1">
+        <Description Translatable="1">Balanced white skin by Felix Niklas (slim version).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="InternalName">slim</Item>
-                <Item Key="VisibleName">Slim</Item>
-                <Item Key="Description">"Slim" skin which tries to save screen space for power users.</Item>
-                <Item Key="HomePage">www.otrs.org</Item>
+                <Item Key="InternalName">ivory-slim</Item>
+                <Item Key="VisibleName">Ivory (Slim)</Item>
+                <Item Key="Description">Balanced white skin by Felix Niklas (slim version).</Item>
+                <Item Key="HomePage">www.felixniklas.de</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6076,6 +6110,48 @@ M
                 <Item Key="2">2</Item>
                 <Item Key="3">3</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AutoComplete::Agent###Default" Required="0" Valid="1">
+        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="AutoCompleteActive">1</Item>
+                <Item Key="MinQueryLength">2</Item>
+                <Item Key="QueryDelay">100</Item>
+                <Item Key="MaxResultsDisplayed">20</Item>
+                <Item Key="ButtonText" Translatable="1">Search</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AutoComplete::Agent###CustomerSearch" Required="0" Valid="1">
+        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="AutoCompleteActive">1</Item>
+                <Item Key="MinQueryLength">2</Item>
+                <Item Key="QueryDelay">100</Item>
+                <Item Key="MaxResultsDisplayed">20</Item>
+                <Item Key="ButtonText" Translatable="1">Search Customer</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AutoComplete::Customer###Default" Required="0" Valid="1">
+        <Description Translatable="1">Defines the config options for the autocompletion feature.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="AutoCompleteActive">1</Item>
+                <Item Key="MinQueryLength">2</Item>
+                <Item Key="QueryDelay">100</Item>
+                <Item Key="MaxResultsDisplayed">20</Item>
+                <Item Key="ButtonText" Translatable="1">Search</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
 </otrs_config>

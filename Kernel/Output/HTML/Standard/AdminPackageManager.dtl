@@ -196,7 +196,7 @@
                 <div class="Content">
                     <ul class="ActionList">
 <!-- dtl:block:OverviewFileUpload -->
-                        <li>
+                        <li class="Separated">
                             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                 <input type="hidden" name="Subaction" value="InstallUpload"/>
@@ -204,7 +204,12 @@
                                 <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required $QData{"FileUploadInvalid"}"/>
                                 <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                <button class="CallForAction" type="submit" value="$Text{"Install"}">
+<!-- dtl:block:DatabasePackageSizeWarning -->
+                                <p class="FieldExplanation Error">
+                                    $Text{"Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.", "$QData{"MaxAllowedPacketRecommended"}", "$QData{"MaxAllowedPacket"}"}
+                                </p>
+<!-- dtl:block:DatabasePackageSizeWarning -->
+                                <button class="Fullsize CallForAction LittleSpacingTop Upload" type="submit" value="$Text{"Install"}">
                                     <span>$Text{"Install Package"}</span>
                                 </button>
                             </form>
@@ -215,7 +220,7 @@
                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                 <input type="hidden" name="Subaction" value="ChangeRepository"/>
                                 $Data{"SourceList"}
-                                <button class="CallForAction" type="submit" name="GetRepositoryList" value="$Text{"Update"}">
+                                <button class="Fullsize CallForAction LittleSpacingTop Refresh" type="submit" name="GetRepositoryList" value="$Text{"Update"}">
                                     <span>$Text{"Update repository information"}</span>
                                 </button>
                             </form>

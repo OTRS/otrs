@@ -38,11 +38,6 @@
     float: right;
 }
 
-.TicketHeader .TicketHook {
-    color: #666;
-    font-size: 12px;
-}
-
 .Flag span.PriorityID-1 {
     background-color:#03c4f0;
 }
@@ -128,6 +123,9 @@
 
 #Metadata li {
     padding: 2px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #Metadata li.Header {
@@ -277,11 +275,14 @@
 
 .MessageHeader h3 {
     font-weight: bold;
-    float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
 }
 
 .RTL .MessageHeader h3 {
-    float: right;
+    padding-left: 100px;
 }
 
 .MessageHeader h3 span {
@@ -289,11 +290,13 @@
 }
 
 .MessageHeader .Age {
-    float: right;
+    position: absolute;
+    top: 5px;
+    right: 8px;
 }
 
 .RTL .MessageHeader .Age {
-    float: left;
+    left: 8px;
 }
 
 .MessageBody {
@@ -343,6 +346,13 @@
     color: #525252;
     line-height: 16px;
 }
+
+.Details > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .Details .Label {
     width: 65px;
     margin: 0 3px;

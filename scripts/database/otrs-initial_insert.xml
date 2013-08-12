@@ -454,22 +454,24 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
-    <Insert Table="standard_response">
+    <Insert Table="standard_template">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">empty answer</Data>
         <Data Key="text" Type="Quote"></Data>
         <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
+        <Data Key="template_type" Type="Quote">Answer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="standard_response">
+    <Insert Table="standard_template">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">test answer</Data>
-        <Data Key="text" Type="Quote">Some test answer to show how a standard response can be used.</Data>
+        <Data Key="text" Type="Quote">Some test answer to show how a standard template can be used.</Data>
         <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
+        <Data Key="template_type" Type="Quote">Answer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -477,33 +479,33 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
-    <Insert Table="queue_standard_response">
+    <Insert Table="queue_standard_template">
         <Data Key="queue_id">1</Data>
-        <Data Key="standard_response_id">1</Data>
+        <Data Key="standard_template_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="queue_standard_response">
+    <Insert Table="queue_standard_template">
         <Data Key="queue_id">2</Data>
-        <Data Key="standard_response_id">1</Data>
+        <Data Key="standard_template_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="queue_standard_response">
+    <Insert Table="queue_standard_template">
         <Data Key="queue_id">3</Data>
-        <Data Key="standard_response_id">1</Data>
+        <Data Key="standard_template_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="queue_standard_response">
+    <Insert Table="queue_standard_template">
         <Data Key="queue_id">4</Data>
-        <Data Key="standard_response_id">1</Data>
+        <Data Key="standard_template_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>

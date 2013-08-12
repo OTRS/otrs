@@ -2,10 +2,10 @@ From michiel.beijen@otrs.com  Mon Oct 12 16:49:06 2009
 Return-Path: <michiel.beijen@otrs.com>
 X-Original-To: vo307@vo.otrs.com
 Delivered-To: vo307@vo.otrs.com
-Received: from mail.otrs.com (osser.otrs.com [88.198.17.202])	by vo.otrs.com (Postfix) with ESMTP id 2E38C63406E	for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:49:06 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])	by mail.otrs.com (Postfix) with ESMTP id 7DD2E88CE3	for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:17 +0200 (CEST)
+Received: from mail.otrs.com (osser.otrs.com [88.198.17.202])    by vo.otrs.com (Postfix) with ESMTP id 2E38C63406E    for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:49:06 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])    by mail.otrs.com (Postfix) with ESMTP id 7DD2E88CE3    for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:17 +0200 (CEST)
 Received: from mail.otrs.com ([127.0.0.1]) by localhost (osser.otrs.com [127.0.0.1]) (amavisd-new, port 10024) with ESMTP id 26329-06 for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:13 +0200 (CEST)
-Received: from beefreeitlt (53551B1F.cable.casema.nl [83.85.27.31])	(using TLSv1 with cipher AES128-SHA (128/128 bits))	(No client certificate requested)	by mail.otrs.com (Postfix) with ESMTP id C531688CD0	for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:12 +0200 (CEST)
+Received: from beefreeitlt (53551B1F.cable.casema.nl [83.85.27.31])    (using TLSv1 with cipher AES128-SHA (128/128 bits))    (No client certificate requested)    by mail.otrs.com (Postfix) with ESMTP id C531688CD0    for <vo307@vo.otrs.com>; Mon, 12 Oct 2009 16:41:12 +0200 (CEST)
 From: "Michiel Beijen" <michiel.beijen@otrs.com>
 To: <vo307@vo.otrs.com>
 Subject: Test ticket w/attachment for bug 1970
@@ -24,32 +24,32 @@ This is a multi-part message in MIME format.
 
 ------=_NextPart_000_002A_01CA4B5A.CF1A5630
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_001_002B_01CA4B5A.CF1A5630"
+    boundary="----=_NextPart_001_002B_01CA4B5A.CF1A5630"
 
 
 ------=_NextPart_001_002B_01CA4B5A.CF1A5630
 Content-Type: text/plain;
-	charset="us-ascii"
+    charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-hen sending an email attachment of type *.msg (Outlook-Message) to an
+When sending an email attachment of type *.msg (Outlook-Message) to an
 otrs-ticket (creation/follow-up via email - NOT!! from the
-customer-interface)  
+customer-interface)
 the msg-attachment is converted to a plain text-file and renamed to e.g.
 "file-n".
 this happens with otrs 2.0 and also with 2.2.
- 
+
 see also :
 [Ticket#2007060642000226] email attachments of type .msg (Outlook-Message)
 are
 converted at support@otrs.com
 
- 
+
 
 
 ------=_NextPart_001_002B_01CA4B5A.CF1A5630
 Content-Type: text/html;
-	charset="us-ascii"
+    charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 <html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
@@ -66,54 +66,54 @@ charset=3Dus-ascii">
 <!--
  /* Font Definitions */
  @font-face
-	{font-family:PMingLiU;
-	panose-1:2 2 5 0 0 0 0 0 0 0;}
+    {font-family:PMingLiU;
+    panose-1:2 2 5 0 0 0 0 0 0 0;}
 @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
+    {font-family:"Cambria Math";
+    panose-1:2 4 5 3 5 4 6 3 2 4;}
 @font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
+    {font-family:Calibri;
+    panose-1:2 15 5 2 2 2 4 3 2 4;}
 @font-face
-	{font-family:"\@PMingLiU";
-	panose-1:2 2 5 0 0 0 0 0 0 0;}
+    {font-family:"\@PMingLiU";
+    panose-1:2 2 5 0 0 0 0 0 0 0;}
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
+    {margin:0cm;
+    margin-bottom:.0001pt;
+    font-size:11.0pt;
+    font-family:"Calibri","sans-serif";}
 a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
+    {mso-style-priority:99;
+    color:blue;
+    text-decoration:underline;}
 a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
+    {mso-style-priority:99;
+    color:purple;
+    text-decoration:underline;}
 pre
-	{mso-style-priority:99;
-	mso-style-link:"HTML - vooraf opgemaakt Char";
-	margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:10.0pt;
-	font-family:"Courier New";}
+    {mso-style-priority:99;
+    mso-style-link:"HTML - vooraf opgemaakt Char";
+    margin:0cm;
+    margin-bottom:.0001pt;
+    font-size:10.0pt;
+    font-family:"Courier New";}
 span.E-mailStijl17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
+    {mso-style-type:personal-compose;
+    font-family:"Calibri","sans-serif";
+    color:windowtext;}
 span.HTML-voorafopgemaaktChar
-	{mso-style-name:"HTML - vooraf opgemaakt Char";
-	mso-style-priority:99;
-	mso-style-link:"HTML - vooraf opgemaakt";
-	font-family:"Courier New";}
+    {mso-style-name:"HTML - vooraf opgemaakt Char";
+    mso-style-priority:99;
+    mso-style-link:"HTML - vooraf opgemaakt";
+    font-family:"Courier New";}
 .MsoChpDefault
-	{mso-style-type:export-only;}
+    {mso-style-type:export-only;}
 @page Section1
-	{size:612.0pt 792.0pt;
-	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+    {size:612.0pt 792.0pt;
+    margin:70.85pt 70.85pt 70.85pt 70.85pt;}
 div.Section1
-	{page:Section1;}
+    {page:Section1;}
 -->
 </style>
 <!--[if gte mso 9]><xml>
@@ -126,7 +126,7 @@ div.Section1
 
 <body lang=3DNL link=3Dblue vlink=3Dpurple>
 
-<div class=3DSection1><pre><span lang=3DEN-US>hen sending an email =
+<div class=3DSection1><pre><span lang=3DEN-US>When sending an email =
 attachment of type *.msg (Outlook-Message) to =
 an<o:p></o:p></span></pre><pre><span
 lang=3DEN-US>otrs-ticket (creation/follow-up via email - NOT!! from the =
@@ -157,46 +157,46 @@ Content-Type: message/rfc822
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment
 
-Received: from fw.greenpeace.org (fw.greenpeace.org [212.19.215.77])by 
-	mailman.greenpeace.org (Postfix) with ESMTP id D8BDB31C1FFfor 
-	<presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 14:58:33 +0100 (CET)
-Received: from images.greenpeace.org (localhost [127.0.0.1])by 
-	mailman.greenpeace.org (Postfix) with ESMTPid 0A7F531C305; Mon, 18 Dec 2006
-	 14:58:39 +0100 (CET)
-Received: from mailman.greenpeace.org (images.greenpeace.org 
-	[212.19.215.66])by stan.greenpeace.org (Postfix) with ESMTP id 
-	E3A75109C4B;Mon, 18 Dec 2006 14:59:32 +0100 (CET)
-Received: from fw.greenpeace.org (localhost [127.0.0.1])by 
-	localhost.greenpeace.org (TUNIX/Firewall Mail Server) with ESMTP 
-	id122FAAF505 for <presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 
-	14:59:17 +0100 (CET)
-Received: from mail.de.gl3 (mail.de.gl3 [192.168.49.36])by bb2.nli.gl3 
-	(8.12.5/8.13.3) with ESMTP id kBIDxGni019648for 
-	<presse-ger@mailman.greenpeace.org>; Mon, 18 Dec 2006 14:59:16 +0100
-Received: from bb2.nli.gl3 (root@localhost)by bb2.nli.gl3 (8.12.5/8.12.5) 
-	with SMTP id kBIDxHhm019653for <presse-ger@mailman.greenpeace.org>; Mon, 18
-	 Dec 2006 14:59:17 +0100
-Received: by fw.greenpeace.org (TUNIX/Firewall Mail Server) with ESMTPfor 
-	<presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 14:59:17 +0100 (CET)
+Received: from fw.greenpeace.org (fw.greenpeace.org [212.19.215.77])by
+    mailman.greenpeace.org (Postfix) with ESMTP id D8BDB31C1FFfor
+    <presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 14:58:33 +0100 (CET)
+Received: from images.greenpeace.org (localhost [127.0.0.1])by
+    mailman.greenpeace.org (Postfix) with ESMTPid 0A7F531C305; Mon, 18 Dec 2006
+     14:58:39 +0100 (CET)
+Received: from mailman.greenpeace.org (images.greenpeace.org
+    [212.19.215.66])by stan.greenpeace.org (Postfix) with ESMTP id
+    E3A75109C4B;Mon, 18 Dec 2006 14:59:32 +0100 (CET)
+Received: from fw.greenpeace.org (localhost [127.0.0.1])by
+    localhost.greenpeace.org (TUNIX/Firewall Mail Server) with ESMTP
+    id122FAAF505 for <presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006
+    14:59:17 +0100 (CET)
+Received: from mail.de.gl3 (mail.de.gl3 [192.168.49.36])by bb2.nli.gl3
+    (8.12.5/8.13.3) with ESMTP id kBIDxGni019648for
+    <presse-ger@mailman.greenpeace.org>; Mon, 18 Dec 2006 14:59:16 +0100
+Received: from bb2.nli.gl3 (root@localhost)by bb2.nli.gl3 (8.12.5/8.12.5)
+    with SMTP id kBIDxHhm019653for <presse-ger@mailman.greenpeace.org>; Mon, 18
+     Dec 2006 14:59:17 +0100
+Received: by fw.greenpeace.org (TUNIX/Firewall Mail Server) with ESMTPfor
+    <presse-ger@mailman.greenpeace.org>;Mon, 18 Dec 2006 14:59:17 +0100 (CET)
 Received: from server3a.software-ag.de ([10.22.90.32]) by DAEMSG03.eur.ad.sag with Microsoft SMTPSVC(6.0.3790.1830);
-	 Mon, 18 Dec 2006 14:59:35 +0100
+     Mon, 18 Dec 2006 14:59:35 +0100
 Received: from server3a.software-ag.de (localhost [127.0.0.1])
-	by localhost.software-ag.de (Postfix) with ESMTP id 594DC5D500
-	for <jorst.gemsjaeger@softwareag.com>; Mon, 18 Dec 2006 14:59:35 +0100 (CET)
-Received: from stan.greenpeace.org (stan.greenpeace.org [212.19.215.80])by 
-	server3a.software-ag.de (Postfix) with ESMTP id 31CCC5D165for 
-	<gej@software-ag.de>; Mon, 18 Dec 2006 14:59:35 +0100 (CET)
+    by localhost.software-ag.de (Postfix) with ESMTP id 594DC5D500
+    for <jorst.gemsjaeger@softwareag.com>; Mon, 18 Dec 2006 14:59:35 +0100 (CET)
+Received: from stan.greenpeace.org (stan.greenpeace.org [212.19.215.80])by
+    server3a.software-ag.de (Postfix) with ESMTP id 31CCC5D165for
+    <gej@software-ag.de>; Mon, 18 Dec 2006 14:59:35 +0100 (CET)
 Return-Path: <presse-ger-bounces@mailman.greenpeace.org>
 Reply-To: <presse-ger@mailman.greenpeace.org>
 From: <presse-ger@mailman.greenpeace.org>
 Sender: <presse-ger-bounces@mailman.greenpeace.org>
 To: <presse-ger@mailman.greenpeace.org>
-Subject: [Presse-Greenpeace] Morgen wird Greenpeace-Einspruch gegenEmbryonen-Patent verhandelt - NeueDokumentation ueber Patente auf Leben 
+Subject: [Presse-Greenpeace] Morgen wird Greenpeace-Einspruch gegenEmbryonen-Patent verhandelt - NeueDokumentation ueber Patente auf Leben
 Date: Mon, 18 Dec 2006 15:59:11 +0200
 Message-ID: <OFDB469813.3ED4D114-ONC1257248.004CB16D-C1257248.004CD532@de.gl3>
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0025_01CA4B5A.CF19E100"
+    boundary="----=_NextPart_000_0025_01CA4B5A.CF19E100"
 X-Mailer: Microsoft Office Outlook 12.0
 Thread-Index: AccirMARP0xygQsRQc2MxWCKdqxjiw==
 Content-Language: en-us
@@ -208,7 +208,7 @@ This is a multi-part message in MIME format.
 
 ------=_NextPart_000_0025_01CA4B5A.CF19E100
 Content-Type: text/plain;
-	charset="iso-8859-1"
+    charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
 
@@ -303,7 +303,7 @@ http://mailman.greenpeace.org/mailman/listinfo/presse-ger
 
 ------=_NextPart_000_0025_01CA4B5A.CF19E100
 Content-Type: text/html;
-	charset="iso-8859-1"
+    charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">

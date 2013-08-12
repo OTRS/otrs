@@ -45,12 +45,13 @@ InstallerDBStart
             $('#FormDBResultMessage').html(json['Message']);
             $('#FormDBResultComment').html(json['Comment']);
             $('fieldset.ErrorMsg').show();
+            $('fieldset.Success').hide();
         }
         else {
             $('#ButtonCheckDB').hide();
             $('#FormDBSubmit').removeAttr('disabled');
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
-            $('fieldset.HideMe, div.HideMe').show();
+            $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
         }
     };
 

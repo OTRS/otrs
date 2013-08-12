@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-06-27 15:49:32
+--  driver: postgresql, generated: 2013-08-06 14:11:36
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -256,39 +256,39 @@ INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_i
     VALUES
     ('Misc', 1, 1, 1, 1, 1, 1, 0, 'All misc tickets.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table standard_response
+--  insert into table standard_template
 -- ----------------------------------------------------------
-INSERT INTO standard_response (name, text, content_type, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO standard_template (name, text, content_type, template_type, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('empty answer', '', 'text/plain; charset=utf-8', 1, 1, current_timestamp, 1, current_timestamp);
+    ('empty answer', '', 'text/plain; charset=utf-8', 'Answer', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table standard_response
+--  insert into table standard_template
 -- ----------------------------------------------------------
-INSERT INTO standard_response (name, text, content_type, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO standard_template (name, text, content_type, template_type, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('test answer', 'Some test answer to show how a standard response can be used.', 'text/plain; charset=utf-8', 1, 1, current_timestamp, 1, current_timestamp);
+    ('test answer', 'Some test answer to show how a standard template can be used.', 'text/plain; charset=utf-8', 'Answer', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table queue_standard_response
+--  insert into table queue_standard_template
 -- ----------------------------------------------------------
-INSERT INTO queue_standard_response (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue_standard_template (queue_id, standard_template_id, create_by, create_time, change_by, change_time)
     VALUES
     (1, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table queue_standard_response
+--  insert into table queue_standard_template
 -- ----------------------------------------------------------
-INSERT INTO queue_standard_response (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue_standard_template (queue_id, standard_template_id, create_by, create_time, change_by, change_time)
     VALUES
     (2, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table queue_standard_response
+--  insert into table queue_standard_template
 -- ----------------------------------------------------------
-INSERT INTO queue_standard_response (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue_standard_template (queue_id, standard_template_id, create_by, create_time, change_by, change_time)
     VALUES
     (3, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table queue_standard_response
+--  insert into table queue_standard_template
 -- ----------------------------------------------------------
-INSERT INTO queue_standard_response (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue_standard_template (queue_id, standard_template_id, create_by, create_time, change_by, change_time)
     VALUES
     (4, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------

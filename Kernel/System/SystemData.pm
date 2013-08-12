@@ -85,8 +85,8 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    # create addititional objects
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    # create additional objects
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'SystemData',
@@ -168,6 +168,7 @@ get system data for key
     );
 
 returns value as a simple scalar, or undef if the key does not exist.
+keys set to NULL return an empty string.
 
 =cut
 
@@ -200,7 +201,7 @@ sub SystemDataGet {
 
     my $Value;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $Value = $Data[0];
+        $Value = $Data[0] || '';
     }
 
     # set cache

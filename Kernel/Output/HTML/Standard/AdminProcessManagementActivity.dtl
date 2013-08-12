@@ -89,7 +89,7 @@
                             <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
 <!-- dtl:block:AvailableActivityDialogRow -->
                                 <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
-                                    $QData{"Name", "55"}
+                                    $QData{"Name"}
                                     <span class="Functions">
                                         <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
                                         <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon Icon_Edit" title="$Text{"Edit"}"></a>
@@ -114,7 +114,7 @@
                             <ul class="AllocationList Tablelike W90pc" id="AssignedActivityDialogs">
 <!-- dtl:block:AssignedActivityDialogRow -->
                                 <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
-                                    $QData{"Name", "55"}
+                                    $QData{"Name"}
                                     <span class="Functions">
                                         <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
                                         <a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon Icon_Edit" title="$Text{"Edit"}"></a>

@@ -11,6 +11,25 @@
 
 @media screen,projection,tv,handheld {
 
+
+/**
+ * @subsection  Ticket Process
+ */
+
+.TicketProcess .Content {
+    margin: 0;
+    display: inline-block;
+}
+.TicketProcess fieldset{
+    margin: 8px 0 13px;
+    padding-bottom: 5px;
+    min-width: 500px;
+}
+
+.Center {
+    text-align: center;
+}
+
 /**
  * @subsection  Extensions for popup dialog
  */

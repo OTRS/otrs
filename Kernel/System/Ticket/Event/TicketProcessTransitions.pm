@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/TicketProcessTransitions.pm - a event module to chage from one activity to another based on the transition
+# Kernel/System/Ticket/Event/TicketProcessTransitions.pm - a event module to change from one activity to another based on the transition
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,18 +7,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-=cut
-
-This event handler will fire on ticket events and check if a transition of
-a process ticket needs to be made.
-
-It is registered in transaction mode, so it will operate after all other regular ticket
-changes have been made. A small cache in $Self->{TicketObject} makes sure that for each
-ticket, the check is only done once.
-
-=cut
-
 package Kernel::System::Ticket::Event::TicketProcessTransitions;
+
 use strict;
 use warnings;
 

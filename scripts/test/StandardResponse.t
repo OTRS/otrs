@@ -21,34 +21,34 @@ my @Tests = (
     {
         Name => 'text',
         Add  => {
-            Name        => 'text',
-            ValidID     => 1,
-            Response    => 'Response text',
-            ContentType => 'text/plain; charset=iso-8859-1',
-            Comment     => 'some comment',
-            UserID      => 1,
+            Name         => 'text',
+            ValidID      => 1,
+            Response     => 'Response text',
+            ContentType  => 'text/plain; charset=iso-8859-1',
+            Comment      => 'some comment',
+            UserID       => 1,
         },
         AddGet => {
-            Name        => 'text',
-            ValidID     => 1,
-            Response    => 'Response text',
-            ContentType => 'text/plain; charset=iso-8859-1',
-            Comment     => 'some comment',
+            Name         => 'text',
+            ValidID      => 1,
+            Response     => 'Response text',
+            ContentType  => 'text/plain; charset=iso-8859-1',
+            Comment      => 'some comment',
         },
         Update => {
-            Name        => 'text2',
-            ValidID     => 1,
-            Response    => 'Response text\'2',
-            ContentType => 'text/plain; charset=utf-8',
-            Comment     => 'some comment2',
-            UserID      => 1,
+            Name         => 'text2',
+            ValidID      => 1,
+            Response     => 'Response text\'2',
+            ContentType  => 'text/plain; charset=utf-8',
+            Comment      => 'some comment2',
+            UserID       => 1,
         },
         UpdateGet => {
-            Name        => 'text2',
-            ValidID     => 1,
-            Response    => 'Response text\'2',
-            ContentType => 'text/plain; charset=utf-8',
-            Comment     => 'some comment2',
+            Name         => 'text2',
+            ValidID      => 1,
+            Response     => 'Response text\'2',
+            ContentType  => 'text/plain; charset=utf-8',
+            Comment      => 'some comment2',
         },
     },
 );
@@ -112,6 +112,33 @@ for my $Test (@Tests) {
             $Test->{UpdateGet}->{$Key},
             $Data{$Key},
             "StandardResponseGet() - $Key",
+        );
+    }
+
+    my %StandardResponses          = $StandardResponseObject->StandardResponseList();
+    my %StandardResponsesWithTypes = $StandardResponseObject->StandardResponseList(
+        TemplateTypes => 1,
+    );
+
+    $Self->IsNotDeeply(
+        \%StandardResponses,
+        \%StandardResponsesWithTypes,
+        "StandardResponseList() Normal and TemplateTypes"
+    );
+
+    for my $TemplateID ( keys %StandardResponsesWithTypes ) {
+        my $Match = 0;
+        if (
+            $StandardResponsesWithTypes{$TemplateID}
+            =~ m{\A (?: Answer|Forward|Create ) [ ] - [ ] .+ \z}msx
+            )
+        {
+            $Match = 1;
+        }
+        $Self->True(
+            $Match,
+            "StandardResponseList() - TemplateTypes '$StandardResponsesWithTypes{$TemplateID}' has"
+                . " correct format with true"
         );
     }
 

@@ -29,8 +29,8 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-    $Self->{EmailObject}  = Kernel::System::Email->new(%Param);
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{EmailObject}  = Kernel::System::Email->new( %{$Self} );
 
     return $Self;
 }

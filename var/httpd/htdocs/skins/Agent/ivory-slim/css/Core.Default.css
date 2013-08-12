@@ -1,0 +1,220 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Ivory"
+ * @section     Skin overrides
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Color
+ * @note        standard colors #69BFCC is the main skin color and #265D66 its dark version
+ */
+
+a,
+span.Pagination a:hover {
+    color: #69BFCC;
+}
+
+.Admin .Size1of2 h4 {
+    color: #69BFCC !important;
+}
+
+.AdminPerformanceLog .Progressbar {
+    background-color: #69BFCC;
+}
+
+a:hover,
+a:active,
+a:focus,
+#ToolBar a.Active {
+    color: #82CED8;
+}
+
+.Admin .Size1of2:hover h4 {
+    color: #265D66 !important;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus,
+input.Focus,
+textarea.Focus  {
+    border-color: #69BFCC;
+}
+
+/**
+ * @subsection  Navigation
+ * @note        the default navigation_sprite is transparent and has a transparent reddish
+ *              gradient overlay. This works with some colors so you only have to change the
+ *              background color of the li items and the anchors on hover. In this case the
+ *              red overlay doesn't fit, so changed the main sprite too.
+ */
+
+#Navigation > .Selected,
+#Navigation > .Selected > a,
+#Navigation > li:hover,
+#Navigation > li:hover > a {
+    background-color: #69BFCC;
+}
+
+#Navigation > .Selected {
+    -webkit-box-shadow: inset 1px 1px 1px 0px #69BFCC, inset -1px -1px 1px 0px #69BFCC;
+    box-shadow: inset 1px 1px 1px 0px #69BFCC, inset -1px -1px 1px 0px #69BFCC;
+    border: 1px solid #98E1EA;
+}
+
+
+#Navigation > li:hover > span {
+    background-color: #98E1EA;
+}
+
+/**
+ * @subsection  Overviews
+ */
+
+.OverviewMedium li:hover table.Infos td label,
+.OverviewLarge > li:hover .Infos table label {
+    color: #265D66;
+}
+
+.OverviewLarge li:hover .Infos table td,
+.OverviewLarge li:hover .Infos table tr.Middle {
+    border-color: #265D66;
+}
+
+.OverviewLarge > li:hover .Preview > ul {
+    border-color: #5ADCF2 #5ADCF2 #5ADCF2 #7B7670;
+}
+
+.Actions li a:hover,
+.Actions li span:hover,
+.OverviewZoom a:hover {
+    border-left-color: #78CEDB;
+    border-right-color: #54AAB7;
+}
+
+/**
+ * @subsection  Messages
+ */
+
+.MessageBox.Notice {
+    border-color: #265D66;
+    background: #69BFCC;
+}
+
+.MessageBox.Notice p {
+    border-color: #75E4F5;
+}
+
+.MessageBox.Notice p,
+.MessageBox.Notice a {
+    color: #183C41;
+}
+
+/**
+ * @subsection  Gradients
+ */
+
+#Navigation > .Active > ul > li:hover,
+.ControlRow li:hover,
+.ControlRow li.Active:hover,
+.ControlRow li:hover > a,
+.ControlRow li:active > a,
+.OverviewMedium li:hover div.Content,
+.OverviewLarge > li:hover > .Content,
+.OverviewLarge > li:hover .Shadow,
+.Actions li a:hover,
+.Actions li span:hover,
+.OverviewZoom a:hover,
+.DataTable tbody tr:hover td,
+.TableSmall tbody tr:hover td,
+.DataTable tbody tr:hover td,
+.TableSmall tbody tr:hover td {
+    background: #c0f7ff;
+    background: -moz-linear-gradient(top,  #c0f7ff 0%, #93e9f6 20%, #78cedb 51%, #63b9c6 51%, #54aab7 95%, #489eab 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c0f7ff), color-stop(20%,#93e9f6), color-stop(51%,#78cedb), color-stop(51%,#63b9c6), color-stop(95%,#54aab7), color-stop(100%,#489eab));
+    background: -webkit-linear-gradient(top,  #c0f7ff 0%,#93e9f6 20%,#78cedb 51%,#63b9c6 51%,#54aab7 95%,#489eab 100%);
+    background: -o-linear-gradient(top,  #c0f7ff 0%,#93e9f6 20%,#78cedb 51%,#63b9c6 51%,#54aab7 95%,#489eab 100%);
+    background: -ms-linear-gradient(top,  #c0f7ff 0%,#93e9f6 20%,#78cedb 51%,#63b9c6 51%,#54aab7 95%,#489eab 100%);
+    background: linear-gradient(to bottom,  #c0f7ff 0%,#93e9f6 20%,#78cedb 51%,#63b9c6 51%,#54aab7 95%,#489eab 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0f7ff', endColorstr='#489eab',GradientType=0 );
+}
+
+/**
+ * @subsection  Image Replacements
+ */
+
+#UserInfo a.LogoutButton {
+    background-image: url(../img/logout_sprite.png);
+}
+
+.TableSmall tbody td a.Attachment {
+    background-image: url(../img/attachment_sprite.png);
+}
+
+.Dialog > .Header .Close {
+    background-image: url(../img/dialog_close.png);
+}
+
+.Dialog.Alert span.Icon {
+    background-image: url(../img/dialog_alert.png);
+}
+
+/*
+ * @subsection  Slim styles
+ *
+ */
+
+#Header {
+    height: 42px;
+    background-position: bottom;
+}
+
+#Logo {
+    right: 246px;
+}
+
+.RTL #Logo {
+    right: auto;
+    left: 246px;
+}
+
+#ToolBar {
+    top: 24px;
+    left: auto;
+    right: 45px;
+}
+
+#ToolBar a {
+    margin-top: -7px;
+}
+
+.RTL #ToolBar {
+    right: auto;
+    left: 45px;
+}
+
+#UserInfo {
+    top: 2px;
+}
+
+#Navigation {
+    top: 21px;
+}
+
+.DataTable tr td {
+    line-height: 14px;
+}
+
+.FixedHeader td {
+    line-height: 16px;
+}
+
+
+} /* end @media */

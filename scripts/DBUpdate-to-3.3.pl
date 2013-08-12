@@ -299,6 +299,21 @@ sub _MigrateOldSettings {
             Value => $Setting,
         );
     }
+
+    # StandardResponse2QueueByCreating
+    # get original setting (old name)
+    $Setting = $CommonObject->{ConfigObject}->Get('StandardResponse2QueueByCreating');
+
+    if ( IsArrayRefWithData($Setting) ) {
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'StandardTemplate2QueueByCreating',
+            Value => $Setting,
+        );
+    }
+
     return 1;
 }
 
@@ -360,7 +375,7 @@ sub _UninstallMergedFeatureAddOns {
 
     my $PackageObject = Kernel::System::Package->new( %{$CommonObject} );
 
-    # qw( ) contains a list of the feture add-ons to uninstall
+    # qw( ) contains a list of the feature add-ons to uninstall
     for my $PackageName (
         qw(
         OTRSPostMasterFilterExtensions
@@ -374,8 +389,8 @@ sub _UninstallMergedFeatureAddOns {
         OTRSMultiQueueSelect
         OTRSDynamicFieldMultiLevelSelection
         OTRSEventBasedTicketActions
-        OTRSKeepFAQAttachments
         OTRSTicketAclEditor
+        OTRSCustomerProcessSelection
         )
         )
     {

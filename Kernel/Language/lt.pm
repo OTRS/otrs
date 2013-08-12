@@ -442,7 +442,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Neįmanoma atnaujinti slaptažodžio, nes jame yra neleistinų simbolių.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių ilgio.',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Neįmanoma atnaujinti slaptažodžio. Slaptažodį turi sudaryti mažiausiai 2 didžiosios ir 2 mažosios raidės.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo.',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2617,7 +2617,7 @@ sub Data {
             'Jeigu OTRS diegimui norite naudoti kitokį duombazės tipą skaitykite failą README.database',
         'Database-User' => 'Duomenų bazės naudotojas',
         'New' => 'Naujas',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų bazės naudotojas.',
         'default \'hot\'' => 'standartiškai \'hot\'',
         'DB host' => 'Duomenų bazės serveris',

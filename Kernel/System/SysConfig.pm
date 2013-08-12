@@ -109,22 +109,22 @@ sub new {
     $Self->{FileMode} = ':utf8';
 
     # create xml object
-    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
+    $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
 
     # create config default object
-    $Self->{ConfigDefaultObject} = Kernel::Config->new( %Param, Level => 'Default' );
+    $Self->{ConfigDefaultObject} = Kernel::Config->new( %{$Self}, Level => 'Default' );
 
     # create config object
-    $Self->{ConfigObject} = Kernel::Config->new( %Param, Level => 'First' );
+    $Self->{ConfigObject} = Kernel::Config->new( %{$Self}, Level => 'First' );
 
     # create config clear object
-    $Self->{ConfigClearObject} = Kernel::Config->new( %Param, Level => 'Clear' );
+    $Self->{ConfigClearObject} = Kernel::Config->new( %{$Self}, Level => 'Clear' );
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
 
     # create language object if it was not provided
-    $Self->{LanguageObject} = $Param{LanguageObject} || Kernel::Language->new(%Param);
+    $Self->{LanguageObject} = $Param{LanguageObject} || Kernel::Language->new( %{$Self} );
 
     return $Self;
 }

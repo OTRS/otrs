@@ -24,6 +24,9 @@ div.Headline h1 {
     font-size: 15px;
     line-height: 24px;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.Headline h1 span {

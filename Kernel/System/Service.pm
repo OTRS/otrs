@@ -97,7 +97,7 @@ sub new {
     my $GeneratorModule = $Self->{ConfigObject}->Get('Service::PreferencesModule')
         || 'Kernel::System::Service::PreferencesDB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     return $Self;

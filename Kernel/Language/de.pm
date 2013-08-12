@@ -82,6 +82,7 @@ sub Data {
         'Error' => 'Fehler',
         'Bug Report' => 'Fehler berichten',
         'Attention' => 'Achtung',
+        'Note: Company is invalid!' => 'Hinweis: Firma ist ungültig!',
         'Warning' => 'Warnung',
         'Module' => 'Modul',
         'Modulefile' => 'Moduldatei',
@@ -267,7 +268,7 @@ sub Data {
         'Cannot create %s!' => '%s kann nicht erzeugt werden!',
         'Check to activate this date' => 'Auswählen, um dieses Datum zu aktivieren',
         'You have Out of Office enabled, would you like to disable it?' =>
-            'Sie haben die Abwesenheitszeit eingeschaltet, möchten Sie diese deaktiveren?',
+            'Sie haben die Abwesenheitszeit eingeschaltet, möchten Sie diese deaktivieren?',
         'Customer %s added' => 'Kunde %s hinzugefügt',
         'Role added!' => 'Rolle hinzugefügt!',
         'Role updated!' => 'Rolle aktualisiert!',
@@ -442,7 +443,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Das Passwort kann nicht aktualisiert werden, da es unerlaubte Zeichen enthält.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens %s Zeichen lang sein.',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Gross- und 2 Kleinbuchstaben enthalten.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Das Passwort kann nicht aktualisiert werden. Es muss mindestens eine Ziffer enthalten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2577,6 +2578,7 @@ sub Data {
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
+        'Database already contains data - it should be empty!' => 'Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Mailversand konfigurieren',
@@ -2618,7 +2620,7 @@ sub Data {
             'Wenn Sie OTRS auf einer anderen Datenbank installieren möchten, lesen Sie bitte die Datei README.database.',
         'Database-User' => 'Benutzername der Datenbank',
         'New' => 'Neu',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Ein neuer Datenbank-Benutzer mit beschränkten Rechten wird für dieses OTRS-System erstellt.',
         'default \'hot\'' => 'voreingestellt \'hot\'',
         'DB host' => 'Datenbank-Host',
@@ -2869,7 +2871,7 @@ sub Data {
         'Company Tickets' => 'Firmen-Tickets',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
-        'Configure Processes.' => '',
+        'Configure Processes.' => 'Prozesse verwalten.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -2900,7 +2902,7 @@ sub Data {
         'Create and manage ticket priorities.' => 'Ticket-Prioritäten erzeugen und verwalten.',
         'Create and manage ticket states.' => 'Ticket-Status  erzeugen und verwalten.',
         'Create and manage ticket types.' => 'Ticket-Typen erzeugen und verwalten.',
-        'Create and manage web services.' => '',
+        'Create and manage web services.' => 'Webservices erzeugen und verwalten.',
         'Create new email ticket and send this out (outbound)' => 'Neues E-Mail-Ticket erzeugen und versenden (ausgehend)',
         'Create new phone ticket (inbound)' => 'Neues Telefonticket erstellen (eingehend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
@@ -3845,7 +3847,7 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3- oder IMAP-Konten für das Abholen von E-Mail verwalten.',
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
         'Manage existing sessions.' => 'Sitzungen verwalten.',
-        'Manage notifications that are sent to agents.' => '',
+        'Manage notifications that are sent to agents.' => 'Benachrichtigungen für Agenten verwalten',
         'Manage periodic tasks.' => 'Periodische Aufgaben verwalten.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4550,6 +4552,14 @@ sub Data {
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
+        'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
+            'Legt die Reihenfolge fest, in der Vorname und Nachname von Agenten angezeigt wird.',
+        'Firstname Lastname' => 'Vorname Nachname',
+        'Lastname, Firstname' => 'Nachname, Vorname',
+        'Firstname Lastname (UserLogin)' => 'Vorname Nachname (BenutzerLogin)',
+        'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
+        '(UserLogin) Firstname Lastname' => '(BenutzerLogin) Vorname Nachname',
+        '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!

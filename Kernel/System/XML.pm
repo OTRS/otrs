@@ -74,12 +74,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
+    # check needed objects
     for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
-        die "Got no $_" if !$Self->{$_};
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );

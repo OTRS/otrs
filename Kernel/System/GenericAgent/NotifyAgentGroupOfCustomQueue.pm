@@ -33,9 +33,9 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    $Self->{UserObject}  = Kernel::System::User->new(%Param);
-    $Self->{EmailObject} = Kernel::System::Email->new(%Param);
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
+    $Self->{EmailObject} = Kernel::System::Email->new( %{$Self} );
+    $Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
 
     return $Self;
 }

@@ -203,14 +203,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         # calculate time difference
         my $DeltaTime = $Time - $PID{Changed};
 
-        # remove PID if changed time is grater than
+        # remove PID if changed time is greater than
         if ( $DeltaTime > $PIDUpdateTime ) {
 
             # _AutoStop returns an exit code for the OS, we need the opposit value
             my $PIDDeleteSuccess = !_AutoStop(
-                Message => 'NOTICE: otrs.Shceduler4win.pl is registered on the DB, but the '
+                Message => 'NOTICE: otrs.Scheduler4win.pl is registered in the DB, but the '
                     . 'registry has not been updated in ' . $DeltaTime . ' seconds!. '
-                    . 'The register will be deleted so Scheduler can start again without '
+                    . 'The registration will be deleted so the Scheduler can start again without '
                     . 'forcing',
                 DeletePID => 1,
             );
@@ -233,7 +233,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
                 Message =>
-                    "Scheduler Service tries to start but found an already running service!\n",
+                    "Scheduler Service tried to start but found an already running service!\n",
             );
             exit 1;
         }

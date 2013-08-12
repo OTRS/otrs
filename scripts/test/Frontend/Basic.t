@@ -40,7 +40,6 @@ my $JSONObject = Kernel::System::JSON->new( %{$Self} );
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
-#$BaseURL .= $ConfigObject->Get('FQDN') . '/';
 $BaseURL .= 'localhost/';
 $BaseURL .= $ConfigObject->Get('ScriptAlias');
 
@@ -55,15 +54,16 @@ my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 if ( !$Response->is_success() ) {
-    $Self->True( 0, "Could not login to agent interface, aborting" );
+    $Self->True( 0, "Could not login to agent interface, aborting! URL: " . $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;" );
     return 1;
 }
 
 $Response = $UserAgent->get(
     $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
 );
+
 if ( !$Response->is_success() ) {
-    $Self->True( 0, "Could not login to customer interface, aborting" );
+    $Self->True( 0, "Could not login to customer interface, aborting! URL: " . $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;" );
     return 1;
 }
 
@@ -78,7 +78,7 @@ $UserAgent->cookie_jar()->scan(
         if ( $_[1] eq $ConfigObject->Get('CustomerPanelSessionName') && $_[2] ) {
             $CustomerSessionValid = 1;
         }
-        }
+    }
 );
 
 if ( !$AgentSessionValid ) {
@@ -111,13 +111,24 @@ for my $BaseURL ( sort keys %Frontends ) {
             "Module $Frontend status code",
         );
 
+        $Self->True(
+            $Response->header('Content-type'),
+            "Module $Frontend content type",
+        );
+
         $Self->False(
             scalar $Response->header('X-OTRS-Login'),
             "Module $Frontend is no OTRS login screen",
         );
 
-        # Check JSON response
-        if ( $Response->header('Content-type') =~ 'json' ) {
+        # Check response contents
+        if ( $Response->header('Content-type') =~ 'html' ) {
+            $Self->True(
+                $Response->content() =~ m{<body|<div|<script}xms,
+                "Module $Frontend returned HTML",
+            );
+        }
+        elsif ( $Response->header('Content-type') =~ 'json' ) {
             my $Data = $JSONObject->Decode( Data => $Response->content() );
 
             $Self->True(

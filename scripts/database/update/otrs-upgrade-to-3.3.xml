@@ -58,7 +58,7 @@
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>    
+    </ForeignKey>
 </Table>
 
 <!-- acl - all acls from the editor -->
@@ -96,4 +96,104 @@
     <Column Name="change_time" Required="true" Type="DATE"/>
 </TableCreate>
 
+<!--  standard responses => standard templates -->
+<!-- remove foreign keys -->
+<TableAlter Name="standard_response">
+    <ForeignKeyDrop ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ForeignKeyDrop ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKeyDrop>
+</TableAlter>
+<TableAlter Name="queue_standard_response">
+    <ForeignKeyDrop ForeignTable="standard_response">
+        <Reference Local="standard_response_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ForeignKeyDrop ForeignTable="queue">
+        <Reference Local="queue_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ForeignKeyDrop ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKeyDrop>
+</TableAlter>
+<TableAlter Name="standard_response_attachment">
+    <ForeignKeyDrop ForeignTable="standard_response">
+        <Reference Local="standard_response_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ForeignKeyDrop ForeignTable="standard_attachment">
+        <Reference Local="standard_attachment_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ForeignKeyDrop ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKeyDrop>
+</TableAlter>
+
+<!--  remove uniques -->
+<TableAlter Name="standard_response">
+    <UniqueDrop Name="standard_response_name"/>
+</TableAlter>
+
+<!--  rename tables -->
+<TableAlter NameOld="standard_response" NameNew="standard_template"/>
+<TableAlter NameOld="queue_standard_response" NameNew="queue_standard_template"/>
+<TableAlter NameOld="standard_response_attachment" NameNew="standard_template_attachment"/>
+
+<!-- update tables -->
+<TableAlter Name="standard_template">
+
+    <!-- add new column -->
+    <ColumnAdd Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
+
+    <!-- create unique (new name) -->
+    <UniqueCreate Name="standard_template_name">
+        <UniqueColumn Name="name"/>
+    </UniqueCreate>
+
+    <!-- create foreign keys (reference names will be updated) -->
+    <ForeignKeyCreate ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKeyCreate>
+    <ForeignKeyCreate ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKeyCreate>
+</TableAlter>
+<TableAlter Name="queue_standard_template">
+
+    <!-- rename column -->
+    <ColumnChange NameOld="standard_response_id" NameNew="standard_template_id" Required="true" Type="INTEGER"/>
+
+    <!--  create foreign key (new name) -->
+    <ForeignKeyCreate ForeignTable="standard_template">
+        <Reference Local="standard_template_id" Foreign="id"/>
+    </ForeignKeyCreate>
+    <ForeignKeyCreate ForeignTable="queue">
+        <Reference Local="queue_id" Foreign="id"/>
+    </ForeignKeyCreate>
+    <ForeignKeyCreate ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKeyCreate>
+</TableAlter>
+<TableAlter Name="standard_template_attachment">
+
+    <!-- rename column -->
+    <ColumnChange NameOld="standard_response_id" NameNew="standard_template_id" Required="true" Type="INTEGER"/>
+
+    <!--  create foreign key (new name) -->
+    <ForeignKeyCreate ForeignTable="standard_template">
+        <Reference Local="standard_template_id" Foreign="id"/>
+    </ForeignKeyCreate>
+    <ForeignKeyCreate ForeignTable="standard_attachment">
+        <Reference Local="standard_attachment_id" Foreign="id"/>
+    </ForeignKeyCreate>
+    <ForeignKeyCreate ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKeyCreate>
+</TableAlter>
 </database>

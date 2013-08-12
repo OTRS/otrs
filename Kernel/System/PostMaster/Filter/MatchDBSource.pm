@@ -28,7 +28,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{PostMasterFilter} = Kernel::System::PostMaster::Filter->new(%Param);
+    $Self->{PostMasterFilter} = Kernel::System::PostMaster::Filter->new( %{$Self} );
 
     return $Self;
 }

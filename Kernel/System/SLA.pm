@@ -89,7 +89,7 @@ sub new {
     my $GeneratorModule = $Self->{ConfigObject}->Get('SLA::PreferencesModule')
         || 'Kernel::System::SLA::PreferencesDB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     return $Self;

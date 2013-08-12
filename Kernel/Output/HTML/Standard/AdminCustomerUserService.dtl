@@ -105,7 +105,7 @@
                         <li class="Header">$Text{"Services"}
                         </li>
 <!-- dtl:block:ResultServiceRow -->
-                        <li><a title="$QData{"Name"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name","40"}</a></li>
+                        <li class="OneRow"><a title="$QData{"Name"}" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=AllocateService;ServiceID=$LQData{"ID"};CustomerUserSearch=$LQData{"CustomerUserSearch"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:ResultServiceRow -->
                         <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
                     </ul>

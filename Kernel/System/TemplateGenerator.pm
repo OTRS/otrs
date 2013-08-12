@@ -16,7 +16,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 use Kernel::Language;
@@ -145,14 +145,14 @@ sub new {
 
     $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
 
-    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
-    $Self->{SalutationObject}       = Kernel::System::Salutation->new(%Param);
-    $Self->{SignatureObject}        = Kernel::System::Signature->new(%Param);
-    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new(%Param);
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
-    $Self->{NotificationObject}     = Kernel::System::Notification->new(%Param);
-    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new(%Param);
-    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new( %{$Self} );
+    $Self->{SalutationObject}       = Kernel::System::Salutation->new( %{$Self} );
+    $Self->{SignatureObject}        = Kernel::System::Signature->new( %{$Self} );
+    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new( %{$Self} );
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new( %{$Self} );
+    $Self->{NotificationObject}     = Kernel::System::Notification->new( %{$Self} );
+    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new( %{$Self} );
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(
         TimeObject => $Self->{TicketObject}->{TimeObject},
         %Param
@@ -423,6 +423,8 @@ sub Sender {
 
 =item Response()
 
+DEPRECATED: This function will be removed in further versions of otrs.
+
 generate response
 
     my %Response = $TemplateGeneratorObject->Response(
@@ -450,44 +452,9 @@ sub Response {
         }
     }
 
-    # get  queue
-    my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
-    );
+    $Param{TemplateID} = $Param{ResponseID};
 
-    # get salutation
-    my %Queue = $Self->{QueueObject}->QueueGet(
-        ID => $Ticket{QueueID},
-    );
-    my %Response = $Self->{StandardResponseObject}->StandardResponseGet(
-        ID => $Param{ResponseID},
-    );
-
-    # do text/plain to text/html convert
-    if ( $Self->{RichText} && $Response{ContentType} =~ /text\/plain/i ) {
-        $Response{ContentType} = 'text/html';
-        $Response{Response}    = $Self->{HTMLUtilsObject}->ToHTML(
-            String => $Response{Response},
-        );
-    }
-
-    # do text/html to text/plain convert
-    if ( !$Self->{RichText} && $Response{ContentType} =~ /text\/html/i ) {
-        $Response{ContentType} = 'text/plain';
-        $Response{Response}    = $Self->{HTMLUtilsObject}->ToAscii(
-            String => $Response{Response},
-        );
-    }
-
-    # replace place holder stuff
-    my $ResponseText = $Self->_Replace(
-        RichText => $Self->{RichText},
-        Text     => $Response{Response} || '',
-        TicketID => $Param{TicketID},
-        Data     => $Param{Data},
-        UserID   => $Param{UserID},
-    );
+    my $ResponseText = $Self->Template(%Param);
 
     my $Salutation = $Self->Salutation(%Param);
 
@@ -499,6 +466,66 @@ sub Response {
         Salutation       => $Salutation,
         Signature        => $Signature,
     );
+}
+
+=item Template()
+
+generate template
+
+    my $Template = $TemplateGeneratorObject->Template(
+        TemplateID => 123
+        TicketID   => 123,                  # Optional
+        Data       => $ArticleHashRef,      # Optional
+        UserID     => 123,
+    );
+
+Returns:
+
+    $Template =>  'Some text';
+
+=cut
+
+sub Template {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TemplateID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my %Template = $Self->{StandardTemplateObject}->StandardTemplateGet(
+        ID => $Param{TemplateID},
+    );
+
+    # do text/plain to text/html convert
+    if ( $Self->{RichText} && $Template{ContentType} =~ /text\/plain/i ) {
+        $Template{ContentType} = 'text/html';
+        $Template{Template}    = $Self->{HTMLUtilsObject}->ToHTML(
+            String => $Template{Text},
+        );
+    }
+
+    # do text/html to text/plain convert
+    if ( !$Self->{RichText} && $Template{ContentType} =~ /text\/html/i ) {
+        $Template{ContentType} = 'text/plain';
+        $Template{Template}    = $Self->{HTMLUtilsObject}->ToAscii(
+            String => $Template{Response},
+        );
+    }
+
+    # replace place holder stuff
+    my $TemplateText = $Self->_Replace(
+        RichText => $Self->{RichText},
+        Text     => $Template{Template} || '',
+        TicketID => $Param{TicketID} || '',
+        Data     => $Param{Data} || {},
+        UserID   => $Param{UserID},
+    );
+
+    return $TemplateText;
 }
 
 =item Attributes()

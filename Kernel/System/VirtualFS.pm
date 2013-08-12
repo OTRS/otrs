@@ -84,7 +84,7 @@ sub new {
     if ( !$Self->{MainObject}->Require( $Self->{BackendDefault} ) ) {
         return;
     }
-    $Self->{Backend}->{ $Self->{BackendDefault} } = $Self->{BackendDefault}->new(%Param);
+    $Self->{Backend}->{ $Self->{BackendDefault} } = $Self->{BackendDefault}->new( %{$Self} );
 
     return $Self;
 }

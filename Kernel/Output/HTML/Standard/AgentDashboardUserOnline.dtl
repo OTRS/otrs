@@ -41,7 +41,7 @@
         <tr>
             <td>
                 <p title="$QData{"UserEmail"}">
-                    $QData{"UserLastname"} $QData{"UserFirstname"}
+                    $QData{"UserFullname"}
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->
                     ($QData{"UserEmail","50"})
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->

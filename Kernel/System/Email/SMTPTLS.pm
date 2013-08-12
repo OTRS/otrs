@@ -42,10 +42,8 @@ sub new {
     $Self->{MailHost} = $Self->{ConfigObject}->Get('SendmailModule::Host')
         || die "No SendmailModule::Host found in Core::Postmaster";
     $Self->{SMTPPort} = $Self->{ConfigObject}->Get('SendmailModule::Port') || 587;
-    $Self->{User} = $Self->{ConfigObject}->Get('SendmailModule::AuthUser')
-        || die "No SendmailModule::AuthUser found in Core::Postmaster";
-    $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword')
-        || die "No SendmailModule::AuthPassword found in Core::Postmaster";
+    $Self->{User}     = $Self->{ConfigObject}->Get('SendmailModule::AuthUser');
+    $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword');
     return $Self;
 }
 

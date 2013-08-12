@@ -306,6 +306,7 @@ $Param{Signature}";
         # check forward email address
         if ( !$Param{BounceTo} ) {
             $Error{'BounceToInvalid'} = 'ServerError';
+            $Self->{LayoutObject}->Block( Name => 'BounceToCustomerGenericServerErrorMsg' );
         }
         for my $Email ( Mail::Address->parse( $Param{BounceTo} ) ) {
             my $Address = $Email->address();
@@ -328,6 +329,7 @@ $Param{Signature}";
         if ( $Param{InformSender} ) {
             if ( !$Param{To} ) {
                 $Error{'ToInvalid'} = 'ServerError';
+                $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
             }
             else {
 
@@ -383,7 +385,6 @@ $Param{Signature}";
                     Name => 'RichText',
                 );
             }
-
 
             # prepare bounce tags if body is rich text
             if ( $Self->{LayoutObject}->{BrowserRichText} ) {

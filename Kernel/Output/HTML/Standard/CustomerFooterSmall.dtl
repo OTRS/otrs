@@ -40,6 +40,9 @@ Core.App.Ready(function() {
         UserLanguage: '$QEnv{"UserLanguage"}',
         CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+<!-- dtl:block:AutoCompleteConfig -->
+        Autocomplete: Core.JSON.Parse('$Data{"AutocompleteConfig"}'),
+<!-- dtl:block:AutoCompleteConfig -->
         // translation
         ValidateServerErrorTitle: '$JSText{"Error"}',
         ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
@@ -51,6 +54,12 @@ Core.App.Ready(function() {
 
 $Include{"Datepicker"}
 
+});
+
+// Register event for tree selection dialog
+$('.ShowTreeSelection').bind('click', function (Event) {
+    Core.UI.TreeSelection.ShowTreeSelection($(this));
+    return false;
 });
 //]]></script>
 

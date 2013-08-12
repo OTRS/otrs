@@ -109,6 +109,36 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
+my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>TestSecond</Name>
+  <Version>0.0.1</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
+  <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
+  <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
+  <ModuleRequired Version="1.112">Encode</ModuleRequired>
+  <Framework>3.3.x</Framework>
+  <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
+  <Framework>3.0.x</Framework>
+  <Framework>2.5.x</Framework>
+  <Framework>2.4.x</Framework>
+  <Framework>2.3.x</Framework>
+  <Framework>2.2.x</Framework>
+  <Framework>2.1.x</Framework>
+  <Framework>2.0.x</Framework>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location="var/TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otrs_package>
+';
+
 my $Verification = $PackageObject->PackageVerify(
     Package => $String,
     Name    => 'Test',
@@ -191,6 +221,23 @@ $Self->True(
     '#1 PackageInstall()',
 );
 
+$PackageInstall = $PackageObject->PackageInstall( String => $StringSecond );
+
+$Self->True(
+    $PackageInstall,
+    '#1 PackageInstall() 2',
+);
+
+my %VerifyAll = $PackageObject->PackageVerifyAll();
+
+for my $PackageName (qw( Test TestSecond )) {
+    $Self->Is(
+        $VerifyAll{$PackageName},
+        'not_verified',
+        "VerifyAll - result for $PackageName",
+    );
+}
+
 $CacheClearedCheck->();
 
 # check if the package is already installed - check by name
@@ -269,6 +316,13 @@ my $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
 $Self->True(
     $PackageUninstall,
     '#1 PackageUninstall()',
+);
+
+$PackageUninstall = $PackageObject->PackageUninstall( String => $StringSecond );
+
+$Self->True(
+    $PackageUninstall,
+    '#1 PackageUninstall() Second',
 );
 
 $CachePopulate->();

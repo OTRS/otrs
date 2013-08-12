@@ -36,8 +36,8 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get dynamic fields
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -141,6 +141,13 @@ sub Run {
                     my $DynamicFieldConfig = $Self->{DynamicFieldConfigLookup}->{$DynamicFieldName};
 
                     next if !$DynamicFieldConfig;
+
+                    my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Behavior           => 'IsNotificationEventCondition',
+                    );
+
+                    next if !$IsNotificationEventCondition;
 
                     $Match = $Self->{BackendObject}->ObjectMatch(
                         DynamicFieldConfig => $DynamicFieldConfig,
@@ -324,7 +331,7 @@ sub _SendNotificationToRecipients {
                     )
                 {
                     $Self->{LogObject}->Log(
-                        Priority => 'notice',
+                        Priority => 'info',
                         Message  => 'Send no customer notification because no customer is set!',
                     );
                     next RECIPIENT;
@@ -337,7 +344,7 @@ sub _SendNotificationToRecipients {
                     );
                     if ( !$CustomerUser{UserEmail} ) {
                         $Self->{LogObject}->Log(
-                            Priority => 'notice',
+                            Priority => 'info',
                             Message  => "Send no customer notification because of missing "
                                 . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
                         );
@@ -827,7 +834,7 @@ sub _SendNotification {
 
         # log event
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent agent '$Notification{Name}' notification to '$Recipient{Email}'.",
         );
 
@@ -872,7 +879,7 @@ sub _SendNotification {
 
         # log event
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent customer '$Notification{Name}' notification to '$Recipient{Email}'.",
         );
 

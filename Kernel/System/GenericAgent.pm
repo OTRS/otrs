@@ -108,9 +108,9 @@ sub new {
 
     # create additional objects
     $Self->{CacheObject}        = Kernel::System::Cache->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
 
     my %PendingStates = $Self->{StateObject}->StateGetStatesByType(
         StateType => [ 'pending auto', 'pending reminder' ],
@@ -310,19 +310,38 @@ sub JobRun {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD
-            if !$DynamicFieldSearchTemplate{ 'Search_DynamicField_' . $DynamicFieldConfig->{Name} };
 
-        # extract the dynamic field value form the Generic Agent Job
-        my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+        # get search field preferences
+        my $SearchFieldPreferences = $Self->{BackendObject}->SearchFieldPreferences(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Profile            => \%DynamicFieldSearchTemplate,
         );
 
-        # set search parameter
-        if ( defined $SearchParameter ) {
-            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = $SearchParameter->{Parameter};
+        next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
+
+        PREFERENCE:
+        for my $Preference ( @{$SearchFieldPreferences} ) {
+
+            if (
+                !$DynamicFieldSearchTemplate{ 'Search_DynamicField_'
+                        . $DynamicFieldConfig->{Name}
+                        . $Preference->{Type} } )
+            {
+                next PREFERENCE;
+            }
+
+            # extract the dynamic field value from the profile
+            my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Profile            => \%DynamicFieldSearchTemplate,
+                LayoutObject       => $Self->{LayoutObject},
+                Type               => $Preference->{Type},
+            );
+
+            # set search parameter
+            if ( defined $SearchParameter ) {
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                    = $SearchParameter->{Parameter};
+            }
         }
     }
 

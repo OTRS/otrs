@@ -717,7 +717,7 @@ Core.Agent.Admin.GenericAgent.Init({
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="NewNoteTimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                        <label for="NewNoteTimeUnits">$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
                         <div class="Field">
                             <input type="text" name="NewNoteTimeUnits" id="NewNoteTimeUnits" value="$QData{"NewNoteTimeUnits"}" class="W20pc"/>
                         </div>

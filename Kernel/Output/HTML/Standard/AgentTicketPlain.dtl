@@ -10,7 +10,7 @@
 <div class="LayoutPopup ARIARoleMain">
 
     <div class="Header">
-        <h1>$Text{"Email Text Plain View"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+        <h1>$Text{"Email Text Plain View"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
         <p>
             <a class="CancelClosePopup" href="#">$Text{"Close window"}</a>
         </p>

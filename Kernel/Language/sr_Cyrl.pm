@@ -442,7 +442,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Лозинка не може бити ажурирана, садржи недозвољене знакове.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Лозинка не може бити ажурирана. Минимална дужина лозинке је %s знакова.',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Лозинка не може бити ажурирана. Мора да садржи бар 2 велика и 2 мала слова.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Лозинка не може бити ажурирана. Мора да садржи бар једну бројку.',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2617,7 +2617,7 @@ sub Data {
             'Ако желите да инсталирате "OTRS" на неки други систем базе података, информације су у датотеци README.database.',
         'Database-User' => 'Корисник базе података',
         'New' => 'Нов',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Нови корисника базе са ограниченим правима ће бити креиран за овај "OTRS" систем',
         'default \'hot\'' => 'подразумевано \'hot\'',
         'DB host' => 'Назив или адреса ДБ-Сервера',

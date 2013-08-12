@@ -10,8 +10,8 @@
 <!-- dtl:block:DatabaseStart -->
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormDB" class="PreventMultipleSubmits">
-        <input type="hidden" name="Action"    value="Installer">
-        <input type="hidden" name="Subaction" value="DB">
+        <input type="hidden" name="Action"    value="Installer" />
+        <input type="hidden" name="Subaction" value="DB" />
 
         <div class="WidgetSimple">
             <div class="Header">
@@ -29,11 +29,11 @@
                     <label>$Text{"Install Type"}:</label>
                     <div class="Field">
                         <div>
-                            <input type="radio" id="DBInstallTypeCreateDB" name="DBInstallType" checked value="CreateDB">
+                            <input type="radio" id="DBInstallTypeCreateDB" name="DBInstallType" checked value="CreateDB" />
                             <label for="DBInstallTypeCreateDB">$Text{"Create a database for OTRS"}</label>
                         </div>
                         <div>
-                            <input type="radio" id="DBInstallTypeUseDB" name="DBInstallType" value="UseDB">
+                            <input type="radio" id="DBInstallTypeUseDB" name="DBInstallType" value="UseDB" />
                             <label for="DBInstallTypeUseDB">$Text{"Use an existing database for OTRS"}</label>
                         </div>
                     </div>

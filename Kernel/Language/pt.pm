@@ -443,7 +443,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Não foi possível atualizar a password, contém carateres inválidos',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Não foi possível atualizar a password, tem de ter no mínimo %s carateres',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Não foi possível atualizar a password, tem de conter no mínimo 2 caracteres minúsculos e 2 caracteres maiusculos.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Não foi possível atualizar a password, tem de ter no mínimo 1 dígito',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2618,7 +2618,7 @@ sub Data {
             'Se quiser instalar o OTRS com outro motor de base de dados, consulte o ficheiro README.database',
         'Database-User' => 'Utilizador da Base de Dados',
         'New' => 'Novo',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Vai ser criado um novo utilizador de base de dados com permissões limitadas para o OTRS',
         'default \'hot\'' => 'por omissão \'hot\'',
         'DB host' => 'Servidor de BD',

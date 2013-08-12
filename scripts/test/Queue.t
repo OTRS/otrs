@@ -13,8 +13,17 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::System::Queue;
+use Kernel::System::StandardTemplate;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::VariableCheck qw(:all);
 
-my $QueueObject = Kernel::System::Queue->new( %{$Self} );
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 0,
+);
+my $QueueObject            = Kernel::System::Queue->new( %{$Self} );
+my $StandardTemplateObject = Kernel::System::StandardTemplate->new( %{$Self} );
 
 my $QueueRand = 'Some::Queue' . int( rand(1000000) );
 my $QueueID   = $QueueObject->QueueAdd(
@@ -239,6 +248,203 @@ $QueueIDLookup = $QueueObject->QueueLookup( Queue => $Queue );
 $Self->True(
     $QueueID eq $QueueIDLookup,
     'QueueLookup() by Name',
+);
+
+# get normal tenpolates
+my %Templates = $QueueObject->QueueStandardTemplateMemberList( QueueID => 1 );
+$Self->True(
+    IsHashRefWithData( \%Templates ),
+    "QueueStandardTemplateMemberList() for QueueID 1 is a Hash with data",
+);
+
+my %Responses = $QueueObject->GetStandardResponses( QueueID => 1 );
+$Self->IsDeeply(
+    \%Templates,
+    \%Responses,
+    "QueueStandardTemplateMemberList() and GetStandardResponse() for QueueID 1",
+);
+
+# check cache
+my $CacheKey = "StandardTemplates::1::0";
+my $Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
+$Self->IsDeeply(
+    \%Templates,
+    $Cache,
+    "QueueStandardTemplateMemberList() cache for QueueID 1",
+);
+
+# get responses by template type
+my %TemplatesByType = $QueueObject->QueueStandardTemplateMemberList(
+    QueueID       => 1,
+    TemplateTypes => 1,
+);
+
+$Self->True(
+    IsHashRefWithData( \%TemplatesByType ),
+    "QueueStandardTemplateMemberList() for QueueID 1 using TemplateTypes is a Hash with data",
+);
+
+my %ResponsesTemplateType = $QueueObject->GetStandardResponses(
+    QueueID       => 1,
+    TemplateTypes => 1,
+);
+$Self->IsDeeply(
+    \%TemplatesByType,
+    \%ResponsesTemplateType,
+    "QueueStandardTemplateMemberList() and GetStandardResponse() for QueueID 1 using TemplateType",
+);
+
+# check cache
+$CacheKey = "StandardTemplates::1::1";
+$Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
+$Self->IsDeeply(
+    \%TemplatesByType,
+    $Cache,
+    "QueueStandardTemplateMemberList() cache for QueueID 1 using TeemplateType",
+);
+
+# get template types from config
+my $TemplateTypes = $Self->{ConfigObject}->Get("StandardTemplate::Types");
+
+for my $TemplateType ( keys %TemplatesByType ) {
+    $Self->True(
+        $TemplateTypes->{$TemplateType},
+        "Template Type '$TemplateType' exists in the system configuration",
+    );
+
+    $Self->True(
+        IsHashRefWithData( $TemplatesByType{$TemplateType} ),
+        "QueueStandardTemplateMemberList() Type '$TemplateType' for QueueID 1 is a Hash with data",
+    );
+}
+
+# QueueStandardTemplateMemeberAdd() tests
+my $UserID   = 1;
+my $RandomID = $HelperObject->GetRandomID();
+
+# create a new template
+my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
+    Name         => 'New Standard Template' . $RandomID,
+    Template     => 'Thank you for your email.',
+    ContentType  => 'text/plain; charset=utf-8',
+    TemplateType => 'Answer',
+    ValidID      => 1,
+    UserID       => $UserID,
+);
+
+$Self->IsNot(
+    $TemplateID,
+    undef,
+    "StandardTemplateAdd() for QueueStandardTemplateMemeberAdd() | Template ID should not be undef",
+);
+
+my @Tests = (
+    {
+        Name    => 'No Params',
+        Config  => undef,
+        Success => 0,
+    },
+    {
+        Name    => 'Empty Config',
+        Config  => {},
+        Success => 0,
+    },
+    {
+        Name   => 'Missing QueueID',
+        Config => {
+            QueueID            => undef,
+            StandardTemplateID => $TemplateID,
+            UserID             => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Missing StandardTemplateID',
+        Config => {
+            QueueID            => 1,
+            StandardTemplateID => undef,
+            UserID             => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Missing UserID',
+        Config => {
+            QueueID            => 1,
+            StandardTemplateID => $TemplateID,
+            UserID             => undef,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Correct Relation',
+        Config => {
+            QueueID            => 1,
+            StandardTemplateID => $TemplateID,
+            Active             => 1,
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Relation (removal)',
+        Config => {
+            QueueID            => 1,
+            StandardTemplateID => $TemplateID,
+            Active             => 0,
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+);
+
+for my $Test (@Tests) {
+    my $Success = $QueueObject->QueueStandardTemplateMemberAdd( %{ $Test->{Config} } );
+
+    if ( $Test->{Success} ) {
+        $Self->True(
+            $Success,
+            "$Test->{Name} QueueStandardTemplateMemberAdd() with true",
+        );
+
+        # get assigned templates
+        my %Templates = $QueueObject->QueueStandardTemplateMemberList(
+            QueueID => $Test->{Config}->{QueueID},
+        );
+
+        if ( $Test->{Config}->{Active} ) {
+            $Self->IsNot(
+                $Templates{$TemplateID} || '',
+                '',
+                "$Test->{Name} QueueStandardTemplateMemberList() | $TemplateID should be assingned"
+                    . " and must have a value",
+            );
+        }
+        else {
+            $Self->Is(
+                $Templates{$TemplateID} || '',
+                '',
+                "$Test->{Name} QueueStandardTemplateMemberList() | $TemplateID should not be"
+                    . " assingned and must not have a value",
+            );
+        }
+    }
+    else {
+        $Self->False(
+            $Success,
+            "$Test->{Name} QueueStandardTemplateMemberAdd() with false",
+        );
+    }
+}
+
+# cleanup
+my $Success = $StandardTemplateObject->StandardTemplateDelete(
+    ID => $TemplateID,
+);
+
+$Self->True(
+    $Success,
+    "StandardTemplateDelete() for QueueStandardTemplateMemeberAdd() | with True",
 );
 
 1;

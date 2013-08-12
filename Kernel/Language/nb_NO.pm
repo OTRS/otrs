@@ -450,7 +450,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Kan ikke oppdatere passordet fordi det inneholder ulovlige tegn!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan ikke oppdatere passordet, det må være minst %s tegn langt!',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Kan ikke oppdatere passordet, det må inneholde minst to små og to store bokstaver!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan ikke oppdatere passordet, det må inneholde minst ett tall!',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2625,7 +2625,7 @@ sub Data {
             'Hvis du vil installere OTRS på en annen databasetype, vennligst se filen README.database',
         'Database-User' => 'Database-bruker',
         'New' => 'Ny',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'En ny databasebruker med begrensede rettigheter vil bli opprettet for denne OTRS-installasjonen.',
         'default \'hot\'' => 'Standard \'hot\'',
         'DB host' => 'DB-tjener',

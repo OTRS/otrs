@@ -14,6 +14,22 @@ use warnings;
 
 use vars qw(@ISA);
 
+=head1 NAME
+
+Kernel::Output::HTML::LayoutTicket - all Ticket-related HTML functions
+
+=head1 SYNOPSIS
+
+All Ticket-related HTML functions
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=item AgentCustomerViewTable
+   ...
+=cut
+
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
 
@@ -120,6 +136,28 @@ sub AgentCustomerViewTable {
                 Name => 'CustomerRow',
                 Data => \%Record,
             );
+
+            if (
+                $Param{Data}->{Config}->{CustomerCompanySupport}
+                && $Field->[0] eq 'CustomerCompanyName'
+                )
+            {
+                my $CompanyValidID = $Param{Data}->{CustomerCompanyValidID};
+
+                if ( !$Self->{MainObject}->Require('Kernel::System::Valid') ) {
+                    $Self->FatalDie();
+                }
+
+                my $ValidObject    = Kernel::System::Valid->new( %{$Self} );
+                my @ValidIDs       = $ValidObject->ValidIDsGet();
+                my $CompanyIsValid = grep { $CompanyValidID == $_ } @ValidIDs;
+
+                if ( !$CompanyIsValid ) {
+                    $Self->Block(
+                        Name => 'CustomerRowCustomerCompanyInvalid',
+                    );
+                }
+            }
         }
     }
 
@@ -155,10 +193,6 @@ sub AgentCustomerViewTable {
         }
     }
 
-    # Acivity Index: History
-    # CTI
-    # vCard
-    # Bugzilla Status
     # create & return output
     return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
 }
@@ -287,7 +321,7 @@ sub AgentQueueListOption {
                 # useful for ACLs and complex permission settings
                 for my $Index ( 0 .. ( scalar @Queue - 2 ) ) {
 
-                    # get the Full Queue Name (with all it's parents separed by '::') this will
+                    # get the Full Queue Name (with all its parents separated by '::') this will
                     # make a unique name and will be used to set the %DisabledQueueAlreadyUsed
                     # using unique names will prevent erroneous hide of Sub-Queues with the
                     # same name, refer to bug#8148
@@ -495,7 +529,7 @@ sub ArticleQuote {
                 ATMCOUNT:
                 for my $AttachmentID ( sort keys %Attachments ) {
 
-                    # next is cid is not matchin
+                    # next if cid is not matching
                     if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
                         next ATMCOUNT;
                     }
@@ -511,7 +545,7 @@ sub ArticleQuote {
                     $AttachmentPicture{ContentID} =~ s/^<//;
                     $AttachmentPicture{ContentID} =~ s/>$//;
 
-                    # find cid, add attachment URL and remeber, file is already uploaded
+                    # find cid, add attachment URL and remember, file is already uploaded
                     $ContentID = $AttachmentLink . $Self->LinkEncode( $AttachmentPicture{ContentID} );
 
                     # add to upload cache if not uploaded and remember
@@ -534,7 +568,7 @@ sub ArticleQuote {
                 $Start . $ContentID . $End;
             }egxi;
 
-            # find inlines images using Content-Location instead of Content-ID
+            # find inline images using Content-Location instead of Content-ID
             for my $AttachmentID ( sort keys %Attachments ) {
 
                 next if !$Attachments{$AttachmentID}->{ContentID};
@@ -558,7 +592,7 @@ sub ArticleQuote {
                     my $ContentID = $2;
                     my $End = $3;
 
-                    # find cid, add attachment URL and remeber, file is already uploaded
+                    # find cid, add attachment URL and remember, file is already uploaded
                     $ContentID = $AttachmentLink . $Self->LinkEncode( $AttachmentPicture{ContentID} );
 
                     # add to upload cache if not uploaded and remember
@@ -628,7 +662,7 @@ sub ArticleQuote {
     else {
         $Article{Body} = $Self->WrapPlainText(
             MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 82,
-            PlainText     => $Article{Body},
+            PlainText => $Article{Body},
         );
     }
 
@@ -679,7 +713,7 @@ sub TicketListShow {
         $Param{View} = $Self->{ 'UserTicketOverview' . $Env->{Action} };
     }
 
-    # set defaut view mode to 'small'
+    # set default view mode to 'small'
     my $View = $Param{View} || 'Small';
 
     # set default view mode for AgentTicketQueue
@@ -1042,3 +1076,15 @@ sub TicketMetaItems {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut

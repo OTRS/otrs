@@ -90,54 +90,51 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
     # check needed objects
     for (qw(DBObject LogObject ConfigObject TimeObject MainObject EncodeObject Email)) {
-        die "Got no $_" if !$Param{$_};
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
     $Self->{Debug} = $Param{Debug} || 0;
 
     # create common objects
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     $Self->{ParserObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
         %Param,
     );
-    $Self->{QueueObject}     = Kernel::System::Queue->new(%Param);
-    $Self->{StateObject}     = Kernel::System::State->new(%Param);
-    $Self->{PriorityObject}  = Kernel::System::Priority->new(%Param);
+    $Self->{QueueObject}     = Kernel::System::Queue->new( %{$Self} );
+    $Self->{StateObject}     = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject}  = Kernel::System::Priority->new( %{$Self} );
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
-        %Param,
+        %{$Self},
         QueueObject  => $Self->{QueueObject},
         ParserObject => $Self->{ParserObject},
     );
     $Self->{NewTicket} = Kernel::System::PostMaster::NewTicket->new(
-        %Param,
-        Debug                => $Self->{Debug},
-        ParserObject         => $Self->{ParserObject},
-        TicketObject         => $Self->{TicketObject},
-        QueueObject          => $Self->{QueueObject},
-        StateObject          => $Self->{StateObject},
-        PriorityObject       => $Self->{PriorityObject},
-        LoopProtectionObject => $Self->{LoopProtectionObject},
+        %{$Self},
+        Debug          => $Self->{Debug},
+        ParserObject   => $Self->{ParserObject},
+        TicketObject   => $Self->{TicketObject},
+        QueueObject    => $Self->{QueueObject},
+        StateObject    => $Self->{StateObject},
+        PriorityObject => $Self->{PriorityObject},
     );
     $Self->{FollowUp} = Kernel::System::PostMaster::FollowUp->new(
-        %Param,
-        Debug                => $Self->{Debug},
-        TicketObject         => $Self->{TicketObject},
-        LoopProtectionObject => $Self->{LoopProtectionObject},
-        ParserObject         => $Self->{ParserObject},
+        %{$Self},
+        Debug        => $Self->{Debug},
+        TicketObject => $Self->{TicketObject},
+        ParserObject => $Self->{ParserObject},
     );
     $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
-        %Param,
-        Debug                => $Self->{Debug},
-        TicketObject         => $Self->{TicketObject},
-        LoopProtectionObject => $Self->{LoopProtectionObject},
-        ParserObject         => $Self->{ParserObject},
+        %{$Self},
+        Debug        => $Self->{Debug},
+        TicketObject => $Self->{TicketObject},
+        ParserObject => $Self->{ParserObject},
     );
 
     # check needed config options
@@ -251,7 +248,7 @@ sub Run {
     # should I ignore the incoming mail?
     if ( $GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /(yes|true)/i ) {
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message =>
                 "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
@@ -292,7 +289,7 @@ sub Run {
         # create a new ticket
         if ( $FollowUpPossible =~ /new ticket/i && $State{TypeName} =~ /^close/i ) {
             $Self->{LogObject}->Log(
-                Priority => 'notice',
+                Priority => 'info',
                 Message  => "Follow up for [$Tn] but follow up not possible ($Ticket{State})."
                     . " Create new ticket."
             );
@@ -335,7 +332,7 @@ sub Run {
         # reject follow up
         elsif ( $FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i ) {
             $Self->{LogObject}->Log(
-                Priority => 'notice',
+                Priority => 'info',
                 Message  => "Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
 

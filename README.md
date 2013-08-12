@@ -119,7 +119,7 @@ Directories & Files
     |           |--- /GenericInterface/*.pm (all DB related GenericInterface modules)
     |           |--- /Group.pm       (group module)
     |           |--- /Log.pm         (log module)
-    |           |--- /Queue.pm       (information about queues. e. g. responses, ...)
+    |           |--- /Queue.pm       (information about queues. e. g. response teplates, ...)
     |           |--- /Scheduler      (Scheduler files)
     |                 |--- /TaskHandler/ (task handler backends for the Scheduler)
     |           |--- /Ticket.pm      (ticket and article functions)

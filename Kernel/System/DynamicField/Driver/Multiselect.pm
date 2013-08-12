@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::DriverBaseSelect);
+use base qw(Kernel::System::DynamicField::Driver::BaseSelect);
 
 =head1 NAME
 
@@ -55,6 +55,15 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 1,
+        'IsNotificationEventCondition' => 1,
+        'IsSortable'                   => 0,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+    };
 
     return $Self;
 }
@@ -271,21 +280,15 @@ EOF
 
         my $FieldsToUpdate;
         if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-            my $FirstItem = 1;
-            FIELD:
-            for my $Field ( @{ $Param{UpdatableFields} } ) {
-                next FIELD if $Field eq $FieldName;
-                if ($FirstItem) {
-                    $FirstItem = 0;
-                }
-                else {
-                    $FieldsToUpdate .= ', ';
-                }
-                $FieldsToUpdate .= "'" . $Field . "'";
-            }
+
+            # Remove current field from updatable fields list
+            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
+
+            # quote all fields, put commas in between them
+            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
         }
 
-        #add js to call FormUpdate()
+        # add js to call FormUpdate()
         $HTMLString .= <<"EOF";
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
@@ -325,12 +328,12 @@ sub EditFieldValueGet {
 
     my $Value;
 
-    # check if there is a Template and retreive the dinalic field value from there
+    # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # otherwise get dynamic field value form param
+    # otherwise get dynamic field value from param
     else {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
@@ -508,12 +511,6 @@ sub DisplayValueRender {
     };
 
     return $Data;
-}
-
-sub IsSortable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
 }
 
 sub SearchFieldParameterBuild {

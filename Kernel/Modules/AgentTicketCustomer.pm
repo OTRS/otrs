@@ -227,10 +227,6 @@ sub Form {
 
     my $Output;
 
-    # get autocomplete config
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
-
     # print header
     $Output .= $Self->{LayoutObject}->Header(
         Type => 'Small',
@@ -244,12 +240,6 @@ sub Form {
         # set some customer search autocomplete properties
         $Self->{LayoutObject}->Block(
             Name => 'CustomerSearchAutoComplete',
-            Data => {
-                minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-                queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 100,
-                maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-                ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-            },
         );
 
         # get ticket data

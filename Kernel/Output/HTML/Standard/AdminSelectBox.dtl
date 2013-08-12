@@ -110,7 +110,7 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
 <!-- dtl:block:Row -->
                         <tr>
 <!-- dtl:block:Cell -->
-                            <td title="$QData{"Content", "80"}">$QData{"Content", "80"}</td>
+                            <td title="$QData{"Content"}">$QData{"Content", "80"}</td>
 <!-- dtl:block:Cell -->
                         </tr>
 <!-- dtl:block:Row -->

@@ -398,6 +398,52 @@ my @Tests = (
         },
     },
     {
+        Name       => 'Normal Tree (Hash), no TreeView, Selection w/HTMLQuote',
+        Definition => {
+            Data => {
+                'a & b' => 'a & b',
+                'c & d' => 'c & d',
+            },
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => 'c & d',
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => undef,
+            HTMLQuote      => 1,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response => '<select id="Select1ID" name="Select1">
+  <option value="a &amp; b">a &amp; b</option>
+  <option value="c &amp; d" selected="selected">c &amp; d</option>
+</select>',
+        Success     => 1,
+        ExecuteJSON => 1,
+        JSONResponse =>
+            {
+            'Select1' => [
+                [
+                    'a & b', 'a & b',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'c & d', 'c & d',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+            ],
+            },
+    },
+    {
         Name       => 'Missing Emements Tree 1 (Hash)',
         Definition => {
             Data => {

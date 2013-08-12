@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::DriverBaseText);
+use base qw(Kernel::System::DynamicField::Driver::BaseText);
 
 =head1 NAME
 
@@ -59,6 +59,15 @@ sub new {
     # set the maximum lenght for the textarea fields to still be a searchable field in some
     # databases
     $Self->{MaxLength} = 3800;
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 0,
+        'IsNotificationEventCondition' => 1,
+        'IsSortable'                   => 0,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+    };
 
     return $Self;
 }
@@ -112,12 +121,12 @@ sub EditFieldRender {
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';
 
-    # create field HTML
-    # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
-    # is nedded to be set by JS code (otherwise wc3 validator will complaint about it)
-    # notice that some browsers count new lines \n\r as only 1 character in this cases the
-    # validation framework might rise an error while the user is still capable to enter text in the
-    # textarea, otherwise the maxlenght property will prevent to enter more text than the maximum
+ # create field HTML
+ # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
+ # is needed to be set by JS code (otherwise wc3 validator will complain about it)
+ # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
+ # validation framework might generate an error while the user is still capable to enter text in the
+ # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
 <!--dtl:js_on_document_complete-->
@@ -262,12 +271,6 @@ sub DisplayValueRender {
     return $Data;
 }
 
-sub IsSortable {
-    my ( $Self, %Param ) = @_;
-
-    return 0;
-}
-
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
@@ -279,7 +282,7 @@ sub SearchFieldRender {
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
 
-    # get the field value, this fuction is always called after the profile is loaded
+    # get the field value, this function is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
 
     # set values from profile if present

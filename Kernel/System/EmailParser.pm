@@ -106,7 +106,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
+    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
 
     if ( $Param{Mode} && $Param{Mode} eq 'Standalone' ) {
         return $Self;
@@ -934,7 +934,7 @@ sub CheckMessageBody {
     return;
 }
 
-=begin internal
+=begin Internal:
 
 =item _DecodeMimewords()
 
@@ -969,7 +969,7 @@ sub _DecodeMimewords {
     return decode_mimewords($String);
 }
 
-1;
+=end Internal:
 
 =back
 
@@ -982,3 +982,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
+
+1;

@@ -104,8 +104,8 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new(%Param);
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
     return $Self;
 }
 

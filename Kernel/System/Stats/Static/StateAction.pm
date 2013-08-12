@@ -18,12 +18,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if !$Self->{$_};
+    # check needed objects
+    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;

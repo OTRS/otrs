@@ -395,7 +395,7 @@ sub Run {
                 }
 
                 return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$ID",
+                    OP => "Action=AdminQueueTemplates&Subaction=Queue&ID=$ID",
                 );
             }
         }

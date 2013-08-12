@@ -34,6 +34,9 @@ Core.App.Ready(function () {
         CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
         OpenMainMenuOnHover: parseInt('$Config{"OpenMainMenuOnHover"}', 10),
+<!-- dtl:block:AutoCompleteConfig -->
+        Autocomplete: Core.JSON.Parse('$Data{"AutocompleteConfig"}'),
+<!-- dtl:block:AutoCompleteConfig -->
         // translations
         ValidateServerErrorTitle: '$JSText{"Error"}',
         ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',

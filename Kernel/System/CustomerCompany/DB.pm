@@ -456,7 +456,7 @@ sub _CustomerCompanyCacheClear {
 
     $Self->{CacheObject}->Delete(
         Type => $Self->{CacheType},
-        Key  => "CustomerComapnyGet::$Param{CustomerID}",
+        Key  => "CustomerCompanyGet::$Param{CustomerID}",
     );
 
     # delete all search cache entries

@@ -186,25 +186,26 @@
                         <div title="$QData{"Queue"}">$QData{"Queue","30"}</div>
                     </td>
                     <td>
-                        <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
-                    </td>
-                    <td>
-                        <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">
-                            <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
-                        </a>
-                        <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
-                    </td>
+                        <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">
+                            $QData{"UserFullname"}</div>
+                        </td>
+                        <td>
+                            <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">
+                                <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
+                            </a>
+                            <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                        </td>
 <!-- dtl:block:RecordDynamicField -->
-                    <td>
-                        <div title="$QData{"Title"}">
+                        <td>
+                            <div title="$QData{"Title"}">
 <!-- dtl:block:RecordDynamicFieldLink -->
-                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+                                <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
 <!-- dtl:block:RecordDynamicFieldLink -->
 <!-- dtl:block:RecordDynamicFieldPlain -->
-                            $Data{"Value"}
+                                $Data{"Value"}
 <!-- dtl:block:RecordDynamicFieldPlain -->
-                        </div>
-                    </td>
+                            </div>
+                        </td>
 <!-- dtl:block:RecordDynamicField -->
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
@@ -234,7 +235,7 @@
 #                    </td>
 #<!-- dtl:block:RecordDynamicField_Field2 -->
 
-                </tr>
+                    </tr>
 
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 <!-- dtl:js_on_document_complete -->
@@ -245,12 +246,12 @@
 <!-- dtl:block:DocumentReadyActionRowAdd -->
 
 <!-- dtl:block:Record -->
-            </tbody>
+                </tbody>
 <!-- dtl:block:TableBody-->
-        </table>
+            </table>
 <!-- dtl:block:OverviewTable-->
-    </form>
-</div>
+        </form>
+    </div>
 <!-- dtl:block:DocumentReadyStart -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -269,19 +270,19 @@
 <!-- dtl:block:DocumentContent -->
 
 <!-- dtl:block:DocumentMenuItem -->
-<li id="$QData{"ID"}">
-    <a href="#" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
-</li>
+    <li id="$QData{"ID"}">
+        <a href="#" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+    </li>
 <!-- dtl:block:DocumentMenuItem -->
 <!-- dtl:block:DocumentMenuItemMoveForm -->
-<li class="$QData{"Class"}">
-    <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="AgentTicketMove"/>
-        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-        <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
-        $Data{"MoveQueuesStrg"}
-    </form>
+    <li class="$QData{"Class"}">
+        <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="post">
+            <input type="hidden" name="Action" value="AgentTicketMove"/>
+            <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+            <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+            <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
+            $Data{"MoveQueuesStrg"}
+        </form>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
@@ -289,7 +290,7 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-</li>
+    </li>
 <!-- dtl:block:DocumentMenuItemMoveForm -->
 
 <!-- dtl:js_on_document_complete -->

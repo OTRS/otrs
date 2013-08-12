@@ -1,14 +1,15 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-06-24 12:38:54
+--  driver: oracle, generated: 2013-08-06 13:27:56
 -- ----------------------------------------------------------
 SET DEFINE OFF;
+SET SQLBLANKLINES ON;
 -- ----------------------------------------------------------
 --  create table acl
 -- ----------------------------------------------------------
 CREATE TABLE acl (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (250) NOT NULL,
+    comments VARCHAR2 (250) NULL,
     description VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     stop_after_match NUMBER (5, 0) NULL,
@@ -1067,54 +1068,55 @@ CREATE INDEX FK_time_accounting_change_by ON time_accounting (change_by);
 CREATE INDEX FK_time_accounting_create_by ON time_accounting (create_by);
 CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
---  create table standard_response
+--  create table standard_template
 -- ----------------------------------------------------------
-CREATE TABLE standard_response (
+CREATE TABLE standard_template (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     text CLOB NULL,
     content_type VARCHAR2 (250) NULL,
+    template_type VARCHAR2 (100) DEFAULT 'Answer' NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT standard_response_name UNIQUE (name)
+    CONSTRAINT standard_template_name UNIQUE (name)
 );
-ALTER TABLE standard_response ADD CONSTRAINT PK_standard_response PRIMARY KEY (id);
-DROP SEQUENCE SE_standard_response;
-CREATE SEQUENCE SE_standard_response;
-CREATE OR REPLACE TRIGGER SE_standard_response_t
-before insert on standard_response
+ALTER TABLE standard_template ADD CONSTRAINT PK_standard_template PRIMARY KEY (id);
+DROP SEQUENCE SE_standard_template;
+CREATE SEQUENCE SE_standard_template;
+CREATE OR REPLACE TRIGGER SE_standard_template_t
+before insert on standard_template
 for each row
 begin
   if :new.id IS NULL then
-    select SE_standard_response.nextval
+    select SE_standard_template.nextval
     into :new.id
     from dual;
   end if;
 end;
 /
 --;
-CREATE INDEX FK_standard_response_change_by ON standard_response (change_by);
-CREATE INDEX FK_standard_response_create_by ON standard_response (create_by);
-CREATE INDEX FK_standard_response_valid_id ON standard_response (valid_id);
+CREATE INDEX FK_standard_template_change_by ON standard_template (change_by);
+CREATE INDEX FK_standard_template_create_by ON standard_template (create_by);
+CREATE INDEX FK_standard_template_valid_id ON standard_template (valid_id);
 -- ----------------------------------------------------------
---  create table queue_standard_response
+--  create table queue_standard_template
 -- ----------------------------------------------------------
-CREATE TABLE queue_standard_response (
+CREATE TABLE queue_standard_template (
     queue_id NUMBER (12, 0) NOT NULL,
-    standard_response_id NUMBER (12, 0) NOT NULL,
+    standard_template_id NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL
 );
-CREATE INDEX FK_queue_standard_response_c24 ON queue_standard_response (change_by);
-CREATE INDEX FK_queue_standard_response_c28 ON queue_standard_response (create_by);
-CREATE INDEX FK_queue_standard_response_q92 ON queue_standard_response (queue_id);
-CREATE INDEX FK_queue_standard_response_s15 ON queue_standard_response (standard_response_id);
+CREATE INDEX FK_queue_standard_template_c33 ON queue_standard_template (change_by);
+CREATE INDEX FK_queue_standard_template_c0d ON queue_standard_template (create_by);
+CREATE INDEX FK_queue_standard_template_q63 ON queue_standard_template (queue_id);
+CREATE INDEX FK_queue_standard_template_s54 ON queue_standard_template (standard_template_id);
 -- ----------------------------------------------------------
 --  create table standard_attachment
 -- ----------------------------------------------------------
@@ -1151,36 +1153,36 @@ CREATE INDEX FK_standard_attachment_chang1b ON standard_attachment (change_by);
 CREATE INDEX FK_standard_attachment_creat8b ON standard_attachment (create_by);
 CREATE INDEX FK_standard_attachment_validfe ON standard_attachment (valid_id);
 -- ----------------------------------------------------------
---  create table standard_response_attachment
+--  create table standard_template_attachment
 -- ----------------------------------------------------------
-CREATE TABLE standard_response_attachment (
+CREATE TABLE standard_template_attachment (
     id NUMBER (12, 0) NOT NULL,
     standard_attachment_id NUMBER (12, 0) NOT NULL,
-    standard_response_id NUMBER (12, 0) NOT NULL,
+    standard_template_id NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT PK_standard_response_attachm02 PRIMARY KEY (id);
-DROP SEQUENCE SE_standard_response_attace7;
-CREATE SEQUENCE SE_standard_response_attace7;
-CREATE OR REPLACE TRIGGER SE_standard_response_attace7_t
-before insert on standard_response_attachment
+ALTER TABLE standard_template_attachment ADD CONSTRAINT PK_standard_template_attachmb7 PRIMARY KEY (id);
+DROP SEQUENCE SE_standard_template_attacc3;
+CREATE SEQUENCE SE_standard_template_attacc3;
+CREATE OR REPLACE TRIGGER SE_standard_template_attacc3_t
+before insert on standard_template_attachment
 for each row
 begin
   if :new.id IS NULL then
-    select SE_standard_response_attace7.nextval
+    select SE_standard_template_attacc3.nextval
     into :new.id
     from dual;
   end if;
 end;
 /
 --;
-CREATE INDEX FK_standard_response_attachmeb ON standard_response_attachment (change_by);
-CREATE INDEX FK_standard_response_attachmf2 ON standard_response_attachment (create_by);
-CREATE INDEX FK_standard_response_attachmce ON standard_response_attachment (standard_attachment_id);
-CREATE INDEX FK_standard_response_attachmea ON standard_response_attachment (standard_response_id);
+CREATE INDEX FK_standard_template_attachmbd ON standard_template_attachment (change_by);
+CREATE INDEX FK_standard_template_attachmb7 ON standard_template_attachment (create_by);
+CREATE INDEX FK_standard_template_attachm9e ON standard_template_attachment (standard_attachment_id);
+CREATE INDEX FK_standard_template_attachm29 ON standard_template_attachment (standard_template_id);
 -- ----------------------------------------------------------
 --  create table auto_response_type
 -- ----------------------------------------------------------

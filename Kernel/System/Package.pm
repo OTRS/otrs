@@ -139,7 +139,7 @@ sub new {
     $Self->{PackageMapFileList} = { File => 'ARRAY', };
 
     $Self->{PackageVerifyURL}
-        = 'https://pav.otrs.com/otrs/public.pl?Action=PublicPackageVerification;';
+        = 'https://pav.otrs.com/otrs/public.pl';
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
@@ -812,8 +812,7 @@ sub PackageUpgrade {
     $Self->{SysConfigObject}->WriteDefault();
 
     # upgrade database (post)
-    if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' )
-    {
+    if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' ) {
 
         my @Parts;
         my $Use = 0;
@@ -1437,9 +1436,13 @@ sub PackageVerify {
 
     # verify package at web server
     my %Response = $WebUserAgentObject->Request(
-        URL => $Self->{PackageVerifyURL} . 'Package=' . $Name . '::' . $Sum,
+        URL  => $Self->{PackageVerifyURL},
+        Type => 'POST',
+        Data => {
+            Action  => 'PublicPackageVerification',
+            Package => $Name . '::' . $Sum,
+            }
     );
-
     return 'verified' if !$Response{Status};
     return 'verified' if $Response{Status} ne '200 OK';
     return 'verified' if !$Response{Content};
@@ -1540,13 +1543,14 @@ sub PackageVerifyAll {
         }
         else {
             $Result{ $Package->{Name} } = 'verified';
-            push @PackagesToVerify, 'Package=' . $Package->{Name} . '::' . $Package->{MD5sum};
+            push @PackagesToVerify, 'Package';
+            push @PackagesToVerify, $Package->{Name} . '::' . $Package->{MD5sum};
         }
     }
 
     return %Result if !@PackagesToVerify;
 
-    my $PackagesString = join ';', @PackagesToVerify;
+    #    my $PackagesString = join ';', @PackagesToVerify;
 
     # create new web user agent object -> note proxy is different from Package::Proxy
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
@@ -1561,7 +1565,12 @@ sub PackageVerifyAll {
 
     # verify package at web server
     my %Response = $WebUserAgentObject->Request(
-        URL => $Self->{PackageVerifyURL} . $PackagesString,
+        URL  => $Self->{PackageVerifyURL},
+        Type => 'POST',
+        Data => [
+            Action => 'PublicPackageVerification',
+            @PackagesToVerify
+            ]
     );
 
     return %Result if !$Response{Status};
@@ -2998,10 +3007,11 @@ sub _Encode {
 =item _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
+OR FROM A CODEUPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADDON.
 
-Uninstall an already framework merged package.
+Uninstall an already framework (or module) merged package.
 
-Package files that a not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
+Package files that are not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
 CodeUninstall are not called.
 
     $Success = PackageObject->_PackageUninstallMerged(

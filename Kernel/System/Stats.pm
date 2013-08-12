@@ -121,7 +121,7 @@ sub new {
     }
 
     # create supplementary objects
-    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
+    $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
 
     # temporary directory
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';

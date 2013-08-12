@@ -448,7 +448,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Kan het wachtwoord niet bijwerken, het bevat ongeldige tekens.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn.',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens twee kleine letters en twee hoofdletters bevatten.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -2626,7 +2626,7 @@ sub Data {
             'Als u OTRS op een ander type database wilt installeren, kijk dan in het bestand README.database voor instructies.',
         'Database-User' => 'OTRS database gebruiker',
         'New' => 'Nieuw',
-        'A new database user with limited rights will be created for this OTRS system.' =>
+        'A new database user with limited permissions will be created for this OTRS system.' =>
             'Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor deze OTRS omgeving.',
         'default \'hot\'' => 'Standaard \'hot\'',
         'DB host' => 'Database host',

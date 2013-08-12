@@ -15,6 +15,7 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
+use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
 
@@ -85,6 +86,9 @@ create a new object
         UserID
         TicketObject
         GroupObject
+
+    in addition for AgentCustomerViewTable() you need
+        DBObject
 
 =cut
 
@@ -1596,7 +1600,7 @@ sub Footer {
     if ($HasDatepicker) {
         my $VacationDays     = $Self->DatepickerGetVacationDays();
         my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays
+            Data => $VacationDays,
         );
 
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
@@ -1613,14 +1617,33 @@ sub Footer {
     # NewTicketInNewWindow
     if ( $Self->{ConfigObject}->Get('NewTicketInNewWindow::Enabled') ) {
         $Self->Block(
-            Name => 'NewTicketInNewWindow'
+            Name => 'NewTicketInNewWindow',
         );
     }
+
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
+
+    for my $ConfigElement ( keys %{$AutocompleteConfig} ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText}
+            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+        Data => $AutocompleteConfig,
+    );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
 
     # Banner
     if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
         $Self->Block(
-            Name => 'Banner'
+            Name => 'Banner',
         );
     }
 
@@ -2661,7 +2684,7 @@ sub PageNavBar {
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
-            my $BaselinkAllBack = $Baselink . "StartHit=" . ( $i - 1 ) * $Param{PageShown};
+            my $BaselinkAllBack = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
             my $BaselinkAllNext
                 = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
@@ -3198,11 +3221,11 @@ sub BuildDateSelection {
     # Datepicker
     $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
         Core.UI.Datepicker.Init({
-            Day: $(\'#' . $Prefix . 'Day\'),
-            Month: $(\'#' . $Prefix . 'Month\'),
-            Year: $(\'#' . $Prefix . 'Year\'),
-            Hour: $(\'#' . $Prefix . 'Hour\'),
-            Minute: $(\'#' . $Prefix . 'Minute\'),
+            Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
+            Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
+            Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
+            Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
+            Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
             DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
             WeekDayStart: ' . $WeekDayStart . '
         });
@@ -3512,6 +3535,25 @@ sub CustomerFooter {
             Name => 'Banner',
         );
     }
+
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Customer');
+
+    for my $ConfigElement ( keys %{$AutocompleteConfig} ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText}
+            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+        Data => $AutocompleteConfig,
+    );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
 
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
@@ -4030,17 +4072,22 @@ sub RichTextDocumentServe {
 
     # get charset and convert content to internal charset
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        my $Charset = $Param{Data}->{ContentType};
-        $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-        $Charset =~ s/"|'//g;
-        $Charset =~ s/(.+?);.*/$1/g;
+        my $Charset;
+        if ( $Param{Data}->{ContentType} =~ m/.+?charset=("|'|)(.+)/ig ) {
+            $Charset = $2;
+            $Charset =~ s/"|'//g;
+        }
+        if ( !$Charset ) {
+            $Charset = 'us-ascii';
+            $Param{Data}->{ContentType} .= '; charset="us-ascii"';
+        }
 
         # convert charset
         if ($Charset) {
             $Param{Data}->{Content} = $Self->{EncodeObject}->Convert(
                 Text => $Param{Data}->{Content},
                 From => $Charset,
-                To   => $Self->{UserCharset},
+                To   => 'utf-8',
             );
 
             # replace charset in content
@@ -5012,14 +5059,6 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
-    # HTMLQuote option
-    if ( $OptionRef->{HTMLQuote} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
-            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
-        }
-    }
-
     # SortReverse option
     if ( $OptionRef->{SortReverse} ) {
         @{$DataRef} = reverse( @{$DataRef} );
@@ -5047,6 +5086,14 @@ sub _BuildSelectionDataRefCreate {
             {
                 $Row->{Selected} = 1;
             }
+        }
+    }
+
+    # HTMLQuote option
+    if ( $OptionRef->{HTMLQuote} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
         }
     }
 
@@ -5217,12 +5264,12 @@ sub _RemoveScriptTags {
 =item WrapPlainText()
 
 This sub has two main functionalities:
-1. Check every line and make sure thatb "\n" is the ending of the line.
-2. If the line does _not_ start with ">" (e.g. not cited text) 
+1. Check every line and make sure that "\n" is the ending of the line.
+2. If the line does _not_ start with ">" (e.g. not cited text)
 wrap it after the number of "MaxCharacters" (e.g. if MaxCharacters is "80" wrap after 80 characters).
 Do this _just_ if the line, that should be wrapped, contains space characters at which the line can be wrapped.
 
-If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see 
+If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see
 use cases there.
 
 my $WrappedPlainText = $LayoutObject->WrapPlainText(
@@ -5237,8 +5284,7 @@ sub WrapPlainText {
 
     # Return if we did not get MaxCharacters
     # or MaxCharacters doesn't contain just an int
-    if ( ! defined $Param{MaxCharacters} 
-         || $Param{MaxCharacters} !~ /^\d+$/ ) {
+    if ( !IsPositiveInteger( $Param{MaxCharacters} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
@@ -5247,9 +5293,10 @@ sub WrapPlainText {
     }
 
     # Return if we didn't get PlainText
-    if ( ! defined $Param{PlainText} ) {
+    if ( !defined $Param{PlainText} ) {
         return;
     }
+
     # Return if we got no Scalar
     if ( ref $Param{PlainText} ) {
         $Self->{LogObject}->Log(
@@ -5258,6 +5305,7 @@ sub WrapPlainText {
         );
         return;
     }
+
     # Return PlainText if we have less than MaxCharacters
     if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
         return $Param{PlainText};

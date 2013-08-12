@@ -241,7 +241,7 @@ sub Run {
                 next TASKITEM;
             }
             $Self->{LogObject}->Log(
-                Priority => 'notice',
+                Priority => 'info',
                 Message  => "Task is rescheduled.",
             );
         }
