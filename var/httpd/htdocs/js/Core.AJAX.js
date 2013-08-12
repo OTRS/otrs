@@ -122,6 +122,115 @@ Core.AJAX = (function (TargetNS) {
     /**
      * @function
      * @private
+     * @param {Object} Value array of hashes each hash have the needed attachment information.
+     * @return nothing
+     * @description removes all shown attachments on the screen and adds the ones that are sent in
+     *              the Value parmeter
+     */
+    function UpdateTicketAttachments(Value) {
+        var DeleteText = Core.Config.Get('Localization.Delete'),
+            FileID,
+            ButtonStrg,
+            InputStrg;
+
+        // sync the attachment list with the attachments in the UploadCache
+        // 1st: delete the current attachment list
+        $('#FileUpload').parent().siblings('li').remove();
+
+        // 2nd: add all files based on the metadata from Value
+        $(Value).each(function(index) {
+            FileID = this.FileID;
+            ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="SpacingLeft">' + DeleteText + '</button>';
+            InputStrg =  '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
+            $('#FileUpload').parent().before(
+                '<li>' + this.Filename + ' (' + this.Filesize + ')' + ButtonStrg + InputStrg  +'</li>'
+            );
+
+            //3rd: set form submit and disable validation on attachment delete
+            $('#AttachmentDeleteButton' + FileID).bind('click', function () {
+                var $Form = $(this).closest('form');
+                $('#AttachmentDelete' + FileID).val(1);
+                Core.Form.Validate.DisableValidation($Form);
+                $Form.trigger('submit');
+            });
+        });
+    }
+
+    /**
+     * @function
+     * @private
+     * @param {Object} $Element the field selector.
+     * @param {Object} Value the field value.
+     *                  The keys are the IDs of the fields to be updated.
+     * @return nothing
+     * @description inserts value in textarea components or RichText editors for the ajax requests
+     */
+    function UpdateTextarea($Element, Value) {
+        if ( $Element.length) {
+            var $ParentBody = $Element,
+                ParentBody = $ParentBody[0],
+                ParentBodyValue = $ParentBody.val(),
+                Range,
+                StartRange = 0,
+                EndRange = 0,
+                NewPosition = 0,
+                NewHTML;
+
+            // add the text to the RichText editor
+            if (parent.CKEDITOR && parent.CKEDITOR.instances.RichText) {
+                parent.CKEDITOR.instances.RichText.focus();
+                window.setTimeout( function () {
+
+                    // In some circumstances, this command throws an error (although inserting the HTML works)
+                    // Because the intended functionality also works, we just wrap it in a try-catch-statement
+                    try {
+
+                        // set new text
+                        parent.CKEDITOR.instances.RichText.setData(Value);
+                    }
+                    catch (Error) {
+                        $.noop();
+                    }
+                }, 100);
+                return;
+            }
+
+            // insert body and/or link to textarea (if possible to cursor position otherwise to the top)
+            else {
+
+                // Get previously saved cursor position of textarea
+                if (parent.$Element.data('Cursor')) {
+                    StartRange = parent.$Element.data('Cursor').StartRange;
+                    EndRange = parent.$Element.data('Cursor').EndRange;
+                }
+
+                // Add new text to textarea
+                $ParentBody.val(Value);
+                NewPosition = StartRange + Value.length;
+
+                // Jump to new cursor position (after inserted text)
+                if (ParentBody.selectionStart) {
+                    ParentBody.selectionStart = NewPosition;
+                    ParentBody.selectionEnd = NewPosition;
+                }
+                else if (document.selection) {
+                    Range = document.selection.createRange().duplicate();
+                    Range.moveStart('character', NewPosition);
+                    Range.select();
+                }
+
+                return;
+            }
+        }
+        else {
+            alert('$JSText{"This window must be called from compose window"}');
+            return;
+        }
+    };
+
+    /**
+     * @function
+     * @private
      * @param {Object} Data The new field data.
      *                  The keys are the IDs of the fields to be updated.
      * @return nothing
@@ -134,7 +243,13 @@ Core.AJAX = (function (TargetNS) {
         $.each(Data, function (Key, Value) {
             var $Element = $('#' + Key);
 
-            if (!$Element.length || !Value) {
+            // special case to update ticket attachments
+            if (Key === 'TicketAttachments') {
+                UpdateTicketAttachments(Value);
+                return;
+            }
+
+            if ((!$Element.length || !Value) && !$Element.is('textarea')) {
                 return;
             }
 
@@ -156,6 +271,12 @@ Core.AJAX = (function (TargetNS) {
 
                 });
                 return;
+            }
+
+            // text area elements like the ticket body
+            if ($Element.is('textarea')) {
+                UpdateTextarea($Element, Value);
+                return
             }
 
             // Other form elements

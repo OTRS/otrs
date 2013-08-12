@@ -1075,19 +1075,20 @@
     </ForeignKey>
 </Table>
 
-<!-- standard_response - -->
-<Table Name="standard_response">
+<!-- standard_template - -->
+<Table Name="standard_template">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text" Required="false" Size="10000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="standard_response_name">
+    <Unique Name="standard_template_name">
         <UniqueColumn Name="name"/>
     </Unique>
     <ForeignKey ForeignTable="valid">
@@ -1099,16 +1100,16 @@
     </ForeignKey>
 </Table>
 
-<!-- queue_standard_response - -->
-<Table Name="queue_standard_response">
+<!-- queue_standard_template - -->
+<Table Name="queue_standard_template">
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
-    <Column Name="standard_response_id" Required="true" Type="INTEGER"/>
+    <Column Name="standard_template_id" Required="true" Type="INTEGER"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <ForeignKey ForeignTable="standard_response">
-        <Reference Local="standard_response_id" Foreign="id"/>
+    <ForeignKey ForeignTable="standard_template">
+        <Reference Local="standard_template_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="queue">
         <Reference Local="queue_id" Foreign="id"/>
@@ -1144,17 +1145,17 @@
     </ForeignKey>
 </Table>
 
-<!-- standard_response_attachment -->
-<Table Name="standard_response_attachment">
+<!-- standard_template_attachment -->
+<Table Name="standard_template_attachment">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="standard_attachment_id" Required="true" Type="INTEGER"/>
-    <Column Name="standard_response_id" Required="true" Type="INTEGER"/>
+    <Column Name="standard_template_id" Required="true" Type="INTEGER"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <ForeignKey ForeignTable="standard_response">
-        <Reference Local="standard_response_id" Foreign="id"/>
+    <ForeignKey ForeignTable="standard_template">
+        <Reference Local="standard_template_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="standard_attachment">
         <Reference Local="standard_attachment_id" Foreign="id"/>
@@ -1671,7 +1672,7 @@
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>    
+    </ForeignKey>
 </Table>
 
 <!-- xml - xml_storage-->

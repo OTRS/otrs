@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-07-29 14:03:10
+--  driver: mssql, generated: 2013-08-06 13:27:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table acl
@@ -644,13 +644,14 @@ CREATE TABLE time_accounting (
 );
 CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
---  create table standard_response
+--  create table standard_template
 -- ----------------------------------------------------------
-CREATE TABLE standard_response (
+CREATE TABLE standard_template (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name NVARCHAR (200) NOT NULL,
     text NVARCHAR (MAX) NULL,
     content_type NVARCHAR (250) NULL,
+    template_type NVARCHAR (100) NOT NULL,
     comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -658,14 +659,15 @@ CREATE TABLE standard_response (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT standard_response_name UNIQUE (name)
+    CONSTRAINT standard_template_name UNIQUE (name)
 );
+ALTER TABLE standard_template ADD CONSTRAINT DF_standard_template_template_type DEFAULT ('Answer') FOR template_type;
 -- ----------------------------------------------------------
---  create table queue_standard_response
+--  create table queue_standard_template
 -- ----------------------------------------------------------
-CREATE TABLE queue_standard_response (
+CREATE TABLE queue_standard_template (
     queue_id INTEGER NOT NULL,
-    standard_response_id INTEGER NOT NULL,
+    standard_template_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -690,12 +692,12 @@ CREATE TABLE standard_attachment (
     CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
---  create table standard_response_attachment
+--  create table standard_template_attachment
 -- ----------------------------------------------------------
-CREATE TABLE standard_response_attachment (
+CREATE TABLE standard_template_attachment (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     standard_attachment_id INTEGER NOT NULL,
-    standard_response_id INTEGER NOT NULL,
+    standard_template_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

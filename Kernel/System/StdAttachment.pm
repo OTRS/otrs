@@ -14,6 +14,9 @@ use warnings;
 
 use MIME::Base64;
 
+use Kernel::System::CacheInternal;
+use Kernel::System::Valid;
+
 =head1 NAME
 
 Kernel::System::StdAttachment - std. attachment lib
@@ -75,7 +78,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject EncodeObject)) {
+    for (qw(ConfigObject LogObject DBObject EncodeObject MainObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -83,6 +86,14 @@ sub new {
             die "Got no $_!";
         }
     }
+
+    # create additional objects
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'StdAttachment',
+        TTL  => 60 * 60 * 24 * 20,
+    );
 
     return $Self;
 }
@@ -286,9 +297,9 @@ sub StdAttachmentDelete {
     $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }    = 0;
     $Self->{ 'StdAttachmentLookupName::' . $Data{Name} } = 0;
 
-    # delete attachment<->std response relation
+    # delete attachment<->std template relation
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM standard_response_attachment WHERE standard_attachment_id = ?',
+        SQL  => 'DELETE FROM standard_template_attachment WHERE standard_attachment_id = ?',
         Bind => [ \$Param{ID} ],
     );
 
@@ -374,6 +385,8 @@ sub StdAttachmentLookup {
 
 =item StdAttachmentsByResponseID()
 
+DEPRECATED: This function will be removed in further versions of OTRS
+
 return a hash (ID => Name) of std. attachment by response id
 
     my %StdAttachment = $StdAttachmentObject->StdAttachmentsByResponseID(
@@ -398,9 +411,9 @@ sub StdAttachmentsByResponseID {
 
     # return data
     my %Relation = $Self->{DBObject}->GetTableData(
-        Table => 'standard_response_attachment',
-        What  => 'standard_attachment_id, standard_response_id',
-        Where => "standard_response_id = $Param{ID}",
+        Table => 'standard_template_attachment',
+        What  => 'standard_attachment_id, standard_template_id',
+        Where => "standard_template_id = $Param{ID}",
     );
     my %AllStdAttachments = $Self->StdAttachmentList( Valid => 1 );
     my %Data;
@@ -443,6 +456,8 @@ sub StdAttachmentList {
 
 =item StdAttachmentSetResponses()
 
+DEPRECATED: This function will be removed in further versions of OTRS
+
 set std responses of response id
 
     $StdAttachmentObject->StdAttachmentSetResponses(
@@ -466,21 +481,181 @@ sub StdAttachmentSetResponses {
 
     # add attachments to response
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM standard_response_attachment WHERE standard_response_id = ?',
+        SQL  => 'DELETE FROM standard_template_attachment WHERE standard_template_id = ?',
         Bind => [ \$Param{ID} ],
     );
     for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
         next if !$ID;
         $Self->{DBObject}->Do(
-            SQL => 'INSERT INTO standard_response_attachment (standard_attachment_id, '
-                . 'standard_response_id, create_time, create_by, change_time, change_by)'
+            SQL => 'INSERT INTO standard_template_attachment (standard_attachment_id, '
+                . 'standard_template_id, create_time, create_by, change_time, change_by)'
                 . ' VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
                 \$ID, \$Param{ID}, \$Param{UserID}, \$Param{UserID},
             ],
         );
     }
+
+    $Self->{CacheInternalObject}->CleanUp();
     return 1;
+}
+
+=item StdAttachmentStandardTemplateMemberAdd()
+
+to add an attachment to a template
+
+    my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd(
+        AttachmentID       => 123,
+        StandardTemplateID => 123,
+        Active             => 1,        # optional
+        UserID             => 123,
+    );
+
+=cut
+
+sub StdAttachmentStandardTemplateMemberAdd {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(AttachmentID StandardTemplateID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # delete existing relation
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM standard_template_attachment
+            WHERE standard_attachment_id = ?
+            AND standard_template_id = ?',
+        Bind => [ \$Param{AttachmentID}, \$Param{StandardTemplateID} ],
+    );
+
+    # return if relation is not active
+    if ( !$Param{Active} ) {
+        $Self->{CacheInternalObject}->CleanUp();
+        return 1;
+    }
+
+    # insert new relation
+    my $Success = $Self->{DBObject}->Do(
+        SQL => '
+            INSERT INTO standard_template_attachment (standard_attachment_id, standard_template_id,
+                create_time, create_by, change_time, change_by)
+            VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{AttachmentID}, \$Param{StandardTemplateID}, \$Param{UserID},
+            \$Param{UserID}
+        ],
+    );
+
+    $Self->{CacheInternalObject}->CleanUp();
+    return $Success;
+}
+
+=item StdAttachmentStandardTemplateMemberList()
+
+returns a list of Standard Attachment / Standard Template members
+
+    my %List = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+        AttachmentID => 123,
+    );
+
+    or
+    my %List = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+        StandardTemplateID => 123,
+    );
+
+Returns:
+    %List = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+=cut
+
+sub StdAttachmentStandardTemplateMemberList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{AttachmentID} && !$Param{StandardTemplateID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need AttachmentID or StandardTemplateID!',
+        );
+        return;
+    }
+
+    if ( $Param{AttachmentID} && $Param{StandardTemplateID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need AttachmentID or StandardTemplateID, but not both!',
+        );
+        return;
+    }
+
+    # create cache key
+    my $CacheKey = 'StdAttachmentStandardTemplateMemberList::';
+    if ( $Param{AttachmentID} ) {
+        $CacheKey .= 'AttachmentID::' . $Param{AttachmentID};
+    }
+    elsif ( $Param{StandardTemplateID} ) {
+        $CacheKey .= 'StandardTemplateID::' . $Param{StandardTemplateID};
+    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    # sql
+    my %Data;
+    my @Bind;
+    my $SQL = '
+        SELECT sta.standard_attachment_id, sa.name, sta.standard_template_id, st.name
+        FROM standard_template_attachment sta, standard_attachment sa, standard_template st
+        WHERE';
+
+    if ( $Param{AttachmentID} ) {
+        $SQL .= ' st.valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+    }
+    elsif ( $Param{StandardTemplateID} ) {
+        $SQL .= ' sa.valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+    }
+
+    $SQL .= '
+            AND sta.standard_attachment_id = sa.id
+            AND sta.standard_template_id = st.id';
+
+    if ( $Param{AttachmentID} ) {
+        $SQL .= ' AND sta.standard_attachment_id = ?';
+        push @Bind, \$Param{AttachmentID};
+    }
+    elsif ( $Param{StandardTemplateID} ) {
+        $SQL .= ' AND sta.standard_template_id = ?';
+        push @Bind, \$Param{StandardTemplateID};
+    }
+
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( $Param{StandardTemplateID} ) {
+            $Data{ $Row[0] } = $Row[1];
+        }
+        else {
+            $Data{ $Row[2] } = $Row[3];
+        }
+    }
+
+    # return result
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    return %Data;
 }
 
 1;

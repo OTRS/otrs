@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2013-07-29 14:03:11
+--  driver: postgresql_before_8_2, generated: 2013-08-06 13:27:56
 -- ----------------------------------------------------------
 ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE acl ADD CONSTRAINT FK_acl_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -130,20 +130,20 @@ ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_article_id_id FORE
 ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE standard_response ADD CONSTRAINT FK_standard_response_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE standard_response ADD CONSTRAINT FK_standard_response_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE standard_response ADD CONSTRAINT FK_standard_response_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
-ALTER TABLE queue_standard_response ADD CONSTRAINT FK_queue_standard_response_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
-ALTER TABLE queue_standard_response ADD CONSTRAINT FK_queue_standard_response_standard_response_id_id FOREIGN KEY (standard_response_id) REFERENCES standard_response (id);
-ALTER TABLE queue_standard_response ADD CONSTRAINT FK_queue_standard_response_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE queue_standard_response ADD CONSTRAINT FK_queue_standard_response_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE standard_attachment ADD CONSTRAINT FK_standard_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE standard_attachment ADD CONSTRAINT FK_standard_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE standard_attachment ADD CONSTRAINT FK_standard_attachment_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
-ALTER TABLE standard_response_attachment ADD CONSTRAINT FK_standard_response_attachment_standard_attachment_id_id FOREIGN KEY (standard_attachment_id) REFERENCES standard_attachment (id);
-ALTER TABLE standard_response_attachment ADD CONSTRAINT FK_standard_response_attachment_standard_response_id_id FOREIGN KEY (standard_response_id) REFERENCES standard_response (id);
-ALTER TABLE standard_response_attachment ADD CONSTRAINT FK_standard_response_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE standard_response_attachment ADD CONSTRAINT FK_standard_response_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_attachment_id_id FOREIGN KEY (standard_attachment_id) REFERENCES standard_attachment (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE auto_response_type ADD CONSTRAINT FK_auto_response_type_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE auto_response_type ADD CONSTRAINT FK_auto_response_type_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE auto_response_type ADD CONSTRAINT FK_auto_response_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);

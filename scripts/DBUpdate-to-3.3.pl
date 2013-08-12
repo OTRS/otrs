@@ -294,6 +294,21 @@ sub _MigrateOldSettings {
             Value => $Setting,
         );
     }
+
+    # StandardResponse2QueueByCreating
+    # get original setting (old name)
+    $Setting = $CommonObject->{ConfigObject}->Get('StandardResponse2QueueByCreating');
+
+    if ( IsArrayRefWithData($Setting) ) {
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'StandardTemplate2QueueByCreating',
+            Value => $Setting,
+        );
+    }
+
     return 1;
 }
 

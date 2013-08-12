@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
+# Kernel/Modules/AdminTemplateAttachment.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,13 +7,13 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::AdminResponseAttachment;
+package Kernel::Modules::AdminTemplateAttachment;
 
 use strict;
 use warnings;
 
 use Kernel::System::StdAttachment;
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +30,7 @@ sub new {
     }
 
     # lib object
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
     $Self->{StdAttachmentObject}    = Kernel::System::StdAttachment->new(%Param);
 
     return $Self;
@@ -40,24 +40,21 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
-    # response <-> attachment 1:n
+    # template <-> attachment 1:n
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'Response' ) {
+    if ( $Self->{Subaction} eq 'Template' ) {
 
-        # get response data
+        # get template data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseGet(
+        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateGet(
             ID => $ID,
         );
 
         # get attachment data
         my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
 
-        # get role member
-        my %Member = $Self->{DBObject}->GetTableData(
-            Table => 'standard_response_attachment',
-            What  => 'standard_attachment_id, standard_response_id',
-            Where => "standard_response_id = $ID",
+        my %Member = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            StandardTemplateID => $ID,
         );
 
         my $Output = $Self->{LayoutObject}->Header();
@@ -65,16 +62,16 @@ sub Run {
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%StdAttachmentData,
-            ID       => $StandardResponseData{ID},
-            Name     => $StandardResponseData{Name},
-            Type     => 'Response',
+            ID       => $StandardTemplateData{ID},
+            Name     => $StandardTemplateData{TemplateType} . ' - ' . $StandardTemplateData{Name},
+            Type     => 'Template',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # attachment <-> response n:1
+    # attachment <-> template n:1
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Attachment' ) {
 
@@ -83,21 +80,20 @@ sub Run {
         my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+            TemplateTypes => 1,
+            Valid         => 1,
+        );
 
-        # get role member
-        my %Member = $Self->{DBObject}->GetTableData(
-            Table => 'standard_response_attachment',
-            What  => 'standard_response_id, standard_attachment_id',
-            Where => "standard_attachment_id = $ID"
+        my %Member = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            AttachmentID => $ID,
         );
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
-            Data     => \%StandardResponseData,
+            Data     => \%StandardTemplateData,
             ID       => $StdAttachmentData{ID},
             Name     => $StdAttachmentData{Name},
             Type     => 'Attachment',
@@ -114,34 +110,28 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Attachment' );
+        # get new templates
+        my @TemplatesSelected
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @TemplatesAll
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $AttachmentID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
-        for my $StandardResponseID ( sort keys %StandardResponseData ) {
-            my $Active = 0;
-            for my $StdAttachmentID (@IDs) {
-                next if $StdAttachmentID ne $StandardResponseID;
-                $Active = 1;
-                last;
-            }
+        # create hash with selected templates
+        my %TemplatesSelected = map { $_ => 1 } @TemplatesSelected;
 
-            $Self->{DBObject}->Do(
-                SQL  => 'DELETE FROM standard_response_attachment WHERE standard_attachment_id = ?',
-                Bind => [ \$ID ],
+        # check all used templates
+        for my $TemplateID (@TemplatesAll) {
+            my $Active = $TemplatesSelected{$TemplateID} ? 1 : 0;
+
+            # set attachment to standard template relation
+            my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                AttachmentID       => $AttachmentID,
+                StandardTemplateID => $TemplateID,
+                Active             => $Active,
+                UserID             => $Self->{UserID},
             );
-            for my $NewID (@IDs) {
-                $Self->{DBObject}->Do(
-                    SQL => 'INSERT INTO standard_response_attachment (standard_attachment_id, '
-                        . 'standard_response_id, create_time, create_by, change_time, change_by)'
-                        . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
-                    Bind => [ \$ID, \$NewID, \$Self->{UserID}, \$Self->{UserID} ],
-                );
-            }
         }
 
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
@@ -150,21 +140,34 @@ sub Run {
     # ------------------------------------------------------------ #
     # groups to user
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'ChangeResponse' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeTemplate' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        # get new role member
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Response' );
+        # get new attachments
+        my @AttachmentsSelected
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @AttachmentsAll
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $TemplateID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
-            AttachmentIDsRef => \@IDs,
-            ID               => $ID,
-            UserID           => $Self->{UserID},
-        );
+        # create hash with selected queues
+        my %AttachmentsSelected = map { $_ => 1 } @AttachmentsSelected;
+
+        # check all used attachments
+        for my $AttachmentID (@AttachmentsAll) {
+            my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
+
+            # set attachment to standard template relation
+            my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                AttachmentID       => $AttachmentID,
+                StandardTemplateID => $TemplateID,
+                Active             => $Active,
+                UserID             => $Self->{UserID},
+            );
+        }
 
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
@@ -183,14 +186,15 @@ sub _Change {
     my ( $Self, %Param ) = @_;
 
     my %Data   = %{ $Param{Data} };
-    my $Type   = $Param{Type} || 'Response';
-    my $NeType = $Type eq 'Attachment' ? 'Response' : 'Attachment';
+    my $Type   = $Param{Type} || 'Template';
+    my $NeType = $Type eq 'Attachment' ? 'Template' : 'Attachment';
 
-    my %VisibleType = ( Response => 'Response', Attachment => 'Attachment', );
+    my %VisibleType = ( Template => 'Template', Attachment => 'Attachment', );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block( Name => 'Filter' );
 
     $Self->{LayoutObject}->Block(
         Name => 'Change',
@@ -231,7 +235,7 @@ sub _Change {
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminResponseAttachment',
+        TemplateFile => 'AdminTemplateAttachment',
         Data         => \%Param,
     );
 }
@@ -250,22 +254,25 @@ sub _Overview {
     #    $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
-    # get StandardResponse data
-    my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+    # get StandardTemplate data
+    my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+        TemplateTypes => 1,
+        Valid         => 1,
+    );
 
-    # if there are any responses, they are shown
-    if (%StandardResponseData) {
-        for my $StandardResponseID (
-            sort { uc( $StandardResponseData{$a} ) cmp uc( $StandardResponseData{$b} ) }
-            keys %StandardResponseData
+    # if there are any templates, they are shown
+    if (%StandardTemplateData) {
+        for my $StandardTemplateID (
+            sort { uc( $StandardTemplateData{$a} ) cmp uc( $StandardTemplateData{$b} ) }
+            keys %StandardTemplateData
             )
         {
             $Self->{LayoutObject}->Block(
                 Name => 'List1n',
                 Data => {
-                    Name      => $StandardResponseData{$StandardResponseID},
-                    Subaction => 'Response',
-                    ID        => $StandardResponseID,
+                    Name      => $StandardTemplateData{$StandardTemplateID},
+                    Subaction => 'Template',
+                    ID        => $StandardTemplateID,
                 },
             );
         }
@@ -274,7 +281,7 @@ sub _Overview {
     # otherwise a no data message is displayed
     else {
         $Self->{LayoutObject}->Block(
-            Name => 'NoResponsesFoundMsg',
+            Name => 'NoTemplatesFoundMsg',
             Data => {},
         );
     }
@@ -310,7 +317,7 @@ sub _Overview {
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminResponseAttachment',
+        TemplateFile => 'AdminTemplateAttachment',
         Data         => \%Param,
     );
 }

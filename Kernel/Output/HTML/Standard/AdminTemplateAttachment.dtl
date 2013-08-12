@@ -1,5 +1,5 @@
 # --
-# AdminResponseAttachment.dtl - provides HTML form for AdminInterface
+# AdminTemplateAttachment.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -9,17 +9,45 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Responses <-> Attachments Relations"}</h1>
+    <h1>$Text{"Manage Templates <-> Attachments Relations"}</h1>
 
     <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label>$Text{"Actions"}</label></h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+
+<!-- dtl:block:Filter -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter"}</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="$Text{"Filter"}" />
+            </div>
+        </div>
+<!-- dtl:block:Filter -->
 
 <!-- dtl:block:Filters -->
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterResponses">$Text{"Filter for Responses"}</label></h2>
+                <h2><label for="FilterTemplates">$Text{"Filter for Templates"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterResponses" class="W50pc" name="FilterUser" value="" title="$Text{"Filter for Responses"}"/>
+                <input type="text" id="FilterTemplates" class="W50pc" name="FilterUser" value="" title="$Text{"Filter for Templates"}"/>
             </div>
         </div>
         <div class="WidgetSimple">
@@ -33,30 +61,15 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterResponses'), $('#Responses'));
+    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
     Core.UI.Table.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:Filters -->
 
-<!-- dtl:block:ActionList -->
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>$Text{"Actions"}</h2>
-            </div>
-            <div class="Content">
-<!-- dtl:block:ActionOverview -->
-                <ul class="ActionList">
-                    <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
-                    </li>
-                </ul>
-<!-- dtl:block:ActionOverview -->
-            </div>
-        </div>
-<!-- dtl:block:ActionList -->
     </div>
+
     <div class="ContentColumn">
 
 <!-- dtl:block:OverviewResult-->
@@ -66,12 +79,12 @@
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
-                    <ul class="Tablelike" id="Responses">
-                        <li class="Header">$Text{"Responses"}</li>
+                    <ul class="Tablelike" id="Templates">
+                        <li class="Header">$Text{"Templates"}</li>
                         <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
-<!-- dtl:block:NoResponsesFoundMsg -->
+<!-- dtl:block:NoTemplatesFoundMsg -->
                         <li>$Text{"No data found."}</li>
-<!-- dtl:block:NoResponsesFoundMsg -->
+<!-- dtl:block:NoTemplatesFoundMsg -->
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -98,7 +111,7 @@
 <!-- dtl:block:OverviewResult-->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterResponses'), $('#Responses'));
+    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
     Core.UI.Table.InitTableFilter($('#FilterAttachments'), $('#Attachments'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
@@ -107,11 +120,11 @@
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>
-<!-- dtl:block:ChangeHeaderResponse -->
-                    $Text{"Change Response Relations for Attachment"}
-<!-- dtl:block:ChangeHeaderResponse -->
+<!-- dtl:block:ChangeHeaderTemplate -->
+                    $Text{"Change Template Relations for Attachment"}
+<!-- dtl:block:ChangeHeaderTemplate -->
 <!-- dtl:block:ChangeHeaderAttachment -->
-                    $Text{"Change Attachment Relations for Response"}
+                    $Text{"Change Attachment Relations for Template"}
 <!-- dtl:block:ChangeHeaderAttachment -->
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a>
                 </h2>
@@ -121,21 +134,22 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <table class="DataTable VariableWidth" id="ResponseAttachment">
+                    <table class="DataTable VariableWidth" id="TemplateAttachment">
                         <thead>
                             <tr>
                                 <th>$Text{"$Data{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th>
-                                    <input type="checkbox" name="$QData{"Type"}" id="SelectAll$QData{"Type"}" title="$Text{"Toggle active for all"}" value="" />
+                                    <input type="checkbox" name="ItemsSelected" id="SelectAllItemsSelected" title="$Text{"Toggle active for all"}" value="" />
                                     $Text{"Active"}
                                 </th>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
-    $('input:checkbox[name=$QData{"Type"}]').bind('click', function () {
-        Core.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
-    });
+Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=ItemsSelected]'), $('#SelectAllItemsSelected'));
+$('input:checkbox[name=ItemsSelected]').bind('click', function () {
+    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
+});
+Core.UI.Table.InitTableFilter($('#Filter'), $('#TemplateAttachment'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ChangeHeader -->
@@ -146,7 +160,8 @@
                             <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                                 <td>
-                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Link %s to selected %s","$QData{"Name"}","$QData{"Type"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="checkbox" name="ItemsSelected" title="$Text{"Link %s to selected %s","$QData{"Name"}","$QData{"Type"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="hidden" name="ItemsAll" value="$QData{"ID"}"/>
                                 </td>
                             </tr>
 <!-- dtl:block:ChangeRow -->

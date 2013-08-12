@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-06-20 10:38:00
+--  driver: mssql, generated: 2013-08-06 13:25:06
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -64,7 +64,7 @@ CREATE TABLE system_data (
 CREATE TABLE acl (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name NVARCHAR (200) NOT NULL,
-    comments NVARCHAR (250) NOT NULL,
+    comments NVARCHAR (250) NULL,
     description NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     stop_after_match SMALLINT NULL,
@@ -86,6 +86,83 @@ CREATE TABLE acl_sync (
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL
 );
+ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_valid_id_id;
+ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_create_by_id;
+ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_change_by_id;
+ALTER TABLE queue_standard_response DROP CONSTRAINT FK_queue_standard_response_standard_response_id_id;
+ALTER TABLE queue_standard_response DROP CONSTRAINT FK_queue_standard_response_queue_id_id;
+ALTER TABLE queue_standard_response DROP CONSTRAINT FK_queue_standard_response_create_by_id;
+ALTER TABLE queue_standard_response DROP CONSTRAINT FK_queue_standard_response_change_by_id;
+ALTER TABLE standard_response_attachment DROP CONSTRAINT FK_standard_response_attachment_standard_response_id_id;
+ALTER TABLE standard_response_attachment DROP CONSTRAINT FK_standard_response_attachment_standard_attachment_id_id;
+ALTER TABLE standard_response_attachment DROP CONSTRAINT FK_standard_response_attachment_create_by_id;
+ALTER TABLE standard_response_attachment DROP CONSTRAINT FK_standard_response_attachment_change_by_id;
+ALTER TABLE standard_response DROP CONSTRAINT standard_response_name;
+-- ----------------------------------------------------------
+--  alter table standard_template
+-- ----------------------------------------------------------
+GO
+EXEC sp_rename 'standard_response', 'standard_template'
+GO
+;
+-- ----------------------------------------------------------
+--  alter table queue_standard_template
+-- ----------------------------------------------------------
+GO
+EXEC sp_rename 'queue_standard_response', 'queue_standard_template'
+GO
+;
+-- ----------------------------------------------------------
+--  alter table standard_template_attachment
+-- ----------------------------------------------------------
+GO
+EXEC sp_rename 'standard_response_attachment', 'standard_template_attachment'
+GO
+;
+-- ----------------------------------------------------------
+--  alter table standard_template
+-- ----------------------------------------------------------
+ALTER TABLE standard_template ADD template_type NVARCHAR (100) NULL;
+GO
+UPDATE standard_template SET template_type = 'Answer' WHERE template_type IS NULL;
+GO
+ALTER TABLE standard_template ALTER COLUMN template_type NVARCHAR (100) NOT NULL;
+GO
+ALTER TABLE standard_template ADD CONSTRAINT DF_standard_template_template_type DEFAULT ('Answer') FOR template_type;
+ALTER TABLE standard_template ADD CONSTRAINT standard_template_name UNIQUE (name);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+GO
+EXECUTE sp_rename N'queue_standard_template.standard_response_id', N'standard_template_id', 'COLUMN';
+GO
+ALTER TABLE queue_standard_template ALTER COLUMN standard_template_id INTEGER NULL;
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_queue_standard_template_standard_template_id' )
+ALTER TABLE queue_standard_template DROP CONSTRAINT DF_queue_standard_template_standard_template_id;
+GO
+UPDATE queue_standard_template SET standard_template_id = 0 WHERE standard_template_id IS NULL;
+GO
+ALTER TABLE queue_standard_template ALTER COLUMN standard_template_id INTEGER NOT NULL;
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+GO
+EXECUTE sp_rename N'standard_template_attachment.standard_response_id', N'standard_template_id', 'COLUMN';
+GO
+ALTER TABLE standard_template_attachment ALTER COLUMN standard_template_id INTEGER NULL;
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_standard_template_attachment_standard_template_id' )
+ALTER TABLE standard_template_attachment DROP CONSTRAINT DF_standard_template_attachment_standard_template_id;
+GO
+UPDATE standard_template_attachment SET standard_template_id = 0 WHERE standard_template_id IS NULL;
+GO
+ALTER TABLE standard_template_attachment ALTER COLUMN standard_template_id INTEGER NOT NULL;
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_attachment_id_id FOREIGN KEY (standard_attachment_id) REFERENCES standard_attachment (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

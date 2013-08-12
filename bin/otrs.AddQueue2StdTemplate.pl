@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.AddQueue2StdResponse.pl.pl - Assign Roles to Groups from CLI
+# bin/otrs.AddQueue2StdTemplate.pl - Assign Templates to Queues from CLI
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@ use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::Queue;
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 use Kernel::System::Main;
 
 # create common objects
@@ -43,27 +43,27 @@ my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddQueue2StdResponse.pl.pl',
+    LogPrefix => 'OTRS-otrs.AddQueue2StdTemplate.pl',
     %CommonObject,
 );
 $CommonObject{MainObject}             = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}               = Kernel::System::DB->new(%CommonObject);
 $CommonObject{QueueObject}            = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{StandardResponseObject} = Kernel::System::StandardResponse->new(%CommonObject);
+$CommonObject{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%CommonObject);
 
 # get options
 my %Opts;
-getopts( 'hq:r:', \%Opts );
+getopts( 'hq:t:', \%Opts );
 if ( $Opts{h} ) {
     print
-        "otrs.AddQueue2StdResponse.pl - assign Queues to Standard responses\n";
+        "otrs.AddQueue2StdTemplate.pl - assign Queues to Standard templates\n";
     print
-        "usage: otrs.AddQueue2StdResponse.pl -r <RESPONSE> -q <QUEUE>\n";
+        "usage: otrs.AddQueue2StdTemplate.pl -t <TEMPLATE> -q <QUEUE>\n";
     exit 1;
 }
 
-if ( !$Opts{r} ) {
-    print STDERR "ERROR: Need -r <RESPONSE>\n";
+if ( !$Opts{t} ) {
+    print STDERR "ERROR: Need -t <TEMPLATE>\n";
     exit 1;
 }
 if ( !$Opts{q} ) {
@@ -78,27 +78,28 @@ if ( !$QueueID ) {
     exit 1;
 }
 
-# check response
-my $StandardResponseID
-    = $CommonObject{StandardResponseObject}->StandardResponseLookup( StandardResponse => $Opts{r} );
-if ( !$StandardResponseID ) {
-    print STDERR "ERROR: Found no Standard Response for $Opts{r}\n";
+# check template
+my $StandardTemplateID
+    = $CommonObject{StandardTemplateObject}->StandardTemplateLookup( StandardTemplate => $Opts{t} );
+if ( !$StandardTemplateID ) {
+    print STDERR "ERROR: Found no Standard Template for $Opts{t}\n";
     exit 1;
 }
 
-# set queue standard response
+# set queue standard template
 if (
-    !$CommonObject{QueueObject}->SetQueueStandardResponse(
-        ResponseID => $StandardResponseID,
-        QueueID    => $QueueID,
-        UserID     => 1,
+    !$CommonObject{QueueObject}->QueueStandardTemplateMemberAdd(
+        StandardTemplateID => $StandardTemplateID,
+        QueueID            => $QueueID,
+        Active             => 1,
+        UserID             => 1,
     )
     )
 {
-    print STDERR "ERROR: Can't set Standard response!\n";
+    print STDERR "ERROR: Can't set Standard template!\n";
     exit 1;
 }
 else {
-    print "Added Queue '$Opts{q}' to Standard Response '$Opts{r}'.\n";
+    print "Added Queue '$Opts{q}' to Standard Template '$Opts{t}'.\n";
     exit 0;
 }

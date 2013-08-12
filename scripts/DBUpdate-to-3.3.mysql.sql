@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-06-20 10:38:00
+#  driver: mysql, generated: 2013-08-06 13:25:06
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  insert into table ticket_history_type
@@ -42,7 +42,7 @@ CREATE TABLE system_data (
 CREATE TABLE acl (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     stop_after_match SMALLINT NULL,
@@ -64,6 +64,117 @@ CREATE TABLE acl_sync (
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL
 );
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response' AND constraint_name = 'FK_standard_response_valid_id_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response DROP FOREIGN KEY FK_standard_response_valid_id_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_valid_id_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response' AND constraint_name = 'FK_standard_response_create_by_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response DROP FOREIGN KEY FK_standard_response_create_by_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_create_by_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response' AND constraint_name = 'FK_standard_response_change_by_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response DROP FOREIGN KEY FK_standard_response_change_by_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_change_by_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'queue_standard_response' AND constraint_name = 'FK_queue_standard_response_standard_response_id_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE queue_standard_response DROP FOREIGN KEY FK_queue_standard_response_standard_response_id_id', 'SELECT ''INFO: Foreign key constraint FK_queue_standard_response_standard_response_id_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'queue_standard_response' AND constraint_name = 'FK_queue_standard_response_queue_id_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE queue_standard_response DROP FOREIGN KEY FK_queue_standard_response_queue_id_id', 'SELECT ''INFO: Foreign key constraint FK_queue_standard_response_queue_id_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'queue_standard_response' AND constraint_name = 'FK_queue_standard_response_create_by_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE queue_standard_response DROP FOREIGN KEY FK_queue_standard_response_create_by_id', 'SELECT ''INFO: Foreign key constraint FK_queue_standard_response_create_by_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'queue_standard_response' AND constraint_name = 'FK_queue_standard_response_change_by_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE queue_standard_response DROP FOREIGN KEY FK_queue_standard_response_change_by_id', 'SELECT ''INFO: Foreign key constraint FK_queue_standard_response_change_by_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response_attachment' AND constraint_name = 'FK_standard_response_attachment_standard_response_id_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response_attachment DROP FOREIGN KEY FK_standard_response_attachment_standard_response_id_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_attachment_standard_response_id_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response_attachment' AND constraint_name = 'FK_standard_response_attachment_standard_attachment_id_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response_attachment DROP FOREIGN KEY FK_standard_response_attachment_standard_attachment_id_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_attachment_standard_attachment_id_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response_attachment' AND constraint_name = 'FK_standard_response_attachment_create_by_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response_attachment DROP FOREIGN KEY FK_standard_response_attachment_create_by_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_attachment_create_by_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+#  MySQL does not create foreign key constraints in MyISAM. Dropping nonexisting constraints in MyISAM works just fine.;
+#  However, if the table is converted to InnoDB, this will result in an error. Therefore, only drop constraints if they exist.;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'standard_response_attachment' AND constraint_name = 'FK_standard_response_attachment_change_by_id');
+SET @FKSQLStatement := IF( @FKExists > 0, 'ALTER TABLE standard_response_attachment DROP FOREIGN KEY FK_standard_response_attachment_change_by_id', 'SELECT ''INFO: Foreign key constraint FK_standard_response_attachment_change_by_id does not exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+ALTER TABLE standard_response DROP INDEX standard_response_name;
+# ----------------------------------------------------------
+#  alter table standard_template
+# ----------------------------------------------------------
+ALTER TABLE standard_response RENAME standard_template;
+# ----------------------------------------------------------
+#  alter table queue_standard_template
+# ----------------------------------------------------------
+ALTER TABLE queue_standard_response RENAME queue_standard_template;
+# ----------------------------------------------------------
+#  alter table standard_template_attachment
+# ----------------------------------------------------------
+ALTER TABLE standard_response_attachment RENAME standard_template_attachment;
+# ----------------------------------------------------------
+#  alter table standard_template
+# ----------------------------------------------------------
+ALTER TABLE standard_template ADD template_type VARCHAR (100) NULL;
+UPDATE standard_template SET template_type = 'Answer' WHERE template_type IS NULL;
+ALTER TABLE standard_template CHANGE template_type template_type VARCHAR (100) DEFAULT 'Answer' NOT NULL;
+ALTER TABLE standard_template ADD CONSTRAINT standard_template_name UNIQUE INDEX (name);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+# ----------------------------------------------------------
+#  alter table queue_standard_template
+# ----------------------------------------------------------
+ALTER TABLE queue_standard_template CHANGE standard_response_id standard_template_id INTEGER NULL;
+ALTER TABLE queue_standard_template ALTER standard_template_id DROP DEFAULT;
+UPDATE queue_standard_template SET standard_template_id = 0 WHERE standard_template_id IS NULL;
+ALTER TABLE queue_standard_template CHANGE standard_template_id standard_template_id INTEGER NOT NULL;
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+# ----------------------------------------------------------
+#  alter table standard_template_attachment
+# ----------------------------------------------------------
+ALTER TABLE standard_template_attachment CHANGE standard_response_id standard_template_id INTEGER NULL;
+ALTER TABLE standard_template_attachment ALTER standard_template_id DROP DEFAULT;
+UPDATE standard_template_attachment SET standard_template_id = 0 WHERE standard_template_id IS NULL;
+ALTER TABLE standard_template_attachment CHANGE standard_template_id standard_template_id INTEGER NOT NULL;
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_attachment_id_id FOREIGN KEY (standard_attachment_id) REFERENCES standard_attachment (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

@@ -13,14 +13,15 @@ use strict;
 use warnings;
 
 use Kernel::System::CheckItem;
-use Kernel::System::State;
-use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
-use Kernel::System::Web::UploadCache;
-use Kernel::System::TemplateGenerator;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::State;
+use Kernel::System::StdAttachment;
+use Kernel::System::SystemAddress;
+use Kernel::System::TemplateGenerator;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 sub new {
@@ -40,13 +41,14 @@ sub new {
     }
 
     # some new objects
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
-    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{BackendObject}       = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CheckItemObject}     = Kernel::System::CheckItem->new(%Param);
+    $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
+    $Self->{StateObject}         = Kernel::System::State->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
+    $Self->{UploadCacheObject}   = Kernel::System::Web::UploadCache->new(%Param);
 
     # get params
     for (
@@ -59,6 +61,9 @@ sub new {
             $Self->{GetParam}->{$_} = $Value;
         }
     }
+
+    $Self->{GetParam}->{ForwardTemplateID}
+        = $Self->{ParamObject}->GetParam( Param => 'ForwardTemplateID' ) || '';
 
     # ACL compatibility translation
     $Self->{ACLCompatGetParam}->{NextStateID} = $Self->{GetParam}->{ComposeStateID};
@@ -253,6 +258,25 @@ sub Form {
         UserID    => $Self->{UserID},
     );
 
+    if ( $GetParam{ForwardTemplateID} ) {
+
+        # get template
+        $Data{StdTemplate} = $TemplateGenerator->Template(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Data{ArticleID},
+            TemplateID => $GetParam{ForwardTemplateID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+        );
+
+        # get signature
+        $Data{Signature} = $TemplateGenerator->Signature(
+            TicketID => $Self->{TicketID},
+            Data     => \%Data,
+            UserID   => $Self->{UserID},
+        );
+    }
+
     # body preparation for plain text processing
     $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
         TicketID           => $Data{TicketID},
@@ -310,6 +334,10 @@ sub Form {
         $Data{Body} .= "<br/>---- $EndForwardedMessage ---<br/>";
         $Data{Body} = $Data{Signature} . $Data{Body};
 
+        if ( $GetParam{ForwardTemplateID} ) {
+            $Data{Body} = $Data{StdTemplate} . '<br/>' . $Data{Body};
+        }
+
         $Data{ContentType} = 'text/html';
     }
     else {
@@ -345,6 +373,21 @@ sub Form {
         $Data{Body} = $Data{Signature} . $Data{Body};
     }
 
+    # add std. attachments to email
+    if ( $GetParam{ForwardTemplateID} ) {
+        my %AllStdAttachments
+            = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            StandardTemplateID => $GetParam{ForwardTemplateID},
+            );
+        for ( sort keys %AllStdAttachments ) {
+            my %AttachmentsData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
+            $Self->{UploadCacheObject}->FormIDAddFile(
+                FormID => $GetParam{FormID},
+                %AttachmentsData,
+            );
+        }
+    }
+
     # get all attachments meta data
     my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $GetParam{FormID},
@@ -359,12 +402,11 @@ sub Form {
 
     # put & get attributes like sender address
     %Data = $TemplateGenerator->Attributes(
-        TicketID   => $Self->{TicketID},
-        ArticleID  => $GetParam{ArticleID},
-        ResponseID => $GetParam{ResponseID},
-        Data       => \%Data,
-        UserID     => $Self->{UserID},
-        Action     => 'Forward',
+        TicketID  => $Self->{TicketID},
+        ArticleID => $GetParam{ArticleID},
+        Data      => \%Data,
+        UserID    => $Self->{UserID},
+        Action    => 'Forward',
     );
 
     # run compose modules

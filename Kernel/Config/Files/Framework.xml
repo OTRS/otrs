@@ -251,7 +251,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.</Description>
+        <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -5693,8 +5693,8 @@ M
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="StandardResponse2QueueByCreating" Required="0" Valid="0">
-        <Description Translatable="1">List of default StandardResponses which are assigned automatically to new Queues upon creation.</Description>
+    <ConfigItem Name="StandardTemplate2QueueByCreating" Required="0" Valid="0">
+        <Description Translatable="1">List of default Standard Templates which are assigned automatically to new Queues upon creation.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
