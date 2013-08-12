@@ -155,6 +155,7 @@ sub Run {
                     Key     => $SessionName,
                     Value   => $NewSessionID,
                     Expires => $Expires,
+                    Path    => $Self->{ConfigObject}->Get('ScriptAlias'),
                     Secure  => scalar $SecureAttribute,
                 ),
             },
