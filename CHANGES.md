@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-08-12 Updated CKEditor to version 4.2.
  - 2013-08-08 The OTRS Scheduler Service should now always be running, and not just if there is a web service configured; because it will
     be used by more parts of OTRS than just the Generic Interface. The notification test to see if the Scheduler is running, is now always active.
  - 2013-08-05 Fixed bug#[9644](http://bugs.otrs.org/show_bug.cgi?id=9644) - External Ticket Number filter does not work with Ticket::SubjectFormat None.
