@@ -52,18 +52,17 @@ use Kernel::System::VariableCheck qw(:all);
 DBUpdate-to-3.3.pl - Upgrade scripts for OTRS 3.2.x to 3.3.x migration.
 Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
-usage: $0 [-h | -f]
+usage: $0 [-h]
     Options are as follows:
         -h      display this help
-        -f      execute the script also if started as root user
 
 EOF
         exit 1;
     }
 
     # UID check if not on Windows
-    if ( $^O ne 'MSWin32' && $> == 0 && !exists $Opts{f} ) {    # $EFFECTIVE_USER_ID
-        die "Cannot run this program as root. Please run it as the 'otrs' user.\n";
+    if ( $^O ne 'MSWin32' && $> == 0 ) {    # $EFFECTIVE_USER_ID
+        die "Cannot run this program as root. Please run it as the 'otrs' user or with the help of su: 'su -c "/opt/otrs/scripts/DBUpdate-to-3.3.x.pl" -s /bin/bash otrs'\n";
     }
 
     print "\nMigration started...\n\n";
