@@ -396,7 +396,14 @@ sub SearchFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    # set the default type
+    $Param{Type} ||= 'TimeSlot';
+
+    # add type to FieldName
+    $FieldName .= $Param{Type};
+
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 
@@ -404,8 +411,42 @@ sub SearchFieldRender {
 
     if ( defined $Param{DefaultValue} ) {
         my @Items = split /;/, $Param{DefaultValue};
+
+# format example of the key name for TimePoint:
+#
+# Search_DynamicField_DateTest1TimePointFormat=week;Search_DynamicField_DateTest1TimePointStart=Before;Search_DynamicField_DateTest1TimePointValue=7;
+
+# format example of the key name for TimeSlot:
+#
+# Search_DynamicField_DateTest1TimeSlotStartYear=1974;Search_DynamicField_DateTest1TimeSlotStartMonth=01;Search_DynamicField_DateTest1TimeSlotStartDay=26;
+# Search_DynamicField_DateTest1TimeSlotStartHour=00;Search_DynamicField_DateTest1TimeSlotStartMinute=00;Search_DynamicField_DateTest1TimeSlotStartSecond=00;
+# Search_DynamicField_DateTest1TimeSlotStopYear=2013;Search_DynamicField_DateTest1TimeSlotStopMonth=01;Search_DynamicField_DateTest1TimeSlotStopDay=26;
+# Search_DynamicField_DateTest1TimeSlotStopHour=23;Search_DynamicField_DateTest1TimeSlotStopMinute=59;Search_DynamicField_DateTest1TimeSlotStopSecond=59;
+
+        my $KeyName = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} . $Param{Type};
+
+        ITEM:
         for my $Item (@Items) {
             my ( $Key, $Value ) = split /=/, $Item;
+
+            # only handle keys that match the current type
+            next ITEM if $Key !~ m{ $Param{Type} }xms;
+
+            if ( $Param{Type} eq 'TimePoint' ) {
+
+                if ( $Key eq $KeyName . 'Format' ) {
+                    $DefaultValue{Format}->{$Key} = $Value;
+                }
+                elsif ( $Key eq $KeyName . 'Start' ) {
+                    $DefaultValue{Start}->{$Key} = $Value;
+                }
+                elsif ( $Key eq $KeyName . 'Value' ) {
+                    $DefaultValue{Value}->{$Key} = $Value;
+                }
+
+                next ITEM;
+            }
+
             if ( $Key =~ m{Start} ) {
                 $DefaultValue{ValueStart}->{$Key} = $Value;
             }
@@ -427,8 +468,20 @@ sub SearchFieldRender {
 
     if (
         defined $FieldValues
+        && $Param{Type} eq 'TimeSlot'
         && defined $FieldValues->{ValueStart}
         && defined $FieldValues->{ValueStop}
+        )
+    {
+        $Value = $FieldValues;
+    }
+
+    elsif (
+        defined $FieldValues
+        && $Param{Type} eq 'TimePoint'
+        && defined $FieldValues->{Format}
+        && defined $FieldValues->{Start}
+        && defined $FieldValues->{Value}
         )
     {
         $Value = $FieldValues;
@@ -451,6 +504,59 @@ EOF
 EOF
     }
 
+    # build HTML for TimePoint
+    if ( $Param{Type} eq 'TimePoint' ) {
+
+        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+            Data => {
+                'Before' => 'more than ... ago',
+                'Last'   => 'within the last ...',
+                'Next'   => 'within the next ...',
+                'After'  => 'more than ...',
+            },
+            Sort           => 'IndividualKey',
+            SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
+            Name           => $FieldName . 'Start',
+            SelectedID => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
+        );
+        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+            Data       => [ 1 .. 59 ],
+            Name       => $FieldName . 'Value',
+            SelectedID => $Value->{Value}->{ $FieldName . 'Value' } || 1,
+        );
+        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name => $FieldName . 'Format',
+            SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || 'day',
+        );
+
+        my $AdditionalText;
+        if ( $Param{UseLabelHints} ) {
+            $AdditionalText = 'before/after';
+        }
+
+        # call EditLabelRender on the common backend
+        my $LabelString = $Self->EditLabelRender(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            FieldName          => $FieldName,
+            AdditionalText     => $AdditionalText,
+        );
+
+        my $Data = {
+            Field => $HTMLString,
+            Label => $LabelString,
+        };
+
+        return $Data;
+    }
+
     # build HTML for start value set
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
@@ -462,10 +568,18 @@ EOF
         %{ $Value->{ValueStart} },
     );
 
-    # build HTML for "and" separator
-    $HTMLString .= <<'EOF';
-  $Text{"and"}
-  <br/>
+    # to put a line break between the two search dates
+    my $LineBreak = ' <br/>';
+
+    # in screens where the confirmation checkboxes is set, there is no need to render the filed in
+    # two lines (e.g. AdminGenericAgentn CustomerTicketSearch)
+    if ( $Param{ConfirmationCheckboxes} ) {
+        $LineBreak = '';
+    }
+
+    $HTMLString .= <<"EOF";
+  \$Text{\"and\"}
+$LineBreak
 EOF
 
     # build HTML for stop value set
@@ -504,6 +618,69 @@ sub SearchFieldValueGet {
 
     # set the Prefix as the dynamic field name
     my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # set the default type
+    $Param{Type} ||= 'TimeSlot';
+
+    # add type to prefix
+    $Prefix .= $Param{Type};
+
+    if ( $Param{Type} eq 'TimePoint' ) {
+
+        # get dynamic field value
+        my %DynamicFieldValues;
+        for my $Type (qw(Start Value Format)) {
+
+            # get dynamic field value form param object
+            if ( defined $Param{ParamObject} ) {
+
+                # return if value was not checked (useful in customer interface)
+                return if !$Param{ParamObject}->GetParam( Param => $Prefix );
+
+                $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
+                    Param => $Prefix . $Type,
+                );
+            }
+
+            # otherwise get the value from the profile
+            elsif ( defined $Param{Profile} ) {
+
+                # return if value was not checked (useful in customer interface)
+                return if !$Param{Profile}->{$Prefix};
+
+                $DynamicFieldValues{ $Prefix . $Type }
+                    = $Param{Profile}->{ $Prefix . $Type };
+            }
+            else {
+                return;
+            }
+        }
+
+        # return if the field is empty (e.g. initial screen)
+        return if !$DynamicFieldValues{ $Prefix . 'Start' }
+            && !$DynamicFieldValues{ $Prefix . 'Value' }
+            && !$DynamicFieldValues{ $Prefix . 'Format' };
+
+        $DynamicFieldValues{$Prefix} = 1;
+
+        # check if return value structure is nedded
+        if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq '1' ) {
+            return \%DynamicFieldValues;
+        }
+
+        return {
+            Format => {
+                $Prefix . 'Format' => $DynamicFieldValues{ $Prefix . 'Format' } || 'Last',
+            },
+            Start => {
+                $Prefix . 'Start' => $DynamicFieldValues{ $Prefix . 'Start' } || 'day',
+            },
+            Value => {
+                $Prefix . 'Value' => $DynamicFieldValues{ $Prefix . 'Value' } || 1,
+            },
+            $Prefix => 1,
+        };
+    }
 
     # get dynamic field value
     my %DynamicFieldValues;
@@ -588,8 +765,28 @@ sub SearchFieldValueGet {
     };
 }
 
+sub SearchFieldPreferences {
+    my ( $Self, %Param ) = @_;
+
+    my @Preferences = (
+        {
+            Type        => 'TimePoint',
+            LabelSuffix => 'before/after',
+        },
+        {
+            Type        => 'TimeSlot',
+            LabelSuffix => 'between',
+        },
+    );
+
+    return \@Preferences;
+}
+
 sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
+
+    # set the default type
+    $Param{Type} ||= 'TimeSlot';
 
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
@@ -605,6 +802,118 @@ sub SearchFieldParameterBuild {
     if ( $Value && IsHashRefWithData($Value) ) {
 
         my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+        $Prefix .= $Param{Type};
+
+        if (
+            $Param{Type} eq 'TimePoint'
+            && $Value->{Start}->{ $Prefix . 'Start' }
+            && $Value->{Format}->{ $Prefix . 'Format' }
+            && $Value->{Value}->{ $Prefix . 'Value' }
+            && $Value->{$Prefix}
+            )
+        {
+            # to store the search parameters
+            my %Parameter;
+
+            # store in local variables for easier handling
+            my $Format = $Value->{Format}->{ $Prefix . 'Format' };
+            my $Start  = $Value->{Start}->{ $Prefix . 'Start' };
+            my $Value  = $Value->{Value}->{ $Prefix . 'Value' };
+
+            my $DiffTimeMinutes = 0;
+            if ( $Format eq 'minute' ) {
+                $DiffTimeMinutes = $Value;
+            }
+            elsif ( $Format eq 'hour' ) {
+                $DiffTimeMinutes = $Value * 60;
+            }
+            elsif ( $Format eq 'day' ) {
+                $DiffTimeMinutes = $Value * 60 * 24;
+            }
+            elsif ( $Format eq 'week' ) {
+                $DiffTimeMinutes = $Value * 60 * 24 * 7;
+            }
+            elsif ( $Format eq 'month' ) {
+                $DiffTimeMinutes = $Value * 60 * 24 * 30;
+            }
+            elsif ( $Format eq 'year' ) {
+                $DiffTimeMinutes = $Value * 60 * 24 * 365;
+            }
+
+            # get the current time in epoch seconds and as timestamp
+            my $Now          = $Self->{TimeObject}->SystemTime();
+            my $NowTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $Now,
+            );
+
+            # calculate diff time seconds
+            my $DiffTimeSeconds = $DiffTimeMinutes * 60;
+
+            my $DisplayValue = '';
+
+            # define to search before or after that time stamp
+            if ( $Start eq 'Before' ) {
+
+                # we must subtract the diff because it is in the past
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $Now - $DiffTimeSeconds,
+                );
+
+                # only search dates in the past (before the time stamp)
+                $Parameter{SmallerThanEquals} = $TimeStamp;
+
+                # set the display value
+                $DisplayValue = '<= ' . $TimeStamp;
+            }
+            elsif ( $Start eq 'Last' ) {
+
+                # we must subtract the diff because it is in the past
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $Now - $DiffTimeSeconds,
+                );
+
+                # search dates in the past (after the time stamp and up to now)
+                $Parameter{GreaterThanEquals} = $TimeStamp;
+                $Parameter{SmallerThanEquals} = $NowTimeStamp;
+
+                # set the display value
+                $DisplayValue = $TimeStamp . ' - ' . $NowTimeStamp;
+            }
+            elsif ( $Start eq 'Next' ) {
+
+                # we must add the diff because it is in the future
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $Now + $DiffTimeSeconds,
+                );
+
+                # search dates in the future (after now and up to the time stamp)
+                $Parameter{GreaterThanEquals} = $NowTimeStamp;
+                $Parameter{SmallerThanEquals} = $TimeStamp;
+
+                # set the display value
+                $DisplayValue = $NowTimeStamp . ' - ' . $TimeStamp;
+            }
+            elsif ( $Start eq 'After' ) {
+
+                # we must add the diff because it is in the future
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $Now + $DiffTimeSeconds,
+                );
+
+                # only search dates in the future (after the time stamp)
+                $Parameter{GreaterThanEquals} = $TimeStamp;
+
+                # set the display value
+                $DisplayValue = '>= ' . $TimeStamp;
+            }
+
+            # return search parameter structure
+            return {
+                Parameter => \%Parameter,
+                Display   => $DisplayValue,
+            };
+        }
 
         my $ValueStart
             = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
