@@ -2252,9 +2252,9 @@ sub _ArticleItem {
 
         my $Link
             = 'Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
-        my $Description = 'Mark article as important';
+        my $Description = 'Mark';
         if ($ArticleIsImportant) {
-            $Description = 'Remove important mark';
+            $Description = 'Unmark';
         }
 
         # set important menu item
