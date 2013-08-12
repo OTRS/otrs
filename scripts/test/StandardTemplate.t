@@ -13,15 +13,23 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::System::StandardTemplate;
+use Kernel::System::UnitTest::Helper;
 
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 0,
+);
 my $StandardTemplateObject = Kernel::System::StandardTemplate->new( %{$Self} );
+
+my $RandomID = $HelperObject->GetRandomID();
 
 # tests
 my @Tests = (
     {
         Name => 'text',
         Add  => {
-            Name         => 'text',
+            Name         => 'text' . $RandomID,
             ValidID      => 1,
             Template     => 'Template text',
             ContentType  => 'text/plain; charset=iso-8859-1',
@@ -30,7 +38,7 @@ my @Tests = (
             UserID       => 1,
         },
         AddGet => {
-            Name         => 'text',
+            Name         => 'text' . $RandomID,
             ValidID      => 1,
             Template     => 'Template text',
             ContentType  => 'text/plain; charset=iso-8859-1',
@@ -38,7 +46,7 @@ my @Tests = (
             Comment      => 'some comment',
         },
         Update => {
-            Name         => 'text2',
+            Name         => 'text2' . $RandomID,
             ValidID      => 1,
             Template     => 'Template text\'2',
             ContentType  => 'text/plain; charset=utf-8',
@@ -47,7 +55,7 @@ my @Tests = (
             UserID       => 1,
         },
         UpdateGet => {
-            Name         => 'text2',
+            Name         => 'text2' . $RandomID,
             ValidID      => 1,
             Template     => 'Template text\'2',
             ContentType  => 'text/plain; charset=utf-8',
@@ -85,13 +93,13 @@ for my $Test (@Tests) {
     );
     $Self->Is(
         $Name,
-        $Test->{Name},
+        $Test->{Add}->{Name},
         "StandardTemplateLookup()",
     );
 
     # lookup by Name
     my $LookupID = $StandardTemplateObject->StandardTemplateLookup(
-        StandardTemplate => $Test->{Name},
+        StandardTemplate => $Test->{Add}->{Name},
     );
     $Self->Is(
         $ID,
