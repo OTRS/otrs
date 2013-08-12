@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use base qw(Kernel::System::StandardTemplate);
+use Kernel::System::CacheInternal;
 use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -90,6 +91,11 @@ sub new {
     }
 
     # create additional objects
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'StandardTemplate',
+        TTL  => 60 * 60 * 24 * 20,
+    );
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
@@ -159,7 +165,7 @@ sub StandardResponseGet {
 
     my %Response = $Self->StandardTemplateGet(%Param);
 
-    if (IsHashRefWithData( \%Response ) ){
+    if ( IsHashRefWithData( \%Response ) ) {
         $Response{Response} = $Response{Template};
         return %Response;
     }
