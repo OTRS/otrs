@@ -631,6 +631,50 @@ $Data{"ArticleItems"}
         </div>
         <div class="LightRow Bottom">
             <ul class="Actions">
+
+<!-- dtl:block:ArticleForwardAsDropdown -->
+                <li>
+                    <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
+                        <input type="hidden" name="Action" value="$QData{"Action"}"/>
+                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                        <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}"/>
+                        <input type="hidden" name="ForwardAll" value="$QData{"ForwardAll"}"/>
+                        <label for="$QData{"ForwardElementID"}" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
+                        $Data{"StandarForwardsStrg"}
+                    </form>
+<!-- dtl:block:ArticleForwardAsDropdownJSOnLoad -->
+<script type="text/javascript">//<![CDATA[
+$('#$QData{"FormID"} select[name=ForwardTemplateID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+<!-- dtl:block:ArticleForwardAsDropdownJSOnLoad -->
+<!-- dtl:block:ArticleForwardAsDropdownJSStatic -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#$QData{"FormID"} select[name=ForwardTemplateID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ArticleForwardAsDropdownJSStatic -->
+                </li>
+<!-- dtl:block:ArticleForwardAsDropdown -->
+
 <!-- dtl:block:ArticleMenu-->
                 <li>
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>

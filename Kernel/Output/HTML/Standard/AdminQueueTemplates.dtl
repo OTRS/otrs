@@ -1,5 +1,5 @@
 # --
-# AdminQueueResponses.dtl - provides HTML form for AdminInterface
+# AdminQueueTemplates.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -9,7 +9,7 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Manage Response-Queue Relations"}</h1>
+    <h1>$Text{"Manage Template-Queue Relations"}</h1>
 
     <div class="SidebarColumn">
 
@@ -41,16 +41,16 @@
         </div>
 <!-- dtl:block:Filter -->
 
-<!-- dtl:block:FilterResponse -->
+<!-- dtl:block:FilterTemplate -->
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterResponses">$Text{"Filter for Responses"}</label></h2>
+                <h2><label for="FilterTemplates">$Text{"Filter for Templates"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterResponses" class="W50pc" name="FilterResponses" value="" title="$Text{"Filter for Responses"}" />
+                <input type="text" id="FilterTemplates" class="W50pc" name="FilterTemplates" value="" title="$Text{"Filter for Templates"}" />
             </div>
         </div>
-<!-- dtl:block:FilterResponse -->
+<!-- dtl:block:FilterTemplate -->
 <!-- dtl:block:FilterQueue -->
         <div class="WidgetSimple">
             <div class="Header">
@@ -73,12 +73,12 @@
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
-                    <ul class="Tablelike" id="Responses">
-                        <li class="Header">$Text{"Responses"}</li>
+                    <ul class="Tablelike" id="Templates">
+                        <li class="Header">$Text{"Templates"}</li>
                         <li class="FilterMessage Hidden">$Text{"No matches found."}</li>
-<!-- dtl:block:NoResponsesFoundMsg -->
+<!-- dtl:block:NoTemplatesFoundMsg -->
                         <li>$Text{"No data found."}</li>
-<!-- dtl:block:NoResponsesFoundMsg -->
+<!-- dtl:block:NoTemplatesFoundMsg -->
 <!-- dtl:block:List1n-->
                         <li><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"}" class="AsBlock">$QData{"Name"}</a></li>
 <!-- dtl:block:List1n-->
@@ -101,7 +101,7 @@
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Table.InitTableFilter($('#FilterResponses'), $('#Responses'));
+    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
     Core.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
@@ -110,11 +110,11 @@
             <div class="Header">
                 <h2>
 <!-- dtl:block:ChangeHeaderQueue -->
-                    $Text{"Change Queue Relations for Response"}
+                    $Text{"Change Queue Relations for Template"}
 <!-- dtl:block:ChangeHeaderQueue -->
-<!-- dtl:block:ChangeHeaderResponse -->
-                    $Text{"Change Response Relations for Queue"}
-<!-- dtl:block:ChangeHeaderResponse -->
+<!-- dtl:block:ChangeHeaderTemplate -->
+                    $Text{"Change Template Relations for Queue"}
+<!-- dtl:block:ChangeHeaderTemplate -->
                     <a href="$Env{"Baselink"}Action=$LQData{"ActionHome"};Subaction=Change;$LQData{"Queue"}ID=$LQData{"ID"}">$QData{"Name"}</a>
                 </h2>
             </div>
@@ -123,13 +123,13 @@
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Change$QData{"Type"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <table class="DataTable VariableWidth" id="UserRoles">
+                    <table class="DataTable VariableWidth" id="ItemsTable">
                         <thead>
                             <tr>
                                 <th>$Text{"$Data{"VisibleNeType"}"}</th>
 <!-- dtl:block:ChangeHeader -->
                                 <th class="$QData{"Mark"}">
-                                    <input type="checkbox" id="SelectAll$QData{"Type"}" name="$QData{"Type"}" title="$Text{"Toggle active state for all"}" value="" />
+                                    <input type="checkbox" id="SelectAllItemsSelected" name="ItemsSelected" title="$Text{"Toggle active state for all"}" value="" />
                                     $Text{"Active"}
                                 </th>
 <!-- dtl:block:ChangeHeader -->
@@ -140,7 +140,8 @@
                             <tr>
                                 <td><a href="$Env{"Baselink"}Action=Admin$LQData{"NeType"};Subaction=Change;$LQData{"Queue"}ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                                 <td class="$QData{"Mark"}">
-                                    <input type="checkbox" name="$QData{"Type"}" title="$Text{"Toggle active state for %s", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="checkbox" name="ItemsSelected" title="$Text{"Toggle active state for %s", "$QData{"Name"}"}" value="$QData{"ID"}" $Data{"Selected"}/>
+                                    <input type="hidden" name="ItemsAll" value="$QData{"ID"}"/>
 
                                 </td>
                             </tr>
@@ -157,11 +158,11 @@
             </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.Form.InitSelectAllCheckboxes($('#UserRoles input:checkbox[name=$QData{"Type"}]'), $('#SelectAll$QData{"Type"}'));
-    $('#UserRoles input:checkbox[name=$QData{"Type"}]').bind('click', function () {
-        Core.Form.SelectAllCheckboxes($(this), $('#SelectAll$QData{"Type"}'));
-    });
-    Core.UI.Table.InitTableFilter($('#Filter'), $('#UserRoles'));
+Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=ItemsSelected]'), $('#SelectAllItemsSelected'));
+$('input:checkbox[name=ItemsSelected]').bind('click', function () {
+    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
+});
+Core.UI.Table.InitTableFilter($('#Filter'), $('#ItemsTable'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Change -->

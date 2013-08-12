@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminAttachment.pm - provides admin std response module
+# Kernel/Modules/AdminAttachment.pm - provides admin std template module
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

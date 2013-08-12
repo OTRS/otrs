@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
+# Kernel/Modules/AdminQueueTemplates.pm - to manage queue <-> templates assignments
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,13 +7,13 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::AdminQueueResponses;
+package Kernel::Modules::AdminQueueTemplates;
 
 use strict;
 use warnings;
 
 use Kernel::System::Queue;
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +30,7 @@ sub new {
     }
 
     $Self->{QueueObject}            = Kernel::System::Queue->new(%Param);
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
 
     return $Self;
 }
@@ -39,21 +39,21 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
-    # response <-> queues 1:n
+    # template <-> queues 1:n
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'Response' ) {
+    if ( $Self->{Subaction} eq 'Template' ) {
 
-        # get response data
+        # get template data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID );
+        my %StandardTemplateData
+            = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID );
 
         # get queues
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
 
         # get assigned queues
-        my %Member = $Self->{QueueObject}->GetStandardResponses(
-            StandardResponseID => $ID,
+        my %Member = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+            StandardTemplateID => $ID,
         );
 
         my $Output = $Self->{LayoutObject}->Header();
@@ -61,16 +61,16 @@ sub Run {
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%QueueData,
-            ID       => $StandardResponseData{ID},
-            Name     => $StandardResponseData{Name},
-            Type     => 'Response',
+            ID       => $StandardTemplateData{ID},
+            Name     => $StandardTemplateData{TemplateType} . ' - ' . $StandardTemplateData{Name},
+            Type     => 'Template',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
     # ------------------------------------------------------------ #
-    # responses <-> Queue n:1
+    # templates <-> Queue n:1
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Queue' ) {
 
@@ -78,12 +78,14 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
 
-        # get responses
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        # get templates
+        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+            TemplateTypes => 1,
+            Valid         => 1,
+        );
 
-        # get assigned responses
-        my %Member = $Self->{QueueObject}->GetStandardResponses(
+        # get assigned templates
+        my %Member = $Self->{QueueObject}->QueueStandardTemplateMemberList(
             QueueID => $ID,
         );
 
@@ -91,7 +93,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
-            Data     => \%StandardResponseData,
+            Data     => \%StandardTemplateData,
             ID       => $QueueData{QueueID},
             Name     => $QueueData{Name},
             Type     => 'Queue',
@@ -101,60 +103,67 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # add responses to queue
+    # add templates to queue
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeQueue' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        # get new queues
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Queue' );
+        # get new templates
+        my @TemplatesSelected
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @TemplatesAll
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $QueueID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        # update db
-        $Self->{DBObject}->Do(
-            SQL  => 'DELETE FROM queue_standard_response WHERE queue_id = ?',
-            Bind => [ \$ID ],
-        );
-        for my $NewID (@IDs) {
-            next if !$NewID;
-            $Self->{DBObject}->Do(
-                SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
-                    . 'create_time, create_by, change_time, change_by) VALUES '
-                    . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
-                Bind => [ \$ID, \$NewID, \$Self->{UserID}, \$Self->{UserID} ],
+        # create hash with selected templates
+        my %TemplatesSelected = map { $_ => 1 } @TemplatesSelected;
+
+        # check all used templates
+        for my $TemplateID (@TemplatesAll) {
+            my $Active = $TemplatesSelected{$TemplateID} ? 1 : 0;
+
+            # set customer user service member
+            $Self->{QueueObject}->QueueStandardTemplateMemberAdd(
+                QueueID            => $QueueID,
+                StandardTemplateID => $TemplateID,
+                Active             => $Active,
+                UserID             => $Self->{UserID},
             );
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
-    # add queues to response
+    # add queues to template
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'ChangeResponse' ) {
+    elsif ( $Self->{Subaction} eq 'ChangeTemplate' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new queues
-        my @IDs = $Self->{ParamObject}->GetArray( Param => 'Response' );
+        my @QueuesSelected
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @QueuesAll
+            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $TemplateID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        # update db
-        $Self->{DBObject}->Do(
-            SQL  => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
-            Bind => [ \$ID ],
-        );
-        for my $NewID (@IDs) {
-            next if !$NewID;
-            $Self->{DBObject}->Do(
-                SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
-                    . 'create_time, create_by, change_time, change_by) VALUES '
-                    . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
-                Bind => [ \$NewID, \$ID, \$Self->{UserID}, \$Self->{UserID} ],
+        # create hash with selected queues
+        my %QueuesSelected = map { $_ => 1 } @QueuesSelected;
+
+        # check all used queues
+        for my $QueueID (@QueuesAll) {
+            my $Active = $QueuesSelected{$QueueID} ? 1 : 0;
+
+            # set customer user service member
+            $Self->{QueueObject}->QueueStandardTemplateMemberAdd(
+                QueueID            => $QueueID,
+                StandardTemplateID => $TemplateID,
+                Active             => $Active,
+                UserID             => $Self->{UserID},
             );
         }
 
@@ -175,10 +184,10 @@ sub _Change {
     my ( $Self, %Param ) = @_;
 
     my %Data   = %{ $Param{Data} };
-    my $Type   = $Param{Type} || 'Response';
-    my $NeType = $Type eq 'Queue' ? 'Response' : 'Queue';
+    my $Type   = $Param{Type} || 'Template';
+    my $NeType = $Type eq 'Queue' ? 'Template' : 'Queue';
 
-    my %VisibleType = ( Response => 'Response', Queue => 'Queue', );
+    my %VisibleType = ( Template => 'Template', Queue => 'Queue', );
 
     my $MyType = $VisibleType{$Type};
 
@@ -242,10 +251,9 @@ sub _Change {
     }
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminQueueResponses',
+        TemplateFile => 'AdminQueueTemplates',
         Data         => \%Param,
         VisibleType  => $MyType,
-
     );
 }
 
@@ -259,18 +267,21 @@ sub _Overview {
 
     # no actions in action list
     #    $Self->{LayoutObject}->Block(Name=>'ActionList');
-    $Self->{LayoutObject}->Block( Name => 'FilterResponse' );
+    $Self->{LayoutObject}->Block( Name => 'FilterTemplate' );
     $Self->{LayoutObject}->Block( Name => 'FilterQueue' );
     $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
-    # get std response list
-    my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+    # get std template list
+    my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+        TemplateTypes => 1,
+        Valid         => 1,
+    );
 
     # if there are results to show
-    if (%StandardResponseData) {
-        for my $StandardResponseID (
-            sort { uc( $StandardResponseData{$a} ) cmp uc( $StandardResponseData{$b} ) }
-            keys %StandardResponseData
+    if (%StandardTemplateData) {
+        for my $StandardTemplateID (
+            sort { uc( $StandardTemplateData{$a} ) cmp uc( $StandardTemplateData{$b} ) }
+            keys %StandardTemplateData
             )
         {
 
@@ -278,9 +289,9 @@ sub _Overview {
             $Self->{LayoutObject}->Block(
                 Name => 'List1n',
                 Data => {
-                    Name      => $StandardResponseData{$StandardResponseID},
-                    Subaction => 'Response',
-                    ID        => $StandardResponseID,
+                    Name      => $StandardTemplateData{$StandardTemplateID},
+                    Subaction => 'Template',
+                    ID        => $StandardTemplateID,
                 },
             );
         }
@@ -289,7 +300,7 @@ sub _Overview {
     # otherwise it displays a no data found message
     else {
         $Self->{LayoutObject}->Block(
-            Name => 'NoResponsesFoundMsg',
+            Name => 'NoTemplatesFoundMsg',
             Data => {},
         );
     }
@@ -323,7 +334,7 @@ sub _Overview {
 
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminQueueResponses',
+        TemplateFile => 'AdminQueueTemplates',
         Data         => \%Param,
     );
 }

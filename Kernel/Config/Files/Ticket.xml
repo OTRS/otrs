@@ -7289,7 +7289,7 @@ $QData{"Body"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminResponse" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AdminTemplate" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
@@ -7297,19 +7297,19 @@ $QData{"Body"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Responses</Title>
+                <Title>Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Responses</Name>
-                    <Description Translatable="1">Create and manage response templates.</Description>
+                    <Name Translatable="1">Templates</Name>
+                    <Description Translatable="1">Create and manage templates.</Description>
                     <Block>Queue</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminQueueResponses" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AdminQueueTemplates" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
@@ -7317,12 +7317,12 @@ $QData{"Body"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Responses &lt;-&gt; Queues</Title>
+                <Title Translatable="1">Templates &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Responses &lt;-&gt; Queues</Name>
-                    <Description Translatable="1">Link responses to queues.</Description>
+                    <Name Translatable="1">Templates &lt;-&gt; Queues</Name>
+                    <Description Translatable="1">Link templates to queues.</Description>
                     <Block>Queue</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -7389,7 +7389,7 @@ $QData{"Body"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminResponseAttachment" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AdminTemplateAttachment" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
@@ -7397,12 +7397,12 @@ $QData{"Body"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Attachments &lt;-&gt; Responses</Title>
+                <Title Translatable="1">Attachments &lt;-&gt; Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Attachments &lt;-&gt; Responses</Name>
-                    <Description Translatable="1">Link attachments to responses templates.</Description>
+                    <Name Translatable="1">Attachments &lt;-&gt; Templates</Name>
+                    <Description Translatable="1">Link attachments to templates.</Description>
                     <Block>Queue</Block>
                     <Prio>700</Prio>
                 </NavBarModule>
@@ -9495,6 +9495,18 @@ Thanks for your help!
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
             <String Regex="^\d+%?$">100</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="StandardTemplate::Types" Required="0" Valid="1">
+        <Description Translatable="1">Defines the list of types for templates.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Answer">Answer</Item>
+                <Item Key="Create">Create</Item>
+                <Item Key="Forward">Forward</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
 </otrs_config>

@@ -70,9 +70,9 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                 AdminPriority
                 AdminQueue
                 AdminQueueAutoResponse
-                AdminQueueResponses
-                AdminResponse
-                AdminResponseAttachment
+                AdminQueueTemplates
+                AdminTemplate
+                AdminTemplateAttachment
                 AdminRole
                 AdminRoleGroup
                 AdminRoleUser

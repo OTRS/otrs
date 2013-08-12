@@ -12,17 +12,20 @@ package Kernel::Modules::AgentTicketEmail;
 use strict;
 use warnings;
 
-use Kernel::System::SystemAddress;
+use Mail::Address;
+
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
-use Kernel::System::Web::UploadCache;
 use Kernel::System::HTMLUtils;
-use Kernel::System::TemplateGenerator;
-use Kernel::System::State;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::State;
+use Kernel::System::StandardTemplate;
+use Kernel::System::StdAttachment;
+use Kernel::System::SystemAddress;
+use Kernel::System::TemplateGenerator;
 use Kernel::System::VariableCheck qw(:all);
-use Mail::Address;
+use Kernel::System::Web::UploadCache;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,14 +47,15 @@ sub new {
     }
 
     # needed objects
-    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{SystemAddress}          = Kernel::System::SystemAddress->new(%Param);
+    $Self->{CustomerUserObject}     = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CheckItemObject}        = Kernel::System::CheckItem->new(%Param);
+    $Self->{StateObject}            = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject}      = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -91,9 +95,8 @@ sub Run {
     my %GetParam;
     for my $Key (
         qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
-        TypeID ServiceID SLAID OwnerAll ResponsibleAll
-        NewResponsibleID NewUserID
-        NextStateID
+        TypeID ServiceID SLAID OwnerAll ResponsibleAll NewResponsibleID NewUserID
+        NextStateID CreateTemplateID
         )
         )
     {
@@ -429,7 +432,7 @@ sub Run {
                     # check if field has PossibleValues property in its configuration
                     if ( IsHashRefWithData($PossibleValues) ) {
 
-                        # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs usign a Hash slice
                         my %AclData = %{$PossibleValues};
                         @AclData{ keys %AclData } = keys %AclData;
 
@@ -549,9 +552,14 @@ sub Run {
                     %ACLCompatGetParam,
                     QueueID => $Self->{QueueID} || 1
                 ),
-                Services => $Services,
-                SLAs     => $SLAs,
-                Users    => $Self->_GetUsers(
+                Services        => $Services,
+                SLAs            => $SLAs,
+                CreateTemplates => $Self->_GetCreateTemplates(
+                    %GetParam,
+                    %ACLCompatGetParam,
+                    QueueID => $Self->{QueueID} || '',
+                ),
+                Users => $Self->_GetUsers(
                     %GetParam,
                     %ACLCompatGetParam,
                     QueueID => $Self->{QueueID}
@@ -1108,9 +1116,14 @@ sub Run {
                     CustomerUserID => $CustomerUser || '',
                     QueueID        => $NewQueueID   || 1,
                 ),
-                Services          => $Services,
-                SLAs              => $SLAs,
-                CustomerID        => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
+                Services        => $Services,
+                SLAs            => $SLAs,
+                CreateTemplates => $Self->_GetCreateTemplates(
+                    %GetParam,
+                    %ACLCompatGetParam,
+                    QueueID => $NewQueueID || '',
+                ),
+                CustomerID => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser      => $CustomerUser,
                 CustomerData      => \%CustomerData,
                 TimeUnitsRequired => (
@@ -1363,8 +1376,9 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
-        my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
+        my $Dest           = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+        my $CustomerUser   = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
+        my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' ) || '';
 
         # get From based on selected queue
         my $QueueID = '';
@@ -1434,6 +1448,11 @@ sub Run {
             QueueID        => $QueueID      || 1,
             Services       => $Services,
         );
+        my $CreateTemplates = $Self->_GetCreateTemplates(
+            %GetParam,
+            %ACLCompatGetParam,
+            QueueID => $QueueID || '',
+        );
 
         # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
@@ -1494,6 +1513,74 @@ sub Run {
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                     Max         => 100,
                 }
+            );
+        }
+
+        my @TemplateAJAX;
+
+        # update ticket body and attachements if needed.
+        if ( $ElementChanged eq 'CreateTemplateID' ) {
+            my @TicketAttachments;
+            my $TemplateText;
+
+            # remove all attachments from the Upload cache
+            my $RemoveSuccess = $Self->{UploadCacheObject}->FormIDRemove(
+                FormID => $Self->{FormID},
+            );
+            if ( !$RemoveSuccess ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Form attachments coud not be deleted!",
+                );
+            }
+
+            # get the template text and set new attachments if a template is selected
+            if ( IsPositiveInteger( $GetParam{CreateTemplateID} ) ) {
+                my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+
+                # set template text, replace smart tags (limited as ticket is not created)
+                $TemplateText = $TemplateGenerator->Template(
+                    TemplateID => $GetParam{CreateTemplateID},
+                    UserID     => $Self->{UserID},
+                );
+
+                # create StdAttachmentObject
+                my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
+
+                # add std. attachments to ticket
+                my %AllStdAttachments
+                    = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+                    StandardTemplateID => $GetParam{CreateTemplateID},
+                    );
+                for ( sort keys %AllStdAttachments ) {
+                    my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
+                    $Self->{UploadCacheObject}->FormIDAddFile(
+                        FormID => $Self->{FormID},
+                        %AttachmentsData,
+                    );
+                }
+
+                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # which renders then the list of currently uploaded attachments
+                @TicketAttachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+                    FormID => $Self->{FormID},
+                );
+            }
+
+            @TemplateAJAX = (
+                {
+                    Name => 'UseTemplateCreate',
+                    Data => '0',
+                },
+                {
+                    Name => 'RichText',
+                    Data => $TemplateText || '',
+                },
+                {
+                    Name     => 'TicketAttachments',
+                    Data     => \@TicketAttachments,
+                    KeepData => 1,
+                },
             );
         }
 
@@ -1613,7 +1700,16 @@ sub Run {
                     Translation  => 0,
                     Max          => 100,
                 },
+                {
+                    Name         => 'CreateTemplateID',
+                    Data         => $CreateTemplates,
+                    SelectedID   => $GetParam{CreateTemplateID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
                 @DynamicFieldAJAX,
+                @TemplateAJAX,
                 @ExtendedData,
             ],
         );
@@ -1920,6 +2016,30 @@ sub _GetSignature {
     );
 
     return $Signature;
+}
+
+sub _GetCreateTemplates {
+    my ( $Self, %Param ) = @_;
+
+    # get create templates
+    my %Templates;
+
+    # check needed
+    return \%Templates if !$Param{QueueID};
+
+    my $QueueID = $Param{QueueID};
+
+    # fetch all std. templates
+    my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        QueueID       => $QueueID,
+        TemplateTypes => 1,
+    );
+
+    # return empty hash if there are no create templates
+    return \%Templates if !IsHashRefWithData( $StandardTemplates{Create} );
+
+    # return just create templates
+    return $StandardTemplates{Create};
 }
 
 sub _MaskEmailNew {
@@ -2266,6 +2386,29 @@ sub _MaskEmailNew {
         }
     }
 
+    # check if exists create templates regardless the queue
+    my %StandardTemplates = $Self->{StandardTemplateObject}->StandardTemplateList(
+        Valid => 1,
+        Type  => 'Create',
+    );
+
+    # build text template string
+    if ( IsHashRefWithData( \%StandardTemplates ) ) {
+        $Param{CreateTemplateStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => $Param{CreateTemplates}  || {},
+            Name       => 'CreateTemplateID',
+            SelectedID => $Param{CreateTemplateID} || '',
+            PossibleNone => 1,
+            Sort         => 'AlphanumericValue',
+            Translation  => 0,
+            Max          => 200,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CreateTemplate',
+            Data => {%Param},
+        );
+    }
+
     # build priority string
     if ( !$Param{PriorityID} ) {
         $Param{Priority} = $Self->{Config}->{Priority};
@@ -2488,6 +2631,7 @@ sub _GetFieldsToUpdate {
         @UpdatableFields
             = qw(
             TypeID Dest NextStateID PriorityID ServiceID SLAID SignKeyID CryptKeyID To Cc Bcc
+            CreateTemplateID
         );
     }
 

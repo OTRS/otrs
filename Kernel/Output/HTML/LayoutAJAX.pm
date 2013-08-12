@@ -67,6 +67,9 @@ sub BuildSelectionJSON {
         if ( ref $Param{Data} eq '' ) {
             $DataHash{ $Param{Name} } = $Param{Data};
         }
+        elsif ( defined $Param{KeepData} && $Param{KeepData} ) {
+            $DataHash{ $Param{Name} } = $Param{Data};
+        }
         else {
 
             # create OptionRef

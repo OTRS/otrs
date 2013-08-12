@@ -359,8 +359,8 @@ $Text{"7 Day Stats"}
 $Text{"Process Management information from database is not in sync with the system configuration, please synchronize all processes."}
 $Text{"Package not verified by the OTRS Group! It is recommended not to use this package."}
 $Text{"<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"}
-$Text{"Mark article as important"}
-$Text{"Remove important mark"}
+$Text{"Mark"}
+$Text{"Unmark"}
 
 # richtext editor
 $Text{"Bold"}

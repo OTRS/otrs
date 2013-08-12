@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminResponse.pm - provides admin std response module
+# Kernel/Modules/AdminTemplate.pm - provides admin std template module
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,12 +7,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::AdminResponse;
+package Kernel::Modules::AdminTemplate;
 
 use strict;
 use warnings;
 
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
@@ -30,7 +30,7 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
     $Self->{StdAttachmentObject}    = Kernel::System::StdAttachment->new(%Param);
     $Self->{ValidObject}            = Kernel::System::Valid->new(%Param);
     $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
@@ -46,12 +46,13 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID, );
+        my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID, );
 
         my @SelectedAttachment;
-        my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
-            ID => $ID,
-        );
+        my %SelectedAttachmentData
+            = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            StandardTemplateID => $ID,
+            );
         for my $Key ( sort keys %SelectedAttachmentData ) {
             push @SelectedAttachment, $Key;
         }
@@ -64,7 +65,7 @@ sub Run {
             SelectedAttachments => \@SelectedAttachment,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponse',
+            TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -81,7 +82,7 @@ sub Run {
 
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
-        for my $Parameter (qw(ID Name Comment ValidID Response)) {
+        for my $Parameter (qw(ID Name Comment ValidID Template TemplateType)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
@@ -92,7 +93,7 @@ sub Run {
         }
 
         # check needed data
-        for my $Needed (qw(Name ValidID)) {
+        for my $Needed (qw(Name ValidID TemplateType)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
@@ -103,25 +104,37 @@ sub Run {
 
             # update group
             if (
-                $Self->{StandardResponseObject}->StandardResponseUpdate(
-                    %GetParam, UserID => $Self->{UserID}
+                $Self->{StandardTemplateObject}->StandardTemplateUpdate(
+                    %GetParam,
+                    UserID => $Self->{UserID},
                 )
                 )
             {
+                my %AttachmentsAll = $Self->{StdAttachmentObject}->StdAttachmentList();
 
-                # update attachments to response
-                $Self->{StdAttachmentObject}->StdAttachmentSetResponses(
-                    AttachmentIDsRef => \@NewIDs,
-                    ID               => $GetParam{ID},
-                    UserID           => $Self->{UserID},
-                );
+                # create hash with selected queues
+                my %AttachmentsSelected = map { $_ => 1 } @NewIDs;
+
+                # check all used attachments
+                for my $AttachmentID ( keys %AttachmentsAll ) {
+                    my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
+
+                    # set attachment to standard template relation
+                    my $Success
+                        = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                        AttachmentID       => $AttachmentID,
+                        StandardTemplateID => $GetParam{ID},
+                        Active             => $Active,
+                        UserID             => $Self->{UserID},
+                        );
+                }
 
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Template updated!' );
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminResponse',
+                    TemplateFile => 'AdminTemplate',
                     Data         => \%Param,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -140,7 +153,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponse',
+            TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -160,7 +173,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponse',
+            TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -177,7 +190,8 @@ sub Run {
 
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
-        for my $Parameter (qw(ID Name Comment ValidID Response)) {
+
+        for my $Parameter (qw(ID Name Comment ValidID Template TemplateType)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
@@ -188,7 +202,7 @@ sub Run {
         }
 
         # check needed data
-        for my $Needed (qw(Name ValidID)) {
+        for my $Needed (qw(Name ValidID TemplateType)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
@@ -197,18 +211,39 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-            # add response
-            my $StandardResponseID
-                = $Self->{StandardResponseObject}->StandardResponseAdd(
-                %GetParam, UserID => $Self->{UserID}
+            # add template
+            my $StandardTemplateID
+                = $Self->{StandardTemplateObject}->StandardTemplateAdd(
+                %GetParam,
+                UserID => $Self->{UserID},
                 );
-            if ($StandardResponseID) {
+            if ($StandardTemplateID) {
+
+                my %AttachmentsAll = $Self->{StdAttachmentObject}->StdAttachmentList();
+
+                # create hash with selected queues
+                my %AttachmentsSelected = map { $_ => 1 } @NewIDs;
+
+                # check all used attachments
+                for my $AttachmentID ( keys %AttachmentsAll ) {
+                    my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
+
+                    # set attachment to standard template relation
+                    my $Success
+                        = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                        AttachmentID       => $AttachmentID,
+                        StandardTemplateID => $StandardTemplateID,
+                        Active             => $Active,
+                        UserID             => $Self->{UserID},
+                        );
+                }
+
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
+                $Output .= $Self->{LayoutObject}->Notify( Info => 'Template added!' );
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminResponse',
+                    TemplateFile => 'AdminTemplate',
                     Data         => \%Param,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -227,7 +262,7 @@ sub Run {
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponse',
+            TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -244,7 +279,7 @@ sub Run {
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        my $Delete = $Self->{StandardResponseObject}->StandardResponseDelete(
+        my $Delete = $Self->{StandardTemplateObject}->StandardTemplateDelete(
             ID => $ID,
         );
         if ( !$Delete ) {
@@ -262,7 +297,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminResponse',
+            TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -290,6 +325,15 @@ sub _Edit {
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+    );
+
+    my $TemplateTypeList = $Self->{ConfigObject}->Get('StandardTemplate::Types');
+
+    $Param{TemplateTypeString} = $Self->{LayoutObject}->BuildSelection(
+        Data       => $TemplateTypeList,
+        Name       => 'TemplateType',
+        SelectedID => $Param{TemplateType},
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
     );
 
     my %AttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
@@ -328,8 +372,8 @@ sub _Edit {
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Response} = $Self->{HTMLUtilsObject}->ToHTML(
-                String => $Param{Response},
+            $Param{Template} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Param{Template},
             );
         }
     }
@@ -337,8 +381,8 @@ sub _Edit {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Response} = $Self->{HTMLUtilsObject}->ToAscii(
-                String => $Param{Response},
+            $Param{Template} = $Self->{HTMLUtilsObject}->ToAscii(
+                String => $Param{Template},
             );
         }
     }
@@ -361,9 +405,10 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{StandardResponseObject}->StandardResponseList(
-        UserID => 1,
-        Valid  => 0,
+    my %List = $Self->{StandardTemplateObject}->StandardTemplateList(
+        UserID        => 1,
+        Valid         => 0,
+        TemplateTypes => 1,
     );
 
     # if there are any results, they are shown
@@ -373,11 +418,12 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID, );
+            my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID, );
             my @SelectedAttachment;
-            my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
-                ID => $ID,
-            );
+            my %SelectedAttachmentData
+                = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+                StandardTemplateID => $ID,
+                );
             for my $Key ( sort keys %SelectedAttachmentData ) {
                 push @SelectedAttachment, $Key;
             }
