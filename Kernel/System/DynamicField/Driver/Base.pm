@@ -62,6 +62,19 @@ sub HasBehavior {
     return;
 }
 
+sub SearchFieldPreferences {
+    my ( $Self, %Param ) = @_;
+
+    my @Preferences = (
+        {
+            Type        => '',
+            LabelSuffix => '',
+        },
+    );
+
+    return \@Preferences;
+}
+
 =item EditLabelRender()
 
 creates the label HTML to be used in edit masks.

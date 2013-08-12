@@ -40,7 +40,6 @@ my $JSONObject = Kernel::System::JSON->new( %{$Self} );
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
-#$BaseURL .= $ConfigObject->Get('FQDN') . '/';
 $BaseURL .= 'localhost/';
 $BaseURL .= $ConfigObject->Get('ScriptAlias');
 
@@ -55,15 +54,16 @@ my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 if ( !$Response->is_success() ) {
-    $Self->True( 0, "Could not login to agent interface, aborting" );
+    $Self->True( 0, "Could not login to agent interface, aborting! URL: " . $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;" );
     return 1;
 }
 
 $Response = $UserAgent->get(
     $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
 );
+
 if ( !$Response->is_success() ) {
-    $Self->True( 0, "Could not login to customer interface, aborting" );
+    $Self->True( 0, "Could not login to customer interface, aborting! URL: " . $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;" );
     return 1;
 }
 
@@ -78,7 +78,7 @@ $UserAgent->cookie_jar()->scan(
         if ( $_[1] eq $ConfigObject->Get('CustomerPanelSessionName') && $_[2] ) {
             $CustomerSessionValid = 1;
         }
-        }
+    }
 );
 
 if ( !$AgentSessionValid ) {

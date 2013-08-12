@@ -260,7 +260,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     GetCustomerInfo(CustomerKey);
                 }
                 else {
-                    console.log($(this));
                     TargetNS.AddTicketCustomer($Element.attr('id'), CustomerValue, CustomerKey);
                 }
             }, 'CustomerSearch');

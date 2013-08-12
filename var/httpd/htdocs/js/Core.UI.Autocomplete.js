@@ -44,6 +44,9 @@ Core.UI.Autocomplete = (function (TargetNS) {
             }
         });
 
+        // make sure, that the value auf AutoCompleteActive is casted to int
+        Config.AutoCompleteActive = parseInt(Config.AutoCompleteActive, 10);
+
         // if button should be shown, set minlength to an unreachable value
         if (!Config.AutoCompleteActive) {
             Config.MinQueryLength = 500;
