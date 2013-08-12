@@ -233,13 +233,21 @@
                     <div class="DiagramDeleteLink"><a href="#" title="$Text{"Remove the Activity from this Process"}">X</a></div>
                     <div class="DiagramEditLink"><a href="#" title="$Text{"Edit this Activity"}">&gt;</a></div>
                 </div>
+           </div>
 
+            <div class="WidgetSimple">
+                <div class="Header Expanded">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Save settings"}"></a>
+                    </div>
+                    <h2>$Text{"Save Activities, Activity Dialogs and Transitions"}</h2>
+                </div>
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop SaveButtons">
-                            <button class="Primary" id="SubmitAndContinue" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                            <button class="CallForAction Save Primary" id="SubmitAndContinue" type="submit" value="$Text{"Save"}"><span>$Text{"Save"}</span></button>
                             $Text{"or"}
-                            <button class="Primary" id="Submit" type="submit" value="$Text{"Save"}">$Text{"Save and finish"}</button>
+                            <button class="CallForAction Save Primary" id="Submit" type="submit" value="$Text{"Save"}"><span>$Text{"Save and finish"}</span></button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Cancel"}</span></a>
                         </div>
