@@ -23,6 +23,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::TemplateGenerator;
+use Kernel::System::StdAttachment;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,13 +42,14 @@ sub new {
         }
     }
 
-    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
+    $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CheckItemObject}     = Kernel::System::CheckItem->new(%Param);
+    $Self->{StateObject}         = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject}   = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}       = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -67,6 +69,9 @@ sub new {
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
+
+    $Self->{GetParam}->{AnswerTemplateID}
+        = $Self->{ParamObject}->GetParam( Param => $Self->{Action} . 'TemplateID' ) || '';
 
     return $Self;
 }
@@ -332,14 +337,68 @@ sub Run {
         my $Subject = $Self->{LayoutObject}->Output(
             Template => $Self->{Config}->{Subject} || '',
         );
-        my $Body = $Self->{LayoutObject}->Output(
-            Template => $Self->{Config}->{Body} || '',
-        );
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-            $Body = $Self->{LayoutObject}->Ascii2RichText(
-                String => $Body,
+
+        my $Body;
+
+        if ( $Self->{GetParam}->{AnswerTemplateID} ) {
+
+            my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+
+            my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                TicketID      => $Self->{TicketID},
+                DynamicFields => 1,
             );
+
+            # get signature
+            my $Signature = $TemplateGenerator->Signature(
+                TicketID => $Self->{TicketID},
+                Data     => \%Data,
+                UserID   => $Self->{UserID},
+            );
+
+            # get template
+            my $Template = $TemplateGenerator->Template(
+                TicketID   => $Self->{TicketID},
+                TemplateID => $Self->{GetParam}->{AnswerTemplateID},
+                UserID     => $Self->{UserID},
+            );
+
+            $Body = $Template;
+
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Body .= '<br/>' . $Signature;
+            }
+            else {
+                $Body .= $Signature;
+            }
+
+            my %AllStdAttachments
+                = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+                StandardTemplateID => $Self->{GetParam}->{AnswerTemplateID},
+                );
+            for ( sort keys %AllStdAttachments ) {
+                my %AttachmentsData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
+                $Self->{UploadCacheObject}->FormIDAddFile(
+                    FormID => $Self->{FormID},
+                    %AttachmentsData,
+                );
+            }
         }
+        else {
+            my $Body = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Body} || '',
+            );
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Body = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $Body,
+                );
+            }
+        }
+
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header(
@@ -357,6 +416,7 @@ sub Run {
             CustomerData     => \%CustomerData,
             Subject          => $Subject,
             Body             => $Body,
+            Attachments      => \@Attachments,
             DynamicFieldHTML => \%DynamicFieldHTML,
         );
         $Output .= $Self->{LayoutObject}->Footer(
