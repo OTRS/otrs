@@ -136,6 +136,11 @@ $Text{"auto remove"}
 $Text{"auto reply"}
 $Text{"auto reply/new ticket"}
 
+# Templates
+$Text{"Create"}
+$Text{"Answer"}
+$Text{"Forward"}
+
 $Text{"Ticket "%s" created!"}
 $Text{"Ticket Number"}
 $Text{"Ticket Object"}

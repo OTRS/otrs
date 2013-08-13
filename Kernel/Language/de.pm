@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:14
+    # Last translation file sync: 2013-08-13 14:24:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -656,6 +656,8 @@ sub Data {
         'auto remove' => 'automatisches Entfernen',
         'auto reply' => 'automatische Antwort',
         'auto reply/new ticket' => 'automatische Antwort / neues Ticket',
+        'Create' => 'Erstellen',
+        'Answer' => 'Beantworten',
         'Ticket "%s" created!' => 'Ticket "%s" erstellt!',
         'Ticket Number' => 'Ticket Nummer',
         'Ticket Object' => 'Ticket Objekt',
@@ -1893,7 +1895,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
         'Hash' => 'Hash',
-        'Create' => 'Erstellen',
         'Handle related certificates' => 'Zugehörige Zertifikate verwalten',
         'Read certificate' => 'Zertifikat lesen',
         'Delete this certificate' => 'Dieses Zertifikat löschen',
@@ -3003,7 +3004,7 @@ sub Data {
         'Create and manage salutations.' => 'Anreden erzeugen und verwalten.',
         'Create and manage services.' => 'Services erzeugen und verwalten.',
         'Create and manage signatures.' => 'Signaturen erzeugen und verwalten.',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'Vorlagen erzeugen und verwalten.',
         'Create and manage ticket priorities.' => 'Ticket-Prioritäten erzeugen und verwalten.',
         'Create and manage ticket states.' => 'Ticket-Status  erzeugen und verwalten.',
         'Create and manage ticket types.' => 'Ticket-Typen erzeugen und verwalten.',
