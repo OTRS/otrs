@@ -292,7 +292,7 @@ sub GetMinifiedFile {
     }
 
     my $FileMTime = $Self->{MainObject}->FileGetMTime(
-        Location => $Location
+        Location => $Location,
     );
 
     # For the caching, use both filename and mtime to make sure that
@@ -301,7 +301,7 @@ sub GetMinifiedFile {
 
     # check if a cached version exists
     my $CacheContent = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey
+        Key => $CacheKey,
     );
 
     if ( ref $CacheContent eq 'SCALAR' ) {
@@ -310,7 +310,7 @@ sub GetMinifiedFile {
 
     # no cache available, read and minify file
     my $FileContents = $Self->{MainObject}->FileRead(
-        Location => $Location
+        Location => $Location,
     );
 
     if ( ref $FileContents ne 'SCALAR' ) {
