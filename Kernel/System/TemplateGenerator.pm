@@ -512,7 +512,7 @@ sub Template {
     if ( !$Self->{RichText} && $Template{ContentType} =~ /text\/html/i ) {
         $Template{ContentType} = 'text/plain';
         $Template{Template}    = $Self->{HTMLUtilsObject}->ToAscii(
-            String => $Template{Response},
+            String => $Template{Template},
         );
     }
 
