@@ -392,19 +392,6 @@ Returns:
         2 => 'Some Name2',
     );
 
-get all std templates with types
-
-    my %StandardTemplates = $StandardTemplateObject->StandardTemplateList(
-        Valid         => 0,
-        TemplateTypes => 1,
-    );
-
-Returns:
-    %StandardTemplates = (
-        1 => 'Answer - Some Name',
-        2 => 'Forward - Some Name2',
-    );
-
 get std templates from a certain type
     my %StandardTemplates = $StandardTemplateObject->StandardTemplateList(
         Valid => 0,
@@ -426,7 +413,9 @@ sub StandardTemplateList {
         $Valid = 0;
     }
 
-    my $SQL = ' SELECT id, name, template_type FROM standard_template';
+    my $SQL = '
+        SELECT id, name
+        FROM standard_template';
 
     if ($Valid) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
@@ -444,12 +433,7 @@ sub StandardTemplateList {
     );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Param{TemplateTypes} ) {
-            $Data{ $Row[0] } = "$Row[2] - $Row[1]";
-        }
-        else {
-            $Data{ $Row[0] } = $Row[1];
-        }
+        $Data{ $Row[0] } = $Row[1];
     }
     return %Data;
 }

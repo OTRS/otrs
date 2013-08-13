@@ -123,33 +123,6 @@ for my $Test (@Tests) {
         );
     }
 
-    my %StandardResponses          = $StandardResponseObject->StandardResponseList();
-    my %StandardResponsesWithTypes = $StandardResponseObject->StandardResponseList(
-        TemplateTypes => 1,
-    );
-
-    $Self->IsNotDeeply(
-        \%StandardResponses,
-        \%StandardResponsesWithTypes,
-        "StandardResponseList() Normal and TemplateTypes"
-    );
-
-    for my $TemplateID ( keys %StandardResponsesWithTypes ) {
-        my $Match = 0;
-        if (
-            $StandardResponsesWithTypes{$TemplateID}
-            =~ m{\A (?: Answer|Forward|Create ) [ ] - [ ] .+ \z}msx
-            )
-        {
-            $Match = 1;
-        }
-        $Self->True(
-            $Match,
-            "StandardResponseList() - TemplateTypes '$StandardResponsesWithTypes{$TemplateID}' has"
-                . " correct format with true"
-        );
-    }
-
     # delete
     my $Delete = $StandardResponseObject->StandardResponseDelete(
         ID => $ID,

@@ -290,19 +290,6 @@ Returns:
         2 => 'Some Name2',
     );
 
-get all std responses with types
-
-    my %StandardResponses = $StandardResponseObject->StandardResponseList(
-        Valid         => 0,
-        TemplateTypes => 1,
-    );
-
-Returns:
-    %StandardResponses = (
-        1 => 'Answer - Some Name',
-        2 => 'Forward - Some Name2',
-    );
-
 =cut
 
 sub StandardResponseList {

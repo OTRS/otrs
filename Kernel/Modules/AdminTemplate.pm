@@ -406,19 +406,25 @@ sub _Overview {
         Data => \%Param,
     );
     my %List = $Self->{StandardTemplateObject}->StandardTemplateList(
-        UserID        => 1,
-        Valid         => 0,
-        TemplateTypes => 1,
+        UserID => 1,
+        Valid  => 0,
     );
 
     # if there are any results, they are shown
     if (%List) {
 
+        my %ListGet;
+        for my $ID ( sort keys %List ) {
+            %{ $ListGet{$ID} } = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID, );
+            $ListGet{$ID}->{SortName} = $ListGet{$ID}->{TemplateType} . $ListGet{$ID}->{Name};
+        }
+
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
-        for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $ID ( sort { $ListGet{$a}->{SortName} cmp $ListGet{$b}->{SortName} } keys %ListGet )
+        {
 
-            my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID, );
+            my %Data = %{ $ListGet{$ID} };
             my @SelectedAttachment;
             my %SelectedAttachmentData
                 = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
