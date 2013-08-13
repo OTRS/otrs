@@ -127,35 +127,8 @@ for my $Test (@Tests) {
         );
     }
 
-    my %StandardTemplates          = $StandardTemplateObject->StandardTemplateList();
-    my %StandardTemplatesWithTypes = $StandardTemplateObject->StandardTemplateList(
-        TemplateTypes => 1,
-    );
-
-    $Self->IsNotDeeply(
-        \%StandardTemplates,
-        \%StandardTemplatesWithTypes,
-        "StandardTemplateList() Normal and TemplateTypes"
-    );
-
-    for my $TemplateID ( keys %StandardTemplatesWithTypes ) {
-        my $Match = 0;
-        if (
-            $StandardTemplatesWithTypes{$TemplateID}
-            =~ m{\A (?: Answer|Forward|Create ) [ ] - [ ] .+ \z}msx
-            )
-        {
-            $Match = 1;
-        }
-        $Self->True(
-            $Match,
-            "StandardTemplateList() - TemplateTypes '$StandardTemplatesWithTypes{$TemplateID}' has"
-                . " correct format with true"
-        );
-    }
-
     # test StandardTemplateList()
-    %StandardTemplates = $StandardTemplateObject->StandardTemplateList();
+    my %StandardTemplates = $StandardTemplateObject->StandardTemplateList();
     my %AnswerStandardTemplates = $StandardTemplateObject->StandardTemplateList( Type => 'Answer' );
     my %ForwardStandardTemplates
         = $StandardTemplateObject->StandardTemplateList( Type => 'Forward' );
@@ -163,17 +136,17 @@ for my $Test (@Tests) {
     $Self->IsNotDeeply(
         \%StandardTemplates,
         \%AnswerStandardTemplates,
-        'StandardTemplateList() Full vs just Answer type should be different',
+        'StandardTemplateList() - Full vs just Answer type should be different',
     );
     $Self->IsNotDeeply(
         \%StandardTemplates,
         \%ForwardStandardTemplates,
-        'StandardTemplateList() Full vs just Forward type should be different',
+        'StandardTemplateList() - Full vs just Forward type should be different',
     );
     $Self->IsNotDeeply(
         \%AnswerStandardTemplates,
         \%ForwardStandardTemplates,
-        'StandardTemplateList() Answer vs Forward type should be different',
+        'StandardTemplateList() - Answer vs Forward type should be different',
     );
 
     # delete

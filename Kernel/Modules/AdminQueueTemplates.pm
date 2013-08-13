@@ -56,13 +56,17 @@ sub Run {
             StandardTemplateID => $ID,
         );
 
+        my $StandardTemplateType = $Self->{LayoutObject}->{LanguageObject}->Get(
+            $StandardTemplateData{TemplateType},
+        );
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%QueueData,
             ID       => $StandardTemplateData{ID},
-            Name     => $StandardTemplateData{TemplateType} . ' - ' . $StandardTemplateData{Name},
+            Name     => $StandardTemplateType . ' - ' . $StandardTemplateData{Name},
             Type     => 'Template',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -80,9 +84,20 @@ sub Run {
 
         # get templates
         my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
-            TemplateTypes => 1,
-            Valid         => 1,
+            Valid => 1,
         );
+
+        if (%StandardTemplateData) {
+            for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
+                my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                    ID => $StandardTemplateID
+                );
+                $StandardTemplateData{$StandardTemplateID}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{TemplateType} )
+                    . ' - '
+                    . $Data{Name};
+            }
+        }
 
         # get assigned templates
         my %Member = $Self->{QueueObject}->QueueStandardTemplateMemberList(
@@ -273,12 +288,20 @@ sub _Overview {
 
     # get std template list
     my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
-        TemplateTypes => 1,
-        Valid         => 1,
+        Valid => 1,
     );
 
     # if there are results to show
     if (%StandardTemplateData) {
+        for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
+            my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                ID => $StandardTemplateID,
+            );
+            $StandardTemplateData{$StandardTemplateID}
+                = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{TemplateType} )
+                . ' - '
+                . $Data{Name};
+        }
         for my $StandardTemplateID (
             sort { uc( $StandardTemplateData{$a} ) cmp uc( $StandardTemplateData{$b} ) }
             keys %StandardTemplateData

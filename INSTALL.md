@@ -230,7 +230,7 @@ Notes
 =====
 
 We advise you to read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/3.1/en/html/performance-tuning.html.
+http://doc.otrs.org/3.3/en/html/performance-tuning.html.
 
 If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).

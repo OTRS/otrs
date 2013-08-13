@@ -68,6 +68,11 @@ o Name:    CPAN Authen::SASL
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 1998-2005 Graham Barr. All rights reserved.
 
+o Name:    CPAN CGI::Emulate::PSGI
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2009-2010 by tokuhirom.
+
 o Name:    CPAN Crypt::PasswdMD5
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
@@ -108,6 +113,12 @@ o Name:    CPAN MailTools
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyrights 1995-2000 Graham Barr <gbarr@pobox.com> and 2001-2007
            # Mark Overmeer <perl@overmeer.net>.
+
+o Name:    CPAN Module::Refresh
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2004,2011 by Jesse Vincent <jesse@bestpractical.com>,
+           # Audrey Tang <audreyt@audreyt.org>
 
 o Name:    CPAN Net::HTTP
   Web:     n/a

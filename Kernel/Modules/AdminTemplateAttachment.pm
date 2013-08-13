@@ -81,9 +81,20 @@ sub Run {
 
         # get user list
         my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
-            TemplateTypes => 1,
-            Valid         => 1,
+            Valid => 1,
         );
+
+        if (%StandardTemplateData) {
+            for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
+                my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                    ID => $StandardTemplateID
+                );
+                $StandardTemplateData{$StandardTemplateID}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{TemplateType} )
+                    . ' - '
+                    . $Data{Name};
+            }
+        }
 
         my %Member = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
             AttachmentID => $ID,
@@ -256,12 +267,21 @@ sub _Overview {
 
     # get StandardTemplate data
     my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
-        TemplateTypes => 1,
-        Valid         => 1,
+        Valid => 1,
     );
 
     # if there are any templates, they are shown
     if (%StandardTemplateData) {
+        for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
+            my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                ID => $StandardTemplateID
+            );
+            $StandardTemplateData{$StandardTemplateID}
+                = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{TemplateType} )
+                . ' - '
+                . $Data{Name};
+        }
+
         for my $StandardTemplateID (
             sort { uc( $StandardTemplateData{$a} ) cmp uc( $StandardTemplateData{$b} ) }
             keys %StandardTemplateData
