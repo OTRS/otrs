@@ -92,7 +92,7 @@
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
                         <tr>
-                            <td>$QData{"TemplateType"}</td>
+                            <td>$Text{"$Data{"TemplateType"}"}</td>
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"};Type=$LQData{"TemplateType"}">$QData{"Name"}</a>
                             </td>

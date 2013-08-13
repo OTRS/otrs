@@ -56,13 +56,17 @@ sub Run {
             StandardTemplateID => $ID,
         );
 
+        my $StandardTemplateType = $Self->{LayoutObject}->{LanguageObject}->Get(
+            $StandardTemplateData{TemplateType},
+        );
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%QueueData,
             ID       => $StandardTemplateData{ID},
-            Name     => $StandardTemplateData{TemplateType} . ' - ' . $StandardTemplateData{Name},
+            Name     => $StandardTemplateType . ' - ' . $StandardTemplateData{Name},
             Type     => 'Template',
         );
         $Output .= $Self->{LayoutObject}->Footer();
