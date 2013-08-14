@@ -21,8 +21,7 @@ use Kernel::System::Loader;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
-
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
 
@@ -812,7 +811,8 @@ sub PackageUpgrade {
     $Self->{SysConfigObject}->WriteDefault();
 
     # upgrade database (post)
-    if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' ) {
+    if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' )
+    {
 
         my @Parts;
         my $Use = 0;
@@ -1948,7 +1948,17 @@ sub PackageParse {
         return %{$Cache} if $Cache;
     }
 
-    my @XMLARRAY = $Self->{XMLObject}->XMLParse(%Param);
+    my @XMLARRAY = eval {
+        $Self->{XMLObject}->XMLParse(%Param);
+    };
+
+    if ( !IsArrayRefWithData( \@XMLARRAY ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid XMLParse in PackageParse()!",
+        );
+        return;
+    }
 
     # cleanup global vars
     undef $Self->{Package};
@@ -2065,6 +2075,15 @@ sub PackageParse {
 
             push @{ $Self->{Package}->{$Key}->{$Type} }, $Tag;
         }
+    }
+
+    # check if a structure is present
+    if ( !IsHashRefWithData( $Self->{Package} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid package structure in PackageParse()!",
+        );
+        return;
     }
 
     # return package structure

@@ -98,6 +98,7 @@
     and hard-coded to use /tmp.
 
 #3.2.10 2013-??-??
+ - 2013-08-14 Fixed bug#[9666](http://bugs.otrs.org/show_bug.cgi?id=9666) - Installing an invalid package cause an server error on package manager.
  - 2013-08-06 Fixed bug#[8408](http://bugs.otrs.org/show_bug.cgi?id=8408) - No separator used in CSV files if UserCSVSeparator enabled and not set.
  - 2013-08-01 Fixed bug#[9635](http://bugs.otrs.org/show_bug.cgi?id=9635) - article_search not updated on ticket merges.
  - 2013-07-31 Fixed bug#[9629](http://bugs.otrs.org/show_bug.cgi?id=9629) - ORA-936 error in AgentTicketSearch with some search clauses.
