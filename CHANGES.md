@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-08-13 Added support for templates in phone and email ticket creation, forward, and inbound/outbound phone calls.
  - 2013-08-13 Added experimental support for Plack/PSGI (see http://plackperl.org).
  - 2013-08-12 Updated CKEditor to version 4.2.
  - 2013-08-08 The OTRS Scheduler Service should now always be running, and not just if there is a web service configured; because it will
