@@ -349,29 +349,15 @@ sub Run {
                 DynamicFields => 1,
             );
 
-            # get signature
-            my $Signature = $TemplateGenerator->Signature(
-                TicketID => $Self->{TicketID},
-                Data     => \%Data,
-                UserID   => $Self->{UserID},
-            );
-
             # get template
             my $Template = $TemplateGenerator->Template(
                 TicketID   => $Self->{TicketID},
                 TemplateID => $Self->{GetParam}->{AnswerTemplateID},
                 UserID     => $Self->{UserID},
             );
-
             $Body = $Template;
 
-            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-                $Body .= '<br/>' . $Signature;
-            }
-            else {
-                $Body .= $Signature;
-            }
-
+            # add template attachments
             my %AllStdAttachments
                 = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
                 StandardTemplateID => $Self->{GetParam}->{AnswerTemplateID},
