@@ -214,7 +214,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
             EditorID = $EditorArea.attr('id');
-            if ($('#cke_' + EditorID).length) {
+            if ($('#cke_' + Core.App.EscapeSelector(EditorID)).length) {
                 return true;
             }
         }

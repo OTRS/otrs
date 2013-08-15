@@ -105,7 +105,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             // if error field is a RTE, it is a little bit more difficult
-            if ($('#cke_' + Element.id).length) {
+            if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
                 Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
             } else {
                 Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
@@ -161,7 +161,7 @@ Core.Form.Validate = (function (TargetNS) {
             $Element.attr('aria-invalid', false);
 
             // if error field is a RTE, it is a little bit more difficult
-            if ($('#cke_' + Element.id).length) {
+            if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
                 Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
             } else {
                 Core.Form.ErrorTooltips.RemoveTooltip($Element);
