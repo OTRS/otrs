@@ -306,6 +306,11 @@ sub RepositoryAdd {
 
     # get package attributes
     my %Structure = $Self->PackageParse(%Param);
+
+    if ( !IsHashRefWithData(\%Structure) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Invalid Package!' );
+        return;
+    }
     if ( !$Structure{Name} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
