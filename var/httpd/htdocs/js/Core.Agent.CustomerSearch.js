@@ -23,7 +23,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         CustomerInfo: '',
         CustomerEmail: '',
         CustomerKey: ''
-    };
+    },
+        // Needed for the change event of customer fields, if ActiveAutoComplete is false (disabled)
+        CustomerFieldChangeRunCount = {};
 
     /**
      * @function
@@ -510,6 +512,40 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 if ( !$('#' + ObjectId).val() || $('#' + ObjectId).val() === '') {
                     return false;
                 }
+
+                // if autocompletion is disabled and only avaible via the click
+                // of a button next to the input field, we cannot handle this
+                // change event the normal way.
+                if (!Core.UI.Autocomplete.GetConfig('ActiveAutoComplete')) {
+                    // we wait some time after this event to check, if the search button
+                    // for this field was pressed. If so, no action is needed
+                    // If the change event was fired without clicking the search button,
+                    // probably the user clicked out of the field.
+                    // This should also add the customer (the enetered value) to the list
+
+                    if (typeof CustomerFieldChangeRunCount[ObjectId] === 'undefined') {
+                        CustomerFieldChangeRunCount[ObjectId] = 1;
+                    }
+                    else {
+                        CustomerFieldChangeRunCount[ObjectId]++;
+                    }
+
+                    if (Core.UI.Autocomplete.SearchButtonClicked[ObjectId]) {
+                        delete CustomerFieldChangeRunCount[ObjectId];
+                        delete Core.UI.Autocomplete.SearchButtonClicked[ObjectId];
+                        return false;
+                    }
+                    else {
+                        if (CustomerFieldChangeRunCount[ObjectId] === 1) {
+                            window.setTimeout(function () {
+                                $('#' + ObjectId).trigger('change');
+                            }, 200);
+                            return false;
+                        }
+                        delete CustomerFieldChangeRunCount[ObjectId];
+                    }
+                }
+
 
                 // If the autocomplete popup window is visible, delay this change event.
                 // It might be caused by clicking with the mouse into the autocomplete list.
