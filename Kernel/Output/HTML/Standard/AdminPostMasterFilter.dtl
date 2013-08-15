@@ -182,7 +182,7 @@
                         </div>
                         <label for="MatchValue4">$Text{"Value"} 4:</label>
                         <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc $QData{"MatchValue4Invalid"}" maxlength="100"/>
-                        <div id="MatchValue1ServerError" class="TooltipErrorMessage">
+                        <div id="MatchValue4ServerError" class="TooltipErrorMessage">
                             <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="$Text{"Toggle this widget"}"></a>
                     </div>
-                    <h2>$Text{"Set Email Headers"} <span class="FieldExplanation">($Text{"AND Condition"})</span></h2>
+                    <h2>$Text{"Set Email Headers"}</h2>
                 </div>
                 <div class="Content">
                     <div class="Field">
