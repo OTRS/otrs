@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2034";
+our $VERSION = "1.2200";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -42,6 +42,8 @@ sub new {
         $opts{use_ssl} = 1;
     }
 
+    $opts{use_ssl} = 1 if $opts{find_ssl_defaults};
+
     if( $opts{use_ssl} ) {
         eval {
             require IO::Socket::SSL;
@@ -49,6 +51,40 @@ sub new {
             "true";
 
         } or croak "IO::Socket::SSL must be installed in order to use_ssl";
+
+         $self->{ssl_options}       = [ eval {@{ $opts{ssl_options} }} ];
+         carp "ignoring ssl_options: $@" if $opts{ssl_options} and not @{ $self->{ssl_options} };
+
+        unless( @{ $self->{ssl_options} } ) {
+            if( $opts{find_ssl_defaults} ) {
+                my $nothing = 1;
+
+                for(qw(
+                            /etc/ssl/certs/ca-certificates.crt
+                            /etc/pki/tls/certs/ca-bundle.crt
+                            /etc/ssl/ca-bundle.pem
+                            /etc/ssl/certs/
+                    )) {
+
+                    if( -f $_ ) {
+                        @{ $self->{ssl_options} } = (SSL_ca_file=>$_, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_PEER());
+                        last;
+
+                    } elsif( -d $_ ) {
+                        @{ $self->{ssl_options} } = (SSL_ca_path=>$_, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_PEER());
+                        last;
+                    }
+                }
+
+                if( $nothing ) {
+                    carp "couldn't find rational defaults for ssl verify.  Choosing to not verify.";
+                    @{ $self->{ssl_options} } = (SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE());
+                }
+
+            } else {
+                @{ $self->{ssl_options} } = (SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE());
+            }
+        }
     }
 
     if ( $opts{use_v6} ) {
@@ -161,8 +197,9 @@ sub _connect {
             PeerPort => $self->{port},
             Timeout  => $self->{timeout},
             Proto    => 'tcp',
-            ( $self->{bindaddr} ? ( LocalAddr => $self->{bindaddr} ) : () ),
-            ( $_[0]->{ssl_version} ? (SSL_version => $self->{ssl_version}) : ()),
+            ( $self->{bindaddr}    ? ( LocalAddr => $self->{bindaddr} )      : () ),
+            ( $_[0]->{ssl_version} ? ( SSL_version => $self->{ssl_version} ) : () ),
+            ( $_[0]->{use_ssl}     ? (@{ $self->{ssl_options} })             : () ),
         );
     }
 
@@ -239,8 +276,9 @@ sub separator {
 
 sub _clear_cache {
     my $self = shift;
+    my $cb = $self->current_box;
 
-    push @_, $self->{working_box} if exists $self->{working_box} and not @_;
+    push @_, $cb if $cb and not @_;
     return unless @_;
 
     for my $box (@_) {
@@ -403,9 +441,17 @@ sub recent {
 sub unseen {
     my ( $self, $folder ) = @_;
 
-    $self->select($folder);
+    my $oflags = $self->{BOXES}{ $self->current_box }{oflags};
 
-    return $self->{BOXES}{ $self->current_box }{oflags}{UNSEEN};
+    if( exists $oflags->{UNSEEN} ) {
+        $self->select($folder);
+
+        return $self->{BOXES}{ $self->current_box }{oflags}{UNSEEN};
+    }
+
+    my ($unseen) = $self->status;
+
+    return $unseen;
 }
 
 sub current_box {
@@ -653,7 +699,7 @@ sub get {
 
             # NOTE: There is not supposed to be an error if you ask for a
             # message that's not there, but this is a rather confusing
-            # notion É so we generate an error here.
+            # notion â€¦ so we generate an error here.
 
             $self->{_errstr} = "message not found";
             return;
@@ -702,7 +748,7 @@ sub put {
 
     return $self->_process_cmd(
         cmd   => [ APPEND => _escape($mailbox_name) ." (@flags) {$size}" ],
-        final => sub { $self->_clear_cache },
+        final => sub { $self->_clear_cache; 1 },
         process => sub {
             if( $_[0] =~ m/^\+\s+/ ) { # + continue (or go ahead, or whatever)
                 if ($size) {
@@ -727,6 +773,7 @@ sub msg_flags {
 
     my @flags;
     $self->{_waserr} = 1; # assume something went wrong.
+    $self->{_errstr} = "flags not found during fetch";
 
     #  _send_cmd] 15 FETCH 12 (FLAGS)\r\n
     #  _process_cmd] * 12 FETCH (FLAGS (\Seen))\r\n
@@ -741,7 +788,7 @@ sub msg_flags {
             wantarray ? @flags : "@flags";
         },
         process => sub {
-            if( $_[0] =~ m/\* $number FETCH \(FLAGS \(([^()]+?)\)\)/i ) {
+            if( $_[0] =~ m/\* $number FETCH \(FLAGS \(([^()]*?)\)\)/i ) {
                 @flags = $self->_process_flags($1);
                 delete $self->{_waserr};
             }

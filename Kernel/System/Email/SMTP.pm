@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Email/SMTP.pm - the global email send module
+# Kernel/System/Email/SMTP.pm - email send backend for SMTP
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -34,21 +34,19 @@ sub new {
         $Self->{SMTPDebug} = 1;
     }
 
-    # smtp timeout in sec
-    $Self->{SMTPTimeout} = 30;
-
-    # get config data
-    $Self->{FQDN}     = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{MailHost} = $Self->{ConfigObject}->Get('SendmailModule::Host')
-        || die "No SendmailModule::Host found in Kernel/Config.pm";
-    $Self->{SMTPPort} = $Self->{ConfigObject}->Get('SendmailModule::Port') || 'smtp(25)';
-    $Self->{User}     = $Self->{ConfigObject}->Get('SendmailModule::AuthUser');
-    $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword');
     return $Self;
 }
 
 sub Check {
     my ( $Self, %Param ) = @_;
+
+    # get config data
+    $Self->{FQDN}     = $Self->{ConfigObject}->Get('FQDN');
+    $Self->{MailHost} = $Self->{ConfigObject}->Get('SendmailModule::Host')
+        || die "No SendmailModule::Host found in Kernel/Config.pm";
+    $Self->{SMTPPort} = $Self->{ConfigObject}->Get('SendmailModule::Port');
+    $Self->{User}     = $Self->{ConfigObject}->Get('SendmailModule::AuthUser');
+    $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword');
 
     # try it 3 times to connect with the SMTP server
     # (M$ Exchange Server 2007 have sometimes problems on port 25)
@@ -57,12 +55,11 @@ sub Check {
     for my $Try ( 1 .. 3 ) {
 
         # connect to mail server
-        $SMTP = Net::SMTP->new(
-            $Self->{MailHost},
-            Hello   => $Self->{FQDN},
-            Port    => $Self->{SMTPPort},
-            Timeout => $Self->{SMTPTimeout},
-            Debug   => $Self->{SMTPDebug},
+        $SMTP = $Self->_Connect(
+            MailHost => $Self->{MailHost},
+            FQDN     => $Self->{FQDN},
+            Port     => $Self->{SMTPPort},
+            Debug    => $Self->{SMTPDebug},
         );
 
         last TRY if $SMTP;
@@ -172,6 +169,28 @@ sub Send {
         );
     }
     return 1;
+}
+
+sub _Connect {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(MailHost FQDN)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # set up connection connection
+    my $SMTP = Net::SMTP->new(
+        $Param{MailHost},
+        Hello   => $Param{FQDN},
+        Port    => $Param{SMTPPort} || 25,
+        Timeout => 30,
+        Debug   => $Param{SMTPDebug},
+    );
+    return $SMTP;
 }
 
 1;

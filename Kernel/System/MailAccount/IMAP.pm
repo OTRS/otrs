@@ -40,6 +40,8 @@ sub Connect {
         }
     }
 
+    my $Type = 'IMAP';
+
     # connect to host
     my $IMAPObject = Net::IMAP::Simple->new(
         $Param{Host},
@@ -47,22 +49,23 @@ sub Connect {
         debug   => $Param{Debug}
     );
     if ( !$IMAPObject ) {
-        return ( Successful => 0, Message => "IMAP: Can't connect to $Param{Host}" );
+        return ( Successful => 0, Message => "$Type: Can't connect to $Param{Host}" );
     }
 
-    # authentcation
+    # authentication
     my $Auth = $IMAPObject->login( $Param{Login}, $Param{Password} );
     if ( !defined $Auth ) {
         $IMAPObject->quit();
         return (
             Successful => 0,
-            Message    => "IMAP: Auth for user $Param{Login}/$Param{Host} failed!"
+            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
         );
     }
 
     return (
         Successful => 1,
         IMAPObject => $IMAPObject,
+        Type       => $Type,
     );
 }
 
@@ -106,7 +109,6 @@ sub _Fetch {
 
     my $Timeout      = 60;
     my $FetchCounter = 0;
-    my $AuthType     = 'IMAP';
 
     $Self->{Reconnect} = 0;
 
@@ -130,7 +132,8 @@ sub _Fetch {
     my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
 
     my $IMAPObject = $Connect{IMAPObject};
-    my $NOM = $IMAPObject->select($IMAPFolder) || 0;
+    my $NOM        = $IMAPObject->select($IMAPFolder) || 0;
+    my $AuthType   = $Connect{Type};
 
     # fetch messages
     if ( !$NOM ) {
@@ -154,31 +157,28 @@ sub _Fetch {
             }
 
             # check message size
-            my $MessageSize = int( $IMAPObject->list($Messageno) / 1024 );
-            if ( $MessageSize > $MaxEmailSize ) {
+            my $MessageSize = $IMAPObject->list($Messageno);
+            if ( $MessageSize > ( $MaxEmailSize * 1024 ) ) {
+
+                # convert sizes to MB
+                my $MessageSizeMB  = int( $MessageSize /  ( 1024 * 1024 ) );
+                my $MaxEmailSizeMB = int( $MaxEmailSize / ( 1024 * 1024 ) );
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
-                        . "Email too big ($MessageSize KB - max $MaxEmailSize KB)!",
+                        . "Email too big ($MessageSizeMB MB - max $MaxEmailSizeMB MB)!",
                 );
             }
             else {
 
                 # safety protection
                 $FetchCounter++;
-                if ( $FetchCounter > 10 && $FetchCounter < 25 ) {
+                if ( $FetchCounter > 10 ) {
                     if ($CMD) {
                         print
-                            "$AuthType: Safety protection waiting 2 second till processing next mail...\n";
+                            "$AuthType: Safety protection: waiting 2 second before processing next mail...\n";
                     }
                     sleep 2;
-                }
-                elsif ( $FetchCounter > 25 ) {
-                    if ($CMD) {
-                        print
-                            "$AuthType: Safety protection waiting 3 seconds till processing next mail...\n";
-                    }
-                    sleep 3;
                 }
 
                 # get message (header and body)
@@ -243,7 +243,7 @@ sub _Fetch {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
 
-    # return it everything is done
+    # return if everything is done
     return 1;
 }
 
@@ -251,11 +251,9 @@ sub _ProcessFailed {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Email)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
-            return;
-        }
+    if ( !defined $Param{Email} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "'Email' not defined!" );
+        return;
     }
 
     # get content of email

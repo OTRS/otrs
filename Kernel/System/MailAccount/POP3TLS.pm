@@ -1,5 +1,5 @@
 # --
-# Kernel/System/MailAccount/POP3S.pm - lib for pop3/ssl accounts
+# Kernel/System/MailAccount/POP3TLS.pm - lib for pop3/tls accounts
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::MailAccount::POP3S;
+package Kernel::System::MailAccount::POP3TLS;
 
 use strict;
 use warnings;
@@ -27,20 +27,23 @@ sub Connect {
         }
     }
 
-    my $Type = 'POP3S';
+    my $Type = 'POP3TLS';
 
     # connect to host
     my $PopObject = Net::POP3->new(
         $Param{Host},
-        Timeout         => $Param{Timeout},
-        Debug           => $Param{Debug},
-        SSL             => 1,
-        SSL_verify_mode => 0,
+        Timeout => $Param{Timeout},
+        Debug   => $Param{Debug},
     );
 
     if ( !$PopObject ) {
         return ( Successful => 0, Message => "$Type: Can't connect to $Param{Host}" );
     }
+
+    $PopObject->starttls(
+        SSL             => 1,
+        SSL_verify_mode => 0,
+    );
 
     # authentication
     my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
