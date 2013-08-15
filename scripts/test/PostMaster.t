@@ -194,6 +194,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             my $FilterRand1 = 'filter' . int rand 1000000;
             my $FilterRand2 = 'filter' . int rand 1000000;
             my $FilterRand3 = 'filter' . int rand 1000000;
+            my $FilterRand4 = 'filter' . int rand 1000000;
             $PostMasterFilter->FilterAdd(
                 Name           => $FilterRand1,
                 StopAfterMatch => 0,
@@ -231,11 +232,26 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     'X-OTRS-TicketValue3' => 'Text3',
                 },
             );
+            $PostMasterFilter->FilterAdd(
+                Name           => $FilterRand4,
+                StopAfterMatch => 0,
+                Match          => {
+                    Subject => 'NOT REGEX',
+                    To      => 'darthvader@otrs.org',
+                },
+                Not => {
+                    To => 1,
+                },
+                Set => {
+                    'X-OTRS-Ignore' => 'yes',
+                },
+            );
 
             # get rand sender address
             my $UserRand1 = 'example-user' . ( int rand 1000000 ) . '@example.com';
 
-            for my $File (qw(1 2 3 5 6 11 17 18 21)) {
+            FILE:
+            for my $File (qw(1 2 3 5 6 11 17 18 21 22 23)) {
 
                 my $NamePrefix = "#$NumberModule $StorageModule $TicketSubjectConfig $File ";
 
@@ -275,15 +291,33 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
-                    $Return[0] || 0,
-                    1,
-                    $NamePrefix . ' Run() - NewTicket',
-                );
-                $Self->True(
-                    $Return[1] || 0,
-                    $NamePrefix . ' Run() - NewTicket/TicketID',
-                );
+
+                if ( $File != 22 ) {
+                    $Self->Is(
+                        $Return[0] || 0,
+                        1,
+                        $NamePrefix . ' Run() - NewTicket',
+                    );
+
+                    $Self->True(
+                        $Return[1] || 0,
+                        $NamePrefix . ' Run() - NewTicket/TicketID',
+                    );
+                }
+                else {
+                    $Self->Is(
+                        $Return[0] || 0,
+                        5,
+                        $NamePrefix . ' Run() - NewTicket',
+                    );
+
+                    $Self->False(
+                        $Return[1],
+                        $NamePrefix . ' Run() - NewTicket/TicketID',
+                    );
+
+                    next FILE;
+                }
 
                 # new/clear ticket object
                 my $TicketObject = Kernel::System::Ticket->new(
@@ -737,6 +771,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             $PostMasterFilter->FilterDelete( Name => $FilterRand1 );
             $PostMasterFilter->FilterDelete( Name => $FilterRand2 );
             $PostMasterFilter->FilterDelete( Name => $FilterRand3 );
+            $PostMasterFilter->FilterDelete( Name => $FilterRand4 );
         }
     }
 }

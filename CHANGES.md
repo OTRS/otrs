@@ -1,4 +1,5 @@
 #3.3.0.beta1 2013-??-??
+ - 2013-08-15 Added possibility to negate postmaster filter settings, thanks to Renée Bäcker!
  - 2013-08-15 Refactored email handling code. Added support for POP3/TLS connections.
  - 2013-08-13 Added support for templates in phone and email ticket creation, forward, and inbound/outbound phone calls.
  - 2013-08-13 Added experimental support for Plack/PSGI (see http://plackperl.org).

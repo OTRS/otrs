@@ -141,6 +141,10 @@ ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_att
 ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachm17 FOREIGN KEY (standard_attachment_id) REFERENCES standard_attachment (id);
 ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachm64 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachm83 FOREIGN KEY (change_by) REFERENCES users (id);
+-- ----------------------------------------------------------
+--  alter table postmaster_filter
+-- ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD f_not NUMBER (5, 0) NULL;
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

@@ -97,10 +97,20 @@ sub Run {
                 else {
                     $Matched = $LocalMatched;
                 }
+
+                # switch MatchedNot and $Matched
+                if ( $Config{Not}->{$_} ) {
+                    $MatchedNot ^= 1;
+                    $Matched    ^= 1;
+                }
             }
 
             # match string
-            elsif ( defined $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
+            elsif (
+                defined $Param{GetParam}->{$_} && 
+                ( ( !$Config{Not}->{$_} && $Param{GetParam}->{$_} =~ m{$Match{$_}}i ) ||
+                ( $Config{Not}->{$_} && $Param{GetParam}->{$_} !~ m{$Match{$_}}i ) )
+            ) {
 
                 # don't lose older match values if more than one header is
                 # used for matching.
@@ -110,10 +120,13 @@ sub Run {
                 else {
                     $Matched = $Matched || '1';
                 }
+
                 if ( $Self->{Debug} > 1 ) {
+                    my $Op = $Config{Not}->{$_} ? '!' : "=";
+
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                        Message  => "successful $Prefix'$Param{GetParam}->{$_}' $Op~ /$Match{$_}/i !",
                     );
                 }
             }

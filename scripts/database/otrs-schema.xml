@@ -1464,6 +1464,7 @@
     <Column Name="f_type" Required="true" Size="20" Type="VARCHAR"/>
     <Column Name="f_key" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="f_value" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="f_not" Required="false" Type="SMALLINT"/>
     <Index Name="postmaster_filter_f_name">
         <IndexColumn Name="f_name"/>
     </Index>

@@ -925,6 +925,7 @@ CREATE TABLE postmaster_filter (
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
     f_value VARCHAR (200) NOT NULL,
+    f_not SMALLINT NULL,
     INDEX postmaster_filter_f_name (f_name)
 );
 # ----------------------------------------------------------

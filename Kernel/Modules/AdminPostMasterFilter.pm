@@ -47,6 +47,8 @@ sub Run {
             = $Self->{ParamObject}->GetParam( Param => "MatchHeader$Number" );
         $GetParam{"MatchValue$Number"}
             = $Self->{ParamObject}->GetParam( Param => "MatchValue$Number" );
+        $GetParam{"MatchNot$Number"}
+            = $Self->{ParamObject}->GetParam( Param => "MatchNot$Number" );
         $GetParam{"SetHeader$Number"}
             = $Self->{ParamObject}->GetParam( Param => "SetHeader$Number" );
         $GetParam{"SetValue$Number"} = $Self->{ParamObject}->GetParam( Param => "SetValue$Number" );
@@ -97,10 +99,15 @@ sub Run {
 
         my %Match = ();
         my %Set   = ();
+        my %Not;
+
         for my $Number ( 1 .. 12 ) {
             if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
                 $Match{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchValue$Number"};
             }
+
+            $Not{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchNot$Number"};
+
             if ( $GetParam{"SetHeader$Number"} && $GetParam{"SetValue$Number"} ) {
                 $Set{ $GetParam{"SetHeader$Number"} } = $GetParam{"SetValue$Number"};
             }
@@ -151,6 +158,7 @@ sub Run {
                     Set            => \%Set,
                     Match          => \%Match,
                     StopAfterMatch => $StopAfterMatch,
+                    Not            => \%Not,
                 },
             );
         }
@@ -160,6 +168,7 @@ sub Run {
             Match          => \%Match,
             Set            => \%Set,
             StopAfterMatch => $StopAfterMatch,
+            Not            => \%Not,
         );
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
@@ -218,6 +227,7 @@ sub _MaskUpdate {
                 $Counter++;
                 $Data{"MatchValue$Counter"}  = $Data{Match}->{$MatchKey};
                 $Data{"MatchHeader$Counter"} = $MatchKey;
+                $Data{"MatchNot$Counter"}    = $Data{Not}->{$MatchKey} ? ' checked="checked"' : '';
             }
         }
     }

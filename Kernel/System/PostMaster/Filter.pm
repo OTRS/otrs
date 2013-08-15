@@ -131,13 +131,15 @@ sub FilterAdd {
         }
     }
 
+    my %Not = %{ $Param{Not} || {} };
+
     for my $Type (qw(Match Set)) {
         my %Data = %{ $Param{$Type} };
         for my $Key ( sort keys %Data ) {
             return if !$Self->{DBObject}->Do(
-                SQL => 'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value)'
-                    . ' VALUES (?, ?, ?, ?, ?)',
-                Bind => [ \$Param{Name}, \$Param{StopAfterMatch}, \$Type, \$Key, \$Data{$Key} ],
+                SQL => 'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value, f_not)'
+                    . ' VALUES (?, ?, ?, ?, ?, ?)',
+                Bind => [ \$Param{Name}, \$Param{StopAfterMatch}, \$Type, \$Key, \$Data{$Key}, \$Not{$Key} ],
             );
         }
     }
@@ -195,7 +197,7 @@ sub FilterGet {
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
-            'SELECT f_type, f_key, f_value, f_name, f_stop FROM postmaster_filter WHERE f_name = ?',
+            'SELECT f_type, f_key, f_value, f_name, f_stop, f_not FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
     );
     my %Data;
@@ -203,6 +205,10 @@ sub FilterGet {
         $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
         $Data{Name}                   = $Row[3];
         $Data{StopAfterMatch}         = $Row[4];
+        
+        if ( $Row[0] eq 'Match' ) {
+            $Data{Not}->{ $Row[1] } = $Row[5];
+        }
     }
     return %Data;
 }

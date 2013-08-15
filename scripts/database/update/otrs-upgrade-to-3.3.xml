@@ -196,4 +196,8 @@
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKeyCreate>
 </TableAlter>
+
+<TableAlter Name="postmaster_filter">
+    <ColumnAdd Name="f_not" Required="false" Type="SMALLINT"/>
+</TableAlter>
 </database>

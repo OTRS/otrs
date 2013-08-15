@@ -138,6 +138,10 @@
                         <div id="MatchHeader1ServerError" class="TooltipErrorMessage">
                             <p>$Text{"This field is required."}</p>
                         </div>
+
+                        <label for="MatchNot1">$Text{"Negate"} 1:</label> 
+                        <input type="checkbox" name="MatchNot1" id="MatchNot1" value="1" $QData{"MatchNot1"} />
+
                         <label for="MatchValue1">$Text{"Value"} 1:</label>
                         <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc $QData{"MatchValue1Invalid"}" maxlength="100"/>
                         <div id="MatchValue1ServerError" class="TooltipErrorMessage">
@@ -152,6 +156,10 @@
                         <div id="MatchHeader2ServerError" class="TooltipErrorMessage">
                             <p>$Text{"This field is required."}</p>
                         </div>
+
+                        <label for="MatchNot2">$Text{"Negate"} 2:</label> 
+                        <input type="checkbox" name="MatchNot2" id="MatchNot2" value="1" $QData{"MatchNot2"} />
+
                         <label for="MatchValue2">$Text{"Value"} 2:</label>
                         <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc $QData{"MatchValue2Invalid"}" maxlength="100"/>
                         <div id="MatchValue2ServerError" class="TooltipErrorMessage">
@@ -166,6 +174,10 @@
                         <div id="MatchHeader3ServerError" class="TooltipErrorMessage">
                             <p>$Text{"This field is required."}</p>
                         </div>
+
+                        <label for="MatchNot3">$Text{"Negate"} 3:</label> 
+                        <input type="checkbox" name="MatchNot3" id="MatchNot3" value="1" $QData{"MatchNot3"} />
+
                         <label for="MatchValue3">$Text{"Value"} 3:</label>
                         <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc $QData{"MatchValue3Invalid"}" maxlength="100"/>
                         <div id="MatchValue3ServerError" class="TooltipErrorMessage">
@@ -180,6 +192,10 @@
                         <div id="MatchHeader4ServerError" class="TooltipErrorMessage">
                             <p>$Text{"This field is required."}</p>
                         </div>
+
+                        <label for="MatchNot4">$Text{"Negate"} 4:</label> 
+                        <input type="checkbox" name="MatchNot4" id="MatchNot4" value="1" $QData{"MatchNot4"} />
+
                         <label for="MatchValue4">$Text{"Value"} 4:</label>
                         <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc $QData{"MatchValue4Invalid"}" maxlength="100"/>
                         <div id="MatchValue4ServerError" class="TooltipErrorMessage">

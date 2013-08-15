@@ -1542,7 +1542,8 @@ CREATE TABLE postmaster_filter (
     f_stop NUMBER (5, 0) NULL,
     f_type VARCHAR2 (20) NOT NULL,
     f_key VARCHAR2 (200) NOT NULL,
-    f_value VARCHAR2 (200) NOT NULL
+    f_value VARCHAR2 (200) NOT NULL,
+    f_not NUMBER (5, 0) NULL
 );
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 -- ----------------------------------------------------------
