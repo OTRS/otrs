@@ -124,12 +124,6 @@ sub Run {
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
         my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
-        my $Url       = ' ';
-        if ( $ENV{REQUEST_URI} ) {
-            $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
-                . $Self->{ConfigObject}->Get('FQDN')
-                . $ENV{REQUEST_URI};
-        }
         my %Page;
 
         # get maximum number of pages
@@ -157,7 +151,7 @@ sub Run {
             . $Self->{UserLastname} . ' ('
             . $Self->{UserEmail} . ') '
             . $Time;
-        $Page{FooterLeft} = $Url;
+        $Page{FooterLeft} = '';
         $Page{PageText}   = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
         $Page{PageCount}  = 1;
 
