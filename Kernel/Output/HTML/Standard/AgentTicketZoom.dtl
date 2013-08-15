@@ -307,30 +307,6 @@
                         <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:TicketMenu -->
-<!-- dtl:block:TicketMenuPhoneAsDropdown -->
-                    <li>
-                        <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
-                            <input type="hidden" name="Action" value="$QData{"Action"}"/>
-                            <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                            <label for="$QData{"PhoneElementID"}" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
-                            $Data{"StandardReplyStrg"}
-                        </form>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('#$QData{"FormID"} select[name=$QData{"PhoneElementID"}]').bind('change', function (Event) {
-    var URL;
-
-    if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        // reset the select box so that it can be used again from the same window
-        $(this).val('0');
-    }
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-                    </li>
-<!-- dtl:block:TicketMenuPhoneAsDropdown -->
 <!-- dtl:block:MoveLink -->
                     <li class="$QData{"Class"}">
                         <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="post">

@@ -725,47 +725,10 @@ sub MaskAgentZoom {
                 $Item->{Class} = "AsPopup PopupType_$Menus{$Menu}->{PopupType}";
             }
 
-            if (
-                (
-                    $Menus{$Menu}->{Action} eq 'AgentTicketPhoneOutbound'
-                    || $Menus{$Menu}->{Action} eq 'AgentTicketPhoneInbound'
-                )
-                && IsHashRefWithData( $StandardTemplates{Answer} )
-                )
-            {
-                my %AnswerTemplates = %{ $StandardTemplates{Answer} };
-
-                # set name for none template according with menu name
-                $AnswerTemplates{0}
-                    = '- '
-                    . $Self->{LayoutObject}->{LanguageObject}->Get( $Menus{$Menu}->{Name} )
-                    . ' -';
-
-                # build html string
-                my $StandardReplyStrg = $Self->{LayoutObject}->BuildSelection(
-                    Name => $Menus{$Menu}->{Action} . 'TemplateID',
-                    ID   => $Menus{$Menu}->{Action} . 'TemplateID',
-                    Data => \%AnswerTemplates,
-                );
-
-                my $MenuStrg = $Self->{LayoutObject}->Block(
-                    Name => 'TicketMenuPhoneAsDropdown',
-                    Data => {
-                        %Ticket,
-                        StandardReplyStrg => $StandardReplyStrg,
-                        Name              => $Menus{$Menu}->{Action},
-                        Action            => $Menus{$Menu}->{Action},
-                        FormID            => $Menus{$Menu}->{Action} . $Ticket{TicketID},
-                        PhoneElementID    => $Menus{$Menu}->{Action} . 'TemplateID',
-                    },
-                );
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketMenu',
-                    Data => $Item,
-                );
-            }
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketMenu',
+                Data => $Item,
+            );
         }
     }
 

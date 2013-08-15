@@ -9506,6 +9506,7 @@ Thanks for your help!
                 <Item Key="Answer">Answer</Item>
                 <Item Key="Create">Create</Item>
                 <Item Key="Forward">Forward</Item>
+                <Item Key="PhoneCall">Phone Call</Item>
             </Hash>
         </Setting>
     </ConfigItem>
