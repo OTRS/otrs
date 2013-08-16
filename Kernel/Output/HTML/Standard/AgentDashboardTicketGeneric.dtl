@@ -491,7 +491,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
 <!-- dtl:block:ContentLargeTicketGenericColumn -->
 <!-- dtl:block:ContentLargeTicketGenericColumnTranslatable -->
             <td>
-                <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue"}","30"}</div>
+                <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue","30"}"}</div>
             </td>
 <!-- dtl:block:ContentLargeTicketGenericColumnTranslatable -->
 <!-- dtl:block:ContentLargeTicketGenericColumnTime -->
