@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-08-06 13:25:06
+#  driver: mysql, generated: 2013-08-16 11:27:17
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  insert into table ticket_history_type
@@ -36,6 +36,10 @@ CREATE TABLE system_data (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(data_key)
 );
+# ----------------------------------------------------------
+#  alter table user_preferences
+# ----------------------------------------------------------
+ALTER TABLE user_preferences CHANGE preferences_value preferences_value LONGBLOB NULL;
 # ----------------------------------------------------------
 #  create table acl
 # ----------------------------------------------------------
@@ -175,9 +179,9 @@ ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_att
 ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_standard_attachment_id_id FOREIGN KEY (standard_attachment_id) REFERENCES standard_attachment (id);
 ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
--- ----------------------------------------------------------
---  alter table postmaster_filter
--- ----------------------------------------------------------
+# ----------------------------------------------------------
+#  alter table postmaster_filter
+# ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD f_not SMALLINT NULL;
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

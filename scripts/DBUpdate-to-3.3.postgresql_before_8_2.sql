@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2013-08-06 13:25:06
+--  driver: postgresql_before_8_2, generated: 2013-08-16 11:27:17
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -36,6 +36,11 @@ CREATE TABLE system_data (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(data_key)
 );
+-- ----------------------------------------------------------
+--  alter table user_preferences
+-- ----------------------------------------------------------
+ALTER TABLE user_preferences ALTER preferences_value TYPE TEXT;
+ALTER TABLE user_preferences ALTER preferences_value DROP DEFAULT;
 -- ----------------------------------------------------------
 --  create table acl
 -- ----------------------------------------------------------
