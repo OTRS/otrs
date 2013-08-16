@@ -1987,7 +1987,14 @@ sub _GetCreateTemplates {
 
     my $QueueID = $Param{QueueID} || '';
     if ( !$Param{QueueID} && $Param{TicketID} ) {
-        $QueueID = $Param{TicketID};
+
+        # get QueueID from the ticket
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+            UserID        => $Self->{UserID},
+        );
+        $QueueID = $Ticket{QueueID} || '';
     }
 
     # fetch all std. templates
