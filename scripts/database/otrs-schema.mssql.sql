@@ -66,7 +66,7 @@ CREATE TABLE users (
 CREATE TABLE user_preferences (
     user_id INTEGER NOT NULL,
     preferences_key NVARCHAR (150) NOT NULL,
-    preferences_value NVARCHAR (250) NULL
+    preferences_value NVARCHAR (MAX) NULL
 );
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------

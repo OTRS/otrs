@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:30
+    # Last translation file sync: 2013-08-16 12:09:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -657,6 +657,8 @@ sub Data {
         'auto remove' => '自動除去',
         'auto reply' => '自動返答',
         'auto reply/new ticket' => '自動返答/新規チケット',
+        'Create' => '作成',
+        'Answer' => '',
         'Ticket "%s" created!' => 'チケット "%s" を作成しました！',
         'Ticket Number' => 'チケット番号',
         'Ticket Object' => 'チケット対象',
@@ -1600,9 +1602,10 @@ sub Data {
         'Delete this filter' => 'このフィルタを削除',
         'Add PostMaster Filter' => 'ポストマスター・フィルタを追加',
         'Edit PostMaster Filter' => 'PostMasterフィルタを削除',
-        'Filter name' => 'フィルタ名',
         'The name is required.' => '',
         'Filter Condition' => 'フィルタ条件',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => 'メールヘッダを設定',
@@ -1725,6 +1728,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1831,7 +1836,6 @@ sub Data {
         'Filter for Auto Responses' => '自動応答フィルタ',
         'Auto Responses' => '自動応答',
         'Change Auto Response Relations for Queue' => 'キューと自動応答の関連性を変更',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1894,7 +1898,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'この方法で直接認証と秘密鍵を編集できます。',
         'Hash' => 'ハッシュ',
-        'Create' => '作成',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'この証明書を削除',
@@ -2121,6 +2124,8 @@ sub Data {
         'in' => '＞',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2154,6 +2159,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => 'サービス時間',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2380,7 +2387,6 @@ sub Data {
         'Select all' => '全選択',
         'No ticket data found.' => 'チケットデータがありません',
         'First Response Time' => '初回応答期限',
-        'Service Time' => 'サービス時間',
         'Update Time' => '更新期限',
         'Solution Time' => '解決期限',
         'Move ticket to a different queue' => '別のキューへチケットを移転',
@@ -2388,13 +2394,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => '検索オプション変更',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'エスカレーション: ',
-        'Locked' => 'ロック状態',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2473,6 +2479,7 @@ sub Data {
         'Save filter settings as default' => '既定のフィルタ設定を保存',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'ロック状態',
         'Linked Objects' => '連結済対象',
         'Article(s)' => '記事',
         'Change Queue' => 'キュー変更',
@@ -2972,6 +2979,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'チケット番号ディテクションの中のシステムIDを、フォロー・アップのために確認します（もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください）。',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
         'Company Status' => '',
         'Company Tickets' => '企業チケット',
@@ -3135,6 +3145,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '担当者インタフェースにおいて、構成されたメッセージが必ずスペル・チェックされるかどうかを定義します。',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '担当者インタフェースにおいてタイム・アカウンティングが強制的かどうかを定義します。',
@@ -3727,6 +3739,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Edit customer company' => '',
         'Email Addresses' => 'メールアドレス',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF出力を有効にします。CPAN モジュール PDF::API2が必要となりますが、もしインストールされていなければPDF出力は無効にされます。',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3802,6 +3815,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend theme' => 'フロントエンドのテーマ',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => '管理用ジョブ',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4071,6 +4086,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Overview of all open Tickets.' => '全対応中チケット一覧',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'PGP鍵アップロード',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '担当者インタフェースのプレファレンス・ビューにあるCreateNextMaskオブジェクトのパラメータです。',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4195,6 +4211,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '項目の添付ファイルを保存します。. "DB"は、全てのデータをデータベースに保存します（大きな添付物の保存にはお奨めしません）。"FS"は、データをファイル・システム上に保存するもので、これは速い方法ですがウェブ・サーバがOTRSユーザの配下で動作している必要があります。すでに製品となっているシステムにおいても、データを損失すること無く、モジュール間で切替を行うことができます。',
         'Search Customer' => '顧客検索',
+        'Search User' => '',
         'Search backend default router.' => 'バックエンドのデフォルト・ルーターを検索します。',
         'Search backend router.' => 'バックエンド・ルーターを検索します。',
         'Select your frontend Theme.' => 'フロントエンドのテーマを選択してください。',
@@ -4751,10 +4768,12 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Edit Response' => '応答を編集',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             '担当者インタフェースにおいて、顧客検索のためのオートコンプリート機能を、有効または無効にします。',
+        'Escalation in' => 'エスカレーション: ',
         'Experimental "Slim" skin which tries to save screen space for power users.' =>
             'パワーユーザ用に画面スペースを省くための、実験的な“スリム”スキンです。',
         'False' => '失敗',
         'Filter for Responses' => '応答フィルタ',
+        'Filter name' => 'フィルタ名',
         'For more info see:' => '詳細情報：',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'データベースのrootパスワードが設定されている場合、ここに入力する必要があります。されていない場合は空白にしてください。セキュリティ上の理由から、私たちはrootのパスワードを設定することをお勧めしません。詳しくはデータベースのマニュアルを参照してください。',

@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:34
+    # Last translation file sync: 2013-08-16 12:09:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -664,6 +664,8 @@ sub Data {
         'auto remove' => 'Fjern automatisk ',
         'auto reply' => 'Svar automatisk',
         'auto reply/new ticket' => 'Svar/ny sak automatisk',
+        'Create' => 'Opprett',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Sak «%s» opprettet!',
         'Ticket Number' => 'Saksnummer',
         'Ticket Object' => 'Saksobjekt',
@@ -1607,9 +1609,10 @@ sub Data {
         'Delete this filter' => 'Slett dette filteret',
         'Add PostMaster Filter' => 'Legg til Postmaster-filter',
         'Edit PostMaster Filter' => 'Endre Postmaster-filter',
-        'Filter name' => 'Filterets navn',
         'The name is required.' => 'Navn er påkrevd',
         'Filter Condition' => 'Filter-tilstand',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => 'Sett meldingshoder',
@@ -1732,6 +1735,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1838,7 +1843,6 @@ sub Data {
         'Filter for Auto Responses' => 'Filter for Autosvar',
         'Auto Responses' => 'Autosvar',
         'Change Auto Response Relations for Queue' => 'Endre Autosvar-kopling for Kø',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1901,7 +1905,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'På denne måten kan du direkte redigere sertifikatet og private nøkler i filsystemet. ',
         'Hash' => 'Hash',
-        'Create' => 'Opprett',
         'Handle related certificates' => 'Behandle relaterte sertifikater',
         'Read certificate' => 'Les sertifikat',
         'Delete this certificate' => 'Slett dette sertifikatet',
@@ -2128,6 +2131,8 @@ sub Data {
         'in' => 'om',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2161,6 +2166,8 @@ sub Data {
         'My watched tickets' => 'Mine overvåkede saker',
         'My responsibilities' => 'Mine ansvar',
         'Tickets in My Queues' => 'Saker i Min Kø',
+        'Service Time' => 'Tjenestetid',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2387,7 +2394,6 @@ sub Data {
         'Select all' => 'Velg alle',
         'No ticket data found.' => 'Ingen saker ble funnet',
         'First Response Time' => 'Første responstid',
-        'Service Time' => 'Tjenestetid',
         'Update Time' => 'Oppdateringstid',
         'Solution Time' => 'Løsningstid',
         'Move ticket to a different queue' => 'Flytt saker til annen kø',
@@ -2395,13 +2401,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Endre søke-innstillinger',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Saker per side',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Eskalering om',
-        'Locked' => 'Tilgjengelighet',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2480,6 +2486,7 @@ sub Data {
         'Save filter settings as default' => 'Lagre filter som standard',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'Tilgjengelighet',
         'Linked Objects' => 'Koblede objekter',
         'Article(s)' => 'Innlegg',
         'Change Queue' => 'Bytt kø',
@@ -2979,6 +2986,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Sjekker SystemID i saksnummer-generatoren for oppfølginger (bruk "Nei" hvis SystemID har blitt endret etter å ha brukt systemet.',
         'Closed tickets of customer' => 'Kundes lukkede saker',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
         'Company Status' => '',
         'Company Tickets' => 'Firmasaker',
@@ -3142,6 +3152,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Spesifiserer om nye meldinger som skrives må stavekontrolleres.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             'Spesifiserer om tidskontering er obligatorisk for saksbehandlere.',
@@ -3732,6 +3744,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'e-postadresser',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Aktiverer utskrift til PDF. CPAN-modulen PDF::API2 er påkrevd, dersom denne ikke er installert vil PDF-utskrift deaktiveres.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3807,6 +3820,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Nettsidetema',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'Administrasjon: Generisk Saksbehandler',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4075,6 +4090,7 @@ sub Data {
         'Overview of all open Tickets.' => 'Oversikt over alle åpne saker',
         'PGP Key Management' => 'Administrasjon: PGP Nøkkler',
         'PGP Key Upload' => 'Last opp PGP-nøkkel',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4199,6 +4215,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Kunde-søk',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Velg tema for webvisningen.',
@@ -4753,8 +4770,10 @@ sub Data {
             'Fant du ikke et ønsket tillegg? OTRS gruppen tilbyr deres medlemmer eksklusive tillegg som:',
         'Don\'t forget to add new responses to queues.' => 'Ikke glem å legg til nye ferdigsvar på køer',
         'Edit Response' => 'Endre Ferdigsvar',
+        'Escalation in' => 'Eskalering om',
         'False' => 'Fungerer ikke',
         'Filter for Responses' => 'Filter for Ferdigsvar',
+        'Filter name' => 'Filterets navn',
         'For more info see:' => 'For mer info se:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Hvis du har satt et root-passord for databasetjeneren, må det skrives inn her. Hvis ikke kan du la dette feltet være åpent. For sikkerhetsskyld anbefaler vi å sette et root-passord. For mer informasjon, vennligst se i databasedokumentasjonen.',

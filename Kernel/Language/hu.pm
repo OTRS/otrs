@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:27
+    # Last translation file sync: 2013-08-16 12:09:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -661,6 +661,8 @@ sub Data {
         'auto remove' => 'automatikus törlés',
         'auto reply' => 'automatikus válasz',
         'auto reply/new ticket' => 'automatikus válasz/új jegy',
+        'Create' => 'Létrehozás',
+        'Answer' => '',
         'Ticket "%s" created!' => 'A "%s" jegy létrehozva!',
         'Ticket Number' => 'Jegy száma',
         'Ticket Object' => 'Jegy objektum',
@@ -1604,9 +1606,10 @@ sub Data {
         'Delete this filter' => '',
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
-        'Filter name' => '',
         'The name is required.' => '',
         'Filter Condition' => '',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => '',
@@ -1729,6 +1732,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1835,7 +1840,6 @@ sub Data {
         'Filter for Auto Responses' => '',
         'Auto Responses' => 'Automatikus válaszok',
         'Change Auto Response Relations for Queue' => '',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1898,7 +1902,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Íly módon közvetlenül szerkesztheti a fájlrendszeren tárolt tanusítványokat és titkos kulcsokat.',
         'Hash' => 'Kivonat',
-        'Create' => 'Létrehozás',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '',
@@ -2125,6 +2128,8 @@ sub Data {
         'in' => 'ebben',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2158,6 +2163,8 @@ sub Data {
         'My watched tickets' => 'Figyelt hibajegyeim',
         'My responsibilities' => '',
         'Tickets in My Queues' => 'Hibajegyek a várólistáimban',
+        'Service Time' => 'Szolgáltatás ideje',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2384,7 +2391,6 @@ sub Data {
         'Select all' => 'Összes kiválasztása',
         'No ticket data found.' => 'Nem található hibajegy adat',
         'First Response Time' => 'Első válaszidő',
-        'Service Time' => 'Szolgáltatás ideje',
         'Update Time' => 'Frissítés ideje',
         'Solution Time' => 'Megoldás ideje',
         'Move ticket to a different queue' => '',
@@ -2392,13 +2398,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Keresési beállítások módosítása',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Hibajegy oldalanként',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Eszkaláció ebben',
-        'Locked' => 'Zárolás',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2477,6 +2483,7 @@ sub Data {
         'Save filter settings as default' => 'Szűrő beállítások alapértelmezettkénti mentése',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'Zárolás',
         'Linked Objects' => 'Kapcsolt objektumok',
         'Article(s)' => '',
         'Change Queue' => '',
@@ -2976,6 +2983,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => '',
@@ -3139,6 +3149,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3729,6 +3741,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'E-mail címek',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3804,6 +3817,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'Automata ügyintéző',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4072,6 +4087,7 @@ sub Data {
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4196,6 +4212,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Ügyfél keresése',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Válassza ki a felhasználói felület stílusát.',
@@ -4725,6 +4742,7 @@ sub Data {
         'Create and manage response templates.' => 'Válasz sablonok létrehozása és kezelése',
         'Customer Data' => 'Ügyfél adatok',
         'Database-User' => 'Adatbázis felhasználó',
+        'Escalation in' => 'Eszkaláció ebben',
         'For more info see:' => 'További információért:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Ha be van állítva adatbázis root jelszó, akkor azt itt kell megadni. Ha nem hagyja üresen a mezőt. Biztonsági megfontolásokból javasoljuk hogy használjon root jelszót. További információt talál az adatbázis dokumentációban.',

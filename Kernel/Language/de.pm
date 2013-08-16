@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:24:12
+    # Last translation file sync: 2013-08-16 12:09:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1601,9 +1601,10 @@ sub Data {
         'Delete this filter' => 'Diesen Filter löschen',
         'Add PostMaster Filter' => 'PostMaster Filter hinzufügen',
         'Edit PostMaster Filter' => 'PostMaster Filter bearbeiten',
-        'Filter name' => 'Filtername',
         'The name is required.' => 'Der Name ist erforderlich.',
         'Filter Condition' => 'Filterbedingung',
+        'AND Condition' => 'UND-Bedingung',
+        'Negate' => 'Negieren',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Dieses Feld sollte einen gültigen regulären Ausdruck oder ein Wort enthalten.',
         'Set Email Headers' => 'E-Mail-Kopfzeilen setzen',
@@ -1726,6 +1727,8 @@ sub Data {
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
         'Edit this Activity' => 'Diese Aktivität bearbeiten',
+        'Save settings' => 'Einstellungen speichern',
+        'Save Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitätsdialoge und Übergänge speichern',
         'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
         'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
         'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
@@ -1832,7 +1835,6 @@ sub Data {
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Auto Responses' => 'Automatische Antworten',
         'Change Auto Response Relations for Queue' => 'Auto-Antwort-Zuordnungen verändern für Queue',
-        'Template for' => 'Vorlage für',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Vorlagen-Queue-Zuordnungen verwalten',
@@ -2121,6 +2123,8 @@ sub Data {
         'in' => 'in',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => 'Verfügbare Spalten',
+        'Visible Columns (order by drag & drop)' => 'Angezeigte Spalten (Ändern durch Ziehen)',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2154,6 +2158,8 @@ sub Data {
         'My watched tickets' => 'Meine beobachteten Tickets',
         'My responsibilities' => 'Meine Verantwortlichkeiten',
         'Tickets in My Queues' => 'Tickets in meinen Queues',
+        'Service Time' => 'Service Zeit',
+        'Remove active filters for this widget.' => 'Aktive Filter für dieses Widget entfernen.',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => 'Summen',
@@ -2380,7 +2386,6 @@ sub Data {
         'Select all' => 'Alle auswählen',
         'No ticket data found.' => 'Keine Ticketdaten gefunden.',
         'First Response Time' => 'Reaktionszeit',
-        'Service Time' => 'Service Zeit',
         'Update Time' => 'Aktualisierungszeit',
         'Solution Time' => 'Lösungszeit',
         'Move ticket to a different queue' => 'Ticket in eine andere Queue verschieben',
@@ -2388,13 +2393,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Such-Optionen ändern',
+        'Remove active filters for this screen.' => 'Aktive Filter für diesen Bildschirm entfernen.',
         'Tickets per page' => 'Tickets pro Seite',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Eskalation in',
-        'Locked' => 'Sperre',
+        'Reset overview' => 'Übersicht zurücksetzen',
 
         # Template: AgentTicketOwner
 
@@ -2473,6 +2478,7 @@ sub Data {
         'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
         'Archive' => 'Archiv',
         'This ticket is archived.' => 'Dieses Ticket ist archiviert.',
+        'Locked' => 'Sperre',
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
@@ -2827,7 +2833,7 @@ sub Data {
         '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'Erfasste Zeit',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
@@ -2972,6 +2978,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => 'Geschlossene Tickets des Kunden',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => 'Firmenstatus',
         'Company Tickets' => 'Firmen-Tickets',
@@ -3014,9 +3023,9 @@ sub Data {
         'Create new process ticket' => '',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
+        'Customer Company Administration' => 'Kunden-Firmen-Verwaltung',
         'Customer Company Information' => 'Informationen zur Kunden-Firma',
-        'Customer User Administration' => '',
+        'Customer User Administration' => 'Kunden-Verwaltung',
         'Customer Users' => 'Kunden-Benutzer',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -3135,6 +3144,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3725,6 +3736,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'E-Mail Adressen',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3800,6 +3812,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Oberflächen-Schema',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4068,6 +4082,7 @@ sub Data {
         'Overview of all open Tickets.' => 'Übersicht über alle offenen Tickets.',
         'PGP Key Management' => 'PGP-Schlüssel-Verwaltung',
         'PGP Key Upload' => 'PGP Schlüssel hochladen',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4192,6 +4207,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Kunden suchen',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Anzeigeschema auswählen.',
@@ -4739,8 +4755,10 @@ sub Data {
             'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
         'Don\'t forget to add new responses to queues.' => 'Neue Antworten müssen einer Queue zugewiesen werden!',
         'Edit Response' => 'Antwort bearbeiten',
+        'Escalation in' => 'Eskalation in',
         'False' => 'Falsch',
         'Filter for Responses' => 'Filter für Antworten',
+        'Filter name' => 'Filtername',
         'For more info see:' => 'Für mehr Informationen hier:',
         'Historic Time Range' => 'Historischer Zeitraum',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
@@ -4769,6 +4787,7 @@ sub Data {
         'Show  article' => 'Artikel anzeigen',
         'State Historic' => 'Historischer Status',
         'State Type Historic' => 'Historischer Status-Typ',
+        'Template for' => 'Vorlage für',
         'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
         'before' => 'vor',

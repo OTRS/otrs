@@ -82,7 +82,7 @@
 <Table Name="user_preferences">
     <Column Name="user_id" Required="true" Type="INTEGER"/>
     <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
-    <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="preferences_value" Required="false" Type="LONGBLOB"/>
     <Index Name="user_preferences_user_id">
         <IndexColumn Name="user_id"/>
     </Index>

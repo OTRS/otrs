@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:33
+    # Last translation file sync: 2013-08-16 12:09:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -655,6 +655,8 @@ sub Data {
         'auto remove' => 'buang auto',
         'auto reply' => 'balas auto',
         'auto reply/new ticket' => 'balas auto/tiket baru',
+        'Create' => 'Buat',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Tiket "%s" dicipta!',
         'Ticket Number' => 'Nombor Tiket',
         'Ticket Object' => 'Tiket Objek',
@@ -1598,9 +1600,10 @@ sub Data {
         'Delete this filter' => 'Padam penapis ini',
         'Add PostMaster Filter' => 'Tambah Postmaster Penapis',
         'Edit PostMaster Filter' => 'Edit Postmaster Penapis',
-        'Filter name' => 'nama penapis',
         'The name is required.' => 'Nama diperlukan.',
         'Filter Condition' => 'Keadaan penapis',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Bidang perlu untuk menjadi ungkapan yang sah tetap atau perkataan literal.',
         'Set Email Headers' => 'Tetapkan Pengepala E-mel',
@@ -1723,6 +1726,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1829,7 +1834,6 @@ sub Data {
         'Filter for Auto Responses' => 'Penapis untuk Tindak Balas Auto',
         'Auto Responses' => 'Auto Tindak Balas',
         'Change Auto Response Relations for Queue' => 'Tukar Perhubungan Response Auto untuk Barisan',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1892,7 +1896,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Dengan cara ini, anda boleh terus mengedit kunci pensijilan dan swasta dalam sistem fail.',
         'Hash' => 'Hash',
-        'Create' => 'Buat',
         'Handle related certificates' => 'Mengendalikan sijil yang berkaitan',
         'Read certificate' => '',
         'Delete this certificate' => 'Padam sijil ini',
@@ -2119,6 +2122,8 @@ sub Data {
         'in' => 'dalam',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2152,6 +2157,8 @@ sub Data {
         'My watched tickets' => 'Tiket menonton saya',
         'My responsibilities' => 'saya tanggungjawab',
         'Tickets in My Queues' => 'Tiket dalam barisan saya',
+        'Service Time' => 'Masa Servis',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2378,7 +2385,6 @@ sub Data {
         'Select all' => 'Pilih semua',
         'No ticket data found.' => 'Tiada data tiket ditemui.',
         'First Response Time' => 'Masa respon pertama',
-        'Service Time' => 'Masa Servis',
         'Update Time' => 'Masa Kemas Kini',
         'Solution Time' => 'Masa Penyelasaian',
         'Move ticket to a different queue' => 'Pindah tiket ke barisan baru',
@@ -2386,13 +2392,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Ubah opsyen pencarian',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Tiket setiap halaman',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Maklum balas dalam',
-        'Locked' => 'Terkunci',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,6 +2477,7 @@ sub Data {
         'Save filter settings as default' => 'Simpan tetapan penapis sebagai piawai.',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'Terkunci',
         'Linked Objects' => 'Objek yang Dihubungkan',
         'Article(s)' => 'Artikel',
         'Change Queue' => 'Ubah Barisan',
@@ -2970,6 +2977,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Menyemak IDSistem di dalam pengesanan nombor tiket untuk susulan (guna "Tidak" jika IDSistem telah diubah selepas menggunakan sistem).',
         'Closed tickets of customer' => 'Tiket customer yang tertutup',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => 'Komen untuk kemasukan sejarah baru di dalam interface pelanggan.',
         'Company Status' => '',
         'Company Tickets' => 'Tiket Syarikat',
@@ -3133,6 +3143,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Mentakrifkan jika mesej yang digubah perlu diperiksa ejaanya dalam paparan ejen.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             'Mentakrifkan jika perakaunan masa adalah wajib dalam paparan ejen.',
@@ -3723,6 +3735,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Alamat emel',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Mengaktifkan output PDF. Modul CPAN PDF::API2 diperlukan, jika di dipasangkan,output PDF akan dilumpuhkan.',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3798,6 +3811,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'Pendaftaran modul frontend untuk paparan pelanggan.',
         'Frontend theme' => 'Tema frontend',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => 'GenericInterface Debugger GUI',
         'GenericInterface Invoker GUI' => 'GenericInterface Pencetus GUI',
@@ -4066,6 +4081,7 @@ sub Data {
         'Overview of all open Tickets.' => 'Overview kesemua Tiket terbuka.',
         'PGP Key Management' => 'Pengurusan Kunci PGP',
         'PGP Key Upload' => 'Muat naik Kunci PGP',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             'Parameters untuk objek CreateNextMask dalam paparan pilihan dari paparan ejen.',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4190,6 +4206,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             'Menyimpan lampiran artikel. "DB" menyimpan semua data dalam pangkalan data (tidak digalakkan untuk menyimpan lampiran besar). "FS" menyimpan data pada sistem fail, ini adalah lebih cepat tetapi server web perlu dijalankan di bawah pengguna OTRS itu. Anda boleh bertukar antara modul walaupun pada satu sistem yang sudah dalam pengeluaran tanpa kehilangan data.',
         'Search Customer' => 'Carian Pelanggan',
+        'Search User' => '',
         'Search backend default router.' => 'Mencari router backend default.',
         'Search backend router.' => 'Mencari router backend',
         'Select your frontend Theme.' => 'Memilih tema frontend anda.',
@@ -4773,6 +4790,7 @@ sub Data {
         'Edit Response' => 'Edit Tindak Balas',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             'Mengaktifkan atau melumpuhkan fungsi autolengkap untuk carian pelanggan dalam paparan ejen.',
+        'Escalation in' => 'Maklum balas dalam',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             'Senarai acara untuk dipamerkan dalam GUI untuk mencetus pencetus paparan generic.',
         'Example for free text' => 'Contoh untuk teks bebas',
@@ -4780,6 +4798,7 @@ sub Data {
             'Kulit uji kaji "Slim" yang cuba untuk menyelamatkan ruang skrin untuk pengguna berkuasa.',
         'False' => 'Salah',
         'Filter for Responses' => 'Menapis Tindak Balas',
+        'Filter name' => 'nama penapis',
         'For more info see:' => 'Untuk maklumat lanjut lihat:',
         'If "DB" was selected for SessionModule, a column for the identifiers in session table must be specified.' =>
             'Jika "DB" dipilih untuk SessionModule, kolum untuk pengecam dalam jadual sesi mesti ditentukan.',

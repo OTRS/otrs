@@ -930,6 +930,43 @@ sub PossibleValuesGet {
     return \%PossibleValues;
 }
 
+sub ColumnFilterValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+
+    # set PossibleValues
+    my $SelectionData = $FieldConfig->{PossibleValues};
+
+    # get column filter values from database
+    my $ColumnFilterValues = $Self->{ColumnFilterObject}->DynamicFieldFilterValuesGet(
+        TicketIDs => $Param{TicketIDs},
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Text',
+    );
+
+    # get the display value if still exist in dynamic field configuration
+    for my $Key ( sort keys %{$ColumnFilterValues} ) {
+        if ( $SelectionData->{$Key} ) {
+            $ColumnFilterValues->{$Key} = $SelectionData->{$Key}
+        }
+    }
+
+    if ( $FieldConfig->{TranslatableValues} ) {
+
+        # translate the value
+        for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
+
+            my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
+            $ColumnFilterValues->{$ValueKey}
+                = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
+        }
+    }
+
+    return $ColumnFilterValues;
+}
+
 1;
 
 =back

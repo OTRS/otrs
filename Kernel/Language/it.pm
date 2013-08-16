@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:29
+    # Last translation file sync: 2013-08-16 12:09:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -663,6 +663,8 @@ sub Data {
         'auto remove' => 'rimozione automatica',
         'auto reply' => 'risposta automatica',
         'auto reply/new ticket' => 'risposta automatica con creazione nuovo ticket',
+        'Create' => 'Crea',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Richiesta "%s" creata!',
         'Ticket Number' => 'Numero Richiesta',
         'Ticket Object' => 'Oggetto Richiesta',
@@ -1606,9 +1608,10 @@ sub Data {
         'Delete this filter' => 'Elimina questo filtro',
         'Add PostMaster Filter' => 'Aggiungi filtro PostMaster',
         'Edit PostMaster Filter' => 'Modifica filtro PostMaster',
-        'Filter name' => 'Nome del filtro',
         'The name is required.' => 'Il nome è obbligatorio',
         'Filter Condition' => 'Condizione per il filtro',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Il campo deve essere una regular expressiono una parola specifica',
         'Set Email Headers' => 'Imposta header dell\'email',
@@ -1731,6 +1734,8 @@ sub Data {
         'Extend the height of the Canvas' => 'Aumenta l\'altezza del riquadro',
         'Remove the Activity from this Process' => 'Rimuovi l\'attività dal Processo',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => 'Vuoi veramente cancellare questo Processo ?',
         'Do you really want to delete this Activity?' => 'Vuoi veramente cancellare questa Attività ?',
         'Do you really want to delete this Activity Dialog?' => 'Vuoi veramente cancellare questo interazione dell\'attività ',
@@ -1837,7 +1842,6 @@ sub Data {
         'Filter for Auto Responses' => 'Filtri per le risposte automatiche',
         'Auto Responses' => 'Risposte Automatiche',
         'Change Auto Response Relations for Queue' => 'Cambia le relazioni delle risposte automatiche con la coda',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1900,7 +1904,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
         'Hash' => '',
-        'Create' => 'Crea',
         'Handle related certificates' => 'Gestisci i certificati collegati',
         'Read certificate' => 'leggi il certificato',
         'Delete this certificate' => 'Elimina questo certificato',
@@ -2127,6 +2130,8 @@ sub Data {
         'in' => '',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2160,6 +2165,8 @@ sub Data {
         'My watched tickets' => 'Ticket che sorveglio',
         'My responsibilities' => 'Ticket di cui sono responsabile',
         'Tickets in My Queues' => 'Ticket nelle mie code',
+        'Service Time' => 'Tempo per Servizio',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2386,7 +2393,6 @@ sub Data {
         'Select all' => 'Seleziona tutto',
         'No ticket data found.' => 'Non sono stati trovati dati ticket.',
         'First Response Time' => 'Tempo iniziale per risposta',
-        'Service Time' => 'Tempo per Servizio',
         'Update Time' => 'Tempo per aggiornamento',
         'Solution Time' => 'Tempo per soluzione',
         'Move ticket to a different queue' => 'Sposta il ticket ad una coda differente',
@@ -2394,13 +2400,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Modifica le opzioni di ricerca',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Numero di ticket per pagina',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Escalation in',
-        'Locked' => 'In gestione',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2479,6 +2485,7 @@ sub Data {
         'Save filter settings as default' => 'Salva config filtri come default',
         'Archive' => 'Archivio',
         'This ticket is archived.' => 'Questo Ticket è stato archiviato.',
+        'Locked' => 'In gestione',
         'Linked Objects' => 'Oggetti collegati',
         'Article(s)' => 'Articoli',
         'Change Queue' => 'Cambia coda',
@@ -2978,6 +2985,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Controlla il SystemID nel rilevamento del numero di ticket per i follow-up (usare "No" se il SystemID è stato cambiato dopo aver usato il sistema).',
         'Closed tickets of customer' => 'Richieste completate per il cliente',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => 'Commento per nuove entry nello storico dell\'interfaccia cliente.',
         'Company Status' => 'Stato Società',
         'Company Tickets' => 'Ticket della Società',
@@ -3141,6 +3151,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Definisce se le interazioni composti devono essere controllati ortograficamente nell\'interfaccia degli agenti.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             'Definisce se la rendicontazione del tempo è necessaria nell\'interfaccia degli agenti.',
@@ -3731,6 +3743,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Indirizzi Email',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3806,6 +3819,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Tema per l\'interfaccia',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'OperatoreGenerico',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4074,6 +4089,7 @@ sub Data {
         'Overview of all open Tickets.' => 'Vista Globale di tutte le richieste aperte.',
         'PGP Key Management' => 'Gestione chiavi PGP',
         'PGP Key Upload' => 'Caricamento chiavi PGP',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4198,6 +4214,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Ricerca cliente',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Scegli il tema per la tua interfaccia.',
@@ -4749,8 +4766,10 @@ sub Data {
             'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
         'Don\'t forget to add new responses to queues.' => 'Non dimentare di aggiungere nuove risposte standard alle code',
         'Edit Response' => 'Modifica risposta',
+        'Escalation in' => 'Escalation in',
         'False' => 'Falso',
         'Filter for Responses' => 'Filtro per le risposte',
+        'Filter name' => 'Nome del filtro',
         'For more info see:' => 'Per maggior informazioni vedi:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',

@@ -48,7 +48,7 @@
 </TableAlter>
 
 <!-- system data -->
-<Table Name="system_data">
+<TableCreate Name="system_data">
     <Column Name="data_key" Required="true" PrimaryKey="true" Size="160" Type="VARCHAR"/>
     <Column Name="data_value" Required="false" Type="LONGBLOB"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -59,7 +59,12 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</Table>
+</TableCreate>
+
+<!-- user preferences -->
+<TableAlter Name="user_preferences">
+    <ColumnChange NameOld="preferences_value" NameNew="preferences_value" Type="LONGBLOB" Required="false"/>
+</TableAlter>
 
 <!-- acl - all acls from the editor -->
 <TableCreate Name="acl">

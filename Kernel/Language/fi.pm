@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:22
+    # Last translation file sync: 2013-08-16 12:09:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -658,6 +658,8 @@ sub Data {
         'auto remove' => 'Automaattinen poisto',
         'auto reply' => 'Automaattinen vastaus',
         'auto reply/new ticket' => 'automaattinen vastaus/uusi tiketti',
+        'Create' => 'Luo',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Tiketti "%s" luotu!',
         'Ticket Number' => 'Tiketin numero',
         'Ticket Object' => 'Tiketti',
@@ -1601,9 +1603,10 @@ sub Data {
         'Delete this filter' => '',
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
-        'Filter name' => '',
         'The name is required.' => '',
         'Filter Condition' => '',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => '',
@@ -1726,6 +1729,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1832,7 +1837,6 @@ sub Data {
         'Filter for Auto Responses' => '',
         'Auto Responses' => 'Autom. vastaukset',
         'Change Auto Response Relations for Queue' => '',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1895,7 +1899,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Tällä tavoin voi suoraan muokata sertifikaatteja sekä yksityisavaimia tiedostojärjestelmässä. ',
         'Hash' => 'Tarkiste',
-        'Create' => 'Luo',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '',
@@ -2122,6 +2125,8 @@ sub Data {
         'in' => ':',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2155,6 +2160,8 @@ sub Data {
         'My watched tickets' => 'Omat seuratut tiketit',
         'My responsibilities' => 'Omat vastuut',
         'Tickets in My Queues' => 'Tiketit omissa jonoissani',
+        'Service Time' => 'Palveluaika',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2381,7 +2388,6 @@ sub Data {
         'Select all' => 'Valitse kaikki',
         'No ticket data found.' => 'Tikettejä ei löytynyt.',
         'First Response Time' => 'Ensimmäinen vastausaika',
-        'Service Time' => 'Palveluaika',
         'Update Time' => 'Päivitysaika',
         'Solution Time' => 'Ratkaisuaika',
         'Move ticket to a different queue' => 'Siirrä tiketti toiseen jonoon',
@@ -2389,13 +2395,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Muuta hakuasetuksia',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Tikettejä sivulla',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Eskaloituu',
-        'Locked' => 'Lukitus',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2474,6 +2480,7 @@ sub Data {
         'Save filter settings as default' => 'Aseta suodinasetukset oletukseksi',
         'Archive' => 'Arkisto',
         'This ticket is archived.' => 'Tämä tiketti on arkistoitu.',
+        'Locked' => 'Lukitus',
         'Linked Objects' => 'Aiheeseen liittyvät',
         'Article(s)' => 'Artikkelit',
         'Change Queue' => 'Vaihda jonoa',
@@ -2973,6 +2980,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => 'Yrityksen tiketit',
@@ -3136,6 +3146,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3726,6 +3738,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Sähköpostiosoitteet',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3801,6 +3814,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Liittymän teema',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4069,6 +4084,7 @@ sub Data {
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4193,6 +4209,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Etsi Asiakas',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Valitse käyttöliittymäsi ulkoasu',
@@ -4725,6 +4742,7 @@ sub Data {
         'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
         'Customer Data' => 'Asiakastieto',
         'Database-User' => 'Tietokantakäyttäjä',
+        'Escalation in' => 'Eskaloituu',
         'False' => 'Virhe',
         'For more info see:' => 'Katso lisätietoa:',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>

@@ -159,6 +159,42 @@ ul.Tablelike li.Header + li {
     margin-bottom: 15px;
 }
 
+.WidgetSimple .WidgetSettingsForm fieldset {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple .Field.LayoutGrid {
+    padding-top: 7px;
+}
+
+.WidgetSimple .Field.LayoutGrid .Tablelike {
+    width: 98%;
+}
+
+.WidgetSimple .Buttons {
+    background: #ddd;
+    background: -moz-linear-gradient(top,  #eee 0%, #ddd 50%, #ccc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(50%,#ddd), color-stop(100%,#ccc));
+    background: -webkit-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: -o-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
+    border-top: 1px solid #ccc;
+    margin: 15px -8px -8px;
+    padding: 10px 10px 9px 10px;
+    text-align: center;
+}
+
+.WidgetSimple .Field.LayoutGrid .AllocationList {
+    max-height: 192px;
+}
+
+.WidgetSimple .Field.LayoutGrid .AllocationList.OrderNumbers {
+    list-style-type: decimal;
+    padding-left: 5%;
+    width: 93%;
+}
+
 /**
  * @subsection Widgets as notices
  */
@@ -336,11 +372,17 @@ ul.Tablelike li.Header + li {
 }
 
 /* Close */
+.WidgetAction.RemoveFilters a {
+    background: url(../img/widget_remove_filters.png) no-repeat 2px 2px;
+}
+
+/* Close */
 .WidgetAction.Close a {
     background: url(../img/widget_close.png) no-repeat 2px 2px;
 }
 
 .WidgetAction.Settings a:hover,
+.WidgetAction.RemoveFilters a:hover,
 .WidgetAction.Close a:hover {
     background-position: 2px -16px;
 }
@@ -463,6 +505,9 @@ ul.Tablelike li.Header + li {
 .CallForAction.Clone span {
     background: url(../img/icons/reports.png) no-repeat scroll;
 }
+.CallForAction.Save span {
+    background: url(../img/icons/disk.png) no-repeat scroll;
+}
 .CallForAction.Trash span {
     background: url(../img/icons/trash-can.png) no-repeat scroll;
 }
@@ -486,7 +531,8 @@ ul.Tablelike li.Header + li {
 .CallForAction.Trash span,
 .CallForAction.History span,
 .CallForAction.Debug span,
-.CallForAction.Refresh span {
+.CallForAction.Refresh span,
+.CallForAction.Save span {
     padding-left: 23px;
     background-position: 2px 2px;
 }
@@ -503,7 +549,8 @@ ul.Tablelike li.Header + li {
 .CallForAction.Trash:active span,
 .CallForAction.History:active span,
 .CallForAction.Debug:active span,
-.CallForAction.Refresh:active span {
+.CallForAction.Refresh:active span,
+.CallForAction.Save:active span {
     background-position: 2px 3px;
 }
 

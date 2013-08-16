@@ -80,49 +80,54 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
+        my $Message  = '';
+        my $Priority = '';
+
         # check group param
-        my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' );
-        if ( !$Group ) {
+        my @Groups = $Self->{ParamObject}->GetArray( Param => 'Group' );
+        if ( !@Groups ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'Param Group is required!' );
         }
 
-        # check preferences setting
-        my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
-        if ( !$Preferences{$Group} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "No such config for $Group" );
-        }
+        for my $Group ( @Groups ) {
 
-        # get user data
-        my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-        my $Module = $Preferences{$Group}->{Module};
-        if ( !$Self->{MainObject}->Require($Module) ) {
-            return $Self->{LayoutObject}->FatalError();
-        }
-
-        my $Object = $Module->new(
-            %{$Self},
-            ConfigItem => $Preferences{$Group},
-            Debug      => $Self->{Debug},
-        );
-        my @Params = $Object->Param( UserData => \%UserData );
-        my %GetParam;
-        for my $ParamItem (@Params) {
-            my @Array = $Self->{ParamObject}->GetArray(
-                Param => $ParamItem->{Name},
-                Raw => $ParamItem->{Raw} || 0,
-            );
-            if ( defined $ParamItem->{Name} ) {
-                $GetParam{ $ParamItem->{Name} } = \@Array;
+            # check preferences setting
+            my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+            if ( !$Preferences{$Group} ) {
+                return $Self->{LayoutObject}->ErrorScreen( Message => "No such config for $Group" );
             }
-        }
-        my $Message  = '';
-        my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
-            $Message = $Object->Message();
-        }
-        else {
-            $Priority = 'Error';
-            $Message  = $Object->Error();
+
+            # get user data
+            my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+            my $Module = $Preferences{$Group}->{Module};
+            if ( !$Self->{MainObject}->Require($Module) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+
+            my $Object = $Module->new(
+                %{$Self},
+                ConfigItem => $Preferences{$Group},
+                Debug      => $Self->{Debug},
+            );
+            my @Params = $Object->Param( UserData => \%UserData );
+            my %GetParam;
+            for my $ParamItem (@Params) {
+                my @Array = $Self->{ParamObject}->GetArray(
+                    Param => $ParamItem->{Name},
+                    Raw => $ParamItem->{Raw} || 0,
+                );
+                if ( defined $ParamItem->{Name} ) {
+                    $GetParam{ $ParamItem->{Name} } = \@Array;
+                }
+            }
+
+            if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                $Message .= $Object->Message();
+            }
+            else {
+                $Priority .= 'Error';
+                $Message  .= $Object->Error();
+            }
         }
 
         # check redirect

@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:39
+    # Last translation file sync: 2013-08-16 12:09:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -665,6 +665,8 @@ sub Data {
         'auto remove' => 'авто-удаление',
         'auto reply' => 'авто-ответ',
         'auto reply/new ticket' => 'авто-ответ/новая заявка',
+        'Create' => 'Создать',
+        'Answer' => 'Ответ',
         'Ticket "%s" created!' => 'Создана заявка «%s».',
         'Ticket Number' => 'Номер заявки',
         'Ticket Object' => 'Объект заявки',
@@ -1608,9 +1610,10 @@ sub Data {
         'Delete this filter' => 'Удалить этот фильтр',
         'Add PostMaster Filter' => 'Добавить фильтр PostMaster-а',
         'Edit PostMaster Filter' => 'Редактировать фильтр PostMaster-а',
-        'Filter name' => 'Имя фильтра',
         'The name is required.' => 'Имя обязательно.',
         'Filter Condition' => 'Условие фильтра',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Это поле должно быть корректным регулярным выражением либо буквально совпадающей строкой.',
         'Set Email Headers' => 'Выставить заголовки письма',
@@ -1733,6 +1736,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1839,7 +1844,6 @@ sub Data {
         'Filter for Auto Responses' => 'Фильтр для Автоответов',
         'Auto Responses' => 'Автоответы',
         'Change Auto Response Relations for Queue' => 'Изменить Автоответ для Очереди',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1902,7 +1906,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Вы можете редактировать сертификаты и закрытые ключи прямо на файловой системе',
         'Hash' => 'Хэш',
-        'Create' => 'Создать',
         'Handle related certificates' => 'Управлять связанными сертификатами',
         'Read certificate' => '',
         'Delete this certificate' => 'Удалить сертификат',
@@ -2129,6 +2132,8 @@ sub Data {
         'in' => 'в',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2162,6 +2167,8 @@ sub Data {
         'My watched tickets' => 'Заявки в моем списке наблюдения',
         'My responsibilities' => 'Заявки, где я ответственный',
         'Tickets in My Queues' => 'Заявки в моих очередях',
+        'Service Time' => 'Время обслуживания',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2388,7 +2395,6 @@ sub Data {
         'Select all' => 'Выбрать все',
         'No ticket data found.' => 'Не найдено данных о заявках.',
         'First Response Time' => 'Время до первого ответа',
-        'Service Time' => 'Время обслуживания',
         'Update Time' => 'Время до изменения заявки',
         'Solution Time' => 'Время до решения заявки',
         'Move ticket to a different queue' => 'Переместить заявку в другую очередь',
@@ -2396,13 +2402,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Изменить параметры поиска',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Заявок на страницу',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Эскалация через',
-        'Locked' => 'Блокировка',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2481,6 +2487,7 @@ sub Data {
         'Save filter settings as default' => 'Сохранить условия фильтра для показа по умолчанию',
         'Archive' => 'Архив',
         'This ticket is archived.' => 'Заявка перемещена в архив.',
+        'Locked' => 'Блокировка',
         'Linked Objects' => 'Связанные объекты',
         'Article(s)' => 'сообщений',
         'Change Queue' => 'Сменить очередь',
@@ -2980,6 +2987,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => 'Заявки компании',
@@ -3143,6 +3153,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3733,6 +3745,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Адреса email',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3808,6 +3821,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Тема интерфеса',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'Планировщик задач',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4076,6 +4091,7 @@ sub Data {
         'Overview of all open Tickets.' => 'Обзор всех заявок',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'Загрузить PGP ключ',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4200,6 +4216,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Искать клиента',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Тема интерфейса',
@@ -4806,7 +4823,6 @@ sub Data {
         'All tickets which are escalated!' => 'Все эскалированные заявки',
         'Allocate CustomerUser to service' => 'Привязать клиента к сервисам',
         'Allocate services to CustomerUser' => 'Привязать сервисы к клиенту',
-        'Answer' => 'Ответ',
         'Article Create Times' => 'Время создания сообщения',
         'Article created' => 'Сообщение создано',
         'Article created between' => 'Сообщение создано в период',
@@ -4932,6 +4948,7 @@ sub Data {
         'Escalation - Solution Time' => 'Эскалация — время решения',
         'Escalation - Update Time' => 'Эскалация — время обновления',
         'Escalation Times' => 'Время эскалации',
+        'Escalation in' => 'Эскалация через',
         'Escalation time' => 'Время до эскалации заявки',
         'Event is required!' => 'Событие обязательно!',
         'Expand View' => 'Подробно',
@@ -4941,6 +4958,7 @@ sub Data {
         'FileManager' => 'Управление файлами',
         'Filelist' => 'Список файлов',
         'Filter for Responses' => 'Фильтр для Ответов',
+        'Filter name' => 'Имя фильтра',
         'Filtername' => 'Имя фильтра',
         'Follow up' => 'Ответ',
         'Follow up notification' => 'Уведомление об обновлениях',

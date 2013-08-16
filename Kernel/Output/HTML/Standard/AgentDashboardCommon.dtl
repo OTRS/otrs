@@ -150,7 +150,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 
         <div class="Content">
             <div id="Dashboard$QData{"Name"}-setting" class="Hidden">
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form" id="Dashboard$QData{"NameForm"}_setting_form">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Dashboard$QData{"NameForm"}_setting_form" id="Dashboard$QData{"NameForm"}_setting_form" class="WidgetSettingsForm">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                     <input type="hidden" name="Name" value="$QData{"Name"}"/>
@@ -167,7 +167,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:block:ContentLargePreferencesItemInput -->
                         <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
                         <div class="Field DontPrint">
-                            <input type="text" class="W100pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
+                            <input type="text" class="W20pc" name="$QData{"NamePref"}" value="$QData{"Data"}"/>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemInput -->
@@ -178,9 +178,32 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemTextArea -->
+<!-- dtl:block:ContentLargePreferencesItemAllocationList -->
+                        <input type="hidden" name="$QData{"NamePref"}" class="ColumnsJSON" value="$QData{"Columns"}" />
+                        <input type="hidden" class="ColumnsEnabledJSON" value="$QData{"ColumnsEnabled"}" />
+                        <input type="hidden" class="ColumnsAvailableJSON" value="$QData{"ColumnsAvailable"}" />
+                        <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
+                        <div class="Field DontPrint LayoutGrid AllocationListContainer">
+                            <div class="Size1of2">
+                                <ul class="Tablelike">
+                                    <li class="Header">$Text{"Available Columns"}</li>
+                                </ul>
+                                <ul class="AllocationList Tablelike AvailableFields" id="AvailableField-Dashboard$QData{"Name"}"></ul>
+                            </div>
+                            <div class="Size1of2">
+                                <ul class="Tablelike">
+                                    <li class="Header">$Text{"Visible Columns (order by drag & drop)"}</li>
+                                </ul>
+                                <ul class="AllocationList Tablelike AssignedFields OrderNumbers" id="AssignedFields-Dashboard$QData{"Name"}"></ul>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:ContentLargePreferencesItemAllocationList -->
 <!-- dtl:block:ContentLargePreferencesItem -->
-                        <button id="Dashboard$QData{"Name"}_submit" class="button DontPrint" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-                        <button id="Dashboard$QData{"Name"}_cancel" class="button DontPrint" type="submit" value="$Text{"Cancel"}">$Text{"Cancel"}</button>
+                        <div class="Buttons">
+                            <button id="Dashboard$QData{"Name"}_submit" class="CallForAction Save DontPrint" type="submit" value="$Text{"Submit"}"><span>$Text{"Save Changes"}</span></button>
+                            <button id="Dashboard$QData{"Name"}_cancel" class="CallForAction DontPrint" type="submit" value="$Text{"Cancel"}"><span>$Text{"Cancel"}</span></button>
+                        </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard$QData{"Name"}_submit'), 'Dashboard$QData{"Name"}',$('#Dashboard$QData{"NameForm"}_setting_form'));

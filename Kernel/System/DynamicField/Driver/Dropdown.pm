@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
+use Kernel::System::Ticket::ColumnFilter;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseSelect);
 
@@ -47,7 +48,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
+    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)) {
         die "Got no $Needed!" if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
@@ -55,12 +56,14 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+    $Self->{ColumnFilterObject}      = Kernel::System::Ticket::ColumnFilter->new( %{$Self} );
 
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 1,
         'IsNotificationEventCondition' => 1,
         'IsSortable'                   => 1,
+        'IsFiltrable'                  => 1,
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
     };

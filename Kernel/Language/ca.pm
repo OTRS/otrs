@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:11
+    # Last translation file sync: 2013-08-16 12:09:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -656,6 +656,8 @@ sub Data {
         'auto remove' => 'auto eliminar',
         'auto reply' => 'auto respondre',
         'auto reply/new ticket' => 'auto respondre/nou tiquet',
+        'Create' => 'Crear',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Tiquet "%s" creat!',
         'Ticket Number' => 'Nombre tiquet',
         'Ticket Object' => 'Objecte tiquet',
@@ -1599,9 +1601,10 @@ sub Data {
         'Delete this filter' => 'Eliminar aquest filtre',
         'Add PostMaster Filter' => 'Afegir filtre PostMaster',
         'Edit PostMaster Filter' => 'Editar filtre PostMaster',
-        'Filter name' => 'Nom de filtre',
         'The name is required.' => '',
         'Filter Condition' => 'Condició de filtre',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => 'Establir encapçalats de correu electrònic',
@@ -1724,6 +1727,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1830,7 +1835,6 @@ sub Data {
         'Filter for Auto Responses' => 'Filter per respostes automàtiques',
         'Auto Responses' => 'Respostes Automàtiques',
         'Change Auto Response Relations for Queue' => 'Canviar les relacions de resposta automàtica per a la cua',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1893,7 +1897,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'D\'aquesta forma pot editar directament la certificació i claus privades en el sistema de fitxers.',
         'Hash' => 'Hash',
-        'Create' => 'Crear',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'Eliminar aquest certificat',
@@ -2120,6 +2123,8 @@ sub Data {
         'in' => 'en',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2153,6 +2158,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => 'Temps de servei',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2379,7 +2386,6 @@ sub Data {
         'Select all' => 'Seleccionar tot',
         'No ticket data found.' => 'No s\'han trobat dades del tiquet',
         'First Response Time' => 'Temps de resposta',
-        'Service Time' => 'Temps de servei',
         'Update Time' => 'Temps d\'actualització',
         'Solution Time' => 'Temps de resolució',
         'Move ticket to a different queue' => 'Moure tiquet a una altra cua',
@@ -2387,13 +2393,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Canviar opcions de recerca',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Tiquets per pàgina',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Escalat en',
-        'Locked' => 'Bloquejat',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2472,6 +2478,7 @@ sub Data {
         'Save filter settings as default' => 'Guardar la configuració del filtre com a predeterminat',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'Bloquejat',
         'Linked Objects' => 'Objectes vinculats',
         'Article(s)' => 'Article(s)',
         'Change Queue' => 'Caviar cua',
@@ -2971,6 +2978,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Comprova l\'ID del sistema en la detecció del nombre de tiquet per a seguiment (Usi "No" si l\'ID del sistema ha canviat després d\'usar el sistema).',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => 'Comentari per a noves entrades d\'històric en l\'interfície de client.',
         'Company Status' => '',
         'Company Tickets' => 'Tiquets d\'empresa',
@@ -3134,6 +3144,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3724,6 +3736,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Adreces de Correu',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3799,6 +3812,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'AgentGenèric',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4067,6 +4082,7 @@ sub Data {
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4191,6 +4207,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Recerques del client',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Seleccioni el seu tema',
@@ -4737,8 +4754,10 @@ sub Data {
         'Database-User' => 'Usuari-Base de dades',
         'Don\'t forget to add new responses to queues.' => 'No oblidi afegir noves respostes a les cues.',
         'Edit Response' => 'Editar resposta',
+        'Escalation in' => 'Escalat en',
         'False' => 'Fals',
         'Filter for Responses' => 'Filtre per respostes',
+        'Filter name' => 'Nom de filtre',
         'For more info see:' => 'Para més informació vegi:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Si la seva base de dades té una contrasenya per a root, ha d\'introduir-la aquí. Si no, deixi aquest camp en blanc. Per raons de seguretat és recomanable posar una contrasenya a l\'usuari root. Per a més informació per favor refereixi\'s a la documentació de la seva base de dades.',

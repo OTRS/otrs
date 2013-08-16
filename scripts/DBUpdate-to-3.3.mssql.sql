@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2013-08-06 13:25:06
+--  driver: mssql, generated: 2013-08-16 11:27:17
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -58,6 +58,11 @@ CREATE TABLE system_data (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(data_key)
 );
+GO
+ALTER TABLE user_preferences ALTER COLUMN preferences_value NVARCHAR (MAX) NULL;
+GO
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_user_preferences_preferences_value' )
+ALTER TABLE user_preferences DROP CONSTRAINT DF_user_preferences_preferences_value;
 -- ----------------------------------------------------------
 --  create table acl
 -- ----------------------------------------------------------

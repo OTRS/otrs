@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-08-06 13:25:06
+--  driver: oracle, generated: 2013-08-16 11:27:17
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
@@ -40,6 +40,10 @@ CREATE TABLE system_data (
 ALTER TABLE system_data ADD CONSTRAINT PK_system_data PRIMARY KEY (data_key);
 CREATE INDEX FK_system_data_change_by ON system_data (change_by);
 CREATE INDEX FK_system_data_create_by ON system_data (create_by);
+ALTER TABLE user_preferences ADD preferences_value_TEMP CLOB NULL;
+UPDATE user_preferences SET preferences_value_TEMP = preferences_value;
+ALTER TABLE user_preferences DROP COLUMN preferences_value;
+ALTER TABLE user_preferences RENAME COLUMN preferences_value_TEMP TO preferences_value;
 -- ----------------------------------------------------------
 --  create table acl
 -- ----------------------------------------------------------

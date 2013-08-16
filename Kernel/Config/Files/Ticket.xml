@@ -5463,6 +5463,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5484,6 +5509,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5505,6 +5555,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5526,6 +5601,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5669,6 +5769,19 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="OnlyValuesOnTicket" Required="1" Valid="1">
+        <Description Translatable="1">Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system's tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard::TicketFilters</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0050-CIC-CustomerUserList" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Framework</Group>
@@ -5706,6 +5819,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5727,6 +5865,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5748,6 +5911,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5769,6 +5957,31 @@ $QData{"Body"}
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="Created">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5978,6 +6191,22 @@ $QData{"Body"}
                 <Item Key="DataSelected">25</Item>
                 <Item Key="PrefKey">UserTicketOverviewSmallPageShown</Item>
                 <Item Key="Prio">8000</Item>
+                <Item Key="Active">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###TicketOverviewFilterSettings" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for .</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesColumnFilters</Item>
+                <Item Key="Column">Other Settings</Item>
+                <Item Key="Label" Translatable="1">Enabled filters.</Item>
+                <Item Key="Key" Translatable="1">Column ticket filters for Ticket Overviews type "Small".</Item>
+                <Item Key="PrefKey">UserFilterColumnsEnabled</Item>
+                <Item Key="Prio">8100</Item>
                 <Item Key="Active">0</Item>
             </Hash>
         </Setting>
@@ -6687,6 +6916,9 @@ $QData{"Body"}
                 </NavBar>
                 <Loader>
                     <CSS>Core.AgentTicketQueue.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -6808,6 +7040,12 @@ $QData{"Body"}
                 <Description>Locked Tickets</Description>
                 <Title>Locked Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <CSS>Core.AgentTicketQueue.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -6820,6 +7058,11 @@ $QData{"Body"}
                 <Description>Responsible Tickets</Description>
                 <Title>Responsible Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -6832,6 +7075,12 @@ $QData{"Body"}
                 <Description>Watched Tickets</Description>
                 <Title>Watched Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <CSS>Core.AgentTicketQueue.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -6867,6 +7116,11 @@ $QData{"Body"}
                     <AccessKey>v</AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
+                <Loader>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -6890,6 +7144,11 @@ $QData{"Body"}
                     <AccessKey>e</AccessKey>
                     <Prio>120</Prio>
                 </NavBar>
+                <Loader>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -9507,6 +9766,216 @@ Thanks for your help!
                 <Item Key="Create">Create</Item>
                 <Item Key="Forward">Forward</Item>
                 <Item Key="PhoneCall">Phone Call</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketOverviewFilters::ShownColumns###GeneralTicketData" Required="1" Valid="1">
+        <Description Translatable="1">General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>ShownColumns</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">0</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">0</Item>
+                <Item Key="CustomerName">0</Item>
+                <Item Key="CustomerUserID">0</Item>
+                <Item Key="EscalationResponseTime">0</Item>
+                <Item Key="EscalationSolutionTime">0</Item>
+                <Item Key="EscalationTime">0</Item>
+                <Item Key="EscalationUpdateTime">0</Item>
+                <Item Key="TicketNumber">1</Item>
+                <Item Key="Lock">0</Item>
+                <Item Key="Owner">0</Item>
+                <Item Key="PendingTime">0</Item>
+                <Item Key="Queue">0</Item>
+                <Item Key="Responsible">0</Item>
+                <Item Key="Priority">0</Item>
+                <Item Key="Service">0</Item>
+                <Item Key="State">0</Item>
+                <Item Key="SLA">0</Item>
+                <Item Key="Title">1</Item>
+                <Item Key="Type">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">1</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::Queue</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">1</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsibleView###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">1</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketWatchView###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">1</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketLockedView###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">1</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="CustomerID">1</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="State">1</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:25
+    # Last translation file sync: 2013-08-16 12:09:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -658,6 +658,8 @@ sub Data {
         'auto remove' => '',
         'auto reply' => '',
         'auto reply/new ticket' => '',
+        'Create' => 'बनाएँ',
+        'Answer' => '',
         'Ticket "%s" created!' => 'टिकट "%s" बना।',
         'Ticket Number' => 'टिकट संख्या',
         'Ticket Object' => 'टिकट वस्तु',
@@ -1601,9 +1603,10 @@ sub Data {
         'Delete this filter' => 'इस निस्पादक को हटाएँ',
         'Add PostMaster Filter' => 'डाकपाल निस्पादक जोड़ें',
         'Edit PostMaster Filter' => 'डाकपाल निस्पादक को संपादित करें',
-        'Filter name' => 'निस्पादक का नाम',
         'The name is required.' => '',
         'Filter Condition' => 'निस्पादक की शर्त',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => 'ईमेल शीर्षक निर्धारित करें',
@@ -1726,6 +1729,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1832,7 +1837,6 @@ sub Data {
         'Filter for Auto Responses' => 'स्वतप्रतिक्रियाओं के लिए निस्पादक',
         'Auto Responses' => 'स्वत प्रतिक्रियाएँ',
         'Change Auto Response Relations for Queue' => 'श्रेणी के लिए स्वतप्रतिक्रिया संबंधों को बदलॆ',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1895,7 +1899,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'इस तरह आप सीधे प्रमाणीकरण और फाइल प्रणाली में निजी कुंजी संपादित कर सकते हैं।',
         'Hash' => '',
-        'Create' => 'बनाएँ',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'इस प्रमाणपत्र को हटाएँ',
@@ -2122,6 +2125,8 @@ sub Data {
         'in' => 'में',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2155,6 +2160,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => 'सेवा समय',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2381,7 +2388,6 @@ sub Data {
         'Select all' => 'सभी का चयन करें',
         'No ticket data found.' => 'कोई टिकट आंकड़ा नहीं मिला',
         'First Response Time' => 'पहला प्रतिक्रिया समय',
-        'Service Time' => 'सेवा समय',
         'Update Time' => 'अद्यतन समय',
         'Solution Time' => 'समाधान समय',
         'Move ticket to a different queue' => 'एक अलग श्रेणी में टिकट को ले जाएँ',
@@ -2389,13 +2395,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'खोज विकल्प बदलें',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'टिकट प्रति पृष्ठ',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'में संवर्धित',
-        'Locked' => 'लॉकड',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2474,6 +2480,7 @@ sub Data {
         'Save filter settings as default' => 'तयशुदा रूप में निस्पादक की व्यवस्थाऐं सुरक्षित करें',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'लॉकड',
         'Linked Objects' => 'लिंक्ड वस्तु',
         'Article(s)' => 'अनुच्छेद',
         'Change Queue' => 'श्रेणी बदलें',
@@ -2973,6 +2980,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Company Status' => '',
         'Company Tickets' => 'कंपनी के टिकट',
@@ -3136,6 +3146,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'यदि प्रतिनिधि अंतरफलक में रचना संदेश की वर्तनी की जाँच की जानी है तो परिभाषित करता है।',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             'यदि समय लेखांकन प्रतिनिधि अंतरफलक में अनिवार्य है तो परिभाषित करता है।',
@@ -3726,6 +3738,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'ईमेल पते',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF उत्पादन सक्षम बनाता है। CPAN मॉड्यूल PDF: API2 की आवश्यकता है,यदि स्थापित नहीं है,PDF उत्पादन निष्क्रिय कर दिया जाएगा।',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3801,6 +3814,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'ग्राहक अंतरफलक के लिए दृश्यपटल मॉड्यूल पंजीकरण।',
         'Frontend theme' => 'दृश्यपटल थीम',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'सामान्य प्रतिनिधि',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4069,6 +4084,7 @@ sub Data {
         'Overview of all open Tickets.' => 'सभी खुले टिकटों का ओवरव्यू',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'PGP कुंजी अपलोड',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             'प्रतिनिधि अंतरफलक वरीयता दृश्य में CreateNextMask ऑब्जेक्ट के लिए मापदंड।',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4193,6 +4209,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             'अनुच्छेदो के संलग्नक सुरक्षित करता है। "DB" आंकड़ाकोष में सभी आंकड़ों को संग्रहीत करता है(बड़े संलग्नक संग्रहीत करने के लिए अनुशंसित नहीं)। "FS" फाइल प्रणाली पर संग्रहीत करता है;यह तेज है, लेकिन वेबसर्वर OTRS उपयोगकर्ता के अधीन चलाना चाहिए। आप मॉड्यूल बदल सकते यहां तक कि कोई प्रणाली पहले से ही उत्पादन में है बिना आंकड़ो को हानि पहुँचायें।',
         'Search Customer' => 'ग्राहक खोजें',
+        'Search User' => '',
         'Search backend default router.' => 'बैकेंड तयशुदा अनुर्मागक खोजें।',
         'Search backend router.' => 'बैकेंड अनुर्मागक खोजें।',
         'Select your frontend Theme.' => 'आपकी दृश्यपटल थीम चुनें।',
@@ -4748,10 +4765,12 @@ sub Data {
         'Edit Response' => 'प्रतिक्रिया संपादित करें',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में ग्राहक खोज की स्वत:पूर्ण सुविधा को सक्षम या अक्षम बनाता है।',
+        'Escalation in' => 'में संवर्धित',
         'Experimental "Slim" skin which tries to save screen space for power users.' =>
             'प्रयोगात्मक सतही "स्लिम" जो सत्ता उपयोगकर्ताओं के लिए स्क्रीन स्थान बचाने की कोशिश करता है।',
         'False' => 'ग़लत',
         'Filter for Responses' => 'प्रतिक्रियाओं के लिए निस्पादक',
+        'Filter name' => 'निस्पादक का नाम',
         'For more info see:' => 'अधिक जानकारी के लिए देखें :',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'यदि आप अपने आंकड़ाकोष के लिए एक रूट कूटशब्द निर्धारित किया है,यहाँ प्रविष्ट किया जाना चाहिए। यदि नहीं,इस क्षेत्र को खाली छोडें। सुरक्षा कारणों से हम एक रूट कूटशब्द निर्धारित करने की अनुशंसा करते हैं। अधिक जानकारी के लिए कृपया अपने आंकड़ाकोष दस्तावेजों को देखें।',

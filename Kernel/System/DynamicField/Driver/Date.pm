@@ -63,6 +63,7 @@ sub new {
         'IsACLReducible'               => 0,
         'IsNotificationEventCondition' => 0,
         'IsSortable'                   => 1,
+        'IsFiltrable'                  => 0,
         'IsStatsCondition'             => 0,
         'IsCustomerInterfaceCapable'   => 1,
     };
