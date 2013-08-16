@@ -1629,6 +1629,8 @@ sub FilterContent {
     return $ColumnFilterJSON;
 }
 
+=over
+
 =item _ColumnFilterJSON()
 
     creates a JSON select filter for column header

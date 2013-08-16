@@ -1477,6 +1477,8 @@ sub _GetColumnValues {
     return \%ColumnFilterValues;
 }
 
+=over
+
 =item _ColumnFilterJSON()
 
     creates a JSON select filter for column header
