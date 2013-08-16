@@ -331,7 +331,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // If Title is defined, add dialog title
         if (Params.Title) {
-            $Dialog.find('.Header').append('<h1>' + Params.Title + '</h1>');
+            $Dialog.find('div.Header').append('<h1>' + Params.Title + '</h1>');
         }
 
         // Add Dialog to page

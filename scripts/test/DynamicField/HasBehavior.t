@@ -184,6 +184,7 @@ my @Tests = (
             'IsACLReducible'               => 0,
             'IsNotificationEventCondition' => 1,
             'IsSortable'                   => 1,
+            'IsFiltrable'                  => 0,
             'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -197,6 +198,7 @@ my @Tests = (
             'IsACLReducible'               => 0,
             'IsNotificationEventCondition' => 1,
             'IsSortable'                   => 0,
+            'IsFiltrable'                  => 0,
             'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -210,6 +212,7 @@ my @Tests = (
             'IsACLReducible'               => 0,
             'IsNotificationEventCondition' => 1,
             'IsSortable'                   => 1,
+            'IsFiltrable'                  => 1,
             'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -223,6 +226,7 @@ my @Tests = (
             'IsACLReducible'               => 1,
             'IsNotificationEventCondition' => 1,
             'IsSortable'                   => 1,
+            'IsFiltrable'                  => 1,
             'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -236,6 +240,7 @@ my @Tests = (
             'IsACLReducible'               => 1,
             'IsNotificationEventCondition' => 1,
             'IsSortable'                   => 0,
+            'IsFiltrable'                  => 0,
             'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -249,6 +254,7 @@ my @Tests = (
             'IsACLReducible'               => 0,
             'IsNotificationEventCondition' => 0,
             'IsSortable'                   => 1,
+            'IsFiltrable'                  => 0,
             'IsStatsCondition'             => 0,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -262,6 +268,7 @@ my @Tests = (
             'IsACLReducible'               => 0,
             'IsNotificationEventCondition' => 0,
             'IsSortable'                   => 1,
+            'IsFiltrable'                  => 0,
             'IsStatsCondition'             => 0,
             'IsCustomerInterfaceCapable'   => 1,
         },
@@ -275,8 +282,8 @@ for my $Test (@Tests) {
     BEHAVIOR:
     for my $Behavior (
         qw(
-        IsACLReducible IsNotificationEventCondition IsSortable IsStatsCondition NotExisting
-        IsCustomerInterfaceCapable
+            IsACLReducible IsNotificationEventCondition IsSortable IsFiltrable IsStatsCondition
+            IsCustomerInterfaceCapable NotExisting
         )
         )
     {

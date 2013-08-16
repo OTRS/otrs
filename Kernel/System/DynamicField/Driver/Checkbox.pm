@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
+use Kernel::System::Ticket::ColumnFilter;
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
 
@@ -47,7 +48,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
+    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)) {
         die "Got no $Needed!" if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
@@ -55,12 +56,14 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+    $Self->{ColumnFilterObject}      = Kernel::System::Ticket::ColumnFilter->new( %{$Self} );
 
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
         'IsNotificationEventCondition' => 1,
         'IsSortable'                   => 1,
+        'IsFiltrable'                  => 1,
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
     };
@@ -743,6 +746,40 @@ sub ValueLookup {
     }
 
     return $Value;
+}
+
+sub ColumnFilterValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # set PossibleValues
+    my $SelectionData = {
+        0 => 'Unchecked',
+        1 => 'Checked',
+    };
+
+    # get historical values from database
+    my $ColumnFilterValues = $Self->{ColumnFilterObject}->DynamicFieldFilterValuesGet(
+        TicketIDs => $Param{TicketIDs},
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Integer',
+    );
+
+    # get the display value if still exist in dynamic field configuration
+    for my $Key ( sort keys %{$ColumnFilterValues} ) {
+        if ( $SelectionData->{$Key} ) {
+            $ColumnFilterValues->{$Key} = $SelectionData->{$Key}
+        }
+    }
+
+    # translate the value
+    for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
+
+        my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
+        $ColumnFilterValues->{$ValueKey}
+            = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
+    }
+
+    return $ColumnFilterValues;
 }
 
 1;

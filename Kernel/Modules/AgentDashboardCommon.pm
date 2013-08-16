@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::System::Cache;
 use Kernel::System::CustomerCompany;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -57,6 +59,10 @@ sub new {
             );
         }
     }
+
+    # create extra needed objects
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     return $Self;
 }
@@ -252,7 +258,7 @@ sub Run {
         my $Key  = $UserSettingsKey . 'Position';
         my $Data = '';
         for my $Backend (@Backends) {
-            $Backend =~ s/^Dashboard(.+?)-box$/$1/g;
+            $Backend =~ s{ \A Dashboard (.+?) -box \z }{$1}gxms;
             $Data .= $Backend . ';';
         }
 
@@ -284,8 +290,78 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Element' ) {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        $Self->{LogObject}->Dumper($Config);
-        my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+
+        # get the column filters from the web request
+        my %ColumnFilter;
+        my %GetColumnFilter;
+        my %GetColumnFilterSelect;
+
+        COLUMNNAME:
+        for my $ColumnName (
+            qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
+            )
+        {
+            my $FilterValue
+                = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
+                || '';
+            next COLUMNNAME if $FilterValue eq '';
+
+            if ( $ColumnName eq 'CustomerID' ) {
+                push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
+            }
+            elsif ( $ColumnName eq 'CustomerUserID' ) {
+                push @{ $ColumnFilter{CustomerUserLogin} }, $FilterValue;
+            }
+            else {
+                push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
+            }
+
+            $GetColumnFilter{ $ColumnName . $Name } = $FilterValue;
+            $GetColumnFilterSelect{$ColumnName} = $FilterValue;
+        }
+
+        # get all dynamic fields
+        $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            Valid      => 1,
+            ObjectType => ['Ticket'],
+        );
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+            my $FilterValue
+                = $Self->{ParamObject}->GetParam(
+                Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name} . $Name
+                );
+
+            next DYNAMICFIELD if !defined $FilterValue;
+            next DYNAMICFIELD if $FilterValue eq '';
+
+            $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
+                Equals => $FilterValue,
+            };
+            $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} . $Name }
+                = $FilterValue;
+            $GetColumnFilterSelect{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $FilterValue;
+        }
+
+        my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
+        my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+
+        my %Element = $Self->_Element(
+            Name                  => $Name,
+            Configs               => $Config,
+            AJAX                  => 1,
+            SortBy                => $SortBy,
+            OrderBy               => $OrderBy,
+            ColumnFilter          => \%ColumnFilter,
+            GetColumnFilter       => \%GetColumnFilter,
+            GetColumnFilterSelect => \%GetColumnFilterSelect,
+        );
+
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -298,6 +374,38 @@ sub Run {
             Type        => 'inline',
             NoCache     => 1,
         );
+    }
+
+    # deliver element
+    elsif ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
+
+        my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' );
+        my ($Name) = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
+        my $Column = $ElementChanged;
+        $Column =~ s{ \A ColumnFilter }{}gxms;
+        $Column =~ s{ $Name }{}gxms;
+
+        my $FilterContent = $Self->_Element(
+            Name              => $Name,
+            FilterContentOnly => 1,
+            FilterColumn      => $Column,
+            ElementChanged    => $ElementChanged,
+            Configs           => $Config,
+        );
+
+        if ( !$FilterContent ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't get filter content data of $Name!",
+            );
+        }
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $FilterContent,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+
     }
 
     # store last queue screen
@@ -402,7 +510,7 @@ sub Run {
 
         # NameForm (to support IE, is not working with "-" in form names)
         my $NameForm = $Name;
-        $NameForm =~ s/-//g;
+        $NameForm =~ s{-}{}g;
 
         # rendering
         $Self->{LayoutObject}->Block(
@@ -427,6 +535,12 @@ sub Run {
                 },
             );
             for my $Param ( @{ $Element{Preferences} } ) {
+
+                # special parameters are added, which do not have a dtl block,
+                # because the displayed fields are added with the output filter,
+                # so there is no need to call any block here
+                next if !$Param->{Block};
+
                 $Self->{LayoutObject}->Block(
                     Name => $Element{Config}->{Block} . 'PreferencesItem',
                     Data => {
@@ -468,6 +582,12 @@ sub Run {
         }
     }
 
+    # get output back
+    my $Refresh = '';
+    if ( $Self->{UserRefreshTime} ) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+    }
+
     # build main menu
     my $MainMenuConfig = $Self->{ConfigObject}->Get($MainMenuConfigKey);
     if ( IsHashRefWithData($MainMenuConfig) ) {
@@ -485,7 +605,7 @@ sub Run {
         }
     }
 
-    my $Output = $Self->{LayoutObject}->Header();
+    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => $Self->{Action},
@@ -498,9 +618,14 @@ sub Run {
 sub _Element {
     my ( $Self, %Param ) = @_;
 
-    my $Name     = $Param{Name};
-    my $Configs  = $Param{Configs};
-    my $Backends = $Param{Backends};
+    my $Name                  = $Param{Name};
+    my $Configs               = $Param{Configs};
+    my $Backends              = $Param{Backends};
+    my $SortBy                = $Param{SortBy};
+    my $OrderBy               = $Param{OrderBy};
+    my $ColumnFilter          = $Param{ColumnFilter};
+    my $GetColumnFilter       = $Param{GetColumnFilter};
+    my $GetColumnFilterSelect = $Param{GetColumnFilterSelect};
 
     # check permissions
     if ( $Configs->{$Name}->{Group} ) {
@@ -522,11 +647,17 @@ sub _Element {
     return if !$Self->{MainObject}->Require($Module);
     my $Object = $Module->new(
         %{$Self},
-        DBObject     => $Self->{SlaveDBObject},
-        TicketObject => $Self->{SlaveTicketObject},
-        Config       => $Configs->{$Name},
-        Name         => $Name,
-        CustomerID   => $Self->{CustomerID} || '',
+        DBObject              => $Self->{SlaveDBObject},
+        TicketObject          => $Self->{SlaveTicketObject},
+        Config                => $Configs->{$Name},
+        Name                  => $Name,
+        CustomerID            => $Self->{CustomerID} || '',
+        SortBy                => $SortBy,
+        OrderBy               => $OrderBy,
+        ColumnFilter          => $ColumnFilter,
+        GetColumnFilter       => $GetColumnFilter,
+        GetColumnFilterSelect => $GetColumnFilterSelect,
+
     );
 
     # get module config
@@ -535,6 +666,16 @@ sub _Element {
     # get module preferences
     my @Preferences = $Object->Preferences();
     return @Preferences if $Param{PreferencesOnly};
+
+    if ( $Param{FilterContentOnly} ) {
+        my $FilterContent = $Object->FilterContent(
+            FilterColumn => $Param{FilterColumn},
+            Config       => $Configs->{$Name},
+            Name         => $Name,
+            CustomerID   => $Self->{CustomerID} || '',
+        );
+        return $FilterContent;
+    }
 
     # add backend to settings selection
     if ($Backends) {
@@ -571,7 +712,7 @@ sub _Element {
 
     # execute backends
     my $CacheUsed = 1;
-    if ( !defined $Content ) {
+    if ( !defined $Content || $SortBy ) {
         $CacheUsed = 0;
         $Content   = $Object->Run(
             AJAX => $Param{AJAX},

@@ -13,6 +13,13 @@
         <a href="#">$Text{"$Data{"Name"}"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowBulk -->
+
+<!-- dtl:block:DocumentActionRowLastColumnFilter -->
+    <li class="">
+        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Reset overview"}</a>
+    </li>
+<!-- dtl:block:DocumentActionRowLastColumnFilter -->
+
 <!-- dtl:block:DocumentActionRowItem -->
     <li class="$QData{"CSS"}"><a href="#">$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:DocumentActionRowItem -->
@@ -34,6 +41,7 @@
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
         <input type="hidden" name="Action" value="AgentTicketBulk"/>
         <input type="hidden" name="TicketID" value=""/>
+        <input type="hidden" name="LastColumnFilter" id="LastColumnFilter" value="$QData{"LastColumnFilter"}"/>
 <!-- dtl:block:OverviewTable-->
         <table class="TableSmall NoCellspacing">
 <!-- dtl:block:TableHeader -->
@@ -54,63 +62,117 @@
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
                     </th>
 <!-- dtl:block:OverviewNavBarPageFlag -->
+
+<!-- dtl:block:OverviewNavBarPageTicketHeader -->
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
                     <th class="TicketNumber $QData{"CSS"}">
                         <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$LQData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
                     </th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
-<!-- dtl:block:OverviewNavBarPageAge -->
-                    <th class="Age $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Age;OrderBy=$LQData{"OrderBy"}">$Text{"Age"}</a>
+<!-- dtl:block:OverviewNavBarPageColumn -->
+                    <th class="OverviewHeader $QData{"HeaderColumnName"} $QData{"CSS"}">
+
+<!-- dtl:block:OverviewNavBarPageColumnFilter -->
+                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                $Data{"ColumnFilterStrg"}
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch -->
+                                <input type="text" class="CustomerUserAutoComplete" autocomplete="off" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('CustomerUserAutocomplete.QueryDelay', "$QData{"queryDelay"}");
+Core.Config.Set('CustomerUserAutocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+Core.Config.Set('CustomerUserAutocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete") );
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch -->
+
+                            </div>
+                        </div>
+                        <span class="Gray">$QData{"ColumnNameTranslated"}</span>
+<!-- dtl:block:OverviewNavBarPageColumnFilter -->
+
+<!-- dtl:block:OverviewNavBarPageColumnFilterLink -->
+                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                $Data{"ColumnFilterStrg"}
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch -->
+                                <input type="text" class="CustomerIDAutoComplete" autocomplete="off" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('CustomerIDAutocomplete.QueryDelay', "$QData{"queryDelay"}");
+Core.Config.Set('CustomerIDAutocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+Core.Config.Set('CustomerIDAutocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+Core.Agent.TableFilters.InitCustomerIDAutocomplete( $(".CustomerIDAutoComplete") );
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch -->
+                                <input type="text" class="UserAutoComplete" autocomplete="off" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('UserAutocomplete.QueryDelay', "$QData{"queryDelay"}");
+Core.Config.Set('UserAutocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+Core.Config.Set('UserAutocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch -->
+                            </div>
+                        </div>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"ColumnName"};OrderBy=$LQData{"OrderBy"}">$QData{"ColumnNameTranslated"}</a>
+<!-- dtl:block:OverviewNavBarPageColumnFilterLink -->
+
+<!-- dtl:block:OverviewNavBarPageColumnLink -->
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"ColumnName"};OrderBy=$LQData{"OrderBy"}">$QData{"ColumnNameTranslated"}</a>
+<!-- dtl:block:OverviewNavBarPageColumnLink -->
+
+<!-- dtl:block:OverviewNavBarPageColumnEmpty -->
+                        <span class="Gray">$QData{"ColumnNameTranslated"}</span>
+<!-- dtl:block:OverviewNavBarPageColumnEmpty -->
+
                     </th>
-<!-- dtl:block:OverviewNavBarPageAge -->
-<!-- dtl:block:OverviewNavBarPageEscalationTime -->
-                    <th class="EscalationTime $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=EscalationTime;OrderBy=$LQData{"OrderBy"}">$Text{"Escalation in"}</a>
-                    </th>
-<!-- dtl:block:OverviewNavBarPageEscalationTime -->
-<!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
-                    <th class="LastCustomerSubject"><span>$Text{"From"} / $Text{"Subject"}</span></th>
-<!-- dtl:block:OverviewNavBarPageLastCustomerSubject -->
-<!-- dtl:block:OverviewNavBarPageTitle -->
-                    <th class="Title"><span>$Text{"From"} / $Text{"Title"}</span></th>
-<!-- dtl:block:OverviewNavBarPageTitle -->
-<!-- dtl:block:OverviewNavBarPageState -->
-                    <th class="State $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=State;OrderBy=$LQData{"OrderBy"}">$Text{"State"}</a>
-                    </th>
-<!-- dtl:block:OverviewNavBarPageState -->
-<!-- dtl:block:OverviewNavBarPageLock -->
-                    <th class="Lock $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Lock;OrderBy=$LQData{"OrderBy"}">$Text{"Locked"}</a>
-                    </th>
-<!-- dtl:block:OverviewNavBarPageLock -->
-<!-- dtl:block:OverviewNavBarPageQueue -->
-                    <th class="Queue $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Queue;OrderBy=$LQData{"OrderBy"}">$Text{"Queue"}</a>
-                    </th>
-<!-- dtl:block:OverviewNavBarPageQueue -->
-<!-- dtl:block:OverviewNavBarPageOwner -->
-                    <th class="Owner $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=Owner;OrderBy=$LQData{"OrderBy"}">$Text{"Owner"}</a>
-                    </th>
-<!-- dtl:block:OverviewNavBarPageOwner -->
-<!-- dtl:block:OverviewNavBarPageCustomerID -->
-                    <th class="CustomerID Last $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=CustomerID;OrderBy=$LQData{"OrderBy"}">$Text{"CustomerID"}</a>
-                    </th>
-<!-- dtl:block:OverviewNavBarPageCustomerID -->
+<!-- dtl:block:OverviewNavBarPageColumn -->
+<!-- dtl:block:OverviewNavBarPageTicketHeader -->
 
 <!-- dtl:block:OverviewNavBarPageDynamicField -->
-                    <th class="DynamicField Last $QData{"CSS"}">
+                    <th class="OverviewHeader $QData{"HeaderColumnName"} DynamicField Last $QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
                         <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
 <!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
 <!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
-                        <span>$Text{"$Data{"Label"}"}</span>
+                        <span class="Gray">$Text{"$Data{"Label"}"}</span>
 <!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
+
+<!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableSortable -->
+                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                $Data{"ColumnFilterStrg"}
+                            </div>
+                        </div>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$QData{"Label"}</a>
+<!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableSortable -->
+
+<!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableNotSortable -->
+                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                $Data{"ColumnFilterStrg"}
+                            </div>
+                        </div>
+                        <span class="Gray">$QData{"Label"}</span>
+<!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableNotSortable -->
+
                     </th>
 <!-- dtl:block:OverviewNavBarPageDynamicField -->
+
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
@@ -123,6 +185,15 @@
 #                        <span>$Text{"$Data{"Label"}"}</span>
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
 #                    </th>
+
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableSortable -->
+#                        $Data{"ColumnFilterStrg"}
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}"></a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableSortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable -->
+#                        $Data{"ColumnFilterStrg"}
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable -->
+# ---
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field1 -->
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
 #                    <th class="DynamicField Last $QData{"CSS"}">
@@ -133,8 +204,100 @@
 #                        <span>$Text{"$Data{"Label"}"}</span>
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
 #                    </th>
-#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
 
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function() {
+
+    var $TriggerObj = $(this),
+        FilterName;
+
+    if ($TriggerObj.hasClass('Active')) {
+
+        $TriggerObj
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeOut('fast', function() {
+                $TriggerObj.removeClass('Active');
+            });
+    }
+    else {
+
+        // slide up all open settings widgets
+        $('.ColumnSettingsTrigger')
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeOut('fast', function() {
+                $(this).parent().prev('.ColumnSettingsTrigger').removeClass('Active');
+            });
+
+        // show THIS settings widget
+        $TriggerObj
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeIn('fast', function() {
+
+                $TriggerObj.addClass('Active');
+
+                // refresh filter dropdown
+                FilterName = $TriggerObj
+                    .next('.ColumnSettingsContainer')
+                    .find('select')
+                    .attr('name');
+
+                if (
+                        $TriggerObj.closest('th').hasClass('CustomerID')
+                        || $TriggerObj.closest('th').hasClass('CustomerUserID')
+                        || $TriggerObj.closest('th').hasClass('Responsible')
+                        || $TriggerObj.closest('th').hasClass('Owner')
+                    ) {
+
+                    if (!$TriggerObj.parent().find('.SelectedValue').length) {
+                        Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
+                            var AutoCompleteValue = $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .val(),
+                                AutoCompleteText  = $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .find('option:selected')
+                                    .text();
+
+                            if (AutoCompleteValue !== 'DeleteFilter') {
+
+                                $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .after('<span class="SelectedValue Hidden"><a href="#">x</a>' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span>')
+                                    .parent()
+                                    .find('.SelectedValue')
+                                    .find('a')
+                                    .off()
+                                    .on('click', function() {
+                                        $(this)
+                                            .closest('.ColumnSettingsContainer')
+                                            .find('select')
+                                            .val('DeleteFilter')
+                                            .trigger('change');
+
+                                        return false;
+                                    });
+                            }
+                        });
+                    }
+                }
+                else {
+                    Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                }
+        });
+    }
+
+    return false;
+});
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
                 </tr>
             </thead>
 <!-- dtl:block:TableHeader-->
@@ -156,45 +319,65 @@
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
                     </td>
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
+
+<!-- dtl:block:RecordTicketData -->
+<!-- dtl:block:RecordTicketNumber -->
                     <td>
                         <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}" class="MasterActionLink">$Data{"TicketNumber"}</a>
                     </td>
-                    <td>
-                        $QData{"Age"}
-                    </td>
+<!-- dtl:block:RecordTicketNumber -->
 <!-- dtl:block:RecordEscalationTime -->
                     <td>
                         <div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}" class="$QData{"EscalationClass"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
                     </td>
 <!-- dtl:block:RecordEscalationTime -->
+<!-- dtl:block:RecordOwner -->
+                    <td>
+                        <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
+                    </td>
+<!-- dtl:block:RecordOwner -->
+<!-- dtl:block:RecordCustomerID -->
+                    <td>
+                        <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">
+                            <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
+                        </a>
+                        <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                    </td>
+<!-- dtl:block:RecordCustomerID -->
+<!-- dtl:block:RecordLastCustomerSubject -->
                     <td>
                         <div title="$QData{"From"}">$QData{"FromRealname","30"}</div>
-<!-- dtl:block:RecordLastCustomerSubject -->
                         <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
+                    </td>
 <!-- dtl:block:RecordLastCustomerSubject -->
 <!-- dtl:block:RecordTicketTitle -->
+                    <td>
+                        <div title="$QData{"From"}">$QData{"FromRealname","30"}</div>
                         <div title="$QData{"Title"}">$QData{"Title","30"}</div>
+                    </td>
 <!-- dtl:block:RecordTicketTitle -->
-                    </td>
-                    <td width="8%">
-                        <div title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</div>
-                    </td>
+<!-- dtl:block:RecordTicketColumn -->
                     <td>
-                        <div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}"}</div>
+                        <div title="$QData{"GenericValue"}">$QData{"GenericValue","30"}</div>
                     </td>
-                    <td width="10%">
-                        <div title="$QData{"Queue"}">$QData{"Queue","30"}</div>
-                    </td>
+<!-- dtl:block:RecordTicketColumn -->
+<!-- dtl:block:RecordTicketColumnTranslatable -->
                     <td>
-                        <div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">
-                            $QData{"UserFullname"}</div>
-                        </td>
-                        <td>
-                            <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">
-                                <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
-                            </a>
-                            <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
-                        </td>
+                        <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue"}","30"}</div>
+                    </td>
+<!-- dtl:block:RecordTicketColumnTranslatable -->
+<!-- dtl:block:RecordTicketColumnTime -->
+                    <td>
+                        <div title="$TimeShort{"$QData{"GenericValue"}"}">$TimeShort{"$Data{"GenericValue"}"}</div>
+                    </td>
+<!-- dtl:block:RecordTicketColumnTime -->
+<!-- dtl:block:RecordTicketColumnEscalation -->
+                    <td>
+                        <div title="$QData{"GenericValue"}" class="$QData{"Class"}">$QData{"GenericValue"}</div>
+                    </td>
+<!-- dtl:block:RecordTicketColumnEscalation -->
+<!-- dtl:block:RecordTicketData -->
+
 <!-- dtl:block:RecordDynamicField -->
                         <td>
                             <div title="$QData{"Title"}">
@@ -299,6 +482,30 @@ $('a.AsPopup').bind('click', function (Event) {
     Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
     return false;
 });
+
+$('.ColumnFilter').bind('change', function (Event) {
+    var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx;
+
+    // define variables
+    URL = Core.Config.Get('Baselink') + 'Action=' + '$Env{"Action"}' + ';$Data{"LinkPage"}';
+    ColumnFilter = $(this)[0].name;
+    NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
+    MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
+
+    // check for already set parameter and replace
+    if (URL.match(MyRegEx)) {
+        URL = URL.replace(MyRegEx, NewColumnFilterStrg);
+    }
+
+    // otherwise add the new column filter
+    else {
+        URL = URL + NewColumnFilterStrg;
+    }
+
+    // redirect
+    window.location.href =  URL
+});
+
 $('a.DynamicFieldLink').bind('click', function (Event) {
     Core.UI.Popup.OpenPopup($(this).attr('href'), 'DynamicFieldLink');
     return false;

@@ -12,6 +12,8 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use vars qw(@ISA);
 
 =head1 NAME
@@ -772,6 +774,13 @@ sub TicketListShow {
     my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
     return if !$Object;
 
+    # retireve filter values
+    if ( $Param{FilterContentOnly} ) {
+        return $Object->FilterContent(
+            %Param,
+        );
+    }
+
     # run action row backend module
     $Param{ActionRow} = $Object->ActionRow(
         %Param,
@@ -819,7 +828,7 @@ sub TicketListShow {
     );
 
     # build shown ticket per page
-    $Param{RequestedURL}    = "Action=$Self->{Action}";
+    $Param{RequestedURL}    = $Param{RequestedURL} || "Action=$Self->{Action}";
     $Param{Group}           = $Group;
     $Param{PreferencesKey}  = $PageShownPreferencesKey;
     $Param{PageShownString} = $Self->BuildSelection(
@@ -946,6 +955,60 @@ sub TicketListShow {
                     %Param,
                 },
             );
+
+            # show column filter preferences
+            if ( $View eq 'Small' ) {
+
+                # set preferences keys
+                my $PrefKeyColumns = 'UserFilterColumnsEnabled' . '-' . $Env->{Action};
+
+                # create extra needed objects
+                my $JSONObject = Kernel::System::JSON->new( %{$Self} );
+
+                # configure columns
+                my @ColumnsEnabled = @{ $Object->{ColumnsEnabled} };
+                my @ColumnsAvailable;
+
+                for my $ColumnName ( sort { $a cmp $b } @{ $Object->{ColumnsAvailable} } ) {
+                    if ( !grep { $_ eq $ColumnName } @ColumnsEnabled ) {
+                        push @ColumnsAvailable, $ColumnName;
+                    }
+                }
+
+                my %Columns;
+                for my $ColumnName ( sort @ColumnsAvailable ) {
+                    $Columns{Columns}->{$ColumnName}
+                        = ( grep { $ColumnName eq $_ } @ColumnsEnabled ) ? 1 : 0;
+                }
+
+                $Env->{LayoutObject}->Block(
+                    Name => 'FilterColumnSettings',
+                    Data => {
+                        Columns          => $JSONObject->Encode( Data => \%Columns ),
+                        ColumnsEnabled   => $JSONObject->Encode( Data => \@ColumnsEnabled ),
+                        ColumnsAvailable => $JSONObject->Encode( Data => \@ColumnsAvailable ),
+                        NamePref         => $PrefKeyColumns,
+                        Desc             => 'Shown Columns',
+                        Name             => $Env->{Action},
+                        View             => $View,
+                        GroupName        => 'TicketOverviewFilterSettings',
+                        %Param,
+                    },
+                );
+
+                # check if there was stored filters, and print a link to delete them
+                if ( IsHashRefWithData( $Object->{StoredFilters} ) ) {
+                    $Env->{LayoutObject}->Block(
+                        Name => 'DocumentActionRowRemoveColumnFilters',
+                        Data => {
+                            CSS => "ContextSettings RemoveFilters",
+                            %Param,
+                        },
+                    );
+                }
+
+            }    # end show column filters preferences
+
         }
     }
 
