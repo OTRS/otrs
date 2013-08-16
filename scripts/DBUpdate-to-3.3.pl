@@ -394,6 +394,9 @@ sub _UninstallMergedFeatureAddOns {
         OTRSEventBasedTicketActions
         OTRSTicketAclEditor
         OTRSCustomerProcessSelection
+        OTRSGenericStandardTemplates
+        OTRSExtendedDynamicDateFieldSearch
+        OTRSDashboardTicketOverviewFilters
         )
         )
     {
