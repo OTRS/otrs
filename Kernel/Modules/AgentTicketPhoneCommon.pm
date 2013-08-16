@@ -1012,7 +1012,7 @@ sub _GetStandardTemplates {
     my $QueueID = $Param{QueueID} || '';
     if ( !$Param{QueueID} && $Param{TicketID} ) {
 
-        # get QueueId from the ticket
+        # get QueueID from the ticket
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID      => $Param{TicketID},
             DynamicFields => 0,
