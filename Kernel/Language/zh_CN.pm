@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:49
+    # Last translation file sync: 2013-08-16 12:10:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -661,6 +661,8 @@ sub Data {
         'auto remove' => '',
         'auto reply' => '',
         'auto reply/new ticket' => '',
+        'Create' => '创建',
+        'Answer' => '',
         'Ticket "%s" created!' => '有"%s"个票单创建!',
         'Ticket Number' => '票单编号',
         'Ticket Object' => '票单对象',
@@ -1604,9 +1606,10 @@ sub Data {
         'Delete this filter' => '删除此过滤器',
         'Add PostMaster Filter' => '新增邮件过滤器',
         'Edit PostMaster Filter' => '修改邮件过滤器',
-        'Filter name' => '过滤器名称',
         'The name is required.' => '过滤器名称是必输项。',
         'Filter Condition' => '过滤条件',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '该栏位需使用有效的正则表达式或文字。',
         'Set Email Headers' => '设置邮件头',
@@ -1729,6 +1732,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1835,7 +1840,6 @@ sub Data {
         'Filter for Auto Responses' => '定位自动回复',
         'Auto Responses' => '自动回复功能',
         'Change Auto Response Relations for Queue' => '改变该队列的自动回复',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1898,7 +1902,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             '该功能可用于直接编辑证书和私匙。',
         'Hash' => 'Hash',
-        'Create' => '创建',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '删除证书',
@@ -2125,6 +2128,8 @@ sub Data {
         'in' => '之内',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2158,6 +2163,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => '服务时间',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2384,7 +2391,6 @@ sub Data {
         'Select all' => '选择全部',
         'No ticket data found.' => '没有找到票单数据。',
         'First Response Time' => '首次报告时间',
-        'Service Time' => '服务时间',
         'Update Time' => '更新时间',
         'Solution Time' => '解决时间',
         'Move ticket to a different queue' => '移动票单到不同的队列',
@@ -2392,13 +2398,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => '修改搜索选项',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => '票单/页',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => '限时',
-        'Locked' => '锁定状态',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2477,6 +2483,7 @@ sub Data {
         'Save filter settings as default' => '保存过滤设置为缺省值',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => '锁定状态',
         'Linked Objects' => '已连接的对象',
         'Article(s)' => '文章',
         'Change Queue' => '改变队列',
@@ -2976,6 +2983,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => '',
@@ -3139,6 +3149,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3729,6 +3741,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Email 地址',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3804,6 +3817,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4072,6 +4087,7 @@ sub Data {
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4196,6 +4212,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => '搜索客户',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => '界面主题.',
@@ -4736,8 +4753,10 @@ sub Data {
         'DB host' => '数据库服务器',
         'Database-User' => '数据库用户名',
         'Edit Response' => '修改回复',
+        'Escalation in' => '限时',
         'False' => '出错',
         'Filter for Responses' => '快速定位',
+        'Filter name' => '过滤器名称',
         'For more info see:' => '更多信息请看',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:26
+    # Last translation file sync: 2013-08-16 12:09:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -660,6 +660,8 @@ sub Data {
         'auto remove' => '',
         'auto reply' => '',
         'auto reply/new ticket' => '',
+        'Create' => 'Otvori',
+        'Answer' => '',
         'Ticket "%s" created!' => 'kartica "%s" kreirana!',
         'Ticket Number' => 'Broj kartice',
         'Ticket Object' => 'objekt kartice',
@@ -1603,9 +1605,10 @@ sub Data {
         'Delete this filter' => 'Obriši ovaj filtar',
         'Add PostMaster Filter' => 'Dodaj "PostMaster" filtar',
         'Edit PostMaster Filter' => 'Uredi "PostMaster" filtar',
-        'Filter name' => 'Naziv filtra',
         'The name is required.' => '',
         'Filter Condition' => 'Uvjet filtriranja',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => 'Postavi zaglavlja E-pošte',
@@ -1728,6 +1731,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1834,7 +1839,6 @@ sub Data {
         'Filter for Auto Responses' => 'Filtar za automatske odgovore',
         'Auto Responses' => 'Automatski odgovori',
         'Change Auto Response Relations for Queue' => 'Promijeni veze sa automatskim odgovorima za rep',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1897,7 +1901,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Na ovaj način možete izravno urediti vjerodajnice i privatne ključeve u sustavu datoteka.',
         'Hash' => 'Hash',
-        'Create' => 'Otvori',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'Obriši ovu vjerodajnicu',
@@ -2124,6 +2127,8 @@ sub Data {
         'in' => 'u',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2157,6 +2162,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => 'Vrijeme usuživanja',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2383,7 +2390,6 @@ sub Data {
         'Select all' => 'Izaberi sve',
         'No ticket data found.' => 'Nisu nađeni podaci o kartici',
         'First Response Time' => 'Vrijeme prvog odgovora',
-        'Service Time' => 'Vrijeme usuživanja',
         'Update Time' => 'Vrijeme ažuriranja',
         'Solution Time' => 'Vrijeme rješenja',
         'Move ticket to a different queue' => 'Premjesti karticu u drugi rep',
@@ -2391,13 +2397,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Promjeni opcije pretrage',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Eskalacija u',
-        'Locked' => 'Zaključano',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2476,6 +2482,7 @@ sub Data {
         'Save filter settings as default' => 'Sačuvaj postavke filtra kao zadane',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'Zaključano',
         'Linked Objects' => 'Povezani objekti',
         'Article(s)' => 'Članak/ci',
         'Change Queue' => 'Promijeni rep',
@@ -2975,6 +2982,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => 'Komentar za nove povijesne unose u korisničkom sučelju.',
         'Company Status' => '',
         'Company Tickets' => 'Kartice tvrtke',
@@ -3138,6 +3148,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Određuje da li porukama napisanim u interfejsu zaposlenih treba uraditi proveru pravopisa.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             'Određuje da li je obračun vremena obavezan u interfejsu zaposlenih.',
@@ -3728,6 +3740,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Adrese E-pošte',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3803,6 +3816,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4071,6 +4086,7 @@ sub Data {
         'Overview of all open Tickets.' => 'pregled svih otvorenih kartice.',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'Slanje "PGP" ključa',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4195,6 +4211,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Traži korisnika',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => '',
@@ -4740,8 +4757,10 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             'Određuje maksimalnu veličinu datoteka (u bajtima) za slanje.',
         'Edit Response' => 'Uredi odgovor',
+        'Escalation in' => 'Eskalacija u',
         'False' => '"False"',
         'Filter for Responses' => 'Filtar za odgovore',
+        'Filter name' => 'Naziv filtra',
         'For more info see:' => 'Za dodatne informacije pogledaj:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Ako ste podesili "root" lozinku za vašu bazu podataka, ona mora biti unesena ovdje. Ako nema lozinke, ostavite polje prazno. Iz sigurnosnih razloga preporučujemo da je podesite. Za više informacija proučite dokumentaciju o bazi podataka.',

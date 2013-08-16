@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-16 12:00:26
+    # Last translation file sync: 2013-08-16 12:09:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1603,8 +1603,8 @@ sub Data {
         'Edit PostMaster Filter' => 'PostMaster Filter bearbeiten',
         'The name is required.' => 'Der Name ist erforderlich.',
         'Filter Condition' => 'Filterbedingung',
-        'AND Condition' => '',
-        'Negate' => '',
+        'AND Condition' => 'UND-Bedingung',
+        'Negate' => 'Negieren',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Dieses Feld sollte einen gültigen regulären Ausdruck oder ein Wort enthalten.',
         'Set Email Headers' => 'E-Mail-Kopfzeilen setzen',
@@ -1727,8 +1727,8 @@ sub Data {
         'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
         'Edit this Activity' => 'Diese Aktivität bearbeiten',
-        'Save settings' => '',
-        'Save Activities, Activity Dialogs and Transitions' => '',
+        'Save settings' => 'Einstellungen speichern',
+        'Save Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitätsdialoge und Übergänge speichern',
         'Do you really want to delete this Process?' => 'Möchten Sie diesen Prozess wirklich löschen?',
         'Do you really want to delete this Activity?' => 'Möchten Sie diese Aktivität wirklich löschen?',
         'Do you really want to delete this Activity Dialog?' => 'Möchten Sie diesen Aktivitäts-Dialog wirklich löschen?',
@@ -2123,8 +2123,8 @@ sub Data {
         'in' => 'in',
 
         # Template: AgentDashboardCommon
-        'Available Columns' => '',
-        'Visible Columns (order by drag & drop)' => '',
+        'Available Columns' => 'Verfügbare Spalten',
+        'Visible Columns (order by drag & drop)' => 'Angezeigte Spalten (Ändern durch Ziehen)',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2159,7 +2159,7 @@ sub Data {
         'My responsibilities' => 'Meine Verantwortlichkeiten',
         'Tickets in My Queues' => 'Tickets in meinen Queues',
         'Service Time' => 'Service Zeit',
-        'Remove active filters for this widget.' => '',
+        'Remove active filters for this widget.' => 'Aktive Filter für dieses Widget entfernen.',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => 'Summen',
@@ -2393,13 +2393,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Such-Optionen ändern',
-        'Remove active filters for this screen.' => '',
+        'Remove active filters for this screen.' => 'Aktive Filter für diesen Bildschirm entfernen.',
         'Tickets per page' => 'Tickets pro Seite',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Reset overview' => '',
+        'Reset overview' => 'Übersicht zurücksetzen',
 
         # Template: AgentTicketOwner
 
@@ -2833,7 +2833,7 @@ sub Data {
         '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'Erfasste Zeit',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
@@ -3023,9 +3023,9 @@ sub Data {
         'Create new process ticket' => '',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
+        'Customer Company Administration' => 'Kunden-Firmen-Verwaltung',
         'Customer Company Information' => 'Informationen zur Kunden-Firma',
-        'Customer User Administration' => '',
+        'Customer User Administration' => 'Kunden-Verwaltung',
         'Customer Users' => 'Kunden-Benutzer',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

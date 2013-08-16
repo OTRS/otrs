@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:35
+    # Last translation file sync: 2013-08-16 12:09:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -662,6 +662,8 @@ sub Data {
         'auto remove' => '',
         'auto reply' => '',
         'auto reply/new ticket' => '',
+        'Create' => 'Aanmaken',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Ticket "%s" aangemaakt.',
         'Ticket Number' => 'Ticketnummer',
         'Ticket Object' => 'Ticketonderwerp',
@@ -1605,9 +1607,10 @@ sub Data {
         'Delete this filter' => 'Verwijder filter',
         'Add PostMaster Filter' => 'Nieuw e-mail filter',
         'Edit PostMaster Filter' => 'Bewerk e-mail filter',
-        'Filter name' => 'Filter naam',
         'The name is required.' => 'De naam is verplicht.',
         'Filter Condition' => 'Filter conditie',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Dit veld kan een woord bevatten of een regular expression.',
         'Set Email Headers' => 'Nieuwe waarden',
@@ -1730,6 +1733,8 @@ sub Data {
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => 'Wilt u dit proces verwijderen?',
         'Do you really want to delete this Activity?' => 'Wilt u deze activiteit verwijderen?',
         'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
@@ -1836,7 +1841,6 @@ sub Data {
         'Filter for Auto Responses' => 'Filter op automatische antwoorden',
         'Auto Responses' => 'Automatische antwoorden',
         'Change Auto Response Relations for Queue' => 'Bewerk automatische antwoorden voor wachtrij',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1899,7 +1903,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Hier kunt u de certificaten en private sleutels van OTRS beheren.',
         'Hash' => 'Hash',
-        'Create' => 'Aanmaken',
         'Handle related certificates' => 'Beheer gekoppelde certificaten',
         'Read certificate' => 'Lees certificaat',
         'Delete this certificate' => 'Verwijder certificaat',
@@ -2126,6 +2129,8 @@ sub Data {
         'in' => 'over',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2159,6 +2164,8 @@ sub Data {
         'My watched tickets' => 'Mijn gevolgde tickets',
         'My responsibilities' => 'Tickets waarvoor ik verantwoordelijk ben',
         'Tickets in My Queues' => 'Tickets in mijn wachtrijen',
+        'Service Time' => 'Service tijd',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => 'Totaal',
@@ -2385,7 +2392,6 @@ sub Data {
         'Select all' => 'Selecteer alles',
         'No ticket data found.' => 'Geen tickets gevonden.',
         'First Response Time' => 'Eerste reactie',
-        'Service Time' => 'Service tijd',
         'Update Time' => 'Vervolg tijd',
         'Solution Time' => 'Oplossingstijd',
         'Move ticket to a different queue' => 'Verplaats naar nieuwe wachtrij',
@@ -2393,13 +2399,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Verander zoekopties',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Tickets per pagina',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Escalatie om',
-        'Locked' => 'Vergrendeling',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2478,6 +2484,7 @@ sub Data {
         'Save filter settings as default' => 'Sla filter op als standaard',
         'Archive' => 'Archief',
         'This ticket is archived.' => 'Dit ticket is gearchiveerd.',
+        'Locked' => 'Vergrendeling',
         'Linked Objects' => 'Gekoppelde objecten',
         'Article(s)' => 'Interactie(s)',
         'Change Queue' => 'Wijzig wachtrij',
@@ -2977,6 +2984,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => 'Gesloten tickets van klant',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => 'Klantstatus',
         'Company Tickets' => 'Tickets van groep',
@@ -3140,6 +3150,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3730,6 +3742,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'E-mailadressen',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3805,6 +3818,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Thema',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'Automatische taken',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4073,6 +4088,7 @@ sub Data {
         'Overview of all open Tickets.' => 'Overzicht van alle openstaande tickets',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'PGP sleutel upload',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4197,6 +4213,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Klanten zoeken',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Kies uw thema',
@@ -4745,8 +4762,10 @@ sub Data {
             'Heeft u een feature niet kunnen vinden? De OTRS Groep levert add-ons voor klanten met een subscription:',
         'Don\'t forget to add new responses to queues.' => 'Vergeet niet om antwoorden aan wachtrijen toe te wijzen.',
         'Edit Response' => 'Bewerk antwoord',
+        'Escalation in' => 'Escalatie om',
         'False' => 'Fout',
         'Filter for Responses' => 'Filter op antwoorden',
+        'Filter name' => 'Filter naam',
         'For more info see:' => 'Voor meer informatie zie:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',

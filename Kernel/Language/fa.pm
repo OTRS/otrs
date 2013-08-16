@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:21
+    # Last translation file sync: 2013-08-16 12:09:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -661,6 +661,8 @@ sub Data {
         'auto remove' => '',
         'auto reply' => '',
         'auto reply/new ticket' => '',
+        'Create' => 'ایجاد',
+        'Answer' => '',
         'Ticket "%s" created!' => 'درخواست %s ایجاد شد !',
         'Ticket Number' => 'شماره درخواست',
         'Ticket Object' => 'موضوع درخواست',
@@ -1604,9 +1606,10 @@ sub Data {
         'Delete this filter' => 'حذف این فیلتر',
         'Add PostMaster Filter' => 'افزودن فیلتر پستی',
         'Edit PostMaster Filter' => 'ویرایش فیلتر پستی',
-        'Filter name' => 'نام فیلتر',
         'The name is required.' => '',
         'Filter Condition' => 'شرط تطابق',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => 'تنظیم هدرهای ایمیل',
@@ -1729,6 +1732,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1835,7 +1840,6 @@ sub Data {
         'Filter for Auto Responses' => 'فیلتر برای پاسخ‌های خودکار',
         'Auto Responses' => 'پاسخ خودکار',
         'Change Auto Response Relations for Queue' => 'تغییر روابط پاسخ خودکار برای صف درخواست',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1898,7 +1902,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'از این طریق شما میتوانید کلید‌های رمز خود را برای رمز گذاری نامه‌ها و پیامها به سیستم وارد نمائید',
         'Hash' => 'Hash',
-        'Create' => 'ایجاد',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'حذف این گواهینامه',
@@ -2125,6 +2128,8 @@ sub Data {
         'in' => 'در',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2158,6 +2163,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => 'زمان سرویس',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2384,7 +2391,6 @@ sub Data {
         'Select all' => 'انتخاب همه',
         'No ticket data found.' => 'اطلاعات درخواست یافت نشد.',
         'First Response Time' => 'زمان اولین پاسخ',
-        'Service Time' => 'زمان سرویس',
         'Update Time' => 'زمان بروز رسانی',
         'Solution Time' => 'زمان ارائه راهکار',
         'Move ticket to a different queue' => 'انتقال درخواست یه صف درخواست دیگر',
@@ -2392,13 +2398,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'تغییر گزینه‌های جستجو',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => 'درخواست در هر صفحه',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'بالارفتن اولویت در',
-        'Locked' => 'تحویل گرفته شده',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2477,6 +2483,7 @@ sub Data {
         'Save filter settings as default' => 'ذخیره تنظیمات فیلتر به عنوان تنظیمات پیش فرض',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'تحویل گرفته شده',
         'Linked Objects' => 'آبجکت‌های مرتبط شده',
         'Article(s)' => 'مطلب (ها)',
         'Change Queue' => 'تغییر صف درخواست',
@@ -2976,6 +2983,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => 'درخواست‌های سازمانی/شرکتی',
@@ -3139,6 +3149,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3729,6 +3741,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'آدرس‌های ایمیل',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3804,6 +3817,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'طرح زمینه واسط',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'کارشناس عمومی',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4072,6 +4087,7 @@ sub Data {
         'Overview of all open Tickets.' => 'نمایی کلی از تمام درخواست‌های باز',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'ارسال کلید PGP',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4196,6 +4212,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'جستجوی مشترک',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'الگوی نمایش سیستم را انتخاب نمائید',
@@ -4738,8 +4755,10 @@ sub Data {
         'DB host' => 'میزبان--- پایگاه داده',
         'Database-User' => 'نام کاربری بانک اطلاعاتی',
         'Edit Response' => 'ویرایش پاسخ',
+        'Escalation in' => 'بالارفتن اولویت در',
         'False' => 'نادرست',
         'Filter for Responses' => 'فیلتر برای پاسخ‌ها',
+        'Filter name' => 'نام فیلتر',
         'For more info see:' => 'برای کسب اطلاع بیشتر:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'در صورتی که کاربر root در بانک اطلاعاتی رمز عبور دارد، آنرا در این قسمت وارد نمائید.برای امنیت بیشتر پیشنهاد میکنیم برای این کاربر رمز عبور وارد نمائید',

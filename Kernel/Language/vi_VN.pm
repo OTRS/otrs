@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-13 14:04:48
+    # Last translation file sync: 2013-08-16 12:10:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -655,6 +655,8 @@ sub Data {
         'auto remove' => '',
         'auto reply' => '',
         'auto reply/new ticket' => '',
+        'Create' => 'Tạo',
+        'Answer' => '',
         'Ticket "%s" created!' => 'Thẻ "%s" đã được tạo!',
         'Ticket Number' => 'Số thẻ',
         'Ticket Object' => 'Đối tượng thẻ',
@@ -1598,9 +1600,10 @@ sub Data {
         'Delete this filter' => '',
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
-        'Filter name' => '',
         'The name is required.' => '',
         'Filter Condition' => '',
+        'AND Condition' => '',
+        'Negate' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => '',
@@ -1723,6 +1726,8 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
+        'Save settings' => '',
+        'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
@@ -1829,7 +1834,6 @@ sub Data {
         'Filter for Auto Responses' => '',
         'Auto Responses' => 'Các trả lời tự động',
         'Change Auto Response Relations for Queue' => '',
-        'Template for' => '',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
@@ -1892,7 +1896,6 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Theo cách này bạn có thể sửa chứng chỉ và khóa cá nhân trực tiếp trong hệ thống file.',
         'Hash' => 'Băm',
-        'Create' => 'Tạo',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '',
@@ -2119,6 +2122,8 @@ sub Data {
         'in' => '',
 
         # Template: AgentDashboardCommon
+        'Available Columns' => '',
+        'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2152,6 +2157,8 @@ sub Data {
         'My watched tickets' => '',
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
+        'Service Time' => 'Thời gian dịch vụ',
+        'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2378,7 +2385,6 @@ sub Data {
         'Select all' => '',
         'No ticket data found.' => '',
         'First Response Time' => 'Lần phản hồi đầu tiên',
-        'Service Time' => 'Thời gian dịch vụ',
         'Update Time' => 'Thời gian cập nhật',
         'Solution Time' => 'Thời gian giải pháp',
         'Move ticket to a different queue' => '',
@@ -2386,13 +2392,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Thay đổi tùy chọn tìm kiếm',
+        'Remove active filters for this screen.' => '',
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Tiếp tục trong',
-        'Locked' => 'Đã khóa',
+        'Reset overview' => '',
 
         # Template: AgentTicketOwner
 
@@ -2471,6 +2477,7 @@ sub Data {
         'Save filter settings as default' => '',
         'Archive' => '',
         'This ticket is archived.' => '',
+        'Locked' => 'Đã khóa',
         'Linked Objects' => '',
         'Article(s)' => '',
         'Change Queue' => '',
@@ -2970,6 +2977,9 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => '',
@@ -3133,6 +3143,8 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface.' =>
             '',
@@ -3723,6 +3735,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => 'Địa chỉ email',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3798,6 +3811,8 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
         'GenericAgent' => 'Nhân viên phụ trách chung',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -4066,6 +4081,7 @@ sub Data {
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -4190,6 +4206,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Tìm kiếm khách hàng',
+        'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Hãy chọn giao diện mặt ngoài của bạn.',
@@ -4718,6 +4735,7 @@ sub Data {
         'Attachments <-> Responses' => 'Các đính kèm <-> Các trả lời',
         'Customer Data' => 'Dữ liệu khách hàng',
         'Database-User' => 'Người dùng cơ sở dữ liệu',
+        'Escalation in' => 'Tiếp tục trong',
         'Logout successful. Thank you for using OTRS!' => 'Đăng xuất thành công! Cảm ơn bạn đã sử dụng OTRS!',
         'Responses' => 'Các trả lời',
         'Responses <-> Queues' => 'Các trả lời <-> Hàng đợi',
