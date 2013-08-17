@@ -439,7 +439,7 @@ $('#NewResponsibleID').bind('change', function (Event) {
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
 <!-- dtl:block:CreateTemplate -->
-                    <label for="CreateTemplateID">$Text{"Text Template"}</label>
+                    <label for="CreateTemplateID">$Text{"Text Template"}:</label>
                     <div class="Field">
                         $Data{"CreateTemplateStrg"}
                         <p class="FieldExplanation">Setting a template will overwrite any text or attachment.</p>

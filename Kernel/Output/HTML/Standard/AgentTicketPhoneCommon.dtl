@@ -69,7 +69,7 @@
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
 <!-- dtl:block:StandardTemplate -->
-                    <label for="StandardTemplateID">$Text{"Text Template"}</label>
+                    <label for="StandardTemplateID">$Text{"Text Template"}:</label>
                     <div class="Field">
                         $Data{"StandardTemplateStrg"}
                         <p class="FieldExplanation">Setting a template will overwrite any text or attachment.</p>
@@ -84,7 +84,6 @@
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:StandardTemplate -->
-
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
                     <div id="RichTextField" class="RichTextField">
 <!-- dtl:block:RichText -->
