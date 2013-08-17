@@ -75,7 +75,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 8;
+    my $Steps = 9;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -111,6 +111,17 @@ Please run it as the 'otrs' user or with the help of su:
     # migrate OTRSExternalTicketNumberRecognition
     print "Step $Step of $Steps: Migrate OTRSExternalTicketNumberRecognition... ";
     if ( _MigrateOTRSExternalTicketNumberRecognition($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    # migrate OTRSGenericStandardTemplates
+    print "Step $Step of $Steps: Migrate OTRSGenericStandardTemplates... ";
+    if ( _MigrateOTRSGenericStandardTemplates($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -365,6 +376,35 @@ sub _MigrateOTRSExternalTicketNumberRecognition {
     return 1;
 }
 
+=item _MigrateOTRSGenericStandardTemplates()
+
+Migrate Standard Templates Types to new style
+
+    _MigrateMigrateOTRSGenericStandardTemplates($CommonObject);
+
+=cut
+
+sub _MigrateOTRSGenericStandardTemplates {
+    my $CommonObject = shift;
+
+    # seach all templates with template type anwer or forward
+    for my $TemplateType qw(answer forward) {
+
+        # set new template type to Answer or Forward (with capital leter)
+        my $NewTemplateType = ucfirst $TemplateType;
+
+        # update DB
+        return if !$CommonObject->{DBObject}->Do(
+            SQL => 'UPDATE standard_template
+                SET template_type = ?
+                WHERE template_type = ?',
+            Bind => [ \$NewTemplateType, \$TemplateType, ],
+        );
+    }
+
+    return 1;
+}
+
 =item _UninstallMergedFeatureAddOns()
 
 safe uninstall packages from the database.
@@ -394,6 +434,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSEventBasedTicketActions
         OTRSTicketAclEditor
         OTRSCustomerProcessSelection
+        OTRSACLExtensions
         OTRSGenericStandardTemplates
         OTRSExtendedDynamicDateFieldSearch
         OTRSDashboardTicketOverviewFilters
