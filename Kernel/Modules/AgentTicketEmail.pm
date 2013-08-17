@@ -96,7 +96,7 @@ sub Run {
     for my $Key (
         qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
         TypeID ServiceID SLAID OwnerAll ResponsibleAll NewResponsibleID NewUserID
-        NextStateID CreateTemplateID
+        NextStateID StandardTemplateID
         )
         )
     {
@@ -432,7 +432,7 @@ sub Run {
                     # check if field has PossibleValues property in its configuration
                     if ( IsHashRefWithData($PossibleValues) ) {
 
-                        # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs usign a Hash slice
                         my %AclData = %{$PossibleValues};
                         @AclData{ keys %AclData } = keys %AclData;
 
@@ -552,9 +552,9 @@ sub Run {
                     %ACLCompatGetParam,
                     QueueID => $Self->{QueueID} || 1
                 ),
-                Services        => $Services,
-                SLAs            => $SLAs,
-                CreateTemplates => $Self->_GetCreateTemplates(
+                Services          => $Services,
+                SLAs              => $SLAs,
+                StandardTemplates => $Self->_GetStandardTemplates(
                     %GetParam,
                     %ACLCompatGetParam,
                     QueueID => $Self->{QueueID} || '',
@@ -1116,9 +1116,9 @@ sub Run {
                     CustomerUserID => $CustomerUser || '',
                     QueueID        => $NewQueueID   || 1,
                 ),
-                Services        => $Services,
-                SLAs            => $SLAs,
-                CreateTemplates => $Self->_GetCreateTemplates(
+                Services          => $Services,
+                SLAs              => $SLAs,
+                StandardTemplates => $Self->_GetStandardTemplates(
                     %GetParam,
                     %ACLCompatGetParam,
                     QueueID => $NewQueueID || '',
@@ -1448,7 +1448,7 @@ sub Run {
             QueueID        => $QueueID      || 1,
             Services       => $Services,
         );
-        my $CreateTemplates = $Self->_GetCreateTemplates(
+        my $StandardTemplates = $Self->_GetStandardTemplates(
             %GetParam,
             %ACLCompatGetParam,
             QueueID => $QueueID || '',
@@ -1519,7 +1519,7 @@ sub Run {
         my @TemplateAJAX;
 
         # update ticket body and attachements if needed.
-        if ( $ElementChanged eq 'CreateTemplateID' ) {
+        if ( $ElementChanged eq 'StandardTemplateID' ) {
             my @TicketAttachments;
             my $TemplateText;
 
@@ -1535,12 +1535,12 @@ sub Run {
             }
 
             # get the template text and set new attachments if a template is selected
-            if ( IsPositiveInteger( $GetParam{CreateTemplateID} ) ) {
+            if ( IsPositiveInteger( $GetParam{StandardTemplateID} ) ) {
                 my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
 
                 # set template text, replace smart tags (limited as ticket is not created)
                 $TemplateText = $TemplateGenerator->Template(
-                    TemplateID => $GetParam{CreateTemplateID},
+                    TemplateID => $GetParam{StandardTemplateID},
                     UserID     => $Self->{UserID},
                 );
 
@@ -1550,7 +1550,7 @@ sub Run {
                 # add std. attachments to ticket
                 my %AllStdAttachments
                     = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
-                    StandardTemplateID => $GetParam{CreateTemplateID},
+                    StandardTemplateID => $GetParam{StandardTemplateID},
                     );
                 for ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
@@ -1701,9 +1701,9 @@ sub Run {
                     Max          => 100,
                 },
                 {
-                    Name         => 'CreateTemplateID',
-                    Data         => $CreateTemplates,
-                    SelectedID   => $GetParam{CreateTemplateID},
+                    Name         => 'StandardTemplateID',
+                    Data         => $StandardTemplates,
+                    SelectedID   => $GetParam{StandardTemplateID},
                     PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,
@@ -2018,16 +2018,26 @@ sub _GetSignature {
     return $Signature;
 }
 
-sub _GetCreateTemplates {
+sub _GetStandardTemplates {
     my ( $Self, %Param ) = @_;
 
     # get create templates
     my %Templates;
 
     # check needed
-    return \%Templates if !$Param{QueueID};
+    return \%Templates if !$Param{QueueID} && !$Param{TicketID};
 
-    my $QueueID = $Param{QueueID};
+    my $QueueID = $Param{QueueID} || '';
+    if ( !$Param{QueueID} && $Param{TicketID} ) {
+
+        # get QueueID from the ticket
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+            UserID        => $Self->{UserID},
+        );
+        $QueueID = $Ticket{QueueID} || '';
+    }
 
     # fetch all std. templates
     my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
@@ -2035,10 +2045,10 @@ sub _GetCreateTemplates {
         TemplateTypes => 1,
     );
 
-    # return empty hash if there are no create templates
+    # return empty hash if there are no templates for this screen
     return \%Templates if !IsHashRefWithData( $StandardTemplates{Create} );
 
-    # return just create templates
+    # return just the templates for this screen
     return $StandardTemplates{Create};
 }
 
@@ -2394,17 +2404,17 @@ sub _MaskEmailNew {
 
     # build text template string
     if ( IsHashRefWithData( \%StandardTemplates ) ) {
-        $Param{CreateTemplateStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => $Param{CreateTemplates}  || {},
-            Name       => 'CreateTemplateID',
-            SelectedID => $Param{CreateTemplateID} || '',
+        $Param{StandardTemplateStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data       => $Param{StandardTemplates}  || {},
+            Name       => 'StandardTemplateID',
+            SelectedID => $Param{StandardTemplateID} || '',
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Max          => 200,
         );
         $Self->{LayoutObject}->Block(
-            Name => 'CreateTemplate',
+            Name => 'StandardTemplate',
             Data => {%Param},
         );
     }
@@ -2631,7 +2641,7 @@ sub _GetFieldsToUpdate {
         @UpdatableFields
             = qw(
             TypeID Dest NextStateID PriorityID ServiceID SLAID SignKeyID CryptKeyID To Cc Bcc
-            CreateTemplateID
+            StandardTemplateID
         );
     }
 
