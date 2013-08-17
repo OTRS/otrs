@@ -75,7 +75,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 9;
+    my $Steps = 10;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -133,6 +133,17 @@ Please run it as the 'otrs' user or with the help of su:
     # uninstall Merged Feature Add-Ons
     print "Step $Step of $Steps: Uninstall Merged Feature Add-Ons... ";
     if ( _UninstallMergedFeatureAddOns($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    # Delete Old Files
+    print "Step $Step of $Steps: Delete the files that are not longer needed... ";
+    if ( _DeleteOldFiles($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -447,6 +458,49 @@ sub _UninstallMergedFeatureAddOns {
         if ( !$Success ) {
             print STDERR "There was an error uninstalling package $PackageName\n";
             return;
+        }
+    }
+    return 1;
+}
+
+=item _DeleteOldFiles()
+
+delete not longer needed files.
+
+    _DeleteOldFiles($CommonObject);
+
+=cut
+
+sub _DeleteOldFiles {
+    my $CommonObject = shift;
+
+    my $Home = $CommonObject->{ConfigObject}->Get('Home');
+
+    # qw( ) contains a list of the feature files to uninstall
+    for my $File (
+        qw(
+        bin/otrs.AddQueue2StdResponse.pl
+        Kernel/Modules/AdminQueueResponses.pm
+        Kernel/Modules/AdminResponse.pm
+        Kernel/Modules/AdminResponseAttachment.pm
+        Kernel/Output/HTML/Standard/AdminQueueResponses.dtl
+        Kernel/Output/HTML/Standard/AdminResponse.dtl
+        Kernel/Output/HTML/Standard/AdminResponseAttachment.dtl
+        )
+        )
+    {
+        # add home path
+        my $Location = $Home . '/' . $File;
+
+        # check if file exists
+        if ( -e $Location ) {
+
+            # delete file
+            my $Success = unlink $Location;
+            if ( !$Success ) {
+                print STDERR "Could not delete $Location: $!\n";
+                return;
+            }
         }
     }
     return 1;
