@@ -187,7 +187,7 @@ sub Run {
     # generate pdf output
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+        my $Time = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my %Page;
 
         # get maximum number of pages

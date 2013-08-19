@@ -21,7 +21,7 @@
 use strict;
 use warnings;
 
-use Cwd ();
+use Cwd        ();
 use File::Spec ();
 use File::Basename;
 use IO::File;
@@ -33,16 +33,16 @@ my %Seen;
 map { $Seen{$_}++ } @Lines;
 
 my $FileHandle = IO::File->new( 'AUTHORS.md', 'w' );
-$FileHandle->print( "The following persons contributed to OTRS:\n\n" );
+$FileHandle->print("The following persons contributed to OTRS:\n\n");
 
 AUTHOR:
-foreach my $Author (sort keys %Seen) {
+foreach my $Author ( sort keys %Seen ) {
     chomp $Author;
-    if ($Author =~ m/^[^<>]+ \s <>\s?$/smx) {
+    if ( $Author =~ m/^[^<>]+ \s <>\s?$/smx ) {
         print STDERR "Could not find Author $Author, skipping.\n";
         next AUTHOR;
     }
-    $FileHandle->print( "* $Author\n" )
+    $FileHandle->print("* $Author\n")
 }
 
 $FileHandle->close();

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ColumnFilter.pm - all column filter functions
-# Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,6 +123,7 @@ sub StateFilterValuesGet {
     # check needed stuff
     if ( !$Param{TicketIDs} ) {
         return if !$Param{UserID};
+
         # get state list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::State',
@@ -244,6 +245,7 @@ sub PriorityFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get priority list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::Priority',
@@ -303,6 +305,7 @@ sub TypeFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get type list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::Type',
@@ -363,6 +366,7 @@ sub LockFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get lock list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::Lock',
@@ -422,6 +426,7 @@ sub ServiceFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get service list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::Service',
@@ -481,6 +486,7 @@ sub SLAFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get sla list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::SLA',
@@ -652,6 +658,7 @@ sub OwnerFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get user list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::User',
@@ -724,6 +731,7 @@ sub ResponsibleFilterValuesGet {
     if ( !$Param{TicketIDs} ) {
 
         return if !$Param{UserID};
+
         # get user list
         return $Self->_GeneralDataGet(
             ModuleName   => 'Kernel::System::User',
@@ -865,7 +873,6 @@ sub DynamicFieldFilterValuesGet {
     return \%Data;
 }
 
-
 sub _GeneralDataGet {
     my ( $Self, %Param ) = @_;
 
@@ -880,43 +887,44 @@ sub _GeneralDataGet {
         }
     }
 
-        my $FuctionName = $Param{FunctionName};
-        # set the backend file
-        my $BackendModule = $Param{ModuleName};
+    my $FuctionName = $Param{FunctionName};
 
-        # check if backend field exists
-        if ( !$Self->{MainObject}->Require($BackendModule) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't load backend module $BackendModule!",
-            );
-            return;
-        }
+    # set the backend file
+    my $BackendModule = $Param{ModuleName};
 
-        # create a backend object
-        my $BackendObject = $BackendModule->new( %{$Self} );
-
-        if ( !$BackendObject ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Couldn't create a backend object for $BackendModule!",
-            );
-            return;
-        }
-
-        if ( ref $BackendObject ne $BackendModule ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Backend object for $BackendModule was not created successfuly!",
-            );
-            return;
-        }
-
-        # get data list
-        my %DataList = $BackendObject->$FuctionName(
-            Valid  => 0,
-            UserID => $Param{UserID},
+    # check if backend field exists
+    if ( !$Self->{MainObject}->Require($BackendModule) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't load backend module $BackendModule!",
         );
+        return;
+    }
+
+    # create a backend object
+    my $BackendObject = $BackendModule->new( %{$Self} );
+
+    if ( !$BackendObject ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Couldn't create a backend object for $BackendModule!",
+        );
+        return;
+    }
+
+    if ( ref $BackendObject ne $BackendModule ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend object for $BackendModule was not created successfuly!",
+        );
+        return;
+    }
+
+    # get data list
+    my %DataList = $BackendObject->$FuctionName(
+        Valid  => 0,
+        UserID => $Param{UserID},
+    );
 
     return \%DataList;
 }

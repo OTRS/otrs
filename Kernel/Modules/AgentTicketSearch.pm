@@ -551,9 +551,13 @@ sub Run {
             PREFERENCE:
             for my $Preference ( @{$SearchFieldPreferences} ) {
 
-                if ( !$AttributeLookup{ 'LabelSearch_DynamicField_'
-                    . $DynamicFieldConfig->{Name}
-                    . $Preference->{Type} } )
+                if (
+                    !$AttributeLookup{
+                        'LabelSearch_DynamicField_'
+                            . $DynamicFieldConfig->{Name}
+                            . $Preference->{Type}
+                    }
+                    )
                 {
                     next PREFERENCE;
                 }

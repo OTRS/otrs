@@ -52,6 +52,7 @@ BEGIN {
 
     # check if is running on windows
     if ( $^O ne "MSWin32" ) {
+        # nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
         print "This program only works on Microsoft Windows.\n";
         exit 1;
     }
@@ -348,10 +349,11 @@ sub _Start {
             }
 
             # run Webserver
-            my $Runner = Plack::Runner->new;
+            my $Runner = Plack::Runner->new();
             $Runner->parse_options(
-            '--port' => 80,
-            $CommonObject{ConfigObject}->Get('Home') . '/bin/cgi-bin/app.psgi');
+                '--port' => 80,
+                $CommonObject{ConfigObject}->Get('Home') . '/bin/cgi-bin/app.psgi'
+            );
             $Runner->run();
         }
 

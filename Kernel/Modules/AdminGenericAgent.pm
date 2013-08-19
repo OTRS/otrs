@@ -1111,9 +1111,12 @@ sub _MaskRun {
         for my $Preference ( @{$SearchFieldPreferences} ) {
 
             if (
-                !$JobData{'Search_DynamicField_'
+                !$JobData{
+                    'Search_DynamicField_'
                         . $DynamicFieldConfig->{Name}
-                        . $Preference->{Type} } )
+                        . $Preference->{Type}
+                }
+                )
             {
                 next PREFERENCE;
             }

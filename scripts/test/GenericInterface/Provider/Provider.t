@@ -217,11 +217,14 @@ if ( !$Host ) {
 }
 
 # create url
-my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-my $ApacheBaseURL     = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
+my $ScriptAlias   = $Self->{ConfigObject}->Get('ScriptAlias');
+my $ApacheBaseURL = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
 my $PlackBaseURL;
 if ( $Self->{ConfigObject}->Get('UnitTestPlackServerPort') ) {
-    $PlackBaseURL = "http://localhost:" . $Self->{ConfigObject}->Get('UnitTestPlackServerPort') . '/nph-genericinterface.pl/';
+    $PlackBaseURL
+        = "http://localhost:"
+        . $Self->{ConfigObject}->Get('UnitTestPlackServerPort')
+        . '/nph-genericinterface.pl/';
 }
 
 for my $Test (@Tests) {
@@ -346,7 +349,7 @@ for my $Test (@Tests) {
     #
     for my $RequestMethod (qw(get post)) {
 
-        my @BaseURLs = ( $ApacheBaseURL );
+        my @BaseURLs = ($ApacheBaseURL);
         if ($PlackBaseURL) {
             push @BaseURLs, $PlackBaseURL;
         }
@@ -373,7 +376,8 @@ for my $Test (@Tests) {
                     $Response = LWP::UserAgent->new()->$RequestMethod($URL);
                 }
                 else {    # POST
-                    $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+                    $Response
+                        = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
                 }
                 chomp( $ResponseData = $Response->decoded_content() );
 
@@ -382,7 +386,8 @@ for my $Test (@Tests) {
                         my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
                         if ( $Test->{ResponseData}->{$Key} ) {
                             $QueryStringPart
-                                .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                                .= '='
+                                . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                         }
 
                         $Self->True(

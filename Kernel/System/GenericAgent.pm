@@ -322,9 +322,12 @@ sub JobRun {
         for my $Preference ( @{$SearchFieldPreferences} ) {
 
             if (
-                !$DynamicFieldSearchTemplate{ 'Search_DynamicField_'
+                !$DynamicFieldSearchTemplate{
+                    'Search_DynamicField_'
                         . $DynamicFieldConfig->{Name}
-                        . $Preference->{Type} } )
+                        . $Preference->{Type}
+                }
+                )
             {
                 next PREFERENCE;
             }

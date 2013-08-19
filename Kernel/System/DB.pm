@@ -646,8 +646,6 @@ sub Prepare {
         return;
     }
 
-    my $cols = $Self->{Cursor}->{NAME};
-
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
         $DBListener->PostPrepare( SQL => $SQL, Bind => \@Array );
     }

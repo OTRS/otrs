@@ -137,9 +137,13 @@ sub FilterAdd {
         my %Data = %{ $Param{$Type} };
         for my $Key ( sort keys %Data ) {
             return if !$Self->{DBObject}->Do(
-                SQL => 'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value, f_not)'
+                SQL =>
+                    'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value, f_not)'
                     . ' VALUES (?, ?, ?, ?, ?, ?)',
-                Bind => [ \$Param{Name}, \$Param{StopAfterMatch}, \$Type, \$Key, \$Data{$Key}, \$Not{$Key} ],
+                Bind => [
+                    \$Param{Name}, \$Param{StopAfterMatch}, \$Type,
+                    \$Key,         \$Data{$Key},            \$Not{$Key}
+                ],
             );
         }
     }
@@ -205,7 +209,7 @@ sub FilterGet {
         $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
         $Data{Name}                   = $Row[3];
         $Data{StopAfterMatch}         = $Row[4];
-        
+
         if ( $Row[0] eq 'Match' ) {
             $Data{Not}->{ $Row[1] } = $Row[5];
         }

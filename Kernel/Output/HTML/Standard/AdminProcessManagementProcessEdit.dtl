@@ -233,7 +233,7 @@
                     <div class="DiagramDeleteLink"><a href="#" title="$Text{"Remove the Activity from this Process"}">X</a></div>
                     <div class="DiagramEditLink"><a href="#" title="$Text{"Edit this Activity"}">&gt;</a></div>
                 </div>
-           </div>
+            </div>
 
             <div class="WidgetSimple">
                 <div class="Header Expanded">

@@ -89,7 +89,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'Param Group is required!' );
         }
 
-        for my $Group ( @Groups ) {
+        for my $Group (@Groups) {
 
             # check preferences setting
             my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };

@@ -56,9 +56,9 @@
                 <ul class="ContextFunctions">
 
 <!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
-                <li class="$QData{"CSS"}">
-                    <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}"></a>
-                </li>
+                    <li class="$QData{"CSS"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}"></a>
+                    </li>
 <!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
 
                     <li class="ContextSettings">
