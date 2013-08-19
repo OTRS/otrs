@@ -623,5 +623,24 @@ td.Attachment {
     z-index: 19;
 }
 
+/**
+ * @subsection  Package manager
+ */
+
+p.IntroInstall {
+    width: 70%;
+    padding-left: 10px;
+    margin-bottom: 7px;
+}
+
+.OTRSVerifyLogoBig {
+    float: right;
+}
+
+.OTRSVerifyLogo {
+    display: block;
+    float: left;
+    margin: 3px 3px 0px 0px;
+}
 
 } /* end @media */

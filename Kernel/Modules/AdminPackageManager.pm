@@ -1208,6 +1208,12 @@ sub Run {
             },
         );
 
+        if ( $VerificationData{ $Package->{Name}->{Content} } && $VerificationData{ $Package->{Name}->{Content} } eq 'verified' ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OTRSVerifyLogo',
+            );
+        }
+
         # show documentation link
         my %DocFile = $Self->_DocumentationGet( Filelist => $Package->{Filelist} );
         if (%DocFile) {
@@ -1533,6 +1539,13 @@ sub _InstallHandling {
                 Version   => $Structure{Version}->{Content},
             },
         );
+
+        if ($Verified eq 'verified') {
+            $Self->{LayoutObject}->Block(
+                Name => 'OTRSVerifyLogo',
+            );
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'IntroCancel',
         );
@@ -1565,6 +1578,13 @@ sub _InstallHandling {
                     Version   => $Structure{Version}->{Content},
                 },
             );
+
+            if ($Verified eq 'verified') {
+                $Self->{LayoutObject}->Block(
+                    Name => 'OTRSVerifyLogo',
+                );
+            }
+
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
