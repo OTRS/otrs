@@ -54,10 +54,12 @@ my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 if ( !$Response->is_success() ) {
-    $Self->True( 0,
-              "Could not login to agent interface, aborting! URL: "
+    $Self->True(
+        0,
+        "Could not login to agent interface, aborting! URL: "
             . $AgentBaseURL
-            . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;" );
+            . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
+    );
     return 1;
 }
 
@@ -66,10 +68,12 @@ $Response = $UserAgent->get(
 );
 
 if ( !$Response->is_success() ) {
-    $Self->True( 0,
-              "Could not login to customer interface, aborting! URL: "
+    $Self->True(
+        0,
+        "Could not login to customer interface, aborting! URL: "
             . $CustomerBaseURL
-            . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;" );
+            . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
+    );
     return 1;
 }
 

@@ -142,7 +142,7 @@ sub FilterAdd {
                     . ' VALUES (?, ?, ?, ?, ?, ?)',
                 Bind => [
                     \$Param{Name}, \$Param{StopAfterMatch}, \$Type,
-                    \$Key,         \$Data{$Key},            \$Not{$Key}
+                    \$Key, \$Data{$Key}, \$Not{$Key}
                 ],
             );
         }
