@@ -295,7 +295,7 @@ sub _AddACLTables {
         # Catch STDERR log messages to not confuse the user. The Prepare() will fail
         #   if the columns are not present.
         local *STDERR;
-        open STDERR, '>:utf8', \$STDERR;
+        open STDERR, '>:encoding(UTF-8)', \$STDERR;    ## no critic
 
         $ACLTablesExist = $CommonObject->{DBObject}->Prepare(
             SQL   => "SELECT * FROM acl WHERE 1=0",
@@ -305,7 +305,7 @@ sub _AddACLTables {
 
     my $XMLString;
 
-    if ( $ACLTablesExist ) {
+    if ($ACLTablesExist) {
 
         print "ACL tables are present, no need to create them.\n";
 
@@ -407,7 +407,7 @@ sub _AddTemplateTypeColumn {
         # Catch STDERR log messages to not confuse the user. The Prepare() will fail
         #   if the columns are not present.
         local *STDERR;
-        open STDERR, '>:utf8', \$STDERR;
+        open STDERR, '>:encoding(UTF-8)', \$STDERR;    ## no critic
 
         $TemplateTypeColumnExists = $CommonObject->{DBObject}->Prepare(
             SQL   => "SELECT template_type FROM standard_template WHERE 1=0",
@@ -417,7 +417,7 @@ sub _AddTemplateTypeColumn {
 
     my $XMLString;
 
-    if ( $TemplateTypeColumnExists ) {
+    if ($TemplateTypeColumnExists) {
 
         print "'template_type' column exists, set new default value.\n";
 
@@ -436,7 +436,7 @@ sub _AddTemplateTypeColumn {
     }
     else {
 
-        print "ACL tables not found, create it.\n";
+        print "'template_type' column not found, create it.\n";
 
         $XMLString = '<?xml version="1.0" encoding="utf-8" ?>
         <database Name="otrs">
