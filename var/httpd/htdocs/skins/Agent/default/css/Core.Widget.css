@@ -190,7 +190,7 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetSimple .Field.LayoutGrid .AllocationList.OrderNumbers {
-    list-style-type: decimal;
+    list-style: decimal inside;
     padding-left: 5%;
     width: 93%;
 }
