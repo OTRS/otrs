@@ -226,7 +226,7 @@ Core.AJAX = (function (TargetNS) {
             alert('$JSText{"This window must be called from compose window"}');
             return;
         }
-    };
+    }
 
     /**
      * @function
@@ -276,7 +276,7 @@ Core.AJAX = (function (TargetNS) {
             // text area elements like the ticket body
             if ($Element.is('textarea')) {
                 UpdateTextarea($Element, Value);
-                return
+                return;
             }
 
             // Other form elements

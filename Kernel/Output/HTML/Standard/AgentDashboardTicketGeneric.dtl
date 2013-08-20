@@ -174,7 +174,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
 
             // exclude current column filter, apparently the selected option is not set to
             // selected at this point and uses the old value
-            if ($(this).attr('ID') != ColumnFilterID) {
+            if ($(this).attr('ID') !== ColumnFilterID) {
 
                 // get all options of current column filter
                 $(this).children().each( function() {
@@ -213,7 +213,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
 
             // exclude current column filter, apparently the selected option is not set to
             // selected at this point and uses the old value
-            if ($(this).attr('ID') != ColumnFilterID) {
+            if ($(this).attr('ID') !== ColumnFilterID) {
 
                 // get all options of current column filter
                 $(this).children().each( function() {
@@ -260,7 +260,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
 
             // exclude current column filter, apparently the selected option is not set to
             // selected at this point and uses the old value
-            if ($(this).attr('ID') != ColumnFilterID) {
+            if ($(this).attr('ID') !== ColumnFilterID) {
 
                 // get all options of current column filter
                 $(this).children().each( function() {
@@ -325,7 +325,7 @@ Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete"
 
             // exclude current column filter, apparently the selected option is not set to
             // selected at this point and uses the old value
-            if ($(this).attr('ID') != ColumnFilterID) {
+            if ($(this).attr('ID') !== ColumnFilterID) {
 
                 // get all options of current column filter
                 $(this).children().each( function() {
@@ -396,12 +396,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                     .find('select')
                     .attr('name');
 
-                if (
-                    $TriggerObj.closest('th').hasClass('CustomerID')
-                    || $TriggerObj.closest('th').hasClass('CustomerUserID')
-                    || $TriggerObj.closest('th').hasClass('Responsible')
-                    || $TriggerObj.closest('th').hasClass('Owner')
-                ) {
+                if ( $TriggerObj.closest('th').hasClass('CustomerID') || $TriggerObj.closest('th').hasClass('CustomerUserID') || $TriggerObj.closest('th').hasClass('Responsible') || $TriggerObj.closest('th').hasClass('Owner') ) {
 
                     if (!$TriggerObj.parent().find('.SelectedValue').length) {
                         Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {

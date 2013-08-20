@@ -249,8 +249,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 $ContainerObj = $(UI.item).closest('.AllocationListContainer');
             }
 
-            Data['Columns'] = {};
-            Data['Order']   = [];
+            Data.Columns = {};
+            Data.Order   = [];
 
             $ContainerObj.find('.AvailableFields').find('li').each(function() {
                 FieldName = $(this).attr('data-fieldname');
@@ -260,7 +260,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             $ContainerObj.find('.AssignedFields').find('li').each(function() {
                 FieldName = $(this).attr('data-fieldname');
                 Data.Columns[FieldName] = 1;
-                Data['Order'].push(FieldName);
+                Data.Order.push(FieldName);
             });
             $ContainerObj.closest('form').find('.ColumnsJSON').val(Core.JSON.Stringify(Data));
         }
