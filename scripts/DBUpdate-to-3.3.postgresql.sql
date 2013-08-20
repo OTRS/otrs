@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-08-16 11:27:17
+--  driver: postgresql, generated: 2013-08-20 12:30:12
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -42,34 +42,6 @@ CREATE TABLE system_data (
 -- ----------------------------------------------------------
 ALTER TABLE user_preferences ALTER preferences_value TYPE TEXT;
 ALTER TABLE user_preferences ALTER preferences_value DROP DEFAULT;
--- ----------------------------------------------------------
---  create table acl
--- ----------------------------------------------------------
-CREATE TABLE acl (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
-    description VARCHAR (250) NULL,
-    valid_id INTEGER NOT NULL,
-    stop_after_match INTEGER NULL,
-    config_match TEXT NULL,
-    config_change TEXT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT acl_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table acl_sync
--- ----------------------------------------------------------
-CREATE TABLE acl_sync (
-    acl_id VARCHAR (200) NOT NULL,
-    sync_state VARCHAR (30) NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    change_time timestamp(0) NOT NULL
-);
 ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_valid_id_id;
 ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_create_by_id;
 ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_change_by_id;
@@ -142,6 +114,3 @@ ALTER TABLE postmaster_filter ADD f_not INTEGER NULL;
 SET standard_conforming_strings TO ON;
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE acl ADD CONSTRAINT FK_acl_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE acl ADD CONSTRAINT FK_acl_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-08-16 11:27:17
+--  driver: oracle, generated: 2013-08-20 12:30:12
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
@@ -44,51 +44,6 @@ ALTER TABLE user_preferences ADD preferences_value_TEMP CLOB NULL;
 UPDATE user_preferences SET preferences_value_TEMP = preferences_value;
 ALTER TABLE user_preferences DROP COLUMN preferences_value;
 ALTER TABLE user_preferences RENAME COLUMN preferences_value_TEMP TO preferences_value;
--- ----------------------------------------------------------
---  create table acl
--- ----------------------------------------------------------
-CREATE TABLE acl (
-    id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (250) NULL,
-    description VARCHAR2 (250) NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    stop_after_match NUMBER (5, 0) NULL,
-    config_match CLOB NULL,
-    config_change CLOB NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT acl_name UNIQUE (name)
-);
-ALTER TABLE acl ADD CONSTRAINT PK_acl PRIMARY KEY (id);
-DROP SEQUENCE SE_acl;
-CREATE SEQUENCE SE_acl;
-CREATE OR REPLACE TRIGGER SE_acl_t
-before insert on acl
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_acl.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_acl_change_by ON acl (change_by);
-CREATE INDEX FK_acl_create_by ON acl (create_by);
-CREATE INDEX FK_acl_valid_id ON acl (valid_id);
--- ----------------------------------------------------------
---  create table acl_sync
--- ----------------------------------------------------------
-CREATE TABLE acl_sync (
-    acl_id VARCHAR2 (200) NOT NULL,
-    sync_state VARCHAR2 (30) NOT NULL,
-    create_time DATE NOT NULL,
-    change_time DATE NOT NULL
-);
 ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_valid_ife;
 ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_create_21;
 ALTER TABLE standard_response DROP CONSTRAINT FK_standard_response_change_a1;
@@ -153,6 +108,3 @@ SET DEFINE OFF;
 SET SQLBLANKLINES ON;
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE acl ADD CONSTRAINT FK_acl_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE acl ADD CONSTRAINT FK_acl_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE acl ADD CONSTRAINT FK_acl_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
