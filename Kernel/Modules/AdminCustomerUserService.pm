@@ -346,7 +346,7 @@ sub _Change {
         Name => 'ActionOverview',
         Data => {
             CustomerUserSearch => $Param{CustomerUserSearch},
-            }
+        },
     );
 
     if ( $NeType eq 'CustomerUser' ) {
@@ -396,10 +396,10 @@ sub _Change {
         if ( !@ItemList ) {
             $Self->{LayoutObject}->Block(
                 Name => 'AllocateItemCountLimit',
-                Data => { ItemCount => 0, },
+                Data => { ItemCount => 0 },
             );
 
-            my $ColSpan = "2";
+            my $ColSpan = 2;
 
             $Self->{LayoutObject}->Block(
                 Name => 'NoDataFoundMsg',
@@ -411,13 +411,13 @@ sub _Change {
         elsif ( @ItemList > $SearchLimit ) {
             $Self->{LayoutObject}->Block(
                 Name => 'AllocateItemCountLimit',
-                Data => { ItemCount => ">" . $SearchLimit, },
+                Data => { ItemCount => ">" . $SearchLimit },
             );
         }
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'AllocateItemCount',
-                Data => { ItemCount => scalar @ItemList, },
+                Data => { ItemCount => scalar @ItemList },
             );
         }
     }
@@ -505,7 +505,7 @@ sub _Overview {
     if ( !@CustomerUserKeyList ) {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCountLimit',
-            Data => { CustomerUserCount => 0, },
+            Data => { CustomerUserCount => 0 },
         );
 
         $Self->{LayoutObject}->Block(
@@ -515,13 +515,13 @@ sub _Overview {
     elsif ( @CustomerUserKeyList > $SearchLimit ) {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCountLimit',
-            Data => { CustomerUserCount => ">" . $SearchLimit, },
+            Data => { CustomerUserCount => ">" . $SearchLimit },
         );
     }
     else {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCount',
-            Data => { CustomerUserCount => scalar @CustomerUserKeyList, },
+            Data => { CustomerUserCount => scalar @CustomerUserKeyList },
         );
     }
 
