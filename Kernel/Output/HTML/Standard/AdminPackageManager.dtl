@@ -328,9 +328,9 @@
 <!-- dtl:block:ShowLocalPackage -->
                             <tr>
                                 <td>
-<!-- dtl:block:OTRSVerifyLogo -->
+<!-- dtl:block:ShowLocalPackageVerifyLogo -->
                                     <img src="$Config{"Frontend::ImagePath"}/otrs-verify-small.png" class="OTRSVerifyLogo" alt="$Text{"This package is verified by OTRSverify (tm)"}" />
-<!-- dtl:block:OTRSVerifyLogo -->
+<!-- dtl:block:ShowLocalPackageVerifyLogo -->
                                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
                                 </td>
                                 <td>
