@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-16 12:09:35
+    # Last translation file sync: 2013-08-20 14:43:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -660,6 +660,7 @@ sub Data {
         'auto reply/new ticket' => 'automaattinen vastaus/uusi tiketti',
         'Create' => 'Luo',
         'Answer' => '',
+        'Phone call' => 'Puhelut',
         'Ticket "%s" created!' => 'Tiketti "%s" luotu!',
         'Ticket Number' => 'Tiketin numero',
         'Ticket Object' => 'Tiketti',
@@ -1551,6 +1552,7 @@ sub Data {
         'Module documentation' => 'Moduulin ohjeet',
         'Upgrade' => 'Päivitä',
         'Local Repository' => 'Paikallinen ohjelmistojakelu',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Poista',
         'Reinstall' => 'Asenna uudestaan',
         'Feature Add-Ons' => '',
@@ -2413,7 +2415,6 @@ sub Data {
         'To queue' => 'Jonoon',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => 'Puhelut',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '',

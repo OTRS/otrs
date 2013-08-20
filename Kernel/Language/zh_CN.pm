@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-16 12:10:02
+    # Last translation file sync: 2013-08-20 14:44:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -663,6 +663,7 @@ sub Data {
         'auto reply/new ticket' => '',
         'Create' => '创建',
         'Answer' => '',
+        'Phone call' => '电话',
         'Ticket "%s" created!' => '有"%s"个票单创建!',
         'Ticket Number' => '票单编号',
         'Ticket Object' => '票单对象',
@@ -1554,6 +1555,7 @@ sub Data {
         'Module documentation' => '模块文档',
         'Upgrade' => '升级',
         'Local Repository' => '本地软件仓库',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => '卸载',
         'Reinstall' => '重新安装',
         'Feature Add-Ons' => '',
@@ -2416,7 +2418,6 @@ sub Data {
         'To queue' => '到',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => '电话',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '以纯文本方式显示的邮件内容',

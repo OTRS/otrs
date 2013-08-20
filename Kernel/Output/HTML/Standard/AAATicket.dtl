@@ -140,6 +140,7 @@ $Text{"auto reply/new ticket"}
 $Text{"Create"}
 $Text{"Answer"}
 $Text{"Forward"}
+$Text{"Phone call"}
 
 $Text{"Ticket "%s" created!"}
 $Text{"Ticket Number"}
