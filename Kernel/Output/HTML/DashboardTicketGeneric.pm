@@ -1645,6 +1645,11 @@ sub _SearchParamsGet {
         }
     }
 
+    # always set TicketNumber
+    if ( ! grep {$_ eq 'TicketNumber'} @Columns ) {
+        unshift @Columns, 'TicketNumber';
+    }
+
     {
         # loop through all the dynamic fields to get the ones that should be shown
         DYNAMICFIELDNAME:

@@ -103,6 +103,12 @@ sub new {
         }
     }
 
+    # always set TicketNumber
+    if ( ! grep {$_ eq 'TicketNumber'} @ColumnsEnabled ) {
+        unshift @ColumnsEnabled, 'TicketNumber';
+    }
+
+
     $Self->{ColumnsEnabled}   = \@ColumnsEnabled;
     $Self->{ColumnsAvailable} = \@ColumnsAvailable;
 
