@@ -822,6 +822,14 @@ select.ColumnFilter {
     padding-left: 18px;
 }
 
+.DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue span,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox span.SelectedValue span {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue a,
 .TableSmall thead th.OverviewHeader .ColumnSettingsBox span.SelectedValue a {
     background: #AAAAAA;
@@ -894,8 +902,8 @@ p.IntroInstall {
 
 .OTRSVerifyLogo {
     display: block;
-    float: left;
-    margin: 3px 3px 0px 0px;
+    float: right;
+    margin: 3px 0px 0px 3px;
 }
 
 } /* end @media */

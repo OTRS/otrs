@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-16 12:09:28
+    # Last translation file sync: 2013-08-20 14:43:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -658,6 +658,7 @@ sub Data {
         'auto reply/new ticket' => 'automatische Antwort / neues Ticket',
         'Create' => 'Erstellen',
         'Answer' => 'Beantworten',
+        'Phone call' => 'Anruf',
         'Ticket "%s" created!' => 'Ticket "%s" erstellt!',
         'Ticket Number' => 'Ticket Nummer',
         'Ticket Object' => 'Ticket Objekt',
@@ -1549,6 +1550,7 @@ sub Data {
         'Module documentation' => 'Moduldokumentation',
         'Upgrade' => 'Erneuern',
         'Local Repository' => 'Lokales Verzeichnis',
+        'This package is verified by OTRSverify (tm)' => 'Dieses Paket wurde von OTRSVerify (tm) geprüft',
         'Uninstall' => 'Deinstallieren',
         'Reinstall' => 'Erneut installieren',
         'Feature Add-Ons' => 'Feature Add-Ons',
@@ -2411,7 +2413,6 @@ sub Data {
         'To queue' => 'An Queue',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => 'Anruf',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => 'E-Mail unformatiert anzeigen',
@@ -2936,7 +2937,7 @@ sub Data {
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'ArticleTree' => 'Artikelbaum',
-        'Attachments <-> Templates' => '',
+        'Attachments <-> Templates' => 'Anhänge <-> Vorlagen',
         'Auto Responses <-> Queues' => 'Auto-Antworten <-> Queues',
         'Automated line break in text messages after x number of chars.' =>
             '',
@@ -3773,7 +3774,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer User.' =>
             '',
-        'Execute SQL statements.' => 'Einen SQL-Befehl ausführen',
+        'Execute SQL statements.' => 'Einen SQL-Befehl ausführen.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -3967,12 +3968,12 @@ sub Data {
         'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
         'Link agents to groups.' => 'Agenten zu Gruppen zuordnen.',
         'Link agents to roles.' => 'Agenten zu Rollen zuordnen.',
-        'Link attachments to templates.' => '',
+        'Link attachments to templates.' => 'Anhänge zu Vorlagen zuordnen.',
         'Link customers to groups.' => 'Kunden zu Gruppen zuordnen.',
         'Link customers to services.' => 'Kunden zu Services zuordnen.',
         'Link queues to auto responses.' => 'Automatische Antworten zu Queues zuordnen.',
         'Link roles to groups.' => 'Rollen zu Gruppen zuordnen.',
-        'Link templates to queues.' => '',
+        'Link templates to queues.' => 'Vorlagen zu Queues zuordnen.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4649,7 +4650,7 @@ sub Data {
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
-        'Templates <-> Queues' => '',
+        'Templates <-> Queues' => 'Vorlagen <-> Queues',
         'Textarea' => 'Textfeld',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',

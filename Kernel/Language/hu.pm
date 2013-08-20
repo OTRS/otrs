@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-16 12:09:41
+    # Last translation file sync: 2013-08-20 14:43:57
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -663,6 +663,7 @@ sub Data {
         'auto reply/new ticket' => 'automatikus válasz/új jegy',
         'Create' => 'Létrehozás',
         'Answer' => '',
+        'Phone call' => 'Telefonhívás',
         'Ticket "%s" created!' => 'A "%s" jegy létrehozva!',
         'Ticket Number' => 'Jegy száma',
         'Ticket Object' => 'Jegy objektum',
@@ -1554,6 +1555,7 @@ sub Data {
         'Module documentation' => 'Modul dokumentáció',
         'Upgrade' => 'Frissítés',
         'Local Repository' => 'Helyi csomagtároló',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Eltávolítás',
         'Reinstall' => 'Újratelepítés',
         'Feature Add-Ons' => '',
@@ -2416,7 +2418,6 @@ sub Data {
         'To queue' => 'Ebbe a várólistba',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => 'Telefonhívás',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '',

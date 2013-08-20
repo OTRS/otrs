@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-16 12:09:24
+    # Last translation file sync: 2013-08-20 14:43:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -659,6 +659,7 @@ sub Data {
         'auto reply/new ticket' => '',
         'Create' => 'Създаване',
         'Answer' => '',
+        'Phone call' => 'Телефонно обаждане',
         'Ticket "%s" created!' => 'Билет "%s" създаден!',
         'Ticket Number' => 'Номер на Билета',
         'Ticket Object' => 'Обект от тип Билет',
@@ -1550,6 +1551,7 @@ sub Data {
         'Module documentation' => '',
         'Upgrade' => 'Ъпгрейд',
         'Local Repository' => 'Локално Repository',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Деинсталиране',
         'Reinstall' => 'Реинсталиране',
         'Feature Add-Ons' => '',
@@ -2412,7 +2414,6 @@ sub Data {
         'To queue' => '',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => 'Телефонно обаждане',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '',

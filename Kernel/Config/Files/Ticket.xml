@@ -9777,7 +9777,7 @@ Thanks for your help!
                 <Item Key="Answer">Answer</Item>
                 <Item Key="Create">Create</Item>
                 <Item Key="Forward">Forward</Item>
-                <Item Key="PhoneCall">Phone Call</Item>
+                <Item Key="PhoneCall">Phone call</Item>
             </Hash>
         </Setting>
     </ConfigItem>
