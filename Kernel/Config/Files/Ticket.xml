@@ -7096,6 +7096,18 @@ $QData{"Body"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentUserSearch" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>AgentUserSearch</Description>
+                <Title>AgentUserSearch</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
