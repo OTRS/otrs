@@ -115,9 +115,6 @@
 <!-- update tables -->
 <TableAlter Name="standard_template">
 
-    <!-- add new column -->
-    <ColumnAdd Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
-
     <!-- create unique (new name) -->
     <UniqueCreate Name="standard_template_name">
         <UniqueColumn Name="name"/>

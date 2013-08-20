@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-08-20 12:30:12
+--  driver: postgresql, generated: 2013-08-20 09:39:40
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -66,13 +66,6 @@ ALTER TABLE queue_standard_response RENAME TO queue_standard_template;
 --  alter table standard_template_attachment
 -- ----------------------------------------------------------
 ALTER TABLE standard_response_attachment RENAME TO standard_template_attachment;
--- ----------------------------------------------------------
---  alter table standard_template
--- ----------------------------------------------------------
-ALTER TABLE standard_template ADD template_type VARCHAR (100) NULL;
-UPDATE standard_template SET template_type = 'Answer' WHERE template_type IS NULL;
-ALTER TABLE standard_template ALTER template_type SET DEFAULT 'Answer';
-ALTER TABLE standard_template ALTER template_type SET NOT NULL;
 ALTER TABLE standard_template ADD CONSTRAINT standard_template_name UNIQUE (name);
 ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE standard_template ADD CONSTRAINT FK_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

@@ -75,7 +75,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 11;
+    my $Steps = 12;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -117,6 +117,11 @@ Please run it as the 'otrs' user or with the help of su:
         print "error.\n\n";
         die;
     }
+    $Step++;
+
+    print "Step $Step of $Steps: Checking Standard Template table columns... ";
+    _AddTemplateTypeColumn($CommonObject) || die;
+    print "done.\n\n";
     $Step++;
 
     # migrate OTRSGenericStandardTemplates
@@ -270,7 +275,6 @@ sub _CheckFrameworkVersion {
     return 1;
 }
 
-
 =item _AddACLTables($CommonObject)
 
 This function checks if the acl and acl_sync tables already exist
@@ -383,6 +387,95 @@ sub _AddACLTables {
     return 1;
 }
 
+=item _AddTemplateTypeColumn($CommonObject)
+
+This function checks if the template_type column from standard_template tables already exist
+and sets new default value, otherwise creates it.
+
+    _AddTemplateTypeColumn($CommonObject);
+
+=cut
+
+sub _AddTemplateTypeColumn {
+    my $CommonObject = shift;
+
+    my $TemplateTypeColumnExists;
+    print "Check if 'template_type' columns exists.\n";
+    {
+        my $STDERR;
+
+        # Catch STDERR log messages to not confuse the user. The Prepare() will fail
+        #   if the columns are not present.
+        local *STDERR;
+        open STDERR, '>:utf8', \$STDERR;
+
+        $TemplateTypeColumnExists = $CommonObject->{DBObject}->Prepare(
+            SQL   => "SELECT template_type FROM standard_template WHERE 1=0",
+            Limit => 1,
+        );
+    }
+
+    my $XMLString;
+
+    if ( $TemplateTypeColumnExists ) {
+
+        print "'template_type' column exists, set new default value.\n";
+
+        # fetch data to avoid warnings
+        while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+            # noop
+        }
+
+        $XMLString = '<?xml version="1.0" encoding="utf-8" ?>
+        <database Name="otrs">
+            <TableAlter Name="standard_template">
+                <ColumnChange NameOld="template_type" NameNew="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
+            </TableAlter>
+        </database>';
+    }
+    else {
+
+        print "ACL tables not found, create it.\n";
+
+        $XMLString = '<?xml version="1.0" encoding="utf-8" ?>
+        <database Name="otrs">
+            <TableAlter Name="standard_template">
+                <ColumnAdd Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
+            </TableAlter>
+        </database>';
+    }
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = Kernel::System::XML->new( %{$CommonObject} );
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $CommonObject->{DBObject}->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        print $SQL . "\n";
+        my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $CommonObject->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
 
 =item _GenerateMessageIDMD5()
 
