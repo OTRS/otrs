@@ -5466,7 +5466,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5512,7 +5512,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5558,7 +5558,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5604,7 +5604,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5637,7 +5637,7 @@ $QData{"Body"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketStatsGeneric</Item>
                 <Item Key="Title">7 Day Stats</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="Closed">1</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentSmall</Item>
@@ -5822,7 +5822,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5868,7 +5868,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5914,7 +5914,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -5960,7 +5960,7 @@ $QData{"Body"}
                 <Item Key="DefaultColumns">
                     <Hash>
                         <Item Key="Age">2</Item>
-                        <Item Key="Created">1</Item>
+                        <Item Key="Changed">1</Item>
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
@@ -9788,7 +9788,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">0</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">0</Item>
                 <Item Key="CustomerName">0</Item>
                 <Item Key="CustomerUserID">0</Item>
@@ -9818,7 +9818,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">1</Item>
                 <Item Key="CustomerName">1</Item>
                 <Item Key="CustomerUserID">1</Item>
@@ -9848,7 +9848,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">1</Item>
                 <Item Key="CustomerName">1</Item>
                 <Item Key="CustomerUserID">1</Item>
@@ -9878,7 +9878,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">1</Item>
                 <Item Key="CustomerName">1</Item>
                 <Item Key="CustomerUserID">1</Item>
@@ -9908,7 +9908,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">1</Item>
                 <Item Key="CustomerName">1</Item>
                 <Item Key="CustomerUserID">1</Item>
@@ -9938,7 +9938,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">1</Item>
                 <Item Key="CustomerName">1</Item>
                 <Item Key="CustomerUserID">1</Item>
@@ -9968,7 +9968,7 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Age">2</Item>
-                <Item Key="Created">1</Item>
+                <Item Key="Changed">1</Item>
                 <Item Key="CustomerID">1</Item>
                 <Item Key="CustomerName">1</Item>
                 <Item Key="CustomerUserID">1</Item>

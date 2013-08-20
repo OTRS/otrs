@@ -75,7 +75,12 @@ sub new {
     }
 
     # just in case new filter values arrive
-    elsif ( $Self->{GetColumnFilter} && $Self->{GetColumnFilterSelect} && $Self->{ColumnFilter} ) {
+    elsif (
+        IsHashRefWithData( $Self->{GetColumnFilter} )       &&
+        IsHashRefWithData( $Self->{GetColumnFilterSelect} ) &&
+        IsHashRefWithData( $Self->{ColumnFilter} )
+        )
+    {
 
         if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
 
@@ -89,6 +94,7 @@ sub new {
                     Data => $Preferences{ $Self->{PrefKeyColumnFilters} },
                 );
             }
+
             PREFVALUES:
             for my $Column ( sort keys %{ $Self->{GetColumnFilterSelect} } ) {
                 if ( $Self->{GetColumnFilterSelect}->{$Column} eq 'DeleteFilter' ) {
@@ -97,6 +103,7 @@ sub new {
                 }
                 $ColumnPrefValues->{$Column} = $Self->{GetColumnFilterSelect}->{$Column};
             }
+
             $Self->{UserObject}->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $Self->{PrefKeyColumnFilters},
@@ -235,7 +242,7 @@ sub new {
 
     # hash with all valid sortable columuns (taken from TicketSearch)
     # SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|TicketNumber|Queue
-    # |Priority|Type|Lock|Title|Service|SLA|PendingTime|EscalationTime
+    # |Priority|Type|Lock|Title|Service|SLA|Changed|PendingTime|EscalationTime
     # | EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
     $Self->{ValidSortableColumns} = {
         'Age'                    => 1,
@@ -250,6 +257,7 @@ sub new {
         'Lock'                   => 1,
         'Title'                  => 1,
         'Service'                => 1,
+        'Changed'                => 1,
         'SLA'                    => 1,
         'PendingTime'            => 1,
         'EscalationTime'         => 1,
