@@ -75,7 +75,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 10;
+    my $Steps = 11;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
