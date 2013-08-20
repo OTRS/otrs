@@ -481,6 +481,7 @@ sub Run {
             my $CSS = '';
             my $OrderBy;
             my $Link;
+            my $Title = $Item;
 
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {
                 if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
@@ -491,6 +492,11 @@ sub Run {
                     $OrderBy = 'Up';
                     $CSS .= ' SortDescendingLarge';
                 }
+
+                # set title description
+                my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                $Title .= ', ' . $TitleDesc;
             }
 
             $Self->{LayoutObject}->Block(
@@ -514,6 +520,7 @@ sub Run {
                         Name    => $Item,
                         CSS     => $CSS,
                         OrderBy => $OrderBy,
+                        Title   => $Title,
                     },
                 );
             }
@@ -556,6 +563,7 @@ sub Run {
         for my $Column (@Col) {
 
             $CSS = $Column;
+            my $Title = $Column;
 
             # ouput overal block so TicketNumber as well as other columns can be ordered
             $Self->{LayoutObject}->Block(
@@ -574,6 +582,11 @@ sub Run {
                         $OrderBy = 'Up';
                         $CSS .= ' SortAscendingLarge';
                     }
+
+                    # add title description
+                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                    $Title .= ', ' . $TitleDesc;
                 }
 
                 # translate the column name to write it in the current language
@@ -595,6 +608,8 @@ sub Run {
                     $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get($Column);
                 }
 
+                my $FilterTitle     = $Column;
+                my $FilterTitleDesc = 'filter not active';
                 if (
                     $Self->{StoredFilters} &&
                     (
@@ -604,7 +619,10 @@ sub Run {
                     )
                 {
                     $CSS .= ' FilterActive';
+                    $FilterTitleDesc = 'filter active';
                 }
+                $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                $FilterTitle .= ', ' . $FilterTitleDesc;
 
                 $Self->{LayoutObject}->Block(
                     Name =>
@@ -617,6 +635,7 @@ sub Run {
                         ColumnName           => $Column || '',
                         CSS                  => $CSS || '',
                         ColumnNameTranslated => $TranslatedWord || $Column,
+                        Title                => $Title,
                     },
                 );
 
@@ -649,6 +668,8 @@ sub Run {
                             ColumnNameTranslated => $TranslatedWord || $Column,
                             ColumnFilterStrg     => $ColumnFilterHTML,
                             OrderBy              => $OrderBy,
+                            Title                => $Title,
+                            FilterTitle          => $FilterTitle,
                         },
                     );
 
@@ -698,6 +719,8 @@ sub Run {
                             ColumnNameTranslated => $TranslatedWord || $Column,
                             ColumnFilterStrg     => $ColumnFilterHTML,
                             OrderBy              => $OrderBy,
+                            Title                => $Title,
+                            FilterTitle          => $FilterTitle,
                         },
                     );
                 }
@@ -712,6 +735,7 @@ sub Run {
                             CSS                  => $CSS,
                             ColumnNameTranslated => $TranslatedWord || $Column,
                             OrderBy              => $OrderBy,
+                            Title                => $Title,
                         },
                     );
                 }
@@ -723,6 +747,7 @@ sub Run {
                             ColumnName           => $Column,
                             CSS                  => $CSS,
                             ColumnNameTranslated => $TranslatedWord || $Column,
+                            Title                => $Title,
                         },
                     );
                 }
@@ -739,6 +764,11 @@ sub Run {
                         $OrderBy = 'Up';
                         $CSS .= ' SortAscendingLarge';
                     }
+
+                    # add title description
+                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                    $Title .= ', ' . $TitleDesc;
                 }
 
                 # translate the column name to write it in the current language
@@ -763,9 +793,14 @@ sub Run {
                     $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get($Column);
                 }
 
+                my $FilterTitle     = $Column;
+                my $FilterTitleDesc = 'filter not active';
                 if ( $Self->{StoredFilters} && $Self->{StoredFilters}->{ $Column . 'IDs' } ) {
                     $CSS .= ' FilterActive';
+                    $FilterTitleDesc = 'filter active';
                 }
+                $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                $FilterTitle .= ', ' . $FilterTitleDesc;
 
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewNavBarPageColumn',
@@ -806,6 +841,8 @@ sub Run {
                             ColumnNameTranslated => $TranslatedWord || $Column,
                             ColumnFilterStrg     => $ColumnFilterHTML,
                             OrderBy              => $OrderBy,
+                            Title                => $Title,
+                            FilterTitle          => $FilterTitle,
                         },
                     );
 
@@ -848,6 +885,8 @@ sub Run {
                             ColumnNameTranslated => $TranslatedWord || $Column,
                             ColumnFilterStrg     => $ColumnFilterHTML,
                             OrderBy              => $OrderBy,
+                            Title                => $Title,
+                            FilterTitle          => $FilterTitle,
                         },
                     );
                     if ( $Column eq 'CustomerUserID' ) {
@@ -874,6 +913,7 @@ sub Run {
                             CSS                  => $CSS,
                             ColumnNameTranslated => $TranslatedWord || $Column,
                             OrderBy              => $OrderBy,
+                            Title                => $Title,
                         },
                     );
                 }
@@ -885,6 +925,7 @@ sub Run {
                             ColumnName           => $Column,
                             CSS                  => $CSS,
                             ColumnNameTranslated => $TranslatedWord || $Column,
+                            Title                => $Title,
                         },
                     );
                 }
@@ -907,6 +948,8 @@ sub Run {
                 next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
 
                 my $Label = $DynamicFieldConfig->{Label};
+                $Title = $Label;
+                my $FilterTitle = $Label;
 
                 # get field sortable condition
                 my $IsSortable = $Self->{BackendObject}->HasBehavior(
@@ -930,11 +973,22 @@ sub Run {
                             $OrderBy = 'Up';
                             $CSS .= ' SortAscendingLarge';
                         }
+
+                        # add title description
+                        my $TitleDesc
+                            = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                        $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                        $Title .= ', ' . $TitleDesc;
                     }
 
+                    my $FilterTitleDesc = 'filter not active';
                     if ( $Self->{StoredFilters} && $Self->{StoredFilters}->{$Column} ) {
                         $CSS .= ' FilterActive';
+                        $FilterTitleDesc = 'filter active';
                     }
+                    $FilterTitleDesc
+                        = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                    $FilterTitle .= ', ' . $FilterTitleDesc;
 
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewNavBarPageDynamicField',
@@ -965,6 +1019,8 @@ sub Run {
                                 DynamicFieldName => $DynamicFieldConfig->{Name},
                                 ColumnFilterStrg => $ColumnFilterHTML,
                                 OrderBy          => $OrderBy,
+                                Title            => $Title,
+                                FilterTitle      => $FilterTitle,
                             },
                         );
                     }
@@ -977,6 +1033,7 @@ sub Run {
                                 OrderBy          => $OrderBy,
                                 Label            => $Label,
                                 DynamicFieldName => $DynamicFieldConfig->{Name},
+                                Title            => $Title,
                             },
                         );
                     }
@@ -1011,6 +1068,7 @@ sub Run {
                                 DynamicFieldName => $DynamicFieldConfig->{Name},
                                 ColumnFilterStrg => $ColumnFilterHTML,
                                 OrderBy          => $OrderBy,
+                                Title            => $Title,
                             },
                         );
                     }
@@ -1024,6 +1082,7 @@ sub Run {
                                 OrderBy          => $OrderBy,
                                 Label            => $Label,
                                 DynamicFieldName => $DynamicFieldConfig->{Name},
+                                Title            => $Title,
                             },
                         );
                     }
@@ -1055,6 +1114,8 @@ sub Run {
                                 Label            => $Label,
                                 DynamicFieldName => $DynamicFieldConfig->{Name},
                                 ColumnFilterStrg => $ColumnFilterHTML,
+                                Title            => $Title,
+                                FilterTitle      => $FilterTitle,
                             },
                         );
                     }
@@ -1064,6 +1125,7 @@ sub Run {
                             Data => {
                                 %Param,
                                 Label => $Label,
+                                Title => $Title,
                             },
                         );
                     }
@@ -1095,6 +1157,7 @@ sub Run {
                                 Label            => $Label,
                                 DynamicFieldName => $DynamicFieldConfig->{Name},
                                 ColumnFilterStrg => $ColumnFilterHTML,
+                                Title            => $Title,
                             },
                         );
                     }
@@ -1106,6 +1169,7 @@ sub Run {
                             Data => {
                                 %Param,
                                 Label => $Label,
+                                Title => $Title,
                             },
                         );
                     }

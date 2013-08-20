@@ -656,6 +656,7 @@ sub Run {
     my $OrderBy;
     for my $Item (@MetaItems) {
         $CSS = '';
+        my $Title = $Item;
         if ( $Self->{SortBy} && ( $Self->{SortBy} eq $Item ) ) {
             if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
                 $OrderBy = 'Down';
@@ -665,6 +666,11 @@ sub Run {
                 $OrderBy = 'Up';
                 $CSS .= ' SortAscendingLarge';
             }
+
+            # set title description
+            my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+            $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+            $Title .= ', ' . $TitleDesc;
         }
 
         $Self->{LayoutObject}->Block(
@@ -690,6 +696,7 @@ sub Run {
                     Name             => $Self->{Name},
                     OrderBy          => $OrderBy || 'Up',
                     HeaderColumnName => $Item,
+                    Title            => $Title,
                 },
             );
         }
@@ -702,6 +709,7 @@ sub Run {
         # not show headers for dymamic field, yet
         next HEADERCOLUMN if $HeaderColumn =~ m{ DynamicField_ }xms;
         $CSS = '';
+        my $Title = $HeaderColumn;
 
         if ( $Self->{SortBy} && ( $Self->{SortBy} eq $HeaderColumn ) ) {
             if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
@@ -712,6 +720,11 @@ sub Run {
                 $OrderBy = 'Up';
                 $CSS .= ' SortAscendingLarge';
             }
+
+            # add title description
+            my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+            $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+            $Title .= ', ' . $TitleDesc;
         }
 
         # translate the column name to write it in the current language
@@ -750,14 +763,20 @@ sub Run {
                     Name    => $Self->{Name},
                     OrderBy => $OrderBy || 'Up',
                     Filter  => $Self->{Filter},
+                    Title   => $Title,
                 },
             );
             next HEADERCOLUMN;
         }
 
+        my $FilterTitle     = $HeaderColumn;
+        my $FilterTitleDesc = 'filter not active';
         if ( $Self->{GetColumnFilterSelect} && $Self->{GetColumnFilterSelect}->{$HeaderColumn} ) {
             $CSS .= ' FilterActive';
+            $FilterTitleDesc = 'filter active';
         }
+        $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+        $FilterTitle .= ', ' . $FilterTitleDesc;
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericHeaderColumn',
@@ -802,6 +821,8 @@ sub Run {
                     OrderBy              => $OrderBy || 'Up',
                     SortBy               => $Self->{SortBy} || 'Age',
                     Name                 => $Self->{Name},
+                    Title                => $Title,
+                    FilterTitle          => $FilterTitle,
                 },
             );
 
@@ -852,6 +873,8 @@ sub Run {
                     HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
                     ColumnFilterStrg     => $ColumnFilterHTML,
                     Name                 => $Self->{Name},
+                    Title                => $Title,
+                    FilterTitle          => $FilterTitle,
                 },
             );
 
@@ -880,6 +903,7 @@ sub Run {
                     OrderBy              => $OrderBy || 'Up',
                     SortBy               => $Self->{SortBy} || $HeaderColumn,
                     Name                 => $Self->{Name},
+                    Title                => $Title,
                 },
             );
         }
@@ -891,6 +915,7 @@ sub Run {
                     HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
                     HeaderColumnName     => $HeaderColumn,
                     CSS                  => $CSS,
+                    Title                => $Title,
                 },
             );
         }
@@ -908,20 +933,28 @@ sub Run {
 
         my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
 
-        my $CSS = '';
+        my $CSS             = '';
+        my $FilterTitle     = $Label;
+        my $FilterTitleDesc = 'filter not active';
         if (
             $Self->{GetColumnFilterSelect}
             && defined $Self->{GetColumnFilterSelect}->{$DynamicFieldName}
             )
         {
             $CSS .= 'FilterActive ';
+            $FilterTitleDesc = 'filter active';
         }
+        $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+        $FilterTitle .= ', ' . $FilterTitleDesc;
 
         # get field sortable condition
         my $IsSortable = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsSortable',
         );
+
+        # set title
+        my $Title = $Label;
 
         if ($IsSortable) {
             my $OrderBy;
@@ -938,6 +971,11 @@ sub Run {
                     $OrderBy = 'Up';
                     $CSS .= ' SortAscendingLarge';
                 }
+
+                # add title description
+                my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                $Title .= ', ' . $TitleDesc;
             }
 
             $Self->{LayoutObject}->Block(
@@ -957,7 +995,7 @@ sub Run {
                     Label      => $Label,
                 );
 
-                # output sortable and filtrable synamic fild
+                # output sortable and filtrable dynamic field
                 $Self->{LayoutObject}->Block(
                     Name => 'ContentLargeTicketGenericHeaderColumnFilterLink',
                     Data => {
@@ -969,6 +1007,8 @@ sub Run {
                         OrderBy              => $OrderBy || 'Up',
                         SortBy               => $Self->{SortBy} || 'Age',
                         Name                 => $Self->{Name},
+                        Title                => $Title,
+                        FilterTitle          => $FilterTitle,
                     },
                 );
             }
@@ -987,6 +1027,8 @@ sub Run {
                         OrderBy              => $OrderBy || 'Up',
                         SortBy               => $Self->{SortBy} || $DynamicFieldName,
                         Name                 => $Self->{Name},
+                        Title                => $Title,
+                        FilterTitle          => $FilterTitle,
                     },
                 );
             }
@@ -1000,7 +1042,8 @@ sub Run {
                 Name => 'ContentLargeTicketGenericHeaderColumn',
                 Data => {
                     HeaderColumnName => $DynamicFieldName || '',
-                    CSS => $CSS || '',
+                    CSS              => $CSS              || '',
+                    Title            => $Title,
                 },
             );
 
@@ -1020,6 +1063,8 @@ sub Run {
                     HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
                     ColumnFilterStrg     => $ColumnFilterHTML,
                     Name                 => $Self->{Name},
+                    Title                => $Title,
+                    FilterTitle          => $FilterTitle,
                 },
             );
         }
@@ -1043,6 +1088,7 @@ sub Run {
                     HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
                     HeaderColumnName     => $DynamicFieldName,
                     CSS                  => $CSS,
+                    Title                => $Title,
                 },
             );
         }

@@ -55,7 +55,7 @@
 <!-- dtl:block:OverviewNavBarPageFlag -->
                     <th class="$QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}" title="$Text{"$Data{"Name"}"}"></a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}" title="$Text{"$Data{"Title"}"}"></a>
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
                         <span title="$Text{"$Data{"Name"}"}"></span>
@@ -66,14 +66,14 @@
 <!-- dtl:block:OverviewNavBarPageTicketHeader -->
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
                     <th class="TicketNumber $QData{"CSS"}">
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$LQData{"OrderBy"}">$Config{"Ticket::Hook"}</a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=TicketNumber;OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$Config{"Ticket::Hook"}</a>
                     </th>
 <!-- dtl:block:OverviewNavBarPageTicketNumber -->
 <!-- dtl:block:OverviewNavBarPageColumn -->
                     <th class="OverviewHeader $QData{"HeaderColumnName"} $QData{"CSS"}">
 
 <!-- dtl:block:OverviewNavBarPageColumnFilter -->
-                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
@@ -92,11 +92,11 @@ Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComple
 
                             </div>
                         </div>
-                        <span class="Gray">$QData{"ColumnNameTranslated"}</span>
+                        <span class="Gray" title="$Data{"Title"}">$QData{"ColumnNameTranslated"}</span>
 <!-- dtl:block:OverviewNavBarPageColumnFilter -->
 
 <!-- dtl:block:OverviewNavBarPageColumnFilterLink -->
-                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
@@ -126,15 +126,15 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch -->
                             </div>
                         </div>
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"ColumnName"};OrderBy=$LQData{"OrderBy"}">$QData{"ColumnNameTranslated"}</a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"ColumnName"};OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$QData{"ColumnNameTranslated"}</a>
 <!-- dtl:block:OverviewNavBarPageColumnFilterLink -->
 
 <!-- dtl:block:OverviewNavBarPageColumnLink -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"ColumnName"};OrderBy=$LQData{"OrderBy"}">$QData{"ColumnNameTranslated"}</a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"ColumnName"};OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$QData{"ColumnNameTranslated"}</a>
 <!-- dtl:block:OverviewNavBarPageColumnLink -->
 
 <!-- dtl:block:OverviewNavBarPageColumnEmpty -->
-                        <span class="Gray">$QData{"ColumnNameTranslated"}</span>
+                        <span class="Gray" title="$Data{"Title"}">$QData{"ColumnNameTranslated"}</span>
 <!-- dtl:block:OverviewNavBarPageColumnEmpty -->
 
                     </th>
@@ -144,30 +144,30 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 <!-- dtl:block:OverviewNavBarPageDynamicField -->
                     <th class="OverviewHeader $QData{"HeaderColumnName"} DynamicField Last $QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$Text{"$Data{"Label"}"}</a>
 <!-- dtl:block:OverviewNavBarPageDynamicFieldSortable -->
 <!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
-                        <span class="Gray">$Text{"$Data{"Label"}"}</span>
+                        <span class="Gray" title="$Data{"Title"}">$Text{"$Data{"Label"}"}</span>
 <!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
 
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableSortable -->
-                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
                             </div>
                         </div>
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$QData{"Label"}</a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$QData{"Label"}</a>
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableSortable -->
 
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableNotSortable -->
-                        <a href="#" class="ColumnSettingsTrigger"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
                             </div>
                         </div>
-                        <span class="Gray">$QData{"Label"}</span>
+                        <span class="Gray" title="$Data{"Title"}">$QData{"Label"}</span>
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableNotSortable -->
 
                     </th>
