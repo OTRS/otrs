@@ -1646,7 +1646,7 @@ sub _SearchParamsGet {
     }
 
     # always set TicketNumber
-    if ( ! grep {$_ eq 'TicketNumber'} @Columns ) {
+    if ( !grep { $_ eq 'TicketNumber' } @Columns ) {
         unshift @Columns, 'TicketNumber';
     }
 
