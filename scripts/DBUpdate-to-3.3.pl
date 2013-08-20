@@ -130,6 +130,11 @@ Please run it as the 'otrs' user or with the help of su:
     }
     $Step++;
 
+    print "Step $Step of $Steps: Checking if ACL tables already exist... ";
+    _AddACLTables($CommonObject) || die;
+    print "done.\n\n";
+    $Step++;
+
     # uninstall Merged Feature Add-Ons
     print "Step $Step of $Steps: Uninstall Merged Feature Add-Ons... ";
     if ( _UninstallMergedFeatureAddOns($CommonObject) ) {
@@ -264,6 +269,120 @@ sub _CheckFrameworkVersion {
 
     return 1;
 }
+
+
+=item _AddACLTables($CommonObject)
+
+This function checks if the acl and acl_sync tables already exist
+and creates them otherwise.
+
+    _AddACLTables($CommonObject);
+
+=cut
+
+sub _AddACLTables {
+    my $CommonObject = shift;
+
+    my $ACLTablesExist;
+    print "Check if ACL table exists.\n";
+    {
+        my $STDERR;
+
+        # Catch STDERR log messages to not confuse the user. The Prepare() will fail
+        #   if the columns are not present.
+        local *STDERR;
+        open STDERR, '>:utf8', \$STDERR;
+
+        $ACLTablesExist = $CommonObject->{DBObject}->Prepare(
+            SQL   => "SELECT * FROM acl WHERE 1=0",
+            Limit => 1,
+        );
+    }
+
+    my $XMLString;
+
+    if ( $ACLTablesExist ) {
+
+        print "ACL tables are present, no need to create them.\n";
+
+        # fetch data to avoid warnings
+        while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+            # noop
+        }
+
+        return 1;
+    }
+    else {
+
+        print "ACL tables not found, create it.\n";
+
+        $XMLString = '<?xml version="1.0" encoding="utf-8" ?>
+        <database Name="otrs">
+            <TableCreate Name="acl">
+                <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+                <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+                <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
+                <Column Name="description" Required="false" Size="250" Type="VARCHAR"/>
+                <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+                <Column Name="stop_after_match" Required="false" Type="SMALLINT"/>
+                <Column Name="config_match" Required="false" Type="LONGBLOB"/>
+                <Column Name="config_change" Required="false" Type="LONGBLOB"/>
+                <Column Name="create_time" Required="true" Type="DATE"/>
+                <Column Name="create_by" Required="true" Type="INTEGER"/>
+                <Column Name="change_time" Required="true" Type="DATE"/>
+                <Column Name="change_by" Required="true" Type="INTEGER"/>
+                <Unique Name="acl_name">
+                    <UniqueColumn Name="name"/>
+                </Unique>
+                <ForeignKey ForeignTable="valid">
+                    <Reference Local="valid_id" Foreign="id"/>
+                </ForeignKey>
+                <ForeignKey ForeignTable="users">
+                    <Reference Local="create_by" Foreign="id"/>
+                    <Reference Local="change_by" Foreign="id"/>
+                </ForeignKey>
+            </TableCreate>
+            <TableCreate Name="acl_sync">
+                <Column Name="acl_id" Required="true" Size="200" Type="VARCHAR"/>
+                <Column Name="sync_state" Required="true" Size="30" Type="VARCHAR"/>
+                <Column Name="create_time" Required="true" Type="DATE"/>
+                <Column Name="change_time" Required="true" Type="DATE"/>
+            </TableCreate>
+        </database>';
+    }
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = Kernel::System::XML->new( %{$CommonObject} );
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $CommonObject->{DBObject}->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        print $SQL . "\n";
+        my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $CommonObject->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
+
 
 =item _GenerateMessageIDMD5()
 
