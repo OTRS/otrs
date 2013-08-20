@@ -93,7 +93,7 @@ sub new {
     }
 
     # get the Dynamic Field Backends configuration
-    my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
+    my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Driver');
 
     # check Configuration format
     if ( !IsHashRefWithData($DynamicFieldsConfig) ) {
@@ -215,7 +215,7 @@ sub new {
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Backend');
 
     EXTENSION:
-    for my $ExtensionKey ( sort keys %{ $DynamicFieldBackendExtensions } ){
+    for my $ExtensionKey ( sort keys %{$DynamicFieldBackendExtensions} ) {
 
         # skip invalid extensions
         next EXTENSION if !IsHashRefWithData( $DynamicFieldBackendExtensions->{$ExtensionKey} );
@@ -227,7 +227,7 @@ sub new {
         next EXTENSION if !$Extension->{Module};
 
         # check if module can be loaded
-        if ( !$Self->{MainObject}->Require($Extension->{Module}) ) {
+        if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
             die "Can't load dynamic fields backend module $Extension->{Backend}! $@";
         }
 

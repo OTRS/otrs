@@ -529,7 +529,7 @@ sub DisplayValueRender {
     }
 
     # get specific field settings
-    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{Multiselect} || {};
+    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Driver')->{Multiselect} || {};
 
     # set new line separator
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';

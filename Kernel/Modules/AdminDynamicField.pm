@@ -40,7 +40,7 @@ sub new {
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
 
     # get configured field types
-    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Backend');
+    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Driver');
 
     return $Self;
 }
