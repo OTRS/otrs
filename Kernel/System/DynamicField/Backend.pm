@@ -15,6 +15,8 @@ use warnings;
 use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
+use vars qw(@ISA);
+
 =head1 NAME
 
 Kernel::System::DynamicField::Backend
@@ -206,6 +208,31 @@ sub new {
             # remember the backend object
             $Self->{ 'DynamicField' . $ObjectType . 'HandlerObject' } = $ObjectHandlerObject;
         }
+    }
+
+    # get the Dynamic Field Backend custmom extensions
+    my $DynamicFieldBackendExtensions
+        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Backend');
+
+    EXTENSION:
+    for my $ExtensionKey ( sort keys %{ $DynamicFieldBackendExtensions } ){
+
+        # skip invalid extensions
+        next EXTENSION if !IsHashRefWithData( $DynamicFieldBackendExtensions->{$ExtensionKey} );
+
+        # create a extension config shortcut
+        my $Extension = $DynamicFieldBackendExtensions->{$ExtensionKey};
+
+        # skip if extension does not contain a backend module
+        next EXTENSION if !$Extension->{Module};
+
+        # check if module can be loaded
+        if ( !$Self->{MainObject}->Require($Extension->{Module}) ) {
+            die "Can't load dynamic fields backend module $Extension->{Backend}! $@";
+        }
+
+        # load the module
+        push @ISA, $Extension->{Module};
     }
 
     return $Self;

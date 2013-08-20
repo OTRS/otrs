@@ -18,6 +18,8 @@ use Kernel::System::Time;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseDateTime);
 
+use vars qw(@ISA);
+
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::DateTime
@@ -67,6 +69,43 @@ sub new {
         'IsStatsCondition'             => 0,
         'IsCustomerInterfaceCapable'   => 1,
     };
+
+    # get the Dynamic Field Backend custmom extensions
+    my $DynamicFieldDriverExtensions
+        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::DateTime');
+
+    EXTENSION:
+    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
+
+        # skip invalid extensions
+        next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
+
+        # create a extension config shortcut
+        my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
+
+        # check if extension has a new module
+        if ( $Extension->{Module} ) {
+
+            # check if module can be loaded
+            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+                die "Can't load dynamic fields backend module"
+                    . " $Extension->{Module}! $@";
+            }
+
+            # load the module
+            push @ISA, $Extension->{Module};
+
+        }
+
+        # check if extension contains more behabiors
+        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
+
+            %{ $Self->{Behaviors} } = (
+                %{ $Self->{Behaviors} },
+                %{ $Extension->{Behaviors} }
+            );
+        }
+    }
 
     return $Self;
 }
