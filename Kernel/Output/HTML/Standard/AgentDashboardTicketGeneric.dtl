@@ -399,7 +399,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                 if ( $TriggerObj.closest('th').hasClass('CustomerID') || $TriggerObj.closest('th').hasClass('CustomerUserID') || $TriggerObj.closest('th').hasClass('Responsible') || $TriggerObj.closest('th').hasClass('Owner') ) {
 
                     if (!$TriggerObj.parent().find('.SelectedValue').length) {
-                        Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
+                        Core.AJAX.FormUpdate($('#ExtraInfo'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
                             var AutoCompleteValue = $TriggerObj
                                     .next('.ColumnSettingsContainer')
                                     .find('select')
@@ -434,7 +434,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                     }
                 }
                 else {
-                    Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                    Core.AJAX.FormUpdate($('#ExtraInfo'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
                 }
         });
     }
@@ -591,9 +591,13 @@ $('#Dashboard$QData{"Name"}-box').find('.RemoveFilters').remove();
     });
 
     $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
-        var Filter = $(this).attr('data-filter');
+        var Filter = $(this).attr('data-filter'),
+        CustomerID;
+
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"}', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=' + CustomerID, function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
