@@ -373,7 +373,7 @@ sub EditFieldValueGet {
         );
     }
 
-    # check if return value structure is needed
+    # check if return value structure is nedded
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
         return \%DynamicFieldValues;
     }
