@@ -182,7 +182,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                         <input type="hidden" name="$QData{"NamePref"}" class="ColumnsJSON" value="$QData{"Columns"}" />
                         <input type="hidden" class="ColumnsEnabledJSON" value="$QData{"ColumnsEnabled"}" />
                         <input type="hidden" class="ColumnsAvailableJSON" value="$QData{"ColumnsAvailable"}" />
-                        <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
+                        <label class="DontPrint">$Text{"$Data{"Desc"}"}:</label>
                         <div class="Field DontPrint LayoutGrid AllocationListContainer">
                             <div class="Size1of2">
                                 <ul class="Tablelike">
