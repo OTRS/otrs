@@ -2721,7 +2721,7 @@ sub Data {
 
         # Template: InstallerDBStart
         'Install Type' => '',
-        'Create a database for OTRS' => '',
+        'Create a new database for OTRS' => '',
         'Use an existing database for OTRS' => '',
 
         # Template: InstallerDBmssql
