@@ -1722,7 +1722,7 @@ if ( !$DeveloperSystem ) {
     );
     $Self->False(
         $PackageInstalled,
-        '#14 TestPackageUninstallMerged PackageIsInstalled() - with flase',
+        '#14 TestPackageUninstallMerged PackageIsInstalled() - with false',
     );
 }
 
