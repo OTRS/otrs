@@ -17,6 +17,7 @@ The following persons contributed to OTRS:
 * Diego Selzlein <diegoselzlein@gmail.com>
 * Elias Probst <elias.probst@otrs.com>
 * Elva Novoa <elva.novoa@otrs.com>
+* Enrique Matías Sánchez (Quique) <cronopios@gmail.com>
 * Felix Niklas <felix.niklas@otrs.com>
 * Gerald Young <gerald.young@noynim.com>
 * Henning Oschwald <henning.oschwald@otrs.com>
