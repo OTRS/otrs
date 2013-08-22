@@ -36,7 +36,7 @@ sub Run {
 
     # secure mode message (don't allow this action until secure mode is enabled)
     if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        $Self->{LayoutObject}->SecureMode();
+        return $Self->{LayoutObject}->SecureMode();
     }
 
     $Param{ResultFormatStrg} = $Self->{LayoutObject}->BuildSelection(

@@ -70,7 +70,7 @@ sub Run {
 
     # secure mode message (don't allow this action till secure mode is enabled)
     if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        $Self->{LayoutObject}->SecureMode();
+        return $Self->{LayoutObject}->SecureMode();
     }
 
     # get config data
