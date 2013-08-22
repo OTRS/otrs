@@ -27,12 +27,12 @@ $Include{"Copyright"}
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
