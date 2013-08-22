@@ -2709,7 +2709,7 @@ sub Data {
             'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => 'Datenbankeinrichtung erfolgreich!',
+        'Database setup successful!' => 'Datenbank erfolgreich erstellt!',
 
         # Template: InstallerDBStart
         'Install Type' => 'Installationstyp',
