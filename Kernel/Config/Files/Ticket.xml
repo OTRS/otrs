@@ -7028,6 +7028,9 @@ $QData{"Body"}
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
+                <Loader>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
