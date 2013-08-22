@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-20 14:44:10
+    # Last translation file sync: 2013-08-22 10:06:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -724,6 +724,7 @@ sub Data {
         'Mark as Spam!' => 'Označi kot SPAM!',
         'My Queues' => 'Moje vrste',
         'Shown Tickets' => 'prikazani zahtevki',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Vaše sporočilo E-pošte s številko zahtevka "<OTRS_TICKET>" je združena z zahtevkom "<OTRS_MERGE_TO_TICKET>"!',
         'Ticket %s: first response time is over (%s)!' => 'zahtevek %s: prvi odzivni čas je potekel (%s)!',

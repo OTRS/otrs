@@ -363,7 +363,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 <!-- dtl:block:RecordTicketColumn -->
 <!-- dtl:block:RecordTicketColumnTranslatable -->
                     <td>
-                        <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue","30"}"}</div>
+                        <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue"}"}</div>
                     </td>
 <!-- dtl:block:RecordTicketColumnTranslatable -->
 <!-- dtl:block:RecordTicketColumnTime -->

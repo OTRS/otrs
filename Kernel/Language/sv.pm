@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-20 14:44:14
+    # Last translation file sync: 2013-08-22 10:06:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -722,6 +722,7 @@ sub Data {
         'Mark as Spam!' => 'Markera som SPAM!',
         'My Queues' => 'Mina köer',
         'Shown Tickets' => 'Visade Ärenden',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Ditt e-postärende med nummer "<OTRS_TICKET>" har slagits samman med "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ärende %s: första åtgärdstid har passerats (%s)!',

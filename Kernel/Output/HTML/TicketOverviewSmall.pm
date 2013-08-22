@@ -67,6 +67,11 @@ sub new {
     my @ColumnsEnabled;
     my @ColumnsAvailable;
 
+    # take general settings if not defined for the screen
+    if ( !defined $Self->{Config}->{DefaultColumns} ) {
+        $Self->{Config}->{DefaultColumns} = $Self->{ConfigObject}->Get('DefaultOverviewColumns');
+    }
+
     # check for default settings
     if (
         $Self->{Config}->{DefaultColumns}
@@ -532,34 +537,6 @@ sub Run {
             }
 
         }
-
-        #        # loop through all the general ticket data to get the ones that should be shown
-        #        COLUMN:
-        #        for my $Priority (sort { $a <=> $b} keys %ColumnPriorities ) {
-        #            $TicketData = $ColumnPriorities{$Priority};
-        #
-        #            next COLUMN if !$TicketData;
-        #
-        #            # verify if the current ticket data is defined in the preferences
-        #            if ( exists $Preferences{ 'OTRS' . $TicketData } ) {
-        #
-        #                # if it is enabled, the column should be shown
-        #                if (
-        #                    defined $Preferences{ 'OTRS' . $TicketData }
-        #                    && $Preferences{ 'OTRS' . $TicketData } ne ''
-        #                    )
-        #                {
-        #                    push @Col, $TicketData;
-        #                }
-        #            }
-        #
-        #            # otherwise, read the config
-        #            else {
-        #                if ( $Config->{GeneralTicketData}->{$TicketData} eq '1' ) {
-        #                    push @Col, $TicketData;
-        #                }
-        #            }
-        #        }
 
         my $CSS = '';
         my $OrderBy;

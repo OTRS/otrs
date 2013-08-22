@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-20 14:44:17
+    # Last translation file sync: 2013-08-22 10:06:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -719,6 +719,7 @@ sub Data {
         'Mark as Spam!' => 'Đánh dấu là thư rác!',
         'My Queues' => 'Hàng đợi của tôi',
         'Shown Tickets' => 'Các thẻ được hiển thị',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'E-mail của bạn với số thẻ "<OTRS_TICKET>" được trộn thành "<OTRS_MERGE_TO_TICKET>"!',
         'Ticket %s: first response time is over (%s)!' => 'Thẻ %s: lần phản hồi đầu tiên quá (%s)!',

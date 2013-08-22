@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-20 14:43:59
+    # Last translation file sync: 2013-08-22 10:05:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -721,6 +721,7 @@ sub Data {
         'Mark as Spam!' => '迷惑メールにする',
         'My Queues' => '担当キュー',
         'Shown Tickets' => 'チケットを表示',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'メールのチケット番号 "<OTRS_TICKET>" を "<OTRS_MERGE_TO_TICKET>" と結合しました！',
         'Ticket %s: first response time is over (%s)!' => 'チケット %s: 初回応答期限切れです(%s)！',
