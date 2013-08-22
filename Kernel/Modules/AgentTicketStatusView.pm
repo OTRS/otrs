@@ -223,13 +223,14 @@ sub Run {
     if ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
 
         my $FilterContent = $Self->{LayoutObject}->TicketListShow(
-            FilterContentOnly => 1,
-            HeaderColumn      => $HeaderColumn,
-            ElementChanged    => $ElementChanged,
-            OriginalTicketIDs => \@OriginalViewableTickets,
-            Action            => 'AgentTicketStatusView',
-            Env               => $Self,
-            View              => $Self->{View},
+            FilterContentOnly   => 1,
+            HeaderColumn        => $HeaderColumn,
+            ElementChanged      => $ElementChanged,
+            OriginalTicketIDs   => \@OriginalViewableTickets,
+            Action              => 'AgentTicketStatusView',
+            Env                 => $Self,
+            View                => $Self->{View},
+            EnableColumnFilters => 1,
         );
 
         if ( !$FilterContent ) {
@@ -345,8 +346,9 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $FilterLink,
 
-        OrderBy => $OrderBy,
-        SortBy  => $SortBy,
+        OrderBy             => $OrderBy,
+        SortBy              => $SortBy,
+        EnableColumnFilters => 1,
     );
 
     # get page footer

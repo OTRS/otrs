@@ -283,6 +283,14 @@ sub SortOrderBar {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # If $Param{EnableColumnFilters} is not sent, we want to disable all filters
+    #   for the current screen. We localize the setting for this sub and change it
+    #   after that, if needed. The original value will be restored after this function.
+    local $Self->{AvailableFilterableColumns} = $Self->{AvailableFilterableColumns};
+    if ( !$Param{EnableColumnFilters} ) {
+        $Self->{AvailableFilterableColumns} = {};    # disable all column filters
+    }
+
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
