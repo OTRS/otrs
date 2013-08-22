@@ -20,6 +20,13 @@ Core.Agent = Core.Agent || {};
  */
 Core.Agent.TableFilters = (function (TargetNS) {
 
+    /*
+     * check dependencies first
+     */
+    if (!Core.Debug.CheckDependency('Core.Agent.TableFilters', 'Core.UI.AllocationList', 'Core.UI.AllocationList')) {
+        return;
+    }
+
     /**
      * @function
      * @param {jQueryObject} $Input Input element to add auto complete to

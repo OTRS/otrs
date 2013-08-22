@@ -7029,6 +7029,7 @@ $QData{"Body"}
                     <Prio>300</Prio>
                 </NavBar>
                 <Loader>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
