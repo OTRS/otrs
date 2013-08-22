@@ -223,10 +223,5 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
         </div>
     </div>
 <!-- dtl:block:ContentLarge -->
-<!-- dtl:block:CustomerInformationCenterExtraInfo -->
-    <form id="ExtraInfo" action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="CustomerID" value="$QData{"CustomerID"}"/>
-    </form>
-<!-- dtl:block:CustomerInformationCenterExtraInfo -->
 </div>
 <div class="Clear"></div>

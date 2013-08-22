@@ -432,12 +432,6 @@ sub Run {
             $ContentBlockData{CustomerIDTitle}
                 = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
         }
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerInformationCenterExtraInfo',
-            Data => {
-                CustomerID => $Self->{CustomerID},
-            },
-        );
     }
 
     # show dashboard
