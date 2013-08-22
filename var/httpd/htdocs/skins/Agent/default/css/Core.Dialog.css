@@ -189,8 +189,6 @@
 
 .Dialog .Field.LayoutGrid .AllocationList.OrderNumbers {
     list-style: decimal inside;
-    padding-left: 5%;
-    width: 93%;
 }
 
 #ContextSettingsDialogOverviewSmall {
