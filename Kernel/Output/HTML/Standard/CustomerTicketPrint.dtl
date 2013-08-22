@@ -106,7 +106,7 @@
 
 <!-- dtl:block:TicketDynamicFieldHeader -->
                 <tr>
-                    <td colspan="4"><b><i>Ticket Dynamic Fields</i></b></td>
+                    <td colspan="4"><b><i>$Text{"Ticket Dynamic Fields"}</i></b></td>
                 </tr>
 <!-- dtl:block:TicketDynamicFieldHeader -->
 
