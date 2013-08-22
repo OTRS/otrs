@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-20 14:43:50
+    # Last translation file sync: 2013-08-22 10:05:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -725,6 +725,7 @@ sub Data {
         'Mark as Spam!' => 'به‌عنوان هرزنامه علامت بزن',
         'My Queues' => 'لیست درخواست‌های من',
         'Shown Tickets' => 'درخواست‌های نمایش داده شده',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Email شما با شماره درخواست  "<OTRS_TICKET>" با درخواست "<OTRS_MERGE_TO_TICKET>"  ادغام گردید.',
         'Ticket %s: first response time is over (%s)!' => ' زمان اولین پاسخ برای درخواست %s: %s ',

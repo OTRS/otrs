@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-20 14:44:00
+    # Last translation file sync: 2013-08-22 10:06:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -720,6 +720,7 @@ sub Data {
         'Mark as Spam!' => 'Pažymėti kaip Spam!',
         'My Queues' => 'Mano eilės',
         'Shown Tickets' => 'Rodomos triktys',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Jūsų el. laiškas trikties numeriu "<OTRS_TICKET>" yra sujungtas su "<OTRS_MERGE_TO_TICKET>"!',
         'Ticket %s: first response time is over (%s)!' => 'Triktis %s: baigėsi pirmojo atsakymo laikas (%s)!',

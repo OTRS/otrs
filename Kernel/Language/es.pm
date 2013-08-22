@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-21 13:52:54
+    # Last translation file sync: 2013-08-22 10:05:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -725,6 +725,7 @@ sub Data {
         'Mark as Spam!' => '¡Marcar como spam!',
         'My Queues' => 'Mis colas',
         'Shown Tickets' => 'Tickets mostrados',
+        'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Su correo con el ticket número "<OTRS_TICKET>" se fusionó con "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: ¡Se ha excedido el tiempo para la primera respuesta (%s)!',
@@ -1200,6 +1201,7 @@ sub Data {
         'Archive selected tickets' => 'Archivar los tickets seleccionados',
         'Add Note' => 'Añadir una nota',
         'Time units' => 'Unidades de tiempo',
+        '(work units)' => '(unidades de trabajo)',
         'Ticket Commands' => 'Órdenes de ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaciones al agente/cliente cuando haya cambios',
         'CMD' => 'CMD',
@@ -2211,6 +2213,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Borrar la estadística',
+        'Stat#' => 'Estadística nº',
         'Do you really want to delete this stat?' => '¿Seguro que desea borrar esta estadística?',
 
         # Template: AgentStatsEditRestrictions
@@ -4737,7 +4740,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '(unidades de trabajo)',
         'Attachments <-> Responses' => 'Adjuntos <-> Respuestas',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'No es posible actualizar la contraseña, debe contener al menos 2 minúsculas y 2 mayúsculas.',
@@ -4762,7 +4764,6 @@ sub Data {
         'Responses' => 'Respuestas',
         'Responses <-> Queues' => 'Respuestas <-> Colas',
         'Show  article' => 'Mostrar el artículo',
-        'Stat#' => 'Estadística nº',
         'There are currently no steps available for this process.' => 'Actualmente no hay pasos disponibles para este proceso.',
         'There are no further steps in this process' => 'Este proceso no tiene más pasos.',
         'Ticket Dynamic Fields' => 'Campos dinámicos del ticket',

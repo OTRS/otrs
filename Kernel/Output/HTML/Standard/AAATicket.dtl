@@ -207,6 +207,7 @@ $Text{"Delete this ticket"}
 $Text{"Mark as Spam!"}
 $Text{"My Queues"}
 $Text{"Shown Tickets"}
+$Text{"Shown Columns"}
 $Text{"Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>"."}
 $Text{"Ticket %s: first response time is over (%s)!"}
 $Text{"Ticket %s: first response time will be over in %s!"}
