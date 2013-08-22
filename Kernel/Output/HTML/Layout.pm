@@ -3572,6 +3572,7 @@ sub CustomerFatalError {
     $Output .= $Self->Error(%Param);
     $Output .= $Self->CustomerFooter();
     $Self->Print( Output => \$Output );
+    exit;
 }
 
 sub CustomerNavigationBar {
