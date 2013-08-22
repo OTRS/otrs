@@ -709,5 +709,9 @@ iframe.TextOption.Customer {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.ui-menu .ui-menu-item a {
+    border: 1px solid #fff;
+}
+
 } /* end @media */
 
