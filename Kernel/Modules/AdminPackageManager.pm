@@ -1207,7 +1207,9 @@ sub Run {
             },
         );
 
-        if ( $VerificationData{ $Package->{Name}->{Content} } && $VerificationData{ $Package->{Name}->{Content} } eq 'verified' ) {
+        if (   $VerificationData{ $Package->{Name}->{Content} }
+            && $VerificationData{ $Package->{Name}->{Content} } eq 'verified' )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackageVerifyLogo',
             );
@@ -1567,7 +1569,7 @@ sub _InstallHandling {
             },
         );
 
-        if ($Verified eq 'verified') {
+        if ( $Verified eq 'verified' ) {
             $Self->{LayoutObject}->Block(
                 Name => 'OTRSVerifyLogo',
             );
@@ -1606,7 +1608,7 @@ sub _InstallHandling {
                 },
             );
 
-            if ($Verified eq 'verified') {
+            if ( $Verified eq 'verified' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OTRSVerifyLogo',
                 );

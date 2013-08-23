@@ -73,7 +73,7 @@ sub new {
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Text');
 
     EXTENSION:
-    for my $ExtensionKey ( sort keys %{ $DynamicFieldDriverExtensions } ){
+    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
 
         # skip invalid extensions
         next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
@@ -85,9 +85,9 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require($Extension->{Module}) ) {
+            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
-                . " $Extension->{Module}! $@";
+                    . " $Extension->{Module}! $@";
             }
 
             # load the module
@@ -96,12 +96,12 @@ sub new {
         }
 
         # check if extension contains more behabiors
-        if ( IsHashRefWithData ( $Extension->{Behaviors} ) ) {
+        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
 
             %{ $Self->{Behaviors} } = (
                 %{ $Self->{Behaviors} },
                 %{ $Extension->{Behaviors} }
-             );
+            );
         }
     }
 

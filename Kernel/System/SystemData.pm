@@ -104,7 +104,7 @@ Result is true if adding was OK, and false if it failed, for instance because
 the key already existed.
 
 Note that keys can be unicode but are lowercased before they're inserted in
-the database. This is because the values are cached and cache is case sensitive; 
+the database. This is because the values are cached and cache is case sensitive;
 databases can be case-insensitive.
 
     my $Result = $SystemDataObject->SystemDataAdd(
@@ -221,7 +221,7 @@ Returns true if update was succesful or false if otherwise - for instance
 if key did not exist.
 
 Note that keys can be unicode but are lowercased before they're inserted in
-the database. This is because the values are cached and cache is case sensitive; 
+the database. This is because the values are cached and cache is case sensitive;
 databases can be case-insensitive.
 
     my $Result = $SystemDataObject->SystemDataUpdate(

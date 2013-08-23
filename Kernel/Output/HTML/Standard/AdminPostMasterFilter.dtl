@@ -139,7 +139,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot1">$Text{"Negate"} 1:</label> 
+                        <label for="MatchNot1">$Text{"Negate"} 1:</label>
                         <input type="checkbox" name="MatchNot1" id="MatchNot1" value="1" $QData{"MatchNot1"} />
 
                         <label for="MatchValue1">$Text{"Value"} 1:</label>
@@ -157,7 +157,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot2">$Text{"Negate"} 2:</label> 
+                        <label for="MatchNot2">$Text{"Negate"} 2:</label>
                         <input type="checkbox" name="MatchNot2" id="MatchNot2" value="1" $QData{"MatchNot2"} />
 
                         <label for="MatchValue2">$Text{"Value"} 2:</label>
@@ -175,7 +175,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot3">$Text{"Negate"} 3:</label> 
+                        <label for="MatchNot3">$Text{"Negate"} 3:</label>
                         <input type="checkbox" name="MatchNot3" id="MatchNot3" value="1" $QData{"MatchNot3"} />
 
                         <label for="MatchValue3">$Text{"Value"} 3:</label>
@@ -193,7 +193,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot4">$Text{"Negate"} 4:</label> 
+                        <label for="MatchNot4">$Text{"Negate"} 4:</label>
                         <input type="checkbox" name="MatchNot4" id="MatchNot4" value="1" $QData{"MatchNot4"} />
 
                         <label for="MatchValue4">$Text{"Value"} 4:</label>

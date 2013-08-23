@@ -14,7 +14,6 @@ Content-Disposition: inline
 X-OTRS-ResponsibleID: 1 
 X-Operating-System: Linux 2.4.10-4GB i686
 X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
-X-CVS: $Id: PostMaster-Test1.box,v 1.1 2010/06/14 08:16:03 mg Exp $
 Content-Length: 139
 Lines: 11
 

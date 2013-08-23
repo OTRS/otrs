@@ -1420,7 +1420,7 @@ sub Run {
             Name => $Self->{Name},
             %{$Summary},
             FilterValue => $Self->{Filter},
-            CustomerID => $Self->{CustomerID},
+            CustomerID  => $Self->{CustomerID},
         },
         KeepScriptTags => $Param{AJAX},
     );

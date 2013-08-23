@@ -193,8 +193,8 @@ sub SearchProfileGet {
     return if !$Self->{DBObject}->Prepare(
         SQL => "
             SELECT profile_type, profile_key, profile_value
-            FROM search_profile 
-            WHERE profile_name = ? 
+            FROM search_profile
+            WHERE profile_name = ?
                 AND $Self->{Lower}(login) = $Self->{Lower}(?)
             ",
         Bind => [ \$Param{Name}, \$Login ],
@@ -244,9 +244,9 @@ sub SearchProfileDelete {
     # delete search profile
     return if !$Self->{DBObject}->Do(
         SQL => "
-            DELETE 
-            FROM search_profile 
-            WHERE profile_name = ? 
+            DELETE
+            FROM search_profile
+            WHERE profile_name = ?
                 AND $Self->{Lower}(login) = $Self->{Lower}(?)
             ",
         Bind => [ \$Param{Name}, \$Login ],

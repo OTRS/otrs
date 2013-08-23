@@ -223,6 +223,7 @@ sub EventHandler {
         if ( $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
 
             if ( $Self->{EventHandlerTransaction} && !$Param{Transaction} ) {
+
                 # This is a special case. A new event was fired during processing of
                 #   the queued events in transaction mode. This event must be immediately
                 #   processed.
