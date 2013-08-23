@@ -335,16 +335,17 @@ $('#SaveAndFinishButton').bind('click', function(){
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SaveAndFinishButton -->
                                 $Text{"or"}
-                                <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
-                            </div>
-                            <div class="Clear"></div>
-                        </fieldset>
-                    </div>
+                                <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;/ws/otrs33-dev/Kernel/Output/HTML
+                                    WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
+        </div>
+        <div class="Clear"></div>
     </div>
-    <div class="Clear"></div>
-</div>

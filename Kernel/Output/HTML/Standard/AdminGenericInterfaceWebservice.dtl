@@ -417,34 +417,35 @@ $('#SaveAndFinishButton').bind('click', function(){
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SaveAndFinishButton -->
                             $Text{"or"}
-                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
-                        </div>
-                        <div class="Clear"></div>
-                    </fieldset>
-                </form>
+                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;/ws/otrs33-dev/Kernel/Output/HTML
+                                WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <div class="Hidden" id="DeleteOperationDialogContainer">
-            <div id ="DeleteOperationDialog" class="InnerContent GenericInterfaceDialog">
-                <span class="WarningDialog ">&nbsp;</span>
-                <p class="Center Warning">$Text{"Do you really want to delete this operation?"}</p>
-                <div class="SpacingTop"></div>
+            <div class="Hidden" id="DeleteOperationDialogContainer">
+                <div id ="DeleteOperationDialog" class="InnerContent GenericInterfaceDialog">
+                    <span class="WarningDialog ">&nbsp;</span>
+                    <p class="Center Warning">$Text{"Do you really want to delete this operation?"}</p>
+                    <div class="SpacingTop"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="Hidden" id="DeleteInvokerDialogContainer">
-            <div id ="DeleteInvokerDialog" class="InnerContent GenericInterfaceDialog">
-                <span class="WarningDialog ">&nbsp;</span>
-                <p class="Center Warning">$Text{"Do you really want to delete this invoker?"}</p>
-                <div class="SpacingTop"></div>
+            <div class="Hidden" id="DeleteInvokerDialogContainer">
+                <div id ="DeleteInvokerDialog" class="InnerContent GenericInterfaceDialog">
+                    <span class="WarningDialog ">&nbsp;</span>
+                    <p class="Center Warning">$Text{"Do you really want to delete this invoker?"}</p>
+                    <div class="SpacingTop"></div>
+                </div>
             </div>
-        </div>
 
 <!-- dtl:block:Details -->
+        </div>
+        <div class="Clear"></div>
     </div>
-    <div class="Clear"></div>
-</div>
 <!-- dtl:block:Main -->
 
 <!--dtl:js_on_document_complete-->

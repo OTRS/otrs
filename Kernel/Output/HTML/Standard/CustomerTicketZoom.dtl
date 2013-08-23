@@ -220,7 +220,7 @@
                         </div>
                     </li>
 <!-- dtl:block:ActivityDialog -->
-                    <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
+                    <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$LQData{"TicketID"};ProcessEntityID=$LQData{"ProcessEntityID"};ActivityDialogEntityID=$LQData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
 <!-- dtl:block:ActivityDialog -->
 <!-- dtl:block:NoActivityDialog -->
                     <li>$Text{"There are no dialogs available at this point in the process."}</li>

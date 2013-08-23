@@ -20,94 +20,95 @@
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Web Services"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;/ws/otrs33-dev/Kernel/Output/HTML
+                WebserviceID=$LQData{"WebserviceID"}">$QData{"WebserviceName"}</a>
 
-            $Config{"GenericInterface::Webservice::Path::Separator"}
+                $Config{"GenericInterface::Webservice::Path::Separator"}
 <!-- dtl:block:NavigationAdd -->
-            $Text{"Add new operation"}
+                $Text{"Add new operation"}
 <!-- dtl:block:NavigationAdd -->
 <!-- dtl:block:NavigationChange -->
-            $Text{"Change operation %s", "$Data{"Operation"}"}
+                $Text{"Change operation %s", "$Data{"Operation"}"}
 <!-- dtl:block:NavigationChange -->
-        </h3>
-    </div>
+            </h3>
+        </div>
 
-    <div class="SidebarColumn">
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>$Text{"Actions"}</h2>
-            </div>
-            <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
-                    </li>
+        <div class="SidebarColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>$Text{"Actions"}</h2>
+                </div>
+                <div class="Content">
+                    <ul class="ActionList">
+                        <li>
+                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
+                        </li>
 <!-- dtl:block:ActionListDelete -->
-                    <li>
-                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Delete"}</span></button>
-                        <div class="Hidden" id="DeleteDialogContainer">
-                            <span class="WarningDialog ">&nbsp;</span>
-                            <p id="DeleteDialog" class="Center Warning">
-                                $Text{"Do you really want to delete this operation?"}
-                            </p>
-                            <p class="Center Warning">
-                                $Text{"All configuration data will be lost."}
-                            </p>
-                            <div class="SpacingTop"></div>
-                        </div>
-                    </li>
+                        <li>
+                            <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>$Text{"Delete"}</span></button>
+                            <div class="Hidden" id="DeleteDialogContainer">
+                                <span class="WarningDialog ">&nbsp;</span>
+                                <p id="DeleteDialog" class="Center Warning">
+                                    $Text{"Do you really want to delete this operation?"}
+                                </p>
+                                <p class="Center Warning">
+                                    $Text{"All configuration data will be lost."}
+                                </p>
+                                <div class="SpacingTop"></div>
+                            </div>
+                        </li>
 <!-- dtl:block:ActionListDelete -->
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="ContentColumn">
+        <div class="ContentColumn">
 
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>$Text{"Operation Details"}</h2>
-            </div>
-            <div class="Content">
-                <form action="$Env{"CGIHandle"}" class="Validate" method="post">
-                    <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
-                    <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
-                    <input type="hidden" id="WebserviceID" name="WebserviceID" value="$QData{"WebserviceID"}" />
-                    <input type="hidden" name="OperationType" value="$QData{"OperationType"}" />
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>$Text{"Operation Details"}</h2>
+                </div>
+                <div class="Content">
+                    <form action="$Env{"CGIHandle"}" class="Validate" method="post">
+                        <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
+                        <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
+                        <input type="hidden" id="WebserviceID" name="WebserviceID" value="$QData{"WebserviceID"}" />
+                        <input type="hidden" name="OperationType" value="$QData{"OperationType"}" />
 
-                    <fieldset class="TableLike">
-                        <label for="Operation" class="Mandatory">
-                            <span class="Marker">*</span>
-                            $Text{"Name"}:
-                        </label>
-                        <div class="Field">
-                            <input type="text" class="W50pc RegisterChange Validate_Required $QData{"OperationServerError"}" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
-                            <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
-                            <p class="FieldExplanation">
-                                $Text{"The name is typically used to call up this web service operation from a remote system."}
-                            </p>
-                            <div id="OperationError" class="TooltipErrorMessage">
-                                $Text{"This field is required."} $Text{"Please provide a unique name for this web service."}
+                        <fieldset class="TableLike">
+                            <label for="Operation" class="Mandatory">
+                                <span class="Marker">*</span>
+                                $Text{"Name"}:
+                            </label>
+                            <div class="Field">
+                                <input type="text" class="W50pc RegisterChange Validate_Required $QData{"OperationServerError"}" maxlength="200" id="Operation" name="Operation" value="$QData{"Operation"}" />
+                                <input type="hidden" id="OldOperation" name="OldOperation" value="$QData{"Operation"}" />
+                                <p class="FieldExplanation">
+                                    $Text{"The name is typically used to call up this web service operation from a remote system."}
+                                </p>
+                                <div id="OperationError" class="TooltipErrorMessage">
+                                    $Text{"This field is required."} $Text{"Please provide a unique name for this web service."}
+                                </div>
+                                <div id="OperationServerError" class="TooltipErrorMessage">
+                                    $Text{"The name you entered already exists."}
+                                </div>
                             </div>
-                            <div id="OperationServerError" class="TooltipErrorMessage">
-                                $Text{"The name you entered already exists."}
+                            <div class="Clear"></div>
+
+                            <label for="Description">
+                                $Text{"Description"}:
+                            </label>
+                            <div class="Field">
+                                <input type="text" class="W50pc RegisterChange" maxlength="200" id="Description" name="Description" value="$QData{"Description"}" />
                             </div>
-                        </div>
-                        <div class="Clear"></div>
+                            <div class="Clear"></div>
 
-                        <label for="Description">
-                            $Text{"Description"}:
-                        </label>
-                        <div class="Field">
-                            <input type="text" class="W50pc RegisterChange" maxlength="200" id="Description" name="Description" value="$QData{"Description"}" />
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="MappingInbound">$Text{"Mapping for incoming request data"}:</label>
-                        <div class="Field">
-                            $Data{"MappingInboundStrg"}
-                            <input type="hidden" id="MappingInboundConfigDialog" value="$QData{"MappingInboundConfigDialog"}" />
+                            <label for="MappingInbound">$Text{"Mapping for incoming request data"}:</label>
+                            <div class="Field">
+                                $Data{"MappingInboundStrg"}
+                                <input type="hidden" id="MappingInboundConfigDialog" value="$QData{"MappingInboundConfigDialog"}" />
 <!-- dtl:block:MappingInboundConfigureButton -->
-                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
+                                <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#MappingInboundConfigureButton').bind('click', function(){
@@ -122,27 +123,27 @@ $('#MappingInboundConfigureButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingInboundConfigureButton -->
-                            <p class="FieldExplanation">
-                                $Text{"The request data will be processed by this mapping, to transform it to the kind of data OTRS expects."}
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
+                                <p class="FieldExplanation">
+                                    $Text{"The request data will be processed by this mapping, to transform it to the kind of data OTRS expects."}
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
 
-                        <label for="OperationTypeDisplay">$Text{"Operation backend"}:</label>
-                        <div class="Field">
-                            <input type="text" readonly="readonly" class="W50pc" id="OperationTypeDisplay" value="$QData{"OperationType"}" />
-                            <p class="FieldExplanation">
-                                $Text{"This OTRS operation backend module will be called internally to process the request, generating data for the response."}
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
+                            <label for="OperationTypeDisplay">$Text{"Operation backend"}:</label>
+                            <div class="Field">
+                                <input type="text" readonly="readonly" class="W50pc" id="OperationTypeDisplay" value="$QData{"OperationType"}" />
+                                <p class="FieldExplanation">
+                                    $Text{"This OTRS operation backend module will be called internally to process the request, generating data for the response."}
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
 
-                        <label for="MappingOutbound">$Text{"Mapping for outgoing response data"}:</label>
-                        <div class="Field">
-                            $Data{"MappingOutboundStrg"}
-                            <input type="hidden" id="MappingOutboundConfigDialog" value="$QData{"MappingOutboundConfigDialog"}" />
+                            <label for="MappingOutbound">$Text{"Mapping for outgoing response data"}:</label>
+                            <div class="Field">
+                                $Data{"MappingOutboundStrg"}
+                                <input type="hidden" id="MappingOutboundConfigDialog" value="$QData{"MappingOutboundConfigDialog"}" />
 <!-- dtl:block:MappingOutboundConfigureButton -->
-                            <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
+                                <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="$Text{"Configure"}">$Text{"Configure"}</button>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#MappingOutboundConfigureButton').bind('click', function(){
@@ -157,17 +158,17 @@ $('#MappingOutboundConfigureButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:MappingOutboundConfigureButton -->
-                            <p class="FieldExplanation">
-                                $Text{"The response data will be processed by this mapping, to transform it to the kind of data the remote system expects."}
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
+                                <p class="FieldExplanation">
+                                    $Text{"The response data will be processed by this mapping, to transform it to the kind of data the remote system expects."}
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
 
-                        <div class="Field SpacingTop">
-                            <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
+                            <div class="Field SpacingTop">
+                                <button type="submit" class="Primary" value="$Text{"Save and continue"}">$Text{"Save"}</button>
 <!-- dtl:block:SaveAndFinishButton -->
-                            <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
-                            <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+                                <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                                <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#SaveAndFinishButton').bind('click', function(){
@@ -176,18 +177,19 @@ $('#SaveAndFinishButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SaveAndFinishButton -->
-                            $Text{"or"}
-                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
-                        </div>
-                        <div class="Clear"></div>
+                                $Text{"or"}
+                                <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;/ws/otrs33-dev/Kernel/Output/HTML
+                                    WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                                </div>
+                                <div class="Clear"></div>
 
-                    </fieldset>
-                </form>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
+            <div class="Clear"></div>
         </div>
-    </div>
-    <div class="Clear"></div>
-</div>
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
