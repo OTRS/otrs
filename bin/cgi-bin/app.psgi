@@ -28,6 +28,8 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
+# nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
+
 use CGI;
 use CGI::Emulate::PSGI;
 use Module::Refresh;
@@ -41,32 +43,36 @@ BEGIN {
 
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS CURRENTLY EXPERIMENTAL AND NOT SUPPORTED!\n";
 
-my $app = CGI::Emulate::PSGI->handler(sub {
+my $App = CGI::Emulate::PSGI->handler(
+    sub {
 
-    # Cleanup values from previous requests.
-    CGI::initialize_globals();
+        # Cleanup values from previous requests.
+        CGI::initialize_globals();
 
-    # Populate SCRIPT_NAME as OTRS needs it in some places.
-    ($ENV{SCRIPT_NAME}) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
+        # Populate SCRIPT_NAME as OTRS needs it in some places.
+        ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
 
-    # Fallback to agent login if we could not determine handle...
-    if ( !defined $ENV{SCRIPT_NAME} || !-e "bin/cgi-bin/$ENV{SCRIPT_NAME}" ) {
-        $ENV{SCRIPT_NAME} = 'index.pl';
+        # Fallback to agent login if we could not determine handle...
+        if ( !defined $ENV{SCRIPT_NAME} || !-e "bin/cgi-bin/$ENV{SCRIPT_NAME}" ) {
+            $ENV{SCRIPT_NAME} = 'index.pl';
+        }
+
+        eval {
+            # Reload files in @INC that have changed since the last request.
+            Module::Refresh->refresh();
+
+            # Load the requested script
+            do "bin/cgi-bin/$ENV{SCRIPT_NAME}";
+        };
     }
-
-    eval {
-        # Reload files in @INC that have changed since the last request.
-        Module::Refresh->refresh();
-
-        # Load the requested script
-        do "bin/cgi-bin/$ENV{SCRIPT_NAME}";
-    };
-});
+);
 
 # Small helper function to determine the path to a static file
-my $static_path = sub {
+my $StaticPath = sub {
+
     # Everything in otrs-web/js or otrs-web/skins is a static file.
     return 0 if $_ !~ m{-web/js/|-web/skins/};
+
     # Return only the relative path.
     $_ =~ s{^.*?-web/(js/.*|skins/.*)}{$1}smx;
     return $_;
@@ -75,6 +81,6 @@ my $static_path = sub {
 # Create a Static middleware to serve static files directly without invoking the OTRS
 #   application handler.
 builder {
-    enable "Static", path => $static_path, root => "$Bin/../../var/httpd/htdocs", pass_trough => 0;
-    $app;
+    enable "Static", path => $StaticPath, root => "$Bin/../../var/httpd/htdocs", pass_trough => 0;
+    $App;
 }
