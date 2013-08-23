@@ -70,7 +70,7 @@
     Tickets are now automatically updated when a CustomerID or Customer Login changes.
  - 2013-06-06 Fixed bug#[9503](http://bugs.otrs.org/show_bug.cgi?id=9503) - no connection header in soap responses.
  - 2013-06-05 Added sort functionality to ticket medium and preview overviews.
- - 2013-06-05 Fixed bug#[8475(http://bugs.otrs.org/show_bug.cgi?id=8475) - Screen refresh after action not always correct.
+ - 2013-06-05 Fixed bug#[8475](http://bugs.otrs.org/show_bug.cgi?id=8475) - Screen refresh after action not always correct.
  - 2013-06-04 Added new dashboard widget that shows in a matrix form the number of tickets per state and per queue.
  - 2013-06-04 Added support to recognize numbers from external ticket systems in email subject and body to create follow-up articles in existing tickets.
  - 2013-06-04 Added support for storing customer user data in dynamic ticket fields on ticket create or customer user update.
