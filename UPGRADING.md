@@ -7,7 +7,7 @@ and applies both for RPM and source code (tarball) upgrades.
 If you are running a lower version of OTRS you have to follow the upgrade path
 to 3.2 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1->3.2->3.3 ...)!
 You need to perform a full upgrade to every version in between, including database
-changes and upgrading perl script.
+changes and the upgrading perl script.
 
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
@@ -199,9 +199,13 @@ installed before):
 - OTRSMultiServiceSelect
 - OTRSMultiQueueSelect
 - OTRSDynamicFieldMultiLevelSelection
-- OTRSKeepFAQAttachments
+- OTRSEventBasedTicketActions
 - OTRSTicketAclEditor
 - OTRSCustomerProcessSelection
+- OTRSACLExtensions
+- OTRSGenericStandardTemplates
+- OTRSExtendedDynamicDateFieldSearch
+- OTRSDashboardTicketOverviewFilters
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------
