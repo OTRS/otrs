@@ -33,6 +33,12 @@ use CGI::Emulate::PSGI;
 use Module::Refresh;
 use Plack::Builder;
 
+# Workaround: some parts of OTRS use exit to interrupt the control flow.
+#   This would kill the Plack server, so just use die instead.
+BEGIN {
+    *CORE::GLOBAL::exit = sub { die; };
+}
+
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS CURRENTLY EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 my $app = CGI::Emulate::PSGI->handler(sub {
