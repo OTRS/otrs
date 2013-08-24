@@ -104,7 +104,7 @@
 <!-- dtl:block:ProcessRow -->
                         <tr>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessEdit;ID=$LQData{"ID"};EntityID=$QData{"EntityID"}" title="$QData{"Name"} ($QData{"EntityID"})">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" title="$QData{"Name"} ($QData{"EntityID"})">
                                     $QData{"Name"}
                                 </a>
                             </td>
