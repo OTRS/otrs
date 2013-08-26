@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:05:47
+    # Last translation file sync: 2013-08-26 19:06:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1196,7 +1196,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'A√±adir Nota',
         'Time units' => 'Unidades de tiempo',
-        '(work units)' => '(unidades de trabajo)',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaci√≥n de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -2572,6 +2572,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2986,7 +2987,7 @@ sub Data {
         'Comment for new history entries in the customer interface.' => 'Comentario para entradas nuevas en la historia, en la interfaz del cliente.',
         'Company Status' => '',
         'Company Tickets' => 'Tickets de la Compa√±√≠a',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+        'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
@@ -3059,7 +3060,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para la salida html para a√±adir v√≠nculos a ciertas cadenas. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de im√°genes de OTRS. La otra posibilidad es insertar el v√≠nculo a la imagen.',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3197,8 +3198,8 @@ sub Data {
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Define el contenido por defecto del cuerpo de una nota, en la ventana de campos libres de ticket de la interfaz del agente.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
-            'Define el tema por defecto del front-end (HTML) a ser usado por agentes y clientes. Los temas por defecto son Est√°rdard y Ligero. Si ud. as√≠ lo desea, puede a√±adir su propio tema. Por favor, refi√©rase al manual del administrador para mayor informaci√≥n: http://doc.otrs.org/.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Define el lenguaje por defecto del front-end. Todos los valores posibles se determinan por los archivos de idiomas disponible en el sistema (vea la siguiente configuraci√≥n).',
         'Defines the default history type in the customer interface.' => 'Define el tipo de historia por defecto en la interfaz del cliente.',
@@ -3584,8 +3585,8 @@ sub Data {
         'Defines the subject for rejected emails.' => 'Define el asunto para los correos electr√≥nicos rechazados.',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Define la direcci√≥n de correo electr√≥nico del administrador del sistema, misma que se desplegar√° en las ventanas de error de la aplicaci√≥n.',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            'Define el identificador del sistema, que contendr√°n cada n√∫mero de ticket y cadena de sesi√≥n http, para asegurarse de que s√≥lo los tickets que pertenecen al sistema se procesar√°n como seguimientos (√∫til cuando existe comunicaci√≥n entre 2 instancias de OTRS).',
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -3597,8 +3598,8 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Define el tipo de protocolo que usa el servidor web para servir a la aplicaci√≥n. Si se usar√° el protocolo https, en lugar de http plano, debe especificarse aqu√≠. Ya que esto no afecta la configuraci√≥n/comportamiento del explorador seb, no modificar√° el me√©todo de acceso a la aplicaci√≥n y, si es incorrecto, no evitar√° el inicio de sesi√≥n a la aplicaci√≥n. Esta configuraci√≥n se usa como una variable (OTRS_CONFIG_HttpType) y est√° presente en todas las formas de mensajes que maneja la aplicaci√≥n, con la finalidad de crear v√≠nculos a los tickets dentro del sistema.',
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             'Define el caracter usado para citar correos electr√≥nicos en la ventana de redacci√≥n de un art√≠culo para el ticket, en la interfaz del agente.',
         'Defines the user identifier for the customer panel.' => 'Define el identificador de usuario para la interfaz del cliente.',
@@ -3741,8 +3742,8 @@ sub Data {
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Habilita la salida PDF. El m√≥dulo CPAN PDF::API2 es necesario, si no est√° instalado, la salida PDF se deshabilitar√°.',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            'Habilita el soporte PGP. Cuando este soporte se activa para firmar y garantizar correos, es ALTAMENTE recomendable que el el usuario OTRS ejecute el servidor web. De lo contrario, se generar√°n problemas de privilegios al acceder a la carpeta .gnupg.',
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            '',
         'Enables S/MIME support.' => 'Habilita el soporte S/MIME.',
         'Enables customers to create their own accounts.' => 'Permite a los clientes crear sus propias cuentas.',
         'Enables file upload in the package manager frontend.' => 'Permite cargar archivos en el frontend del administrador de paquetes.',
@@ -3930,8 +3931,8 @@ sub Data {
             'Si se habilita, OTRS entregar√° todos los archivos JavaScript en forma reducida (minified).',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Si se habilita, los m√≥dulos de tickets telef√≥nico y de correo electr√≥nico, se abrir√°n en una ventana nueva.',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
-            'Si se habilita, la versi√≥n de OTRS ser√° removida de los encabezados HTTP.',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4678,7 +4679,7 @@ sub Data {
             'El texto para anteponer al asunto en una respuesta de correo electr√≥nico, por ejemplo: RE, AW, o AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'El texto para anteponer al asunto cuando un correo electr√≥nico se reenv√≠a, por ejemplo: FW, Fwd, o WG.',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Este m√≥dulo y su funci√≥n PreRun() se ejecutar√°n, si as√≠ se define, por cada petici√≥n. Este m√≥dulo es √∫til para verificar algunas opciones de usuario o para desplegar noticias acerca de aplicaciones novedosas.',
@@ -4992,6 +4993,8 @@ sub Data {
         'Default skin for interface.' => 'Piel por defecto para la interfaz.',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'Define la altura del editor de texto enriquecido. Proporcione un n√∫mero (pixeles) o un porcentaje (relativo).',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            'Define el tema por defecto del front-end (HTML) a ser usado por agentes y clientes. Los temas por defecto son Est√°rdard y Ligero. Si ud. as√≠ lo desea, puede a√±adir su propio tema. Por favor, refi√©rase al manual del administrador para mayor informaci√≥n: http://doc.otrs.org/.',
         'Defines the default selection of the free key field number 1 for articles (if more than one option is provided).' =>
             'Define el valor seleccionado por defecto en el campo de llave libre n√∫mero 1 para art√≠culos (si es que hay m√°s de una opci√≥n).',
         'Defines the default selection of the free key field number 1 for tickets (if more than one option is provided).' =>
@@ -5227,6 +5230,8 @@ sub Data {
         'Defines the name of the calendar number 7.' => 'Define el nombre del calendario n√∫mero 7.',
         'Defines the name of the calendar number 8.' => 'Define el nombre del calendario n√∫mero 8.',
         'Defines the name of the calendar number 9.' => 'Define el nombre del calendario n√∫mero 9.',
+        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            'Define el identificador del sistema, que contendr√°n cada n√∫mero de ticket y cadena de sesi√≥n http, para asegurarse de que s√≥lo los tickets que pertenecen al sistema se procesar√°n como seguimientos (√∫til cuando existe comunicaci√≥n entre 2 instancias de OTRS).',
         'Defines the time zone of the calendar number 1, which can be assigned later to a specific queue.' =>
             'Define la zona horaria del calendario n√∫mero 1, que luego puede asignarse a una fila espec√≠fica.',
         'Defines the time zone of the calendar number 2, which can be assigned later to a specific queue.' =>
@@ -5245,6 +5250,8 @@ sub Data {
             'Define la zona horaria del calendario n√∫mero 8, que luego puede asignarse a una fila espec√≠fica.',
         'Defines the time zone of the calendar number 9, which can be assigned later to a specific queue.' =>
             'Define la zona horaria del calendario n√∫mero 9, que luego puede asignarse a una fila espec√≠fica.',
+        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            'Define el tipo de protocolo que usa el servidor web para servir a la aplicaci√≥n. Si se usar√° el protocolo https, en lugar de http plano, debe especificarse aqu√≠. Ya que esto no afecta la configuraci√≥n/comportamiento del explorador seb, no modificar√° el me√©todo de acceso a la aplicaci√≥n y, si es incorrecto, no evitar√° el inicio de sesi√≥n a la aplicaci√≥n. Esta configuraci√≥n se usa como una variable (OTRS_CONFIG_HttpType) y est√° presente en todas las formas de mensajes que maneja la aplicaci√≥n, con la finalidad de crear v√≠nculos a los tickets dentro del sistema.',
         'Defines the years (in future and in past) which can get selected in free time field number 1.' =>
             'Define los a√±os (tanto pasados como futuros) que pueden seleccionarse en el campo libre de tiempo n√∫mero 1.',
         'Defines the years (in future and in past) which can get selected in free time field number 2.' =>
@@ -5299,6 +5306,8 @@ sub Data {
         'Edit default services.' => 'Modificar los servicios por defecto.',
         'Email based' => 'Basado en e-mail',
         'Email{CustomerUser}' => 'Correo electr√≥nico',
+        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            'Habilita el soporte PGP. Cuando este soporte se activa para firmar y garantizar correos, es ALTAMENTE recomendable que el el usuario OTRS ejecute el servidor web. De lo contrario, se generar√°n problemas de privilegios al acceder a la carpeta .gnupg.',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             'Habilita o deshabilita la funcionalidad de autocompletado para la b√∫squeda de clientes en la interfaz del agente.',
         'Escaladed Tickets' => 'Tickets Escalados',
@@ -5367,6 +5376,8 @@ sub Data {
             'Si un agente bloquea un ticket y no env√≠a una respuesta en este tiempo, el ticket ser√° desbloqueado autom√°ticamente. El Ticket ser√° visible por todos los dem√°s agentes.',
         'If configured, all emails sent by the application will contain an X-Header with this organization or company name.' =>
             'Si se configura, todos los correos electr√≥nicos enviados por la aplicaci√≥n contendr√°n una Cabecera-X con el nombre de compa√±√≠a que se especique aqu√≠.',
+        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+            'Si se habilita, la versi√≥n de OTRS ser√° removida de los encabezados HTTP.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Si no se selecciona algo, no habr√° permisos en este grupo (los tickets no estar√°n disponibles para el cliente).',
         'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>

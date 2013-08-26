@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:05:59
+    # Last translation file sync: 2013-08-26 19:06:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1197,7 +1197,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        '(work units)' => '(稼働時間)',
+        ' (work units)' => ' (稼働時間)',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -2573,6 +2573,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2987,7 +2988,7 @@ sub Data {
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
         'Company Status' => '',
         'Company Tickets' => '企業チケット',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+        'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
@@ -3060,7 +3061,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3198,8 +3199,8 @@ sub Data {
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートのデフォルトの本文を定義します。',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
-            'デフォルトのフロント・エンド（HTML）のテーマを、担当者および顧客によって使用できるように定義します。デフォルトのテーマは、Standard and Liteです。お望みであれば、独自にテーマを追加することもできます。管理者用マニュアルを参照ください。http://doc.otrs.org/',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'デフォルトのフロント・エンドの言語を設定します。全ての可能性ある値は、システムの利用可能な言語ファイルによって定義されます（次の設定を参照ください)。.',
         'Defines the default history type in the customer interface.' => '顧客インタフェースのデフォルトの履歴タイプを定義します。',
@@ -3585,8 +3586,8 @@ sub Data {
         'Defines the subject for rejected emails.' => 'リジェクトされたEメールの件名を定義します。',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'システム管理者のEメール・アドレスを定義します。アプリケーションのエラー画面に表示されるものです。',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            'システム識別子（アイデンティファー）の設定です。全てのチケット番号およびhttpセッションの文字列は、このIDを含んでいます。これにより、フォロー・アップの際などに、ご利用者（貴社）のシステムに属するチケットのみを処理するようになります（2つのOTRS間でやり取りをする際などに便利です）。',
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -3598,8 +3599,8 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'アプリケーションをサーブするために、ウェブ・サーバによって使用されるプロトコルのタイプを定義します。もしhttpプロトコルが平素のhttpの代わりに使用されるのであれば、ここで特定する必要があります。また、それが、ウェブ・サーバの設定または振舞いには影響を与えることは無いため、アプリケーションへのアクセス方法を変更することはなく、もし不適切なものであってもご利用者のアプリケーションへのログインを妨げることはありません。この設定はOTRS_CONFIG_HttpType変数として使用され、これはアプリケーションによって使用されるメッセージングの全フォームに存在するものであり、ご利用のシステム内のチケットへのリンクを作成するために使用されます。',
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、Eメール引用のために使用されるキャラクタを定義します。',
         'Defines the user identifier for the customer panel.' => '顧客パネルのためのユーザ識別子を定義します。',
@@ -3744,8 +3745,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF出力を有効にします。CPAN モジュール PDF::API2が必要となりますが、もしインストールされていなければPDF出力は無効にされます。',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            'PGPサポートを有効にします。PGPサポートがメールの署名およびセキュアリングのために有効となっている際は、ウェブ・サーバをOTRSユーザとして動作させることを強く推奨します。そうでない場合、.gnupgフォルダにアクセスする時の特権に関して問題が発生します。',
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            '',
         'Enables S/MIME support.' => 'S/MIMEサポートを有効にします。',
         'Enables customers to create their own accounts.' => '顧客に自らのアカウントを作成できるようにします。',
         'Enables file upload in the package manager frontend.' => 'パッケージ・マネジャー・フロントエンドでの、ファイル・アップロードを有効にします。',
@@ -3933,8 +3934,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '有効にすると、OTRSは全JavaScriptファイルを縮小した形式で配信します。',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '有効にされた場合、TicketPhoneおよびTicketEmailは新しいウィンドウで開きます。',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
-            '有効にすると、OTRSバージョンのタグがHTTPヘッダーから除去されます。',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4682,7 +4683,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'Eメール・リプライにおける件名の最初のテキストです。例：RE, AW, AS。',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Eメールが転送された際の、件名の最初のテキストです。例：FW, Fwd, WG。',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '定義された場合、全てのリクエストに対して、本モジュールおよびそのPreRun()機能が実行されます。本モジュールは、いくつかのユーザ・オプションをチェックするため、または新しいアプリケーションのニュースを表示させるために、役立つものです。',
@@ -4760,14 +4761,22 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'DB host' => 'データベース - ホスト',
         'Database-User' => 'データベースユーザー',
         'Default skin for interface.' => 'インタフェースのためのデフォルトのスキンです。',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            'デフォルトのフロント・エンド（HTML）のテーマを、担当者および顧客によって使用できるように定義します。デフォルトのテーマは、Standard and Liteです。お望みであれば、独自にテーマを追加することもできます。管理者用マニュアルを参照ください。http://doc.otrs.org/',
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             'ブラウザごとのファイル・アップロードの最大サイズ（バイト）を定義します。',
+        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            'システム識別子（アイデンティファー）の設定です。全てのチケット番号およびhttpセッションの文字列は、このIDを含んでいます。これにより、フォロー・アップの際などに、ご利用者（貴社）のシステムに属するチケットのみを処理するようになります（2つのOTRS間でやり取りをする際などに便利です）。',
+        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            'アプリケーションをサーブするために、ウェブ・サーバによって使用されるプロトコルのタイプを定義します。もしhttpプロトコルが平素のhttpの代わりに使用されるのであれば、ここで特定する必要があります。また、それが、ウェブ・サーバの設定または振舞いには影響を与えることは無いため、アプリケーションへのアクセス方法を変更することはなく、もし不適切なものであってもご利用者のアプリケーションへのログインを妨げることはありません。この設定はOTRS_CONFIG_HttpType変数として使用され、これはアプリケーションによって使用されるメッセージングの全フォームに存在するものであり、ご利用のシステム内のチケットへのリンクを作成するために使用されます。',
         'Delay time between autocomplete queries in milliseconds.' => 'オートコンプリート・クエリの間のディレイ・タイムをミリ秒単位で指定します。',
         'Determines if the search results container for the autocomplete feature should adjust its width dynamically.' =>
             'オートコンプリート機能の検索結果コンテナーについて、その幅を動的に変更するかどうかを定義します。',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケージ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パスワードの盗難を防ぐためです）。',
         'Edit Response' => '応答を編集',
+        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            'PGPサポートを有効にします。PGPサポートがメールの署名およびセキュアリングのために有効となっている際は、ウェブ・サーバをOTRSユーザとして動作させることを強く推奨します。そうでない場合、.gnupgフォルダにアクセスする時の特権に関して問題が発生します。',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             '担当者インタフェースにおいて、顧客検索のためのオートコンプリート機能を、有効または無効にします。',
         'Escalation in' => 'エスカレーション: ',
@@ -4777,6 +4786,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Filter for Responses' => '応答フィルタ',
         'Filter name' => 'フィルタ名',
         'For more info see:' => '詳細情報：',
+        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+            '有効にすると、OTRSバージョンのタグがHTTPヘッダーから除去されます。',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'データベースのrootパスワードが設定されている場合、ここに入力する必要があります。されていない場合は空白にしてください。セキュリティ上の理由から、私たちはrootのパスワードを設定することをお勧めしません。詳しくはデータベースのマニュアルを参照してください。',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>

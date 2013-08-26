@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:06:03
+    # Last translation file sync: 2013-08-26 19:06:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1204,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        '(work units)' => '(arbeidsenheter)',
+        ' (work units)' => ' (arbeidsenheter)',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -2580,6 +2580,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Saksutskrift',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2994,8 +2995,8 @@ sub Data {
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
         'Company Status' => '',
         'Company Tickets' => 'Firmasaker',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
-            'Firmanavn for kundegrensesnittet. Vil også bli inkludert i e-posten som en X-Hode',
+        'Company name which will be included in outgoing emails as an X-Header.' =>
+            '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => 'Sett opp din egen loggtekst for PGP.',
@@ -3067,7 +3068,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Sett et filter for HTML-visning som legger til lenker bak en gitt tekst. Bildeelementet tillater to typer inn-data. For det første navnet på et bilde (f.eks. bilde01.png). I det tilfellet vil OTRS sin bilde-sti brukes. Den andre muligheten er å skrive inn URL til bildet',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3205,8 +3206,8 @@ sub Data {
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Spesifiserer standardinnholdet for notiser i sakens fritekstdel for saksbehandlere.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
-            'Definerer standard webtema som skal brukes av saksbehandlere og kunder. De innebygde er Standard og Lite. Du kan legge til egne tema selv. Se i tilfelle manualen, på http://doc.otrs.org/',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Spesifiserer standardspråk for webdelen. De mulige valgene er bestemt av språkene som er tilgjengelige i løsningen (se neste innstilling).',
         'Defines the default history type in the customer interface.' => 'Spesifiserer standard historikkvisning i kundeportalen.',
@@ -3592,7 +3593,7 @@ sub Data {
         'Defines the subject for rejected emails.' => '',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             '',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
@@ -3605,7 +3606,7 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             '',
@@ -3749,7 +3750,7 @@ sub Data {
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Aktiverer utskrift til PDF. CPAN-modulen PDF::API2 er påkrevd, dersom denne ikke er installert vil PDF-utskrift deaktiveres.',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
         'Enables S/MIME support.' => 'Aktiverer støtte for S/MIME',
         'Enables customers to create their own accounts.' => 'Lar kunder opprette sine egne kontoer',
@@ -3938,8 +3939,8 @@ sub Data {
             'Hvis slått på vil OTRS levere alle JavaScript-filer i minimert form',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Hvis slått på vil telefonsak og e-postsak bli åpnet i nye vinduer.',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
-            'Hvis slått på vil OTRS-versjonen bli fjernet fra HTTP-headeren',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Hvis slått på vil de forskjellige oversiktene (Kontrollpanel, kø-oversikt, osv.) automatisk oppdateres etter angitt tid.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4686,7 +4687,7 @@ sub Data {
             'Teksten i begynnelsen av emnet på et e-post-svar, f.eks. RE, SV',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Teksten i begynnelsen av emnet på en e-post som er videresendt, f.eks. VS, FW',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Denne modulen og dens PreRun()-funksjon vil, hvis satt, bli kjørt ved hver forespørsel. Denne modulen er nyttig for å sjekke brukerinnstillinger eller for å vise nyheter om nye programmer el.l.',
@@ -4758,6 +4759,8 @@ sub Data {
         'Change Queue Relations for Response' => 'Endre koplinger mellom ferdigsvaret og køer.',
         'Change Response Relations for Attachment' => 'Endre koplinger mellom vedlegg og ferdigsvar',
         'Change Response Relations for Queue' => 'Endre koplinger mellom køen og ferdigsvar.',
+        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+            'Firmanavn for kundegrensesnittet. Vil også bli inkludert i e-posten som en X-Hode',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Create and manage response templates.' => 'Administrasjon av responsmaler.',
@@ -4766,6 +4769,8 @@ sub Data {
         'DB host' => 'DB-tjener',
         'Database-User' => 'Database-bruker',
         'Default skin for interface.' => 'Standard-utseende for grensesnittet.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            'Definerer standard webtema som skal brukes av saksbehandlere og kunder. De innebygde er Standard og Lite. Du kan legge til egne tema selv. Se i tilfelle manualen, på http://doc.otrs.org/',
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             'Definerer maksimal størrelse (i bytes) for filopplasting via nettleseren.',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
@@ -4777,6 +4782,8 @@ sub Data {
         'Filter for Responses' => 'Filter for Ferdigsvar',
         'Filter name' => 'Filterets navn',
         'For more info see:' => 'For mer info se:',
+        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+            'Hvis slått på vil OTRS-versjonen bli fjernet fra HTTP-headeren',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Hvis du har satt et root-passord for databasetjeneren, må det skrives inn her. Hvis ikke kan du la dette feltet være åpent. For sikkerhetsskyld anbefaler vi å sette et root-passord. For mer informasjon, vennligst se i databasedokumentasjonen.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>

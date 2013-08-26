@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:05:54
+    # Last translation file sync: 2013-08-26 19:06:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1203,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        '(work units)' => 'Unité de travail',
+        ' (work units)' => '',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -2579,6 +2579,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Imprimer la demande',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2993,8 +2994,8 @@ sub Data {
         'Comment for new history entries in the customer interface.' => 'Commentaire destiné aux nouvelles entrées de l\'historique de l\'interface client.',
         'Company Status' => '',
         'Company Tickets' => 'Demandes de l\'entreprise',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
-            'Nom de l\'entreprise pour l\'interface Web du client (il sera également inclus dans les courriels en tant qu\'en-tête « x-* »).',
+        'Company name which will be included in outgoing emails as an X-Header.' =>
+            '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => 'Configure votre journal pour le logiciel de chiffrement PGP.',
@@ -3066,7 +3067,7 @@ sub Data {
         'Default value for NameX' => 'Valeur par défaut pour un « NomX »',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Détermine un filtre pour les html sortants afin d\'ajouter des liens aux chaînes sélectionnées. L\'élément Image permet de faire deux sortes d\'entrées. Tout d\'abord, le nom de l\'image (ex. faq.png). Dans ce cas, le chemin de l\'image dans OTRS sera utilisé. Il est aussi possible d\'insérer le lien vers l\'image.',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3204,8 +3205,8 @@ sub Data {
             'Détermine le type de réponses automatiques par défaut de l\'article pour cette opération.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Détermine le corps par défaut d\'une note dans l\'écran de texte libre de l\'interface agent.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
-            'Détermine le thème de l\'avant-plan (HTML) par défaut qui doit être utilisé par les agents et les clients. Les thèmes par défaut sont « standard » et « léger ». Vous pouvez également ajouter vos propres thèmes. Veuillez consulter le guide de l\'administrateur au http://doc.otrs.org/.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Détermine la langue de l\'avant-plan par défaut. Les valeurs possibles sont déterminées par les fichiers de langues disponibles dans le système (consultez le réglage suivant).',
         'Defines the default history type in the customer interface.' => 'Détermine le type d\'historique par défaut dans l\'interface client.',
@@ -3591,8 +3592,8 @@ sub Data {
         'Defines the subject for rejected emails.' => 'Détermine le sujet des courriels rejetés.',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Détermine l\'adresse de courrier électronique de l\'administrateur du système. Elle sera affichée dans les écrans d\'erreur de l\'application. ',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            'Détermine l\'identifiant du système. Les numéros de demandes et les chaînes de texte des sessions http contiennent cet identifiant. Celui-ci fait en sorte que seules les demandes de votre système seront traitées et suivies (ce qui facilite les échanges entre deux instances de OTRS).',
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -3604,8 +3605,8 @@ sub Data {
             'Détermine la période, en secondes, après laquelle l\'ordonnanceur se redémarrera.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Détermine la période de temps du calendrier indiqué, qui pourra par la suite être attribué à une file précise.',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Détermine le type de protocole utilisé par le serveur Web pour servir l\'application. Il est important de préciser si un protocole https est utilisé plutôt qu\'un http courant. Puisque ce choix n\'influence pas les réglages ou le comportement du serveur Web, il n\'entraîne pas de modification de l\'accès à l\'application. Dans le cas contraire, vous pourrez toujours ouvrir une session. Le réglage ci-haut mentionné est variable, de type OTRS_CONFIG_HttpType qui est utilisé par l\'application sous différentes formes de message afin de créer des liens vers les demandes au sein de votre système.',
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             'Détermine le caractère employé pour les extraits de courriel dans l\'écran de rédaction de la demande de l\'interface agent.',
         'Defines the user identifier for the customer panel.' => 'Détermine l\'identifiant de l\'utilisateur dans la page du client.',
@@ -3748,8 +3749,8 @@ sub Data {
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Permet l\'envoi de PDF. Le module CPAN PDF::AP12 est nécessaire. S\'il n\'est pas installé, l\'envoi de PDF sera désactivé.',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            'Permet la gestion du logiciel PGP. Lorsque la gestion est activée pour la signature et la sécurité des courriels, il est FORTEMENT recommandé d\'utiliser le serveur Web en tant qu\'utilisateur de OTRS. Autrement, des problèmes en matière de privilèges seront constatés au moment de l\'accès aux dossiers .gnupg.',
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            '',
         'Enables S/MIME support.' => 'Permet la gestion des certificats S/MIME.',
         'Enables customers to create their own accounts.' => 'Permet aux clients de créer leur propre compte.',
         'Enables file upload in the package manager frontend.' => 'Permet le téléchargement de fichiers dans l\'avant-plan du gestionnaire de paquets.',
@@ -3937,8 +3938,8 @@ sub Data {
             'OTRS livrera tous les fichiers JavaScript en format minimisé si vous activez cette option.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Les demandes téléphoniques et les demandes par courriel seront ouvertes dans des nouvelles fenêtres si cette option est activée.',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
-            'Les balises de OTRS seront retirées des en-têtes HTTP si cette option est activé.',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Les différentes visualisations ( tableau de bord, vue de fermeture, vue des files) seront automatiquement rafraîchies après le délai déterminé ici.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4685,7 +4686,7 @@ sub Data {
             'Le texte affiché en début de sujet dans une réponse courriel, p. ex. : Rép.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Le texte affiché en début de sujet lorsqu\'un courriel est transféré, p. ex. : Tr.',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Le module et la fonction d\'avant exécution seront exécutés pour chacune des requêtes (si précisé). Le module s\'avère utile pour vérifier certaines options des utilisateurs ou pour afficher des nouvelles au sujet des dernières applications offertes.',
@@ -4930,6 +4931,7 @@ sub Data {
         '(Used log backend)' => '(arrière-plan du journal utilisé)',
         '(Used ticket number format)' => '(Format numérique utilisé pour les demandes)',
         '(e.g. Generic Interface asynchronous invoker tasks)' => '(p. ex. Les tâches asynchrones du demandeur de l’interface générique)',
+        '(work units)' => 'Unité de travail',
         '* Normalize Private Secrets Files\n' => '* Régularise les fichiers secrets privés\n',
         '*** out of office till $TillDate/$Till d ***' => '*** absent du bureau jusqu\'au $TillDate/$Till d ***',
         '**Error in Normalize Private Secret Files.\n\n' => '* Erreur dans la régularisation des fichiers secrets privés.\n\n',
@@ -5351,6 +5353,8 @@ sub Data {
         'Communication sequence started' => 'Séquence de communication démarrée',
         'Comoros' => 'Comores',
         'Companies' => 'Entreprises',
+        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+            'Nom de l\'entreprise pour l\'interface Web du client (il sera également inclus dans les courriels en tant qu\'en-tête « x-* »).',
         'CompanyTickets' => 'Demandes de l\'entreprise cliente',
         'Compose Answer' => 'Rédiger une réponse',
         'Compose Email' => 'Rédiger un courriel',
@@ -5481,6 +5485,8 @@ sub Data {
             'Détermine les langues accessibles par l\'application. Le duo « Clé et Contenu » relie le nom affiché à l\'avant-plan au fichier de langue PM approprié. La valeur « Clé » devrait être le nom de base du fichier PM (p.ex. « de.pm » est le nom du fichier, donc « de » est la valeur « Clé ») La valeur « Contenu » devrait être le nom affiché à l\'avant-plan. À cet endroit, spécifier la langue souhaitée (pour de plus amples renseignements, voir la documentation destinée aux développeurs (en anglais) au http://doc.otrs.org/). N\'oubliez pas d\'utiliser un équivalent HTML pour les caractères qui ne sont pas en code ASCII (p.ex. pour l\'allemand oe = o umlaut, il est nécessaire d\'utiliser le symbole &ouml).',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=\' or \'\').' =>
             'Détermine un lien externe vers la base de données du client (p. ex. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' ou \'\').',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            'Détermine le thème de l\'avant-plan (HTML) par défaut qui doit être utilisé par les agents et les clients. Les thèmes par défaut sont « standard » et « léger ». Vous pouvez également ajouter vos propres thèmes. Veuillez consulter le guide de l\'administrateur au http://doc.otrs.org/.',
         'Defines the default selection of the free field number 1 (if more than one option is provided).' =>
             'Défini la sélection par défaut pour le champ libre numéro 1 (si plus d\'une option est fournie).',
         'Defines the default selection of the free field number 10 (if more than one option is provided).' =>
@@ -5560,6 +5566,10 @@ sub Data {
             'Détermine le module d\'affichage de notifications de l\'interface agent lorsque l\'ordonnanceur ne fonctionne pas (seulement pour les agents qui font partie du groupe administrateur).',
         'Defines the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Détermine les permissions standards accessibles aux clients au sein de l\'application. Au besoin, vous pouvez inscrire des permissions supplémentaires. Celles-ci doivent être figées dans le code pour être efficaces. Assurez-vous que la permission « rw » (lecture et écriture) soit la dernière entrée inscrite après avoir ajouté les permissions susmentionnées.',
+        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            'Détermine l\'identifiant du système. Les numéros de demandes et les chaînes de texte des sessions http contiennent cet identifiant. Celui-ci fait en sorte que seules les demandes de votre système seront traitées et suivies (ce qui facilite les échanges entre deux instances de OTRS).',
+        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            'Détermine le type de protocole utilisé par le serveur Web pour servir l\'application. Il est important de préciser si un protocole https est utilisé plutôt qu\'un http courant. Puisque ce choix n\'influence pas les réglages ou le comportement du serveur Web, il n\'entraîne pas de modification de l\'accès à l\'application. Dans le cas contraire, vous pourrez toujours ouvrir une session. Le réglage ci-haut mentionné est variable, de type OTRS_CONFIG_HttpType qui est utilisé par l\'application sous différentes formes de message afin de créer des liens vers les demandes au sein de votre système.',
         'Definition of the Cron checks.' => 'Définition des vérifications des commandes Cron.',
         'Definition of the OTRS checks.' => 'Définition des vérifications de OTRS.',
         'Definition of the Operating System checks.' => 'Définition des vérifications du système d\'exploitation.',
@@ -5658,6 +5668,8 @@ sub Data {
         'EmailAgent' => 'Courriel de l\'agent (EmailAgent)',
         'EmailCustomer' => 'Courriel du client (EmailCustomer)',
         'Email{CustomerUser}' => 'Courriel{CustomerUser}',
+        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            'Permet la gestion du logiciel PGP. Lorsque la gestion est activée pour la signature et la sécurité des courriels, il est FORTEMENT recommandé d\'utiliser le serveur Web en tant qu\'utilisateur de OTRS. Autrement, des problèmes en matière de privilèges seront constatés au moment de l\'accès aux dossiers .gnupg.',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             'Active ou désactive la fonction de saisie semi-automatique dans la recherche de clients de l\'interface agent.',
         'Equatorial Guinea' => 'Guinée équatoriale',
@@ -6457,6 +6469,8 @@ sub Data {
             'Si aucune réponse n\'est apportée à la demande dans le temps imparti, cette demande seule sera affichée.',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' =>
             'Si un agent verrouille une demande et qu\'il n\'envoie pas de réponse dans le temps imparti, la demande est déverrouillée automatiquement. Elle est donc visible pour tous les agents.',
+        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+            'Les balises de OTRS seront retirées des en-têtes HTTP si cette option est activé.',
         'If it is not displayed correctly' => 's\'il n\'est pas affiché correctement',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Si rien n\'est sélectionné, ce groupe n\'aura aucun droit (les demandes ne seront pas accessibles pour l\'utilisateur).',

@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:06:02
+    # Last translation file sync: 2013-08-26 19:06:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1195,7 +1195,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        '(work units)' => '(unit bekerja)',
+        ' (work units)' => ' (unit bekerja)',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -2571,6 +2571,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Cetak Tiket',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2985,8 +2986,8 @@ sub Data {
         'Comment for new history entries in the customer interface.' => 'Komen untuk kemasukan sejarah baru di dalam interface pelanggan.',
         'Company Status' => '',
         'Company Tickets' => 'Tiket Syarikat',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
-            'Nama syarikat untuk interface web pelanggan. Juga akan disertakan di dalam emel sebagai X-header.',
+        'Company name which will be included in outgoing emails as an X-Header.' =>
+            '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => 'Konfigur teks log anda sendiri untuk PGP.',
@@ -3058,7 +3059,7 @@ sub Data {
         'Default value for NameX' => 'Nilai asal untuk NameX',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Mentakrif tapisan untuk output html untuk menambah pautan di sebalik takrifan yang berkait. Imej unsur membolehkan 2 jenis input. Sekaligus nama sesuatu imej (Contohnya faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan kedua adalah untuk memasukkan pautan kepada imej.',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3196,8 +3197,8 @@ sub Data {
             'Mentakrifkan jenis tindakbalas auto asal dari artikel untuk operasi ini.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Mentakrifkan badan asal nota dalam skrin tiket teks percuma dari paparan ejen.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
-            'Mentakrifkan tema hadapan-hujung asal (HTML) untuk digunakan oleh ejen dan pelanggan. Tema asal adalah Standard dan Lite. Jika anda suka, anda boleh menambah tema anda sendiri. Sila rujuk manual pentadbir yang terletak di http://doc.otrs.org/.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Mentakrifkan  bahasa hadapan-hujung asal. Semua nilai-nilai yang mungkin ditentukan oleh fail bahasa yang ada pada sistem (lihat tetapan yang seterusnya).',
         'Defines the default history type in the customer interface.' => 'Mentakrifkan jenis sejarah asal dalam paparan pelanggan.',
@@ -3583,8 +3584,8 @@ sub Data {
         'Defines the subject for rejected emails.' => 'Mentakrifkan subjek untuk emel yang ditolak.',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Mentakrifkan alamat emel pentadbir sistem. Ia akan dipamerkan dalam skrin error aplikasi.',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            'Mentakrifkan pengecam sistem. Setiap nomnor tiekt dan rangkaian sesi http mengandungi ID ini. Ini memastikan hanya tiket yang dimiliki sistem anda akan diproses sebagai susulan (berguna semasa komunikasi antara dua keadaan OTRS).',
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -3596,8 +3597,8 @@ sub Data {
             'Mentakrifkan masa dalam saat selepas di mana penjadual menjalankan restart automatik.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Mentakrifkan zon masa dari kalendar yang dinyatakan, dimana ia boleh ditetapkan kemudian kepada aturan yang tertentu.',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Mentakrifkan jenis protokol, digunakan oleh web server, untuk berkhidmat kepada aplikasi. jika protokol https akan digunakan dan bukannya http kosong, ia perlu dinyatakan di sini. Memandangkan ini tidak memberi pengaruh kepada tetapan atau kelakuan web server,ia tidak akan mengubah kaedah akses untuk aplikasi dan, jika ia salah, ia tidak akan menghalang anda dari log masuk ke dalam aplikasi. Tetapan ini digunakan sebagai pembolehubah, OTRS_CONFIG HttpType dimana dijumpai dalam semua bentuk mesej digunakan oleh aplikasi, untuk membina pautan kepada tiket di dalam sistem anda.',
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             'Mentakrifkan aksara yang digunakan untuk emel di dalam skrin karang tiket dari paparan ejen.',
         'Defines the user identifier for the customer panel.' => 'Mentakrifkan pengecam pengguna untuk panel pelanggan.',
@@ -3740,8 +3741,8 @@ sub Data {
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'Mengaktifkan output PDF. Modul CPAN PDF::API2 diperlukan, jika di dipasangkan,output PDF akan dilumpuhkan.',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            'Mengaktifkan sokongan PGP. Apabila sokongan PGP diaktifkan untuk menandatangani dan mendapatkan mel, sangat disranakan web server dijalankan sebagai pengguna OTRS. Jika tidak, akan muncul masalah dengan hak istimewa semasa mengakses folder .gnupg.',
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            '',
         'Enables S/MIME support.' => 'Mengaktifkan sokongan S/MIME.',
         'Enables customers to create their own accounts.' => 'Membolehkan pelanggan untuk mencipta akaun mereka sendiri.',
         'Enables file upload in the package manager frontend.' => 'Membolehkan muat naik fail dalam frontend pengurusan pakej.',
@@ -3929,8 +3930,8 @@ sub Data {
             'Jika diakifkan, OTRS akan menghantar kesemua fail JavaScript dalam bentuk yang dikecilkan.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Jika diaktifkan, TicketPhone dan TicketEmail akan di buka di tingkap yang baru.',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
-            'Jika diaktifkan, tag versi OTRS akan dibuang daripada HTTP headers.',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Jika diaktifkan, overviews yang berbeza (Dashboard, LockedView, QueueView) akan direfresh secara automatik selepas masa yang tertentu.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4677,7 +4678,7 @@ sub Data {
             'Teks pada permulaan subjek dalam emel balas, cth: RE, AW, atau AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Teks pada permulaan subjek dalam emel dikehadapankan, cth: FW, Fwd, atau WG.',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Modul ini dan fungsi PreRun() akan dilaksanankan, jika ditakrifkan, untuk setiap permintaan. Modul ini berguna untuk semak beberapa pilihan pengguna atau untuk mempamerkan berita mengenai aplikasi baru.',
@@ -4753,6 +4754,8 @@ sub Data {
         'Change Response Relations for Attachment' => 'tindak balas tugasan untuk perubahan sistem',
         'Change Response Relations for Queue' => 'Tukar Perhubungan Tindak Balas untuk Barisan',
         'Companies' => 'Syarikat',
+        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+            'Nama syarikat untuk interface web pelanggan. Juga akan disertakan di dalam emel sebagai X-header.',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Mengkonfigurasi indeks teks penuh. Melaksanakan "bin / otrs.RebuildFulltextIndex.pl" untuk menjana indeks baru.',
         'Create and manage response templates.' => 'Mewujudkan dan menguruskan templat tindak balas.',
@@ -4763,6 +4766,8 @@ sub Data {
             'DIKECAM! Penetapan ini tidak digunakan lagi dan akan dikeluarkan dalam OTRS versi masa depan.',
         'Database-User' => 'Pengguna database',
         'Default skin for interface.' => 'Kulit asal untuk paparan.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            'Mentakrifkan tema hadapan-hujung asal (HTML) untuk digunakan oleh ejen dan pelanggan. Tema asal adalah Standard dan Lite. Jika anda suka, anda boleh menambah tema anda sendiri. Sila rujuk manual pentadbir yang terletak di http://doc.otrs.org/.',
         'Defines the default sender type of the article for this operation.' =>
             'Mentakrifkan jenis penghantar asal untuk artikel operasi ini.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
@@ -4773,6 +4778,10 @@ sub Data {
             'Mentakrifkan saiz maksima (dalam bytes) untuk muat naik fail menggunakan browser.',
         'Defines the module to display a notification in the agent interface, (only for agents on the admin group) if the scheduler is not running.' =>
             'Mentakrifkan modul untuk mempamerkan notifikasi dalam paparan ejen, (hanya untuk ejen dalam kumpulan admin) jika penjadual tidak aktif.',
+        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            'Mentakrifkan pengecam sistem. Setiap nomnor tiekt dan rangkaian sesi http mengandungi ID ini. Ini memastikan hanya tiket yang dimiliki sistem anda akan diproses sebagai susulan (berguna semasa komunikasi antara dua keadaan OTRS).',
+        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            'Mentakrifkan jenis protokol, digunakan oleh web server, untuk berkhidmat kepada aplikasi. jika protokol https akan digunakan dan bukannya http kosong, ia perlu dinyatakan di sini. Memandangkan ini tidak memberi pengaruh kepada tetapan atau kelakuan web server,ia tidak akan mengubah kaedah akses untuk aplikasi dan, jika ia salah, ia tidak akan menghalang anda dari log masuk ke dalam aplikasi. Tetapan ini digunakan sebagai pembolehubah, OTRS_CONFIG HttpType dimana dijumpai dalam semua bentuk mesej digunakan oleh aplikasi, untuk membina pautan kepada tiket di dalam sistem anda.',
         'Defines which article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             'Mentakrifkan jenis artikel yang mana harus di kembangkan semasa memasuki overview. Jika tiada yang ditakrifkan, arikel yang terkini akan di kembangkan.',
         'Delay time between autocomplete queries in milliseconds.' => 'Menangguhkan masa antara aturan autolengkap dalam milisaat.',
@@ -4790,6 +4799,8 @@ sub Data {
         'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Medan Dinamik ditunjukkan dalam skrin tiket zum dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
         'Edit Response' => 'Edit Tindak Balas',
+        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            'Mengaktifkan sokongan PGP. Apabila sokongan PGP diaktifkan untuk menandatangani dan mendapatkan mel, sangat disranakan web server dijalankan sebagai pengguna OTRS. Jika tidak, akan muncul masalah dengan hak istimewa semasa mengakses folder .gnupg.',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             'Mengaktifkan atau melumpuhkan fungsi autolengkap untuk carian pelanggan dalam paparan ejen.',
         'Escalation in' => 'Maklum balas dalam',
@@ -4806,6 +4817,8 @@ sub Data {
             'Jika "DB" dipilih untuk SessionModule, kolum untuk pengecam dalam jadual sesi mesti ditentukan.',
         'If "DB" was selected for SessionModule, a column for the values in session table must be specified.' =>
             'Jika "DB" dipilih untuk SessionModule, kolum untuk nilai di dallam jadual sesi mesti ditentukan.',
+        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+            'Jika diaktifkan, tag versi OTRS akan dibuang daripada HTTP headers.',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Jika kata laluan akar telah ditetapkan untuk pangkalan data, ia mesti dimasukkan di sini. Jika tiada password yang ditetapkan, bidang mesti ditinggalkan kosong. Atas sebab-sebab keselamatan, kami mencadangkan untuk menetapkan kata laluan akar. Untuk maklumat lanjut, lihat dokumentasi untuk pangkalan data anda.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>

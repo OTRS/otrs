@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:05:55
+    # Last translation file sync: 2013-08-26 19:06:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1198,7 +1198,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        '(work units)' => '',
+        ' (work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -2574,6 +2574,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'टिकट मुद्रण',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2988,7 +2989,7 @@ sub Data {
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Company Status' => '',
         'Company Tickets' => 'कंपनी के टिकट',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+        'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
@@ -3061,7 +3062,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'HTML उत्पादन को  परिभाषित स्ट्रिंग के पीछे की लिंक जोड़ने के लिए एक निस्पादक परिभाषित करे। तत्व छवि दो इनपुट प्रकार की अनुमति देता है। एक बार एक छवि के नाम से(उदा.faq.png)। ऐसी स्थिति में OTRS छवि के पथ का उपयोग किया जाएगा। दूसरी संभावना छवि को कड़ी सम्मिलित करने की है।',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3199,8 +3200,8 @@ sub Data {
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'प्रतिनिधि अग्रांत से टिकट मुक्त पाठ स्क्रीन में एक टिप्पणी के तयशुदा मुख्य-भाग को परिभाषित करता है।',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
-            'प्रतिनिधि और ग्राहकों द्वारा उपयोग किया जाने वाला तयशुदा दृश्यपटल (HTML) की थीम को परिभाषित करता है। तयशुदा थीम मानक और लाइट हैं। यदि आप चाहें, तो आप अपने खुद के थीम जोड़ सकते हैं। कृपया  http://doc.otrs.org/ पर स्थित प्रशासक पुस्तिका देखें।',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'तयशुदा अग्रांत भाषा परिभाषित करें। सभी संभावित मान प्रणाली पर उपलब्ध भाषा फ़ाइलों से निर्धारित होते हैं(अगली व्यवस्थाओ को देखें)।',
         'Defines the default history type in the customer interface.' => 'ग्राहक अंतरफलक में तयशुदा इतिहास के प्रकार को परिभाषित करता है।',
@@ -3586,8 +3587,8 @@ sub Data {
         'Defines the subject for rejected emails.' => 'खारिज कर दिए ईमेल के लिए विषय को परिभाषित करता है।',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'प्रणाली प्रशासक के ईमेल पते को परिभाषित करता है। यह अनुप्रयोग की त्रुटि स्क्रीन में प्रदर्शित किया जाएगा।',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            'प्रणाली पहचानक को परिभाषित करता है। हर टिकट संख्या और http सत्र स्ट्रिंग के पास यह ID होते हैं। यह सुनिश्चित करता है कि केवल टिकटों है जो आपके प्रणाली से संबंधित है उनकी अनुसरण कार्रवाई की जाएगी(उपयोगी है जब OTRS की दो मामलों के बीच संवाद होते हैं)।',
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -3599,8 +3600,8 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'अनुप्रयोग की सेवा के लिए,वेब सर्वर द्वारा उपयोग किया है,प्रोटोकॉल के प्रकार को परिभाषित करता है। यदि https प्रोटोकॉल सादा http के बजाय प्रयोग किया जाएगा,इसे यहाँ निर्दिष्ट किया जाना चाहिए। चूंकि इससे वेब सर्वर व्यवस्थाओ या व्यवहार पर असर नहीं पड़ता है,इसे अनुप्रयोग का उपयोग करने के लिए विधि नहीं बदल जाएगा और,यदि यह गलत है,यह आपको अनुप्रयोग में प्रवेश करने से रोकगा नहीं। यह व्यवस्था किसी परिवर्तनीय के रूप में प्रयोग की जाती है,OTRS_CONFIG_HttpType जो अनुप्रयोग                 द्वारा रूपों में पाया जाता है,आपकी प्रणाली में टिकटों के लिए लिंक बनाने के लिए।',
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन में  ईमेल उद्धरण चिह्नों के लिए इस्तेमाल किया वर्ण को परिभाषित करता है।',
         'Defines the user identifier for the customer panel.' => 'ग्राहक पटल के लिए उपयोगकर्ता पहचानक को परिभाषित करता है।',
@@ -3743,8 +3744,8 @@ sub Data {
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             'PDF उत्पादन सक्षम बनाता है। CPAN मॉड्यूल PDF: API2 की आवश्यकता है,यदि स्थापित नहीं है,PDF उत्पादन निष्क्रिय कर दिया जाएगा।',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            'PGP समर्थन सक्षम बनाता है। जब PGP समर्थन पंजीकरण और मेल सुरक्षित करने के लिए सक्षम है,यह अत्यधिक अनुशंसित है कि वेब सर्वर OTRS उपयोगकर्ता के रूप में चलाया जाए। अन्यथा,.gnupg फ़ोल्डर तक पहुँचने के लिए वहाँ विशेषाधिकारों के साथ समस्या हो सकती है।',
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            '',
         'Enables S/MIME support.' => 'S/MIME समर्थन सक्षम बनाता है।',
         'Enables customers to create their own accounts.' => 'ग्राहकों को अपने खाते बनाने के लिए सक्षम बनाता है।',
         'Enables file upload in the package manager frontend.' => 'पैकेज प्रबंधक दृश्यपटल में फ़ाइल अपलोड सक्षम बनाता है।',
@@ -3932,8 +3933,8 @@ sub Data {
             'यदि सक्रिय है,OTRS छोटे किए गए प्रपत्र में सभी जावास्क्रिप्ट फ़ाइलें वितरित करेगा।',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'यदि सक्रिय है,टिकट फोन और ईमेल टिकट नये विंडो में खुल जाएगा।',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
-            'यदि सक्रिय है,OTRS संस्करण टैग HTTP प्रवेशिका से निकाल दिया जाएगा।',
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4680,7 +4681,7 @@ sub Data {
             'एक ईमेल जवाब में विषय के प्रारंभ में पाठ,उदा. RE, AW, या AS।',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'एक ईमेल जवाब में विषय के प्रारंभ में पाठ जब एक ईमेल अग्रेषित किया हैं,उदा. FW, Fwd, या WG। ',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'इस मॉड्यूल और उसके(PreRun) प्रकार्य में क्रियान्वित किया जाएगा,यदि परिभाषित हैं,प्रत्येक अनुरोध के लिए। यह मॉड्यूल उपयोगी है कुछ उपयोगकर्ता की जाँच विकल्प या नये अनुप्रयोगों के बारे में समाचार प्रदर्शित करने के लिए।',
@@ -4758,13 +4759,21 @@ sub Data {
         'DB host' => 'आंकड़ाकोष मेजबान',
         'Database-User' => 'आंकड़ाकोष उपयोगकर्ता',
         'Default skin for interface.' => 'तयशुदा सतही अंतरफलक के लिए।',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+            'प्रतिनिधि और ग्राहकों द्वारा उपयोग किया जाने वाला तयशुदा दृश्यपटल (HTML) की थीम को परिभाषित करता है। तयशुदा थीम मानक और लाइट हैं। यदि आप चाहें, तो आप अपने खुद के थीम जोड़ सकते हैं। कृपया  http://doc.otrs.org/ पर स्थित प्रशासक पुस्तिका देखें।',
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             'ब्राउज़र के माध्यम से फ़ाइल अपलोड करने के लिए अधिकतम(बाइट में) आकार को परिभाषित करता है।',
+        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+            'प्रणाली पहचानक को परिभाषित करता है। हर टिकट संख्या और http सत्र स्ट्रिंग के पास यह ID होते हैं। यह सुनिश्चित करता है कि केवल टिकटों है जो आपके प्रणाली से संबंधित है उनकी अनुसरण कार्रवाई की जाएगी(उपयोगी है जब OTRS की दो मामलों के बीच संवाद होते हैं)।',
+        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            'अनुप्रयोग की सेवा के लिए,वेब सर्वर द्वारा उपयोग किया है,प्रोटोकॉल के प्रकार को परिभाषित करता है। यदि https प्रोटोकॉल सादा http के बजाय प्रयोग किया जाएगा,इसे यहाँ निर्दिष्ट किया जाना चाहिए। चूंकि इससे वेब सर्वर व्यवस्थाओ या व्यवहार पर असर नहीं पड़ता है,इसे अनुप्रयोग का उपयोग करने के लिए विधि नहीं बदल जाएगा और,यदि यह गलत है,यह आपको अनुप्रयोग में प्रवेश करने से रोकगा नहीं। यह व्यवस्था किसी परिवर्तनीय के रूप में प्रयोग की जाती है,OTRS_CONFIG_HttpType जो अनुप्रयोग                 द्वारा रूपों में पाया जाता है,आपकी प्रणाली में टिकटों के लिए लिंक बनाने के लिए।',
         'Determines if the search results container for the autocomplete feature should adjust its width dynamically.' =>
             'यदि खोज परिणामों के संग्राहक स्वत: पूर्ण सुविधा के लिए अपनी चौड़ाई गतिशील रूप से समायोजित करते है तो निर्धारित करता है।',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>
             'प्रणाली को अपहरण से रोकने के लिए वेब संस्थापक(http://yourhost.example.com/otrs/installer.pl) को निष्क्रिय करता है। यदि "नहीं" पर सेट है,प्रणाली को फिर से स्थापित किया जा सकता और मौजूदा बुनियादी संरचना का उपयोग किया जाएगा संस्थापक स्क्रिप्ट के भीतर सवालों के पूर्व आबाद करने के लिए। यदि सक्रिय नहीं है,यह सामान्य प्रतिनिधि,संकुल प्रबंधक और SQL बॉक्स को भी निष्क्रिय कर देगा(विध्वंसक क्वेरी के उपयोग से बचने के लिए,जैसे कि DROP DATABASE,और को भी उपयोक्ता शब्दकूट चोरी करने के लिए)।',
         'Edit Response' => 'प्रतिक्रिया संपादित करें',
+        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            'PGP समर्थन सक्षम बनाता है। जब PGP समर्थन पंजीकरण और मेल सुरक्षित करने के लिए सक्षम है,यह अत्यधिक अनुशंसित है कि वेब सर्वर OTRS उपयोगकर्ता के रूप में चलाया जाए। अन्यथा,.gnupg फ़ोल्डर तक पहुँचने के लिए वहाँ विशेषाधिकारों के साथ समस्या हो सकती है।',
         'Enables or disables the autocomplete feature for the customer search in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में ग्राहक खोज की स्वत:पूर्ण सुविधा को सक्षम या अक्षम बनाता है।',
         'Escalation in' => 'में संवर्धित',
@@ -4774,6 +4783,8 @@ sub Data {
         'Filter for Responses' => 'प्रतिक्रियाओं के लिए निस्पादक',
         'Filter name' => 'निस्पादक का नाम',
         'For more info see:' => 'अधिक जानकारी के लिए देखें :',
+        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+            'यदि सक्रिय है,OTRS संस्करण टैग HTTP प्रवेशिका से निकाल दिया जाएगा।',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'यदि आप अपने आंकड़ाकोष के लिए एक रूट कूटशब्द निर्धारित किया है,यहाँ प्रविष्ट किया जाना चाहिए। यदि नहीं,इस क्षेत्र को खाली छोडें। सुरक्षा कारणों से हम एक रूट कूटशब्द निर्धारित करने की अनुशंसा करते हैं। अधिक जानकारी के लिए कृपया अपने आंकड़ाकोष दस्तावेजों को देखें।',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
