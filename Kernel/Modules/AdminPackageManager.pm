@@ -1207,8 +1207,10 @@ sub Run {
             },
         );
 
-        if (   $VerificationData{ $Package->{Name}->{Content} }
-            && $VerificationData{ $Package->{Name}->{Content} } eq 'verified' )
+        if (
+            $VerificationData{ $Package->{Name}->{Content} }
+            && $VerificationData{ $Package->{Name}->{Content} } eq 'verified'
+            )
         {
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackageVerifyLogo',

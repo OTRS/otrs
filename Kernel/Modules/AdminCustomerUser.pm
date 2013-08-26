@@ -700,7 +700,7 @@ sub _Overview {
                     Name => 'OverviewResultRow',
                     Data => {
                         Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
-                        Search => $Param{Search},
+                        Search      => $Param{Search},
                         CustomerKey => $ListKey,
                         %UserData,
                     },
@@ -709,7 +709,7 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLinkNone',
                         Data => {
-                            Search => $Param{Search},
+                            Search      => $Param{Search},
                             CustomerKey => $ListKey,
                             %UserData,
                         },
@@ -719,8 +719,8 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLink',
                         Data => {
-                            Search => $Param{Search},
-                            Nav    => $Param{Nav},
+                            Search      => $Param{Search},
+                            Nav         => $Param{Nav},
                             CustomerKey => $ListKey,
                             %UserData,
                         },

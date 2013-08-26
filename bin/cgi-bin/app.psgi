@@ -64,7 +64,7 @@ my $App = CGI::Emulate::PSGI->handler(
             # Load the requested script
             do "bin/cgi-bin/$ENV{SCRIPT_NAME}";
         };
-    }
+        }
 );
 
 # Small helper function to determine the path to a static file
