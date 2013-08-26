@@ -28,7 +28,7 @@
         </a>
 <!-- dtl:block:CustomerRowItem -->
 <!-- dtl:block:CustomerRowCustomerCompanyInvalid -->
-        <em class="Error">$Text{"Note: Company is invalid!"}</em>
+        <em class="Error">$Text{"Note: Customer is invalid!"}</em>
 <!-- dtl:block:CustomerRowCustomerCompanyInvalid -->
     </p>
     <div class="Clear"></div>

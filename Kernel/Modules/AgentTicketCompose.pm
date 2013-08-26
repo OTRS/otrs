@@ -1257,7 +1257,7 @@ sub Run {
                 # add customers database address to Cc
                 else {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Info => "Customer automatically added in Cc.",
+                        Info => "Customer user automatically added in Cc.",
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};

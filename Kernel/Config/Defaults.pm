@@ -1507,7 +1507,7 @@ Your OTRS Notification Master
         Map => [
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-            [ 'CustomerCompanyName',    'Company',    'name',        1, 1, 'var', '', 0 ],
+            [ 'CustomerCompanyName',    'Customer',   'name',        1, 1, 'var', '', 0 ],
             [ 'CustomerCompanyStreet',  'Street',     'street',      1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyZIP',     'Zip',        'zip',         1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCity',    'City',       'city',        1, 0, 'var', '', 0 ],
