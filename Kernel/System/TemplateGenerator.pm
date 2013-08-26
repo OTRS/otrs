@@ -1197,13 +1197,23 @@ sub _Replace {
     # <OTRS_TICKET_DynamicField_NameX> returns the stored key
     # <OTRS_TICKET_DynamicField_NameX_Value> returns the display value
 
-    # to store all the DynamicField display values
+    my %DynamicFields;
+
+    # For systems with many Dynamic fields we do not want to load them all unless needed
+    # Find what Dynamic Field Values are requested
+    while( $Param{Text} =~ m/$Tag DynamicField_(\S+?)(_Value)? $End/gixms ) {
+        $DynamicFields{$1} = 1;
+    }
+
+    # to store all the required DynamicField display values
     my %DynamicFieldDisplayValues;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        # we only load the ones requested
+        next DYNAMICFIELD if !$DynamicFields{$DynamicFieldConfig->{Name}};
 
         my $LanguageObject;
 
