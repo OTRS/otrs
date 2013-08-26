@@ -410,7 +410,14 @@ sub new {
                 if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
                     $Self->FatalError();
                 }
-                push @ISA, "Kernel::Output::HTML::$File";
+
+                # bug 9686:
+                # without this grep, @ISA (being a global variable)
+                # grows with each request, and slows down OTRS significantly
+                # after a few hours of heavy usage
+                unless (grep $_ eq "Kerne::Output::HTML::$File", @ISA) {
+                    push @ISA, "Kernel::Output::HTML::$File";
+                }
             }
         }
     }
