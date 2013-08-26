@@ -309,7 +309,7 @@ sub Run {
                 $Param{QueueID} = $TQueueID;
             }
 
-            # Clean out the old TicketNumber from the subject (see bug#9180).
+            # Clean out the old TicketNumber from the subject (see bug#9108).
             # This avoids false ticket number detection on customer replies.
             if ( $GetParam->{Subject} ) {
                 $GetParam->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
