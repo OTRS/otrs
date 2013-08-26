@@ -47,6 +47,7 @@ Core.App.Ready(function () {
         LoadingMsg: '$JSText{"Loading..."}',
         EmptySearchMsg: '$JSText{"Please enter at least one search value or * to find anything."}',
         SearchMsg: '$JSText{"Search"}',
+        DeleteMsg: '$JSText{"Delete"}',
         ApplyButtonText: '$JSText{"Apply"}',
         NoElementsToSelectFromMsg: '$JSText{"There are currently no elements available to select from."}'
     });

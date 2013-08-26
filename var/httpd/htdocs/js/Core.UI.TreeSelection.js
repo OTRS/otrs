@@ -283,8 +283,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Core.UI.Dialog.ShowContentDialog('<div class="OverlayTreeSelector" id="TreeContainer"></div>', DialogTitle, '20%', 'Center', true);
             $('#TreeContainer')
                 .prepend($TreeObj)
-                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearch" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span>x</span></div>')
-                .append('<input type="button" id="SubmitTree" value="' + Core.Config.Get('ApplyButtonText') + '" />');
+                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearch" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span title="' + Core.Config.Get('DeleteMsg') + '">x</span></div>')
+                .append('<input type="button" id="SubmitTree" class="Primary" title="' + Core.Config.Get('ApplyButtonText') + '" value="' + Core.Config.Get('ApplyButtonText') + '" />');
         }
         else {
             $TreeObj
