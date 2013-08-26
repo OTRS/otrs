@@ -181,6 +181,16 @@ Core.UI.TreeSelection = (function (TargetNS) {
             InDialog = true;
         }
 
+        if (InDialog && $TriggerObj.hasClass('TreeSelectionVisible')) {
+            $TriggerObj
+                .removeClass('TreeSelectionVisible')
+                .prev('.jstree')
+                .jstree('destroy')
+                .remove();
+            $SelectObj.show();
+            return false;
+        }
+
         if (!DialogTitle) {
             DialogTitle = $SelectObj.prev('label').text();
         }
@@ -292,7 +302,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 .insertAfter($SelectObj)
                 .show();
             $SelectObj.hide();
-            $TriggerObj.hide();
+            $TriggerObj.addClass('TreeSelectionVisible');
         }
 
         $('#TreeSearch').find('input').bind('keyup', function() {
