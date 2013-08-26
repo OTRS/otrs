@@ -111,7 +111,7 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr class="MasterAction">
 <!-- dtl:block:OverviewResultRowLink -->
-                            <td><a class="AsBlock MasterActionLink" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"UserLogin"};Search=$LQData{"Search"};Nav=$LQData{"Nav"}">$QData{"UserLogin"}</a></td>
+                            <td><a class="AsBlock MasterActionLink" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"CustomerKey"};Search=$LQData{"Search"};Nav=$LQData{"Nav"}">$QData{"UserLogin"}</a></td>
 <!-- dtl:block:OverviewResultRowLink -->
 <!-- dtl:block:OverviewResultRowLinkNone -->
                             <td><a class="AsBlock" href="#">$QData{"UserLogin"}</a></td>

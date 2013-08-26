@@ -1,4 +1,6 @@
 #3.3.0.beta2 2013-??-??
+ - 2013-08-26 Fixed a bug where using a CustomerKey other than UserLogin would not work
+    in AdminCustomerUser.
  - 2013-08-26 Allow TicketSearch GI operation to also work for logged in customers.
 
 #3.3.0.beta1 2013-08-27

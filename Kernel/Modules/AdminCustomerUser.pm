@@ -701,6 +701,7 @@ sub _Overview {
                     Data => {
                         Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
                         Search => $Param{Search},
+                        CustomerKey => $ListKey,
                         %UserData,
                     },
                 );
@@ -709,6 +710,7 @@ sub _Overview {
                         Name => 'OverviewResultRowLinkNone',
                         Data => {
                             Search => $Param{Search},
+                            CustomerKey => $ListKey,
                             %UserData,
                         },
                     );
@@ -719,6 +721,7 @@ sub _Overview {
                         Data => {
                             Search => $Param{Search},
                             Nav    => $Param{Nav},
+                            CustomerKey => $ListKey,
                             %UserData,
                         },
                     );
