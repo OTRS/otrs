@@ -412,17 +412,17 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DynamicFieldFromCustomerUser::Mapping" Required="0" Valid="0">
-        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.</Description>
+        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="CustomerUserFirstname">CustomerFirstname</Item>
+                <Item Key="UserFirstname">CustomerFirstname</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###930-DynamicFieldFromCustomerUser" Required="0" Valid="0">
-        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets.</Description>
+        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
