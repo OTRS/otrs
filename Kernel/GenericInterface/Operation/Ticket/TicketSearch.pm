@@ -300,6 +300,7 @@ sub Run {
     my %DynamicFieldSearchParameters = $Self->_GetDynamicFields( %{ $Param{Data} } );
 
     # perform ticket search
+    $UserType = ($UserType eq 'Customer') ? 'CustomerUserID' : 'UserID';
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         %GetParam,
         %DynamicFieldSearchParameters,
@@ -307,7 +308,7 @@ sub Run {
         SortBy              => $Self->{SortBy},
         OrderBy             => $Self->{OrderBy},
         Limit               => $Self->{SearchLimit},
-        UserID              => $UserID,
+        $userType           => $UserID,
         ConditionInline     => $Self->{Config}->{ExtendedSearchCondition},
         ContentSearchPrefix => '*',
         ContentSearchSuffix => '*',
