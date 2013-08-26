@@ -1,3 +1,6 @@
+#3.3.0.beta2 2013-??-??
+ - 2013-08-26 Allow TicketSearch GI operation to also work for logged in customers.
+
 #3.3.0.beta1 2013-08-27
  - 2013-08-22 Updated Spanish translation, thanks to Enrique Matías Sánchez!
  - 2013-08-15 Added possibility to negate postmaster filter settings, thanks to Renée Bäcker!
