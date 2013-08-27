@@ -18,6 +18,11 @@ use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
+<<<<<<< HEAD
+=======
+use Text::Tabs;
+use List::Util qw/first/;
+>>>>>>> c5c509c... use "first" instead of "grep"
 
 use vars qw(@ISA);
 
@@ -416,7 +421,7 @@ sub new {
                 # without this grep, @ISA (being a global variable)
                 # grows with each request, and slows down OTRS significantly
                 # after a few hours of heavy usage
-                unless (grep $_ eq $ClassName, @ISA) {
+                unless (first {$_ eq $ClassName} @ISA) {
                     push @ISA, $ClassName;
                 }
             }
