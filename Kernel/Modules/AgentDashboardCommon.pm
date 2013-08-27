@@ -608,8 +608,8 @@ sub Run {
 
     # add translations for the allocation lists for regular columns
     my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
-    if ($Columns && IsHashRefWithData($Columns)) {
-        for my $Column (sort keys %{$Columns}) {
+    if ( $Columns && IsHashRefWithData($Columns) ) {
+        for my $Column ( sort keys %{$Columns} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
                 Data => {
@@ -629,12 +629,12 @@ sub Run {
         ObjectType => ['Ticket'],
     );
 
-    if ($ColumnsDynamicField && IsArrayRefWithData($ColumnsDynamicField)) {
+    if ( $ColumnsDynamicField && IsArrayRefWithData($ColumnsDynamicField) ) {
 
         my $Counter = 0;
 
         DYNAMICFIELD:
-        for my $DynamicField (sort @{$ColumnsDynamicField}) {
+        for my $DynamicField ( sort @{$ColumnsDynamicField} ) {
 
             next DYNAMICFIELD if !$DynamicField;
 
@@ -648,7 +648,7 @@ sub Run {
                 },
             );
 
-            if ($Counter lt @{$ColumnsDynamicField}) {
+            if ( $Counter < scalar @{$ColumnsDynamicField} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ColumnTranslationSeparator',
                 );
