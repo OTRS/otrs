@@ -299,10 +299,17 @@ EOF
 
         my $FieldsToUpdate = '';
         if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
+            my $FirstItem = 1;
             FIELD:
             for my $Field ( @{ $Param{UpdatableFields} } ) {
                 next FIELD if $Field eq $FieldName;
-                $FieldsToUpdate .= ", '" . $Field . "'";
+                if ($FirstItem) {
+                    $FirstItem = 0;
+                }
+                else {
+                    $FieldsToUpdate .= ', ';
+                }
+                $FieldsToUpdate .= "'" . $Field . "'";
             }
         }
 
