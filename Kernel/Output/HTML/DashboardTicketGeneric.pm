@@ -266,6 +266,15 @@ sub new {
         'EscalationSolutionTime' => 1,
     };
 
+    # remove CustomerID if Customer Information Center
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
+        delete $Self->{ColumnFilter}->{CustomerID};
+        delete $Self->{GetColumnFilter}->{CustomerID};
+        delete $Self->{GetColumnFilterSelect}->{CustomerID};
+        delete $Self->{ValidFilterableColumns}->{CustomerID};
+        delete $Self->{ValidSortableColumns}->{CustomerID};
+    }
+
     return $Self;
 }
 
@@ -316,6 +325,13 @@ sub Preferences {
         if ( !grep { $_ eq $ColumnName } @ColumnsEnabled ) {
             push @ColumnsAvailableNotEnabled, $ColumnName;
         }
+    }
+
+    # remove CustomerID if Customer Information Center
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
+        delete $Columns{Columns}->{CustomerID};
+        @ColumnsEnabled             = grep { $_ ne 'CustomerID' } @ColumnsEnabled;
+        @ColumnsAvailableNotEnabled = grep { $_ ne 'CustomerID' } @ColumnsAvailableNotEnabled;
     }
 
     my @Params = (
@@ -718,6 +734,15 @@ sub Run {
     # show all needed headers
     HEADERCOLUMN:
     for my $HeaderColumn (@Columns) {
+
+        # skip CustomerID if Customer Information Center
+        if (
+            $Self->{Action} eq 'AgentCustomerInformationCenter' &&
+            $HeaderColumn eq 'CustomerID'
+            )
+        {
+            next HEADERCOLUMN;
+        }
 
         if ( $HeaderColumn !~ m{\A DynamicField_}xms ) {
 
@@ -1191,6 +1216,16 @@ sub Run {
         # show all needed columns
         COLUMN:
         for my $Column (@Columns) {
+
+            # skip CustomerID if Customer Information Center
+            if (
+                $Self->{Action} eq 'AgentCustomerInformationCenter' &&
+                $Column eq 'CustomerID'
+                )
+            {
+                next COLUMN;
+            }
+
             if ( $Column !~ m{\A DynamicField_}xms ) {
 
                 $Self->{LayoutObject}->Block(
