@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::DB;
+## nofilter(TidyAll::Plugin::OTRS::Perl::PODSpelling)
 
 use strict;
 use warnings;

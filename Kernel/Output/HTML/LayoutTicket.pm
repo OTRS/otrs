@@ -28,8 +28,8 @@ All Ticket-related HTML functions
 
 =over 4
 
-=item AgentCustomerViewTable
-   ...
+=item AgentCustomerViewTable()
+
 =cut
 
 sub AgentCustomerViewTable {

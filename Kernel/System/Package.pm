@@ -3038,7 +3038,7 @@ Uninstall an already framework (or module) merged package.
 Package files that are not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
 CodeUninstall are not called.
 
-    $Success = PackageObject->_PackageUninstallMerged(
+    $Success = $PackageObject->_PackageUninstallMerged(
         Name        => 'some package name',
         Home        => 'OTRS Home path',      # Optional
         DeleteSaved => 1,                     # or 0, 1 Default, Optional: if set to 1 it also

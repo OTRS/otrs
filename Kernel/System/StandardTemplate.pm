@@ -371,7 +371,7 @@ sub StandardTemplateLookup {
 
 get all valid std templatess
 
-    my %StandardTemplates = $StandardTemplatesObject->StandardTemplatesList();
+    my %StandardTemplates = $StandardTemplatesObject->StandardTemplateList();
 
 Returns:
     %StandardTemplates = (
