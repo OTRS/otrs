@@ -423,7 +423,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                                 $TriggerObj
                                     .next('.ColumnSettingsContainer')
                                     .find('select')
-                                    .after('<span class="SelectedValue Hidden"><a href="#">x</a><span>' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span></span>')
+                                    .after('<span class="SelectedValue Hidden"><a href="#">x</a><span title="' + AutoCompleteText + ' (' + AutoCompleteValue + ')">' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span></span>')
                                     .parent()
                                     .find('.SelectedValue')
                                     .find('a')
