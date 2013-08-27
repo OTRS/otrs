@@ -111,7 +111,7 @@ sub new {
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new( %{$Self} );
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
+    @ISA = ('Kernel::System::EventHandler');
     $Self->EventHandlerInit(
         Config     => 'CustomerUser::EventModulePost',
         BaseObject => 'CustomerUserObject',

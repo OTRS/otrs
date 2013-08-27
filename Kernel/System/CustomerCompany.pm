@@ -105,7 +105,7 @@ sub new {
     }
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
+    @ISA = ('Kernel::System::EventHandler');
     $Self->EventHandlerInit(
         Config     => 'CustomerCompany::EventModulePost',
         BaseObject => 'CustomerCompanyObject',
