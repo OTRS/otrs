@@ -273,6 +273,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 DataEnabled,
                 DataAvailable,
                 $FieldObj,
+                Translation,
                 IDString = '#' + $ContainerObj.find('.AssignedFields').attr('id') + ', #' + $ContainerObj.find('.AvailableFields').attr('id');
 
             if (DataEnabledJSON) {
@@ -283,11 +284,19 @@ Core.Agent.Dashboard = (function (TargetNS) {
             }
 
             $.each(DataEnabled, function(Index, Field) {
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Field);
+
+                // get field translation
+                Translation = Core.Config.Get('Column' + Field) || Field;
+
+                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AssignedFields').append($FieldObj);
             });
             $.each(DataAvailable, function(Index, Field) {
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Field);
+
+                // get field translation
+                Translation = Core.Config.Get('Column' + Field) || Field;
+
+                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AvailableFields').append($FieldObj);
             });
 

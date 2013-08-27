@@ -605,6 +605,43 @@ sub Run {
         }
     }
 
+    # add translations for the allocation lists for regular columns
+    my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
+    if ($Columns && IsHashRefWithData($Columns)) {
+        for my $Column (sort keys %{$Columns}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslation',
+                Data => {
+                    ColumnName      => $Column,
+                    TranslateString => $Column,
+                },
+            );
+        }
+    }
+
+    # add translations for the allocation lists for dynamic field columns
+    my $ColumnsDynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => ['Ticket'],
+    );
+
+    if ($ColumnsDynamicField && IsArrayRefWithData($ColumnsDynamicField)) {
+
+        DYNAMICFIELD:
+        for my $DynamicField (sort @{$ColumnsDynamicField}) {
+
+            next DYNAMICFIELD if !$DynamicField;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslation',
+                Data => {
+                    ColumnName      => 'DynamicField_' . $DynamicField->{Name},
+                    TranslateString => $DynamicField->{Label},
+                },
+            );
+        }
+    }
+
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(

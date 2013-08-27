@@ -225,3 +225,13 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
 <!-- dtl:block:ContentLarge -->
 </div>
 <div class="Clear"></div>
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+<!-- dtl:block:ColumnTranslation -->
+        'Column$QData{"ColumnName"}': '$JSText{"$QData{"TranslateString"}"}',
+<!-- dtl:block:ColumnTranslation -->
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
