@@ -25,7 +25,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID QueueObject)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID QueueObject TimeObject)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
@@ -131,6 +131,7 @@ sub Run {
     my $Counter = 1;
     my $Limit   = scalar keys %Tickets;
     if (%Tickets) {
+        TICKET:
         for my $TicketID ( sort keys %Tickets ) {
 
             my %TicketDetail = $Self->{TicketObject}->TicketGet(
@@ -145,6 +146,15 @@ sub Run {
                 $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField }
                 )
             {
+
+                # end time should be greater than start time
+                my $StartTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $TicketDetail{ 'DynamicField_' . $StartTimeDynamicField },
+                );
+                my $EndTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField },
+                );
+                next TICKET if $StartTime > $EndTime;
 
                 my %Data;
                 $Data{ID}    = $TicketID;
