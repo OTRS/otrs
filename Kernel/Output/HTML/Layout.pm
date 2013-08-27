@@ -407,7 +407,8 @@ sub new {
         for my $File (@Files) {
             if ( $File !~ /Layout.pm$/ ) {
                 $File =~ s{\A.*\/(.+?).pm\z}{$1}xms;
-                if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
+                my $ClassName = "Kernel::Output::HTML::$File";
+                if ( !$Self->{MainObject}->Require($ClassName) ) {
                     $Self->FatalError();
                 }
 
@@ -415,8 +416,8 @@ sub new {
                 # without this grep, @ISA (being a global variable)
                 # grows with each request, and slows down OTRS significantly
                 # after a few hours of heavy usage
-                unless (grep $_ eq "Kerne::Output::HTML::$File", @ISA) {
-                    push @ISA, "Kernel::Output::HTML::$File";
+                unless (grep $_ eq $ClassName, @ISA) {
+                    push @ISA, $ClassName;
                 }
             }
         }
