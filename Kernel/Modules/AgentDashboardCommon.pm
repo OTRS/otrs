@@ -616,6 +616,9 @@ sub Run {
                     TranslateString => $Column,
                 },
             );
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslationSeparator',
+            );
         }
     }
 
@@ -627,10 +630,14 @@ sub Run {
 
     if ($ColumnsDynamicField && IsArrayRefWithData($ColumnsDynamicField)) {
 
+        my $Counter = 0;
+
         DYNAMICFIELD:
         for my $DynamicField (sort @{$ColumnsDynamicField}) {
 
             next DYNAMICFIELD if !$DynamicField;
+
+            $Counter++;
 
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
@@ -639,6 +646,12 @@ sub Run {
                     TranslateString => $DynamicField->{Label},
                 },
             );
+
+            if ($Counter lt @{$ColumnsDynamicField}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ColumnTranslationSeparator',
+                );
+            }
         }
     }
 
