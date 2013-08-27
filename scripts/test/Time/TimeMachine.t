@@ -12,7 +12,7 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
-## set time zone to get correct references
+# set time zone to get correct references
 #$ENV{TZ} = 'Europe/Berlin';
 
 use Kernel::System::Time;
