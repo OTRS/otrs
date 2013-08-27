@@ -36,6 +36,9 @@
         <thead>
 <!-- dtl:block:ContentLargeTicketGenericHeader -->
             <tr>
+
+<!-- dtl:block:GeneralOverviewHeader -->
+
 <!-- dtl:block:ContentLargeTicketGenericHeaderMeta -->
                 <th class="DashboardHeader $QData{"CSS"}">
 <!-- dtl:block:ContentLargeTicketGenericHeaderMetaLink -->
@@ -357,7 +360,10 @@ Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete"
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumn -->
 <!-- dtl:block:ContentLargeTicketGenericHeaderTicketHeader -->
 
+<!-- dtl:block:GeneralOverviewHeader -->
+
             </tr>
+
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', function() {
@@ -446,12 +452,16 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
 
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+
 <!-- dtl:block:ContentLargeTicketGenericHeader -->
         </thead>
 
         <tbody>
 <!-- dtl:block:ContentLargeTicketGenericRow -->
             <tr class="MasterAction">
+
+<!-- dtl:block:GeneralOverviewRow -->
+
 <!-- dtl:block:ContentLargeTicketGenericRowMeta -->
                 <td class="$QData{"ClassTable"} Flags" title="$Text{"$Data{"Title"}"}">
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
@@ -515,6 +525,8 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                     </div>
                 </td>
 <!-- dtl:block:ContentLargeTicketGenericDynamicField -->
+
+<!-- dtl:block:GeneralOverviewRow -->
 
             </tr>
 <!-- dtl:block:ContentLargeTicketGenericRow -->

@@ -307,7 +307,7 @@ sub Preferences {
         );
 
         @ColumnsEnabled = grep { $ColumnsEnabled->{Columns}->{$_} == 1 }
-            sort keys %{ $ColumnsEnabled->{Columns} };
+            keys %{ $ColumnsEnabled->{Columns} };
     }
 
     my %Columns;
@@ -681,6 +681,10 @@ sub Run {
             $Title .= ', ' . $TitleDesc;
         }
 
+        # add surrounding container
+        $Self->{LayoutObject}->Block(
+            Name => 'GeneralOverviewHeader',
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericHeaderMeta',
             Data => {
@@ -689,6 +693,7 @@ sub Run {
         );
 
         if ( $Item eq 'New Article' ) {
+
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketGenericHeaderMetaEmpty',
                 Data => {
@@ -714,263 +719,12 @@ sub Run {
     HEADERCOLUMN:
     for my $HeaderColumn (@Columns) {
 
-        # not show headers for dymamic field, yet
-        next HEADERCOLUMN if $HeaderColumn =~ m{ DynamicField_ }xms;
-        $CSS = '';
-        my $Title = $HeaderColumn;
+        if ( $HeaderColumn !~ m{\A DynamicField_}xms ) {
 
-        if ( $Self->{SortBy} && ( $Self->{SortBy} eq $HeaderColumn ) ) {
-            if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
-                $OrderBy = 'Down';
-                $CSS .= ' SortDescendingLarge';
-            }
-            else {
-                $OrderBy = 'Up';
-                $CSS .= ' SortAscendingLarge';
-            }
+            $CSS = '';
+            my $Title = $HeaderColumn;
 
-            # add title description
-            my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
-            $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
-            $Title .= ', ' . $TitleDesc;
-        }
-
-        # translate the column name to write it in the current language
-        my $TranslatedWord;
-        if ( $HeaderColumn eq 'EscalationTime' ) {
-            $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Service Time');
-        }
-        elsif ( $HeaderColumn eq 'EscalationResponseTime' ) {
-            $TranslatedWord
-                = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
-        }
-        elsif ( $HeaderColumn eq 'EscalationSolutionTime' ) {
-            $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time');
-        }
-        elsif ( $HeaderColumn eq 'EscalationUpdateTime' ) {
-            $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Update Time');
-        }
-        elsif ( $HeaderColumn eq 'PendingTime' ) {
-            $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Pending till');
-        }
-        else {
-            $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get($HeaderColumn);
-        }
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericHeaderTicketHeader',
-            Data => {},
-        );
-
-        if ( $HeaderColumn eq 'TicketNumber' ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderTicketNumberColumn',
-                Data => {
-                    %Param,
-                    CSS => $CSS || '',
-                    Name    => $Self->{Name},
-                    OrderBy => $OrderBy || 'Up',
-                    Filter  => $Self->{Filter},
-                    Title   => $Title,
-                },
-            );
-            next HEADERCOLUMN;
-        }
-
-        my $FilterTitle     = $HeaderColumn;
-        my $FilterTitleDesc = 'filter not active';
-        if ( $Self->{GetColumnFilterSelect} && $Self->{GetColumnFilterSelect}->{$HeaderColumn} ) {
-            $CSS .= ' FilterActive';
-            $FilterTitleDesc = 'filter active';
-        }
-        $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
-        $FilterTitle .= ', ' . $FilterTitleDesc;
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericHeaderColumn',
-            Data => {
-                HeaderColumnName     => $HeaderColumn   || '',
-                HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
-                CSS                  => $CSS            || '',
-            },
-        );
-
-        # verify if column is filterable and sortable
-        if (
-            $Self->{ValidSortableColumns}->{$HeaderColumn}
-            && $Self->{ValidFilterableColumns}->{$HeaderColumn}
-            )
-        {
-
-            my $Css;
-            if (
-                $HeaderColumn eq 'CustomerID'
-                || $HeaderColumn eq 'Responsible'
-                || $HeaderColumn eq 'Owner'
-                )
-            {
-                $Css = 'Hidden';
-            }
-
-            # variable to save the filter's html code
-            my $ColumnFilterHTML = $Self->_InitialColumnFilter(
-                ColumnName => $HeaderColumn,
-                Css        => $Css,
-            );
-
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumnFilterLink',
-                Data => {
-                    %Param,
-                    HeaderColumnName     => $HeaderColumn,
-                    CSS                  => $CSS,
-                    HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
-                    ColumnFilterStrg     => $ColumnFilterHTML,
-                    OrderBy              => $OrderBy || 'Up',
-                    SortBy               => $Self->{SortBy} || 'Age',
-                    Name                 => $Self->{Name},
-                    Title                => $Title,
-                    FilterTitle          => $FilterTitle,
-                },
-            );
-
-            if ( $HeaderColumn eq 'CustomerID' ) {
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch',
-                    Data => {
-                        minQueryLength      => 2,
-                        queryDelay          => 100,
-                        maxResultsDisplayed => 20,
-                    },
-                );
-            }
-            elsif ( $HeaderColumn eq 'Responsible' || $HeaderColumn eq 'Owner' ) {
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch',
-                    Data => {
-                        minQueryLength      => 2,
-                        queryDelay          => 100,
-                        maxResultsDisplayed => 20,
-                    },
-                );
-            }
-        }
-
-        # verify if column is just filterable
-        elsif ( $Self->{ValidFilterableColumns}->{$HeaderColumn} ) {
-
-            my $Css;
-            if ( $HeaderColumn eq 'CustomerUserID' ) {
-                $Css = 'Hidden';
-            }
-
-            # variable to save the filter's html code
-            my $ColumnFilterHTML = $Self->_InitialColumnFilter(
-                ColumnName => $HeaderColumn,
-                Css        => $Css,
-            );
-
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumnFilter',
-                Data => {
-                    %Param,
-                    HeaderColumnName     => $HeaderColumn,
-                    CSS                  => $CSS,
-                    HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
-                    ColumnFilterStrg     => $ColumnFilterHTML,
-                    Name                 => $Self->{Name},
-                    Title                => $Title,
-                    FilterTitle          => $FilterTitle,
-                },
-            );
-
-            if ( $HeaderColumn eq 'CustomerUserID' ) {
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch',
-                    Data => {
-                        minQueryLength      => 2,
-                        queryDelay          => 100,
-                        maxResultsDisplayed => 20,
-                    },
-                );
-            }
-        }
-
-        # verify if column is just sortable
-        elsif ( $Self->{ValidSortableColumns}->{$HeaderColumn} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumnLink',
-                Data => {
-                    %Param,
-                    HeaderColumnName     => $HeaderColumn,
-                    CSS                  => $CSS,
-                    HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
-                    OrderBy              => $OrderBy || 'Up',
-                    SortBy               => $Self->{SortBy} || $HeaderColumn,
-                    Name                 => $Self->{Name},
-                    Title                => $Title,
-                },
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumnEmpty',
-                Data => {
-                    %Param,
-                    HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
-                    HeaderColumnName     => $HeaderColumn,
-                    CSS                  => $CSS,
-                    Title                => $Title,
-                },
-            );
-        }
-    }
-
-    # Dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $Label = $DynamicFieldConfig->{Label};
-
-        my $TranslatedLabel = $Self->{LayoutObject}->{LanguageObject}->Get($Label);
-
-        my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
-
-        my $CSS             = '';
-        my $FilterTitle     = $Label;
-        my $FilterTitleDesc = 'filter not active';
-        if (
-            $Self->{GetColumnFilterSelect}
-            && defined $Self->{GetColumnFilterSelect}->{$DynamicFieldName}
-            )
-        {
-            $CSS .= 'FilterActive ';
-            $FilterTitleDesc = 'filter active';
-        }
-        $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
-        $FilterTitle .= ', ' . $FilterTitleDesc;
-
-        # get field sortable condition
-        my $IsSortable = $Self->{BackendObject}->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsSortable',
-        );
-
-        # set title
-        my $Title = $Label;
-
-        if ($IsSortable) {
-            my $OrderBy;
-            if (
-                $Self->{SortBy}
-                && ( $Self->{SortBy} eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
-                )
-            {
+            if ( $Self->{SortBy} && ( $Self->{SortBy} eq $HeaderColumn ) ) {
                 if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
                     $OrderBy = 'Down';
                     $CSS .= ' SortDescendingLarge';
@@ -986,31 +740,101 @@ sub Run {
                 $Title .= ', ' . $TitleDesc;
             }
 
+            # translate the column name to write it in the current language
+            my $TranslatedWord;
+            if ( $HeaderColumn eq 'EscalationTime' ) {
+                $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Service Time');
+            }
+            elsif ( $HeaderColumn eq 'EscalationResponseTime' ) {
+                $TranslatedWord
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
+            }
+            elsif ( $HeaderColumn eq 'EscalationSolutionTime' ) {
+                $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time');
+            }
+            elsif ( $HeaderColumn eq 'EscalationUpdateTime' ) {
+                $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Update Time');
+            }
+            elsif ( $HeaderColumn eq 'PendingTime' ) {
+                $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Pending till');
+            }
+            else {
+                $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get($HeaderColumn);
+            }
+
+            # add surrounding container
+            $Self->{LayoutObject}->Block(
+                Name => 'GeneralOverviewHeader',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeTicketGenericHeaderTicketHeader',
+                Data => {},
+            );
+
+            if ( $HeaderColumn eq 'TicketNumber' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderTicketNumberColumn',
+                    Data => {
+                        %Param,
+                        CSS => $CSS || '',
+                        Name    => $Self->{Name},
+                        OrderBy => $OrderBy || 'Up',
+                        Filter  => $Self->{Filter},
+                        Title   => $Title,
+                    },
+                );
+                next HEADERCOLUMN;
+            }
+
+            my $FilterTitle     = $HeaderColumn;
+            my $FilterTitleDesc = 'filter not active';
+            if ( $Self->{GetColumnFilterSelect} && $Self->{GetColumnFilterSelect}->{$HeaderColumn} )
+            {
+                $CSS .= ' FilterActive';
+                $FilterTitleDesc = 'filter active';
+            }
+            $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+            $FilterTitle .= ', ' . $FilterTitleDesc;
+
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketGenericHeaderColumn',
                 Data => {
-                    HeaderColumnName => $DynamicFieldName || '',
-                    CSS => $CSS || '',
+                    HeaderColumnName     => $HeaderColumn   || '',
+                    HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
+                    CSS                  => $CSS            || '',
                 },
             );
 
-            # check if the dynamic field is sortable and filtrable (sortable check was made before)
-            if ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
+            # verify if column is filterable and sortable
+            if (
+                $Self->{ValidSortableColumns}->{$HeaderColumn}
+                && $Self->{ValidFilterableColumns}->{$HeaderColumn}
+                )
+            {
+
+                my $Css;
+                if (
+                    $HeaderColumn eq 'CustomerID'
+                    || $HeaderColumn eq 'Responsible'
+                    || $HeaderColumn eq 'Owner'
+                    )
+                {
+                    $Css = 'Hidden';
+                }
 
                 # variable to save the filter's html code
                 my $ColumnFilterHTML = $Self->_InitialColumnFilter(
-                    ColumnName => $DynamicFieldName,
-                    Label      => $Label,
+                    ColumnName => $HeaderColumn,
+                    Css        => $Css,
                 );
 
-                # output sortable and filtrable dynamic field
                 $Self->{LayoutObject}->Block(
                     Name => 'ContentLargeTicketGenericHeaderColumnFilterLink',
                     Data => {
                         %Param,
-                        HeaderColumnName     => $DynamicFieldName,
+                        HeaderColumnName     => $HeaderColumn,
                         CSS                  => $CSS,
-                        HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
+                        HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
                         ColumnFilterStrg     => $ColumnFilterHTML,
                         OrderBy              => $OrderBy || 'Up',
                         SortBy               => $Self->{SortBy} || 'Age',
@@ -1019,86 +843,286 @@ sub Run {
                         FilterTitle          => $FilterTitle,
                     },
                 );
+
+                if ( $HeaderColumn eq 'CustomerID' ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch',
+                        Data => {
+                            minQueryLength      => 2,
+                            queryDelay          => 100,
+                            maxResultsDisplayed => 20,
+                        },
+                    );
+                }
+                elsif ( $HeaderColumn eq 'Responsible' || $HeaderColumn eq 'Owner' ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch',
+                        Data => {
+                            minQueryLength      => 2,
+                            queryDelay          => 100,
+                            maxResultsDisplayed => 20,
+                        },
+                    );
+                }
             }
 
-            # otherwise the dynamic field is only sortable (sortable check was made before)
-            else {
+            # verify if column is just filterable
+            elsif ( $Self->{ValidFilterableColumns}->{$HeaderColumn} ) {
 
-                # output sortable dynamic field
+                my $Css;
+                if ( $HeaderColumn eq 'CustomerUserID' ) {
+                    $Css = 'Hidden';
+                }
+
+                # variable to save the filter's html code
+                my $ColumnFilterHTML = $Self->_InitialColumnFilter(
+                    ColumnName => $HeaderColumn,
+                    Css        => $Css,
+                );
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumnFilter',
+                    Data => {
+                        %Param,
+                        HeaderColumnName     => $HeaderColumn,
+                        CSS                  => $CSS,
+                        HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
+                        ColumnFilterStrg     => $ColumnFilterHTML,
+                        Name                 => $Self->{Name},
+                        Title                => $Title,
+                        FilterTitle          => $FilterTitle,
+                    },
+                );
+
+                if ( $HeaderColumn eq 'CustomerUserID' ) {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch',
+                        Data => {
+                            minQueryLength      => 2,
+                            queryDelay          => 100,
+                            maxResultsDisplayed => 20,
+                        },
+                    );
+                }
+            }
+
+            # verify if column is just sortable
+            elsif ( $Self->{ValidSortableColumns}->{$HeaderColumn} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ContentLargeTicketGenericHeaderColumnLink',
+                    Data => {
+                        %Param,
+                        HeaderColumnName     => $HeaderColumn,
+                        CSS                  => $CSS,
+                        HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
+                        OrderBy              => $OrderBy || 'Up',
+                        SortBy               => $Self->{SortBy} || $HeaderColumn,
+                        Name                 => $Self->{Name},
+                        Title                => $Title,
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumnEmpty',
+                    Data => {
+                        %Param,
+                        HeaderNameTranslated => $TranslatedWord || $HeaderColumn,
+                        HeaderColumnName     => $HeaderColumn,
+                        CSS                  => $CSS,
+                        Title                => $Title,
+                    },
+                );
+            }
+        }
+
+        # Dynamic fields
+        else {
+            my $DynamicFieldConfig;
+            my $DFColumn = $HeaderColumn;
+            $DFColumn =~ s/DynamicField_//g;
+            DYNAMICFIELD:
+            for my $DFConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
+                next DYNAMICFIELD if $DFConfig->{Name} ne $DFColumn;
+
+                $DynamicFieldConfig = $DFConfig;
+                last DYNAMICFIELD;
+            }
+            next HEADERCOLUMN if !IsHashRefWithData($DynamicFieldConfig);
+
+            my $Label = $DynamicFieldConfig->{Label};
+
+            my $TranslatedLabel = $Self->{LayoutObject}->{LanguageObject}->Get($Label);
+
+            my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
+
+            my $CSS             = '';
+            my $FilterTitle     = $Label;
+            my $FilterTitleDesc = 'filter not active';
+            if (
+                $Self->{GetColumnFilterSelect}
+                && defined $Self->{GetColumnFilterSelect}->{$DynamicFieldName}
+                )
+            {
+                $CSS .= 'FilterActive ';
+                $FilterTitleDesc = 'filter active';
+            }
+            $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+            $FilterTitle .= ', ' . $FilterTitleDesc;
+
+            # get field sortable condition
+            my $IsSortable = $Self->{BackendObject}->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsSortable',
+            );
+
+            # set title
+            my $Title = $Label;
+
+            # add surrounding container
+            $Self->{LayoutObject}->Block(
+                Name => 'GeneralOverviewHeader',
+            );
+            if ($IsSortable) {
+                my $OrderBy;
+                if (
+                    $Self->{SortBy}
+                    && ( $Self->{SortBy} eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
+                    )
+                {
+                    if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
+                        $OrderBy = 'Down';
+                        $CSS .= ' SortDescendingLarge';
+                    }
+                    else {
+                        $OrderBy = 'Up';
+                        $CSS .= ' SortAscendingLarge';
+                    }
+
+                    # add title description
+                    my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
+                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                    $Title .= ', ' . $TitleDesc;
+                }
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumn',
+                    Data => {
+                        HeaderColumnName => $DynamicFieldName || '',
+                        CSS => $CSS || '',
+                    },
+                );
+
+             # check if the dynamic field is sortable and filtrable (sortable check was made before)
+                if ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
+
+                    # variable to save the filter's html code
+                    my $ColumnFilterHTML = $Self->_InitialColumnFilter(
+                        ColumnName => $DynamicFieldName,
+                        Label      => $Label,
+                    );
+
+                    # output sortable and filtrable dynamic field
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericHeaderColumnFilterLink',
+                        Data => {
+                            %Param,
+                            HeaderColumnName     => $DynamicFieldName,
+                            CSS                  => $CSS,
+                            HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
+                            ColumnFilterStrg     => $ColumnFilterHTML,
+                            OrderBy              => $OrderBy || 'Up',
+                            SortBy               => $Self->{SortBy} || 'Age',
+                            Name                 => $Self->{Name},
+                            Title                => $Title,
+                            FilterTitle          => $FilterTitle,
+                        },
+                    );
+                }
+
+                # otherwise the dynamic field is only sortable (sortable check was made before)
+                else {
+
+                    # output sortable dynamic field
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericHeaderColumnLink',
+                        Data => {
+                            %Param,
+                            HeaderColumnName     => $DynamicFieldName,
+                            CSS                  => $CSS,
+                            HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
+                            OrderBy              => $OrderBy || 'Up',
+                            SortBy               => $Self->{SortBy} || $DynamicFieldName,
+                            Name                 => $Self->{Name},
+                            Title                => $Title,
+                            FilterTitle          => $FilterTitle,
+                        },
+                    );
+                }
+            }
+
+            # if the dynamic field was not sortable (check was made and fail before)
+            # it might be filtrable
+            elsif ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumn',
+                    Data => {
+                        HeaderColumnName => $DynamicFieldName || '',
+                        CSS              => $CSS              || '',
+                        Title            => $Title,
+                    },
+                );
+
+                # variable to save the filter's html code
+                my $ColumnFilterHTML = $Self->_InitialColumnFilter(
+                    ColumnName => $DynamicFieldName,
+                    Label      => $Label,
+                );
+
+                # output filtrable (not sortable) dynamic field
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumnFilter',
                     Data => {
                         %Param,
                         HeaderColumnName     => $DynamicFieldName,
                         CSS                  => $CSS,
                         HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
-                        OrderBy              => $OrderBy || 'Up',
-                        SortBy               => $Self->{SortBy} || $DynamicFieldName,
+                        ColumnFilterStrg     => $ColumnFilterHTML,
                         Name                 => $Self->{Name},
                         Title                => $Title,
                         FilterTitle          => $FilterTitle,
                     },
                 );
             }
-        }
 
-        # if the dynamic field was not sortable (check was made and fail before)
-        # it might be filtrable
-        elsif ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
+            # otherwise the field is not filtrable and not sortable
+            else {
 
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumn',
-                Data => {
-                    HeaderColumnName => $DynamicFieldName || '',
-                    CSS              => $CSS              || '',
-                    Title            => $Title,
-                },
-            );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumn',
+                    Data => {
+                        HeaderColumnName => $DynamicFieldName || '',
+                        CSS => $CSS || '',
+                    },
+                );
 
-            # variable to save the filter's html code
-            my $ColumnFilterHTML = $Self->_InitialColumnFilter(
-                ColumnName => $DynamicFieldName,
-                Label      => $Label,
-            );
-
-            # output filtrable (not sortable) dynamic field
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumnFilter',
-                Data => {
-                    %Param,
-                    HeaderColumnName     => $DynamicFieldName,
-                    CSS                  => $CSS,
-                    HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
-                    ColumnFilterStrg     => $ColumnFilterHTML,
-                    Name                 => $Self->{Name},
-                    Title                => $Title,
-                    FilterTitle          => $FilterTitle,
-                },
-            );
-        }
-
-        # otherwise the field is not filtrable and not sortable
-        else {
-
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumn',
-                Data => {
-                    HeaderColumnName => $DynamicFieldName || '',
-                    CSS => $CSS || '',
-                },
-            );
-
-            # output plain dynamic field header (not filtrable, not sortable)
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericHeaderColumnEmpty',
-                Data => {
-                    %Param,
-                    HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
-                    HeaderColumnName     => $DynamicFieldName,
-                    CSS                  => $CSS,
-                    Title                => $Title,
-                },
-            );
+                # output plain dynamic field header (not filtrable, not sortable)
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericHeaderColumnEmpty',
+                    Data => {
+                        %Param,
+                        HeaderNameTranslated => $TranslatedLabel || $DynamicFieldName,
+                        HeaderColumnName     => $DynamicFieldName,
+                        CSS                  => $CSS,
+                        Title                => $Title,
+                    },
+                );
+            }
         }
     }
 
@@ -1145,6 +1169,10 @@ sub Run {
             Ticket => \%Ticket,
         );
         for my $Item (@TicketMetaItems) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'GeneralOverviewRow',
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketGenericRowMeta',
                 Data => {},
@@ -1163,204 +1191,220 @@ sub Run {
         # show all needed columns
         COLUMN:
         for my $Column (@Columns) {
-            next COLUMN if $Column =~ m{ DynamicField_ }xms;
+            if ( $Column !~ m{\A DynamicField_}xms ) {
 
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericTicketColumn',
-                Data => {},
-            );
-
-            my $BlockType = '';
-            my $CSSClass  = '';
-
-            if ( $Column eq 'TicketNumber' ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericTicketNumber',
-                    Data => {
-                        %Ticket,
-                        Title => $Ticket{Title},
-                    },
+                    Name => 'GeneralOverviewRow',
                 );
-                next COLUMN;
-            }
-            elsif ( $Column eq 'EscalationTime' ) {
-                my %EscalationData;
-                $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
-                $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeTicketGenericTicketColumn',
+                    Data => {},
+                );
 
-                $EscalationData{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $EscalationData{EscalationTime},
-                    Space => ' ',
-                );
-                $EscalationData{EscalationTimeWorkingTime}
-                    = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age   => $EscalationData{EscalationTimeWorkingTime},
-                    Space => ' ',
+                my $BlockType = '';
+                my $CSSClass  = '';
+
+                if ( $Column eq 'TicketNumber' ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericTicketNumber',
+                        Data => {
+                            %Ticket,
+                            Title => $Ticket{Title},
+                        },
                     );
-                if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 ) {
-                    $EscalationData{EscalationClass} = 'Warning';
+                    next COLUMN;
                 }
-                $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericEscalationTime',
-                    Data => {%EscalationData},
-                );
-                next COLUMN;
+                elsif ( $Column eq 'EscalationTime' ) {
+                    my %EscalationData;
+                    $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
+                    $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
 
-                $DataValue = $Self->{LayoutObject}->CustomerAge(
-                    Age   => $Ticket{'EscalationTime'},
-                    Space => ' '
-                );
-            }
-            elsif ( $Column eq 'Age' ) {
-                $DataValue = $Self->{LayoutObject}->CustomerAge(
-                    Age   => $Ticket{Age},
-                    Space => ' ',
-                );
-            }
-            elsif ( $Column eq 'EscalationSolutionTime' ) {
-                $BlockType = 'Escalation';
-                $DataValue = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age => $Ticket{SolutionTime} || 0,
-                    Space => ' ',
-                );
-                if ( defined $Ticket{SolutionTime} && $Ticket{SolutionTime} < 60 * 60 * 1 ) {
-                    $CSSClass = 'Warning';
+                    $EscalationData{EscalationTimeHuman}
+                        = $Self->{LayoutObject}->CustomerAgeInHours(
+                        Age   => $EscalationData{EscalationTime},
+                        Space => ' ',
+                        );
+                    $EscalationData{EscalationTimeWorkingTime}
+                        = $Self->{LayoutObject}->CustomerAgeInHours(
+                        Age   => $EscalationData{EscalationTimeWorkingTime},
+                        Space => ' ',
+                        );
+                    if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 )
+                    {
+                        $EscalationData{EscalationClass} = 'Warning';
+                    }
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericEscalationTime',
+                        Data => {%EscalationData},
+                    );
+                    next COLUMN;
+
+                    $DataValue = $Self->{LayoutObject}->CustomerAge(
+                        Age   => $Ticket{'EscalationTime'},
+                        Space => ' '
+                    );
                 }
-            }
-            elsif ( $Column eq 'EscalationResponseTime' ) {
-                $BlockType = 'Escalation';
-                $DataValue = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age => $Ticket{FirstResponseTime} || 0,
-                    Space => ' ',
-                );
-                if (
-                    defined $Ticket{FirstResponseTime}
-                    && $Ticket{FirstResponseTime} < 60 * 60 * 1
+                elsif ( $Column eq 'Age' ) {
+                    $DataValue = $Self->{LayoutObject}->CustomerAge(
+                        Age   => $Ticket{Age},
+                        Space => ' ',
+                    );
+                }
+                elsif ( $Column eq 'EscalationSolutionTime' ) {
+                    $BlockType = 'Escalation';
+                    $DataValue = $Self->{LayoutObject}->CustomerAgeInHours(
+                        Age => $Ticket{SolutionTime} || 0,
+                        Space => ' ',
+                    );
+                    if ( defined $Ticket{SolutionTime} && $Ticket{SolutionTime} < 60 * 60 * 1 ) {
+                        $CSSClass = 'Warning';
+                    }
+                }
+                elsif ( $Column eq 'EscalationResponseTime' ) {
+                    $BlockType = 'Escalation';
+                    $DataValue = $Self->{LayoutObject}->CustomerAgeInHours(
+                        Age => $Ticket{FirstResponseTime} || 0,
+                        Space => ' ',
+                    );
+                    if (
+                        defined $Ticket{FirstResponseTime}
+                        && $Ticket{FirstResponseTime} < 60 * 60 * 1
+                        )
+                    {
+                        $CSSClass = 'Warning';
+                    }
+                }
+                elsif ( $Column eq 'EscalationUpdateTime' ) {
+                    $BlockType = 'Escalation';
+                    $DataValue = $Self->{LayoutObject}->CustomerAgeInHours(
+                        Age => $Ticket{UpdateTime} || 0,
+                        Space => ' ',
+                    );
+                    if ( defined $Ticket{UpdateTime} && $Ticket{UpdateTime} < 60 * 60 * 1 ) {
+                        $CSSClass = 'Warning';
+                    }
+                }
+                elsif ( $Column eq 'PendingTime' ) {
+                    $BlockType = 'Escalation';
+                    $DataValue = $Self->{LayoutObject}->CustomerAge(
+                        Age   => $Ticket{'UntilTime'},
+                        Space => ' '
+                    );
+                    if ( defined $Ticket{UntilTime} && $Ticket{UntilTime} < -1 ) {
+                        $CSSClass = 'Warning';
+                    }
+                }
+                elsif ( $Column eq 'Owner' ) {
+
+                    # get owner info
+                    my %OwnerInfo = $Self->{UserObject}->GetUserData(
+                        UserID => $Ticket{OwnerID},
+                    );
+                    $DataValue = $OwnerInfo{'UserFirstname'} . ' ' . $OwnerInfo{'UserLastname'};
+                }
+                elsif ( $Column eq 'Responsible' ) {
+
+                    # get responsible info
+                    my %ResponsibleInfo = $Self->{UserObject}->GetUserData(
+                        UserID => $Ticket{ResponsibleID},
+                    );
+                    $DataValue
+                        = $ResponsibleInfo{'UserFirstname'} . ' '
+                        . $ResponsibleInfo{'UserLastname'};
+                }
+                elsif (
+                    $Column eq 'State'
+                    || $Column eq 'Lock'
+                    || $Column eq 'Priority'
                     )
                 {
-                    $CSSClass = 'Warning';
+                    $BlockType = 'Translatable';
+                    $DataValue = $Ticket{$Column};
                 }
-            }
-            elsif ( $Column eq 'EscalationUpdateTime' ) {
-                $BlockType = 'Escalation';
-                $DataValue = $Self->{LayoutObject}->CustomerAgeInHours(
-                    Age => $Ticket{UpdateTime} || 0,
-                    Space => ' ',
-                );
-                if ( defined $Ticket{UpdateTime} && $Ticket{UpdateTime} < 60 * 60 * 1 ) {
-                    $CSSClass = 'Warning';
+                elsif ( $Column eq 'Created' ) {
+                    $BlockType = 'Time';
+                    $DataValue = $Ticket{$Column};
                 }
-            }
-            elsif ( $Column eq 'PendingTime' ) {
-                $BlockType = 'Escalation';
-                $DataValue = $Self->{LayoutObject}->CustomerAge(
-                    Age   => $Ticket{'UntilTime'},
-                    Space => ' '
-                );
-                if ( defined $Ticket{UntilTime} && $Ticket{UntilTime} < -1 ) {
-                    $CSSClass = 'Warning';
+                elsif ( $Column eq 'CustomerName' ) {
+
+                    # get customer name
+                    my $CustomerName;
+                    if ( $Ticket{CustomerUserID} ) {
+                        $CustomerName = $Self->{CustomerUserObject}->CustomerName(
+                            UserLogin => $Ticket{CustomerUserID},
+                        );
+                    }
+                    $DataValue = $CustomerName;
                 }
-            }
-            elsif ( $Column eq 'Owner' ) {
-
-                # get owner info
-                my %OwnerInfo = $Self->{UserObject}->GetUserData(
-                    UserID => $Ticket{OwnerID},
-                );
-                $DataValue = $OwnerInfo{'UserFirstname'} . ' ' . $OwnerInfo{'UserLastname'};
-            }
-            elsif ( $Column eq 'Responsible' ) {
-
-                # get responsible info
-                my %ResponsibleInfo = $Self->{UserObject}->GetUserData(
-                    UserID => $Ticket{ResponsibleID},
-                );
-                $DataValue
-                    = $ResponsibleInfo{'UserFirstname'} . ' ' . $ResponsibleInfo{'UserLastname'};
-            }
-            elsif (
-                $Column eq 'State'
-                || $Column eq 'Lock'
-                || $Column eq 'Priority'
-                )
-            {
-                $BlockType = 'Translatable';
-                $DataValue = $Ticket{$Column};
-            }
-            elsif ( $Column eq 'Created' ) {
-                $BlockType = 'Time';
-                $DataValue = $Ticket{$Column};
-            }
-            elsif ( $Column eq 'CustomerName' ) {
-
-                # get customer name
-                my $CustomerName;
-                if ( $Ticket{CustomerUserID} ) {
-                    $CustomerName = $Self->{CustomerUserObject}->CustomerName(
-                        UserLogin => $Ticket{CustomerUserID},
-                    );
+                else {
+                    $DataValue = $Ticket{$Column};
                 }
-                $DataValue = $CustomerName;
-            }
-            else {
-                $DataValue = $Ticket{$Column};
-            }
 
-            $Self->{LayoutObject}->Block(
-                Name => "ContentLargeTicketGenericColumn$BlockType",
-                Data => {
-                    GenericValue => $DataValue || '',
-                    Class        => $CSSClass  || '',
-                },
-            );
-        }
-
-        # Dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-            # get field value
-            my $Value = $Self->{BackendObject}->ValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $TicketID,
-            );
-
-            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Value,
-                ValueMaxChars      => 20,
-                LayoutObject       => $Self->{LayoutObject},
-            );
-
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericDynamicField',
-                Data => {
-                    Value => $ValueStrg->{Value},
-                    Title => $ValueStrg->{Title},
-                },
-            );
-
-            if ( $ValueStrg->{Link} ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericDynamicFieldLink',
+                    Name => "ContentLargeTicketGenericColumn$BlockType",
                     Data => {
-                        Value                       => $ValueStrg->{Value},
-                        Title                       => $ValueStrg->{Title},
-                        Link                        => $ValueStrg->{Link},
-                        $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                        GenericValue => $DataValue || '',
+                        Class        => $CSSClass  || '',
                     },
                 );
             }
+
+            # Dynamic fields
             else {
+                my $DynamicFieldConfig;
+                my $DFColumn = $Column;
+                $DFColumn =~ s/DynamicField_//g;
+                DYNAMICFIELD:
+                for my $DFConfig ( @{ $Self->{DynamicField} } ) {
+                    next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
+                    next DYNAMICFIELD if $DFConfig->{Name} ne $DFColumn;
+
+                    $DynamicFieldConfig = $DFConfig;
+                    last DYNAMICFIELD;
+                }
+                next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
+
+                # get field value
+                my $Value = $Self->{BackendObject}->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $TicketID,
+                );
+
+                my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Value,
+                    ValueMaxChars      => 20,
+                    LayoutObject       => $Self->{LayoutObject},
+                );
+
                 $Self->{LayoutObject}->Block(
-                    Name => 'ContentLargeTicketGenericDynamicFieldPlain',
+                    Name => 'ContentLargeTicketGenericDynamicField',
                     Data => {
                         Value => $ValueStrg->{Value},
                         Title => $ValueStrg->{Title},
                     },
                 );
+
+                if ( $ValueStrg->{Link} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericDynamicFieldLink',
+                        Data => {
+                            Value                       => $ValueStrg->{Value},
+                            Title                       => $ValueStrg->{Title},
+                            Link                        => $ValueStrg->{Link},
+                            $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                        },
+                    );
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ContentLargeTicketGenericDynamicFieldPlain',
+                        Data => {
+                            Value => $ValueStrg->{Value},
+                            Title => $ValueStrg->{Title},
+                        },
+                    );
+                }
             }
 
         }

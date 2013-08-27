@@ -47,6 +47,9 @@
 <!-- dtl:block:TableHeader -->
             <thead>
                 <tr>
+
+<!-- dtl:block:GeneralOverviewHeader -->
+
 <!-- dtl:block:BulkNavBar -->
                     <th class="Checkbox">
                         <input type="checkbox" class="Checkbox" title="$Text{"Select all"}" id="SelectAllTickets" autocomplete="off" />
@@ -172,6 +175,8 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 
                     </th>
 <!-- dtl:block:OverviewNavBarPageDynamicField -->
+
+<!-- dtl:block:GeneralOverviewHeader -->
 
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
@@ -305,6 +310,9 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
             <tbody>
 <!-- dtl:block:Record -->
                 <tr id="TicketID_$QData{"TicketID"}" class="MasterAction">
+
+<!-- dtl:block:GeneralOverviewRow -->
+
 <!-- dtl:block:Bulk -->
                     <td class="Checkbox NonTextContent">
                         <input class="Checkbox" type="checkbox" name="TicketID" value="$QData{"TicketID"}"  autocomplete="off" />
@@ -390,6 +398,9 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                         </div>
                     </td>
 <!-- dtl:block:RecordDynamicField -->
+
+<!-- dtl:block:GeneralOverviewRow -->
+
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
