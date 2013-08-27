@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentTicketPhone;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;

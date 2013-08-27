@@ -298,8 +298,6 @@ sub Run {
             ErrorCode    => 'TicketUpdate.AccessDenied',
             ErrorMessage => "TicketUpdate: User does not have access to the ticket!",
         );
-
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
     # check optional hashes

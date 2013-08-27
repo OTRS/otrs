@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AdminPackageManager;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
