@@ -106,7 +106,7 @@
  - 2013-03-27 Fixed bug#[8962](http://bugs.otrs.org/show_bug.cgi?id=8962) - RequestObject GetUploadAll Source 'File' option is unused
     and hard-coded to use /tmp.
 
-#3.2.10 2013-??-??
+#3.2.10 2013-08-27
  - 2013-08-20 Fixed bug#[9617](http://bugs.otrs.org/show_bug.cgi?id=9617) - Event-based notifications are not sent for process-tickets.
  - 2013-08-14 Fixed bug#[9666](http://bugs.otrs.org/show_bug.cgi?id=9666) - Installing an invalid package cause an server error on package manager.
  - 2013-08-06 Fixed bug#[8408](http://bugs.otrs.org/show_bug.cgi?id=8408) - No separator used in CSV files if UserCSVSeparator enabled and not set.
