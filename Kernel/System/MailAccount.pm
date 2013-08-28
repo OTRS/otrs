@@ -12,7 +12,6 @@ package Kernel::System::MailAccount;
 use strict;
 use warnings;
 
-use Kernel::System::Time;
 use Kernel::System::Valid;
 
 =head1 NAME
@@ -80,7 +79,6 @@ sub new {
     }
 
     # create additional objects
-    $Self->{TimeObject}  = Kernel::System::Time->new( %{$Self} );
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
