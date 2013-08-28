@@ -14,6 +14,12 @@ use vars (qw($Self));
 
 use Pod::Simple;
 
+my $PSVersion = $Pod::Simple::VERSION || '';
+$Self->True(
+    $PSVersion,
+    "Pod::Simple version - is '$PSVersion'",
+);
+
 # read all perl module files
 my @Files = $Self->{MainObject}->DirectoryRead(
     Directory => $Self->{ConfigObject}->Get('Home'),
