@@ -1691,6 +1691,7 @@ sub _ColumnFilterJSON {
             },
         ],
     );
+
     return $JSON;
 }
 
@@ -1899,3 +1900,6 @@ sub _SearchParamsGet {
 }
 
 1;
+
+=back
+

@@ -1784,7 +1784,11 @@ sub _ColumnFilterJSON {
             },
         ],
     );
+
     return $JSON;
 }
 
 1;
+
+=back
+
