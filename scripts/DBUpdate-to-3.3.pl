@@ -611,7 +611,7 @@ sub _MigrateOTRSGenericStandardTemplates {
     my $CommonObject = shift;
 
     # seach all templates with template type anwer or forward
-    for my $TemplateType qw(answer forward) {
+    for my $TemplateType (qw(answer forward)) {
 
         # set new template type to Answer or Forward (with capital leter)
         my $NewTemplateType = ucfirst $TemplateType;
