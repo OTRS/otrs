@@ -40,7 +40,6 @@ sub new {
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    my $StoreDecryptedData = $Self->{ConfigObject}->Get('SMIME::StoreDecryptedData');
     my %SignCheck;
     my @Return;
 
@@ -50,6 +49,7 @@ sub Check {
     # check if article is an email
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
+    my $StoreDecryptedData = $Self->{ConfigObject}->Get('SMIME::StoreDecryptedData');
     $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
 
     # check inline smime

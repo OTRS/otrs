@@ -43,7 +43,6 @@ sub new {
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    my $StoreDecryptedData = $Self->{ConfigObject}->Get('PGP::StoreDecryptedData');
     my %SignCheck;
     my @Return;
 
@@ -53,6 +52,7 @@ sub Check {
     # check if article is an email
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
+    my $StoreDecryptedData = $Self->{ConfigObject}->Get('PGP::StoreDecryptedData');
     $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
 
     # check inline pgp crypt
