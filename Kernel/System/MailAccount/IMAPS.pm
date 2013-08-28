@@ -12,6 +12,8 @@ package Kernel::System::MailAccount::IMAPS;
 use strict;
 use warnings;
 
+use IO::Socket::SSL;
+
 use base qw(Kernel::System::MailAccount::IMAP);
 
 sub Connect {
