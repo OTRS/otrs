@@ -14,7 +14,6 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 use Kernel::System::SysConfig;
-use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA);
