@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::Transition - Transition lib
@@ -580,7 +578,6 @@ sub TransitionCheck {
                         );
                         return;
                     }
-                    push @ISA, $ActualCondition->{Fields}{$Field}{Match};
 
                     # create new ValidateModuleObject
                     my $ValidateModuleObject =
