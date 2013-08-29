@@ -417,7 +417,7 @@ sub new {
                 # without this grep, @ISA (being a global variable)
                 # grows with each request, and slows down OTRS significantly
                 # after a few hours of heavy usage
-                unless (first {$_ eq $ClassName} @ISA) {
+                unless ( first { $_ eq $ClassName } @ISA ) {
                     push @ISA, $ClassName;
                 }
             }
