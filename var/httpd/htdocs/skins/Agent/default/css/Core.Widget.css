@@ -206,6 +206,7 @@ ul.Tablelike li.Header + li {
     color: #442A0B;
     font-weight: bold;
     padding-bottom: 8px;
+    line-height: 140%;
 }
 
 /**
