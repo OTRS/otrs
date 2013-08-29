@@ -9,7 +9,7 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Customer Company Management"}</h1>
+    <h1>$Text{"Customer Management"}</h1>
 
     <div class="SidebarColumn">
 
@@ -47,7 +47,7 @@
                                 <input type="hidden" name="Subaction" value="Add"/>
                                 <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
 
-                                <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer company"}</span></button>
+                                <button class="CallForAction Plus" type="submit"><span>$Text{"Add customer"}</span></button>
                                 <br/>
                                 <label class="InvisibleText" for="Source">$Text{"Select"}</label>
                                 $Data{"SourceOption"}
@@ -71,7 +71,7 @@
 <!-- dtl:block:OverviewHeader -->
 <!-- dtl:block:NoSearchTerms -->
                 <div class="Content">
-                    <p>$Text{"Please enter a search term to look for customer companies."}</p>
+                    <p>$Text{"Please enter a search term to look for customers."}</p>
                 </div>
 <!-- dtl:block:NoSearchTerms -->
 <!-- dtl:block:OverviewResult -->
@@ -130,10 +130,10 @@ $('.MasterAction').bind('click', function (Event) {
 <!-- dtl:block:OverviewUpdate -->
                 <div class="Header">
 <!-- dtl:block:HeaderAdd -->
-                    <h2>$Text{"Add Customer Company"}</h2>
+                    <h2>$Text{"Add Customer"}</h2>
 <!-- dtl:block:HeaderAdd -->
 <!-- dtl:block:HeaderEdit -->
-                    <h2>$Text{"Edit Customer Company"}</h2>
+                    <h2>$Text{"Edit Customer"}</h2>
 <!-- dtl:block:HeaderEdit -->
                 </div>
                 <div class="Content">
