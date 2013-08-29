@@ -262,6 +262,56 @@ sub ActionRow {
         );
     }
 
+    # add translations for the allocation lists for regular columns
+    my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
+    if ( $Columns && IsHashRefWithData($Columns) ) {
+        for my $Column ( sort keys %{$Columns} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslation',
+                Data => {
+                    ColumnName      => $Column,
+                    TranslateString => $Column,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslationSeparator',
+            );
+        }
+    }
+
+    # add translations for the allocation lists for dynamic field columns
+    my $ColumnsDynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => ['Ticket'],
+    );
+
+    if ( $ColumnsDynamicField && IsArrayRefWithData($ColumnsDynamicField) ) {
+
+        my $Counter = 0;
+
+        DYNAMICFIELD:
+        for my $DynamicField ( sort @{$ColumnsDynamicField} ) {
+
+            next DYNAMICFIELD if !$DynamicField;
+
+            $Counter++;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslation',
+                Data => {
+                    ColumnName      => 'DynamicField_' . $DynamicField->{Name},
+                    TranslateString => $DynamicField->{Label},
+                },
+            );
+
+            if ( $Counter < scalar @{$ColumnsDynamicField} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ColumnTranslationSeparator',
+                );
+            }
+        }
+    }
+
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewSmall',
         Data         => \%Param,

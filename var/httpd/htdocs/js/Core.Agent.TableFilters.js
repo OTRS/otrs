@@ -250,6 +250,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 DataAvailableJSON = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsAvailableJSON').val(),
                 DataEnabled,
                 DataAvailable,
+                Translation,
                 $FieldObj,
                 IDString = '#' + $ContainerObj.find('.AssignedFields').attr('id') + ', #' + $ContainerObj.find('.AvailableFields').attr('id');
 
@@ -261,11 +262,19 @@ Core.Agent.TableFilters = (function (TargetNS) {
             }
 
             $.each(DataEnabled, function(Index, Field) {
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Field);
+
+                // get field translation
+                Translation = Core.Config.Get('Column' + Field) || Field;
+
+                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AssignedFields').append($FieldObj);
             });
             $.each(DataAvailable, function(Index, Field) {
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Field);
+
+                // get field translation
+                Translation = Core.Config.Get('Column' + Field) || Field;
+
+                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AvailableFields').append($FieldObj);
             });
 

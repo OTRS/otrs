@@ -239,69 +239,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             }
         );
 
-        function UpdateAllocationList(Event, UI) {
-
-            var $ContainerObj = $(UI.sender).closest('.AllocationListContainer'),
-                Data = {},
-                FieldName;
-
-            if (Event.type === 'sortstop') {
-                $ContainerObj = $(UI.item).closest('.AllocationListContainer');
-            }
-
-            Data.Columns = {};
-            Data.Order   = [];
-
-            $ContainerObj.find('.AvailableFields').find('li').each(function() {
-                FieldName = $(this).attr('data-fieldname');
-                Data.Columns[FieldName] = 0;
-            });
-
-            $ContainerObj.find('.AssignedFields').find('li').each(function() {
-                FieldName = $(this).attr('data-fieldname');
-                Data.Columns[FieldName] = 1;
-                Data.Order.push(FieldName);
-            });
-            $ContainerObj.closest('form').find('.ColumnsJSON').val(Core.JSON.Stringify(Data));
-        }
-
-        $('.AllocationListContainer').each(function() {
-
-            var $ContainerObj = $(this),
-                DataEnabledJSON   = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsEnabledJSON').val(),
-                DataAvailableJSON = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsAvailableJSON').val(),
-                DataEnabled,
-                DataAvailable,
-                $FieldObj,
-                Translation,
-                IDString = '#' + $ContainerObj.find('.AssignedFields').attr('id') + ', #' + $ContainerObj.find('.AvailableFields').attr('id');
-
-            if (DataEnabledJSON) {
-                DataEnabled = Core.JSON.Parse(DataEnabledJSON);
-            }
-            if (DataAvailableJSON) {
-                DataAvailable = Core.JSON.Parse(DataAvailableJSON);
-            }
-
-            $.each(DataEnabled, function(Index, Field) {
-
-                // get field translation
-                Translation = Core.Config.Get('Column' + Field) || Field;
-
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
-                $ContainerObj.find('.AssignedFields').append($FieldObj);
-            });
-            $.each(DataAvailable, function(Index, Field) {
-
-                // get field translation
-                Translation = Core.Config.Get('Column' + Field) || Field;
-
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
-                $ContainerObj.find('.AvailableFields').append($FieldObj);
-            });
-
-            Core.UI.AllocationList.Init(IDString, $ContainerObj.find('.AllocationList'), UpdateAllocationList, '', UpdateAllocationList);
-        });
+        Core.Agent.TableFilters.SetAllocationList();
     };
 
     /**

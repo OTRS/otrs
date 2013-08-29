@@ -183,3 +183,14 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 </div>
 
 <!-- dtl:block:OverviewNavBar -->
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+<!-- dtl:block:ColumnTranslation -->
+        'Column$QData{"ColumnName"}': '$JSText{"$QData{"TranslateString"}"}'<!-- dtl:block:ColumnTranslationSeparator -->,<!-- dtl:block:ColumnTranslationSeparator -->
+<!-- dtl:block:ColumnTranslation -->
+
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
