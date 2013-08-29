@@ -467,22 +467,43 @@ sub FilterContent {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey = $Self->{Name} . '-'
-        . $Self->{PageShown} . '-'
-        . $Self->{StartHit} . '-'
-        . $Self->{UserID};
-
     my %SearchParams        = $Self->_SearchParamsGet(%Param);
     my @Columns             = @{ $SearchParams{Columns} };
     my %TicketSearch        = %{ $SearchParams{TicketSearch} };
     my %TicketSearchSummary = %{ $SearchParams{TicketSearchSummary} };
 
-    my $TicketIDs;
+    my $CacheKey = $Self->{Name} . '-'
+        . $Self->{Action} . '-'
+        . $Self->{PageShown} . '-'
+        . $Self->{StartHit} . '-'
+        . $Self->{UserID};
+    my $CacheColumns = join(
+        ',',
+        map {
+            $_ . '=>' . $Self->{GetColumnFilterSelect}->{$_}
+            }
+            keys %{ $Self->{GetColumnFilterSelect} }
+    );
+    $CacheKey .= $CacheColumns;
+
+    $CacheKey .= '-' . $Self->{SortBy}  if defined $Self->{SortBy};
+    $CacheKey .= '-' . $Self->{OrderBy} if defined $Self->{OrderBy};
+
+    # CustomerInformationCenter shows data per CustomerID
+    if ( $Param{CustomerID} ) {
+        $CacheKey .= '-' . $Param{CustomerID};
+    }
+
+    # check cache
+    my $TicketIDs = $Self->{CacheObject}->Get(
+        Type => 'Dashboard',
+        Key  => $CacheKey . '-' . $Self->{Filter} . '-List',
+    );
 
     # find and show ticket list
     my $CacheUsed = 1;
 
-    if ( !$TicketIDs || $Self->{SortBy} || $Self->{GetColumnFilter} ) {
+    if ( !$TicketIDs ) {
 
         # add sort by parameter to the search
         if (
@@ -502,8 +523,8 @@ sub Run {
         if ( $Self->{OrderBy} ) {
             $TicketSearch{OrderBy} = $Self->{OrderBy};
         }
-        $CacheUsed = 0;
 
+        $CacheUsed = 0;
         my @TicketIDsArray = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
             %TicketSearch,
@@ -512,11 +533,6 @@ sub Run {
             Limit => $Self->{PageShown} + $Self->{StartHit} - 1,
         );
         $TicketIDs = \@TicketIDsArray;
-    }
-
-    # CustomerInformationCenter shows data per CustomerID
-    if ( $Param{CustomerID} ) {
-        $CacheKey .= '-' . $Param{CustomerID};
     }
 
     # check cache
@@ -1902,4 +1918,3 @@ sub _SearchParamsGet {
 1;
 
 =back
-
