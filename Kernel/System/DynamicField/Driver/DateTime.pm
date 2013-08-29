@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::Time;
+use Kernel::System::DynamicField::Driver::BaseDateTime;
 
 use vars qw(@ISA);
 

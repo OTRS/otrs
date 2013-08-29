@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
+use Kernel::System::DynamicField::Driver::BaseSelect;
 
 use vars qw(@ISA);
 
