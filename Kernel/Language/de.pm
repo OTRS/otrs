@@ -336,7 +336,7 @@ sub Data {
             'Keine Pakete für Ihre Framework-Version in diesem Verzeichnis gefunden, es enthält nur Pakete für andere Framework-Versionen.',
         'No packages, or no new packages, found in selected repository.' =>
             'Keine oder keine neuen Pakete im ausgewählten Verzeichnis gefunden.',
-        'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten',
+        'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten.',
         'printed at' => 'gedruckt am',
         'Loading...' => 'Laden...',
         'Dear Mr. %s,' => 'Sehr geehrter Herr %s,',
