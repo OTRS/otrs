@@ -2,6 +2,7 @@
  - 2013-08-26 Fixed a bug where using a CustomerKey other than UserLogin would not work
     in AdminCustomerUser.
  - 2013-08-26 Allow TicketSearch GI operation to also work for logged in customers.
+ - 2013-08-20 Fixed bug#[9686](http://bugs.otrs.org/show_bug.cgi?id=9686) - Slowdown after heavy usage, thanks to Moritz Lenz (noris network AG)!
 
 #3.3.0.beta1 2013-08-27
  - 2013-08-22 Updated Spanish translation, thanks to Enrique Matías Sánchez!
