@@ -482,7 +482,7 @@ sub Run {
         map {
             $_ . '=>' . $Self->{GetColumnFilterSelect}->{$_}
             }
-            keys %{ $Self->{GetColumnFilterSelect} }
+            sort keys %{ $Self->{GetColumnFilterSelect} }
     );
     $CacheKey .= $CacheColumns;
 
