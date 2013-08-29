@@ -24,6 +24,7 @@ $Text{"Cancel"}
 $Text{"Reset"}
 
 $Text{"more than ... ago"}
+$Text{"in more than ..."}
 $Text{"within the last ..."}
 $Text{"within the next ..."}
 $Text{"Created within the last"}
@@ -168,6 +169,7 @@ $Text{"Changed by"}
 $Text{"Search"}
 $Text{"and"}
 $Text{"between"}
+$Text{"before/after"}
 $Text{"Fulltext Search"}
 $Text{"Data"}
 $Text{"Options"}
