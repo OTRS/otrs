@@ -274,6 +274,7 @@ sub Check {
                 }
 
                 if ($StoreDecryptedData) {
+
                     # updated article body
                     $Self->{TicketObject}->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
@@ -399,6 +400,7 @@ sub Check {
                 }
 
                 if ($StoreDecryptedData) {
+
                     # updated article body
                     $Self->{TicketObject}->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},

@@ -77,6 +77,7 @@ sub Check {
             $Param{Article}->{Body} = $Decrypt{Data};
 
             if ($StoreDecryptedData) {
+
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(
                     TicketID  => $Param{Article}->{TicketID},
@@ -269,6 +270,7 @@ sub Check {
                 my $Body = $ParserObject->GetMessageBody();
 
                 if ($StoreDecryptedData) {
+
                     # updated article body
                     $Self->{TicketObject}->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},

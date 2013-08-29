@@ -1201,7 +1201,7 @@ sub _Replace {
 
     # For systems with many Dynamic fields we do not want to load them all unless needed
     # Find what Dynamic Field Values are requested
-    while( $Param{Text} =~ m/$Tag DynamicField_(\S+?)(_Value)? $End/gixms ) {
+    while ( $Param{Text} =~ m/$Tag DynamicField_(\S+?)(_Value)? $End/gixms ) {
         $DynamicFields{$1} = 1;
     }
 
@@ -1212,8 +1212,9 @@ sub _Replace {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
         # we only load the ones requested
-        next DYNAMICFIELD if !$DynamicFields{$DynamicFieldConfig->{Name}};
+        next DYNAMICFIELD if !$DynamicFields{ $DynamicFieldConfig->{Name} };
 
         my $LanguageObject;
 

@@ -1841,4 +1841,3 @@ sub _ColumnFilterJSON {
 1;
 
 =back
-

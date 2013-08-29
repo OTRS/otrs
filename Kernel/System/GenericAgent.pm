@@ -336,7 +336,6 @@ sub JobRun {
             my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Profile            => \%DynamicFieldSearchTemplate,
-                LayoutObject       => $Self->{LayoutObject},
                 Type               => $Preference->{Type},
             );
 
