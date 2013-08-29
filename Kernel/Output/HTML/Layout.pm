@@ -18,11 +18,7 @@ use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
-<<<<<<< HEAD
-=======
-use Text::Tabs;
 use List::Util qw/first/;
->>>>>>> c5c509c... use "first" instead of "grep"
 
 use vars qw(@ISA);
 
