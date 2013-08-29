@@ -214,6 +214,8 @@ sub new {
     my $DynamicFieldBackendExtensions
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Backend');
 
+    @ISA = ();
+
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldBackendExtensions} ) {
 

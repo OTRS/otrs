@@ -18,6 +18,7 @@ use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
+use List::Util qw/first/;
 
 use vars qw(@ISA);
 
@@ -407,10 +408,18 @@ sub new {
         for my $File (@Files) {
             if ( $File !~ /Layout.pm$/ ) {
                 $File =~ s{\A.*\/(.+?).pm\z}{$1}xms;
-                if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
+                my $ClassName = "Kernel::Output::HTML::$File";
+                if ( !$Self->{MainObject}->Require($ClassName) ) {
                     $Self->FatalError();
                 }
-                push @ISA, "Kernel::Output::HTML::$File";
+
+                # bug 9686:
+                # without this grep, @ISA (being a global variable)
+                # grows with each request, and slows down OTRS significantly
+                # after a few hours of heavy usage
+                unless (first {$_ eq $ClassName} @ISA) {
+                    push @ISA, $ClassName;
+                }
             }
         }
     }

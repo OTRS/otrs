@@ -21,9 +21,7 @@ Kernel::System::EventHandler - event handler interface
 
 Inherit from this class if you want to use events there.
 
-    use vars qw(@ISA);
-    use Kernel::System::EventHandler;
-    push @ISA, 'Kernel::System::EventHandler';
+    use base qw(Kernel::System::EventHandler);
 
 In your class, have to call L</EventHandlerInit()> first.
 

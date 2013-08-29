@@ -72,6 +72,8 @@ sub new {
     my $DynamicFieldDriverExtensions
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Text');
 
+    @ISA = ();
+
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
 
