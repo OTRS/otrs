@@ -576,19 +576,19 @@ EOF
                 'Before' => 'more than ... ago',
                 'Last'   => 'within the last ...',
                 'Next'   => 'within the next ...',
-                'After'  => 'more than ...',
+                'After'  => 'in more than ...',
             },
             Sort           => 'IndividualKey',
             SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
             Name           => $FieldName . 'Start',
             SelectedID => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
         );
-        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+        $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data       => [ 1 .. 59 ],
             Name       => $FieldName . 'Value',
             SelectedID => $Value->{Value}->{ $FieldName . 'Value' } || 1,
         );
-        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+        $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data => {
                 minute => 'minute(s)',
                 hour   => 'hour(s)',

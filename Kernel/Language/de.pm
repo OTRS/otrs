@@ -47,6 +47,7 @@ sub Data {
         'Cancel' => 'Abbrechen',
         'Reset' => 'Rücksetzen',
         'more than ... ago' => 'vor mehr als ...',
+        'in more than ...' => 'in mehr als ...',
         'within the last ...' => 'innerhalb der letzten ...',
         'within the next ...' => 'innerhalb der kommenden ...',
         'Created within the last' => 'Erstellt innerhalb der letzten',
@@ -144,15 +145,15 @@ sub Data {
         'Signature' => 'Signatur',
         'Signatures' => 'Signaturen',
         'Customer' => 'Kunde',
-        'CustomerID' => 'Kundennr.',
+        'CustomerID' => 'Kundennummer',
         'CustomerIDs' => 'Kundennummern',
         'customer' => 'Kunde',
         'agent' => 'Agent',
         'system' => 'System',
-        'Customer Info' => 'Kunden-Info',
-        'Customer Information' => 'Kunden-Info',
-        'Customer Company' => 'Kunden-Firma',
-        'Customer Companies' => 'Kunden-Firma',
+        'Customer Info' => 'Kundeninformation',
+        'Customer Information' => 'Kundeninformation',
+        'Customer Company' => 'Kunde',
+        'Customer Companies' => 'Kunden',
         'Company' => 'Firma',
         'go!' => 'Start!',
         'go' => 'Start',
@@ -186,6 +187,7 @@ sub Data {
         'Search' => 'Suche',
         'and' => 'und',
         'between' => 'zwischen',
+        'before/after' => 'vor/nach',
         'Fulltext Search' => 'Volltextsuche',
         'Data' => 'Daten',
         'Options' => 'Optionen',
@@ -680,15 +682,15 @@ sub Data {
         'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
         'Phone-Ticket' => 'Telefon-Ticket',
         'Search Tickets' => 'Ticket-Suche',
-        'Edit Customer Users' => 'Kunden-Benutzer bearbeiten',
-        'Edit Customer Company' => 'Kunden-Firma bearbeiten',
+        'Edit Customer Users' => 'Kundenbenutzer bearbeiten',
+        'Edit Customer' => 'Kunde bearbeiten',
         'Bulk Action' => 'Sammel-Aktion',
         'Bulk Actions on Tickets' => 'Sammel-Action an Tickets',
         'Send Email and create a new Ticket' => 'E-Mail senden und neues Ticket erstellen',
         'Create new Email Ticket and send this out (Outbound)' => 'Neues Ticket wird erstellt und E-Mail versendet',
         'Create new Phone Ticket (Inbound)' => 'Neues Ticket wird über einkommenden Anruf erstellt',
         'Address %s replaced with registered customer address.' => 'Adresse %s wurde durch die Adresse des eingetragenen Kunden ersetzt.',
-        'Customer automatically added in Cc.' => 'Kunde wurde automatisch ins Cc eingetragen.',
+        'Customer user automatically added in Cc.' => 'Kundenbenutzer wurde automatisch ins Cc eingetragen.',
         'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
         'Locked Tickets' => 'Gesperrte Tickets',
         'My Locked Tickets' => 'Meine gesperrten Tickets',
@@ -935,26 +937,28 @@ sub Data {
         'Example response' => 'Beispielantwort',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Kunden-Firma-Verwaltung',
+        'Customer Management' => 'Kundenverwaltung',
         'Wildcards like \'*\' are allowed.' => 'Platzhalter wie \'*\' sind erlaubt.',
-        'Add customer company' => 'Firma hinzufügen',
+        'Add customer' => 'Kunde hinzufügen',
+        'Add Customer' => 'Kunde hinzufügen',
+        'Edit customer' => 'Kunde bearbeiten',
+        'Edit Customer' => 'Kunde bearbeiten',
         'Select' => 'Auswahl',
-        'Please enter a search term to look for customer companies.' => 'Bitte geben Sie einen Suchbegriff ein, um nach einer Firma zu suchen.',
-        'Add Customer Company' => 'Firma hinzufügen',
+        'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach einem Kunden zu suchen.',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Kunden-Verwaltung',
+        'Customer User Management' => 'Kundenbenutzerverwaltung',
         'Back to search results' => 'Zurück zum Suchergebnis',
-        'Add customer' => 'Kunden hinzufügen',
+        'Add customer user' => 'Kundenbenutzer hinzufügen',
         'Hint' => 'Hinweis',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Kunden werden für die Bereitstellung einer Kunden-Historie und für die Anmeldung über den Kunden-Zugang benötigt.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            'Kundenbenutzer werden für die Bereitstellung einer Kundenhistorie und für die Anmeldung über den Kundenzugang benötigt.',
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
         'Last Login' => 'Letzte Anmeldung',
         'Login as' => 'Anmelden als',
         'Switch to customer' => 'Zum Kunden wechseln',
-        'Add Customer' => 'Kunden hinzufügen',
-        'Edit Customer' => 'Kunden bearbeiten',
+        'Add Customer User' => 'Kundenbenutzer hinzufügen',
+        'Edit Customer User' => 'Kundenbenutzer bearbeiten',
         'This field is required and needs to be a valid email address.' =>
             'Dieses Feld wird benötigt und muss eine gültige E-Mail-Adresse sein.',
         'This email address is not allowed due to the system configuration.' =>
@@ -2110,7 +2114,7 @@ sub Data {
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer ID' => 'Kunden-ID',
-        'Customer User' => 'Kunden-Benutzer',
+        'Customer User' => 'Kundenbenutzer',
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Doppelter Eintrag',
@@ -2349,13 +2353,13 @@ sub Data {
         'Date Invalid!' => 'Ungültiges Datum!',
 
         # Template: AgentTicketCustomer
-        'Change customer of ticket' => 'Ändern des Kundenkontakts des Tickets',
-        'Customer user' => 'Kontakt',
+        'Change customer user of ticket' => 'Ändern des Kundenbenutzers des Tickets',
+        'Customer user' => 'Kundenbenutzer',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Neues E-Mail-Ticket anlegen',
-        'From queue' => 'aus Queue',
-        'To customer' => 'An Kunden',
+        'From queue' => 'Aus Queue',
+        'To customer user' => 'An Kundenbenutzer',
         'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
         'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'Get all' => 'Alles holen',
@@ -2412,6 +2416,7 @@ sub Data {
         'Create New Phone Ticket' => 'Neues Telefon-Ticket anlegen',
         'From customer' => 'Von Kundenkontakt',
         'To queue' => 'An Queue',
+        'Customer history' => 'Kundenhistorie',
 
         # Template: AgentTicketPhoneCommon
 
@@ -3005,8 +3010,8 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Abkommen (SLAs) erzeugen und verwalten.',
         'Create and manage agents.' => 'Agents erzeugen und verwalten.',
         'Create and manage attachments.' => 'Anlagen erzeugen und verwalten.',
-        'Create and manage companies.' => 'Unternehmen erzeugen und verwalten.',
         'Create and manage customers.' => 'Kunden erzeugen und verwalten.',
+        'Create and manage customer users.' => 'Kundenbenutzer erzeugen und verwalten.',
         'Create and manage dynamic fields.' => 'Dynamische Felder erzeugen und verwalten.',
         'Create and manage event based notifications.' => 'Ereignisbasierte Benachrichtigungen erzeugen und verwalten.',
         'Create and manage groups.' => 'Gruppen erzeugen und verwalten.',
@@ -3026,17 +3031,17 @@ sub Data {
         'Create new process ticket' => '',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => 'Kunden-Firmen-Verwaltung',
-        'Customer Company Information' => 'Informationen zur Kunden-Firma',
-        'Customer User Administration' => 'Kunden-Verwaltung',
-        'Customer Users' => 'Kunden-Benutzer',
+        'Customer Company Administration' => 'Kundenverwaltung',
+        'Customer Company Information' => 'Kundeninformation',
+        'Customer User Administration' => 'Kundenbenutzerverwaltung',
+        'Customer Users' => 'Kundenbenutzer',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'CustomerName' => 'Kundenname',
-        'Customers <-> Groups' => 'Kunden <-> Gruppen',
-        'Customers <-> Services' => 'Kunden <-> Services',
+        'Customer User <-> Groups' => 'Kundenbenutzer <-> Gruppen',
+        'Customer User <-> Services' => 'Kundenbenutzer <-> Services',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => 'Datum / Zeit',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3973,8 +3978,8 @@ sub Data {
         'Link agents to groups.' => 'Agenten zu Gruppen zuordnen.',
         'Link agents to roles.' => 'Agenten zu Rollen zuordnen.',
         'Link attachments to templates.' => 'Anhänge zu Vorlagen zuordnen.',
-        'Link customers to groups.' => 'Kunden zu Gruppen zuordnen.',
-        'Link customers to services.' => 'Kunden zu Services zuordnen.',
+        'Link customer user to groups.' => 'Kundenbenutzer zu Gruppen zuordnen.',
+        'Link customer user to services.' => 'Kundenbenutzer zu Services zuordnen.',
         'Link queues to auto responses.' => 'Automatische Antworten zu Queues zuordnen.',
         'Link roles to groups.' => 'Rollen zu Gruppen zuordnen.',
         'Link templates to queues.' => 'Vorlagen zu Queues zuordnen.',
@@ -4753,7 +4758,7 @@ sub Data {
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Create and manage response templates.' => 'Antwort-Vorlagen erzeugen und verwalten.',
         'Currently only MySQL is supported in the web installer.' => 'Momentan wird nur MySQL bei der Web-Installation unterstützt.',
-        'Customer Data' => 'Kunden-/Kontakt-Daten',
+        'Customer Data' => 'Kundendaten',
         'DB host' => 'Datenbank-Host',
         'Database-User' => 'Benutzername der Datenbank',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>

@@ -4319,8 +4319,8 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customers</Description>
-                <Title Translatable="1">Customers</Title>
+                <Description>Edit Customer Users</Description>
+                <Title Translatable="1">Customer Users</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
                     <Name Translatable="1">Customer User Administration</Name>
@@ -4335,9 +4335,9 @@ via the Preferences button after logging in.
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customers</Name>
+                    <Name Translatable="1">Customer User</Name>
                     <Block>Customer</Block>
-                    <Description Translatable="1">Create and manage customers.</Description>
+                    <Description Translatable="1">Create and manage customer users.</Description>
                     <Prio>300</Prio>
                 </NavBarModule>
                 <Loader>
@@ -4371,8 +4371,8 @@ via the Preferences button after logging in.
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customer Companies</Name>
-                    <Description Translatable="1">Create and manage companies.</Description>
+                    <Name Translatable="1">Customers</Name>
+                    <Description Translatable="1">Create and manage customers.</Description>
                     <Block>Customer</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
@@ -4401,8 +4401,8 @@ via the Preferences button after logging in.
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customers &lt;-&gt; Groups</Name>
-                    <Description Translatable="1">Link customers to groups.</Description>
+                    <Name Translatable="1">Customer User &lt;-&gt; Groups</Name>
+                    <Description Translatable="1">Link customer user to groups.</Description>
                     <Block>Customer</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -4417,12 +4417,12 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Customers &lt;-&gt; Services</Title>
+                <Title Translatable="1">Customer User &lt;-&gt; Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customers &lt;-&gt; Services</Name>
-                    <Description Translatable="1">Link customers to services.</Description>
+                    <Name Translatable="1">Customer User &lt;-&gt; Services</Name>
+                    <Description Translatable="1">Link customer user to services.</Description>
                     <Block>Customer</Block>
                     <Prio>500</Prio>
                 </NavBarModule>

@@ -174,7 +174,7 @@ $Text{"Send Email and create a new Ticket"}
 $Text{"Create new Email Ticket and send this out (Outbound)"}
 $Text{"Create new Phone Ticket (Inbound)"}
 $Text{"Address %s replaced with registered customer address."}
-$Text{"Customer automatically added in Cc."}
+$Text{"Customer user automatically added in Cc."}
 $Text{"Overview of all open Tickets"}
 $Text{"Locked Tickets"}
 $Text{"My Locked Tickets"}
