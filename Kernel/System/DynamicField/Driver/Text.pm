@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Driver::BaseText);
-
 use vars qw(@ISA);
 
 =head1 NAME
@@ -72,7 +70,7 @@ sub new {
     my $DynamicFieldDriverExtensions
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Text');
 
-    @ISA = ();
+    @ISA = ('Kernel::System::DynamicField::Driver::BaseText');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {

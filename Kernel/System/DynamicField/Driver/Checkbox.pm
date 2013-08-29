@@ -16,8 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::Ticket::ColumnFilter;
 
-use base qw(Kernel::System::DynamicField::Driver::Base);
-
 use vars qw(@ISA);
 
 =head1 NAME
@@ -74,7 +72,7 @@ sub new {
     my $DynamicFieldDriverExtensions
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Checkbox');
 
-    @ISA = ();
+    @ISA = ('Kernel::System::DynamicField::Driver::Base');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
