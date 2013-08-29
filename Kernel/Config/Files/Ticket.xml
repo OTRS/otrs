@@ -7897,7 +7897,7 @@ $QData{"Body"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name Translatable="1">GenericAgent</Name>
-                    <Description Translatable="1">Manage periodic tasks.</Description>
+                    <Description Translatable="1">Manage tasks triggered by event or time based execution.</Description>
                     <Block>System</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
