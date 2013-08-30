@@ -15,6 +15,8 @@ use warnings;
 use Kernel::System::FileTemp;
 use Kernel::System::Time;
 
+use vars qw(@ISA);
+
 =head1 NAME
 
 Kernel::System::Crypt - the crypt module
@@ -91,6 +93,9 @@ sub new {
 
     # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
+
+    # reset ISA for testability and peristent environments
+    @ISA = ();
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
