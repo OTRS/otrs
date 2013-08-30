@@ -1,4 +1,5 @@
 #3.3.0.beta2 2013-??-??
+ - 2013-08-30 Fixed bug#[9684](http://bugs.otrs.org/show_bug.cgi?id=9684) - Bulk select checkbox in AgentLinkObject does not work anymore.
  - 2013-08-05 Fixed bug#[9431](http://bugs.otrs.org/show_bug.cgi?id=9431) - Terminology used for customer user contact.
  - 2013-08-28 Added config option to prevent storage of decrypted data in ArticleCheckPGP and SMIME.
  - 2013-08-26 Fixed a bug where using a CustomerKey other than UserLogin would not work
