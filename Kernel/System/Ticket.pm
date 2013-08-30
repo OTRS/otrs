@@ -904,13 +904,13 @@ sub TicketSubjectClean {
     my $TicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
 
     # remove all possible ticket hook formats with []
-    $Subject =~ s/\[\Q$TicketHook: $Param{TicketNumber}\E\]\s*//g;
-    $Subject =~ s/\[\Q$TicketHook:$Param{TicketNumber}\E\]\s*//g;
-    $Subject =~ s/\[\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\]\s*//g;
+    $Subject =~ s/\[\s*\Q$TicketHook: $Param{TicketNumber}\E\s*\]\s*//g;
+    $Subject =~ s/\[\s*\Q$TicketHook:$Param{TicketNumber}\E\s*\]\s*//g;
+    $Subject =~ s/\[\s*\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\s*\]\s*//g;
 
     # remove all ticket numbers with []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/\[\Q$TicketHook$TicketHookDivider\E\d+?\]\s*//g;
+        $Subject =~ s/\[\s*\Q$TicketHook$TicketHookDivider\E\d+?\s*\]\s*//g;
     }
 
     # remove all possible ticket hook formats without []
