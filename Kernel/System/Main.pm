@@ -171,7 +171,7 @@ sub Require {
 
 require/load a module and add it as a base class to the
 calling package, if not already present (this check is needed
-for persisten environments).
+for persistent environments).
 
     my $Loaded = $MainObject->RequireBaseClass(
         'Kernel::System::Example',
