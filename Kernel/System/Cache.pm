@@ -12,8 +12,6 @@ package Kernel::System::Cache;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Cache - cache lib

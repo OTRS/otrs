@@ -18,8 +18,6 @@ use DBI;
 use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DB - global database interface

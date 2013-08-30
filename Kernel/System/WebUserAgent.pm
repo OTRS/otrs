@@ -16,8 +16,6 @@ use LWP::UserAgent;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::WebUserAgent - a web user agent lib

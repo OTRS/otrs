@@ -17,8 +17,6 @@ use Date::Pcalc qw(:all);
 
 use Kernel::System::XML;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Stats - stats lib

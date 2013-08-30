@@ -18,8 +18,6 @@ use LWP::Protocol;
 
 use Kernel::System::Web::Request;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Transport::Test - GenericInterface network transport interface for testing purposes

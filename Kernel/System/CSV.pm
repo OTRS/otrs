@@ -13,8 +13,6 @@ use strict;
 use warnings;
 use Text::CSV;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::CSV - CSV lib

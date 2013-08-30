@@ -22,8 +22,6 @@ use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::DestQueue;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::PostMaster - postmaster lib

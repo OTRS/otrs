@@ -19,8 +19,6 @@ use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::TicketSearch - GenericInterface Ticket Search Operation backend

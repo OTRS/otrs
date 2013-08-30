@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::CustomerAuth - customer authentication module.

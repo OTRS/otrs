@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SLA - sla lib

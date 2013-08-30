@@ -16,8 +16,6 @@ use Kernel::System::User;
 use Kernel::System::Email;
 use Kernel::System::Queue;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -18,8 +18,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 use PerlIO;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Transport::SOAP - GenericInterface network transport interface for HTTP::SOAP

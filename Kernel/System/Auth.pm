@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Auth - agent authentication module.

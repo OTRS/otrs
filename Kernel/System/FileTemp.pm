@@ -14,8 +14,6 @@ use warnings;
 
 use File::Temp qw( tempfile tempdir );
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Temp - tmp files

@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::Priority;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

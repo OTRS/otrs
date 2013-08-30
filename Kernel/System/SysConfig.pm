@@ -18,8 +18,6 @@ use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SysConfig - to manage sys config settings

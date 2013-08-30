@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::Cache;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

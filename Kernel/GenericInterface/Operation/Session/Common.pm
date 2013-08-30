@@ -12,8 +12,6 @@ package Kernel::GenericInterface::Operation::Session::Common;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::User;
 use Kernel::System::Auth;
 use Kernel::System::Group;

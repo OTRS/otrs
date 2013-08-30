@@ -21,8 +21,6 @@ use Kernel::System::Cache;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Webservice

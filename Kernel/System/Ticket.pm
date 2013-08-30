@@ -39,7 +39,11 @@ use Kernel::System::ProcessManagement::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
+use base qw(
+    Kernel::System::Ticket::Article
+    Kernel::System::TicketSearch
+    Kernel::System::EventHandler
+);
 
 =head1 NAME
 
@@ -114,9 +118,6 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # set @ISA
-    @ISA = ( 'Kernel::System::Ticket::Article', 'Kernel::System::TicketSearch' );
-
     # get needed objects
     for my $Needed (qw(ConfigObject LogObject TimeObject DBObject MainObject EncodeObject)) {
         if ( $Param{$Needed} ) {
@@ -180,7 +181,6 @@ sub new {
         = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
     $Self->EventHandlerInit(
         Config     => 'Ticket::EventModulePost',
         BaseObject => 'TicketObject',
@@ -192,34 +192,30 @@ sub new {
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
         || 'Kernel::System::Ticket::Number::AutoIncrement';
-    if ( !$Self->{MainObject}->Require($GeneratorModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($GeneratorModule) ) {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
-    push @ISA, $GeneratorModule;
 
     # load ticket index generator
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
         || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-    if ( !$Self->{MainObject}->Require($GeneratorIndexModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($GeneratorIndexModule) ) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
-    push @ISA, $GeneratorIndexModule;
 
     # load article storage module
     my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
         || 'Kernel::System::Ticket::ArticleStorageDB';
-    if ( !$Self->{MainObject}->Require($StorageModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($StorageModule) ) {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
-    push @ISA, $StorageModule;
 
     # load article search index module
     my $SearchIndexModule = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule')
         || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
-    if ( !$Self->{MainObject}->Require($SearchIndexModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($SearchIndexModule) ) {
         die "Can't load ticket search index backend module $SearchIndexModule! $@";
     }
-    push @ISA, $SearchIndexModule;
 
     # load ticket extension modules
     my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
@@ -231,11 +227,11 @@ sub new {
         else {
             $ModuleList{Init} = $CustomModule;
         }
+        MODULEKEY:
         for my $ModuleKey ( sort keys %ModuleList ) {
             my $Module = $ModuleList{$ModuleKey};
-            next if !$Module;
-            next if !$Self->{MainObject}->Require($Module);
-            push @ISA, $Module;
+            next MODULEKEY if !$Module;
+            next MODULEKEY if !$Self->{MainObject}->RequireBaseClass($Module);
         }
     }
 

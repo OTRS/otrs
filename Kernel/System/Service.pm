@@ -17,8 +17,6 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Service - service lib

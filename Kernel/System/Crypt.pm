@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::FileTemp;
 use Kernel::System::Time;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Crypt - the crypt module
@@ -96,13 +94,10 @@ sub new {
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
-    return if !$Self->{MainObject}->Require( $Self->{GenericModule} );
+    return if !$Self->{MainObject}->RequireBaseClass( $Self->{GenericModule} );
 
     # time object
     $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
-
-    # add generator crypt functions
-    @ISA = ("$Self->{GenericModule}");
 
     # call init()
     $Self->_Init();

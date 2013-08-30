@@ -13,8 +13,6 @@ package Kernel::System::Ticket::Permission::ResponsibleCheck;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

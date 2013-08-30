@@ -15,8 +15,6 @@ use warnings;
 use Kernel::Config;
 use Kernel::System::Priority;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SysConfig::PriorityValidate - PriorityValidate lib

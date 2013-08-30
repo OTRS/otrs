@@ -12,8 +12,6 @@ package Kernel::System::Loader;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::CacheInternal;
 
 use CSS::Minifier qw();

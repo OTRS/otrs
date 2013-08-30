@@ -16,8 +16,6 @@ use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData
 
 use Kernel::System::GenericInterface::DebugLog;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Debugger

@@ -20,8 +20,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::Time;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

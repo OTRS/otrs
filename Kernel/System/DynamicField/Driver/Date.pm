@@ -15,9 +15,8 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::Time;
-use Kernel::System::DynamicField::Driver::BaseDateTime;
 
-use vars qw(@ISA);
+use base qw(Kernel::System::DynamicField::Driver::BaseDateTime);
 
 =head1 NAME
 
@@ -73,8 +72,6 @@ sub new {
     my $DynamicFieldDriverExtensions
         = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Date');
 
-    @ISA = ('Kernel::System::DynamicField::Driver::BaseDateTime');
-
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
 
@@ -88,14 +85,10 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
-
-            # load the module
-            push @ISA, $Extension->{Module};
-
         }
 
         # check if extension contains more behabiors

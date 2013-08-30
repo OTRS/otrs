@@ -12,8 +12,6 @@ package Kernel::System::User::Preferences::DB;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 

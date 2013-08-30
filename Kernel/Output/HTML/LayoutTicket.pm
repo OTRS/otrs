@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Output::HTML::LayoutTicket - all Ticket-related HTML functions

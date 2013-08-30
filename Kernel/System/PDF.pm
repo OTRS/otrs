@@ -12,8 +12,6 @@ package Kernel::System::PDF;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::PDF - pdf lib

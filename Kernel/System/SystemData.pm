@@ -16,8 +16,6 @@ use Kernel::System::CacheInternal;
 use Kernel::System::SysConfig;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SystemData - key/value store for system data

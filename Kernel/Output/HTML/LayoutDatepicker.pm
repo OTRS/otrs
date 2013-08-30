@@ -12,8 +12,6 @@ package Kernel::Output::HTML::LayoutDatepicker;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Output::HTML::LayoutDatepicker - Datepicker data

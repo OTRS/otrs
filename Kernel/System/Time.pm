@@ -14,8 +14,6 @@ use warnings;
 
 use Time::Local;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Time - time functions

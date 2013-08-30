@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::YAML;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Scheduler::TaskManager - TaskManager backend for Scheduler
