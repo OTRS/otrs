@@ -532,10 +532,19 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
 <!-- dtl:block:ContentLargeTicketGenericRow -->
 <!-- dtl:block:ContentLargeTicketGenericNone -->
             <tr>
-                <td>
+                <td class="AutoColspan">
                     $Text{"none"}
                 </td>
             </tr>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('.AutoColspan').each(function() {
+    var ColspanCount = $(this).closest('table').find('th').length;
+    $(this).attr('colspan', ColspanCount);
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
 <!-- dtl:block:ContentLargeTicketGenericNone -->
         </tbody>
     </table>
