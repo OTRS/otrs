@@ -38,12 +38,11 @@ use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Ticket::Article;
+use Kernel::System::TicketSearch;
+use Kernel::System::EventHandler;
 
-use base qw(
-    Kernel::System::Ticket::Article
-    Kernel::System::TicketSearch
-    Kernel::System::EventHandler
-);
+use vars qw(@ISA);
 
 =head1 NAME
 
@@ -132,6 +131,12 @@ sub new {
         %Param,
         Type => 'Ticket',
         TTL  => 60 * 60 * 24 * 3,
+    );
+
+    @ISA = qw(
+        Kernel::System::Ticket::Article
+        Kernel::System::TicketSearch
+        Kernel::System::EventHandler
     );
 
     # create common needed module objects
