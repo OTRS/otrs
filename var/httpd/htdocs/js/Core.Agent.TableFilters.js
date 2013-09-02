@@ -278,7 +278,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 $ContainerObj.find('.AvailableFields').append($FieldObj);
             });
 
-            Core.UI.AllocationList.Init(IDString, $ContainerObj.find('.AllocationList'), 'UpdateAllocationList', '', 'UpdateAllocationList');
+            Core.UI.AllocationList.Init(IDString, $ContainerObj.find('.AllocationList'), 'UpdateAllocationList', '', UpdateAllocationList);
         });
     };
 
