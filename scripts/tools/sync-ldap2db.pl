@@ -28,8 +28,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin) . "/../";
 use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
-use vars qw($VERSION);
-
 use Net::LDAP;
 use Kernel::Config;
 use Kernel::System::Log;

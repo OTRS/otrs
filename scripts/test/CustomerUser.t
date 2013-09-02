@@ -23,7 +23,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $DatabaseCaseInsensitive = $Self->{DBObject}->{Backend}->{'DB::CaseInsensitive'};
+my $DatabaseCaseInsensitive              = $Self->{DBObject}->{Backend}->{'DB::CaseInsensitive'};
 my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
 
 my $CustomerUserObject = Kernel::System::CustomerUser->new(
@@ -180,10 +180,11 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         ConfigObject => $ConfigObject,
     );
     $CacheObject->CleanUp();
+
     # Customer Search
     %List = $CustomerUserObject->CustomerSearch(
-        Search => lc($UserRand . '-Customer-Update-Id'),
-        ValidID    => 1,
+        Search  => lc( $UserRand . '-Customer-Update-Id' ),
+        ValidID => 1,
     );
     if ($DatabaseCaseInsensitive) {
 
@@ -202,7 +203,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     # CustomerIDList
     my @List = $CustomerUserObject->CustomerIDList(
-        SearchTerm => lc($UserRand . '-Customer-Update-Id'),
+        SearchTerm => lc( $UserRand . '-Customer-Update-Id' ),
         ValidID    => 1,
     );
 
@@ -232,8 +233,8 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     # Customer Search
     %List = $CustomerUserObject->CustomerSearch(
-        Search => lc($UserRand . '-Customer-Update-Id'),
-        ValidID    => 1,
+        Search  => lc( $UserRand . '-Customer-Update-Id' ),
+        ValidID => 1,
     );
     $Self->True(
         $List{$UserID},
@@ -242,7 +243,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     # CustomerIDList
     @List = $CustomerUserObject->CustomerIDList(
-        SearchTerm => lc($UserRand . '-Customer-Update-Id'),
+        SearchTerm => lc( $UserRand . '-Customer-Update-Id' ),
         ValidID    => 1,
     );
 
@@ -252,7 +253,9 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 0)",
     );
 
-    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = $CustomerDatabaseCaseSensitiveDefault;
+    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive}
+        = $CustomerDatabaseCaseSensitiveDefault;
+
     # END CaseSensitive
 
     @List = $CustomerUserObject->CustomerIDList(

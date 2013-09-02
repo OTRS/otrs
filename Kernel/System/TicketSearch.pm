@@ -1633,7 +1633,8 @@ sub TicketSearch {
         return if $TimeStamp > $CurrentSystemTime;
 
         # don't execute queries if older/newer date restriction show now valid timeframe
-        return if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
+        return
+            if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
 
         $SQLExt .= " AND st.until_time >= $TimeStamp";
     }

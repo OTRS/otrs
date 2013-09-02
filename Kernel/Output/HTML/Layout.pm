@@ -4055,7 +4055,7 @@ sub RichTextDocumentServe {
             $Charset = $2;
             $Charset =~ s/"|'//g;
         }
-        if (!$Charset) {
+        if ( !$Charset ) {
             $Charset = 'us-ascii';
             $Param{Data}->{ContentType} .= '; charset="us-ascii"';
         }
@@ -5255,7 +5255,7 @@ sub WrapPlainText {
 
     # Return if we did not get MaxCharacters
     # or MaxCharacters doesn't contain just an int
-    if ( ! IsPositiveInteger($Param{MaxCharacters}) ) {
+    if ( !IsPositiveInteger( $Param{MaxCharacters} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Got no or invalid MaxCharacters!",
@@ -5264,9 +5264,10 @@ sub WrapPlainText {
     }
 
     # Return if we didn't get PlainText
-    if ( ! defined $Param{PlainText} ) {
+    if ( !defined $Param{PlainText} ) {
         return;
     }
+
     # Return if we got no Scalar
     if ( ref $Param{PlainText} ) {
         $Self->{LogObject}->Log(
@@ -5275,6 +5276,7 @@ sub WrapPlainText {
         );
         return;
     }
+
     # Return PlainText if we have less than MaxCharacters
     if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
         return $Param{PlainText};

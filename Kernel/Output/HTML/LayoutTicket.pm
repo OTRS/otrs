@@ -121,11 +121,13 @@ sub AgentCustomerViewTable {
                 Data => \%Record,
             );
 
-            if ( $Param{Data}->{Config}->{CustomerCompanySupport} && $Field->[0] eq 'CustomerCompanyName' ) {
-                my $CompanyValidID = $Param{Data}->{ CustomerCompanyValidID };
+            if (   $Param{Data}->{Config}->{CustomerCompanySupport}
+                && $Field->[0] eq 'CustomerCompanyName' )
+            {
+                my $CompanyValidID = $Param{Data}->{CustomerCompanyValidID};
 
                 if ($CompanyValidID) {
-                    if ( !$Self->{MainObject}->Require( 'Kernel::System::Valid' ) ) {
+                    if ( !$Self->{MainObject}->Require('Kernel::System::Valid') ) {
                         $Self->FatalDie();
                     }
 
@@ -642,7 +644,7 @@ sub ArticleQuote {
     else {
         $Article{Body} = $Self->WrapPlainText(
             MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 82,
-            PlainText     => $Article{Body},
+            PlainText => $Article{Body},
         );
     }
 

@@ -1920,11 +1920,11 @@ $Self->Is(
 );
 
 # check that searches with NewerDate in the future are not executed
-$HelperObject->FixedTimeAddSeconds( - 60 * 60 );
+$HelperObject->FixedTimeAddSeconds( -60 * 60 );
 
 # Test TicketCreateTimeNewerDate (future date)
 $SystemTime = $Self->{TimeObject}->SystemTime();
-%TicketIDs = $TicketObject->TicketSearch(
+%TicketIDs  = $TicketObject->TicketSearch(
     Result                    => 'HASH',
     Limit                     => 100,
     TicketCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(

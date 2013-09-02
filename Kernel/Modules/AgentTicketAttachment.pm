@@ -184,11 +184,14 @@ sub Run {
         # if there is unexpectedly pgp decrypted content in the html email (OE),
         # we will use the article body (plain text) from the database as fall back
         # see bug#9672
-        if ( $Data{Content} =~ m{
+        if (
+            $Data{Content} =~ m{
             ^ .* -----BEGIN [ ] PGP [ ] MESSAGE-----  .* $      # grep PGP begin tag
             .+                                                  # PGP parts may be nested in html
             ^ .* -----END [ ] PGP [ ] MESSAGE-----  .* $        # grep PGP end tag
-        }xms ) {
+        }xms
+            )
+        {
 
             # html quoting
             $Article{Body} = $Self->{LayoutObject}->Ascii2Html(

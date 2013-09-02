@@ -5344,7 +5344,7 @@ sub TicketMerge {
     # do the same with article_search (harmless if not used)
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE article_search SET ticket_id = ? WHERE ticket_id = ?',
-        Bind => [\$Param{MainTicketID}, \$Param{MergeTicketID}],
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
     # reassign article history

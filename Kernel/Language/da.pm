@@ -4558,7 +4558,7 @@ sub Data {
         'Please supply a last name' => 'Indtast venligst dit efternavn',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
-            
+
         #
         # VARIOUS BITS NOT FOUND ELSEWHERE
         #

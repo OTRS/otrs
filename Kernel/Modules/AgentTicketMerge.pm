@@ -188,7 +188,7 @@ sub Run {
         );
 
         # check if source and target TicketID are the same (bug#8667)
-        if ($MainTicketID == $Self->{TicketID}) {
+        if ( $MainTicketID == $Self->{TicketID} ) {
             $Self->{LayoutObject}->FatalError( Message => "Can't merge ticket with itself!" );
         }
 

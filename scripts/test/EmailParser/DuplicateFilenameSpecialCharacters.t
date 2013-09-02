@@ -1,5 +1,5 @@
 # --
-# NestedMessage.t - email parser tests
+# DuplicateFilenameSpecialCharacters.t - email parser tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

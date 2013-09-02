@@ -1,5 +1,5 @@
 # --
-# CustomerDialogFooter.dtl - provides CustomerDialogFooter HTML for the CustomerTicketProcess.pm
+# CustomerActivityDialogFooter.dtl - provides CustomerDialogFooter HTML for the CustomerTicketProcess.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -8,7 +8,7 @@
 # --
                     </fieldset>
                 </div>
-<!-- dtl:block:Footer -->        
+<!-- dtl:block:Footer -->
                 <div class="PopupFooter">
                     <button class="Primary" id="$QData{"ButtonID"}" accesskey="g" title="$Text{"$Data{"ButtonTitle"}"} (g)" type="submit" value="$Text{"$Data{"ButtonText"}"}">$Text{"$Data{"ButtonText"}"}</button>
 <!-- dtl:block:SubmitAdviceText -->
