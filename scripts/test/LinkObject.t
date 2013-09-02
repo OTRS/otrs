@@ -1,6 +1,6 @@
 # --
 # LinkObject.t - link object module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObject.t,v 1.20.4.1 2013-01-21 15:06:02 ub Exp $
 # --
@@ -2960,11 +2960,9 @@ for my $Test (@Tests) {
     $Self->Is(
         $Result,
         $Test->{Result},
-       "ObjectPermission - " . $Test->{Name},
+        "ObjectPermission - " . $Test->{Name},
     );
 }
-
-
 
 # ------------------------------------------------------------ #
 # clean up link tests

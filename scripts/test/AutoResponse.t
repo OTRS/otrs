@@ -1,6 +1,6 @@
 # --
 # AutoResponse.t - AutoResponse tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AutoResponse.t,v 1.8 2010-10-29 13:18:21 en Exp $
 # --

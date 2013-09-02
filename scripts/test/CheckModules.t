@@ -1,6 +1,6 @@
 # --
 # CheckModules.t - GenericInterface CheckModules tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CheckModules.t,v 1.2 2011-04-28 16:44:44 cg Exp $
 # --
@@ -26,7 +26,7 @@ if ( open( $TmpSumString, "perl $Home/bin/otrs.CheckModules.pl |" ) ) {
         my $TmpLine = $_;
         $TmpLine =~ s/\n//g;
         if (
-            $TmpLine    =~ m{Not \s installed! (.+?) \(Required}smx
+            $TmpLine =~ m{Not \s installed! (.+?) \(Required}smx
             || $TmpLine =~ m{Not \s supported}smx
             || $TmpLine =~ m{failed!}smx
             )

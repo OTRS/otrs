@@ -1,6 +1,6 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Stats.t,v 1.28 2011-12-09 14:30:12 mb Exp $
 # --
@@ -169,7 +169,7 @@ my @StatArray = @{
         SumRow => 1,
         SumCol => 1,
     ),
-    };
+};
 
 my @SubStatArray = @{ $StatArray[-1] };
 $Counter = $SubStatArray[-1];

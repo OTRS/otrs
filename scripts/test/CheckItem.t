@@ -1,6 +1,6 @@
 # --
 # CheckItem.t - check item tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CheckItem.t,v 1.14 2010-11-26 10:58:05 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # VariableCheck.t - tests for VariableCheck
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: VariableCheck.t,v 1.5 2011-11-08 09:43:04 mg Exp $
 # --

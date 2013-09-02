@@ -1,6 +1,6 @@
 # --
 # Run.t - Scheduler tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Run.t,v 1.3.2.7 2012-12-12 06:36:10 cr Exp $
 # --
@@ -733,7 +733,7 @@ $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 # check if the scheduler status is the same as before the test
 $PreviousSchedulerStatus =~ s{\d}{}g;
-$CurrentSchedulerStatus  =~ s{\d}{}g;
+$CurrentSchedulerStatus =~ s{\d}{}g;
 
 $Self->Is(
     $CurrentSchedulerStatus,

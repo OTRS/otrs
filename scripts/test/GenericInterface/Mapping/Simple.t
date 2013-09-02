@@ -1,6 +1,6 @@
 # --
 # Simple.t - Mapping tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Simple.t,v 1.14 2011-03-15 09:18:56 sb Exp $
 # --

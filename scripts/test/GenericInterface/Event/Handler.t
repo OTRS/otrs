@@ -1,6 +1,6 @@
 # --
 # Handler.t - GenericInterface event handler tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Handler.t,v 1.9.2.3 2012-12-12 05:34:09 cr Exp $
 # --
@@ -488,7 +488,7 @@ $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 # remove the process id
 $PreviousSchedulerStatus =~ s{\d}{}g;
-$CurrentSchedulerStatus  =~ s{\d}{}g;
+$CurrentSchedulerStatus =~ s{\d}{}g;
 
 $Self->Is(
     $CurrentSchedulerStatus,

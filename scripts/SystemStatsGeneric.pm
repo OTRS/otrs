@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: SystemStatsGeneric.pm,v 1.16 2009-02-16 12:50:17 tr Exp $
 # --

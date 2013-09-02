@@ -1,6 +1,6 @@
 # --
 # DebugLog.t - DebugLog tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DebugLog.t,v 1.3 2011-02-24 23:20:09 cg Exp $
 # --
@@ -337,8 +337,8 @@ for my $Test (@Tests) {
         my $AuxDebugLevel = $Test->{Config}->{DebugLevel};
         for my $DataFromDB ( @{ $LogData->{Data} } ) {
             if (
-                $DataFromDB->{Data}       eq $AuxData &&
-                $DataFromDB->{Summary}    eq $AuxSummary &&
+                $DataFromDB->{Data} eq $AuxData       &&
+                $DataFromDB->{Summary} eq $AuxSummary &&
                 $DataFromDB->{DebugLevel} eq $AuxDebugLevel
                 )
             {
@@ -433,8 +433,8 @@ for my $Test (@Tests) {
             my $AuxDebugLevel = $Test->{Config}->{DebugLevel};
             for my $DataFromDB ( @{ $DataFromSearch->{Data} } ) {
                 if (
-                    $DataFromDB->{Data}       eq $AuxData &&
-                    $DataFromDB->{Summary}    eq $AuxSummary &&
+                    $DataFromDB->{Data} eq $AuxData       &&
+                    $DataFromDB->{Summary} eq $AuxSummary &&
                     $DataFromDB->{DebugLevel} eq $AuxDebugLevel
                     )
                 {

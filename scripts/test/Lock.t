@@ -1,6 +1,6 @@
 # --
 # Lock.t - Lock tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Lock.t,v 1.2 2010-10-25 08:43:23 mg Exp $
 # --

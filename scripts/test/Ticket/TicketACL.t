@@ -1,6 +1,6 @@
 # --
 # TicketACL.t - Ticket Access Control Lists tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketACL.t,v 1.5 2012-04-24 15:10:25 cr Exp $
 # --

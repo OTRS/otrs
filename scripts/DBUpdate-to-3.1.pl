@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-3.1.pl,v 1.85 2012-03-27 13:09:11 mg Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -1419,8 +1419,8 @@ sub _MigrateWindowConfiguration {
                             my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
 
                             if (
-                                ref $PossibleKeys eq 'HASH' &&
-                                scalar keys %{$PossibleKeys} > 1 &&
+                                ref $PossibleKeys eq 'HASH'        &&
+                                scalar keys %{$PossibleKeys} > 1   &&
                                 defined $DynamicFields->{$KeyName} &&
                                 !$ValuesToSet{$KeyName}
                                 )
@@ -1472,8 +1472,8 @@ sub _MigrateWindowConfiguration {
                             my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
 
                             if (
-                                ref $PossibleKeys eq 'HASH' &&
-                                scalar keys %{$PossibleKeys} > 1 &&
+                                ref $PossibleKeys eq 'HASH'        &&
+                                scalar keys %{$PossibleKeys} > 1   &&
                                 defined $DynamicFields->{$KeyName} &&
                                 !$ValuesToSet{$KeyName}
                                 )

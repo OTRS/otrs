@@ -1,6 +1,6 @@
 # --
 # scripts/test/JSON.t - JSON module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: JSON.t,v 1.9 2012-02-13 12:31:08 mg Exp $
 # --

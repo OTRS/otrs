@@ -1,6 +1,6 @@
 # --
 # SysConfig.t - SysConfig tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: SysConfig.t,v 1.13 2011-12-21 09:52:28 mg Exp $
 # --

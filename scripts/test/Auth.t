@@ -1,6 +1,6 @@
 # --
 # Auth.t - Authentication tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Auth.t,v 1.5.4.1 2012-11-26 16:19:08 mh Exp $
 # --

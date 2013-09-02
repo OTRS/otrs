@@ -1,6 +1,6 @@
 # --
 # MailAccount.t - MailAccount tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: MailAccount.t,v 1.6 2011-11-14 14:15:43 mb Exp $
 # --

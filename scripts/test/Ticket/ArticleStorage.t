@@ -1,6 +1,6 @@
 # --
 # ArticleStorage.t - ticket module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleStorage.t,v 1.1 2011-08-30 11:46:50 mg Exp $
 # --

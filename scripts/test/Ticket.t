@@ -1,6 +1,6 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.t,v 1.101.2.2 2012-06-27 08:28:23 mg Exp $
 # --
@@ -1906,11 +1906,11 @@ $Self->Is(
 );
 
 # check that searches with NewerDate in the future are not executed
-$HelperObject->FixedTimeAddSeconds( - 60 * 60 );
+$HelperObject->FixedTimeAddSeconds( -60 * 60 );
 
 # Test TicketCreateTimeNewerDate (future date)
 $SystemTime = $Self->{TimeObject}->SystemTime();
-%TicketIDs = $TicketObject->TicketSearch(
+%TicketIDs  = $TicketObject->TicketSearch(
     Result                    => 'HASH',
     Limit                     => 100,
     TicketCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(

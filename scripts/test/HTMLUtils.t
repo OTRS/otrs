@@ -1,6 +1,6 @@
 # --
 # HTMLUtils.t - HTMLUtils tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: HTMLUtils.t,v 1.41.2.5 2012-09-20 07:32:04 mg Exp $
 # --
@@ -336,7 +336,7 @@ bgColor=#ffffff>
 for my $Test (@Tests) {
 
     # these 2 lines are for Windows check-out
-    $Test->{Input}  =~ s{\r\n}{\n}smxg;
+    $Test->{Input} =~ s{\r\n}{\n}smxg;
     $Test->{Result} =~ s{\r\n}{\n}smxg;
     my $Ascii = $HTMLUtilsObject->DocumentStrip(
         String => $Test->{Input},
@@ -1364,8 +1364,9 @@ my $InlineImage
             }
     },
     {
-        Name   => 'Win7 snipping tool',
-        Body   => 'Snipping Tool: <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAADJCAIAAABHdavEAAAgAElEQVR4nOx9d1gUWfZ27e63O0rnUJ2ISs5BRTFhzjo65uyYc4bOIFEUM9nsmHPOihkxkaGBJphQQM="> 456',
+        Name => 'Win7 snipping tool',
+        Body =>
+            'Snipping Tool: <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAADJCAIAAABHdavEAAAgAElEQVR4nOx9d1gUWfZ27e63O0rnUJ2ISs5BRTFhzjo65uyYc4bOIFEUM9nsmHPOihkxkaGBJphQQM="> 456',
         Result => {
             Success => 1,
             Body =>

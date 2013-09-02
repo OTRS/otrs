@@ -1,6 +1,6 @@
 # --
 # VirtualFS.t - VirtualFS tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: VirtualFS.t,v 1.6 2010-10-29 22:16:59 en Exp $
 # --

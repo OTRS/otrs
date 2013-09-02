@@ -1,6 +1,6 @@
 # --
 # Config.t - ConfigObject tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Config.t,v 1.3 2010-10-19 14:59:00 en Exp $
 # --

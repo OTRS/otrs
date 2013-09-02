@@ -1,6 +1,6 @@
 # --
 # Cache.t - Cache tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Cache.t,v 1.23.2.2 2012-11-28 11:04:49 mh Exp $
 # --
@@ -475,7 +475,7 @@ for my $Module qw(FileStorable FileRaw) {
                 ) || '';
 
                 if (
-                    ref $CacheItem    eq 'HASH'
+                    ref $CacheItem eq 'HASH'
                     || ref $CacheItem eq 'ARRAY'
                     || ref $CacheItem eq 'SCALAR'
                     )

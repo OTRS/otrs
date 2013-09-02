@@ -1,6 +1,6 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Main.t,v 1.30.2.1 2013-02-05 10:43:21 mg Exp $
 # --
@@ -121,8 +121,6 @@ my %MD5SumOf = (
     txt => '0596f2939525c6bd50fc2b649e40fbb6',
     xls => '39fae660239f62bb0e4a29fe14ff5663',
 );
-
-
 
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(

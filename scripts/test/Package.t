@@ -1,6 +1,6 @@
 # --
 # Package.t - Package tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Package.t,v 1.37.2.4 2012-10-22 12:53:12 ub Exp $
 # --
