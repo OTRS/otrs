@@ -2,8 +2,6 @@
 // Core.Agent.Stats.js - provides the special module functions for AgentStats
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Stats.js,v 1.5 2011-10-31 11:22:01 mg Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

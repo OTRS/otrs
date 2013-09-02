@@ -2,8 +2,6 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.49.2.1 2012-10-25 02:54:34 cr Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

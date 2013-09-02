@@ -2,8 +2,6 @@
 // Core.Form.Validate.UnitTest.js - UnitTests
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.UnitTest.js,v 1.5 2012-01-09 12:21:52 mn Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.

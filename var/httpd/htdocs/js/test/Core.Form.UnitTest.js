@@ -1,8 +1,6 @@
 // --
-// Core.UI.Accessibility.UnitTest.js - UnitTests
+// Core.Form.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-// --
-// $Id: Core.Form.UnitTest.js,v 1.5 2011-10-28 09:02:18 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

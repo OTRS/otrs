@@ -2,8 +2,6 @@
 // Core.JavaScriptEnhancements.UnitTest.js - UnitTests
 // Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.JavaScriptEnhancements.UnitTest.js,v 1.2 2010-11-05 10:12:10 mg Exp $
-// --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
