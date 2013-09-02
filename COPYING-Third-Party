@@ -97,6 +97,17 @@ o Name:    CPAN Locale::Codes
            # Copyright (c) 2001-2010 Neil Bowers
            # Copyright (c) 2010-2011 Sullivan Beck
 
+o Name:    CPAN LWP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    #   © 1995-2010 Gisle Aas. All rights reserved.
+           #   © 1995 Martijn Koster. All rights reserved.
+
+o Name:    CPAN LWP::Protocol::https
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1997-2011 Gisle Aas.
+
 o Name:    CPAN MIME::Tools
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
