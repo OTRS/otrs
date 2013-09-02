@@ -309,7 +309,7 @@ sub ArticlePlain {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # decode attachment if it's e. g. a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / / ) {
+        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ m/ / ) {
             $Data = decode_base64( $Row[0] );
         }
         else {
