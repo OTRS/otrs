@@ -462,6 +462,7 @@ get all distinct values from a field stored on the database
         ValueB => 'ValueB',
         ValueC => 'ValueC'
     };
+
 =cut
 
 sub HistoricalValueGet {

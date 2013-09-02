@@ -1191,6 +1191,7 @@ check if user has permissions to update ticket attributes.
         ErrorCode    => "function.error",           # if error
         ErrorMessage => "Error description"
     }
+
 =cut
 
 sub _CheckUpdatePermissions {
