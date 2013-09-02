@@ -21,7 +21,7 @@
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Go to overview"}</span></a>
                     </li>
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="CallForAction Fullsize Center AsPopup PopupType_ProcessOverview Print"><span>$Text{"Print process information"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="CallForAction Fullsize Center AsPopup PopupType_ProcessOverview Print"><span>$Text{"Print process information"}</span></a>
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>

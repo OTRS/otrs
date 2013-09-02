@@ -396,7 +396,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                     <ul class="Actions">
 <!-- dtl:block:ActivityDialog -->
                         <li>
-                            <a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a>
+                            <a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=$LQData{"TicketID"};ProcessEntityID=$LQData{"ProcessEntityID"};ActivityDialogEntityID=$LQData{"ActivityDialogEntityID"}">$QData{"Name"}</a>
                         </li>
 <!-- dtl:block:ActivityDialog -->
                     </ul>

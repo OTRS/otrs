@@ -23,7 +23,7 @@
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Nav=$LQData{"Nav"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
                     </li>
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;Search=$QData{"Search"}" class="CallForAction"><span>$Text{"Back to search results"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Search;Search=$LQData{"Search"}" class="CallForAction"><span>$Text{"Back to search results"}</span></a>
                     </li>
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionSearch -->

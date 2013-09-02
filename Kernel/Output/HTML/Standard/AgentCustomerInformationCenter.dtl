@@ -64,7 +64,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallPreferences -->
                     <div class="WidgetAction Close">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$QData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$LQData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
                     </div>
                     <div class="Clear"></div>
                 </div>
@@ -155,7 +155,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargePreferences -->
                     <div class="WidgetAction Close">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$QData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$LQData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
                     </div>
                     <div class="Clear"></div>
                 </div>
