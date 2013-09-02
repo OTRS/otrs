@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerUser.pm,v 1.99.2.1 2012-09-06 08:30:36 mh Exp $
 # --
@@ -886,7 +886,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data}   eq 'HASH'
+                                ref $ParamItem->{Data} eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

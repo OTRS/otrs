@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketZoom.pm,v 1.88 2012-01-27 12:29:12 mb Exp $
 # --
@@ -74,7 +74,7 @@ sub Run {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID => $Self->{UserID},
+            UserID       => $Self->{UserID},
         );
     }
 
@@ -343,8 +343,8 @@ sub Run {
 
             # skip deleted inline images
             next if $Attachment->{ContentID}
-                    && $Attachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+                && $Attachment->{ContentID} =~ /^inline/
+                && $GetParam{Body} !~ /$Attachment->{ContentID}/;
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
@@ -428,6 +428,7 @@ sub _Mask {
     my $ArticleID           = '';
     my $LastCustomerArticle = 0;
     if (@ArticleBox) {
+
         # get last customer article
         my $CounterArray = 0;
         my $LastCustomerArticleID;
@@ -821,7 +822,7 @@ sub _Mask {
     }
     else {
         my $ArticleOB = $ArticleBox[$LastCustomerArticle];
-        %Article   = %$ArticleOB;
+        %Article = %$ArticleOB;
     }
 
     my $ArticleArray = 0;

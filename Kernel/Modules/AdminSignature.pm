@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSignature.pm,v 1.51 2012-02-27 22:53:37 ep Exp $
 # --

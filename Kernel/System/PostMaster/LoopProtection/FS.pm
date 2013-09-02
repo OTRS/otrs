@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/LoopProtection/FS.pm - backend module of LoopProtection
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: FS.pm,v 1.13 2009-02-16 11:47:35 tr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesCustomQueue.pm,v 1.17 2012-04-05 19:22:39 mb Exp $
 # --
@@ -94,7 +94,7 @@ sub Run {
         SQL => "
             DELETE FROM personal_queues
             WHERE user_id = ?",
-        Bind => [\$Param{UserData}->{UserID}],
+        Bind => [ \$Param{UserData}->{UserID} ],
     );
 
     # get ro groups of agent
@@ -119,7 +119,7 @@ sub Run {
                     SQL => "
                         INSERT INTO personal_queues (queue_id, user_id)
                         VALUES (?, ?)",
-                    Bind => [\$ID, \$Param{UserData}->{UserID}]
+                    Bind => [ \$ID, \$Param{UserData}->{UserID} ]
                 );
             }
         }

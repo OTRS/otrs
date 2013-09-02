@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketOwner.pm,v 1.84 2011-05-03 07:53:58 mb Exp $
 # --

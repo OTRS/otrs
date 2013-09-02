@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/ArchiveRestore.pm - restore ticket from archive
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ArchiveRestore.pm,v 1.3 2011-11-25 10:14:18 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketCompose.pm,v 1.164.2.2 2012-09-26 21:32:50 mh Exp $
 # --
@@ -670,7 +670,7 @@ sub Run {
                     %GetParam,
                 ),
                 ResponseFormat => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
-                Errors => \%Error,
+                Errors         => \%Error,
                 MultipleCustomer    => \@MultipleCustomer,
                 MultipleCustomerCc  => \@MultipleCustomerCc,
                 MultipleCustomerBcc => \@MultipleCustomerBcc,
@@ -1178,8 +1178,13 @@ sub Run {
 
         # use customer database email
         # do not add customer email to cc, if article type is email-internal
-        my $DataArticleType = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress') && $DataArticleType !~ m{internal} ) {
+        my $DataArticleType
+            = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
+        if (
+            $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress')
+            && $DataArticleType !~ m{internal}
+            )
+        {
 
             # check if customer is in recipient list
             if ( $Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i ) {
@@ -1468,7 +1473,8 @@ sub _Mask {
     my %ArticleTypes;
     my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
     for my $ArticleTypeID (@ArticleTypesPossible) {
-        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $ArticleTypeID ) } = $ArticleTypeID;
+        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $ArticleTypeID ) }
+            = $ArticleTypeID;
     }
 
     my $ArticleTypeIDSelected = $Param{ArticleTypeID};
@@ -1483,7 +1489,6 @@ sub _Mask {
         Name       => 'ArticleTypeID',
         SelectedID => $ArticleTypeIDSelected,
     );
-
 
     # build customer search autocomplete field
     my $AutoCompleteConfig

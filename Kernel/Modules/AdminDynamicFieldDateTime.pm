@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicFieldDateTime.pm - provides a dynamic fields Date Time config view for admins
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminDynamicFieldDateTime.pm,v 1.15 2012-04-18 19:40:22 cr Exp $
 # --
@@ -141,7 +141,7 @@ sub _AddAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-            };
+        };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 
@@ -327,7 +327,7 @@ sub _ChangeAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-            };
+        };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminDynamicFieldText.pm,v 1.24 2012-04-18 19:38:01 cr Exp $
 # --
@@ -141,7 +141,7 @@ sub _AddAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-            };
+        };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 
@@ -319,7 +319,7 @@ sub _ChangeAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-            };
+        };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.549.2.15 2013-01-14 12:28:31 mg Exp $
 # --
@@ -3045,7 +3045,7 @@ sub TicketFreeTextSet {
 
         # no opration is needed if old and new registers are the same on both Key and Value
         if (
-            $Value  eq $Ticket{"TicketFreeText$Param{Counter}"}
+            $Value eq $Ticket{"TicketFreeText$Param{Counter}"}
             && $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}
             )
         {
@@ -4989,7 +4989,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1]    eq 'StateUpdate'
+            $Row[1] eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -4997,7 +4997,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )

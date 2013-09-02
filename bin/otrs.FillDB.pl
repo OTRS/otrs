@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.FillDB.pl - fill db with demo data
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.FillDB.pl,v 1.7.2.2 2012-09-25 11:46:44 mg Exp $
 # --
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;

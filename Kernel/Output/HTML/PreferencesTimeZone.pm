@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesTimeZone.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesTimeZone.pm,v 1.12 2009-02-20 12:05:39 mh Exp $
 # --
@@ -39,7 +39,7 @@ sub Param {
     return if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset');
     return
         if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-            && !$Self->{LayoutObject}->{BrowserJavaScriptSupport};
+        && !$Self->{LayoutObject}->{BrowserJavaScriptSupport};
 
     my @Params = ();
     push(

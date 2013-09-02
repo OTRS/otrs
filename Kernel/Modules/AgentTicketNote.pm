@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketNote.pm,v 1.92 2011-05-03 07:53:58 mb Exp $
 # --

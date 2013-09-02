@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Package.pm,v 1.130.2.6 2012-10-22 12:53:39 ub Exp $
 # --
@@ -1405,8 +1405,10 @@ sub PackageVerify {
 
     # define package verification info
     my $PackageVerifyInfo = {
-        Description => "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
-        Title       => 'Package not verified by the OTRS Group! It is recommended not to use this package.',
+        Description =>
+            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
+        Title =>
+            'Package not verified by the OTRS Group! It is recommended not to use this package.',
     };
 
     # investigate name
@@ -1470,7 +1472,7 @@ sub PackageVerify {
         Type  => 'PackageVerification',
         Key   => $Sum,
         Value => $PackageVerify,
-        TTL   => 30 * 24 * 60 * 60,  # 30 days
+        TTL   => 30 * 24 * 60 * 60,       # 30 days
     );
 
     return $PackageVerify;
@@ -1598,7 +1600,7 @@ sub PackageVerifyAll {
             Type  => 'PackageVerification',
             Key   => $PackageList{$Package},
             Value => $PackageVerify,
-            TTL   => 30 * 24 * 60 * 60,  # 30 days
+            TTL   => 30 * 24 * 60 * 60,        # 30 days
         );
     }
 
@@ -1852,7 +1854,7 @@ sub PackageBuild {
                         for ( sort keys %{$Tag} ) {
 
                             if (
-                                $_    ne 'Tag'
+                                $_ ne 'Tag'
                                 && $_ ne 'Content'
                                 && $_ ne 'TagType'
                                 && $_ ne 'TagLevel'

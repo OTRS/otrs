@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupWithWritePermission.pm - generic agent notifications
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: NotifyAgentGroupWithWritePermission.pm,v 1.13.2.1 2012-09-25 13:35:11 jp Exp $
 # --
@@ -129,8 +129,8 @@ sub Run {
         my $Sent = 0;
         for my $Line (@Lines) {
             if (
-                $Line->{Name}          =~ /\%\%$EscalationType\%\%/
-                && $Line->{Name}       =~ /\Q%%$User{UserEmail}\E$/i
+                $Line->{Name} =~ /\%\%$EscalationType\%\%/
+                && $Line->{Name} =~ /\Q%%$User{UserEmail}\E$/i
                 && $Line->{CreateTime} =~ /$Year-$Month-$Day/
                 )
             {

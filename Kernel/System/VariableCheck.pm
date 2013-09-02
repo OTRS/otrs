@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VariableCheck.pm - helpers to check variables
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: VariableCheck.pm,v 1.6 2011-11-08 09:43:04 mg Exp $
 # --
@@ -164,7 +164,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsArrayRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_     ne 1;
+    return if scalar @_ ne 1;
     return if ref $TestData ne 'ARRAY';
     return if !@{$TestData};
 
@@ -189,7 +189,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsHashRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_     ne 1;
+    return if scalar @_ ne 1;
     return if ref $TestData ne 'HASH';
     return if !%{$TestData};
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.10 2011-12-05 18:13:48 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutTicket.pm,v 1.141.2.3 2012-11-22 09:24:52 mg Exp $
 # --
@@ -332,7 +332,7 @@ sub AgentQueueListOption {
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
             if (
-                $SelectedID  eq $_
+                $SelectedID eq $_
                 || $Selected eq $Param{Data}->{$_}
                 || $Param{SelectedIDRefArrayOK}->{$_}
                 )

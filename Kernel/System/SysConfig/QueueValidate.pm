@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SysConfig/QueueValidate.pm - all QueueValidate functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: QueueValidate.pm,v 1.1 2010-07-28 08:49:24 ub Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminEmail.pm,v 1.50 2011-12-21 14:25:56 mg Exp $
 # --

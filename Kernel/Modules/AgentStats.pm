@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentStats.pm,v 1.124 2012-04-20 00:22:34 ep Exp $
 # --
@@ -2064,7 +2064,7 @@ sub Run {
                 StatID   => $Param{StatID},
                 GetParam => \%GetParam,
                 )
-            };
+        };
 
         # exchange axis if selected
         if ( $Param{ExchangeAxis} ) {

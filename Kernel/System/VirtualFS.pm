@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VirtualFS.pm - all virtual fs functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: VirtualFS.pm,v 1.10 2010-11-25 11:19:50 mg Exp $
 # --

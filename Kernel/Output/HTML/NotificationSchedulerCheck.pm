@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationSchedulerCheck.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationSchedulerCheck.pm,v 1.5 2011-07-22 22:12:34 cr Exp $
 # --

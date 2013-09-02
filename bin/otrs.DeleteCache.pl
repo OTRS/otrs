@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.DeleteCache.pl - delete all caches
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.DeleteCache.pl,v 1.6 2012-04-25 09:03:18 sb Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -52,7 +52,7 @@ GetOptions(
 );
 
 print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
-print "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n\n";
+print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n\n";
 
 if ( $Opts{h} ) {
     print "usage: otrs.DeleteCache.pl [--expired] [--type TYPE]\n";

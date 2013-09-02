@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: GenericAgent.pm,v 1.81 2012-02-14 08:40:37 mg Exp $
 # --
@@ -116,8 +116,8 @@ sub new {
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
 
     my %PendingStates = $Self->{StateObject}->StateGetStatesByType(
-        StateType => ['pending auto', 'pending reminder'],
-        Result    => 'HASH',
+        StateType => [ 'pending auto', 'pending reminder' ],
+        Result => 'HASH',
     );
 
     $Self->{PendingStateList} = \%PendingStates || {};
@@ -884,7 +884,7 @@ sub _JobRunTicket {
     }
 
     my $IsPendingState;
-    
+
     # set new state
     if ( $Param{Config}->{New}->{State} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -896,7 +896,8 @@ sub _JobRunTicket {
             State    => $Param{Config}->{New}->{State},
         );
 
-        $IsPendingState = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
+        $IsPendingState
+            = grep { $_ eq $Param{Config}->{New}->{State} } values %{ $Self->{PendingStateList} };
     }
     if ( $Param{Config}->{New}->{StateID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -908,11 +909,12 @@ sub _JobRunTicket {
             StateID  => $Param{Config}->{New}->{StateID},
         );
 
-        $IsPendingState = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
+        $IsPendingState
+            = grep { $_ == $Param{Config}->{New}->{StateID} } keys %{ $Self->{PendingStateList} };
     }
 
     # set pending time, if new state is pending state
-    if ( $IsPendingState ) {
+    if ($IsPendingState) {
         if ( $Param{Config}->{New}->{PendingTime} ) {
 
             # pending time
@@ -925,11 +927,12 @@ sub _JobRunTicket {
 
             # add systemtime
             $PendingTime += $Self->{CurrentSystemTime};
-            
+
             # get date
-            my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $Self->{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $PendingTime,
-            );
+                );
 
             # set pending time
             $Self->{TicketObject}->TicketPendingTimeSet(

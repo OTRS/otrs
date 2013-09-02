@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.WebserviceConfig.pl,v 1.4 2011-03-08 17:33:16 cr Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -48,7 +48,7 @@ my %Opts;
 getopt( 'hiafn', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.WebserviceConfig.pl <Revision $VERSION> - read/write/list webservice config\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.WebserviceConfig.pl -a read  -i \$ID                         (read config, print to STDOUT)\n";
     print

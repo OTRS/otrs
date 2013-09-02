@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.144.2.2 2012-08-06 14:46:38 mg Exp $
 # --
@@ -820,7 +820,7 @@ sub SQLProcessor {
 
             # unique
             elsif (
-                $Tag->{Tag}    eq 'Unique'
+                $Tag->{Tag} eq 'Unique'
                 || $Tag->{Tag} eq 'UniqueCreate'
                 || $Tag->{Tag} eq 'UniqueDrop'
                 )
@@ -834,7 +834,7 @@ sub SQLProcessor {
 
             # index
             elsif (
-                $Tag->{Tag}    eq 'Index'
+                $Tag->{Tag} eq 'Index'
                 || $Tag->{Tag} eq 'IndexCreate'
                 || $Tag->{Tag} eq 'IndexDrop'
                 )
@@ -848,7 +848,7 @@ sub SQLProcessor {
 
             # foreign keys
             elsif (
-                $Tag->{Tag}    eq 'ForeignKey'
+                $Tag->{Tag} eq 'ForeignKey'
                 || $Tag->{Tag} eq 'ForeignKeyCreate'
                 || $Tag->{Tag} eq 'ForeignKeyDrop'
                 )

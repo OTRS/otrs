@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.ArticleStorageSwitch.pl,v 1.16 2012-02-09 14:44:13 mb Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -47,7 +47,7 @@ my %Opts;
 getopt( 'hsdcCf', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.ArticleStorageSwitch.pl <Revision $VERSION> - to move storage content\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.ArticleStorageSwitch.pl -s ArticleStorageDB -d ArticleStorageFS [-c <JUST_SELECT_WHERE_CLOSE_DATE_IS_BEFORE> e. g. -c '2011-06-29 14:00:00' -C <JUST_SELECT_WHERE_CLOSE_IS_OLDER_IN_DAYS] e. g. -C '5'  [-f force]\n";
     exit 1;

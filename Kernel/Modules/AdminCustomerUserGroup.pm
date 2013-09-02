@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerUserGroup.pm,v 1.39 2011-12-21 13:42:54 mg Exp $
 # --
@@ -460,7 +460,7 @@ sub _Change {
 
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
             next if !$Type;
-            my $Mark = $Type eq 'rw' ? "Highlight" : '';
+            my $Mark     = $Type eq 'rw'        ? "Highlight"          : '';
             my $Selected = $Param{$Type}->{$ID} ? ' checked="checked"' : '';
             $Self->{LayoutObject}->Block(
                 Name => 'ChangeRowItem',

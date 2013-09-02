@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceMappingSimple.pm,v 1.21 2012-04-20 00:19:42 ep Exp $
 # --
@@ -623,7 +623,7 @@ sub _GetParams {
             my $Suffix = $KeyCounter . '_' . $ValueCounter;
             next
                 if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
-                    $Self->{DeletedString};
+                $Self->{DeletedString};
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
                 my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';

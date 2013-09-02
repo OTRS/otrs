@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SysConfig.pm - all system config tool functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: SysConfig.pm,v 1.34 2012-03-01 18:04:44 mg Exp $
 # --
@@ -741,7 +741,7 @@ sub ConfigItemGet {
                     my %LoaderFiles;
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
-                            $Key2    eq 'CSS'
+                            $Key2 eq 'CSS'
                             || $Key2 eq 'CSS_IE6'
                             || $Key2 eq 'CSS_IE7'
                             || $Key2 eq 'CSS_IE8'
@@ -787,7 +787,7 @@ sub ConfigItemGet {
                             push(
                                 @{
                                     $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                    },
+                                },
                                 \%NavBar
                             );
                         }
@@ -887,7 +887,7 @@ sub ConfigItemGet {
                                 @{
                                     $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
                                         ->{Item}
-                                    },
+                                },
                                 {
                                     Year    => $Year,
                                     Month   => $Month,
@@ -1118,7 +1118,7 @@ sub ConfigSubGroupConfigItemList {
                                 push(
                                     @{
                                         $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
-                                        },
+                                    },
                                     $ConfigItem->{Name}
                                 );
                             }
@@ -2122,7 +2122,7 @@ sub _XML2Perl {
                 my %Loader;
                 for my $Key ( sort keys %{$Content} ) {
                     if (
-                        $Key    eq 'CSS'
+                        $Key eq 'CSS'
                         || $Key eq 'CSS_IE6'
                         || $Key eq 'CSS_IE7'
                         || $Key eq 'CSS_IE8'

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminPackageManager.pm,v 1.108.2.1 2012-12-17 13:04:06 mn Exp $
 # --
@@ -1213,7 +1213,11 @@ sub Run {
             },
         );
 
-        if ( $VerificationData{ $Package->{Name}->{Content} } && $VerificationData{ $Package->{Name}->{Content} } eq 'verified' ) {
+        if (
+            $VerificationData{ $Package->{Name}->{Content} }
+            && $VerificationData{ $Package->{Name}->{Content} } eq 'verified'
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackageVerifyLogo',
             );
@@ -1279,7 +1283,8 @@ sub Run {
         if (
             $VerificationData{ $Package->{Name}->{Content} }
             && $VerificationData{ $Package->{Name}->{Content} } eq 'not_verified'
-        ) {
+            )
+        {
             $NotVerifiedPackages{ $Package->{Name}->{Content} } = $Package->{Version}->{Content};
         }
     }
@@ -1544,7 +1549,7 @@ sub _InstallHandling {
             },
         );
 
-        if ($Verified eq 'verified') {
+        if ( $Verified eq 'verified' ) {
             $Self->{LayoutObject}->Block(
                 Name => 'OTRSVerifyLogo',
             );
@@ -1583,7 +1588,7 @@ sub _InstallHandling {
                 },
             );
 
-            if ($Verified eq 'verified') {
+            if ( $Verified eq 'verified' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OTRSVerifyLogo',
                 );

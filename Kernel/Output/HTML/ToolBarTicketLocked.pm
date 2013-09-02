@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketLocked.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ToolBarTicketLocked.pm,v 1.9 2011-10-24 10:48:45 ep Exp $
 # --

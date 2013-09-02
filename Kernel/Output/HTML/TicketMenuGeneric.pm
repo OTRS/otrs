@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuGeneric.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuGeneric.pm,v 1.15 2010-09-07 10:17:14 mb Exp $
 # --
@@ -106,7 +106,7 @@ sub Run {
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
-            && !$Param{ACL}->{ $Param{Config}->{Action} };
+        && !$Param{ACL}->{ $Param{Config}->{Action} };
 
     # return item
     return { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param };

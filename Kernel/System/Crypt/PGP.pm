@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: PGP.pm,v 1.51 2011-01-25 23:26:10 dz Exp $
 # --

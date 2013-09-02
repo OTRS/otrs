@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Match.pm,v 1.20 2010-10-04 11:03:01 bes Exp $
 # --

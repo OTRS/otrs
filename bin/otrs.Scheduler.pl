@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.Scheduler.pl,v 1.37 2011-11-29 13:31:21 mg Exp $
 # --
@@ -17,8 +17,8 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-# or see L<http://www.gnu.org/licenses/agpl.txt>.
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;
@@ -510,7 +510,7 @@ exit 1;
 # Internal
 sub _help {
     print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
 
     # Not documented!
@@ -571,7 +571,7 @@ sub _AutoRestart {
 
     my $StartExitCode = system("$Scheduler -a start");
 
-    if ( $StartExitCode ) {
+    if ($StartExitCode) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not start-up new Scheduler instance.",

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Checkbox.pm,v 1.52.2.2 2012-06-19 23:53:27 cr Exp $
 # --
@@ -206,14 +206,14 @@ sub EditFieldRender {
     if ( defined $FieldValue && IsHashRefWithData($FieldValue) ) {
         if (
             !defined $FieldValue->{FieldValue} &&
-            defined $FieldValue->{UsedValue} && $FieldValue->{UsedValue} eq '1'
+            defined $FieldValue->{UsedValue}   && $FieldValue->{UsedValue} eq '1'
             )
         {
             $Value = '0';
         }
         elsif (
             defined $FieldValue->{FieldValue} && $FieldValue->{FieldValue} eq '1' &&
-            defined $FieldValue->{UsedValue}  && $FieldValue->{UsedValue}  eq '1'
+            defined $FieldValue->{UsedValue} && $FieldValue->{UsedValue} eq '1'
             )
         {
             $Value = '1';

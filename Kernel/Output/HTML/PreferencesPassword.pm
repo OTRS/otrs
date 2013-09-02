@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesPassword.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesPassword.pm,v 1.28 2011-11-29 13:27:14 mb Exp $
 # --
@@ -157,7 +157,11 @@ sub Run {
     }
 
     # check min 2 lower and 2 upper char
-    if ( $Config->{PasswordMin2Lower2UpperCharacters} && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ ) ) {
+    if (
+        $Config->{PasswordMin2Lower2UpperCharacters}
+        && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ )
+        )
+    {
         $Self->{Error}
             = 'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!';
         return;

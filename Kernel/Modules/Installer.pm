@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Installer.pm,v 1.93 2012-01-07 20:26:30 mb Exp $
 # --

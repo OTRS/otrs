@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats.pm - all stats core functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Stats.pm,v 1.112 2011-12-23 14:37:19 mb Exp $
 # --
@@ -2090,9 +2090,9 @@ sub StatsCleanUp {
         );
 
         next STATSID if $HashRef
-                && ref $HashRef eq 'HASH'
-                && $HashRef->{ObjectModule}
-                && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+            && ref $HashRef eq 'HASH'
+            && $HashRef->{ObjectModule}
+            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -3042,9 +3042,9 @@ sub _WriteResultCache {
         return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
         return
             if $GetParam{Year} == $Y
-                && $GetParam{Month} == $M
-                && $GetParam{Day}
-                && $GetParam{Day} >= $D;
+            && $GetParam{Month} == $M
+            && $GetParam{Day}
+            && $GetParam{Day} >= $D;
     }
 
     # write cache file

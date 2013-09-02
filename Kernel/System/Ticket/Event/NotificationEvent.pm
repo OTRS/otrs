@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationEvent.pm,v 1.37.2.2 2012-12-10 15:07:40 mb Exp $
 # --
@@ -521,12 +521,12 @@ sub _SendNotification {
     }
 
     # replace config options
-    $Notification{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # COMPAT
     $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
@@ -569,13 +569,13 @@ sub _SendNotification {
             $DisplayValue = $ValueStrg->{Value};
         }
 
-        $Notification{Body}    =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
+        $Notification{Body} =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
         $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData(
@@ -584,13 +584,13 @@ sub _SendNotification {
     );
     for ( keys %CurrentPreferences ) {
         next if !defined $CurrentPreferences{$_};
-        $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
     my %OwnerPreferences = $Self->{UserObject}->GetUserData(
@@ -599,13 +599,13 @@ sub _SendNotification {
     );
     for ( keys %OwnerPreferences ) {
         next if !$OwnerPreferences{$_};
-        $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
     my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
@@ -614,19 +614,19 @@ sub _SendNotification {
     );
     for ( keys %ResponsiblePreferences ) {
         next if !$ResponsiblePreferences{$_};
-        $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
     for ( keys %GetParam ) {
         next if !$GetParam{$_};
-        $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
     }
 
@@ -639,13 +639,13 @@ sub _SendNotification {
         # replace customer stuff with tags
         for ( keys %CustomerUser ) {
             next if !$CustomerUser{$_};
-            $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
         }
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # latest customer and agent article
@@ -678,7 +678,7 @@ sub _SendNotification {
             }
             for ( keys %Article ) {
                 next if !$Article{$_};
-                $Notification{Body}    =~ s/<$ArticleItem$_>/$Article{$_}/gi;
+                $Notification{Body} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
                 $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
             }
 
@@ -688,7 +688,7 @@ sub _SendNotification {
             );
 
             my $MatchString = $ArticleItem . 'TimeUnit';
-            $Notification{Body}    =~ s/<$MatchString>/$AccountedTime/gi;
+            $Notification{Body} =~ s/<$MatchString>/$AccountedTime/gi;
             $Notification{Subject} =~ s/<$MatchString>/$AccountedTime/gi;
 
             # prepare subject (insert old subject)
@@ -729,7 +729,7 @@ sub _SendNotification {
         }
 
         # cleanup all not needed <OTRS_CUSTOMER_ and <OTRS_AGENT_ tags
-        $Notification{Body}    =~ s/<$ArticleItem.+?>/-/gi;
+        $Notification{Body} =~ s/<$ArticleItem.+?>/-/gi;
         $Notification{Subject} =~ s/<$ArticleItem.+?>/-/gi;
     }
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: JSON.pm,v 1.8 2012-02-13 12:20:00 mg Exp $
 # --

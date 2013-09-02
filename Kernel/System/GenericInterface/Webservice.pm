@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Webservice.pm,v 1.30 2012-03-29 07:29:21 mg Exp $
 # --
@@ -326,8 +326,8 @@ sub WebserviceUpdate {
     }
 
     return 1 if $ValidIDCurrent eq $Param{ValidID}
-            && $Config eq $ConfigCurrent
-            && $NameCurrent eq $Param{Name};
+        && $Config eq $ConfigCurrent
+        && $NameCurrent eq $Param{Name};
 
     # sql
     return if !$Self->{DBObject}->Do(

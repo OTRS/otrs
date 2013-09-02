@@ -1,6 +1,6 @@
 # --
 # Kernel/System/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSearch.pm,v 1.13.2.5 2013-01-10 15:43:33 ub Exp $
 # --
@@ -924,7 +924,8 @@ sub TicketSearch {
 
             $SQLExt .= " AND tf$Index.ticket_key = '" . $Self->{DBObject}->Quote($Key) . "'";
             $SQLExt .= " AND tf$Index.ticket_value = '" . $Self->{DBObject}->Quote($Value) . "'";
-            $SQLExt .= " AND tf$Index.create_by = " . $Self->{DBObject}->Quote($TicketFlagUserID, 'Integer');
+            $SQLExt .= " AND tf$Index.create_by = "
+                . $Self->{DBObject}->Quote( $TicketFlagUserID, 'Integer' );
 
             $Index++;
         }
@@ -1131,7 +1132,7 @@ sub TicketSearch {
             if ( !$SystemTime ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1169,7 +1170,7 @@ sub TicketSearch {
             if ( !$SystemTime ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1259,7 +1260,7 @@ sub TicketSearch {
             if ( !$Time ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1294,7 +1295,7 @@ sub TicketSearch {
             if ( !$Time ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  =>
+                    Message =>
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1592,7 +1593,7 @@ sub TicketSearch {
         if ( !$TimeStamp ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  =>
+                Message =>
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeOlderDate} . "'!",
             );
@@ -1622,7 +1623,7 @@ sub TicketSearch {
         if ( !$TimeStamp ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  =>
+                Message =>
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeNewerDate} . "'!",
             );
@@ -1633,7 +1634,8 @@ sub TicketSearch {
         return if $TimeStamp > $CurrentSystemTime;
 
         # don't execute queries if older/newer date restriction show now valid timeframe
-        return if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
+        return
+            if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
 
         $SQLExt .= " AND st.until_time >= $TimeStamp";
     }

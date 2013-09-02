@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: oracle.pm,v 1.65 2011-03-01 18:23:35 en Exp $
 # --

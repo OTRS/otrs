@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketMerge.pm,v 1.57 2012-01-24 00:08:45 cr Exp $
 # --
@@ -204,7 +204,10 @@ sub Run {
             if ( $GetParam{To} ) {
                 for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
                     my $Address = $Email->address();
-                    if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+                    if (
+                        $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address )
+                        )
+                    {
                         $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
                         $Error{'ToInvalid'} = 'ServerError';
                     }

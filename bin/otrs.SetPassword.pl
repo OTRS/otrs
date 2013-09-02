@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.SetPassword.pl - Changes or Sets password for a user
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.SetPassword.pl,v 1.4 2011-11-03 21:00:04 mb Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -44,7 +44,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "$0 <Revision $VERSION> - set a new agent password\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.SetPassword user password\n";
     exit 1;
 }

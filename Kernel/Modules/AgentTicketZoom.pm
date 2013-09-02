@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketZoom.pm,v 1.177.2.2 2013-01-02 13:02:46 mn Exp $
 # --
@@ -76,7 +76,7 @@ sub new {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID => $Self->{UserID},
+            UserID       => $Self->{UserID},
         );
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);

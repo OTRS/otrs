@@ -1,6 +1,6 @@
 # --
 # Selenium.pm - run frontend tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Selenium.pm,v 1.10 2010-12-22 11:19:57 mg Exp $
 # --

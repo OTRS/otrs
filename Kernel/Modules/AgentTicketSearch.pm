@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketSearch.pm,v 1.145.2.2 2012-08-06 07:33:37 mg Exp $
 # --
@@ -88,7 +88,7 @@ sub new {
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => ['Ticket', 'Article'],
+        ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
@@ -755,7 +755,7 @@ sub Run {
 
             # create head (actual head and head for data fill)
             my @TmpCSVHead = @{ $Self->{Config}->{SearchCSVData} };
-            my @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
+            my @CSVHead    = @{ $Self->{Config}->{SearchCSVData} };
 
             # include the selected dynamic fields in CVS results
             DYNAMICFIELD:
@@ -765,7 +765,7 @@ sub Run {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
 
                 push @TmpCSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
-                push @CSVHead, $DynamicFieldConfig->{Label};
+                push @CSVHead,    $DynamicFieldConfig->{Label};
             }
 
             my @CSVData;
