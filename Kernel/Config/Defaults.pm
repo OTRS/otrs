@@ -1,3 +1,4 @@
+# --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
