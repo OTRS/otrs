@@ -1,4 +1,4 @@
-# $Id: DBI.pm,v 1.3 2011-11-28 12:28:37 mb Exp $
+# $Id: DBI.pm 1490648 2013-06-07 13:46:30Z perrin $
 package Apache::DBI;
 use strict;
 
@@ -11,6 +11,7 @@ BEGIN {
         require Apache2::Module;
         require Apache2::RequestUtil;
         require Apache2::ServerUtil;
+        require ModPerl::Util;
     }
     elsif (defined $modperl::VERSION && $modperl::VERSION > 1 &&
              $modperl::VERSION < 1.99) {
@@ -22,7 +23,7 @@ use Carp ();
 
 require_version DBI 1.00;
 
-$Apache::DBI::VERSION = '1.11';
+$Apache::DBI::VERSION = '1.12';
 
 # 1: report about new connect
 # 2: full debug output
@@ -124,8 +125,10 @@ sub connect {
     # unpredictable query results.
     # See: http://perl.apache.org/docs/2.0/user/porting/compat.html#C__Apache__Server__Starting__and_C__Apache__Server__ReStarting_
     if (MP2) {
-        require Apache2::ServerUtil;
-        if (Apache2::ServerUtil::restart_count() == 1) {
+        require ModPerl::Util;
+        my $callback = ModPerl::Util::current_callback();
+        if ($callback !~ m/Handler$/ or
+            $callback =~ m/(PostConfig|OpenLogs)/) {
             debug(2, "$prefix skipping connection during server startup, read the docu !!");
             return $drh->connect(@args);
         }

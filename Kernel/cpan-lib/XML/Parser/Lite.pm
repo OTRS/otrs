@@ -5,7 +5,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: Lite.pm,v 1.9 2012-07-16 10:51:12 mh Exp $
+# $Id$
 #
 # ======================================================================
 
@@ -14,7 +14,7 @@ package XML::Parser::Lite;
 use strict;
 use warnings;
 
-our $VERSION = 0.715;
+our $VERSION = 0.717;
 
 sub new {
     my $class = shift;
@@ -339,7 +339,7 @@ See L<XML::Parser> for details
 
 =head2 Final
 
-Called at the end of the parsing process. You should perform any neccessary
+Called at the end of the parsing process. You should perform any necessary
 cleanup here.
 
 =head1 SEE ALSO
