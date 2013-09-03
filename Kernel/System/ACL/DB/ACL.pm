@@ -894,7 +894,7 @@ sub ACLDump {
     );
 
     my $Output = '';
-    for my $ACLName ( keys %ACLDump ) {
+    for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
         $Output .= $Self->_ACLItemOutput(

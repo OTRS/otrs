@@ -489,7 +489,7 @@ sub SearchFieldRender {
         if ( keys %{ $FieldConfig->{PossibleValues} } != keys %{$SelectionData} ) {
 
             my @Values;
-            for my $Key ( keys %{ $FieldConfig->{PossibleValues} } ) {
+            for my $Key ( sort keys %{ $FieldConfig->{PossibleValues} } ) {
 
                 push @Values, {
                     Key      => $Key,

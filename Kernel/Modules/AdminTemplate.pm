@@ -116,7 +116,7 @@ sub Run {
                 my %AttachmentsSelected = map { $_ => 1 } @NewIDs;
 
                 # check all used attachments
-                for my $AttachmentID ( keys %AttachmentsAll ) {
+                for my $AttachmentID ( sort keys %AttachmentsAll ) {
                     my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
                     # set attachment to standard template relation
@@ -225,7 +225,7 @@ sub Run {
                 my %AttachmentsSelected = map { $_ => 1 } @NewIDs;
 
                 # check all used attachments
-                for my $AttachmentID ( keys %AttachmentsAll ) {
+                for my $AttachmentID ( sort keys %AttachmentsAll ) {
                     my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
                     # set attachment to standard template relation

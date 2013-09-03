@@ -69,7 +69,7 @@ EOF
     # Loop over all general system packages and include them
     #
     my $PackagesCode = '';
-    foreach my $Package ( GetPackageList( CommonObject => \%CommonObject ) ) {
+    for my $Package ( GetPackageList( CommonObject => \%CommonObject ) ) {
         $PackagesCode .= "use $Package;\n";
     }
 
@@ -219,7 +219,7 @@ sub GetPackageList {
     }
 
     FILE:
-    foreach my $File ( sort @Files ) {
+    for my $File ( sort @Files ) {
         my $Package = CheckPerlPackage(
             CommonObject => \%CommonObject,
             Filename     => $File,

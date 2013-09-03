@@ -774,7 +774,7 @@ sub _ShowEdit {
     );
     my %DynamicFieldNames = reverse %{$DynamicFieldList};
     my %DynamicFields;
-    for my $DynamicFieldName ( keys %DynamicFieldNames ) {
+    for my $DynamicFieldName ( sort keys %DynamicFieldNames ) {
         $DynamicFields{ 'DynamicField_' . $DynamicFieldName } = $DynamicFieldName;
     }
     $Param{ACLKeysLevel3DynamicFields} = $Self->{LayoutObject}->BuildSelection(
@@ -791,7 +791,7 @@ sub _ShowEdit {
     my $ACLKeysLevel3Actions
         = $Self->{ConfigObject}->Get('ACLKeysLevel3::Actions') || [];
 
-    for my $Key ( keys %{$ACLKeysLevel3Actions} ) {
+    for my $Key ( sort keys %{$ACLKeysLevel3Actions} ) {
         push @PossibleActionsList, @{ $ACLKeysLevel3Actions->{$Key} };
     }
 

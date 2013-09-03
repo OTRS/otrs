@@ -169,7 +169,7 @@ sub new {
 
     if ($PreferencesColumnFilters) {
         $Self->{GetColumnFilterSelect} = $PreferencesColumnFilters;
-        for my $Field ( keys %{$PreferencesColumnFilters} ) {
+        for my $Field ( sort keys %{$PreferencesColumnFilters} ) {
             $Self->{GetColumnFilter}->{ $Field . $Self->{Name} }
                 = $PreferencesColumnFilters->{$Field};
         }
@@ -184,7 +184,7 @@ sub new {
     }
 
     if ($PreferencesColumnFiltersRealKeys) {
-        for my $Field ( keys %{$PreferencesColumnFiltersRealKeys} ) {
+        for my $Field ( sort keys %{$PreferencesColumnFiltersRealKeys} ) {
             $Self->{ColumnFilter}->{$Field} = $PreferencesColumnFiltersRealKeys->{$Field};
         }
     }
@@ -550,7 +550,7 @@ sub Run {
             my %ColumnFilter = %{ $Self->{ColumnFilter} };
 
             # loop through all colum filter elements
-            for my $Element ( keys %ColumnFilter ) {
+            for my $Element ( sort keys %ColumnFilter ) {
 
                 # verify if current column filter element is already present in the ticket search
                 # summary, to delete it from the column filter hash
@@ -644,7 +644,7 @@ sub Run {
 
     my $ColumnFilterLink = '';
     COLUMNNAME:
-    for my $ColumnName ( keys %GetColumnFilter ) {
+    for my $ColumnName ( sort keys %GetColumnFilter ) {
         next COLUMNNAME if !$ColumnName;
         next COLUMNNAME if !$GetColumnFilter{$ColumnName};
         $ColumnFilterLink

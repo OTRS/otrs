@@ -85,7 +85,7 @@ if ( !$ACLs || ref $ACLs ne 'HASH' ) {
 my $TimeStamp = $CommonObject{TimeObject}->CurrentTimestamp();
 
 ACL:
-for my $ACLName ( keys %{$ACLs} ) {
+for my $ACLName ( sort keys %{$ACLs} ) {
 
     # try adding the ACL
     my $ACLID = $CommonObject{ACLObject}->ACLAdd(

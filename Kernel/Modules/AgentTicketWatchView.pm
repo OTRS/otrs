@@ -364,7 +364,7 @@ sub Run {
 
     my $ColumnFilterLink = '';
     COLUMNNAME:
-    for my $ColumnName ( keys %GetColumnFilter ) {
+    for my $ColumnName ( sort keys %GetColumnFilter ) {
         next COLUMNNAME if !$ColumnName;
         next COLUMNNAME if !$GetColumnFilter{$ColumnName};
         $ColumnFilterLink

@@ -306,7 +306,7 @@ $Self->IsDeeply(
 # get template types from config
 my $TemplateTypes = $Self->{ConfigObject}->Get("StandardTemplate::Types");
 
-for my $TemplateType ( keys %TemplatesByType ) {
+for my $TemplateType ( sort keys %TemplatesByType ) {
     $Self->True(
         $TemplateTypes->{$TemplateType},
         "Template Type '$TemplateType' exists in the system configuration",

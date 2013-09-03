@@ -1621,7 +1621,7 @@ sub Footer {
     # AutoComplete-Config
     my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
 
-    for my $ConfigElement ( keys %{$AutocompleteConfig} ) {
+    for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
         $AutocompleteConfig->{$ConfigElement}->{ButtonText}
             = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
     }
@@ -3536,7 +3536,7 @@ sub CustomerFooter {
     # AutoComplete-Config
     my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Customer');
 
-    for my $ConfigElement ( keys %{$AutocompleteConfig} ) {
+    for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
         $AutocompleteConfig->{$ConfigElement}->{ButtonText}
             = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }

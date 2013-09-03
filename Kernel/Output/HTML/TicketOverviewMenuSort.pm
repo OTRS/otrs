@@ -57,7 +57,7 @@ sub Run {
 
     my @SortData;
     my $SelectedSortByOption;
-    for my $CurrentSortByOption ( keys %{$SortConfiguration} ) {
+    for my $CurrentSortByOption ( sort keys %{$SortConfiguration} ) {
 
         # add separator
         if (@SortData) {
