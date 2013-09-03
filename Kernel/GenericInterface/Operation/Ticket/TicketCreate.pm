@@ -1101,6 +1101,7 @@ creates a ticket with its article and sets dynamic fields and attachments if spe
         Success      => 0,                         # if unexpected error
         ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
     }
+
 =cut
 
 sub _TicketCreate {

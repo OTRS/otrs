@@ -162,6 +162,7 @@ prepare the invocation of the configured remote webservice.
         StopCommunication => 1,                 # in case of is not needed to continue with the
                                                 # request (do nothing just exist gracefully)
     };
+
 =cut
 
 sub PrepareRequest {

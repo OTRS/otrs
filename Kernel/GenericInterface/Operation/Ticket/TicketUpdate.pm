@@ -1195,6 +1195,7 @@ check if user has permissions to update ticket attributes.
         ErrorCode    => "function.error",           # if error
         ErrorMessage => "Error description"
     }
+
 =cut
 
 sub _CheckUpdatePermissions {
@@ -1375,6 +1376,7 @@ updates a ticket and creates an article and sets dynamic fields and attachments 
         Success      => 0,                         # if unexpected error
         ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
     }
+
 =cut
 
 sub _TicketUpdate {
