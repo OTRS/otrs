@@ -84,6 +84,11 @@ o Name:    CPAN Date::Pcalc
   Note:    # Copyright (c) 1999-2001 by J. David Eisenberg; portions Copyright
            # (c) 1993-2001 by Steffen Beyer. All rights reserved.
 
+o Name:    CPAN HTTP::Date
+  Web;     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1995-1999, Gisle Aas
+
 o Name:    CPAN IO::Interactive
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
