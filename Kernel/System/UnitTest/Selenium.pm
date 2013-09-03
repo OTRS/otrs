@@ -12,6 +12,7 @@
 package Kernel::System::UnitTest::Selenium;
 
 use strict;
+use warnings;
 use base qw(WWW::Selenium);
 
 use Kernel::Config;
