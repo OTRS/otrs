@@ -745,7 +745,7 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
         my $Subject;
-        foreach my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
+        for my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
             if ( $Decoded->[0] ) {
                 $Subject .= $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Decoded->[0],
