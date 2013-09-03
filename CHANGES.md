@@ -6,7 +6,6 @@
  - 2013-09-03 Updated CPAN module Locale::Codes from 3.24 to 3.26.
  - 2013-09-03 Updated CPAN module LWP from 6.04 to 6.05.
  - 2013-09-03 Updated CPAN module Net::IMAP::Simple from 1.2200 to 1.2201.
- - 2013-09-03 Updated CPAN module SOAP::Lite from 0.715 to 1.05.
  - 2013-09-03 Updated CPAN module Text::CSV from 1.21 to 1.32.
  - 2013-09-02 Fixed bug#[9691](http://bugs.otrs.org/show_bug.cgi?id=9691) - Customized widgets don't show columns after upgrade.
  - 2013-08-30 Fixed bug#[9646](http://bugs.otrs.org/show_bug.cgi?id=9646) - Selection of customers from autocomplete always adds them under To in new email ticket.

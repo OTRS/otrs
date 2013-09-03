@@ -4,6 +4,8 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
+# $Id: Lite.pm,v 1.5 2012-10-16 22:32:17 cr Exp $
+#
 # ======================================================================
 
 # Formatting hint:
@@ -14,10 +16,10 @@
 
 package SOAP::Lite;
 
+use 5.006; #weak references require perl 5.6
 use strict;
-use warnings;
-
-our $VERSION = '1.06';
+our $VERSION = 0.715;
+# ======================================================================
 
 package SOAP::XMLSchemaApacheSOAP::Deserializer;
 
@@ -190,7 +192,7 @@ sub as_undef { $_[1] ? '1' : '0' }
 sub as_boolean {
     my $self = shift;
     my($value, $name, $type, $attr) = @_;
-    # fix [ 1.06279 ] Boolean serialization error
+    # fix [ 1204279 ] Boolean serialization error
     return [
         $name,
         {'xsi:type' => 'xsd:boolean', %$attr},
@@ -296,7 +298,7 @@ sub as_base64Binary {
 
 sub as_boolean {
     my ($self, $value, $name, $type, $attr) = @_;
-    # fix [ 1.06279 ] Boolean serialization error
+    # fix [ 1204279 ] Boolean serialization error
     return [
         $name,
         {
@@ -1163,7 +1165,7 @@ sub encode_object {
 
     if ($class !~ /^(?:SCALAR|ARRAY|HASH|REF)$/o) {
         # we could also check for CODE|GLOB|LVALUE, but we cannot serialize
-        # them anyway, so they'll be caught by check below
+        # them anyway, so they'll be cought by check below
         $class =~ s/::/__/g;
 
         $name = $class if !defined $name;
@@ -1231,7 +1233,7 @@ sub encode_array {
 
     # If typing is disabled, just serialize each of the array items
     # with no type information, each using the specified name,
-    # and do not create a wrapper array tag.
+    # and do not crete a wrapper array tag.
     if (!$self->autotype) {
         $name ||= gen_name;
         return map {$self->encode_object($_, $name)} @$array;
@@ -1363,7 +1365,7 @@ sub as_map {
             ),
             'item',
             ''
-        )} sort keys %$value;
+        )} keys %$value;
     return [
         $name,
         {'xsi:type' => "$prefix:Map", %$attr},
@@ -1482,7 +1484,7 @@ sub tag {
     my $tagattrs = join($tagjoiner, '',
         map { sprintf '%s="%s"', $_, SOAP::Utils::encode_attribute($attrs->{$_}) }
             grep { $_ && defined $attrs->{$_} && ($_ ne 'xsi:type' || $attrs->{$_} ne '') }
-                sort keys %$attrs);
+                keys %$attrs);
 
     if ($value gt '') {
         return sprintf("$prolog$indent<%s%s>%s%s</%s>$epilog",$tag,$tagattrs,$value,($value =~ /^\s*</ ? $indent : ""),$tag);
@@ -1539,7 +1541,7 @@ sub uriformethod {
     #        : uri
     #   b) attribute in Envelope element as xmlns= or xmlns:${prefix}=
     #   c) no prefix or prefix equal serializer->envprefix
-    #        ? '', but see comment below
+    #        ? '', but see coment below
     #        : die with error message
     my $uri = $method_is_data
         ? ref $_[0]->attr && ($_[0]->attr->{$prefix ? "xmlns:$prefix" : 'xmlns'} || $_[0]->uri)
@@ -1733,15 +1735,12 @@ sub xmlparser {
 
 sub parser {
     my $self = shift->new;
-
-    # set the parser if passed
-    if (my $parser = shift) {
-        $self->{'_parser'} = shift;
-        return $self;
-    }
-
-    # else return the parser or use XML::Parser::Lite
-    return ($self->{'_parser'} ||= $self->xmlparser);
+    @_
+        ? do {
+            $self->{'_parser'} = shift;
+            return $self;
+        }
+        : return ($self->{'_parser'} ||= $self->xmlparser);
 }
 
 sub new {
@@ -1991,7 +1990,13 @@ sub match {
 sub _traverse {
     my ($self, $pointer, $itself, $path, @path) = @_;
 
-    die "Incorrect parameter" unless $itself =~/^\d+$/;
+    # ---
+    # OTRS Patch
+    # Fixed error when more than 2 parameters are sent to a method using RPC, this is a general
+    # error and a bug report with a similar issue has been added to SOAP::Lite bug tracker in:
+    # http://sourceforge.net/tracker/?func=detail&aid=3547564&group_id=66000&atid=513017
+    # ---
+    die "Incorrect parameter" unless $itself =~/^\d*$/;
 
     if ($path && substr($path, 0, 1) eq '{') {
         $path = join '/', $path, shift @path while @path && $path !~ /}/;
@@ -2050,7 +2055,6 @@ package SOAP::Deserializer;
 use vars qw(@ISA);
 use SOAP::Lite::Utils;
 use Class::Inspector;
-use URI::Escape qw{uri_unescape};
 
 @ISA = qw(SOAP::Cloneable);
 
@@ -2300,10 +2304,8 @@ sub decode_value {
     }
     elsif (exists $attrs->{href}) {
         (my $id = delete $attrs->{href}) =~ s/^(#|cid:|uuid:)?//;
-        my $type=$1;
-        $id=uri_unescape($id) if (defined($type) and $type eq 'cid:');
         # convert to absolute if not internal '#' or 'cid:'
-        $id = $self->baselocation($id) unless $type;
+        $id = $self->baselocation($id) unless $1;
         return $self->hrefs->{$id} if exists $self->hrefs->{$id};
         # First time optimization. we don't traverse IDs unless asked for it.
         # This is where traversing id's is delayed from before
@@ -2953,7 +2955,7 @@ my @list = qw(
 }
 
 sub defaultlog {
-    my $caller = (caller(1))[3]; # the 4th element returned by caller is the subroutine name
+    my $caller = (caller(1))[3]; # the 4th element returned by caller is the subroutine namea
     $caller = (caller(2))[3] if $caller =~ /eval/;
     chomp(my $msg = join ' ', @_);
     printf STDERR "%s: %s\n", $caller, $msg;
@@ -2978,7 +2980,7 @@ sub import {
             $minus ? push(@notrace, $all ? @list : $_) : push(@symbols, $all ? @list : $_);
         }
     }
-    no warnings qw{ redefine };
+    # TODO - I am getting a warning here about redefining a subroutine
     foreach (@symbols) { *$_ = \&defaultlog }
     foreach (@notrace) { *$_ = sub {} }
 }
@@ -3275,7 +3277,7 @@ sub refresh_cache {
 
 sub load {
     my $self = shift->new;
-    local $^W; # suppress warnings about redefining
+    local $^W; # supress warnings about redefining
     foreach (keys %{$self->services || Carp::croak 'Nothing to load. Schema is not specified'}) {
         # TODO - check age of cached file, and delete if older than configured amount
         if ($self->cache_dir) {
@@ -3394,7 +3396,7 @@ EOP
     foreach my $key (keys %{$namespaces}) {
         my ($ns,$prefix) = SOAP::Utils::splitqname($key);
         $self->{'_stub'} .= '  $self->serializer->register_ns("'.$namespaces->{$key}.'","'.$prefix.'");'."\n"
-            if (defined $ns && ($ns eq "xmlns"));
+            if ($ns eq "xmlns");
     }
     $self->{'_stub'} .= <<'EOP';
     my $som = $self->SUPER::call($method => @parameters);
@@ -3584,7 +3586,7 @@ sub import {
             SOAP::Trace->import(@parameters ? @parameters : 'all');
         }
         elsif ($command eq 'import') {
-            local $^W; # suppress warnings about redefining
+            local $^W; # supress warnings about redefining
             my $package = shift(@parameters);
             $package->export_to_level(1, undef, @parameters ? @parameters : ':all') if $package;
         }
@@ -3897,13 +3899,12 @@ client and server side.
 
 =head1 PERL VERSION WARNING
 
-As of version SOAP::Lite version 1.06, no perl versions before 5.8 will be supported.
-
 SOAP::Lite 0.71 will be the last version of SOAP::Lite running on perl 5.005
 
 Future versions of SOAP::Lite will require at least perl 5.6.0
 
-If you have not had the time to upgrade your perl, you should consider this now.
+If you have not had the time to upgrad your perl, you should consider this
+now.
 
 =head1 OVERVIEW OF CLASSES AND PACKAGES
 
@@ -4770,7 +4771,7 @@ In our example, the rpc/encoded variant already used named parameters (by
 using two messages), so there's no difference at all.
 
 You may have noticed the somewhat strange idiom for passing a list of named
-parameters in the rpc/literal example:
+paraneters in the rpc/literal example:
 
  my $som = $soap->call('sayHello', SOAP::Data->name('parameters')->value(
     \SOAP::Data->value([
@@ -5157,7 +5158,7 @@ L<HTTP::Transport>.
 
 =head1 SECURITY
 
-For security reasons, the existing path for Perl modules (C<@INC>) will be
+For security reasons, the exisiting path for Perl modules (C<@INC>) will be
 disabled once you have chosen dynamic deployment and specified your own
 C<PATH/>. If you wish to access other modules in your included package you
 have several options:
@@ -5209,7 +5210,7 @@ qualified names for your return values. For example:
                    ->uri($MY_NAMESPACE)
                    ->value($output);
 
-In addition see comment about default encoding in .NET Web Services below.
+In addition see comment about default incoding in .NET Web Services below.
 
 =head2 SOAP::Lite client with a .NET server
 
@@ -5285,7 +5286,7 @@ C<use_prefix()> method. For example, the following code:
                    ->use_prefix(0)
                    ->myMethod();
 
-Will result in the following XML, which is more palatable by .NET:
+Will result in the following XML, which is more pallatable by .NET:
 
   <SOAP-ENV:Envelope ...attributes skipped>
     <SOAP-ENV:Body>
@@ -5399,7 +5400,7 @@ means fiddling with SOAP::Lite's internals - this may not work as
 expected in future versions.
 
 The example above forces everything to be encoded as string (this is because
-the string test is normally last and always returns true):
+the string test is normally last and allways returns true):
 
   my @list = qw(-1 45 foo bar 3838);
   my $proxy = SOAP::Lite->uri($uri)->proxy($proxyUrl);
@@ -5607,7 +5608,7 @@ http://www.perl.com/CPAN-local/authors/id/A/AS/ASANDSTRM/XML-Parser-2.27-bin-1-M
 
 =head2 Transport Modules
 
-SOAP::Lite allows one to add support for additional transport protocols, or
+SOAP::Lite allows to add support for additional transport protocols, or
 server handlers, via separate modules implementing the SOAP::Transport::*
 interface. The following modules are available from CPAN:
 
@@ -5625,6 +5626,9 @@ You can download the latest version SOAP::Lite for Unix or SOAP::Lite for
 Win32 from the following sources:
 
  * CPAN:                http://search.cpan.org/search?dist=SOAP-Lite
+ * Sourceforge:         http://sourceforge.net/projects/soaplite/
+
+PPM packages are also available from sourceforge.
 
 You are welcome to send e-mail to the maintainers of SOAP::Lite with your
 comments, suggestions, bug reports and complaints.
@@ -5645,25 +5649,25 @@ of this software.
 
 =head1 HACKING
 
-Latest development takes place on GitHub.com. Come on by and fork it.
+SOAP::Lite's development takes place on sourceforge.net.
 
-git@github.com:redhotpenguin/soaplite.git
+There's a subversion repository set up at
 
-Also see the HACKING file.
-
-Actively recruiting maintainers for this module. Come and get it on!
+ https://soaplite.svn.sourceforge.net/svnroot/soaplite/
 
 =head1 REPORTING BUGS
 
-Please use rt.cpan.org or github to report bugs. Pull requests are preferred.
+Please report all suspected SOAP::Lite bugs using Sourceforge. This ensures
+proper tracking of the issue and allows you the reporter to know when something
+gets fixed.
+
+http://sourceforge.net/tracker/?group_id=66000&atid=513017
 
 =head1 COPYRIGHT
 
 Copyright (C) 2000-2007 Paul Kulchenko. All rights reserved.
 
 Copyright (C) 2007-2008 Martin Kutter
-
-Copyright (C) 2013 Fred Moyer
 
 =head1 LICENSE
 
@@ -5683,7 +5687,5 @@ Randy J. Ray (rjray@blackperl.com)
 Byrne Reese (byrne@majordojo.com)
 
 Martin Kutter (martin.kutter@fen-net.de)
-
-Fred Moyer (fred@redhotpenguin.com)
 
 =cut

@@ -4,13 +4,15 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
+# $Id: HTTP.pm,v 1.4 2012-07-16 10:51:12 mh Exp $
+#
 # ======================================================================
 
 package SOAP::Transport::HTTP;
 
 use strict;
 
-our $VERSION = 1.06;
+our $VERSION = 0.715;
 
 use SOAP::Lite;
 use SOAP::Packager;
@@ -42,8 +44,7 @@ sub patch {
     }
     {
 
-        package
-            LWP::Protocol;
+        package LWP::Protocol;
         local $^W = 0;
         my $collect = \&collect;    # store original
         *collect = sub {
@@ -814,17 +815,10 @@ sub handler {
         return Apache::Constants::BAD_REQUEST();
     }
 
-    my %headers;
-    if ( $self->{'MOD_PERL_VERSION'} < 2 ) {
-        %headers = $r->headers_in; # Apache::Table structure
-    } else {
-        %headers = %{ $r->headers_in }; # Apache2::RequestRec structure
-    }
-    
     $self->request(
         HTTP::Request->new(
             $r->method() => $r->uri,
-            HTTP::Headers->new( %headers ),
+            HTTP::Headers->new( $r->headers_in ),
             $content
         ) );
     $self->SUPER::handle;
