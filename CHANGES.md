@@ -1,7 +1,6 @@
 #3.3.0.beta2 2013-??-??
  - 2013-09-03 Updated CPAN module parent from 0.225 to 0.227.
  - 2013-09-03 Updated CPAN module Apache::DBI from 1.11 to 1.12.
- - 2013-09-03 Updated CPAN module Date::Pcalc from 1.2 to 6.1.
  - 2013-09-03 Updated CPAN module JSON from 2.53 to 2.59.
  - 2013-09-03 Updated CPAN module JSON::PP from 2.27200 to 2.27202.
  - 2013-09-03 Updated CPAN module Locale::Codes from 3.24 to 3.26.
