@@ -551,6 +551,54 @@ sub _MigrateOldSettings {
         );
     }
 
+    # DashboardBackend should have default columns defined
+    my %DefaultColumns = (
+        Age                    => 2,
+        Changed                => 1,
+        CustomerID             => 1,
+        CustomerName           => 1,
+        CustomerUserID         => 1,
+        EscalationResponseTime => 1,
+        EscalationSolutionTime => 1,
+        EscalationTime         => 1,
+        EscalationUpdateTime   => 1,
+        Lock                   => 1,
+        Owner                  => 1,
+        PendingTime            => 1,
+        Priority               => 1,
+        Queue                  => 1,
+        Responsible            => 1,
+        SLA                    => 1,
+        Service                => 1,
+        State                  => 1,
+        TicketNumber           => 2,
+        Title                  => 2,
+        Type                   => 1
+    );
+
+    # get values from config
+    $Setting = $CommonObject->{ConfigObject}->Get('DashboardBackend');
+
+    # check config
+    DASHBOARDBACKEND:
+    for my $DashboardBackend (
+        qw(0100-TicketPendingReminder 0110-TicketEscalation 0120-TicketNew 0130-TicketOpen))
+    {
+        next DASHBOARDBACKEND if !IsHashRefWithData( $Setting->{$DashboardBackend} );
+        next DASHBOARDBACKEND
+            if IsHashRefWithData( $Setting->{$DashboardBackend}->{DefaultColumns} );
+
+        # set default column values
+        $Setting->{$DashboardBackend}->{DefaultColumns} = \%DefaultColumns;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'DashboardBackend###' . $DashboardBackend,
+            Value => $Setting->{$DashboardBackend},
+        );
+    }
+
     return 1;
 }
 
