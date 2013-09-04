@@ -282,14 +282,6 @@ sub Run {
             )
             )
         {
-
-            my %UserPreferences = $Self->{UserObject}->GetPreferences(
-                UserID => $Self->{UserID},
-            );
-
-            my $PageShownKey = sprintf "UserTicketOverview%sPageShown", ( $Self->{View} || 'Small' );
-            my $PageShown    = $UserPreferences{$PageShownKey} || 50;
-
             @OriginalViewableTickets = $Self->{TicketObject}->TicketSearch(
                 %{ $Filters{ $Self->{Filter} }->{Search} },
                 Limit  => $Limit,
@@ -299,7 +291,7 @@ sub Run {
             @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                 %{ $Filters{ $Self->{Filter} }->{Search} },
                 %ColumnFilter,
-                Limit  => $Self->{Start} + $PageShown,
+                Limit  => $Self->{Start} + $PageShown - 1,
                 Result => 'ARRAY',
             );
         }
