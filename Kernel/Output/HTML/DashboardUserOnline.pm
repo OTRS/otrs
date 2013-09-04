@@ -68,7 +68,7 @@ sub new {
 
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
-    $Self->{CacheKey} = $Self->{Name};
+    $Self->{CacheKey} = $Self->{Name} . '::' . $Self->{Filter};
 
     return $Self;
 }
