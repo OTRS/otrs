@@ -576,15 +576,19 @@ sub _MigrateOldSettings {
         Type                   => 1
     );
 
+    # dashboard backends
     # get values from config
     $Setting = $CommonObject->{ConfigObject}->Get('DashboardBackend');
 
     # check config
     DASHBOARDBACKEND:
-    for my $DashboardBackend (
-        qw(0100-TicketPendingReminder 0110-TicketEscalation 0120-TicketNew 0130-TicketOpen))
-    {
+    for my $DashboardBackend ( sort keys %{$Setting} ) {
         next DASHBOARDBACKEND if !IsHashRefWithData( $Setting->{$DashboardBackend} );
+
+        my $Module = $Setting->{$DashboardBackend}->{Module} || '';
+        next DASHBOARDBACKEND
+            if $Module ne 'Kernel::Output::HTML::DashboardTicketGeneric';
+
         next DASHBOARDBACKEND
             if IsHashRefWithData( $Setting->{$DashboardBackend}->{DefaultColumns} );
 
@@ -595,6 +599,33 @@ sub _MigrateOldSettings {
         my $Success = $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'DashboardBackend###' . $DashboardBackend,
+            Value => $Setting->{$DashboardBackend},
+        );
+    }
+
+    # customer information center backends
+    # get values from config
+    $Setting = $CommonObject->{ConfigObject}->Get('AgentCustomerInformationCenter::Backend');
+
+    # check config
+    CICBACKEND:
+    for my $DashboardBackend ( sort keys %{$Setting} ) {
+        next CICBACKEND if !IsHashRefWithData( $Setting->{$DashboardBackend} );
+
+        my $Module = $Setting->{$DashboardBackend}->{Module} || '';
+        next CICBACKEND
+            if $Module ne 'Kernel::Output::HTML::DashboardTicketGeneric';
+
+        next CICBACKEND
+            if IsHashRefWithData( $Setting->{$DashboardBackend}->{DefaultColumns} );
+
+        # set default column values
+        $Setting->{$DashboardBackend}->{DefaultColumns} = \%DefaultColumns;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'AgentCustomerInformationCenter::Backend###' . $DashboardBackend,
             Value => $Setting->{$DashboardBackend},
         );
     }
