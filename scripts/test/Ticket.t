@@ -706,6 +706,24 @@ $Self->IsNot(
     'Change_time updated in TicketTitleUpdate()',
 );
 
+# check if we have a Ticket Title Update history record
+my @HistoryLines = $TicketObject->HistoryGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+my $HistoryItem = pop @HistoryLines;
+$Self->Is(
+    $HistoryItem->{HistoryType},
+    'TitleUpdate',
+    "TicketTitleUpdate - found HistoryItem",
+);
+
+$Self->Is(
+    $HistoryItem->{Name},
+    '%%Some Ticket_Title%%Some Title 1234567',
+    "TicketTitleUpdate - Found new title",
+);
+
 # get updated ticket data
 %TicketData = $TicketObject->TicketGet(
     TicketID => $TicketID,
