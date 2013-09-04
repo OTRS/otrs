@@ -506,7 +506,7 @@ sub GetObjectAttributes {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{ $PossibleValues || {} };
             @AclData{ keys %AclData } = keys %AclData;
 
