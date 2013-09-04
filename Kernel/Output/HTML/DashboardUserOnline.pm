@@ -68,7 +68,7 @@ sub new {
 
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
-    $Self->{CacheKey} = $Self->{Name};
+    $Self->{CacheKey} = $Self->{Name} . '::' . $Self->{Filter};
 
     # get configuration for the full name order for usernames
     # and append it to the cache key to make sure, that the
