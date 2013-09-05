@@ -10,6 +10,7 @@
  - 2013-09-03 Updated CPAN module LWP from 6.04 to 6.05.
  - 2013-09-03 Updated CPAN module Net::IMAP::Simple from 1.2200 to 1.2201.
  - 2013-09-03 Updated CPAN module Text::CSV from 1.21 to 1.32.
+ - 2013-09-02 Fixed bug#[9672](http://bugs.otrs.org/show_bug.cgi?id=9672) - Undecrypted HTML part displayed when viewing a multipart/alternative PGP encrypted HTML mail.
  - 2013-09-02 Fixed bug#[9691](http://bugs.otrs.org/show_bug.cgi?id=9691) - Customized widgets don't show columns after upgrade.
  - 2013-08-30 Fixed bug#[9646](http://bugs.otrs.org/show_bug.cgi?id=9646) - Selection of customers from autocomplete always adds them under To in new email ticket.
  - 2013-08-30 Fixed bug#[9670](http://bugs.otrs.org/show_bug.cgi?id=9670) - Ticket Number is removed wrongly from Article Subject if it contains a space.
