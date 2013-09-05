@@ -35,29 +35,32 @@ BEGIN {
         ## no critic
         eval "use Win32::Console::ANSI";
         ## use critic
-        $ARGV[0] = 'nocolors' if $@;
+        $ENV{nocolors} = 1 if $@;
     }
 }
 
 use ExtUtils::MakeMaker;
 use File::Path;
+use Getopt::Long;
 use Term::ANSIColor;
+
+use Kernel::System::Environment;
+
+my $AllModules;
+GetOptions( "all" => \$AllModules );
+
+my $Options = shift || '';
+my $NoColors;
+if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+    $NoColors = 1;
+}
 
 # config
 my @NeededModules = (
     {
-        Module   => 'CGI',
-        Version  => '3.33',
-        Required => 1,
-    },
-    {
         Module   => 'Crypt::Eksblowfish::Bcrypt',
         Required => 0,
         Comment  => 'For strong password hashing',
-    },
-    {
-        Module   => 'Crypt::PasswdMD5',
-        Required => 1,
     },
     {
         Module   => 'Crypt::SSLeay',
@@ -65,15 +68,7 @@ my @NeededModules = (
         Comment  => 'Required for Generic Interface SOAP SSL connections.',
     },
     {
-        Module   => 'CSS::Minifier',
-        Required => 1,
-    },
-    {
         Module   => 'Date::Format',
-        Required => 1,
-    },
-    {
-        Module   => 'Date::Pcalc',
         Required => 1,
     },
     {
@@ -108,23 +103,10 @@ my @NeededModules = (
         Comment  => 'Required to connect to a PostgreSQL database.',
     },
     {
-        Module   => 'Digest::MD5',
-        Required => 1,
-    },
-    {
-        Module   => 'Digest::SHA',
-        Required => 1,
-        Comment  => 'Required to authenticate users and customers using SHA-1.',
-    },
-    {
         Module   => 'Encode::HanExtra',
         Version  => '0.23',
         Required => 0,
         Comment  => 'Required to handle mails with several Chinese character sets.',
-    },
-    {
-        Module   => 'Encode::Locale',
-        Required => 1,
     },
     {
         Module   => 'GD',
@@ -144,39 +126,17 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'JavaScript::Minifier',
-        Version  => '1.05',
-        Required => 1,
+        Module   => 'IO::Socket::SSL',
+        Required => 0,
+        Comment  => 'Required for SSL connections to web and mail servers.',
     },
     {
-        Module   => 'JSON',
-        Version  => '2.21',
-        Required => 1,
-        Comment  => 'Required for AJAX/JavaScript handling.',
-        Depends  => [
-            {
-                Module   => 'JSON::PP',
-                Version  => '2.27003',
-                Required => 1,
-                Comment  => 'Required for AJAX/JavaScript handling.',
-            },
-            {
-                Module   => 'JSON::XS',
-                Required => 0,
-                Comment  => 'Recommended for faster AJAX/JavaScript handling.',
-            },
-        ],
-    },
-    {
-        Module   => 'Locale::Codes',
-        Required => 1,
+        Module   => 'JSON::XS',
+        Required => 0,
+        Comment  => 'Recommended for faster AJAX/JavaScript handling.',
     },
     {
         Module   => 'LWP::UserAgent',
-        Required => 1,
-    },
-    {
-        Module   => 'Mail::Internet',
         Required => 1,
     },
     {
@@ -192,32 +152,9 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'MIME::Base64',
-        Required => 1,
-    },
-    {
-        Module   => 'MIME::Tools',
-        Version  => '5.427',
-        Required => 1,
-    },
-    {
         Module   => 'ModPerl::Util',
         Required => 0,
         Comment  => 'Improves Performance on Apache webservers dramatically.',
-        Depends  => [
-            {
-                Module   => 'Apache::DBI',
-                Required => 0,
-                Comment =>
-                    'Improves performance on Apache webservers with mod_perl by establishing persistent database connections.'
-            },
-            {
-                Module   => 'Apache2::Reload',
-                Required => 0,
-                Comment =>
-                    'Should be installed on mod_perl based installations to automatically reload changed Perl files and configuration data.'
-            },
-        ],
     },
     {
         Module       => 'Net::DNS',
@@ -231,35 +168,6 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'Net::POP3',
-        Comment  => 'Required for POP3 connections.',
-        Required => 1,
-    },
-    {
-        Module   => 'Net::IMAP::Simple',
-        Comment  => 'Required for IMAP connections.',
-        Required => 0,
-        Depends  => [
-            {
-                Module   => 'IO::Socket::SSL',
-                Required => 0,
-                Comment  => 'Required for IMAP SSL connections.',
-            },
-        ],
-    },
-    {
-        Module   => 'Net::SMTP',
-        Required => 0,
-        Comment  => 'Required for SMTP connections.',
-        Depends  => [
-            {
-                Module   => 'Authen::SASL',
-                Required => 0,
-                Comment  => 'Required for SMTP backend.',
-            },
-        ],
-    },
-    {
         Module   => 'Net::LDAP',
         Required => 0,
         Comment  => 'Required for directory authentication.',
@@ -268,18 +176,6 @@ my @NeededModules = (
         Module   => 'Net::SSL',
         Required => 0,
         Comment  => 'Required for Generic Interface SOAP SSL connections.',
-    },
-    {
-        Module   => 'Net::SSLGlue',
-        Required => 0,
-        Comment  => 'Required for TLS and SSL SMTP and POP3 connections.',
-        Depends  => [
-            {
-                Module   => 'IO::Socket::SSL',
-                Required => 0,
-                Comment  => 'Required for SSL connections.',
-            },
-        ],
     },
     {
         Module       => 'PDF::API2',
@@ -317,60 +213,9 @@ my @NeededModules = (
         ],
     },
     {
-        Module   => 'Storable',
-        Required => 1,
-        Comment  => 'Required serialize and deserialize data structures.',
-    },
-    {
-        Module       => 'SOAP::Lite',
-        Required     => 0,
-        Comment      => 'Required for the SOAP interface.',
-        NotSupported => [
-            {
-                Version => '0.710',
-                Comment =>
-                    'This version is broken and not useable! Please use another version.',
-            },
-            {
-                Version => '0.711',
-                Comment =>
-                    'This version is broken and not useable! Please use another version.',
-            },
-            {
-                Version => '0.712',
-                Comment =>
-                    'This version is broken and not useable! Please use another version.',
-            },
-        ],
-        Depends => [
-            {
-                Module   => 'version',
-                Required => 0,
-                Comment  => 'Required for SOAP::Lite.',
-            },
-            {
-                Module   => 'Class::Inspector',
-                Required => 0,
-                Comment  => 'Required for SOAP::Lite.',
-            },
-        ],
-    },
-    {
-        Module   => 'Text::CSV',
-        Required => 1,
-        Comment  => 'Required for CSV handling.',
-        Depends  => [
-            {
-                Module   => 'Text::CSV_PP',
-                Required => 1,
-                Comment  => 'Required for CSV handling.',
-            },
-            {
-                Module   => 'Text::CSV_XS',
-                Required => 0,
-                Comment  => 'Recommended for faster CSV handling.',
-            },
-        ],
+        Module   => 'Text::CSV_XS',
+        Required => 0,
+        Comment  => 'Recommended for faster CSV handling.',
     },
     {
         Module   => 'Time::HiRes',
@@ -381,57 +226,6 @@ my @NeededModules = (
         Module   => 'XML::Parser',
         Required => 0,
         Comment  => 'Recommended for faster xml handling.',
-    },
-    {
-        Module   => 'HTTP::Message',
-        Required => 1,
-        Comment  => 'Required for HTTP communication.',
-        Depends  => [
-            {
-                Module       => 'HTTP::Headers',
-                Required     => 1,
-                Comment      => 'Required for HTTP communication.',
-                NotSupported => [
-                    {
-                        Version => '1.64',
-                        Comment =>
-                            'This version is broken and not useable! '
-                            . 'Please upgrade to a higher version.',
-                    },
-                ],
-            },
-        ],
-        NotSupported => [
-            {
-                Version => '1.57',
-                Comment =>
-                    'This version is broken and not useable! '
-                    . 'Please upgrade to a higher version.',
-            },
-        ],
-    },
-    {
-        Module       => 'URI',
-        Required     => 1,
-        Comment      => 'Handles encoding and decoding of URLs',
-        NotSupported => [
-            {
-                Version => '1.35',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-        ],
-        Depends => [
-            {
-                Module   => 'URI::Escape',
-                Required => 1,
-                Comment  => 'Handles encoding and decoding of URLs.',
-            },
-        ],
-    },
-    {
-        Module   => 'Scalar::Util',
-        Required => 1,
     },
     {
         Module   => 'YAML::XS',
@@ -456,16 +250,19 @@ if ( $^O eq "MSWin32" ) {
     push @NeededModules, @WindowsModules;
 }
 
-my $Options = shift || '';
-my $NoColors;
-if ( $Options =~ m{\A nocolors}msxi ) {
-    $NoColors = 1;
-}
-
 # try to determine module version number
 my $Depends = 0;
 for my $Module (@NeededModules) {
     _Check( $Module, $Depends, $NoColors );
+}
+
+if ($AllModules) {
+    print "\nBundled modules:\n\n";
+
+    my %PerlInfo = Kernel::System::Environment->PerlInfoGet( BundledModules => 1, );
+    for my $Module ( sort keys %{ $PerlInfo{Modules} } ) {
+        _Check( { Module => $Module, Required => 1, }, $Depends, $NoColors );
+    }
 }
 
 exit;
@@ -478,11 +275,8 @@ sub _Check {
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
-    my $File = _InstalledFileForModule( $Module->{Module} );
-    if ($File) {
-
-        # determine version number by means of ExtUtils::MakeMaker
-        my $Version = MM->parse_version($File);
+    my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
+    if ($Version) {
 
         # cleanup version number
         my $CleanedVersion = _VersionClean(
@@ -576,28 +370,6 @@ sub _Check {
     }
 
     return 1;
-}
-
-sub _InstalledFileForModule {
-
-    # copied from ExtUtils::MakeMaker; it is not available on the
-    # old EU_MM versions that ship with Perl 5.8.
-    my $Prereq = shift;
-    my $File   = "$Prereq.pm";
-    $File =~ s{::}{/}g;
-
-    # traverse @INC to see if the current module is installed in
-    # one of these locations
-    my $Path;
-    PATH:
-    for my $Dir (@INC) {
-        my $PossibleLocation = File::Spec->catfile( $Dir, $File );
-        if ( -r $PossibleLocation ) {
-            $Path = $PossibleLocation;
-            last PATH;
-        }
-    }
-    return $Path;
 }
 
 sub _VersionClean {

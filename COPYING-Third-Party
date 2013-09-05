@@ -94,6 +94,13 @@ o Name:    CPAN IO::Interactive
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 2005, Damian Conway <DCONWAY@cpan.org>. All rights reserved.
 
+o Name:    CPAN Linux::Distribution
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Alexandr Ciornii <alexchorny@gmail.com>, http://chorny.net
+           # Alberto Re, <alberto@accidia.net>
+           # Judith Lebzelter, <judith@osdl.org>
+
 o Name:    CPAN Locale::Codes
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

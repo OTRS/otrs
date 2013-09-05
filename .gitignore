@@ -62,7 +62,6 @@ Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
 Kernel/cpan-lib/Archive/*
-Kernel/cpan-lib/Linux/*
 Kernel/Language/*_Support.pm
 Kernel/System/Support
 var/httpd/htdocs/skins/Agent/default/css/Support.Default.css

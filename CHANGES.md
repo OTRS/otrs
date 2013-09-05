@@ -1,3 +1,7 @@
+#3.3.0 beta3 2013-??-??
+ - Added Kernel::System::Environment, a module that has methods to get information about
+   the current system. Features information about OS, database, perl and OTRS.
+
 #3.3.0 beta2 2013-09-10
  - 2013-09-05 Updated French translation, thanks to Dylan Oberson.
  - 2013-09-04 Fixed bug#[8173](http://bugs.otrs.org/show_bug.cgi?id=8173) - Dashboard Widget "Online" does not save state.
