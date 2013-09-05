@@ -7920,7 +7920,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###Ticket" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all ticket events to be displayed in the GUI.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
@@ -7965,7 +7965,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###Article" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all article events to be displayed in the GUI.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>

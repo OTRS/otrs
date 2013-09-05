@@ -6073,7 +6073,7 @@ M
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###CustomerUser" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all CustomerUser events to be displayed in the GUI.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
@@ -6084,7 +6084,7 @@ M
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###CustomerCompany" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all CustomerCompany events to be displayed in the GUI.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
