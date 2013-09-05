@@ -25,6 +25,7 @@ The following persons contributed to OTRS:
 * Jens Pfeifer <jens.pfeifer@otrs.com>
 * Johannes Hörburger <johannes.hoerburger@otrs.com>
 * Johannes Nickel <hanne_hal@me.com>
+* Keith Moore <tenareth@gmail.com>
 * Manuel Hecht <manuel.hecht@otrs.com>
 * Marc Bonsels <marc.bonsels@otrs.com>
 * Marc Nilius <marc.nilius@otrs.com>
@@ -39,6 +40,7 @@ The following persons contributed to OTRS:
 * NeverMin <never.min@gmail.com>
 * Nils Leideck <nils.leideck@leidex.net>
 * Nils Leideck <nils.leideck@otrs.com>
+* Oberson Dylan <dylan.oberson@epfl.ch>
 * Oliver Tappe <oliver.tappe@otrs.com>
 * Ralf Hildebrandt <hildeb@charite.de>
 * Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>

@@ -1,4 +1,5 @@
 #3.3.0 beta2 2013-??-??
+ - 2013-09-05 Updated French Translation, thanks to Dylan Oberson.
  - 2013-09-04 Fixed bug#[8173](http://bugs.otrs.org/show_bug.cgi?id=8173) - Dashboard Widget "Online" does not save state.
  - 2013-09-04 Fixed bug#[9188](http://bugs.otrs.org/show_bug.cgi?id=9188) - AgentTicketEmail always loads a signature, even if no queue is selected.
  - 2013-09-03 Updated CPAN module parent from 0.225 to 0.227.
