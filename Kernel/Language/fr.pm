@@ -1079,7 +1079,7 @@ sub Data {
         'Add Value' => 'Ajouter une valeur',
         'Add empty value' => 'Ajouter une valeur sans contenu',
         'Activate this option to create an empty selectable value.' => 'Pour créer une valeur sans contenu, activer cette option.',
-	'Tree View' => 'Vue hiérarchique',
+        'Tree View' => 'Vue hiérarchique',
         'Translatable values' => 'Valeurs traduisibles',
         'If you activate this option the values will be translated to the user defined language.' =>
             'Pour que le contenu des valeurs soit traduit dans la langue définie par l\'utilisateur, activez cette option.',
