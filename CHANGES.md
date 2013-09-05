@@ -1,6 +1,7 @@
 #3.2.11 2013-??-??
  - 2013-09-04 Fixed bug#[8173](http://bugs.otrs.org/show_bug.cgi?id=8173) - Dashboard Widget "Online" does not save state.
  - 2013-09-04 Fixed bug#[9188](http://bugs.otrs.org/show_bug.cgi?id=9188) - AgentTicketEmail always loads a signature, even if no queue is selected.
+ - 2013-09-02 Fixed bug#[9672](http://bugs.otrs.org/show_bug.cgi?id=9672) - Undecrypted HTML part displayed when viewing a multipart/alternative PGP encrypted HTML mail.
 
 #3.2.10 2013-08-27
  - 2013-08-20 Fixed bug#[9617](http://bugs.otrs.org/show_bug.cgi?id=9617) - Event-based notifications are not sent for process-tickets.
