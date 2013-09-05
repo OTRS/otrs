@@ -745,22 +745,22 @@
     NotificationEvent definitions.
 
 #3.1.18 2013-07-09
- - 2013-07-03 Fixed bug#9561 - ACL restriction with CustomerID for DynamicFields at new Ticket screen not working.
- - 2013-07-02 Fixed bug#9425 - Wrong created date for queue view.
- - 2013-06-28 Fixed bug#9125 - AgentTicketSearch dialog does not expand when choosing more search criteria.
- - 2013-06-28 Fixed bug#8273 - Copying text in preview mode not possible.
- - 2013-06-28 Fixed bug#9557 - Cannot see quoted text in customer ticket zoom.
- - 2013-06-27 Fixed bug#9011 - GenericInterface: New value after value mapping can't be 0.
+ - 2013-07-03 Fixed bug#[9561](http://bugs.otrs.org/show_bug.cgi?id=9561) - ACL restriction with CustomerID for DynamicFields at new Ticket screen not working.
+ - 2013-07-02 Fixed bug#[9425](http://bugs.otrs.org/show_bug.cgi?id=9425) - Wrong created date for queue view.
+ - 2013-06-28 Fixed bug#[9125](http://bugs.otrs.org/show_bug.cgi?id=9125) - AgentTicketSearch dialog does not expand when choosing more search criteria.
+ - 2013-06-28 Fixed bug#[8273](http://bugs.otrs.org/show_bug.cgi?id=8273) - Copying text in preview mode not possible.
+ - 2013-06-28 Fixed bug#[9557](http://bugs.otrs.org/show_bug.cgi?id=9557) - Cannot see quoted text in customer ticket zoom.
+ - 2013-06-27 Fixed bug#[9011](http://bugs.otrs.org/show_bug.cgi?id=9011) - GenericInterface: New value after value mapping can't be 0.
  - 2013-06-25 Improved parameter quoting in various places.
- - 2013-06-24 Fixed bug#9104 - Group permission for customer subset overwrites permissions for other customers.
- - 2013-06-13 Fixed bug#8719 - PasswordMin2Lower2UpperCharacters problem.
+ - 2013-06-24 Fixed bug#[9104](http://bugs.otrs.org/show_bug.cgi?id=9104) - Group permission for customer subset overwrites permissions for other customers.
+ - 2013-06-13 Fixed bug#[8719](http://bugs.otrs.org/show_bug.cgi?id=8719) - PasswordMin2Lower2UpperCharacters problem.
 
 #3.1.17 2013-06-18
  - 2013-06-06 Improved permission checks in AgentTicketWatcher.
- - 2013-06-06 Fixed bug#9503 - no connection header in soap responses.
+ - 2013-06-06 Fixed bug#[9503](http://bugs.otrs.org/show_bug.cgi?id=9503) - no connection header in soap responses.
  - 2013-06-04 Added parameter "-t dbonly" to backup.pl to only backup the database
- - 2013-05-31 Fixed bug#9491 - GenericAgent job update with dynamic fields sends Uninitialized value error.
- - 2013-05-24 Fixed bug#9462 - Package Management page timeout due to HTTPS disabled on Proxy connections.
+ - 2013-05-31 Fixed bug#[9491](http://bugs.otrs.org/show_bug.cgi?id=9491) - GenericAgent job update with dynamic fields sends Uninitialized value error.
+ - 2013-05-24 Fixed bug#[9462](http://bugs.otrs.org/show_bug.cgi?id=9462) - Package Management page timeout due to HTTPS disabled on Proxy connections.
 
 #3.1.16 2013-05-21
  - 2013-05-17 Updated Package Manager, that will ensure that packages to be installed
@@ -769,36 +769,36 @@
     stability and performance of it. All independent package contributors will have
     to conduct a check of their Add-Ons by OTRS Group in order to take full advantage
     of the OTRS package verification.
- - 2013-05-16 Fixed bug#9387 - Error in a condition with dynamic fields in NotificationEvent.
- - 2013-05-14 Fixed bug#9286 - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
- - 2013-05-14 Fixed bug#7518 - Escalation Notify by not working properly (follow-up fix).
- - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
+ - 2013-05-16 Fixed bug#[9387](http://bugs.otrs.org/show_bug.cgi?id=9387) - Error in a condition with dynamic fields in NotificationEvent.
+ - 2013-05-14 Fixed bug#[9286](http://bugs.otrs.org/show_bug.cgi?id=9286) - Ticket::ChangeOwnerToEveryone isn't functional, After a AJAX Load the setting is ignored.
+ - 2013-05-14 Fixed bug#[7518](http://bugs.otrs.org/show_bug.cgi?id=7518) - Escalation Notify by not working properly (follow-up fix).
+ - 2013-05-07 Fixed bug#[7478](http://bugs.otrs.org/show_bug.cgi?id=7478) - Got an external answer to an internal mail.
  - 2013-05-07 Improved permission checks in AgentTicketPhone.
- - 2013-05-02 Fixed bug#9360 - DynamicField Names shown in CSV output.
- - 2013-04-30 Fixed bug#9384 - Problem with Method ServiceParentsGet of ServiceObject.
- - 2013-04-23 Fixed bug#9072 - Reply to email-internal includes customer users email in Cc. field.
+ - 2013-05-02 Fixed bug#[9360](http://bugs.otrs.org/show_bug.cgi?id=9360) - DynamicField Names shown in CSV output.
+ - 2013-04-30 Fixed bug#[9384](http://bugs.otrs.org/show_bug.cgi?id=9384) - Problem with Method ServiceParentsGet of ServiceObject.
+ - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
 
 #3.1.15 2013-04-23
  - 2013-04-15 Added Malay translation.
- - 2013-04-12 Fixed bug#8960 - AgentTicketSearch.pm SearchProfile problem.
- - 2013-04-09 Fixed bug#9182 - Customer Search Function -> If you go into a ticket and go back you got not the search results.
- - 2013-04-02 Fixed bug#9198 - Linked search with fulltext AND additional attributes.
- - 2013-03-27 Fixed bug#9295 - Article dynamic field is not searchable.
- - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
+ - 2013-04-12 Fixed bug#[8960](http://bugs.otrs.org/show_bug.cgi?id=8960) - AgentTicketSearch.pm SearchProfile problem.
+ - 2013-04-09 Fixed bug#[9182](http://bugs.otrs.org/show_bug.cgi?id=9182) - Customer Search Function -> If you go into a ticket and go back you got not the search results.
+ - 2013-04-02 Fixed bug#[9198](http://bugs.otrs.org/show_bug.cgi?id=9198) - Linked search with fulltext AND additional attributes.
+ - 2013-03-27 Fixed bug#[9295](http://bugs.otrs.org/show_bug.cgi?id=9295) - Article dynamic field is not searchable.
+ - 2013-04-08 Fixed bug#[9312](http://bugs.otrs.org/show_bug.cgi?id=9312) - LinkObject permission check problem.
 
 #3.1.14 2013-04-02
- - 2013-03-21 Fixed bug#9257 - No notifications to agents with out-of-office set but period not reached.
+ - 2013-03-21 Fixed bug#[9257](http://bugs.otrs.org/show_bug.cgi?id=9257) - No notifications to agents with out-of-office set but period not reached.
  - 2013-03-18 Improved permission checks in LinkObject.
- - 2013-03-14 Fixed bug#9191 - When ticket types are restricted, first available type is selected
+ - 2013-03-14 Fixed bug#[9191](http://bugs.otrs.org/show_bug.cgi?id=9191) - When ticket types are restricted, first available type is selected
    in AgentTicketActionCommon-based screens.
  - 2013-03-12 Updated Turkish translation, thanks to Sefer Şimşek / Network Group!
- - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
- - 2013-03-01 Fixed bug#9218 - Cannot use special characters in TicketHook.
- - 2013-02-28 Fixed bug#9056 - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
+ - 2013-03-02 Fixed bug#[9214](http://bugs.otrs.org/show_bug.cgi?id=9214) - IE10: impossible to open links from rich text articles.
+ - 2013-03-01 Fixed bug#[9218](http://bugs.otrs.org/show_bug.cgi?id=9218) - Cannot use special characters in TicketHook.
+ - 2013-02-28 Fixed bug#[9056](http://bugs.otrs.org/show_bug.cgi?id=9056) - Unused SysConfig option Ticket::Frontend::CustomerInfoQueueMaxSize.
  - 2013-02-26 Follow-up fix for bug#8533 apache will not start on Fedora.
- - 2013-02-26 Fixed bug#9172 - Generic Interface does not work on IIS 7.0.
+ - 2013-02-26 Fixed bug#[9172](http://bugs.otrs.org/show_bug.cgi?id=9172) - Generic Interface does not work on IIS 7.0.
  - 2013-02-21 Updated Czech language translation, thanks to Katerina Bubenickova!
- - 2013-02-20 Fixed bug#8865 - Additional empty data column in statistics CSV-Output.
+ - 2013-02-20 Fixed bug#[8865](http://bugs.otrs.org/show_bug.cgi?id=8865) - Additional empty data column in statistics CSV-Output.
 
 #3.1.13 2013-02-19
  - 2013-02-19 Fixed bug#[9128](http://bugs.otrs.org/show_bug.cgi?id=9128) - OTRS uses internal sub of Locale::Codes::Country which causes trouble for
@@ -1462,21 +1462,21 @@
     to conduct a check of their Add-Ons by OTRS Group in order to take full advantage
     of the OTRS package verification.
  - 2013-05-07 Improved permission checks in AgentTicketPhone.
- - 2013-05-07 Fixed bug#7478 - Got an external answer to an internal mail.
- - 2013-04-08 Fixed bug#9312 - LinkObject permission check problem.
+ - 2013-05-07 Fixed bug#[7478](http://bugs.otrs.org/show_bug.cgi?id=7478) - Got an external answer to an internal mail.
+ - 2013-04-08 Fixed bug#[9312](http://bugs.otrs.org/show_bug.cgi?id=9312) - LinkObject permission check problem.
 
 #3.0.19 2013-04-02
  - 2013-03-18 Improved permission checks in LinkObject.
 
 #3.0.18 2013-03-12
  - 2013-03-04 Updated CKEditor to version 3.6.6.
- - 2013-03-02 Fixed bug#9214 - IE10: impossible to open links from rich text articles.
- - 2012-12-03 Fixed bug#8933 - ArticleStorageInit permission check problem.
- - 2012-11-28 Fixed bug#8955 - Init script might fail on SUSE.
- - 2012-10-23 Fixed bug#8566 - Cannot download attachment if filename has character #.
- - 2012-10-23 Fixed bug#8833 - Article table in TicketZoom does not scroll correctly.
- - 2012-10-23 Fixed bug#8673 - Richtext-Editor popups broken on Customer-Interface.
- - 2012-10-16 Fixed bug#8149 - Wrong handling of subject when SubjectFormat=right.
+ - 2013-03-02 Fixed bug#[9214](http://bugs.otrs.org/show_bug.cgi?id=9214) - IE10: impossible to open links from rich text articles.
+ - 2012-12-03 Fixed bug#[8933](http://bugs.otrs.org/show_bug.cgi?id=8933) - ArticleStorageInit permission check problem.
+ - 2012-11-28 Fixed bug#[8955](http://bugs.otrs.org/show_bug.cgi?id=8955) - Init script might fail on SUSE.
+ - 2012-10-23 Fixed bug#[8566](http://bugs.otrs.org/show_bug.cgi?id=8566) - Cannot download attachment if filename has character #.
+ - 2012-10-23 Fixed bug#[8833](http://bugs.otrs.org/show_bug.cgi?id=8833) - Article table in TicketZoom does not scroll correctly.
+ - 2012-10-23 Fixed bug#[8673](http://bugs.otrs.org/show_bug.cgi?id=8673) - Richtext-Editor popups broken on Customer-Interface.
+ - 2012-10-16 Fixed bug#[8149](http://bugs.otrs.org/show_bug.cgi?id=8149) - Wrong handling of subject when SubjectFormat=right.
 
 #3.0.17 2012-10-16
  - 2012-10-05 Fixed bug#[6820](http://bugs.otrs.org/show_bug.cgi?id=6820) - OTRS crash with "division by zero" if escalation set incorrectly.
@@ -2767,28 +2767,28 @@
  - 2012-08-17 HTML mails will now be displayed in the restricted zone in IE.
     This means that more restrictive security settings will apply, such as blocking of
     JavaScript content by default.
- - 2012-03-08 Fixed bug#8300 - Database upgrade issue when upgrading from 2.3 > 2.4 > 3.0 > 3.1:
+ - 2012-03-08 Fixed bug#[8300](http://bugs.otrs.org/show_bug.cgi?id=8300) - Database upgrade issue when upgrading from 2.3 > 2.4 > 3.0 > 3.1:
     table smime_signer_cert_relations' already exists.
- - 2012-03-05 Fixed bug#7545 - AgentTicketBounce lacks permission checks.
- - 2012-02-23 Fixed bug#8227 - LDAP user syncronisation doesn't work.
- - 2011-12-09 Fixed bug#7997 - Fetching mail via AdminMailAccount does not work.
- - 2011-12-02 Fixed bug#5086 - Emails with a long subject are not handled.
+ - 2012-03-05 Fixed bug#[7545](http://bugs.otrs.org/show_bug.cgi?id=7545) - AgentTicketBounce lacks permission checks.
+ - 2012-02-23 Fixed bug#[8227](http://bugs.otrs.org/show_bug.cgi?id=8227) - LDAP user syncronisation doesn't work.
+ - 2011-12-09 Fixed bug#[7997](http://bugs.otrs.org/show_bug.cgi?id=7997) - Fetching mail via AdminMailAccount does not work.
+ - 2011-12-02 Fixed bug#[5086](http://bugs.otrs.org/show_bug.cgi?id=5086) - Emails with a long subject are not handled.
  - 2011-11-21 Use the secure attribute to restrict coookies to HTTPS if it is used.
- - 2011-11-21 Fixed bug#7909 - Errors should be logged in web server error log only.
- - 2011-11-10 Fixed bug#7879 - Ticket forward not working if content-id exists.
- - 2011-11-07 Fixed bug#7362 - AuthSyncModule::LDAP::UserSyncMap with multiple auth backends.
- - 2011-11-02 Fixed bug#7465 - Out-of-office unlock does not work upon customer's web reply.
- - 2011-10-21 Fixed bug#7845 - No DispatchMultiple Method in rpc.pl script.
+ - 2011-11-21 Fixed bug#[7909](http://bugs.otrs.org/show_bug.cgi?id=7909) - Errors should be logged in web server error log only.
+ - 2011-11-10 Fixed bug#[7879](http://bugs.otrs.org/show_bug.cgi?id=7879) - Ticket forward not working if content-id exists.
+ - 2011-11-07 Fixed bug#[7362](http://bugs.otrs.org/show_bug.cgi?id=7362) - AuthSyncModule::LDAP::UserSyncMap with multiple auth backends.
+ - 2011-11-02 Fixed bug#[7465](http://bugs.otrs.org/show_bug.cgi?id=7465) - Out-of-office unlock does not work upon customer's web reply.
+ - 2011-10-21 Fixed bug#[7845](http://bugs.otrs.org/show_bug.cgi?id=7845) - No DispatchMultiple Method in rpc.pl script.
 
 #2.4.12 2011-10-18
- - 2011-09-22 Fixed bug#7776 - Double encoding for AJAX responses on ActiveState perl.
+ - 2011-09-22 Fixed bug#[7776](http://bugs.otrs.org/show_bug.cgi?id=7776) - Double encoding for AJAX responses on ActiveState perl.
 
 #2.4.11 2011-08-16
- - 2011-07-28 Fixed bug#7518 - Escalation Notify by not working properly.
- - 2011-05-09 Fixed bug#7010 - Latest version of PDF::API2 no longer includes DejaVu fonts.
+ - 2011-07-28 Fixed bug#[7518](http://bugs.otrs.org/show_bug.cgi?id=7518) - Escalation Notify by not working properly.
+ - 2011-05-09 Fixed bug#[7010](http://bugs.otrs.org/show_bug.cgi?id=7010) - Latest version of PDF::API2 no longer includes DejaVu fonts.
     Fixed by including DejaVu fonts in var/fonts.
- - 2011-04-26 Fixed bug#7250 - Add new queue mask crashes on PostgreSQL and MS SQL Server.
- - 2011-04-07 Fixed bug#7195 - Graphs doesn't use GIF as fallback if PNG is not available.
+ - 2011-04-26 Fixed bug#[7250](http://bugs.otrs.org/show_bug.cgi?id=7250) - Add new queue mask crashes on PostgreSQL and MS SQL Server.
+ - 2011-04-07 Fixed bug#[7195](http://bugs.otrs.org/show_bug.cgi?id=7195) - Graphs doesn't use GIF as fallback if PNG is not available.
 
 #2.4.10 2011-04-12
  - 2011-04-04 Fixed bug#[7140](http://bugs.otrs.org/show_bug.cgi?id=7140) - Attachments with percent symbol not working.
