@@ -1307,7 +1307,7 @@ sub Data {
         'Change Operation %s of Web Service %s' => 'Modifier l\'opération %s du service Web %s',
         'Add new operation' => 'Ajouter une nouvelle opération',
         'Change operation %s' => 'Changer l\'opération %s',
-        'Do you really want to delete this operation?' => 'Voulez-vous vriament supprimer cette opération?',
+        'Do you really want to delete this operation?' => 'Voulez-vous vraiment supprimer cette opération?',
         'Operation Details' => 'Détails de l\'opération',
         'The name is typically used to call up this web service operation from a remote system.' =>
             'Le nom est généralement utilisé pour appeler cette opération du service Web à partir d\'un système distant.',
@@ -2122,7 +2122,7 @@ sub Data {
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Dédoublement d\'une entrée',
         'This address already exists on the address list.' => 'Cette adresse est déjà dans la liste.',
-        'It is going to be deleted from the field, please try again.' => '',
+        'It is going to be deleted from the field, please try again.' => 'Cela va être supprimé du champ. Veuillez ré-éssayer',
 
         # Template: AgentCustomerTableView
 
@@ -2509,7 +2509,7 @@ sub Data {
         'Resize' => 'Redimensionner',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => '',
+        'To protect your privacy, remote content was blocked.' => 'Pour protéger votre vie privée, les contenus distants ont été bloqués.',
         'Load blocked content.' => 'Charger le contenu bloqué',
 
         # Template: Copyright
