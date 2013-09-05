@@ -607,6 +607,9 @@ sub _MigrateOldSettings {
     # get values from config
     $Setting = $CommonObject->{ConfigObject}->Get('AgentCustomerInformationCenter::Backend');
 
+    # remove CustomerID for CIC
+    delete $DefaultColumns{CustomerID};
+
     # check config
     CICBACKEND:
     for my $DashboardBackend ( sort keys %{$Setting} ) {
