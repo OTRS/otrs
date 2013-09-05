@@ -36,6 +36,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
+    use Kernel::System::DynamicField;
     use Kernel::System::Event;
 
     my $ConfigObject = Kernel::Config->new();
