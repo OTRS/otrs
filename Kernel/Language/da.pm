@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:05
+    # Last translation file sync: 2013-09-05 16:51:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,7 @@ sub Data {
         'Cancel' => 'Annuller',
         'Reset' => 'Nulstil',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -187,6 +188,7 @@ sub Data {
         'Search' => 'Søg',
         'and' => 'og',
         'between' => 'mellem',
+        'before/after' => '',
         'Fulltext Search' => 'Fritekstsøgning',
         'Data' => 'Data',
         'Options' => 'Valgmuligheder',
@@ -689,7 +691,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Opret ny mail-sag, og send den (Outbound)',
         'Create new Phone Ticket (Inbound)' => 'Opret ny telefon-sag (Inbound)',
         'Address %s replaced with registered customer address.' => 'Adresse %s erstattet med kundens registrerede adresse.',
-        'Customer automatically added in Cc.' => 'Kunde automatisk tilføjet i Cc.',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Oversigt over alle åbne sager',
         'Locked Tickets' => 'Mine sager',
         'My Locked Tickets' => 'Mine sager',
@@ -936,26 +938,26 @@ sub Data {
         'Example response' => 'Eksempel på svar',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Administrer Kunde/Firma',
+        'Customer Management' => 'Administrer Kunde',
         'Wildcards like \'*\' are allowed.' => 'Jokertegn som \'*\' er tilladt.',
-        'Add customer company' => 'Tilføj kunde/firma',
+        'Add customer' => 'Tilføj kunde',
         'Select' => 'Vælg',
-        'Please enter a search term to look for customer companies.' => 'Indtast en søgestreng for at lede efter Kunde/Firmaer',
-        'Add Customer Company' => 'Tilføj kunde/firma',
+        'Please enter a search term to look for customers.' => 'Angiv søgeord for at lede efter kunder',
+        'Add Customer' => 'Tilføj kunde',
+        'Edit Customer' => 'Rediger kunde',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Administrer Kunde',
+        'Customer User Management' => '',
         'Back to search results' => 'Tilbage til søgeresultater',
-        'Add customer' => 'Tilføj kunde',
+        'Add customer user' => '',
         'Hint' => 'Tip',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Kunder skal oprettes for at man kan følge historik på deres sager og de kan logge ind i kunde-delen af OTRS.',
-        'Please enter a search term to look for customers.' => 'Angiv søgeord for at lede efter kunder',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'Sidste login',
         'Login as' => 'Login som',
         'Switch to customer' => 'Skift til kunde',
-        'Add Customer' => 'Tilføj kunde',
-        'Edit Customer' => 'Rediger kunde',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'Dette felt er kævet og skal være en gyldig mail-adresse.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1197,7 +1199,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
-        ' (work units)' => ' (arbejdsenheder)',
+        '(work units)' => '',
         'Ticket Commands' => 'Sagskommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
         'CMD' => 'CMD',
@@ -1662,6 +1664,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2030,6 +2034,7 @@ sub Data {
         'Invalid year' => 'Ugyldigt år',
         'Invalid month' => 'Ugyldig måned',
         'Invalid day' => 'Ugyldig dag',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Administrer systemets mail-adresser',
@@ -2119,6 +2124,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'Det vil blive slettet fra feltet. Prøv venligst igen.',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Oversigt',
@@ -2356,9 +2362,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Opret ny mail-sag',
         'From queue' => 'Fra kø',
-        'To customer' => 'Til kunde',
-        'Please include at least one customer for the ticket.' => 'Der skal være mindst én kunde til sagen.',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Hent alle',
         'Text Template' => '',
 
@@ -2411,7 +2418,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Opret ny sag',
-        'From customer' => 'Fra kunde',
+        'Please include at least one customer for the ticket.' => 'Der skal være mindst én kunde til sagen.',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'Til kø',
 
         # Template: AgentTicketPhoneCommon
@@ -3006,7 +3014,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Administrer Service Level Agreements (SLA\'er).',
         'Create and manage agents.' => 'Administrer agenter.',
         'Create and manage attachments.' => 'Administrer vedhæftede filer.',
-        'Create and manage companies.' => 'Administrer firmaer.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Administrer kunder.',
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'Administrer hændelsesbaserede beskeder.',
@@ -3029,6 +3037,8 @@ sub Data {
             'Tekst til den side, der vises til kunder, der endnu ikke har nogen sager.',
         'Customer Company Administration' => 'Kunde-Firma-administration',
         'Customer Company Information' => 'Kunde-Firma-information',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => 'Kunde-administration',
         'Customer Users' => 'Kunder',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3037,7 +3047,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Kunder <-> Grupper',
-        'Customers <-> Services' => 'Kunder <-> Services',
         'Data used to export the search result in CSV format.' => 'Data brugt til at eksportere søgeresultatet i CSV-format.',
         'Date / Time' => 'Dato / Tid',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3257,7 +3266,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3764,7 +3773,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Eskalerede sager',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3942,6 +3950,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3972,8 +3982,8 @@ sub Data {
         'Link agents to groups.' => 'Kæd agenter til grupper.',
         'Link agents to roles.' => 'Kæd agenter til roller.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Kæd kunder til grupper.',
-        'Link customers to services.' => 'Kæd kunder til services.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Kæd køer til autosvar',
         'Link roles to groups.' => 'Kæd roller til grupper.',
         'Link templates to queues.' => '',
@@ -3991,6 +4001,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => 'Log-fil for sagsnummer-tælleren.',
@@ -4737,9 +4752,12 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (arbejdsenheder)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Et svar er en skabelon, der hjælper dine agenter med at skrive hurtige og ensartede svar til kunderne.',
+        'Add Customer Company' => 'Tilføj kunde/firma',
         'Add Response' => 'Tilføj svar',
+        'Add customer company' => 'Tilføj kunde/firma',
         'Add response' => 'Tilføj svar',
         'Attachments <-> Responses' => 'Vedhæftede filer <-> Svar',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
@@ -4748,9 +4766,15 @@ sub Data {
         'Change Queue Relations for Response' => 'Administrer kø-relationer for svar',
         'Change Response Relations for Attachment' => 'Administrer svar-relationer for vedhæftet fil',
         'Change Response Relations for Queue' => 'Administrer svar-relationer for kø',
+        'Create and manage companies.' => 'Administrer firmaer.',
         'Create and manage response templates.' => 'Administrer svar-skabeloner.',
         'Currently only MySQL is supported in the web installer.' => 'Pt. understøttes kun MySQL af web-installeren.',
+        'Customer Company Management' => 'Administrer Kunde/Firma',
         'Customer Data' => 'Kundedata',
+        'Customer automatically added in Cc.' => 'Kunde automatisk tilføjet i Cc.',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'Kunder skal oprettes for at man kan følge historik på deres sager og de kan logge ind i kunde-delen af OTRS.',
+        'Customers <-> Services' => 'Kunder <-> Services',
         'DB host' => 'DB--- server',
         'Database-User' => 'Database-bruger',
         'Department' => 'Afdeling',
@@ -4761,11 +4785,14 @@ sub Data {
         'Filter for Responses' => 'Filtrer svar',
         'Filter name' => 'Filternavn',
         'For more info see:' => 'For mere information se:',
+        'From customer' => 'Fra kunde',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Hvis du har sat et root kodeord til din database skal du taste det her. Hvis ikke, lad feltet være tomt. Af sikkerhedsmæssige årsager anbefaler vi at sætte et root kodeord. For mere information henviser vi til documentationen for din database.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             'Hvis du vil installere OTRS på en anden database-type, tjek venligst filen README.database.',
         'Link attachments to responses templates.' => 'Kæd vedhæftede filer til svarskabeloner.',
+        'Link customers to groups.' => 'Kæd kunder til grupper.',
+        'Link customers to services.' => 'Kæd kunder til services.',
         'Link responses to queues.' => 'Kæd svar til køer.',
         'Log file location is only needed for File-LogModule!' => 'Logfilens lokation skal kun bruges i forbindelse med File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
@@ -4777,6 +4804,7 @@ sub Data {
         'Out Of Office' => 'Ude af Kontoret',
         'Package verification failed!' => 'Pakkeverifikation fejlede!',
         'Password is required.' => 'Password er krævet.',
+        'Please enter a search term to look for customer companies.' => 'Indtast en søgestreng for at lede efter Kunde/Firmaer',
         'Please supply a' => 'Indtast venligst',
         'Please supply a first name' => 'Indtast venligst dit fornavn',
         'Please supply a last name' => 'Indtast venligst dit efternavn',
@@ -4786,6 +4814,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
         'Show article' => 'Vis indlæg',
+        'To customer' => 'Til kunde',
         'before' => 'før',
         'default \'hot\'' => 'standard \'hot\'',
         'settings' => 'indstillinger',

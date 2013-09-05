@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:24
+    # Last translation file sync: 2013-09-05 16:52:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,6 +56,7 @@ sub Data {
         'Cancel' => 'Отменить',
         'Reset' => 'Отклонить',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -195,6 +196,7 @@ sub Data {
         'Search' => 'Поиск',
         'and' => 'и',
         'between' => 'между',
+        'before/after' => '',
         'Fulltext Search' => 'Полнотекстовый поиск',
         'Data' => 'Дата',
         'Options' => 'Настройки',
@@ -697,7 +699,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Создать новую заявку email и отправить ее',
         'Create new Phone Ticket (Inbound)' => 'Создать новую телефонную заявку',
         'Address %s replaced with registered customer address.' => 'Адрес %s заменен зарегистрированным адресом клиента',
-        'Customer automatically added in Cc.' => 'Клиент автоматически добавлен в Cc',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Обзор всех открытых заявок',
         'Locked Tickets' => 'Заблокированные заявки',
         'My Locked Tickets' => 'Мои заблокированные заявки',
@@ -944,26 +946,26 @@ sub Data {
         'Example response' => 'Пример ответа',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Управление компанией клиента',
+        'Customer Management' => 'Управление клиентами',
         'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
-        'Add customer company' => 'Добавить компанию клиента',
+        'Add customer' => 'Добавить клиента',
         'Select' => 'Выбор',
-        'Please enter a search term to look for customer companies.' => 'Введите запрос для поиска компаний клиента.',
-        'Add Customer Company' => 'Добавить компанию клиента',
+        'Please enter a search term to look for customers.' => 'Введите запрос для поиска клиентов.',
+        'Add Customer' => 'Добавить клиента',
+        'Edit Customer' => 'Редактировать клиента',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Управление клиентами',
+        'Customer User Management' => 'Управление пользователями (для клиентов)',
         'Back to search results' => 'Назад к результатам поиска',
-        'Add customer' => 'Добавить клиента',
+        'Add customer user' => '',
         'Hint' => 'Подсказка',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
-        'Please enter a search term to look for customers.' => 'Введите запрос для поиска клиентов.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'Последний вход',
         'Login as' => 'Зайти данным пользователем',
         'Switch to customer' => 'Переключится на клиента',
-        'Add Customer' => 'Добавить клиента',
-        'Edit Customer' => 'Редактировать клиента',
+        'Add Customer User' => 'Добавить клиента',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'Это поле обязательно, и должно быть корректным адресом электронной почты.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1205,7 +1207,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1670,6 +1672,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2038,6 +2042,7 @@ sub Data {
         'Invalid year' => 'Некорректный год',
         'Invalid month' => 'Некорректный месяц',
         'Invalid day' => 'Некорректный день',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Управление системными адресами электронной почты',
@@ -2127,6 +2132,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Дайджест',
@@ -2364,9 +2370,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Создать заявку по email',
         'From queue' => 'Из очереди',
-        'To customer' => 'Клиенту',
-        'Please include at least one customer for the ticket.' => 'Пожалуйста, включите хотя бы одного клиента в заявку.',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Получить всех',
         'Text Template' => '',
 
@@ -2419,7 +2426,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Создать телефонную заявку',
-        'From customer' => 'От клиента',
+        'Please include at least one customer for the ticket.' => 'Пожалуйста, включите хотя бы одного клиента в заявку.',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'В очередь',
 
         # Template: AgentTicketPhoneCommon
@@ -3014,7 +3022,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Создание и управление Соглашениями об Уровне Сервиса (SLA-ми).',
         'Create and manage agents.' => 'Создание и управление агентами.',
         'Create and manage attachments.' => 'Создание и управление вложениями.',
-        'Create and manage companies.' => 'Создание и управление компаниями.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Создание и управление клиентами.',
         'Create and manage dynamic fields.' => 'Создание и управление динамическими полями.',
         'Create and manage event based notifications.' => 'Создание и управление уведомлениями по событию.',
@@ -3037,6 +3045,8 @@ sub Data {
             '',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => 'Клиенты',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3045,7 +3055,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Клиенты <-> Группы',
-        'Customers <-> Services' => 'Клиенты <-> Сервисы',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3265,7 +3274,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3772,7 +3781,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Просмотр эскалаций',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3950,6 +3958,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3980,8 +3990,8 @@ sub Data {
         'Link agents to groups.' => 'Связать агентов с группами.',
         'Link agents to roles.' => 'Связать агентов с ролями.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Связать клиентов с группами.',
-        'Link customers to services.' => 'Связать клиентов с сервисами.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Связать очереди с автоответами.',
         'Link roles to groups.' => 'Связать роли с группами.',
         'Link templates to queues.' => '',
@@ -3999,6 +4009,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4745,6 +4760,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4778,7 +4794,7 @@ sub Data {
         'A web mail client' => 'Почтовый веб-клиент',
         'About OTRS' => 'О OTRS',
         'Absolut Period' => 'Точный период',
-        'Add Customer User' => 'Добавить клиента',
+        'Add Customer Company' => 'Добавить компанию клиента',
         'Add Response' => 'Добавить ответ',
         'Add System Address' => 'Добавить системный адрес',
         'Add User' => 'Добавить пользователя',
@@ -4797,6 +4813,7 @@ sub Data {
         'Add a new Type.' => 'Добавить тип',
         'Add a new salutation' => 'Добавить новое приветствие',
         'Add a note to this ticket!' => 'Добавить заметку к заявке!',
+        'Add customer company' => 'Добавить компанию клиента',
         'Add new attachment' => 'Добавить новое вложение',
         'Add note to ticket' => 'Добавить заметку к заявке',
         'Add response' => 'Добавить ответ',
@@ -4890,6 +4907,7 @@ sub Data {
         'Country{CustomerUser}' => 'Страна{ПользовательКлиента}',
         'Create New Template' => 'Создать новый шаблон',
         'Create Times' => 'Время создания',
+        'Create and manage companies.' => 'Создание и управление компаниями.',
         'Create and manage notifications that are sent to agents.' => 'Создание и управление уведомлениями для агентов.',
         'Create and manage response templates.' => 'Создание и управление шаблонами ответов.',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
@@ -4899,20 +4917,24 @@ sub Data {
         'Create your first Ticket' => 'Добавить первую заявку',
         'CreateTicket' => 'Создание заявки',
         'Currently only MySQL is supported in the web installer.' => 'На текущий момент веб-инсталлятор поддерживает только MySQL.',
+        'Customer Company Management' => 'Управление компанией клиента',
         'Customer Data' => 'Учетные данные клиента',
         'Customer Move Notify' => 'Извещать клиента о перемещении',
         'Customer Owner Notify' => 'Извещать клиента о смене владельца',
         'Customer State Notify' => 'Извещать клиента об изменении статуса',
-        'Customer User Management' => 'Управление пользователями (для клиентов)',
         'Customer Users <-> Groups' => 'Группы клиентов',
         'Customer Users <-> Groups Management' => 'Управление группами клиентов',
         'Customer Users <-> Services Management' => 'Клиенты <-> Сервисы',
+        'Customer automatically added in Cc.' => 'Клиент автоматически добавлен в Cc',
         'Customer history' => 'История клиента',
         'Customer history search' => 'Поиск по истории клиента',
         'Customer history search (e. g. "ID342425").' => 'Поиск по клиенту (например, «ID342425»).',
         'Customer user will be needed to have a customer history and to login via customer panel.' =>
             'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
         'CustomerUser' => 'Клиент',
+        'Customers <-> Services' => 'Клиенты <-> Сервисы',
         'D' => 'D',
         'DB connect host' => 'Сервер базы данных',
         'DB host' => 'БД--- сервер',
@@ -4970,6 +4992,7 @@ sub Data {
             'Для очень сложных отчетов, возможно, необходимо использовать временный файл',
         'Form' => 'Форма',
         'Foward ticket: ' => 'Переслать заявку',
+        'From customer' => 'От клиента',
         'Frontend' => 'Режим пользователя',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например, «Mar*in» или «Baue*»)',
         'Go' => 'Выполнить',
@@ -5027,6 +5050,8 @@ sub Data {
         'Link Table' => 'Таблица связей',
         'Link attachments to responses templates.' => 'Связать прикрепленный файлы с ответами.',
         'Link auto responses to queues.' => 'Связать автоответы с очередями.',
+        'Link customers to groups.' => 'Связать клиентов с группами.',
+        'Link customers to services.' => 'Связать клиентов с сервисами.',
         'Link groups to roles.' => 'Связать группы с ролями',
         'Link responses to queues.' => 'Связать ответы с очередями.',
         'Link this ticket to an other objects!' => 'Связать заявку с другими объектами!',
@@ -5155,6 +5180,7 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Права на смену владельца заявок в этой группе/очереди',
         'PhoneView' => 'Заявка по телефону',
         'Please contact your admin' => 'Свяжитесь с администратором',
+        'Please enter a search term to look for customer companies.' => 'Введите запрос для поиска компаний клиента.',
         'Please enter subject.' => 'Пожалуйста, введите тему.',
         'Please provide a name.' => 'Пожалуйста, введите имя.',
         'Please supply a' => 'Пожалуйста, введите',
@@ -5302,6 +5328,7 @@ sub Data {
         'Timeover' => 'Время ожидания истекло',
         'Times' => 'Время',
         'Title of the stat.' => 'Название отчета',
+        'To customer' => 'Клиенту',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' =>
             'Поля сообщения (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>

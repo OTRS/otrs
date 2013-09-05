@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:10
+    # Last translation file sync: 2013-09-05 16:51:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,7 @@ sub Data {
         'Cancel' => 'Peruuta',
         'Reset' => 'Tyhjennä',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -188,6 +189,7 @@ sub Data {
         'Search' => 'Etsi',
         'and' => 'ja',
         'between' => 'välillä',
+        'before/after' => '',
         'Fulltext Search' => 'Kokosanahaku',
         'Data' => 'Tieto',
         'Options' => 'Asetukset',
@@ -690,7 +692,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Luo uusi sähköpostitiketti ja lähetä se eteenpäin',
         'Create new Phone Ticket (Inbound)' => 'Luo uusi puhelimitse tullut tiketti',
         'Address %s replaced with registered customer address.' => 'Osoite %s kovattu rekisteröityneen asiakkaan osoitteella.',
-        'Customer automatically added in Cc.' => 'Asiakas lisäättiin automaattisesti CC-kenttäät.',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Yleisnäkymä kaikista avoimista tiketeistä',
         'Locked Tickets' => 'Lukitut tiketit',
         'My Locked Tickets' => 'Minun lukitut tiketit',
@@ -937,26 +939,26 @@ sub Data {
         'Example response' => 'Esimerkkivastaus',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Asiakasyrityksien hallinta',
+        'Customer Management' => 'Asiakashallinta',
         'Wildcards like \'*\' are allowed.' => 'Korvausmerkit kuten \'*\' ovat sallittuja.',
-        'Add customer company' => 'Lisää asiakasyritys',
+        'Add customer' => 'Lisää asiakas',
         'Select' => 'Valitse',
-        'Please enter a search term to look for customer companies.' => 'Lisää hakutermi etsiäksesi asiakasyrityksiä',
-        'Add Customer Company' => 'Lisää asiakasyritys',
+        'Please enter a search term to look for customers.' => 'Lisää hakutermi etsiäksesi asiakkaita',
+        'Add Customer' => 'Lisää asiakas',
+        'Edit Customer' => 'Muokkaa asiakasta',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Asiakashallinta',
+        'Customer User Management' => '',
         'Back to search results' => '',
-        'Add customer' => 'Lisää asiakas',
+        'Add customer user' => '',
         'Hint' => 'Vinkki',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
-        'Please enter a search term to look for customers.' => 'Lisää hakutermi etsiäksesi asiakkaita',
         'Last Login' => 'Edellinen kirjautuminen',
         'Login as' => 'Kirjaudu',
         'Switch to customer' => '',
-        'Add Customer' => 'Lisää asiakas',
-        'Edit Customer' => 'Muokkaa asiakasta',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'Tämä kenttä on pakollinen ja sen tulee sisältää kelvollinen sähköpostiosoite.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1198,7 +1200,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
-        ' (work units)' => ' (esim. minuutteina)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1663,6 +1665,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2031,6 +2035,7 @@ sub Data {
         'Invalid year' => '',
         'Invalid month' => '',
         'Invalid day' => '',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Sähköpostiosoitteiden määritys',
@@ -2120,6 +2125,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Hallintapaneeli',
@@ -2357,9 +2363,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Lisää uusi sähköpostitiketti',
         'From queue' => 'Jonosta',
-        'To customer' => 'Asiakkaalle',
-        'Please include at least one customer for the ticket.' => 'Valitse ainakin yksi asiakas tiketille',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Näytä kaikki',
         'Text Template' => '',
 
@@ -2412,7 +2419,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Lisää uusi puhelintiketti',
-        'From customer' => 'Lähettänyt asiakas',
+        'Please include at least one customer for the ticket.' => 'Valitse ainakin yksi asiakas tiketille',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'Jonoon',
 
         # Template: AgentTicketPhoneCommon
@@ -3007,7 +3015,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Luo ja hallinnoi Palvelutasosopimuksia (SLA).',
         'Create and manage agents.' => 'Luo ja hallinnoi agentteja.',
         'Create and manage attachments.' => 'Luo ja hallinnoi liitteitä.',
-        'Create and manage companies.' => 'Luo ja hallinnoi yrityksiä.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Luo ja hallinnoi asiakkaita.',
         'Create and manage dynamic fields.' => 'Luo ja hallinnoi dynaamisia kenttiä.',
         'Create and manage event based notifications.' => 'Luo ja hallinnoi tapahtumaperusteisia muistutuksia.',
@@ -3030,6 +3038,8 @@ sub Data {
             'Räätälöity teksti asiakkaille, joilla ei vielä ole tikettejä.',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => 'Asiakaskäyttäjät',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3038,7 +3048,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Asiakkaat <-> Ryhmät',
-        'Customers <-> Services' => 'Asiakkaat <-> Palvelut',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => 'Päiväys / Aika',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3258,7 +3267,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3765,7 +3774,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Eskaloitumisnäkymä',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3943,6 +3951,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3973,8 +3983,8 @@ sub Data {
         'Link agents to groups.' => 'Linkitä agentit ryhmiin.',
         'Link agents to roles.' => 'Linkitä agentit rooleihin.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Linkitä asiakkaat ryhmiin.',
-        'Link customers to services.' => 'Linkitä asiakkaat palveluihin.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Linkitä automaattiset vastaukset jonoihin.',
         'Link roles to groups.' => 'Linkitä roolit ryhmiin.',
         'Link templates to queues.' => '',
@@ -3992,6 +4002,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4738,22 +4753,33 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (esim. minuutteina)',
+        'Add Customer Company' => 'Lisää asiakasyritys',
+        'Add customer company' => 'Lisää asiakasyritys',
         'Attachments <-> Responses' => 'Liitteet <-> Vastaukset',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
+        'Create and manage companies.' => 'Luo ja hallinnoi yrityksiä.',
         'Create and manage response templates.' => 'Luo ja hallinnoi vastausmalleja.',
         'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
+        'Customer Company Management' => 'Asiakasyrityksien hallinta',
         'Customer Data' => 'Asiakastieto',
+        'Customer automatically added in Cc.' => 'Asiakas lisäättiin automaattisesti CC-kenttäät.',
+        'Customers <-> Services' => 'Asiakkaat <-> Palvelut',
         'Database-User' => 'Tietokantakäyttäjä',
         'Escalation in' => 'Eskaloituu',
         'False' => 'Virhe',
         'For more info see:' => 'Katso lisätietoa:',
+        'From customer' => 'Lähettänyt asiakas',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
         'Link attachments to responses templates.' => 'Linkitä liitteet vastausmalleihin.',
+        'Link customers to groups.' => 'Linkitä asiakkaat ryhmiin.',
+        'Link customers to services.' => 'Linkitä asiakkaat palveluihin.',
         'Link responses to queues.' => 'Linkitä vastaukset jonoihin.',
         'Log file location is only needed for File-LogModule!' => 'Lokitiedoston sijainti tarvitaan vain File-LogModulille',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
+        'Please enter a search term to look for customer companies.' => 'Lisää hakutermi etsiäksesi asiakasyrityksiä',
         'Please supply a' => 'Ole hyvä ja kirjoita',
         'Please supply a first name' => 'Ole hyvä ja anna etunimesi',
         'Please supply a last name' => 'Ole hyvä ja anna sukunimesi',
@@ -4761,6 +4787,7 @@ sub Data {
         'Responses <-> Queues' => 'Vastaukset <-> Jono',
         'Show  article' => 'Näytä artikkeli',
         'There are no further steps in this process' => 'Tässä prosessissa ei ole enempää vaiheita',
+        'To customer' => 'Asiakkaalle',
         'before' => 'edellinen',
         'default \'hot\'' => 'oletuspalvelin',
 

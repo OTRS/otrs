@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:20
+    # Last translation file sync: 2013-09-05 16:52:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -53,6 +53,7 @@ sub Data {
         'Cancel' => 'Annuleren',
         'Reset' => 'Opnieuw',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -192,6 +193,7 @@ sub Data {
         'Search' => 'Zoeken',
         'and' => 'en',
         'between' => 'tussen',
+        'before/after' => '',
         'Fulltext Search' => 'Alles doorzoeken',
         'Data' => 'Gegevens',
         'Options' => 'Opties',
@@ -694,7 +696,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Maak een nieuw ticket aan en verstuur per e-mail',
         'Create new Phone Ticket (Inbound)' => 'Maak nieuw ticket aan van telefoongesprek',
         'Address %s replaced with registered customer address.' => 'Adres %s vervangen met vastgelegde klant-adres.',
-        'Customer automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Laat alle open tickets zien',
         'Locked Tickets' => 'Vergrendelde tickets',
         'My Locked Tickets' => 'Mijn vergrendelde tickets',
@@ -941,26 +943,26 @@ sub Data {
         'Example response' => 'Voorbeeld',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Beheer bedrijven',
+        'Customer Management' => 'Beheer klanten',
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
-        'Add customer company' => 'Nieuw bedrijf',
+        'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
-        'Please enter a search term to look for customer companies.' => 'Typ om te zoeken naar bedrijven.',
-        'Add Customer Company' => 'Bedrijf toevoegen',
+        'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
+        'Add Customer' => 'Klant toevoegen',
+        'Edit Customer' => 'Klant bewerken',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Beheer klanten',
+        'Customer User Management' => '',
         'Back to search results' => 'Terug naar zoekresultaat',
-        'Add customer' => 'Nieuwe klant',
+        'Add customer user' => '',
         'Hint' => 'Opmerking',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
-        'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'Laatst ingelogd',
         'Login as' => 'Inloggen als',
         'Switch to customer' => 'Omschakelen naar klant',
-        'Add Customer' => 'Klant toevoegen',
-        'Edit Customer' => 'Klant bewerken',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'Dit veld is verplicht en moet een geldig e-mailadres zijn.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1202,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        ' (work units)' => ' (in minuten)',
+        '(work units)' => '',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1667,6 +1669,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             'Let op: het wijzigen van deze dialoog heeft invoed op de volgende activiteiten',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => 'Dialoog',
         'Activity dialog Name' => 'Naam',
         'Available in' => 'Beschikbaar in',
@@ -2035,6 +2039,7 @@ sub Data {
         'Invalid year' => 'Ongeldig jaar',
         'Invalid month' => 'Ongeldige maand',
         'Invalid day' => 'Ongeldige dag',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
@@ -2124,6 +2129,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'Het wordt verwijderd van dit veld, probeer opnieuw.',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Dashboard',
@@ -2361,9 +2367,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
         'From queue' => 'In wachtrij',
-        'To customer' => 'Aan klant',
-        'Please include at least one customer for the ticket.' => 'Voeg ten minste één klant toe voor dit ticket.',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Gebruik alle',
         'Text Template' => '',
 
@@ -2416,7 +2423,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Maak nieuw telefoon ticket aan',
-        'From customer' => 'Van klant',
+        'Please include at least one customer for the ticket.' => 'Voeg ten minste één klant toe voor dit ticket.',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'In wachtrij',
 
         # Template: AgentTicketPhoneCommon
@@ -3011,7 +3019,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Aanmaken en beheren van Service Level Agreements (SLA\'s).',
         'Create and manage agents.' => 'Aanmaken en beheren van behandelaars.',
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
-        'Create and manage companies.' => 'Aanmaken en beheren van bedrijven.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Aanmaken en beheren van klanten.',
         'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden.',
         'Create and manage event based notifications.' => 'Aanmaken en beheren van meldingen door gebeurtenissen.',
@@ -3034,6 +3042,8 @@ sub Data {
             '',
         'Customer Company Administration' => 'Beheren van bedrijven',
         'Customer Company Information' => 'Bedrijfsinformatie',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => 'Beheren van klanten',
         'Customer Users' => 'Klanten',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3042,7 +3052,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Klanten <-> Groepen',
-        'Customers <-> Services' => 'Klanten <-> Services',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => 'Datum / tijd',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3262,7 +3271,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3769,7 +3778,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Escalatieoverzicht',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3947,6 +3955,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3977,8 +3987,8 @@ sub Data {
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Koppel klanten aan groepen.',
-        'Link customers to services.' => 'Koppel klanten aan services.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
         'Link templates to queues.' => '',
@@ -3996,6 +4006,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4742,9 +4757,12 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (in minuten)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Een antwoord is een standaard-tekst die uw behandelaars helpt sneller te reageren op tickets van klanten.',
+        'Add Customer Company' => 'Bedrijf toevoegen',
         'Add Response' => 'Nieuw antwoord',
+        'Add customer company' => 'Nieuw bedrijf',
         'Add response' => 'Nieuw antwoord',
         'Attachments <-> Responses' => 'Standaard-antwoorden <-> Bijlagen',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
@@ -4755,9 +4773,15 @@ sub Data {
         'Change Response Relations for Queue' => 'Bewerk gekoppelde antwoorden voor wachtrij',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
+        'Create and manage companies.' => 'Aanmaken en beheren van bedrijven.',
         'Create and manage response templates.' => 'Aanmaken en beheren van voorgedefiniëerde antwoorden.',
         'Currently only MySQL is supported in the web installer.' => 'Alleen MySQL wordt ondersteund door de web installer.',
+        'Customer Company Management' => 'Beheer bedrijven',
         'Customer Data' => 'Klantgegevens',
+        'Customer automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
+        'Customers <-> Services' => 'Klanten <-> Services',
         'DB host' => 'Database host',
         'Database-User' => 'OTRS database gebruiker',
         'Default skin for interface.' => 'Standaard kleuren voor OTRS schermen.',
@@ -4770,11 +4794,14 @@ sub Data {
         'Filter for Responses' => 'Filter op antwoorden',
         'Filter name' => 'Filter naam',
         'For more info see:' => 'Voor meer informatie zie:',
+        'From customer' => 'Van klant',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             'Als u OTRS op een ander type database wilt installeren, kijk dan in het bestand README.database voor instructies.',
         'Link attachments to responses templates.' => 'Koppel standaard-antwoorden aan bijlagen.',
+        'Link customers to groups.' => 'Koppel klanten aan groepen.',
+        'Link customers to services.' => 'Koppel klanten aan services.',
         'Link responses to queues.' => 'Koppel standaard-antwoorden aan wachtrijen.',
         'Log file location is only needed for File-LogModule!' => 'Locatie logbestand is alleen nodig voor de File-Log module.',
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
@@ -4785,6 +4812,7 @@ sub Data {
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
         'Package verification failed!' => 'Pakketverificatie mislukt!',
         'Password is required.' => 'Wachtwoord is verplicht.',
+        'Please enter a search term to look for customer companies.' => 'Typ om te zoeken naar bedrijven.',
         'Please supply a' => 'Geef een',
         'Please supply a first name' => 'Voer uw voornaam in',
         'Please supply a last name' => 'Voer uw achternaam in',
@@ -4795,6 +4823,7 @@ sub Data {
         'Show  article' => 'Toon interactie',
         'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
         'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
+        'To customer' => 'Aan klant',
         'before' => 'voor',
         'default \'hot\'' => 'Standaard \'hot\'',
         'settings' => 'instellingen',

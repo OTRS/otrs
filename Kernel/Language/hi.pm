@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:13
+    # Last translation file sync: 2013-09-05 16:51:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,7 @@ sub Data {
         'Cancel' => 'रद्द',
         'Reset' => 'पुनर्स्थापित',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -188,6 +189,7 @@ sub Data {
         'Search' => 'खोजें',
         'and' => 'और',
         'between' => 'बीच में',
+        'before/after' => '',
         'Fulltext Search' => 'पूर्ण पाठ खोजें',
         'Data' => 'आंकड़ा',
         'Options' => 'विकल्प',
@@ -690,7 +692,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'नया ईमेल टिकट बनाएँ और बाहर भेजें (आउटबाउंड)',
         'Create new Phone Ticket (Inbound)' => 'नया फोन टिकट बनाएँ (इनबाउंड)',
         'Address %s replaced with registered customer address.' => '',
-        'Customer automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'सभी खुले टिकटों का अवलोकन',
         'Locked Tickets' => 'लॉकड टिकटें',
         'My Locked Tickets' => 'मेरे लॉकड टिकट',
@@ -937,26 +939,26 @@ sub Data {
         'Example response' => 'उदाहरण प्रतिक्रिया',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'ग्राहक कंपनी प्रबंधन',
+        'Customer Management' => 'ग्राहक प्रबंधन',
         'Wildcards like \'*\' are allowed.' => '',
-        'Add customer company' => 'ग्राहक कंपनी जोड़ें',
+        'Add customer' => 'ग्राहक जोड़ें',
         'Select' => 'चुनें',
-        'Please enter a search term to look for customer companies.' => 'कृपया ग्राहक कंपनियों को देखने के लिए एक खोज शब्द दर्ज करें।',
-        'Add Customer Company' => 'ग्राहक कंपनी जोड़ें',
+        'Please enter a search term to look for customers.' => 'कृपया ग्राहकों को देखने के लिए एक खोज शब्द दर्ज करें।',
+        'Add Customer' => 'ग्राहक जोड़ें',
+        'Edit Customer' => 'ग्राहक संपादित करें',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'ग्राहक प्रबंधन',
+        'Customer User Management' => '',
         'Back to search results' => '',
-        'Add customer' => 'ग्राहक जोड़ें',
+        'Add customer user' => '',
         'Hint' => 'संकेत',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'ग्राहक को एक ग्राहक इतिहास की आवश्यकता होगी और ग्राहक पटल के माध्यम से प्रवेश की।',
-        'Please enter a search term to look for customers.' => 'कृपया ग्राहकों को देखने के लिए एक खोज शब्द दर्ज करें।',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'पिछला प्रवेश ',
         'Login as' => 'के रूप में प्रवेश',
         'Switch to customer' => '',
-        'Add Customer' => 'ग्राहक जोड़ें',
-        'Edit Customer' => 'ग्राहक संपादित करें',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'यह क्षेत्र जरूरी है और एक मान्य ईमेल पतॆ की आवश्यकता है।',
         'This email address is not allowed due to the system configuration.' =>
@@ -1198,7 +1200,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -1663,6 +1665,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2031,6 +2035,7 @@ sub Data {
         'Invalid year' => 'अवैध वर्ष',
         'Invalid month' => 'अवैध महीना',
         'Invalid day' => 'अवैध दिन',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'तंत्र ईमेल पते प्रबंधन',
@@ -2120,6 +2125,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'नियंत्रण-पट्ट',
@@ -2357,9 +2363,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'नई ईमेल टिकट बनाएँ',
         'From queue' => 'श्रेणी से',
-        'To customer' => '',
-        'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'सभी प्राप्त करें',
         'Text Template' => '',
 
@@ -2412,7 +2419,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'नया फोन टिकट बनाएँ',
-        'From customer' => 'ग्राहक से',
+        'Please include at least one customer for the ticket.' => '',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'श्रेणी में',
 
         # Template: AgentTicketPhoneCommon
@@ -3007,7 +3015,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'सेवा स्तर के समझौतों को बनाएँ और प्रबंधन करें।',
         'Create and manage agents.' => 'प्रतिनिधियॊ को बनाएँ और प्रबंधन करें।',
         'Create and manage attachments.' => 'संलग्नक को बनाएँ और प्रबंधन करें।',
-        'Create and manage companies.' => 'कंपनियों को बनाएँ और प्रबंधन करें।',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'ग्राहकों को बनाएँ और प्रबंधन करें।',
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'घटना आधारित अधिसूचना को बनाएँ और प्रबंधन करें।',
@@ -3030,6 +3038,8 @@ sub Data {
             'कस्टम पाठ जो उन ग्राहकों को दिखाया जाएगा जिनके पास अभी तक कोई टिकट नहीं है।',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3038,7 +3048,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'ग्राहकों<->समूहों',
-        'Customers <-> Services' => 'ग्राहकों<->सेवाएँ',
         'Data used to export the search result in CSV format.' => 'CSV प्रारूप में खोज परिणाम भेजने के लिए उपयोग होनेवाला आंकड़ा।',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3258,7 +3267,7 @@ sub Data {
             'ग्राहक अंतरफलक के टिकट की ज़ूम स्क्रीन में फोन टिकटों के लिए तयशुदा प्रेषक प्रकार को परिभाषित करता है।',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'टिकट की खोज स्क्रीन के लिए दिखाई टिकट की तयशुदा खोज विशेषता को परिभाषित करता है।',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3765,7 +3774,6 @@ sub Data {
             'निर्दिष्ट टिकटों का ट्रैक रखने के लिए टिकट जिम्मेदार सुविधा को सक्षम बनाता है।',
         'Enables ticket watcher feature only for the listed groups.' => 'केवल सूचीबद्ध समूहों के लिए टिकट पहरेदार सुविधा को सक्षम बनाता है।',
         'Escalation view' => 'संवर्धित दृश्य',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3943,6 +3951,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3973,8 +3983,8 @@ sub Data {
         'Link agents to groups.' => 'प्रतिनिधिओं को समूहों से जोडें।',
         'Link agents to roles.' => 'प्रतिनिधिओं को भूमिकाओं से जोडें।',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'ग्राहकों को समूहों से जोडें।',
-        'Link customers to services.' => 'ग्राहकों को सेवाओं से जोडें।',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'श्रेणीयों को स्वत प्रतिक्रियाओं से जोडें।',
         'Link roles to groups.' => 'भूमिकाओं को समूहों से जोडें।',
         'Link templates to queues.' => '',
@@ -3992,6 +4002,11 @@ sub Data {
             'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली JS फ़ाइलों के सूची।',
         'List of JS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली JS फ़ाइलों के सूची।',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => 'टिकट काउंटर के लिए अभिलेख फ़ाइल।',
@@ -4738,7 +4753,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Add Customer Company' => 'ग्राहक कंपनी जोड़ें',
         'Add Response' => 'प्रतिक्रिया जोड़ें',
+        'Add customer company' => 'ग्राहक कंपनी जोड़ें',
         'Add response' => 'प्रतिक्रिया जोड़ें',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन के में प्राप्तकर्ताओं को ग्राहकों के ईमेल पते जोड़ता है।',
@@ -4753,9 +4770,14 @@ sub Data {
         'Change Response Relations for Queue' => 'श्रेणी के लिए प्रतिक्रिया संबंधों को बदलॆ',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'पूर्ण पाठ सूचकांक विन्यस्त करें। नया सूचकांक उत्पन्न करने के लिए "bin/otrs.RebuildFulltextIndex.pl"चलाएँ।',
+        'Create and manage companies.' => 'कंपनियों को बनाएँ और प्रबंधन करें।',
         'Create and manage response templates.' => 'प्रतिक्रिया टेम्पलेट्स को बनाएँ और प्रबंधन करें।',
         'Currently only MySQL is supported in the web installer.' => 'वर्तमान में केवल MySQL वेब संस्थापक में समर्थित है।',
+        'Customer Company Management' => 'ग्राहक कंपनी प्रबंधन',
         'Customer Data' => 'ग्राहक आंकड़ा',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'ग्राहक को एक ग्राहक इतिहास की आवश्यकता होगी और ग्राहक पटल के माध्यम से प्रवेश की।',
+        'Customers <-> Services' => 'ग्राहकों<->सेवाएँ',
         'DB host' => 'आंकड़ाकोष मेजबान',
         'Database-User' => 'आंकड़ाकोष उपयोगकर्ता',
         'Default skin for interface.' => 'तयशुदा सतही अंतरफलक के लिए।',
@@ -4783,6 +4805,7 @@ sub Data {
         'Filter for Responses' => 'प्रतिक्रियाओं के लिए निस्पादक',
         'Filter name' => 'निस्पादक का नाम',
         'For more info see:' => 'अधिक जानकारी के लिए देखें :',
+        'From customer' => 'ग्राहक से',
         'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
             'यदि सक्रिय है,OTRS संस्करण टैग HTTP प्रवेशिका से निकाल दिया जाएगा।',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
@@ -4790,6 +4813,8 @@ sub Data {
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             'यदि आप किसी अन्य डेटाबेस के प्रकार पर OTRS स्थापित करना चाहते हैं,तो कृपया README.database फ़ाइल का संदर्भ लें।',
         'Link attachments to responses templates.' => 'संलग्नक को प्रतिक्रियाएं टेम्पलेट्स से जोडें।',
+        'Link customers to groups.' => 'ग्राहकों को समूहों से जोडें।',
+        'Link customers to services.' => 'ग्राहकों को सेवाओं से जोडें।',
         'Link responses to queues.' => 'प्रतिक्रियाओं को श्रेणीयों से जोडें।',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
@@ -4801,6 +4826,7 @@ sub Data {
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Package verification failed!' => 'संकुल पुष्टिकरण असफल रहा।',
+        'Please enter a search term to look for customer companies.' => 'कृपया ग्राहक कंपनियों को देखने के लिए एक खोज शब्द दर्ज करें।',
         'Please supply a' => 'कृपया प्रदान करें',
         'Please supply a first name' => 'कृपया पहला नाम प्रदान करें',
         'Please supply a last name' => 'कृपया आखिरी नाम प्रदान करें',

@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:12
+    # Last translation file sync: 2013-09-05 16:51:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,6 +54,7 @@ sub Data {
         'Cancel' => 'Annuler',
         'Reset' => 'Réinitialiser',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -193,6 +194,7 @@ sub Data {
         'Search' => 'Recherche',
         'and' => 'et le',
         'between' => 'entre',
+        'before/after' => '',
         'Fulltext Search' => 'Recherche plein texte',
         'Data' => 'Données',
         'Options' => 'Options ',
@@ -695,7 +697,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Créer une demande par courriel et l\'envoyer (Sortant)',
         'Create new Phone Ticket (Inbound)' => 'Créer une demande téléphonique (Entrant)',
         'Address %s replaced with registered customer address.' => 'Adresse %s remplacée par celle du client enregistré.',
-        'Customer automatically added in Cc.' => 'Client automatiquement ajouté en copie confirme.',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Aperçu de toutes les demandes',
         'Locked Tickets' => 'Demandes verrouillées',
         'My Locked Tickets' => 'Mes demandes verrouillées',
@@ -942,26 +944,26 @@ sub Data {
         'Example response' => 'Exemple de réponse ',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Gestion des entreprises clientes',
+        'Customer Management' => 'Gestion des clients',
         'Wildcards like \'*\' are allowed.' => 'Les caractères génériques tels que \'*\' sont autorisés.',
-        'Add customer company' => 'Ajouter une entreprise cliente',
+        'Add customer' => 'Ajouter un client',
         'Select' => 'Sélectionner',
-        'Please enter a search term to look for customer companies.' => 'Pour trouver des entreprises clientes, veuillez entrer un terme de recherche.',
-        'Add Customer Company' => 'Ajouter un client au service',
+        'Please enter a search term to look for customers.' => 'Pour trouver des clients, inscrire un terme de recherche.',
+        'Add Customer' => 'Ajouter un client',
+        'Edit Customer' => 'Éditer les renseignements du client',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Gestion des clients',
+        'Customer User Management' => 'Gestion des clients',
         'Back to search results' => '',
-        'Add customer' => 'Ajouter un client',
+        'Add customer user' => '',
         'Hint' => 'Conseil',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Le client devra avoir un historique et ouvrir une session dans la page du client.',
-        'Please enter a search term to look for customers.' => 'Pour trouver des clients, inscrire un terme de recherche.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'Dernière connexion',
         'Login as' => 'Connecté en tant que',
         'Switch to customer' => '',
-        'Add Customer' => 'Ajouter un client',
-        'Edit Customer' => 'Éditer les renseignements du client',
+        'Add Customer User' => 'Ajouter un client',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'Le champ est obligatoire et l\'adresse de courrier électronique doit être valide.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1203,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => '',
+        '(work units)' => 'Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -1668,6 +1670,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2036,6 +2040,7 @@ sub Data {
         'Invalid year' => 'Année incorrecte',
         'Invalid month' => 'Mois incorrect',
         'Invalid day' => 'Jour incorrect',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Gestion des adresses électroniques du système',
@@ -2125,6 +2130,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'Cela va être supprimé du champ. Veuillez ré-éssayer',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Tableau de bord',
@@ -2362,9 +2368,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Créer une nouvelle demande courriel',
         'From queue' => 'De la file ',
-        'To customer' => 'Vers le client ',
-        'Please include at least one customer for the ticket.' => 'Veuillez ajouter au moins un client à la demande.',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Tout prendre',
         'Text Template' => '',
 
@@ -2417,7 +2424,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Créer une nouvelle demande téléphonique',
-        'From customer' => 'Du client ',
+        'Please include at least one customer for the ticket.' => 'Veuillez ajouter au moins un client à la demande.',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'Vers la file ',
 
         # Template: AgentTicketPhoneCommon
@@ -3012,7 +3020,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Créer et gérer les accords sur les niveaux de service (SLAs).',
         'Create and manage agents.' => 'Créer et gérer les agents.',
         'Create and manage attachments.' => 'Créer et gérer les pièces jointes.',
-        'Create and manage companies.' => 'Créer et gérer les entreprises.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Créer et gérer les clients.',
         'Create and manage dynamic fields.' => 'Créer et gérer les champs dynamiques.',
         'Create and manage event based notifications.' => 'Créer et gérer les notifications événementielles.',
@@ -3035,6 +3043,8 @@ sub Data {
             'Texte personnalisé pour la page affichée aux clients qui n\'ont pas encore de demande.',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => 'Clients utilisateurs',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3043,7 +3053,6 @@ sub Data {
             'Article du client (icône) lui montrant les demandes ouvertes regroupées. Le réglage de l\'ouverture de session de l\'utilisateur-client (CustomerUserLogin) à 1 permet la recherche de demandes fondée sur le nom d\'ouverture de session plutôt que sur l\'identification du client.',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Clients <-> Groupes',
-        'Customers <-> Services' => 'Clients <-> Services',
         'Data used to export the search result in CSV format.' => 'Données utilisées pour exporter les résultats de recherche dans le format CSV.',
         'Date / Time' => 'Date et heure',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3263,7 +3272,7 @@ sub Data {
             'Détermine le type d\'expéditeur par défaut pour les demandes dans l\'écran de synthèse de la demande de l\'interface client.',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'Détermine l\'attribut de recherche de demandes affiché par défaut dans l\'écran de recherche.',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3770,7 +3779,6 @@ sub Data {
             'Active la fonction de responsabilité d\'une demande afin de pouvoir suivre une demande précise.',
         'Enables ticket watcher feature only for the listed groups.' => 'Active la fonction de surveillance de demandes pour les groupes en liste.',
         'Escalation view' => 'Vue des escalades',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3948,6 +3956,8 @@ sub Data {
             'Cette adresse est utilisée dans l\'en-tête des notifications sortantes si cette option est activée. Si aucune adresse n\'est spécifiée, l\'en-tête sera vide.',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3978,8 +3988,8 @@ sub Data {
         'Link agents to groups.' => 'Lier les agents aux groupes.',
         'Link agents to roles.' => 'Lier les agents aux rôles.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Lier les clients aux groupes.',
-        'Link customers to services.' => 'Lier les clients aux services.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Lier les files aux réponses automatiques.',
         'Link roles to groups.' => 'Lier les rôles aux groupes.',
         'Link templates to queues.' => '',
@@ -3997,6 +4007,11 @@ sub Data {
             'Liste des fichiers JavaScript qui doivent toujours être téléchargés sur l\'interface agent.',
         'List of JS files to always be loaded for the customer interface.' =>
             'Liste des fichiers JavaScript qui doivent toujours être téléchargés sur l\'interface client.',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => 'Fichier journal pour le compteur de demandes.',
@@ -4931,7 +4946,6 @@ sub Data {
         '(Used log backend)' => '(arrière-plan du journal utilisé)',
         '(Used ticket number format)' => '(Format numérique utilisé pour les demandes)',
         '(e.g. Generic Interface asynchronous invoker tasks)' => '(p. ex. Les tâches asynchrones du demandeur de l’interface générique)',
-        '(work units)' => 'Unité de travail',
         '* Normalize Private Secrets Files\n' => '* Régularise les fichiers secrets privés\n',
         '*** out of office till $TillDate/$Till d ***' => '*** absent du bureau jusqu\'au $TillDate/$Till d ***',
         '**Error in Normalize Private Secret Files.\n\n' => '* Erreur dans la régularisation des fichiers secrets privés.\n\n',
@@ -4981,7 +4995,7 @@ sub Data {
         'Action \'$Param{Action}\' not found!' => 'L\'action \'$Param{Action}\' n\'a pas été trouvé.',
         'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
             'Active la fonction de frappe continue « TypeAhead » pour la saisie automatique. Ceci permet à l\'utilisateur de taper à la vitesse désirée sans perte d\'information. Souvent cela signifie que les caractères frappés ne seront pas affichés à l\'écran immédiatement.',
-        'Add Customer User' => 'Ajouter un client',
+        'Add Customer Company' => 'Ajouter un client au service',
         'Add Response' => 'Ajouter une réponse',
         'Add System Address' => 'Ajouter une adresse dans le système',
         'Add User' => 'Ajouter un utilisateur.',
@@ -5000,6 +5014,7 @@ sub Data {
         'Add a new Type.' => 'Ajoute un nouveau Type.',
         'Add a new salutation' => 'Ajouter une nouvelle formule de salutation.',
         'Add a note to this ticket!' => 'Ajouter une note à la demande.',
+        'Add customer company' => 'Ajouter une entreprise cliente',
         'Add mail adress %s to the Bcc field' => 'Ajouter l\'adresse électronique %s au champ « Bcc ».',
         'Add mail adress %s to the Cc field' => 'Ajouter l\' adresse électronique %s au champ « Cc ».',
         'Add mail adress %s to the To field' => 'Ajouter \'adresse électronique %s au champ « À ».',
@@ -5408,6 +5423,7 @@ sub Data {
         'Create New Template' => 'Création d\'un nouveau modèle',
         'Create Times' => 'Dates de création',
         'Create a new ticket!' => 'Créer une nouvelle demande.',
+        'Create and manage companies.' => 'Créer et gérer les entreprises.',
         'Create and manage notifications that are sent to agents.' => 'Création et gestion des notifications envoyées aux agents.',
         'Create and manage response templates.' => 'Créer et gérer les modèles de réponse.',
         'Create new Phone Ticket' => 'Création d\'une demande téléphonique',
@@ -5423,15 +5439,16 @@ sub Data {
         'Croatia' => 'Croatie, République de',
         'Curacao' => 'Curacao',
         'Currently only MySQL is supported in the web installer.' => 'Pour le moment, seul MySQL est supporté par cet installateur web.',
+        'Customer Company Management' => 'Gestion des entreprises clientes',
         'Customer Data' => 'Renseignements du client ',
         'Customer Move Notify' => 'Notification lors d\'un changement de file',
         'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
         'Customer State Notify' => 'Notification lors d\'un changement d\'état',
         'Customer Ticket Print Module' => 'Module d\'impression de la demande du client',
-        'Customer User Management' => 'Gestion des clients',
         'Customer Users <-> Groups' => 'Clients <-> Groupes',
         'Customer Users <-> Groups Management' => 'Clients <-> Gestion des groupes',
         'Customer Users <-> Services Management' => 'Client utilisateur <-> Gestion des Services',
+        'Customer automatically added in Cc.' => 'Client automatiquement ajouté en copie confirme.',
         'Customer history' => 'Historique du client ',
         'Customer history search' => 'Recherche dans l\'historique du client',
         'Customer history search (e. g. "ID342425").' => 'Recherche dans l\'historique du client (ex. : "ID342425")',
@@ -5443,6 +5460,8 @@ sub Data {
         'Customer user can\'t be added!' => 'L\'utilisateur du client ne peut être ajouté.',
         'Customer user will be needed to have a customer history and to login via customer panel.' =>
             'Les clients seront invités à se connecter sur la page du client.',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'Le client devra avoir un historique et ouvrir une session dans la page du client.',
         'CustomerID: $GetParam{\'X-OTRS-CustomerNo\'}\n' => 'Identifiant du client (CustomerID) : $GetParam{\'X-OTRS-CustomerNo\'}\n',
         'CustomerID{CustomerUser}' => 'Identifiant du client{CustomerUser}',
         'CustomerTicketOverview' => 'Visualisation de la demande du client',
@@ -5450,6 +5469,7 @@ sub Data {
         'CustomerUpdate' => 'Mise à jour du client (CustomerUpdate)',
         'CustomerUser' => 'Client utilisateur (CustomerUser)',
         'CustomerUser: $GetParam{\'X-OTRS-CustomerUser\'}\n' => 'Identifiant du client (CustomerID) : $GetParam{\'X-OTRS-CustomerUser\'}\n',
+        'Customers <-> Services' => 'Clients <-> Services',
         'Customers with at least one ticket=$Customers;' => 'Clients avec au moins une demande  ticket=$Customers;',
         'Cyprus' => 'Chypre',
         'Czech Republic' => 'République tchèque',
@@ -5777,6 +5797,7 @@ sub Data {
         'French Guiana' => 'Guyane française',
         'French Polynesia' => 'Polynésie française',
         'French Southern Territories' => 'Terres australes françaises',
+        'From customer' => 'Du client ',
         'From: $GetParam{From}\n' => 'De : $GetParam{From}\n',
         'From: OTRS Feedback <feedback@otrs.org>
     To: Your OTRS System <otrs@localhost>
@@ -6578,6 +6599,8 @@ sub Data {
         'Liechtenstein' => 'Liechtenstein',
         'Link Table' => 'Table des liens',
         'Link attachments to responses templates.' => 'Lier les pièces jointes aux modèles de réponse.',
+        'Link customers to groups.' => 'Lier les clients aux groupes.',
+        'Link customers to services.' => 'Lier les clients aux services.',
         'Link responses to queues.' => 'Lier les réponses aux files.',
         'Link this ticket to an other objects!' => 'Lier cette demande à un autre objet.',
         'Link to Parent' => 'Lier au Parent',
@@ -6946,6 +6969,7 @@ sub Data {
         'Please contact' => 'Veuillez joindre ',
         'Please contact the admin.' => 'Veuillez joindre votre administrateur.',
         'Please contact your admin' => 'Veuillez contacter votre admnistrateur',
+        'Please enter a search term to look for customer companies.' => 'Pour trouver des entreprises clientes, veuillez entrer un terme de recherche.',
         'Please enter subject.' => 'Veuillez entrer un sujet.',
         'Please go back' => 'Veuillez retourner à la page précédente',
         'Please provide a name.' => 'Veuillez fournir un nom.',
@@ -7604,6 +7628,7 @@ sub Data {
         'Title{CustomerUser}' => 'Titre{CustomerUser}',
         'Title{user}' => 'Titre{user}',
         'To accept login information, such as an EULA or license.' => 'Accepter les informations d\'ouverture de session comme un EULA ou une licence.',
+        'To customer' => 'Vers le client ',
         'To download attachments' => 'Télécharger les pièces jointes',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' =>
             'Pour se procurer l\'attribut d\'article (par ex. « <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> et <OTRS_AGENT_Body> »).',

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:26
+    # Last translation file sync: 2013-09-05 16:52:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -51,6 +51,7 @@ sub Data {
         'Cancel' => 'Prekliči',
         'Reset' => 'Ponastavi',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -190,6 +191,7 @@ sub Data {
         'Search' => 'Išči',
         'and' => 'in',
         'between' => 'med',
+        'before/after' => '',
         'Fulltext Search' => 'Tekst za iskanje',
         'Data' => 'Podatki',
         'Options' => 'Možnosti',
@@ -692,7 +694,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Odpri nov zahtevek E-pošte in pošlji to (izhodni)',
         'Create new Phone Ticket (Inbound)' => 'Kreiraj nov telefonski zahtevek (vhodni klic)',
         'Address %s replaced with registered customer address.' => '',
-        'Customer automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Pregled vseh odprtih zahtevkov',
         'Locked Tickets' => 'Prevzeti/blokirani',
         'My Locked Tickets' => 'Moji prevzeti zahtevki',
@@ -939,26 +941,26 @@ sub Data {
         'Example response' => 'Primer odgovora',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Urejevanje uporabniških podjetji',
+        'Customer Management' => 'Upravljanje s strankami',
         'Wildcards like \'*\' are allowed.' => 'Nadomestni znaki kot "*" so dovoljeni.',
-        'Add customer company' => 'Dodaj uporabnikovo podjetje',
+        'Add customer' => 'Dodaj stranko',
         'Select' => 'Izberi',
-        'Please enter a search term to look for customer companies.' => 'Prosimo vnesite iskalni izraz za iskanje podjetji stranke.',
-        'Add Customer Company' => 'Dodaj uporabniško podjetje',
+        'Please enter a search term to look for customers.' => 'Vnesite iskalne kriterije za iskanje stranke.',
+        'Add Customer' => 'Dodaj uporabnika',
+        'Edit Customer' => 'Uredi uporabnika',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Upravljanje s strankami',
+        'Customer User Management' => '',
         'Back to search results' => '',
-        'Add customer' => 'Dodaj stranko',
+        'Add customer user' => '',
         'Hint' => 'Nasvet',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Potrebna je stranka, da je omogočena zgodovina stranke in da se prijavie preko plošče stranke.',
-        'Please enter a search term to look for customers.' => 'Vnesite iskalne kriterije za iskanje stranke.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'Zadnja prijava',
         'Login as' => 'Prijavi se kot',
         'Switch to customer' => '',
-        'Add Customer' => 'Dodaj uporabnika',
-        'Edit Customer' => 'Uredi uporabnika',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'To polje je obvezno in mora biti veljaven elektronski naslov.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1200,7 +1202,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izbrane zahtevke',
         'Add Note' => 'Dodaj opombo',
         'Time units' => 'Časovne enote',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'Ukazi za zahtevek',
         'Send agent/customer notifications on changes' => 'Pošlji obvestilo zaposlenemu/uporabniku o spremembah',
         'CMD' => 'CMD',
@@ -1665,6 +1667,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2033,6 +2037,7 @@ sub Data {
         'Invalid year' => 'Napačno leto',
         'Invalid month' => 'Napačen mesec',
         'Invalid day' => 'Napačen dan',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Upravljanje z E-pošto sistema',
@@ -2122,6 +2127,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Nadzorna plošča',
@@ -2359,9 +2365,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Odpri nov zahtevek E-pošte',
         'From queue' => 'Iz vrste',
-        'To customer' => 'Stranka',
-        'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Dobi vse',
         'Text Template' => '',
 
@@ -2414,7 +2421,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Odpri nov telefonski zahtevek',
-        'From customer' => 'Od stranke',
+        'Please include at least one customer for the ticket.' => '',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'V vrsto',
 
         # Template: AgentTicketPhoneCommon
@@ -3009,7 +3017,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Upravljanje in ustvarjanje s SLA.',
         'Create and manage agents.' => 'Upravljanje in ustvarjanje z operaterji.',
         'Create and manage attachments.' => 'Upravljanje in ustvarjanje s priponkami.',
-        'Create and manage companies.' => 'Upravljanje in ustvarjanje s podjetji.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Upravljanje in ustvarjanje strank.',
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'Upravljanje in ustvarjanje z dogodki na bazi obvestil.',
@@ -3032,6 +3040,8 @@ sub Data {
             '',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => 'Stranke',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3040,7 +3050,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Stranke <-> Skupine',
-        'Customers <-> Services' => 'Stranke <-> Servisi',
         'Data used to export the search result in CSV format.' => 'Podatki, ki se uporabljajo za izvoz rezultatov iskanja v formatu CSV.',
         'Date / Time' => 'Datum/Čas',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3260,7 +3269,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3767,7 +3776,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Pregled eskalacij',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3945,6 +3953,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3975,8 +3985,8 @@ sub Data {
         'Link agents to groups.' => 'Poveži operaterje s skupinami.',
         'Link agents to roles.' => 'Poveži operaterje z vlogami.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Poveži stranke s skupinami.',
-        'Link customers to services.' => 'Poveži stranke s servisi.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Poveži vrste z avtomatskim odgovorom.',
         'Link roles to groups.' => 'Poveži vloge s skupinama.',
         'Link templates to queues.' => '',
@@ -3994,6 +4004,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => 'Log datoteka za števec zahtevka.',
@@ -4740,7 +4755,9 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Add Customer Company' => 'Dodaj uporabniško podjetje',
         'Add Response' => 'Dodaj odgovor',
+        'Add customer company' => 'Dodaj uporabnikovo podjetje',
         'Add response' => 'Dodaj odgovor',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Doda po meri e-mail naslov prejemnika v oknu, da odprete zahtevek na vmesniku zaposlenega.',
@@ -4751,9 +4768,14 @@ sub Data {
         'Change Queue Relations for Response' => 'Spremeni povezave z vrstami z odgovorom',
         'Change Response Relations for Attachment' => 'Spremeni povezave z odgovori za priloge',
         'Change Response Relations for Queue' => 'Spremeni povezave odgovorov z vrsto',
+        'Create and manage companies.' => 'Upravljanje in ustvarjanje s podjetji.',
         'Create and manage response templates.' => 'Upravljanje in ustvarjanje predlog odgovorov.',
         'Currently only MySQL is supported in the web installer.' => 'Trenutno je samo MySQL podržan u Web Instalaciji.',
+        'Customer Company Management' => 'Urejevanje uporabniških podjetji',
         'Customer Data' => 'Podatki o stranki',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'Potrebna je stranka, da je omogočena zgodovina stranke in da se prijavie preko plošče stranke.',
+        'Customers <-> Services' => 'Stranke <-> Servisi',
         'DB host' => 'Naziv ali naslov DB serverja',
         'Database-User' => 'Uporabnik baze podatkov',
         'Default skin for interface.' => 'Privzeti izgled za vmesnik.',
@@ -4765,11 +4787,14 @@ sub Data {
         'Filter for Responses' => 'Filter za odgovore',
         'Filter name' => 'Ime filtra',
         'For more info see:' => 'Za več informacij si oglejte:',
+        'From customer' => 'Od stranke',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Ako ste podesili "root" lozinku za vašu bazu podataka, ona mora biti unesena ovdje. Ako nema lozinke, ostavite polje prazno. Iz sigurnosnih razloga preporučujemo da je podesite. Za više informacija proučite dokumentaciju o bazi podataka.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             'Ako želite instalirati OTRS na neki drugi sustav baze podataka, proučite informacije u datoteci README.database.',
         'Link attachments to responses templates.' => 'Poveži priloge s predlogami.',
+        'Link customers to groups.' => 'Poveži stranke s skupinami.',
+        'Link customers to services.' => 'Poveži stranke s servisi.',
         'Link responses to queues.' => 'Poveži odgovore z vrsto.',
         'Log file location is only needed for File-LogModule!' => 'Lokacija datoteke dnevnika je jedino neophodna za Modul dnevnika!',
         'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',
@@ -4778,6 +4803,7 @@ sub Data {
         'Manage Responses <-> Attachments Relations' => 'Upravljanje z odgovori <-> odnosi z priponkami',
         'Package verification failed!' => 'Preverjanje paketa ni uspelo!',
         'Password is required.' => 'Geslo je potrebno.',
+        'Please enter a search term to look for customer companies.' => 'Prosimo vnesite iskalni izraz za iskanje podjetji stranke.',
         'Please supply a' => 'Prosimo, vnesite',
         'Please supply a first name' => 'Prosimo, vnesite ime',
         'Please supply a last name' => 'Prosimo, vnesite priimek',
@@ -4785,6 +4811,7 @@ sub Data {
         'Responses <-> Queues' => 'Odgovori <-> Vrste',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Varni način mora biti onemogočen zaradi ponovne instalacije preko weba.',
+        'To customer' => 'Stranka',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Ko se združijo zahtevki, zahtevku ki ni aktiven se bo avtomatsko dodala opomba. V prostoru za tekst lahko definirate naslednji tekst (Uporabniki ne morejo spreminjati tega besedila).',
         'before' => 'pred',

@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:04
+    # Last translation file sync: 2013-09-05 16:51:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -53,6 +53,7 @@ sub Data {
         'Cancel' => 'Storno',
         'Reset' => '',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -192,6 +193,7 @@ sub Data {
         'Search' => 'Vyhledat',
         'and' => 'a',
         'between' => 'mezi',
+        'before/after' => '',
         'Fulltext Search' => 'Fulltextové vyhledávání',
         'Data' => '',
         'Options' => 'Možnosti',
@@ -694,7 +696,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Vytvořit nový Email Tiket a odeslat jej (Odchozí)',
         'Create new Phone Ticket (Inbound)' => 'Vytvořit nový Telefonní Tiket (Příchozí)',
         'Address %s replaced with registered customer address.' => '',
-        'Customer automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Přehled všech otevřených tiketů',
         'Locked Tickets' => 'Uzamčené tikety',
         'My Locked Tickets' => 'Moje zamčené tikety',
@@ -941,26 +943,26 @@ sub Data {
         'Example response' => 'Vzorová odpověď',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Správa Společnosti Zákazníka',
+        'Customer Management' => 'Správa zákazníků',
         'Wildcards like \'*\' are allowed.' => 'Pseudoznaky jako \'*\' jsou povolené',
-        'Add customer company' => 'Přidat společnost zákazníka',
+        'Add customer' => 'Přidat zákazníka',
         'Select' => 'Vybrat',
-        'Please enter a search term to look for customer companies.' => 'Prosím vlož hledaný výraz pro vyhledaní společnosti zákazníka',
-        'Add Customer Company' => 'Přidat Společnost Zákazníka',
+        'Please enter a search term to look for customers.' => '',
+        'Add Customer' => 'Přidat zákazníka',
+        'Edit Customer' => 'Upravit zákazníka',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Správa zákazníků',
+        'Customer User Management' => '',
         'Back to search results' => '',
-        'Add customer' => 'Přidat zákazníka',
+        'Add customer user' => '',
         'Hint' => 'Nápověda',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
-        'Please enter a search term to look for customers.' => '',
         'Last Login' => 'Poslední přihlášení',
         'Login as' => 'Přihlásit jako',
         'Switch to customer' => '',
-        'Add Customer' => 'Přidat zákazníka',
-        'Edit Customer' => 'Upravit zákazníka',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             '',
         'This email address is not allowed due to the system configuration.' =>
@@ -1202,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        ' (work units)' => ' (jednotky práce)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -1667,6 +1669,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2035,6 +2039,7 @@ sub Data {
         'Invalid year' => '',
         'Invalid month' => '',
         'Invalid day' => '',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Správa emailových adres systému',
@@ -2124,6 +2129,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Nástěnka',
@@ -2361,9 +2367,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Vytvořit Nový Email Tiket',
         'From queue' => 'Z fronty',
-        'To customer' => 'Zákazníkovi',
-        'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => '',
         'Text Template' => '',
 
@@ -2416,7 +2423,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Vytvořit nový telefonní tiket',
-        'From customer' => 'Od zákazníka',
+        'Please include at least one customer for the ticket.' => '',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'Do fronty',
 
         # Template: AgentTicketPhoneCommon
@@ -3011,7 +3019,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
         'Create and manage attachments.' => '',
-        'Create and manage companies.' => '',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => '',
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => '',
@@ -3034,6 +3042,8 @@ sub Data {
             '',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => 'Uživatelé Zákazníka',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3042,7 +3052,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => '',
-        'Customers <-> Services' => '',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3262,7 +3271,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3769,7 +3778,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Zobrazit vyeskalované',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3947,6 +3955,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3977,8 +3987,8 @@ sub Data {
         'Link agents to groups.' => '',
         'Link agents to roles.' => '',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => '',
-        'Link customers to services.' => '',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => '',
         'Link roles to groups.' => '',
         'Link templates to queues.' => '',
@@ -3996,6 +4006,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4742,21 +4757,27 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (jednotky práce)',
+        'Add Customer Company' => 'Přidat Společnost Zákazníka',
+        'Add customer company' => 'Přidat společnost zákazníka',
         'Attachments <-> Responses' => 'Přílohy <-> Odpovědi',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 malá a 2 velká písmena!',
         'CreateTicket' => 'Vytvořit Tiket',
+        'Customer Company Management' => 'Správa Společnosti Zákazníka',
         'Customer Data' => 'Data Zákazníka',
         'Database-User' => 'Uživatel',
         'Due Date' => 'Datum splatnosti',
         'Escalation in' => 'Eskalace v',
         'For more info see:' => 'Pro další informace viz:',
+        'From customer' => 'Od zákazníka',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Logout successful. Thank you for using OTRS!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání OTRS!',
         'Merge this ticket' => 'Sloučit Tiket',
         'Package verification failed!' => 'Ověření balíčku selhalo',
         'Password is required.' => 'Je požadováno heslo.',
+        'Please enter a search term to look for customer companies.' => 'Prosím vlož hledaný výraz pro vyhledaní společnosti zákazníka',
         'Please supply a' => 'Prosím zadejte',
         'Please supply a first name' => 'Prosím zadejte křestní jméno',
         'Please supply a last name' => 'Prosím zadejte příjmení',
@@ -4767,6 +4788,7 @@ sub Data {
         'Ticket Information' => 'Informace o tiketu',
         'TicketFreeFields' => 'Volná pole Tiketu',
         'TicketZoom' => 'Zobrazení tiketu',
+        'To customer' => 'Zákazníkovi',
         'View the source for this Article' => 'Zobrazit zdroj zprávy',
         'before' => 'před',
         'default \'hot\'' => 'výchozí \'hot\'',

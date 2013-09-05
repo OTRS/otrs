@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:30
+    # Last translation file sync: 2013-09-05 16:52:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -47,6 +47,7 @@ sub Data {
         'Cancel' => 'Відмінити',
         'Reset' => 'Перезавантажити',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -186,6 +187,7 @@ sub Data {
         'Search' => 'Пошук',
         'and' => 'та',
         'between' => 'між',
+        'before/after' => '',
         'Fulltext Search' => 'Повнотекстовий пошук',
         'Data' => 'Дата',
         'Options' => 'Опції',
@@ -688,7 +690,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Створити нову заявку email і відправити її',
         'Create new Phone Ticket (Inbound)' => 'Створити нову телефонну заявку',
         'Address %s replaced with registered customer address.' => '',
-        'Customer automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Огляд усіх заявок',
         'Locked Tickets' => 'Заблоковані заявки',
         'My Locked Tickets' => 'Мої заблоковані заявки',
@@ -935,26 +937,26 @@ sub Data {
         'Example response' => 'Приклад відповіді',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Керування компанією клієнта',
+        'Customer Management' => 'Керування клієнтами',
         'Wildcards like \'*\' are allowed.' => '',
-        'Add customer company' => 'Додати компанію клієнта',
+        'Add customer' => 'Додати клієнта',
         'Select' => 'Вибір',
-        'Please enter a search term to look for customer companies.' => ' Будь ласка введіть пошукову фразу для пошуку компаній клієнта.',
-        'Add Customer Company' => 'Додати компанію клієнта',
+        'Please enter a search term to look for customers.' => ' Будь ласка, уведіть пошукове вираження для пошуку клієнтів.',
+        'Add Customer' => 'Додати Клієнта',
+        'Edit Customer' => 'Редагувати Клієнта',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Керування клієнтами',
+        'Customer User Management' => '',
         'Back to search results' => '',
-        'Add customer' => 'Додати клієнта',
+        'Add customer user' => '',
         'Hint' => '',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
-        'Please enter a search term to look for customers.' => ' Будь ласка, уведіть пошукове вираження для пошуку клієнтів.',
         'Last Login' => 'Останній вхід',
         'Login as' => 'Зайти даним користувачем',
         'Switch to customer' => '',
-        'Add Customer' => 'Додати Клієнта',
-        'Edit Customer' => 'Редагувати Клієнта',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             '',
         'This email address is not allowed due to the system configuration.' =>
@@ -1196,7 +1198,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
-        ' (work units)' => ' ( робочі одиниці)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -1661,6 +1663,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -2029,6 +2033,7 @@ sub Data {
         'Invalid year' => '',
         'Invalid month' => '',
         'Invalid day' => '',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Керування системними адресами електронної пошти',
@@ -2118,6 +2123,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Дайджест',
@@ -2355,9 +2361,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Заявка по e-mail',
         'From queue' => ' Із черги',
-        'To customer' => '',
-        'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => '',
         'Text Template' => '',
 
@@ -2410,7 +2417,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Заявка по телефону',
-        'From customer' => ' Від клієнта',
+        'Please include at least one customer for the ticket.' => '',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'У чергу',
 
         # Template: AgentTicketPhoneCommon
@@ -3005,7 +3013,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => 'Створення й керування агентами.',
         'Create and manage attachments.' => 'Створення й керування вкладеннями.',
-        'Create and manage companies.' => 'Створення й керування компаніями.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Створення й керування клієнтами.',
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => '',
@@ -3028,6 +3036,8 @@ sub Data {
             '',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => 'Клієнти',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3036,7 +3046,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Клієнти <-> Групи',
-        'Customers <-> Services' => 'Клієнти <-> Сервіси',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3256,7 +3265,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3763,7 +3772,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Ескальовані заявки',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3941,6 +3949,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3971,8 +3981,8 @@ sub Data {
         'Link agents to groups.' => 'Зв\'язати агентів із групами.',
         'Link agents to roles.' => 'Зв\'язати агентів з ролями.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Зв\'язати клієнтів із групами.',
-        'Link customers to services.' => 'Зв\'язати клієнтів із сервісами.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => '',
         'Link roles to groups.' => '',
         'Link templates to queues.' => '',
@@ -3990,6 +4000,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4736,22 +4751,32 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' ( робочі одиниці)',
+        'Add Customer Company' => 'Додати компанію клієнта',
         'Add Response' => 'Додати відповідь',
+        'Add customer company' => 'Додати компанію клієнта',
         'Add response' => 'Додати відповідь',
         'Attachments <-> Responses' => 'Прикріплені файли <-> Відповіді',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!',
+        'Create and manage companies.' => 'Створення й керування компаніями.',
         'Create and manage response templates.' => 'Створення й керування шаблонами відповідей.',
+        'Customer Company Management' => 'Керування компанією клієнта',
         'Customer Data' => 'Облікові дані клієнта',
+        'Customers <-> Services' => 'Клієнти <-> Сервіси',
         'Database-User' => 'Користувач бази даних',
         'Edit Response' => 'Змінити відповідь',
         'Escalation in' => 'Ескалація через',
         'For more info see:' => 'Додаткова інформація знаходиться за адресою:',
+        'From customer' => ' Від клієнта',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Якщо для адміністратора бази даних установлений пароль, укажіть його тут. Якщо ні, залиште поле порожнім. З міркувань безпеки ми рекомендуємо створити пароль адміністратора. Інформацію із цієї теми можна знайти в документації по використовуваній базі даних',
+        'Link customers to groups.' => 'Зв\'язати клієнтів із групами.',
+        'Link customers to services.' => 'Зв\'язати клієнтів із сервісами.',
         'Link responses to queues.' => 'Зв\'язати відповіді із чергами.',
         'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',
         'Package verification failed!' => 'Помилка перевірки цілісності пакета',
+        'Please enter a search term to look for customer companies.' => ' Будь ласка введіть пошукову фразу для пошуку компаній клієнта.',
         'Responses' => 'Відповіді',
         'Responses <-> Queues' => 'Відповіді <-> Черга',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-26 19:06:21
+    # Last translation file sync: 2013-09-05 16:52:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,7 @@ sub Data {
         'Cancel' => 'Anuluj',
         'Reset' => 'Resetuj',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -188,6 +189,7 @@ sub Data {
         'Search' => 'Szukaj',
         'and' => 'i',
         'between' => 'pomiędzy',
+        'before/after' => '',
         'Fulltext Search' => 'Wyszukiwanie pełnotekstowe',
         'Data' => 'Data',
         'Options' => 'Opcje',
@@ -690,7 +692,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Utwórz nowe zgłoszenie e-mail i wyślij (wychodzące)',
         'Create new Phone Ticket (Inbound)' => 'Utwórz zgłoszenie telefoniczne (przychodzące)',
         'Address %s replaced with registered customer address.' => 'Adres %s zastąpiony zarejestrowanym adresem klienta.',
-        'Customer automatically added in Cc.' => 'Klient automatycznie dodany do DW.',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Przegląd otwartych zgłoszeń',
         'Locked Tickets' => 'Zablokowane',
         'My Locked Tickets' => 'Zablokowane',
@@ -937,26 +939,26 @@ sub Data {
         'Example response' => 'Przykładowa odpowiedź',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Zarządzanie firmami',
+        'Customer Management' => 'Zarządzanie klientami',
         'Wildcards like \'*\' are allowed.' => 'Wieloznaczniki (wildcards) takie jak \'*\' są dozwolone.',
-        'Add customer company' => 'Dodaj firmę',
+        'Add customer' => 'Dodaj klienta',
         'Select' => 'Zaznacz',
-        'Please enter a search term to look for customer companies.' => 'Wprowadź dane wyszukiwania w celu wyszukania firm klienta.',
-        'Add Customer Company' => 'Dodaj Firmę',
+        'Please enter a search term to look for customers.' => 'Prosimy wprowadź frazę wyszukiwania by odszukać klientów.',
+        'Add Customer' => 'Dodaj Klienta',
+        'Edit Customer' => 'Edytuj Klienta',
 
         # Template: AdminCustomerUser
-        'Customer Management' => 'Zarządzanie klientami',
+        'Customer User Management' => '',
         'Back to search results' => 'Wstecz do wyników szukania',
-        'Add customer' => 'Dodaj klienta',
+        'Add customer user' => '',
         'Hint' => 'Podpowiedź',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Klient będzie wymagany by mieć historię klienta i by logować się przez panel klienta.',
-        'Please enter a search term to look for customers.' => 'Prosimy wprowadź frazę wyszukiwania by odszukać klientów.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => 'Ostatnie logowanie',
         'Login as' => 'Zaloguj jako',
         'Switch to customer' => 'Przełącz na klienta',
-        'Add Customer' => 'Dodaj Klienta',
-        'Edit Customer' => 'Edytuj Klienta',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             'To pole jest wymagane i musi być poprawnym adresem e-mail.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1198,7 +1200,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Zaraportowany czas obsługi',
-        ' (work units)' => ' (jednostki czasu)',
+        '(work units)' => '',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -1663,6 +1665,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             'Zwróć uwagę, że zmiany tego okna wpłyną na następnujące działania',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => 'Okna działania',
         'Activity dialog Name' => 'Nazwa okna działania',
         'Available in' => 'Dostępne w',
@@ -2031,6 +2035,7 @@ sub Data {
         'Invalid year' => 'Niewłaściwy rok',
         'Invalid month' => 'Niewłaściwy miesiąc',
         'Invalid day' => 'Niewłaściwy dzień',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Konfiguracja adresów e-mail Systemu',
@@ -2120,6 +2125,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'To zostanie usunięte z pola, spróbuj ponownie.',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => 'Pulpit',
@@ -2357,9 +2363,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Utwórz nowe zgłoszenie e-mail',
         'From queue' => 'Do kolejki',
-        'To customer' => 'Do klienta',
-        'Please include at least one customer for the ticket.' => 'Wprowadź przynajmniej jednego klienta dla zgłoszenia.',
-        'Select this customer as the main customer.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
+        'Select this customer user as the main customer user.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => 'Pobierz wszystkich',
         'Text Template' => '',
 
@@ -2412,7 +2419,8 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Utwórz nowe zgłoszenie telefoniczne',
-        'From customer' => 'Od klienta',
+        'Please include at least one customer for the ticket.' => 'Wprowadź przynajmniej jednego klienta dla zgłoszenia.',
+        'Select this customer as the main customer.' => '',
         'To queue' => 'Do kolejki',
 
         # Template: AgentTicketPhoneCommon
@@ -3007,7 +3015,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Ustawienia poziomów SLA.',
         'Create and manage agents.' => 'Zarządzanie listą agentów.',
         'Create and manage attachments.' => 'Ustawienia standardowych załączników.',
-        'Create and manage companies.' => 'Zarządzanie listą Firm klientów.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => 'Zarządzanie listą klientów.',
         'Create and manage dynamic fields.' => 'Zarządzanie polami dynamicznymi.',
         'Create and manage event based notifications.' => 'Zarządzanie powiadomieniami wywoływanymi za pomocą zdarzeń.',
@@ -3030,6 +3038,8 @@ sub Data {
             '',
         'Customer Company Administration' => 'Zarządzanie firmami',
         'Customer Company Information' => 'Informacje o firmie klienta',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => 'Zarządzanie klientami',
         'Customer Users' => 'Klienci',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3038,7 +3048,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Klienci <-> Grupy',
-        'Customers <-> Services' => 'Klienci <-> Usługi',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3258,7 +3267,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3765,7 +3774,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Zgłoszenia eskalowane',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3943,6 +3951,8 @@ sub Data {
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+            '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -3973,8 +3983,8 @@ sub Data {
         'Link agents to groups.' => 'Zarządzanie relacjami Agenci <-> Grupy',
         'Link agents to roles.' => 'Zarządzanie relacjami Agenci <-> Role',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => 'Połączenia klientów i grup klientów',
-        'Link customers to services.' => 'Zarządzanie relacjami Klienci <-> Usługi',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Połacz kolejki z autoodpowiedziami.',
         'Link roles to groups.' => 'Połącz role z grupami.',
         'Link templates to queues.' => '',
@@ -3992,6 +4002,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4738,10 +4753,13 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (jednostki czasu)',
         ' On' => 'W dniu',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Odpowiedź to domyślny tekst, który pomaga twoim agentom szybciej tworzyć odpowiedzi do klientów.',
+        'Add Customer Company' => 'Dodaj Firmę',
         'Add Response' => 'Dodaj odpowiedź',
+        'Add customer company' => 'Dodaj firmę',
         'Add response' => 'Dodaj odpowiedź',
         'Agent Interface' => 'Interfejs agenta',
         'Agent and Customer Interface' => 'Interfejs agenta i klienta',
@@ -4756,14 +4774,20 @@ sub Data {
         'City{CustomerUser}' => 'Miejscowość',
         'Comment{CustomerUser}' => 'Komentarz',
         'Country{CustomerUser}' => 'Kraj',
+        'Create and manage companies.' => 'Zarządzanie listą Firm klientów.',
         'Create and manage notifications that are sent to agents.' => 'Ustawienia powiadomień wysyłanych do agentów.',
         'Create and manage response templates.' => 'Ustawienia szablonów odpowiedzi.',
         'CreateTicket' => 'Tworzenie zgłoszenia',
         'Currently only MySQL is supported in the web installer.' => 'Obecnie instalator web wspiera jedynie bazę danych MySQL.',
+        'Customer Company Management' => 'Zarządzanie firmami',
         'Customer Data' => 'Dane klienta',
         'Customer Interface' => 'Interfejs klienta',
+        'Customer automatically added in Cc.' => 'Klient automatycznie dodany do DW.',
         'Customer history' => 'Historia klienta',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            'Klient będzie wymagany by mieć historię klienta i by logować się przez panel klienta.',
         'CustomerID{CustomerUser}' => 'ID klienta',
+        'Customers <-> Services' => 'Klienci <-> Usługi',
         'DB host' => 'Serwer baz danych',
         'Database Backend' => 'Baza danych',
         'Database setup succesful!' => 'Baza danych pomyślnie utworzona!',
@@ -4786,6 +4810,7 @@ sub Data {
         'Filter name' => 'Nazwa filtra',
         'Firstname{CustomerUser}' => 'Imię',
         'For more info see:' => 'Więcej informacji',
+        'From customer' => 'Od klienta',
         'Historic Time Range' => 'Okres historii',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Jeżeli masz hasło administratora bazy danych wpisz je tutaj. Jeżeli nie, zostaw pole puste. Ze względów bezpieczeństwa zalecamy ustawienie hasła administratora bazy danych. Po szczegóły sięgnij do dokumentacji bazy danych.',
@@ -4794,6 +4819,8 @@ sub Data {
         'Inactive' => 'Nieaktywne',
         'Lastname{CustomerUser}' => 'Nazwisko',
         'Link attachments to responses templates.' => 'Połączenia załączników i standardowych odpowiedzi',
+        'Link customers to groups.' => 'Połączenia klientów i grup klientów',
+        'Link customers to services.' => 'Zarządzanie relacjami Klienci <-> Usługi',
         'Link responses to queues.' => 'Zarządzanie relacjami Odpowiedź <-> Kolejka',
         'Log file location is only needed for File-LogModule!' => 'Położenie pliku logów jest potrzebne tylko dla modułu Plik (File)',
         'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakończone! Dziękujemy za używanie OTRS!',
@@ -4806,6 +4833,7 @@ sub Data {
         'Package verification failed!' => 'Weryfikacja pakietu nie powiodła się!',
         'Password is required.' => 'Hasło jest wymagane.',
         'Phone{CustomerUser}' => 'Telefon',
+        'Please enter a search term to look for customer companies.' => 'Wprowadź dane wyszukiwania w celu wyszukania firm klienta.',
         'Please supply a' => 'Podaj proszę',
         'Please supply a first name' => 'Podaj imię',
         'Please supply a last name' => 'Podaj nazwisko',
@@ -4835,6 +4863,7 @@ sub Data {
         'TicketZoom' => 'Podgląd zgłoszenia',
         'Title{CustomerUser}' => 'Tytuł',
         'Title{user}' => 'Tytuł',
+        'To customer' => 'Do klienta',
         'Username{CustomerUser}' => 'Nazwa użytkownika',
         'Zip{CustomerUser}' => 'Kod pocztowy',
         'before' => 'przed',
