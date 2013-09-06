@@ -320,6 +320,11 @@ dd {
     margin-bottom: 10px;
 }
 
+.RTL .MainBox > .AsteriskExplanation {
+    padding-left: 0px;
+    padding-right: 8px;
+}
+
 .AsteriskExplanation {
     color: #999;
 }
@@ -327,6 +332,11 @@ dd {
 .MainBox.FormScreen > h1,
 .MainBox.FormScreen > .AsteriskExplanation {
     margin-left: 24%;
+}
+
+.RTL .MainBox.FormScreen > h1,
+.RTL .MainBox.FormScreen > .AsteriskExplanation {
+    margin-right: 24%;
 }
 
 .OverviewBox > h1 {
