@@ -12,6 +12,7 @@ package Kernel::System::Cache::FileStorable;
 use strict;
 use warnings;
 
+use POSIX;
 use Storable qw();
 use Digest::MD5 qw();
 use File::Path qw();
@@ -187,8 +188,10 @@ sub CleanUp {
             }
         }
 
-        # delete all cache files
-        if ( !unlink $CacheFile ) {
+        # Delete all cache files; don't error out when the file doesn't
+        # exist anymore, it was probably just another process deleting it.
+        my $Success = unlink $CacheFile;
+        if ( !$Success && $! != POSIX::ENOENT ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't remove file $CacheFile: $!",
