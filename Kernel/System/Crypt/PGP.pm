@@ -1052,7 +1052,9 @@ sub _ParseGPGKeyList {
             $Key{Expires} = "$Year-$Month-$Day";
         }
     }
-    push( @Result, {%Key} ) if (%Key);
+    if (%Key) {
+        push( @Result, \%Key );
+    }
 
     return @Result;
 }

@@ -425,15 +425,10 @@ sub Run {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
-        print "From: $GetParam{From}\n";
-        print "ReplyTo: $GetParam{ReplyTo}\n" if ( $GetParam{ReplyTo} );
-        print "To: $GetParam{To}\n";
-        print "Cc: $GetParam{Cc}\n" if ( $GetParam{Cc} );
-        print "Subject: $GetParam{Subject}\n";
-        print "MessageID: $GetParam{'Message-ID'}\n";
-        print "Queue: $Queue\n";
-        print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
-        print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
+        for my $Attribute ( sort keys %GetParam ) {
+            next if !$GetParam{$Attribute};
+            print "$Attribute: $GetParam{$Attribute}\n";
+        }
     }
 
     # dynamic fields

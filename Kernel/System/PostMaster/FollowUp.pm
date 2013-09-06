@@ -376,15 +376,10 @@ sub Run {
     # debug
     if ( $Self->{Debug} > 0 ) {
         print "Follow up Ticket\n";
-        print "TicketNumber: $Param{Tn}\n";
-        print "From: $GetParam{From}\n"       if ( $GetParam{From} );
-        print "ReplyTo: $GetParam{ReplyTo}\n" if ( $GetParam{ReplyTo} );
-        print "To: $GetParam{To}\n"           if ( $GetParam{To} );
-        print "Cc: $GetParam{Cc}\n"           if ( $GetParam{Cc} );
-        print "Subject: $GetParam{Subject}\n";
-        print "MessageID: $GetParam{'Message-ID'}\n";
-        print "ArticleType: $GetParam{'X-OTRS-FollowUp-ArticleType'}\n";
-        print "SenderType: $GetParam{'X-OTRS-FollowUp-SenderType'}\n";
+        for my $Attribute ( sort keys %GetParam ) {
+            next if !$GetParam{$Attribute};
+            print "$Attribute: $GetParam{$Attribute}\n";
+        }
     }
 
     # write plain email to the storage

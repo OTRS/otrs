@@ -1041,8 +1041,12 @@ sub GetStatTable {
 
     # find out if dynamic fields are required
     my $NeedDynamicFields = 0;
+    DYNAMICFIELDSNEEDED:
     for my $ParameterName ( sort keys %TicketAttributes ) {
-        $NeedDynamicFields = 1 if ( $ParameterName =~ m{\A DynamicField_ }xms );
+        if ( $ParameterName =~ m{\A DynamicField_ }xms ) {
+            $NeedDynamicFields = 1;
+            last DYNAMICFIELDSNEEDED;
+        }
     }
 
     # generate the ticket list

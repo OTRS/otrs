@@ -2477,7 +2477,9 @@ sub SendCustomerNotification {
     # COMPAT
     $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
     $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
-    $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/gi if ( $Param{Queue} );
+    if ( $Param{Queue} ) {
+        $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/gi;
+    }
 
     # ticket data
     my %Ticket = $Self->TicketGet(
@@ -2565,7 +2567,9 @@ sub SendCustomerNotification {
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # format body
-    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ( $Article{Body} );
+    if ( $Article{Body} ) {
+        $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+    }
     for ( sort keys %Article ) {
         if ( $Article{$_} ) {
             $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;

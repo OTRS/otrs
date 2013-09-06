@@ -2181,7 +2181,9 @@ sub _XML2Perl {
                         }
                     }
                 }
-                $Hash{$Key} = \%Loader if (%Loader);
+                if (%Loader) {
+                    $Hash{$Key} = \%Loader;
+                }
             }
             else {
                 if ( $Key ne 'Content' ) {

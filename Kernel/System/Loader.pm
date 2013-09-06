@@ -444,8 +444,8 @@ sub CacheDelete {
                 Directory => $Folder,
                 Filter    => 'css-cache',
             );
-            if (@CacheFolder) {
-                push @CacheFoldersList, $CacheFolder[0] if -d $CacheFolder[0];
+            if ( @CacheFolder && -d $CacheFolder[0] ) {
+                push @CacheFoldersList, $CacheFolder[0];
             }
         }
     }

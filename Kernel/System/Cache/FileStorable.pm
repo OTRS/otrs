@@ -48,7 +48,7 @@ sub new {
 
     # Specify how many levels of subdirectories to use, can be 0, 1 or more.
     $Self->{'Cache::SubdirLevels'} = $Self->{ConfigObject}->Get('Cache::SubdirLevels');
-    $Self->{'Cache::SubdirLevels'} = 2 if !defined $Self->{'Cache::SubdirLevels'};
+    $Self->{'Cache::SubdirLevels'} //= 2;
 
     return $Self;
 }

@@ -707,7 +707,9 @@ sub SumBuild {
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
 
                 # make sure we have a value to add
-                $Data[$Index1][$Index2] = 0 if !defined $Data[$Index1][$Index2];
+                if ( !defined $Data[$Index1][$Index2] ) {
+                    $Data[$Index1][$Index2] = 0;
+                }
 
                 # extract the value
                 my $Value = $Data[$Index1][$Index2];

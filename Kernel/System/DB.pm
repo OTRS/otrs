@@ -1000,7 +1000,9 @@ sub GetTableData {
     my %Data;
 
     my $SQL = "SELECT $What FROM $Table ";
-    $SQL .= ' WHERE ' . $Where if ($Where);
+    if ($Where) {
+        $SQL .= ' WHERE ' . $Where;
+    }
 
     if ( !$Where && $Valid ) {
         my @ValidIDs;
