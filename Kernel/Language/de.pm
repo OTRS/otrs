@@ -4022,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
         'Manage existing sessions.' => 'Sitzungen verwalten.',
         'Manage notifications that are sent to agents.' => 'Benachrichtigungen für Agenten verwalten',
-        'Manage periodic tasks.' => 'Periodische Aufgaben verwalten.',
+        'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
