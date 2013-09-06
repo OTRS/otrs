@@ -1062,8 +1062,9 @@ sub Run {
                 Filter     => $Self->{Filter},
                 FilterLink => $FilterLink,
 
-                OrderBy => $Self->{OrderBy},
-                SortBy  => $Self->{SortBy},
+                OrderBy      => $Self->{OrderBy},
+                SortBy       => $Self->{SortBy},
+                RequestedURL => 'Action=' . $Self->{Action} . ';' . $LinkPage,
             );
 
             # build footer
