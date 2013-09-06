@@ -222,14 +222,14 @@ sub EditFieldRender {
     if ( defined $FieldValue && IsHashRefWithData($FieldValue) ) {
         if (
             !defined $FieldValue->{FieldValue} &&
-            defined $FieldValue->{UsedValue}   && $FieldValue->{UsedValue} eq '1'
+            defined $FieldValue->{UsedValue} && $FieldValue->{UsedValue} eq '1'
             )
         {
             $Value = '0';
         }
         elsif (
             defined $FieldValue->{FieldValue} && $FieldValue->{FieldValue} eq '1' &&
-            defined $FieldValue->{UsedValue} && $FieldValue->{UsedValue} eq '1'
+            defined $FieldValue->{UsedValue}  && $FieldValue->{UsedValue}  eq '1'
             )
         {
             $Value = '1';
@@ -468,7 +468,7 @@ sub SearchFieldRender {
     my @DefaultValue;
 
     if ( defined $Param{DefaultValue} ) {
-        my @DefaultValue = split /;/, $Param{DefaultValue};
+        @DefaultValue = split /;/, $Param{DefaultValue};
     }
 
     # set the field value
