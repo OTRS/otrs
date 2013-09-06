@@ -320,6 +320,10 @@ dd {
     margin-bottom: 10px;
 }
 
+.AsteriskExplanation {
+    color: #999;
+}
+
 .MainBox.FormScreen > h1,
 .MainBox.FormScreen > .AsteriskExplanation {
     margin-left: 24%;
