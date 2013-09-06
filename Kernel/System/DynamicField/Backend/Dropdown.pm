@@ -494,7 +494,7 @@ sub SearchFieldRender {
     my @DefaultValue;
 
     if ( defined $Param{DefaultValue} ) {
-        my @DefaultValue = split /;/, $Param{DefaultValue};
+        @DefaultValue = split /;/, $Param{DefaultValue};
     }
 
     # set the field value
