@@ -1034,7 +1034,9 @@ sub TicketSearch {
                 # check search attribute, we do not need to search for *
                 next if $Text =~ /^\%{1,3}$/;
 
-                $SQLExtSub .= ' OR ' if ($Counter);
+                if ( $Counter ) {
+                    $SQLExtSub .= ' OR ';
+                }
                 $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
                     DynamicFieldConfig => $DynamicField,
                     TableAlias         => "dfv$DynamicFieldJoinCounter",
