@@ -42,6 +42,7 @@ $Text{"Change Responsible of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 $Data{"TicketNumber"} - $QData{"Title"}
             </h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>

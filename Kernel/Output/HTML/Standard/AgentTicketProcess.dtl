@@ -10,8 +10,9 @@
 <script src="$Config{"Frontend::RichTextPath"}ckeditor.js" type="text/javascript"></script>
 <!-- dtl:block:RichText -->
 
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain FormScreen">
     <h1>$Text{"Create New Process Ticket"}</h1>
+    <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
     <div class="ContentColumn">
         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewProcessTicket" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="$Env{"Action"}"/>

@@ -15,6 +15,7 @@
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Ticket Merge"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>

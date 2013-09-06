@@ -2420,6 +2420,7 @@ sub Data {
         'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
         'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'To queue' => 'An Queue',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
 
         # Template: AgentTicketPhoneCommon
 

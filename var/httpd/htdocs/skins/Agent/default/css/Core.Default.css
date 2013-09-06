@@ -311,8 +311,18 @@ dd {
 
 .MainBox > h1 {
     margin: 0;
-    padding: 5px 8px 8px;
+    padding: 10px 8px 8px;
     position: relative;
+}
+
+.MainBox > .AsteriskExplanation {
+    padding-left: 8px;
+    margin-bottom: 10px;
+}
+
+.MainBox.FormScreen > h1,
+.MainBox.FormScreen > .AsteriskExplanation {
+    margin-left: 24%;
 }
 
 .OverviewBox > h1 {

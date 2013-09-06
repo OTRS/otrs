@@ -13,6 +13,7 @@ $Include{"AgentCustomerSearch"}
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">
         <h1>$Text{"Change customer of ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
+        <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
         <p>
             <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
         </p>

@@ -8,9 +8,10 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain FormScreen">
 
     <h1>$Text{"Create New Email Ticket"}</h1>
+    <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
     <div class="LayoutFixedSidebar SidebarLast">
 

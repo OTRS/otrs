@@ -145,19 +145,19 @@ body.Popup {
  * @subsection  LayoutPopup
  */
 .LayoutPopup > .Header {
-    padding: 5px 20px;
+    padding: 7px 20px;
     border-bottom: 1px solid #999;
     background-color: #f6f6f6;
 }
 
 .RTL .LayoutPopup > .Header {
-    padding: 5px 20px 5px 5px;
+    padding: 7px 20px 7px 5px;
 }
 
 .LayoutPopup > .Header h1 {
     font-size: 14px;
     font-weight: bold;
-    padding: 5px 5px 0 0;
+    padding: 0px 5px 0 0;
     margin-bottom: 0px;
     line-height: 20px;
     white-space: nowrap;

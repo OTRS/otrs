@@ -20,6 +20,7 @@
 
         <div class="Header">
             <h1>$Text{"Bounce Ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>
@@ -163,7 +164,7 @@ $Include{"RichTextEditor"}
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail!"} (g)" type="submit" value="$Text{"Send mail!"}">$Text{"Send mail!"}</button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail!"} (g)" type="submit" value="$Text{"Send mail!"}"><span>$Text{"Send mail!"}</span></button>
         </div>
     </div>
 </form>
