@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.ImportACLsFromConfig.pl - import existing ACLs from Config.pm to database
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
