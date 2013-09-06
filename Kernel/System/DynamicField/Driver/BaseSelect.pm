@@ -141,7 +141,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # check if a value in a template (GenericAgent etc.)
     # is configured for this dynamic field
@@ -170,19 +170,22 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # set TreeView class
-    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldClass .= ' DynamicFieldWithTreeView';
+    }
 
-    # set PossibleValues
-    my $PossibleValues = $Self->PossibleValuesGet(%Param);
-
-    # use PossibleValuesFilter if defined
-    $PossibleValues = $Param{PossibleValuesFilter} if defined $Param{PossibleValuesFilter};
+    # set PossibleValues, use PossibleValuesFilter if defined
+    my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
 
     my $Size = 1;
 
@@ -461,7 +464,9 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldMultiSelect';
 
     # set TreeView class
-    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldClass .= ' DynamicFieldWithTreeView';
+    }
 
     # set PossibleValues
     my $SelectionData = $FieldConfig->{PossibleValues};
@@ -479,8 +484,7 @@ sub SearchFieldRender {
     }
 
     # use PossibleValuesFilter if defined
-    $SelectionData = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $SelectionData = $Param{PossibleValuesFilter} // $SelectionData;
 
     # check if $SelectionData differs from configured PossibleValues
     # and show values which are not contained as disabled if TreeView => 1
@@ -640,8 +644,7 @@ sub StatsFieldParameterBuild {
     }
 
     # use PossibleValuesFilter if defined
-    $Values = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $Values = $Param{PossibleValuesFilter} // $Values;
 
     return {
         Values             => $Values,

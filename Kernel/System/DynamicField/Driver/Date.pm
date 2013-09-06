@@ -243,10 +243,14 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # to set the predefined based on a time difference
     my $DiffTime = $FieldConfig->{DefaultValue};

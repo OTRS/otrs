@@ -204,7 +204,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # check if a value in a template (GenericAgent etc.)
     # is configured for this dynamic field
@@ -233,19 +233,22 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # set TreeView class
-    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldClass .= ' DynamicFieldWithTreeView';
+    }
 
-    # set PossibleValues
-    my $PossibleValues = $Self->PossibleValuesGet(%Param);
-
-    # use PossibleValuesFilter if defined
-    $PossibleValues = $Param{PossibleValuesFilter} if defined $Param{PossibleValuesFilter};
+    # set PossibleValues, use PossibleValuesFilter if defined
+    my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
 
     # check value
     my $SelectedValuesArrayRef;
@@ -487,23 +490,30 @@ sub DisplayValueRender {
         # cut strings if needed
         if ( $ValueMaxChars ne '' ) {
 
-            $ShowValueEllipsis = 1 if ( length $ReadableValue > $ValueMaxChars );
+            if ( length $ReadableValue > $ValueMaxChars ) {
+                $ShowValueEllipsis = 1;
+            }
             $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
 
             # decrease the max parameter
             $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-            $ValueMaxChars = 0 if $ValueMaxChars < 0;
-
+            if ( $ValueMaxChars < 0 ) {
+                $ValueMaxChars = 0;
+            }
         }
 
         if ( $TitleMaxChars ne '' ) {
 
-            $ShowTitleEllipsis = 1 if ( length $ReadableTitle > $ValueMaxChars );
+            if ( length $ReadableTitle > $ValueMaxChars ) {
+                $ShowTitleEllipsis = 1;
+            }
             $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
 
             # decrease the max parameter
             $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-            $TitleMaxChars = 0 if $TitleMaxChars < 0;
+            if ( $TitleMaxChars < 0 ) {
+                $TitleMaxChars = 0;
+            }
         }
 
         # HTMLOuput transformations
@@ -518,8 +528,12 @@ sub DisplayValueRender {
             );
         }
 
-        push @ReadableValues, $ReadableValue if length $ReadableValue;
-        push @ReadableTitles, $ReadableTitle if length $ReadableTitle;
+        if ( length $ReadableValue ) {
+            push @ReadableValues, $ReadableValue;
+        }
+        if ( length $ReadableTitle ) {
+            push @ReadableTitles, $ReadableTitle;
+        }
     }
 
     # get specific field settings
@@ -531,8 +545,12 @@ sub DisplayValueRender {
     $Value = join( $ItemSeparator, @ReadableValues );
     $Title = join( $ItemSeparator, @ReadableTitles );
 
-    $Value .= '...' if $ShowValueEllipsis;
-    $Title .= '...' if $ShowTitleEllipsis;
+    if ($ShowValueEllipsis) {
+        $Value .= '...';
+    }
+    if ($ShowTitleEllipsis) {
+        $Title .= '...';
+    }
 
     # this field type does not support the Link Feature
     my $Link;
@@ -624,8 +642,7 @@ sub StatsFieldParameterBuild {
     }
 
     # use PossibleValuesFilter if defined
-    $Values = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $Values = $Param{PossibleValuesFilter} // $Values;
 
     return {
         Values             => $Values,

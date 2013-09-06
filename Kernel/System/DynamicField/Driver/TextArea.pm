@@ -120,7 +120,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -147,10 +147,14 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';

@@ -170,7 +170,7 @@ sub Run {
     my $OwnerID = $GetParam{'X-OTRS-OwnerID'} || $Param{InmailUserID};
     if ( $GetParam{'X-OTRS-Owner'} ) {
         my $TmpOwnerID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Owner'} );
-        $OwnerID = $TmpOwnerID if $TmpOwnerID;
+        $OwnerID = $TmpOwnerID || $OwnerID;
     }
 
     my %Opts;
@@ -181,7 +181,7 @@ sub Run {
     if ( $GetParam{'X-OTRS-Responsible'} ) {
         my $TmpResponsibleID
             = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
-        $Opts{ResponsibleID} = $TmpResponsibleID if $TmpResponsibleID;
+        $Opts{ResponsibleID} = $TmpResponsibleID || $Opts{ResponsibleID};
     }
 
     # create new ticket
