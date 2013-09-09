@@ -4263,8 +4263,8 @@ sub _BlocksByLayer {
     my $LastLayerCount = 0;
     my $Layer          = -1;
     my @Layer;
-    my $LastLayer      = '';
-    my $CurrentLayer   = '';
+    my $LastLayer    = '';
+    my $CurrentLayer = '';
     my %UsedNames;
     my $TemplateFile = $Param{TemplateFile} || '';
     if ( !defined $Param{Template} ) {
@@ -4345,9 +4345,9 @@ sub _BlockTemplatesReplace {
     my %BlockLayer;
     my %BlockTemplates;
 
-    for (my $Layer = $#$BlocksByLayer; $Layer >= 0; $Layer--) {
+    for ( my $Layer = $#$BlocksByLayer; $Layer >= 0; $Layer-- ) {
         my $Blocks = $BlocksByLayer->[$Layer];
-        my $Names = join '|', map quotemeta, @$Blocks;
+        my $Names = join '|', map { quotemeta $_ } @$Blocks;
         $$TemplateString =~ s{
             <!--[ ]?dtl:block:($Names)[ ]?-->(.+?)<!--[ ]?dtl:block:\1[ ]?-->
         }
@@ -4356,11 +4356,10 @@ sub _BlockTemplatesReplace {
             "<!-- dtl:place_block:$1 -->";
         }segxm;
         for my $Name (@$Blocks) {
-            $BlockLayer{ $Name } = $Layer + 1;
+            $BlockLayer{$Name} = $Layer + 1;
         }
     }
     undef $BlocksByLayer;
-
 
     # create block template string
     my @BR;
