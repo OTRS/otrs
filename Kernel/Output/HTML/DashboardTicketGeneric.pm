@@ -169,7 +169,8 @@ sub new {
 
     if ($PreferencesColumnFilters) {
         $Self->{GetColumnFilterSelect} = $PreferencesColumnFilters;
-        for my $Field ( sort keys %{$PreferencesColumnFilters} ) {
+        my @ColumnFilters = keys %{$PreferencesColumnFilters}; ## no critic
+        for my $Field ( @ColumnFilters ) {
             $Self->{GetColumnFilter}->{ $Field . $Self->{Name} }
                 = $PreferencesColumnFilters->{$Field};
         }
@@ -184,7 +185,8 @@ sub new {
     }
 
     if ($PreferencesColumnFiltersRealKeys) {
-        for my $Field ( sort keys %{$PreferencesColumnFiltersRealKeys} ) {
+        my @ColumnFiltersReal = keys %{$PreferencesColumnFiltersRealKeys}; ## no critic
+        for my $Field ( @ColumnFiltersReal ) {
             $Self->{ColumnFilter}->{$Field} = $PreferencesColumnFiltersRealKeys->{$Field};
         }
     }
@@ -308,8 +310,13 @@ sub Preferences {
         push @ColumnsAvailable, 'DynamicField_' . $DynamicFieldList->{$DynamicFieldID};
     }
 
+    # check if the user has filter preferences for this widget
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
     # if preference settings are available, take them
-    if ( $Self->{LayoutObject}->{ $Self->{PrefKeyColumns} } ) {
+    if ( $Preferences{ $Self->{PrefKeyColumns} } ) {
 
         my $ColumnsEnabled = $Self->{JSONObject}->Decode(
             Data => $Self->{LayoutObject}->{ $Self->{PrefKeyColumns} },
@@ -317,6 +324,10 @@ sub Preferences {
 
         @ColumnsEnabled = grep { $ColumnsEnabled->{Columns}->{$_} == 1 }
             keys %{ $ColumnsEnabled->{Columns} };
+
+        if ( $ColumnsEnabled->{Order} && @{ $ColumnsEnabled->{Order} } ) {
+            @ColumnsEnabled = @{ $ColumnsEnabled->{Order} };
+        }
     }
 
     my %Columns;
