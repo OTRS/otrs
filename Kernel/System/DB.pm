@@ -746,7 +746,12 @@ sub GetColumnNames {
 
     my $ColumnNames = $Self->{Cursor}->{NAME};
 
-    return @{$ColumnNames};
+    my @Result;
+    if ( ref $ColumnNames eq 'ARRAY' ) {
+        @Result = @{$ColumnNames};
+    }
+
+    return @Result;
 }
 
 =item SelectAll()
