@@ -121,7 +121,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                         $FieldObj;
                     if (isJQueryObject($ListContainer) && $ListContainer.length) {
                         $.each($ListContainer.find('li'), function() {
-                            $FieldObj = $('<input />').attr('name', 'UserFilterColumnsEnabled').attr('type', 'hidden').attr('value', $(this).text());
+                            $FieldObj = $('<input />').attr('name', 'UserFilterColumnsEnabled').attr('type', 'hidden').attr('value', $(this).attr('data-fieldname'));
                             $ListContainer.append($FieldObj);
                         });
                     }
