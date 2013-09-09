@@ -1,4 +1,5 @@
 #3.3.0 beta3 2013-??-??
+ - 2013-09-09 Speed up template rendering for large pages, thanks to Moritz Lenz (noris network AG).
  - 2013-09-06 Fixed bug#[9661](http://bugs.otrs.org/show_bug.cgi?id=9661) - Useless code in DynamicField backend.
  - 2013-09-06 Fixed bug#[9713](http://bugs.otrs.org/show_bug.cgi?id=9713) - Agent Ticket Search Results settings leads to Search screen.
  - 2013-09-06 Fixed bug#[9701](http://bugs.otrs.org/show_bug.cgi?id=9701) - Ticket overview Queue Sort Filter is missing.
