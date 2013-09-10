@@ -234,6 +234,10 @@
     padding-right: 26px;
 }
 
+#Navigation > li > a#GlobalSearchNav i {
+    font-size: 15px;
+}
+
 .RTL #Navigation > li > a {
     padding: 4px 4px 3px 15px;
 }
