@@ -196,6 +196,9 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                                 <ul class="Tablelike">
                                     <li class="Header">$Text{"Available Columns"}</li>
                                 </ul>
+                                <div class="FilterInputContainer">
+                                    <input type="text" class="FilterAvailableFields" name="FilterAvailableFields" value="" title="$Text{"Filter available fields"}" placeholder="$Text{"Filter available fields"}..." />
+                                </div>
                                 <ul class="AllocationList Tablelike AvailableFields" id="AvailableField-Dashboard$QData{"Name"}"></ul>
                             </div>
                             <div class="Size1of2">
