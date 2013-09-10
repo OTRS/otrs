@@ -9,6 +9,7 @@
 
 package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Print)
 
 use strict;
 use warnings;
