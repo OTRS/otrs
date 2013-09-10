@@ -473,7 +473,7 @@ $Include{"RichTextEditor"}
                     <div class="Clear"></div>
 <!-- dtl:block:TimeUnits -->
                     <div class="Field SpacingTop">
-                        <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Create"} (g)" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
+                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="$Text{"Create"} (g)" type="submit" value="$Text{"Create"}"><span><i class="icon-check"></i> $Text{"Create"}</span></button>
                     </div>
                 </fieldset>
             </form>

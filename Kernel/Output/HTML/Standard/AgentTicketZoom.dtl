@@ -509,22 +509,22 @@ $Data{"ArticleItems"}
             <span class="InvisibleText">$Text{"Article Filter"}:</span>
 # Only show one: Set or Reset.
 #<!-- dtl:block:ArticleFilterSetLink -->
-            <a href="#" id="SetArticleFilter" title="$Text{"Add Filter"}"><span>$Text{"Set"}</span></a>
+            <a href="#" id="SetArticleFilter" title="$Text{"Add Filter"}"><i class="icon-filter"></i><span>$Text{"Set"}</span></a>
 #<!-- dtl:block:ArticleFilterSetLink -->
 <!-- dtl:block:ArticleFilterResetLink -->
-            <a href="#" id="ResetArticleFilter" title="$Text{"Reset Filter"}"><span>$Text{"Reset"}</span></a>
+            <a href="#" id="ResetArticleFilter" title="$Text{"Reset Filter"}"><i class="icon-trash"></i><span>$Text{"Reset"}</span></a>
 <!-- dtl:block:ArticleFilterResetLink -->
         </div>
 <!-- dtl:block:ArticleFilterDialogLink -->
         <div class="ArticleView Icons">
             <span class="InvisibleText">$Text{"Article"} $Text{"View"}:</span>
 <!-- dtl:block:Expand -->
-            <a class="OneArticle Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a>
-            <a class="AllArticles" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a>
+            <a class="OneArticle Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><i class="icon-minus"></i><span>$Text{"Show one article"}</span></a>
+            <a class="AllArticles" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><i class="icon-reorder"></i><span>$Text{"Show all articles"}</span></a>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
-            <a class="OneArticle" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a>
-            <a class="AllArticles Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a>
+            <a class="OneArticle" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><i class="icon-minus"></i><span>$Text{"Show one article"}</span></a>
+            <a class="AllArticles Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><i class="icon-reorder"></i><span>$Text{"Show all articles"}</span></a>
 <!-- dtl:block:Collapse -->
         </div>
         <div class="Clear"></div>

@@ -13,7 +13,7 @@
 <!-- dtl:block:SubmitAdviceText -->
                     <p class="SubmitInfo">$QData{"AdviceText"}</p>
 <!-- dtl:block:SubmitAdviceText -->
-                    <button class="Primary" id="$QData{"ButtonID"}" accesskey="g" title="$Text{"$Data{"ButtonTitle"}"} (g)" type="submit" value="$Text{"$Data{"ButtonText"}"}">$Text{"$Data{"ButtonText"}"}</button>
+                    <button class="Primary CallForAction" id="$QData{"ButtonID"}" accesskey="g" title="$Text{"$Data{"ButtonTitle"}"} (g)" type="submit" value="$Text{"$Data{"ButtonText"}"}"><span>$Text{"$Data{"ButtonText"}"}</span></button>
                 </div>
 <!-- dtl:block:Footer -->
             </div>

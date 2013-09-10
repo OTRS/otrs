@@ -134,39 +134,27 @@ div.Headline .Flag {
     border-left: 1px solid #000;
 }
 
+.ControlRow .Icons a {
+    text-align: center;
+}
+
+.ControlRow .Icons a i {
+    color: #777;
+    font-size: 15px;
+    margin-top: 5px;
+    display: block;
+}
+
+.ControlRow .Icons a.Active i {
+    color: #fff;
+}
+
 .ControlRow .Icons a span {
     margin: 4px auto;
     width: 16px;
     height: 16px;
     text-indent: -9999px;
     display: block;
-}
-
-.ControlRow .ArticleView.Icons a span {
-    background: transparent url(../img/articleview.png) no-repeat;
-}
-
-.ControlRow .ArticleView.Icons .OneArticle.Active span,
-.ControlRow .ArticleView.Icons .OneArticle.Active:hover span {
-    background-position: -16px 0;
-}
-
-.ControlRow .ArticleView.Icons .AllArticles span,
-.ControlRow .ArticleView.Icons .AllArticles:hover span {
-    background-position: 0 -16px;
-}
-
-.ControlRow .ArticleView.Icons .AllArticles.Active span,
-.ControlRow .ArticleView.Icons .AllArticles.Active:hover span {
-    background-position: -16px -16px;
-}
-
-.ControlRow .ArticleFilter.Icons a span {
-    background: url(../img/articlefilter.png) no-repeat;
-}
-
-.ControlRow .ArticleFilter.Icons a#ResetArticleFilter span {
-    background: url(../img/icons/undo.png) no-repeat;
 }
 
 .ControlRow .ArticleFilter.Icons .Active span {
