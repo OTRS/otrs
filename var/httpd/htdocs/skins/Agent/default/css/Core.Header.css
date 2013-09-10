@@ -320,14 +320,10 @@
     width: 16px;
 }
 
-#Navigation a span.SearchIcon {
+#Navigation a i {
     top: 7px;
     left: 15px;
-    width: 17px;
-    height: 16px;
-    text-indent: -9999px;
-    background: url(../img/search_bg.png) no-repeat left top;
-    display: block;
+    font-size: 20px;
     position: absolute;
 }
 
