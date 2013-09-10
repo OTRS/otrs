@@ -412,7 +412,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 <!-- dtl:js_on_document_complete -->
             <div class="WidgetBox SpacingTop Expanded" id="DynamicFieldsWidget">
                 <div class="LightRow Header">
-                    <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
+                    <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a></div>
                     <h2>$Text{"$Data{"WidgetTitle"}"}</h2>
                 </div>
 <!-- dtl:block:NextActivityDialogs -->
@@ -534,14 +534,25 @@ $Data{"ArticleItems"}
             <table id="ArticleTable" class="TableSmall NoCellspacing $QData{"TableClasses"}">
                 <thead>
                     <tr>
-                        <th class="UnreadArticles"><a class="UnreadArticles" href="#" title="$Text{"Unread articles"}"><span class="UnreadArticles"></span></a></th>
+                        <th class="UnreadArticles">
+                            <a class="UnreadArticles" href="#" title="$Text{"Unread articles"}">
+                                <span class="UnreadArticles">
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star"></i>
+                                </span>
+                            </a>
+                        </th>
                         <th class="No Sortable"><a href="#">$Text{"No."}</a></th>
                         <th class="Type Sortable"><a href="#">$Text{"Type"}</a></th>
                         <th class="Direction Sortable"><a href="#" title="$Text{"Direction"}"><span class="Direction"><!--Direction--></span></a></th>
                         <th class="From Sortable"><a href="#">$Text{"From"}</a></th>
                         <th class="Subject Sortable"><a href="#">$Text{"Subject"}</a></th>
                         <th class="Created Sortable"><a href="#">$Text{"Created"}</a></th>
-                        <th class="Attachments Last"><a href="#" title="$Text{"Attachments"}"><span><!--Attachments--></span></a></th>
+                        <th class="Attachments Last">
+                            <a href="#" title="$Text{"Attachments"}">
+                                <i class="icon-paper-clip"></i>
+                            </a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -549,10 +560,16 @@ $Data{"ArticleItems"}
                     <tr class="$QData{"SenderType"}-$QData{"ArticleType"} $QData{"ClassRow"}" id="Row$LQData{"Count"}">
                         <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
 <!-- dtl:block:TreeItemImportantArticle -->
-                            <span class="ImportantArticles" title="$Text{"Important"}">$Text{"Important"}</span>
+                            <span class="ImportantArticles" title="$Text{"Important"}">
+                                <i class="icon-info-sign"></i>
+                                <em>$Text{"Important"}</em>
+                            </span>
 <!-- dtl:block:TreeItemImportantArticle -->
 <!-- dtl:block:TreeItemNewArticle -->
-                            <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
+                            <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">
+                                <i class="icon-star"></i>
+                                <i class="icon-star"></i>
+                            </span>
 <!-- dtl:block:TreeItemNewArticle -->
 <!-- dtl:block:TreeItemNoNewArticle -->
                             <span class="NoContent"></span>
@@ -600,11 +617,15 @@ $Data{"ArticleItems"}
 <!-- dtl:block:TreeItemAttachment -->
 <!-- dtl:block:TreeItemAttachmentIconSingle -->
 # show attachment preview data in tooltip
-                            <a class="Attachment" title="$Text{"Attachment"} $QData{"Filename"} ($QData{"Filesize"})" rel="TicketAttachment$QData{"Count"}"></a>
+                            <a class="Attachment" title="$Text{"Attachment"} $QData{"Filename"} ($QData{"Filesize"})" rel="TicketAttachment$QData{"Count"}">
+                                <i class="icon-file-alt"></i>
+                            </a>
 <!-- dtl:block:TreeItemAttachmentIconSingle -->
 <!-- dtl:block:TreeItemAttachmentIconMultiple -->
 # no preview data in tooltip
-                            <a class="Attachment" title="$Text{"Attachments"}" rel="TicketAttachment$QData{"Count"}"></a>
+                            <a class="Attachment" title="$Text{"Attachments"}" rel="TicketAttachment$QData{"Count"}">
+                                <i class="icon-file-alt"></i>
+                            </a>
 <!-- dtl:block:TreeItemAttachmentIconMultiple -->
                             <div id="TicketAttachment$QData{"Count"}" class="AttachmentData Hidden">
                                 <div class="Attachment InnerContent">
@@ -643,7 +664,7 @@ $Data{"ArticleItems"}
     <div class="WidgetBox SpacingTop Expanded">
         <div class="LightRow Header">
             <div class="WidgetAction Toggle">
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}" title="$Text{"Show or hide the content"}"><span></span></a>
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
             </div>
             <h2>#$QData{"Count"} &ndash; $QData{"Subject"}</h2>
             <div class="AdditionalInformation SpacingLoader">

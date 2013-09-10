@@ -127,7 +127,7 @@
             <div class="WidgetSimple">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Filter Condition"} <span class="FieldExplanation">($Text{"AND Condition"})</span></h2>
                 </div>
@@ -209,7 +209,7 @@
             <div class="WidgetSimple">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Set Email Headers"}</h2>
                 </div>

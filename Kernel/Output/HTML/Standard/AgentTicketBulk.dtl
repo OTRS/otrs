@@ -30,7 +30,7 @@
                 <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                            <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Add Note"}</h2>
                     </div>
@@ -90,7 +90,7 @@ $Include{"RichTextEditor"}
                 <div class="WidgetSimple SpacingTop Collapsed">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Toggle this widget"}"></a>
+                            <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Send Email"}</h2>
                     </div>

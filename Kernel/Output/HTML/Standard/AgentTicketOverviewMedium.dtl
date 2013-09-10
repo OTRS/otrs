@@ -88,7 +88,11 @@
 <!-- dtl:block:Meta -->
 <!-- dtl:block:MetaIcon -->
             <div class="$QData{"Class"}" title="$Text{"$Data{"Title"}"}">
-                <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
+                <span class="$QData{"ClassSpan"}">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <em>$Text{"$Data{"Title"}"}</em>
+                </span>
             </div>
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->

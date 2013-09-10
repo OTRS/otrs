@@ -216,7 +216,7 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup, DialogCopy, DialogCopySelector, $InnerContent, InnerContentWidth = 0,
-            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"></a></div><div class="Content"></div><div class="Footer"></div></div>';
+            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="icon-remove"></i></a></div><div class="Content"></div><div class="Footer"></div></div>';
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {

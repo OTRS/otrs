@@ -11,7 +11,7 @@
     <div class="DontPrint WidgetSimple Collapsed Animate">
         <div class="Header">
             <div class="WidgetAction Toggle">
-                <a href="#" title="$Text{"Show or hide the content"}"></a>
+                <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
             </div>
             <h2>$Text{"Settings"}</h2>
         </div>
@@ -41,7 +41,9 @@
             <div class="ActionMenu">
 <!-- dtl:block:ContentSmallPreferences -->
                 <div class="WidgetAction Settings">
-                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
+                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}">
+                        <i class="icon-gear"></i>
+                    </a>
                 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -50,7 +52,9 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallPreferences -->
                 <div class="WidgetAction Close">
-                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$LQData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$LQData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}">
+                        <i class="icon-remove"></i>
+                    </a>
                 </div>
                 <div class="Clear"></div>
             </div>
@@ -132,7 +136,9 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
             <div class="ActionMenu">
 <!-- dtl:block:ContentLargePreferences -->
                 <div class="WidgetAction Settings">
-                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}"></a>
+                    <a href="#" id="Dashboard$QData{"Name"}-toggle" title="$Text{"Settings"}">
+                        <i class="icon-gear"></i>
+                    </a>
                 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -141,7 +147,9 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargePreferences -->
                 <div class="WidgetAction Close">
-                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$LQData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
+                    <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};CustomerID=$LQData{"CustomerID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}">
+                        <i class="icon-remove"></i>
+                    </a>
                 </div>
                 <div class="Clear"></div>
             </div>

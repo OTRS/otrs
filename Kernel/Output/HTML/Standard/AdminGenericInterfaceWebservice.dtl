@@ -293,7 +293,7 @@
                     <div class="WidgetSimple Expanded">
                         <div class="Header">
                             <div class="WidgetAction Toggle">
-                                <a href="#" title="$JSText{"Show or hide the content"}"></a>
+                                <a href="#" title="$JSText{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                             </div>
                             <h3>$Text{"$Data{"Title"}"}</h3>
                         </div>

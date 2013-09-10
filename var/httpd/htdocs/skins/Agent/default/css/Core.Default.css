@@ -549,33 +549,64 @@ dd {
  */
 span.UnreadArticles {
     display: block;
-    text-indent: -9999px;
-    background: transparent url(../img/stars.png) no-repeat;
     width: 16px;
-    height: 20px;
+    height: 15px;
+    margin-left: 6px;
+    font-weight: normal;
+    position: relative;
+    padding: 0px 3px !important;
 }
 
-span.UnreadArticles.Remarkable {
-    background-position: top;
+span.UnreadArticles i {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 2;
+    font-size: 14px;
+    color: #ddd;
+}
+
+span.UnreadArticles em {
+    display: none;
+}
+
+span.UnreadArticles i:first-child {
+    color: #777 !important;
+    font-size: 16px;
+    z-index: 1;
+    left: -1px;
+    top: -1px;
+}
+
+#ArticleTable th span.UnreadArticles i {
+    color: #ccc !important;
+}
+
+span.UnreadArticles.Remarkable i {
+    color: #F7DE7B;
 }
 
 span.UnreadArticles.Ordinary {
-    background-position: 0 -20px;
+    color: #ddd;
 }
 
-tbody tr:hover span.UnreadArticles {
-    background-position: 0 -40px;
+tbody tr:hover span.UnreadArticles i {
+    color: #fff;
 }
 
 span.ImportantArticles {
     display: block;
-    text-indent: -9999px;
-    background: transparent url(../img/important_articles.png) no-repeat;
-    background-size: 80% auto;
     width: 16px;
     height: 16px;
     float: right;
-    margin-top: 4px;
+    margin: -2px 0px 0px 23px;
+    color: #C10505;
+    font-size: 13px;
+}
+
+span.ImportantArticles em {
+    display: none;
 }
 
 /**

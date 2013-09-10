@@ -44,7 +44,7 @@
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Show or hide the content"}"></a>
+                            <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Activity"}</h2>
                     </div>
@@ -68,7 +68,7 @@
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Show or hide the content"}"></a>
+                            <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Activity Dialogs"}</h2>
                     </div>

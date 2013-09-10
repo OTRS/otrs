@@ -57,7 +57,9 @@
 
 <!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
                     <li class="$QData{"CSS"}">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}">
+                            <i class="icon-trash"></i>
+                        </a>
                     </li>
 <!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
 

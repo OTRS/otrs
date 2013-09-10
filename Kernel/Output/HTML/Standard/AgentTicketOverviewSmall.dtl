@@ -76,7 +76,9 @@
                     <th class="OverviewHeader $QData{"HeaderColumnName"} $QData{"CSS"}">
 
 <!-- dtl:block:OverviewNavBarPageColumnFilter -->
-                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                            <i class="icon-filter"></i>
+                        </a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
@@ -99,7 +101,9 @@ Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComple
 <!-- dtl:block:OverviewNavBarPageColumnFilter -->
 
 <!-- dtl:block:OverviewNavBarPageColumnFilterLink -->
-                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                            <i class="icon-filter"></i>
+                        </a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
@@ -164,7 +168,9 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableSortable -->
 
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableNotSortable -->
-                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                            <i class="icon-filter"></i>
+                        </a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
@@ -322,7 +328,11 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                     <td class="$QData{"ClassTable"}" title="$Text{"$Data{"Title"}"}">
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
                         <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
-                            <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
+                            <span class="$QData{"ClassSpan"}">
+                                <i class="icon-star"></i>
+                                <i class="icon-star"></i>
+                                <em>$Text{"$Data{"Title"}"}</em>
+                            </span>
                         </div>
 <!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
                     </td>

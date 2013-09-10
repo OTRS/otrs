@@ -150,18 +150,6 @@ textarea.Focus  {
  * @subsection  Image Replacements
  */
 
-#UserInfo a.LogoutButton {
-    background-image: url(../img/logout_sprite.png);
-}
-
-.TableSmall tbody td a.Attachment {
-    background-image: url(../img/attachment_sprite.png);
-}
-
-.Dialog > .Header .Close {
-    background-image: url(../img/dialog_close.png);
-}
-
 .Dialog.Alert span.Icon {
     background-image: url(../img/dialog_alert.png);
 }
@@ -186,7 +174,7 @@ textarea.Focus  {
 }
 
 #ToolBar {
-    top: 24px;
+    top: 30px;
     left: auto;
     right: 45px;
 }
