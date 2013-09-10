@@ -97,7 +97,9 @@ $Include{"HTMLHead"}
             $Text{"You are logged in as"} $QEnv{"UserFullname"}
 <!-- dtl:block:LoginWithoutLink -->
 <!-- dtl:block:Logout -->
-            <a class="LogoutButton" id="LogoutButton" href="$Env{"Baselink"}Action=Logout;$QEnv{"ChallengeTokenParam"}" title="$Text{"Logout"}"></a>
+            <a class="LogoutButton" id="LogoutButton" href="$Env{"Baselink"}Action=Logout;$QEnv{"ChallengeTokenParam"}" title="$Text{"Logout"}">
+                <i class="icon-off"></i>
+            </a>
 <!-- dtl:block:Logout -->
         </div>
     </div>

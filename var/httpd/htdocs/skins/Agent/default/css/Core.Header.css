@@ -168,12 +168,11 @@
 }
 
 #UserInfo a.LogoutButton {
-    top: 4px;
-    right: 0;
+    top: 0px;
+    right: -4px;
     width: 20px;
-    height: 18px;
-    text-indent: -9999px;
-    background: url(../img/logout_sprite.png) no-repeat left top;
+    height: 20px;
+    font-size: 20px;
     position: absolute;
 }
 
@@ -182,12 +181,8 @@
     left: 0;
 }
 
-#UserInfo a:hover.LogoutButton {
-    background-position: left bottom;
-}
-
-.RTL #UserInfo a:hover.LogoutButton {
-    background-position: right bottom;
+#UserInfo a.LogoutButton:hover {
+    color: #fff;
 }
 
 /**
