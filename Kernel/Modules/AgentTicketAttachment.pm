@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentTicketAttachment;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Print)
 
 use strict;
 use warnings;
@@ -107,7 +108,7 @@ sub Run {
         my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
         if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic
-            print $ViewerDataFH $Data{Content};              ## no critic
+            print $ViewerDataFH $Data{Content};
             close $ViewerDataFH;
         }
         else {

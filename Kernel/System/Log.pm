@@ -8,6 +8,10 @@
 # --
 
 package Kernel::System::Log;
+## nofilter(TidyAll::Plugin::OTRS::Perl::PODSpelling)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 
 use strict;
 use warnings;

@@ -22,6 +22,8 @@
 use strict;
 use warnings;
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
+
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);

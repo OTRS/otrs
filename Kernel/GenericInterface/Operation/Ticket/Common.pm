@@ -322,7 +322,6 @@ sub ValidateLock {
         my $Lock = $Self->{LockObject}->LockLookup(
             LockID => $Param{LockID},
         );
-        use Data::Dumper;
         return if !$Lock;
     }
     else {
