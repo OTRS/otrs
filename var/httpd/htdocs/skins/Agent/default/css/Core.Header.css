@@ -235,8 +235,17 @@
     text-transform: uppercase;
 }
 
+#Navigation > li > a#GlobalSearchNav {
+    padding-right: 26px;
+}
+
 .RTL #Navigation > li > a {
-    padding: 4px 4px 3px 26px;
+    padding: 4px 4px 3px 15px;
+}
+
+.RTL #Navigation > li > a#GlobalSearchNav {
+    padding-right: 4px;
+    padding-left: 26px;
 }
 
 #Navigation > li > span {
