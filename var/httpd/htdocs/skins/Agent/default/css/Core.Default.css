@@ -579,10 +579,6 @@ span.UnreadArticles i:first-child {
     top: -1px;
 }
 
-#ArticleTable th span.UnreadArticles i {
-    color: #ccc !important;
-}
-
 span.UnreadArticles.Remarkable i {
     color: #F7DE7B;
 }

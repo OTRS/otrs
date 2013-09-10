@@ -65,7 +65,7 @@ $Include{"HTMLHeadBlockEvents"}
 
 </head>
 <!-- end header -->
-<body class="$QData{"BodyClass"}">
+<body class="$QData{"BodyClass"} LoginScreen">
 
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>

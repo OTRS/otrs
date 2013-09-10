@@ -411,6 +411,14 @@ td.Attachment {
     padding: 0 5px 0 0;
 }
 
+.TableSmall thead span.UnreadArticles a i {
+    font-size: 12px;
+}
+
+.TableSmall thead span.UnreadArticles i:first-child {
+    font-size: 16px !important;
+}
+
 .TableSmall thead .SortAscending a,
 .TableSmall thead .SortDescending a,
 .TableSmall thead .headerSortUp a,
@@ -480,10 +488,6 @@ td.Attachment {
     width: 16px;
     background-color: #999;
     margin-top: 6px;
-}
-
-.TableSmall thead .UnreadArticles span {
-    background-position: 0 -23px;
 }
 
 .TableSmall td {
