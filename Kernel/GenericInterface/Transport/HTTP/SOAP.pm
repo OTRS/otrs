@@ -780,7 +780,7 @@ sub _Output {
     $Param{HTTPCode} ||= 500;
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'text/xml';
+        $ContentType = 'application/soap+xml';
     }
     else {
         $ContentType = 'text/plain';
