@@ -78,6 +78,13 @@ for my $ModuleFile (@BackendModuleFiles) {
             "#$Module - CreateSessionID()",
         );
 
+        my @Sessions = $SessionObject->GetAllSessionIDs();
+        my %SessionList = map { $_ => 1 } @Sessions;
+        $Self->True(
+            $SessionList{$SessionID},
+            "#$Module - SessionList - new session in list",
+        );
+
         my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
         $Self->Is(
@@ -314,6 +321,15 @@ for my $ModuleFile (@BackendModuleFiles) {
         $CleanUp,
         "#$Module - CleanUp()",
     );
+
+    my @Session = $SessionObject->GetAllSessionIDs();
+
+    $Self->Is(
+        scalar @Session,
+        0,
+        "#$Module - SessionList() no sessions left",
+    );
+
 }
 
 1;
