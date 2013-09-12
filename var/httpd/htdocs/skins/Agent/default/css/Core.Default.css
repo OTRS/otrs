@@ -334,9 +334,19 @@ dd {
     margin-left: 24%;
 }
 
+.MainBox.FormScreen.NoSidebar > h1,
+.MainBox.FormScreen.NoSidebar > .AsteriskExplanation {
+    margin-left: 30%;
+}
+
 .RTL .MainBox.FormScreen > h1,
 .RTL .MainBox.FormScreen > .AsteriskExplanation {
     margin-right: 24%;
+}
+
+.RTL .MainBox.FormScreen.NoSidebar > h1,
+.RTL .MainBox.FormScreen.NoSidebar > .AsteriskExplanation {
+    margin-right: 30%;
 }
 
 .OverviewBox > h1 {
