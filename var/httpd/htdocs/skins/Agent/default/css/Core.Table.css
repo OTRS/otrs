@@ -645,6 +645,7 @@ td.Attachment {
 
 .TicketList table {
     border-collapse: separate;
+    position: relative;
 }
 
 .TicketList td {
