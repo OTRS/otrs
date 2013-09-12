@@ -162,7 +162,7 @@ sub CleanUp {
         Filter => $Param{Type} || '*',
     );
 
-    return if !@TypeList;
+    return 1 if !@TypeList;
 
     my $FileCallback = sub {
 

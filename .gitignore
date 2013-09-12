@@ -74,9 +74,7 @@ TidyAll
 Kernel/cpan-lib/Pod/Strip.pm
 scripts/install-hook.pl
 scripts/uninstall-hook.pl
-scripts/test/OTRSCodePolicy.t
-scripts/test/OTRSCodePolicy
-OTRSCodePolicy.sopm
+OTRSCodePolicy*
 
 # ITSM
 var/stats/*.xml.installed

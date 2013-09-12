@@ -1,4 +1,5 @@
 #3.3.0 beta3 2013-??-??
+ - 2013-09-12 Fixed bug#[9726](http://bugs.otrs.org/show_bug.cgi?id=9726) - otrs.DeleteCache.pl returns error state if cache was empty.
  - 2013-09-12 Fixed bug#[9728](http://bugs.otrs.org/show_bug.cgi?id=9728) - Bulk action (send email) ignores reply-to address from unknown customers.
  - 2013-09-10 Added md5sum.pl script in scripts/tools - to easily generate md5sums on platforms that need it (Windows).
  - 2013-09-09 Fixed bug#[9705](http://bugs.otrs.org/show_bug.cgi?id=9705) - Ticket search result screen is empty.
