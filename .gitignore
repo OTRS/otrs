@@ -68,9 +68,15 @@ var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d
+perltidy.LOG.old
 Perl/Critic
 TidyAll
+Kernel/cpan-lib/Pod/Strip.pm
+scripts/install-hook.pl
+scripts/uninstall-hook.pl
 scripts/test/OTRSCodePolicy.t
+scripts/test/OTRSCodePolicy
+OTRSCodePolicy.sopm
 
 # ITSM
 var/stats/*.xml.installed
