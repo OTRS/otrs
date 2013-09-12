@@ -344,11 +344,11 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetAction.Toggle i {
-    font-size: 19px;
+    font-size: 17px;
     position: absolute;
     left: 7px;
-    top: 1px;
-    color: #000 !important;
+    top: 2px;
+    color: #555 !important;
 }
 
 #ArticleItems .WidgetAction.Toggle i,
