@@ -180,7 +180,8 @@ table tr.MasterAction {
     background: linear-gradient(to bottom,  #b2b2b2 0%,#adadad 50%,#979797 50%,#959595 100%);
 }
 
-.DataTable thead .SortDescending > a:after {
+.DataTable thead .SortDescending > a:after,
+.TableSmall thead .SortDescending > a:after {
     content: "\25BC";
     display: block;
     position: absolute;
@@ -189,7 +190,8 @@ table tr.MasterAction {
     text-shadow: 1px 1px 0px #fff;
 }
 
-.DataTable thead .SortAscending > a:after {
+.DataTable thead .SortAscending > a:after,
+.TableSmall thead .SortAscending > a:after {
     content: "\25B2";
     display: block;
     position: absolute;
