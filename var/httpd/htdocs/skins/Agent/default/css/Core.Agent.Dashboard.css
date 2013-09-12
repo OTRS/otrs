@@ -49,4 +49,41 @@ div.EventDetails {
     margin: 7px auto;
 }
 
+.SettingsWidget label {
+    position: relative;
+    display: block;
+    padding: 2px 2px 2px 25px;
+    margin-bottom: 3px;
+    line-height: 150%;
+    -webkit-border-radius-: 3px;
+     -moz-border-radius-: 3px;
+     -ms-border-radius-: 3px;
+     -o-border-radius-: 3px;
+     border-radius-: 3px;
+     color: #777;
+}
+
+.SettingsWidget label.Checked {
+    color: #000;
+}
+
+.SettingsWidget label:hover {
+    background-color: #ddd;
+    border-color: #ccc;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 1px 1px 1px 24px;
+}
+
+.SettingsWidget label input {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+}
+
+.SettingsWidget label:hover input {
+    left: 0px;
+    top: 0px;
+}
+
 } /* end @media */

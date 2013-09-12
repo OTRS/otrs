@@ -180,9 +180,15 @@ ul.Tablelike li.Header + li {
     background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
     background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
     border-top: 1px solid #ccc;
-    margin: 15px -8px -8px;
+    margin: 15px -8px -10px -8px;
     padding: 10px 10px 9px 10px;
     text-align: center;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.WidgetSimple .Buttons.NoMargin {
+    margin-top: 5px;
 }
 
 .WidgetSimple .Field.LayoutGrid .AllocationList {

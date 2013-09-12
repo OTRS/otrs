@@ -8,7 +8,7 @@
 # --
 
 <div class="SidebarColumn">
-    <div class="DontPrint WidgetSimple Collapsed Animate">
+    <div class="DontPrint WidgetSimple Collapsed Animate SettingsWidget">
         <div class="Header">
             <div class="WidgetAction Toggle">
                 <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
@@ -24,13 +24,17 @@
 <!-- dtl:block:ContentSettings -->
                     <li>
                         <span title="$Text{"$Data{"Description"}"}">
-                            <input type="checkbox" name="Backend" id="Settings$QData{"Name"}" value="$QData{"Name"}" $Data{"Checked"}/>
-                            <label for="Settings$QData{"Name"}">$Text{"$Data{"Title"}"}</label>
+                            <label for="Settings$QData{"Name"}">
+                                <input type="checkbox" name="Backend" id="Settings$QData{"Name"}" value="$QData{"Name"}" $Data{"Checked"}/>
+                                $Text{"$Data{"Title"}"}
+                            </label>
                         </span>
                     </li>
 <!-- dtl:block:ContentSettings -->
                 </ul>
-                <button class="button" accesskey="g" title="$Text{"Save"} (g)" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                <div class="Buttons NoMargin">
+                    <button class="button Primary CallForAction" accesskey="g" title="$Text{"Save settings"} (g)" type="submit" value="$Text{"Save"}"><span>$Text{"Save settings"}</span></button>
+                </div>
             </form>
         </div>
     </div>
@@ -212,7 +216,8 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:block:ContentLargePreferencesItemAllocationList -->
 <!-- dtl:block:ContentLargePreferencesItem -->
                         <div class="Buttons">
-                            <button id="Dashboard$QData{"Name"}_submit" class="CallForAction Save DontPrint" type="submit" value="$Text{"Submit"}"><span>$Text{"Save Changes"}</span></button>
+                            <button id="Dashboard$QData{"Name"}_submit" class="CallForAction DontPrint" type="submit" value="$Text{"Submit"}"><span>$Text{"Save Changes"}</span></button>
+                            &nbsp;$Text{"or"}&nbsp;
                             <button id="Dashboard$QData{"Name"}_cancel" class="CallForAction DontPrint" type="submit" value="$Text{"Cancel"}"><span>$Text{"Cancel"}</span></button>
                         </div>
 <!--dtl:js_on_document_complete-->
@@ -239,11 +244,20 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
+
+    $('.SettingsWidget').find('label').each(function() {
+        if ($(this).find('input').prop('checked')) {
+            $(this).addClass('Checked');
+        }
+        $(this).bind('click', function() {
+            $(this).toggleClass('Checked', $(this).find('input').prop('checked'));
+        });
+    });
+
     Core.Config.AddConfig({
 <!-- dtl:block:ColumnTranslation -->
         'Column$QData{"ColumnName"}': '$JSText{"$QData{"TranslateString"}"}'<!-- dtl:block:ColumnTranslationSeparator -->,<!-- dtl:block:ColumnTranslationSeparator -->
 <!-- dtl:block:ColumnTranslation -->
-
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
