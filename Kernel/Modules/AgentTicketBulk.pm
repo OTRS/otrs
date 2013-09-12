@@ -403,7 +403,9 @@ sub Run {
                         # replace From/To, To/From because sender is agent
                         $Data{From} = $Data{To};
                     }
-                    $Customer = $Data{From};
+
+                    # use ReplyTo if set, otherwise use From
+                    $Customer = $Data{ReplyTo} ? $Data{ReplyTo} : $Data{From};
                 }
 
                 # generate sender name
