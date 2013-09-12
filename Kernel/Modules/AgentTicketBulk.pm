@@ -397,15 +397,16 @@ sub Run {
                         DynamicFields => 0,
                     );
 
+                    # use ReplyTo if set, otherwise use From
+                    $Customer = $Data{ReplyTo} ? $Data{ReplyTo} : $Data{From};
+
                     # check article type and replace To with From (in case)
                     if ( $Data{SenderType} !~ /customer/ ) {
 
                         # replace From/To, To/From because sender is agent
-                        $Data{From} = $Data{To};
+                        $Customer = $Data{To};
                     }
 
-                    # use ReplyTo if set, otherwise use From
-                    $Customer = $Data{ReplyTo} ? $Data{ReplyTo} : $Data{From};
                 }
 
                 # generate sender name
