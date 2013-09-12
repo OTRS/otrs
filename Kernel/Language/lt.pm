@@ -2327,7 +2327,7 @@ sub Data {
             'Reikalingas galiojantis el. pašto adresas (arba nenaudokite lokalaus pašto adreso).',
         'Next ticket state' => 'Sekanti trikčių būsena',
         'Inform sender' => 'Informuoti siuntėją',
-        'Send mail!' => 'Siųsti paštą!',
+        'Send mail' => 'Siųsti paštą!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Masinis veiksmas su triktimis',

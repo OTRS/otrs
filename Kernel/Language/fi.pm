@@ -2329,7 +2329,7 @@ sub Data {
             '',
         'Next ticket state' => 'Uusi tiketin status',
         'Inform sender' => 'Informoi lähettäjää',
-        'Send mail!' => 'Lähetä sähköposti!',
+        'Send mail' => 'Lähetä sähköposti!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Tikettien massatoimenpide',

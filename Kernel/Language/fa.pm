@@ -2332,7 +2332,7 @@ sub Data {
             'به یک آدرس ایمیل معتبر نیاز دارید یا از یک آدرس ایمیل محلی استفاده نکنید.',
         'Next ticket state' => 'وضعیت بعدی درخواست',
         'Inform sender' => 'به ارسال کننده اطلاع بده',
-        'Send mail!' => 'ارسال ایمیل!',
+        'Send mail' => 'ارسال ایمیل!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'عملیات کلی روی درخواست',

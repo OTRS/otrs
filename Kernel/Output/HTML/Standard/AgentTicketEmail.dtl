@@ -603,7 +603,7 @@ $('#FileUpload').bind('change', function () {
 <!-- dtl:block:TimeUnits -->
 
                     <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="$Text{"Send mail!"} (g)" type="submit" value="$Text{"Send mail!"}" ><span><i class="icon-envelope-alt"></i> $Text{"Send mail!"}</span></button>
+                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="$Text{"Send mail"} (g)" type="submit" value="$Text{"Send mail"}" ><span><i class="icon-envelope-alt"></i> $Text{"Send mail"}</span></button>
                     </div>
                 </fieldset>
             </form>

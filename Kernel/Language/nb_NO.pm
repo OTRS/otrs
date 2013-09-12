@@ -2335,7 +2335,7 @@ sub Data {
             'Må ha en gyldig e-postadresse, og ikke en lokal adresse',
         'Next ticket state' => 'Neste status på sak',
         'Inform sender' => 'Informer avsender',
-        'Send mail!' => 'Send e-posten',
+        'Send mail' => 'Send e-posten',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Masseredigering av saker',

@@ -2334,7 +2334,7 @@ sub Data {
             'Une adresse électronique valide est nécessaire. N\'utilisez pas d\'adresse électronique locale.',
         'Next ticket state' => 'Prochain état de la demande ',
         'Inform sender' => 'Informer l\'expéditeur ',
-        'Send mail!' => 'Envoyer le courriel',
+        'Send mail' => 'Envoyer le courriel',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Action groupée des demandes',

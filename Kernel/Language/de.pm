@@ -2327,7 +2327,7 @@ sub Data {
             'Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse.',
         'Next ticket state' => 'Nächster Status des Tickets',
         'Inform sender' => 'Sender informieren',
-        'Send mail!' => 'Mail übermitteln',
+        'Send mail' => 'Mail übermitteln',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ticket Sammelaktion',

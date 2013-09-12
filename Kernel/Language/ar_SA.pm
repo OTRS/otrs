@@ -2329,7 +2329,7 @@ sub Data {
             '',
         'Next ticket state' => 'حالة البطاقة بعد إنشائها',
         'Inform sender' => 'أخبر المرسل',
-        'Send mail!' => 'إرسال البريد',
+        'Send mail' => 'إرسال البريد',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'التنفيذ الجماعي للبطاقة',

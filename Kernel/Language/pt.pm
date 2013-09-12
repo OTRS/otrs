@@ -2328,7 +2328,7 @@ sub Data {
             'Necessita de um endereço de email válido, não utilize endereços de email locais',
         'Next ticket state' => 'Próximo estado do ticket',
         'Inform sender' => 'Informar o remetente',
-        'Send mail!' => 'Enviar mensagem de email !',
+        'Send mail' => 'Enviar mensagem de email !',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ação em bloco sobre tickets',

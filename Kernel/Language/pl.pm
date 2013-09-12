@@ -2329,7 +2329,7 @@ sub Data {
             'Potrzebny poprawny adres e-mail lub nie używaj lokalnego adresu e-mail.',
         'Next ticket state' => 'Następny status zgłoszenia',
         'Inform sender' => 'Powiadom nadawcę',
-        'Send mail!' => 'Wyślij wiadomość!',
+        'Send mail' => 'Wyślij wiadomość!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Akcja grupowa',

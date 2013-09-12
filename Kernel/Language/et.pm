@@ -2327,7 +2327,7 @@ sub Data {
             '',
         'Next ticket state' => 'Intsidendi järgmine olek',
         'Inform sender' => 'Teavita saatjat',
-        'Send mail!' => 'Saada kiri!',
+        'Send mail' => 'Saada kiri!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Hulgitegevused intsidentidega',

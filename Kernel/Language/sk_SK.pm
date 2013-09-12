@@ -2327,7 +2327,7 @@ sub Data {
             '',
         'Next ticket state' => '',
         'Inform sender' => '',
-        'Send mail!' => '',
+        'Send mail' => '',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => '',

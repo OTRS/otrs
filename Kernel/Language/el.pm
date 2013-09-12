@@ -2334,7 +2334,7 @@ sub Data {
             '',
         'Next ticket state' => 'Κατάσταση Επόμενου Δελτίου',
         'Inform sender' => 'Ενημέρωση αποστολέα',
-        'Send mail!' => 'Αποστολή μηνύματος!',
+        'Send mail' => 'Αποστολή μηνύματος!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Μαζικές ενέργειες δελτιου',

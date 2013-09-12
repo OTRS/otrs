@@ -2334,7 +2334,7 @@ sub Data {
             'E\' necessario un indirizzo email valido o non usare un indirizzo email locale.',
         'Next ticket state' => 'Stato successivo della richiesta',
         'Inform sender' => 'Informa il mittente',
-        'Send mail!' => 'Invia interazione!',
+        'Send mail' => 'Invia interazione!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Azioni  Multiple',

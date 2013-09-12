@@ -2331,7 +2331,7 @@ sub Data {
             'Potrebujete veljaven naslov e-pošte in ne uporabljajte lokalnega e-poštnega naslova!',
         'Next ticket state' => 'Naslednji status zahtevka',
         'Inform sender' => 'Obvesti pošiljatelja',
-        'Send mail!' => 'Pošlji E-pošto!',
+        'Send mail' => 'Pošlji E-pošto!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Skupinske akcije na zahtevkih',

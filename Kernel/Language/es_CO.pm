@@ -2327,7 +2327,7 @@ sub Data {
             'Se requiere una direcci√≥n de correo electr√≥nica v√°lida, que no sea local.',
         'Next ticket state' => 'Nuevo estado del ticket',
         'Inform sender' => 'Informar al emisor',
-        'Send mail!' => 'Enviar correo',
+        'Send mail' => 'Enviar correo',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Acci√≥n m√∫ltiple con Tickets',

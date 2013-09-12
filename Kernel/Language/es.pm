@@ -2332,7 +2332,7 @@ sub Data {
             'Necesita una dirección de correo válida, o no use una dirección de correo local.',
         'Next ticket state' => 'Nuevo estado del ticket',
         'Inform sender' => 'Informar al remitente',
-        'Send mail!' => '¡Enviar correo!',
+        'Send mail' => '¡Enviar correo!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Acción múltiple con tickets',

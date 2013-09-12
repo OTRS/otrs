@@ -2326,7 +2326,7 @@ sub Data {
             'Perlu alamat emel yang sah atau jangan menggunakan alamat emel tempatan.',
         'Next ticket state' => 'Status tiket seterusnya',
         'Inform sender' => 'Memaklumkan penghantar',
-        'Send mail!' => 'Hantar mel!',
+        'Send mail' => 'Hantar mel!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Tindakan Pukal Tiket',

@@ -2327,7 +2327,7 @@ sub Data {
             'Necessita una adreça de correu electrònic vàlida o no utilitzi una adreça de correu electrònic local.',
         'Next ticket state' => 'Nou estat del tiquet',
         'Inform sender' => 'Informar a l\'emissor',
-        'Send mail!' => 'Enviar correu!',
+        'Send mail' => 'Enviar correu!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Acció múltiple amb Tiquets',

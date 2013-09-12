@@ -2332,7 +2332,7 @@ sub Data {
             '需要有效的邮件地址/不可以使用本地邮件地址。',
         'Next ticket state' => '票单状态',
         'Inform sender' => '通知发送者',
-        'Send mail!' => '发送!',
+        'Send mail' => '发送!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => '票单批量处理',

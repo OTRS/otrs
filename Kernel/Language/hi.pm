@@ -2329,7 +2329,7 @@ sub Data {
             'एक मान्य ईमेल पता की आवश्यकता है या एक स्थानीय ईमेल पते का उपयोग मत किजिए।',
         'Next ticket state' => 'टिकट की अगली स्थिति',
         'Inform sender' => 'प्रेषक को सूचित करें',
-        'Send mail!' => 'मेल भेजें',
+        'Send mail' => 'मेल भेजें',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'टिकट थोक कार्रवाई',

@@ -2327,7 +2327,7 @@ sub Data {
             'Исправна имејл адреса је неопходна, али не користите локалну адресу!',
         'Next ticket state' => 'Наредни статус тикета',
         'Inform sender' => 'Обавести пошиљаоца',
-        'Send mail!' => 'Пошаљи имејл!',
+        'Send mail' => 'Пошаљи имејл!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Масовне акције на тикетима',

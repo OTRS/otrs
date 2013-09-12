@@ -2328,7 +2328,7 @@ sub Data {
             '',
         'Next ticket state' => 'Следващо състояние за билетът',
         'Inform sender' => 'Да се информира изпращачът',
-        'Send mail!' => 'Изпратете еМейл!',
+        'Send mail' => 'Изпратете еМейл!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Събирателно действие',

@@ -2333,7 +2333,7 @@ sub Data {
             'Een e-mailadres is verplicht. U kunt geen lokale adressen gebruiken.',
         'Next ticket state' => 'Status',
         'Inform sender' => 'Informeer afzender',
-        'Send mail!' => 'Bericht versturen',
+        'Send mail' => 'Bericht versturen',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ticket bulk-actie',

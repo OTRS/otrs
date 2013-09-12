@@ -2329,7 +2329,7 @@ sub Data {
             '',
         'Next ticket state' => 'Tickets 狀態',
         'Inform sender' => '通知發送者',
-        'Send mail!' => '發送!',
+        'Send mail' => '發送!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ticket 批量處理',

@@ -418,7 +418,7 @@ $Include{"RichTextEditor"}
             </div>
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail"} (g)" type="submit" value="$Text{"Send mail"}" ><span><i class="icon-envelope-alt"></i> $Text{"Send mail"}</span></button>
         </div>
     </div>
 </form>

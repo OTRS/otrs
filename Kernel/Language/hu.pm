@@ -2332,7 +2332,7 @@ sub Data {
             '',
         'Next ticket state' => 'A jegy következő állapota',
         'Inform sender' => 'Küldő tájékoztatása',
-        'Send mail!' => 'E-mail küldése!',
+        'Send mail' => 'E-mail küldése!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Csoportos jegy-művelet',

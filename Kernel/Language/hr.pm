@@ -2331,7 +2331,7 @@ sub Data {
             'Ispravna adresa E-pošte je neophodna, ali ne koristite lokalnu adresu!',
         'Next ticket state' => 'Naredni status kartice',
         'Inform sender' => 'Obavijesti pošiljaoca',
-        'Send mail!' => 'Pošalji E-poštu!',
+        'Send mail' => 'Pošalji E-poštu!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Grupne akcije na karticama',

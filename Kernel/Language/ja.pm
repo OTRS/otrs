@@ -2328,7 +2328,7 @@ sub Data {
             '有効なメールアドレスを使用するか、ローカルなメールアドレスを使用しないでください。',
         'Next ticket state' => 'チケットの次の状態',
         'Inform sender' => '送信者に知らせる',
-        'Send mail!' => 'メール送信！',
+        'Send mail' => 'メール送信！',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'チケット一括処理',

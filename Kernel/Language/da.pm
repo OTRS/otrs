@@ -2328,7 +2328,7 @@ sub Data {
             'Der mangler en gyldig mail-adresse. Brug ikke en lokal mail-adresse.',
         'Next ticket state' => 'Sagens næste status',
         'Inform sender' => 'Informer afsender',
-        'Send mail!' => 'Send mail',
+        'Send mail' => 'Send mail',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Massehandling',

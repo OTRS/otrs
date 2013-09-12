@@ -2326,7 +2326,7 @@ sub Data {
             '',
         'Next ticket state' => 'Trạng thái thẻ tiếp theo',
         'Inform sender' => 'Thông báo người gửi',
-        'Send mail!' => 'Gửi mail!',
+        'Send mail' => 'Gửi mail!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Lệnh lô trên thẻ',

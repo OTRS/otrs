@@ -2326,7 +2326,7 @@ sub Data {
             '',
         'Next ticket state' => 'Nākamais pieteikuma stāvoklis',
         'Inform sender' => 'Informēt nosūtītāju',
-        'Send mail!' => 'Nosūtīt ziņojumu!',
+        'Send mail' => 'Nosūtīt ziņojumu!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Labot vairākus pieteikumus',

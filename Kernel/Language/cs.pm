@@ -2333,7 +2333,7 @@ sub Data {
             '',
         'Next ticket state' => 'Následující stav tiketu',
         'Inform sender' => 'Informovat odesílatele',
-        'Send mail!' => 'Poslat mail!',
+        'Send mail' => 'Poslat mail!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Hromadná akce Tiketu',

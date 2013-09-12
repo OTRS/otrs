@@ -2327,7 +2327,7 @@ sub Data {
             '',
         'Next ticket state' => 'Biletin sonraki durumu',
         'Inform sender' => 'Göndereni bilgilendir',
-        'Send mail!' => 'Postayı gönder!',
+        'Send mail' => 'Postayı gönder!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Bilet Toplu İşlemi',

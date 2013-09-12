@@ -2327,7 +2327,7 @@ sub Data {
             'Ispravna imejl adresa je neophodna, ali ne koristite lokalnu adresu!',
         'Next ticket state' => 'Naredni status tiketa',
         'Inform sender' => 'Obavesti pošiljaoca',
-        'Send mail!' => 'Pošalji imejl!',
+        'Send mail' => 'Pošalji imejl!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Masovne akcije na tiketima',

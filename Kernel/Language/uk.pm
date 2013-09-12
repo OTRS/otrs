@@ -2327,7 +2327,7 @@ sub Data {
             '',
         'Next ticket state' => 'Наступний стан заявки',
         'Inform sender' => 'Інформувати відправника',
-        'Send mail!' => 'Оправити лист!',
+        'Send mail' => 'Оправити лист!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Масова дія',
