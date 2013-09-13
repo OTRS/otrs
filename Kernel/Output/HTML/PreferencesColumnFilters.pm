@@ -52,6 +52,8 @@ sub Run {
 
     my $FilterAction = $Self->{ParamObject}->GetParam( Param => 'FilterAction' );
 
+    return 1 if !defined $FilterAction;
+
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
 
         # pref update db
