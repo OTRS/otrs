@@ -83,7 +83,7 @@ my %DBInfo = $EnvironmentObject->DBInfoGet();
 
 for my $Key (qw (Database Host Type User Version)) {
     $Self->True(
-        $DBInfo{$Key} =~ /\w\w\w/,
+        $DBInfo{$Key} =~ /\w\w/,
         "DBInfoGet - returned value for $Key",
     );
 }
