@@ -37,7 +37,9 @@ sub LoadPreferences {
     $Self->{'DB::LikeEscapeString'}     = '';
 
     # how to determine server version
-    $Self->{'DB::Version'} = "SELECT CONCAT('MySQL ', VERSION())";
+    # version can have package prefix, we need to extract that
+    # example of VERSION() output: '5.5.32-0ubuntu0.12.04.1'
+    $Self->{'DB::Version'} = "SELECT CONCAT('MySQL ', SUBSTRING_INDEX(VERSION(),'-',1))";
 
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
