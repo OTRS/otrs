@@ -25,7 +25,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject TimeObject TicketObject)) {
+    for (qw(ConfigObject LogObject DBObject MainObject TimeObject EncodeObject TicketObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
