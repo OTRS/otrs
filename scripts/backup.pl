@@ -29,13 +29,13 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use Getopt::Std;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::DB;
-use Date::Pcalc qw(Today Today_and_Now Add_Delta_Days);
 
 # get options
 my %Opts;
@@ -140,20 +140,44 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 # remove old backups
 if ( $Opts{r} ) {
     my %LeaveBackups;
-    my ( $Year, $Month, $Day ) = Today_and_Now();
-    for ( 0 .. $Opts{r} ) {
-        my ( $DYear, $DMonth, $DDay ) = Add_Delta_Days( $Year, $Month, $Day, -$_ );
-        $LeaveBackups{ sprintf( "%04d-%01d-%01d", $DYear, $DMonth, $DDay ) } = 1;
-        $LeaveBackups{ sprintf( "%04d-%02d-%01d", $DYear, $DMonth, $DDay ) } = 1;
-        $LeaveBackups{ sprintf( "%04d-%01d-%02d", $DYear, $DMonth, $DDay ) } = 1;
-        $LeaveBackups{ sprintf( "%04d-%02d-%02d", $DYear, $DMonth, $DDay ) } = 1;
+    my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+
+    # we'll be substracting days to the current time
+    # we don't want DST changes to affect our dates
+    # if it is < 2:00 AM, add two hours so we're sure DST will not change our timestamp
+    # to another day
+    my $TimeStamp = $CommonObject{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime,
+        Type       => 'Short',
+    );
+
+    if ( substr( $TimeStamp, 0, 2 ) < 2 ) {
+        $SystemTime += ( 3600 * 2 );
     }
+
+    for ( 0 .. $Opts{r} ) {
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+            = $CommonObject{TimeObject}->SystemTime2Date(
+            SystemTime => $SystemTime,
+            );
+
+        # legacy, old directories could be in the format 2013-4-8
+        $LeaveBackups{ sprintf( "%04d-%01d-%01d", $Year, $Month, $Day ) } = 1;
+        $LeaveBackups{ sprintf( "%04d-%02d-%01d", $Year, $Month, $Day ) } = 1;
+        $LeaveBackups{ sprintf( "%04d-%01d-%02d", $Year, $Month, $Day ) } = 1;
+        $LeaveBackups{ sprintf( "%04d-%02d-%02d", $Year, $Month, $Day ) } = 1;
+
+        # substract one day
+        $SystemTime -= ( 24 * 3600 );
+    }
+
     my @Directories = $CommonObject{MainObject}->DirectoryRead(
         Directory => $Opts{d},
         Filter    => '*',
     );
 
     for my $Directory (@Directories) {
+        next if !-d $Directory;
         my $Leave = 0;
         for my $Data ( sort keys %LeaveBackups ) {
             if ( $Directory =~ m/$Data/ ) {
@@ -188,10 +212,15 @@ if ( $Opts{r} ) {
 # create new backup directory
 my $Home = $CommonObject{ConfigObject}->Get('Home');
 chdir($Home);
-my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
+
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+    = $CommonObject{TimeObject}->SystemTime2Date(
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
-);
-my $Directory = "$Opts{d}/$Y-$M-$D" . "_" . "$h-$m";
+    );
+
+# create directory name - this looks like 2013-09-09_22-19'
+my $Directory = sprintf( "%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
+
 if ( !mkdir($Directory) ) {
     die "ERROR: Can't create directory: $Directory: $!\n";
 }
@@ -269,6 +298,11 @@ if ( $DB =~ m/mysql/i ) {
 }
 else {
     print "Dump $DB rdbms ... ";
+
+    # set password via environment variable if there is one
+    if ($DatabasePw) {
+        $ENV{'PGPASSWORD'} = $DatabasePw;
+    }
     if (
         !system(
             "$DBDump -f $Directory/DatabaseBackup.sql -h $DatabaseHost -U $DatabaseUser $Database"
