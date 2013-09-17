@@ -5052,9 +5052,9 @@ sub _BuildSelectionDataRefCreate {
         for my $Row ( @{$DataRef} ) {
 
             # REMARK: This is the same solution as in Ascii2Html
-            $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
-
-            #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
+            if ( length $Row > $OptionRef->{Max} ) {
+                $Row = substr( $Row, 0, $OptionRef->{Max} - 5 ) . '[...]';
+            }
         }
     }
 
