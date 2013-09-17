@@ -24,7 +24,7 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
 3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9, 13 and 14.
+9, 13, 14 and 15.
 
 
 1. Stop all relevant services
@@ -242,5 +242,50 @@ you will need to use the deploy button in the ACL administration frontend in ord
 ACLs to your system.
 
 
-15. Well done!
+15. Update your web server configuration
+----------------------------------------
+
+Note: this applies only if you use the Apache web server,
+and do not use the configuration file directly from the OTRS installation directory
+(e. g. with a symlink from the Apache configuration directory).
+
+Please update the caching settings in the the Apache configuration file for OTRS:
+
+```
+<IfModule mod_headers.c>
+    # Cache css-cache for 30 days
+    <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css-cache">
+        <FilesMatch "\.(css|CSS)$">
+            Header set Cache-Control "max-age=2592000 must-revalidate"
+        </FilesMatch>
+    </Directory>
+
+    # Cache css thirdparty for 4 hours, including icon fonts
+    <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css/thirdparty">
+        <FilesMatch "\.(css|CSS|woff|svg)$">
+            Header set Cache-Control "max-age=14400 must-revalidate"
+        </FilesMatch>
+    </Directory>
+
+    # Cache js-cache for 30 days
+    <Directory "/opt/otrs/var/httpd/htdocs/js/js-cache">
+        <FilesMatch "\.(js|JS)$">
+            Header set Cache-Control "max-age=2592000 must-revalidate"
+        </FilesMatch>
+    </Directory>
+
+    # Cache js thirdparty for 4 hours
+    <Directory "/opt/otrs/var/httpd/htdocs/js/thirdparty/">
+        <FilesMatch "\.(js|JS)$">
+            Header set Cache-Control "max-age=14400 must-revalidate"
+        </FilesMatch>
+    </Directory>
+</IfModule>
+```
+
+Please activate this in your local installation too, and make sure that mod_headers
+is installed and active.
+
+
+16. Well done!
 --------------
