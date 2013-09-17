@@ -51,12 +51,13 @@ if (RefreshSeconds) {
 <!-- dtl:block:ModuleCSS -->
 
 <!-- dtl:block:ModuleCSS_IE8 -->
-<!--[if IE 7]>
+<!--[if IE 8]>
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE8 -->
 
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/jstree-theme/default/style.css" />
 
 <!-- dtl:block:HeaderLogoCSS -->
     <style type="text/css">

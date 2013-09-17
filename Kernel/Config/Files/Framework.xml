@@ -5860,6 +5860,7 @@ M
                 <Item>Core.Table.css</Item>
                 <Item>Core.TicketZoom.css</Item>
                 <Item>Core.Print.css</Item>
+                <Item>thirdparty/fontawesome/font-awesome.css</Item>
             </Array>
         </Setting>
     </ConfigItem>
