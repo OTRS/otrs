@@ -69,7 +69,7 @@ $Self->True(
     'TicketCreate()',
 );
 
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, Extended => 1 );
 $Self->Is(
     $Ticket{Title},
     'Some Ticket_Title',
@@ -134,6 +134,11 @@ $Self->Is(
     $Ticket{TypeID},
     '1',
     'TicketGet() (TypeID)',
+);
+$Self->Is(
+    $Ticket{SolutionTime},
+    $Ticket{Created},
+    'Ticket created as closed as Solution Time = Creation Time',
 );
 
 my $TestUserLogin = $HelperObject->TestUserCreate(

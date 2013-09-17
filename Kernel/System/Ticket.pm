@@ -1405,18 +1405,19 @@ sub _TicketGetClosed {
 
     return if !$Self->{DBObject}->Prepare(
         SQL => "
-            SELECT create_time
+            SELECT MAX(create_time)
             FROM ticket_history
             WHERE ticket_id = ?
                AND state_id IN (${\(join ', ', sort @List)})
                AND history_type_id IN  (${\(join ', ', sort @HistoryTypeIDs)})
-            ORDER BY create_time DESC",
+            ",
         Bind  => [ \$Param{TicketID} ],
-        Limit => 1,
     );
 
     my %Data;
+    ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        last ROW if !defined $Row[0];
         $Data{Closed} = $Row[0];
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
