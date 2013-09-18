@@ -4,19 +4,19 @@ Upgrading OTRS from 3.2 to 3.3
 These instructions are for people upgrading OTRS from *3.2* to *3.3*,
 and applies both for RPM and source code (tarball) upgrades.
 
-Please note that OTRS 3.3 requires at least perl version *5.10.0*. Make sure before
-you plan your upgrade that your server runs this version. You can check the version
-with the command `perl -v` on the command line. The only known Linux
-distribution that is still supported by their vendor using perl version 5.8.x is
-Red Hat Enterprise Linux (RHEL) 5 and its community supported derivative CentOS 5.
-If you're on any of these platforms and you plan to upgrade to OTRS 3.3 you should also
-plan migrating your operating system to a version with a supported perl, such as
-RHEL 6 or CentOS 6.
+Please note that OTRS 3.3 requires at least perl version *5.10.0*. Make sure
+before you plan your upgrade that your server runs this version. You can check
+the version with the command `perl -v` on the command line. The only known
+Linux distribution that uses perl 5.8 and is still supported by its vendor is
+Red Hat Enterprise Linux (RHEL) 5 and its community supported derivative
+CentOS 5.
+If you're on any of these platforms and you plan to upgrade to OTRS 3.3 you
+should also plan migrating your operating system to a version with a supported perl, such as RHEL 6 or CentOS 6.
 
 If you are running a lower version of OTRS you have to follow the upgrade path
 to 3.2 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1->3.2->3.3 ...)!
-You need to perform a full upgrade to every version in between, including database
-changes and the upgrading perl script.
+You need to perform a full upgrade to every version in between, including
+database changes and the upgrading perl script.
 
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
