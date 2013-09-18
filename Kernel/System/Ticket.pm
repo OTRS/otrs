@@ -1411,7 +1411,7 @@ sub _TicketGetClosed {
                AND state_id IN (${\(join ', ', sort @List)})
                AND history_type_id IN  (${\(join ', ', sort @HistoryTypeIDs)})
             ",
-        Bind  => [ \$Param{TicketID} ],
+        Bind => [ \$Param{TicketID} ],
     );
 
     my %Data;
