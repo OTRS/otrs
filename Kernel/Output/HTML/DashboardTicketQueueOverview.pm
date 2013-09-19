@@ -172,6 +172,12 @@ sub Run {
     # iterate over all queues, print results;
     my @StatusTotal;
     for my $Queue ( sort values %Queues ) {
+
+        # Hide empty queues
+        if (!grep { $_ > 0 } @{ $Results{ $Queue } } ) {
+            next;
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericQueueName',
             Data => { QueueName => $Queue, }
