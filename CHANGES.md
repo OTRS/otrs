@@ -9,7 +9,7 @@
  - 2013-09-06 Fixed bug#[9713](http://bugs.otrs.org/show_bug.cgi?id=9713) - Agent Ticket Search Results settings leads to Search screen.
  - 2013-09-06 Fixed bug#[9701](http://bugs.otrs.org/show_bug.cgi?id=9701) - Ticket overview Queue Sort Filter is missing.
  - 2013-09-06 Fixed bug#[8777](http://bugs.otrs.org/show_bug.cgi?id=8777) - 508 Compliance: No indication of the meaning of asterisks throughout the application.
- - Added Kernel::System::Environment, a module that has methods to get information about
+ - 2013-09-06 Added Kernel::System::Environment, a module that has methods to get information about
    the current system. Features information about OS, database, perl and OTRS.
 
 #3.3.0 beta2 2013-09-10
