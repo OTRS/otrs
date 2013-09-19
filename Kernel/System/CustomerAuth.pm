@@ -172,7 +172,7 @@ sub Auth {
         return;
     }
 
-    # check if user is vaild
+    # check if user is valid
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
     if ( defined $CustomerData{ValidID} && $CustomerData{ValidID} ne 1 ) {
         $Self->{LogObject}->Log(
