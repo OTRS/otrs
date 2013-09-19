@@ -57,7 +57,6 @@ if (RefreshSeconds) {
 <!-- dtl:block:ModuleCSS_IE8 -->
 
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/default/css/thirdparty/jstree-theme/default/style.css" />
 
 <!-- dtl:block:HeaderLogoCSS -->
     <style type="text/css">

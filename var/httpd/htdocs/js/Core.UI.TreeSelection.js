@@ -168,6 +168,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             DialogTitle    = $SelectObj.parent().prev('label').text(),
             Elements       = {},
             InDialog       = false,
+            StyleSheetURL,
             $SelectedNodesObj,
             SelectedNodes = [],
             $CurrentTreeObj;
@@ -207,6 +208,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         Elements = BuildElementsArray($SelectObj);
 
+        // set StyleSheetURL in order to correctly load the CSS for treeview
+        StyleSheetURL = Core.Config.Get('WebPath') + 'skins/Agent/default/css/thirdparty/jstree-theme/default/style.css';
+
         $TreeObj.jstree({
             "core": {
                 "animation" : 70
@@ -223,7 +227,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
             },
             "themes" : {
                 "theme" : "default",
-                "icons" : false
+                "icons" : false,
+                "url": StyleSheetURL,
+                "str": false,
             },
             "plugins" : [ "themes", "json_data", "ui", "hotkeys", "search" ]
         })

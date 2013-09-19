@@ -23,6 +23,7 @@ Core.App.Ready(function () {
         // config
         Baselink: '$Env{"Baselink"}',
         CGIHandle: '$Env{"CGIHandle"}',
+        WebPath: '$Config{"Frontend::WebPath"}',
         Action: '$QEnv{"Action"}',
         SessionIDCookie: '$QEnv{"SessionIDCookie"}',
         SessionName: '$Config{"SessionName"}',
