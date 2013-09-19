@@ -228,8 +228,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             "themes" : {
                 "theme" : "default",
                 "icons" : false,
-                "url": StyleSheetURL,
-                "str": false,
+                "url": StyleSheetURL
             },
             "plugins" : [ "themes", "json_data", "ui", "hotkeys", "search" ]
         })
