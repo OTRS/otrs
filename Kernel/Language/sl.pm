@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:06
+    # Last translation file sync: 2013-09-19 16:22:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2309,6 +2309,7 @@ sub Data {
         'Set Pending' => 'Dodaj na čakanje',
         'Change Priority of Ticket' => 'Spremeni prioriteto zahtevka',
         'Change Responsible of Ticket' => 'Spremeni odgovornega za reševanje zahtevka',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Neveljavna storitev',
         'New Owner' => 'Nov lastnik',
         'Please set a new owner!' => 'Prosimo, da se določi nov lastnik!',
@@ -4025,7 +4026,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Upravljanje z S/MIME certifikati za šifriranje e-pošte',
         'Manage existing sessions.' => 'Upravljanje z obstoječimi sejami.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Upravljanje rednih nalog.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4801,6 +4802,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Upravljanje z odgovori <-> vrstami',
         'Manage Responses' => 'Upravljanje z odgovori',
         'Manage Responses <-> Attachments Relations' => 'Upravljanje z odgovori <-> odnosi z priponkami',
+        'Manage periodic tasks.' => 'Upravljanje rednih nalog.',
         'Package verification failed!' => 'Preverjanje paketa ni uspelo!',
         'Password is required.' => 'Geslo je potrebno.',
         'Please enter a search term to look for customer companies.' => 'Prosimo vnesite iskalni izraz za iskanje podjetji stranke.',

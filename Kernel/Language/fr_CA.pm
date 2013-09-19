@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:49
+    # Last translation file sync: 2013-09-19 16:21:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2312,6 +2312,7 @@ sub Data {
         'Set Pending' => 'Définir la mise en attente de la demande no ',
         'Change Priority of Ticket' => 'Modifier la priorité de la demande no ',
         'Change Responsible of Ticket' => 'Modifier le responsable de la demande',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Service non admissible.',
         'New Owner' => 'Nouveau propriétaire ',
         'Please set a new owner!' => 'Veuillez configurer un nouveau propriétaire.',
@@ -4028,7 +4029,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le cryptage des courriels.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
         'Manage notifications that are sent to agents.' => 'Gérer les notifications qui sont envoyées aux agents.',
-        'Manage periodic tasks.' => 'Gérer les tâches périodiques.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Le nombre maximal de caractères de la table de renseignements du client (numéro de téléphone et courriel) dans l\'écran de rédaction.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -6642,6 +6643,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Gestion des relations entre les files et les réponses',
         'Manage Responses' => 'Gestion des réponses',
         'Manage Responses <-> Attachments Relations' => 'Gestion des réponses <-> Relations des pièces jointes',
+        'Manage periodic tasks.' => 'Gérer les tâches périodiques.',
         'MappingOut could not be initialized' => 'La mise en correspondance (MappingOut) ne peut être initialisée.',
         'Marshall Islands' => 'Iles Marshall',
         'Martinique' => 'Martinique',

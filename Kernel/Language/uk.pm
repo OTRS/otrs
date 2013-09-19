@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:12
+    # Last translation file sync: 2013-09-19 16:22:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Установка очікування',
         'Change Priority of Ticket' => '',
         'Change Responsible of Ticket' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => '',
         'New Owner' => 'Новий власник',
         'Please set a new owner!' => '',
@@ -4021,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Керування активними сеансами.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Керування повторюваними завданнями.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4775,6 +4776,7 @@ sub Data {
         'Link customers to services.' => 'Зв\'язати клієнтів із сервісами.',
         'Link responses to queues.' => 'Зв\'язати відповіді із чергами.',
         'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',
+        'Manage periodic tasks.' => 'Керування повторюваними завданнями.',
         'Package verification failed!' => 'Помилка перевірки цілісності пакета',
         'Please enter a search term to look for customer companies.' => ' Будь ласка введіть пошукову фразу для пошуку компаній клієнта.',
         'Responses' => 'Відповіді',

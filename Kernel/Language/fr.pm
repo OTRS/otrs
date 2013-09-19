@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:48
+    # Last translation file sync: 2013-09-19 16:21:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2313,6 +2313,7 @@ sub Data {
         'Set Pending' => 'Définir la mise en attente',
         'Change Priority of Ticket' => 'Changer la priorité du Ticket',
         'Change Responsible of Ticket' => 'Changer le responsable du Ticket',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Service invalide',
         'New Owner' => 'Nouveau Propriétaire',
         'Please set a new owner!' => 'Merci de renseigner un propriétaire',
@@ -4029,7 +4030,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le chiffrement des e-mails.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Gérer les tâches périodiques.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4798,6 +4799,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Gérer les relations entre les files et les réponses',
         'Manage Responses' => 'Gérer les Réponses',
         'Manage Responses <-> Attachments Relations' => 'Gérer Réponses <-> Relations pièce jointe',
+        'Manage periodic tasks.' => 'Gérer les tâches périodiques.',
         'Package verification failed!' => 'Vérification du paquet échouée !',
         'Password is required.' => 'Mot de passe requis',
         'Please enter a search term to look for customer companies.' => 'Merci d\'entrer un motif de recherche pour chercher les entreprises clientes',

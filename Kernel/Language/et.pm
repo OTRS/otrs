@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:45
+    # Last translation file sync: 2013-09-19 16:21:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Pane ootele',
         'Change Priority of Ticket' => 'Intsidendi prioriteedi muutmine',
         'Change Responsible of Ticket' => 'Intsidendi vastutaja muutmine',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Teenus ebasobiv.',
         'New Owner' => 'Uus omanik',
         'Please set a new owner!' => 'Palun määra uus omanik!',
@@ -4021,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'E-posti krüptimiseks kasutatavate S/MIME sertifikaatide haldamine.',
         'Manage existing sessions.' => 'Olemasolevate seansside haldamine.',
         'Manage notifications that are sent to agents.' => 'Töötajatele saadetavate teadete haldamine.',
-        'Manage periodic tasks.' => 'Perioodiliste tegevuste haldamine.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4780,6 +4781,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Lahkusid OTRSist, täname kasutamise eest!',
         'Manage Responses' => 'Vastuste haldus',
         'Manage Responses <-> Attachments Relations' => 'Vastuste <-> Manuste suhete haldamine',
+        'Manage periodic tasks.' => 'Perioodiliste tegevuste haldamine.',
         'Password is required.' => 'Parool on nõutav.',
         'Responses' => 'Vastused',
         'Responses <-> Queues' => 'Vastused <-> Järjekorrad',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:56
+    # Last translation file sync: 2013-09-19 16:21:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Nustatyti kaip laukiančią',
         'Change Priority of Ticket' => 'Keisti trikties prioritetą',
         'Change Responsible of Ticket' => 'Keisti atsakingą už triktį',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Paslauga negalima',
         'New Owner' => 'Naujas savininkas',
         'Please set a new owner!' => 'Prašome nustatyti naują savininką',
@@ -4021,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Valdyti S/MIME sertifikatus el. laiškų šifravimui.',
         'Manage existing sessions.' => 'Valdyti esamas sesijas.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Valdyti periodines užduotis.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4792,6 +4793,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Valdyti atsakymų-eilių ryšius',
         'Manage Responses' => 'Valdyti atsakymus',
         'Manage Responses <-> Attachments Relations' => 'Valdyti Atsakymai <-> Priedai ryšius',
+        'Manage periodic tasks.' => 'Valdyti periodines užduotis.',
         'Package verification failed!' => 'Paketo patikrinimas nepavyko',
         'Please enter a search term to look for customer companies.' => 'Prašome įvesti paieškos terminą klientų firmų paieškai.',
         'Please supply a' => 'Prašome pateikti:',

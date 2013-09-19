@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:39
+    # Last translation file sync: 2013-09-19 16:21:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Setze wartend',
         'Change Priority of Ticket' => 'Ändern der Ticket-Priorität',
         'Change Responsible of Ticket' => 'Ändern der Ticket-Verantwortlichen',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
         'Service invalid.' => 'Ungültiger Service',
         'New Owner' => 'Neuer Besitzer',
         'Please set a new owner!' => 'Bitte einen neuen Besitzer angeben',
@@ -2420,7 +2421,6 @@ sub Data {
         'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
         'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'To queue' => 'An Queue',
-        'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
 
         # Template: AgentTicketPhoneCommon
 

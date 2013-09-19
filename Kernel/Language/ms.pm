@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:58
+    # Last translation file sync: 2013-09-19 16:21:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2304,6 +2304,7 @@ sub Data {
         'Set Pending' => 'Tetapkan Penangguhan.',
         'Change Priority of Ticket' => 'Ubah Keutamaan Tiket',
         'Change Responsible of Ticket' => 'Ubah Tanggungjawab Tiket',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Perkhidmatan tidak sah.',
         'New Owner' => 'Pemilik baru',
         'Please set a new owner!' => 'Sila tetapkan pemilik baru!',
@@ -4020,7 +4021,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Mengurus Perakuan S/MIME untuk enkripsi emel.',
         'Manage existing sessions.' => 'Mengurus sesi yang sedia ada.',
         'Manage notifications that are sent to agents.' => 'Mengurus notifikasi yang dihantar kepada ejen.',
-        'Manage periodic tasks.' => 'Mengurus tugas yang berkala.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Saiz maksimum (dalam aksara) pada jadual informasi pelanggan (telefon dan emel) dalam skrin karang.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4865,6 +4866,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Mengurus Perhubungan Tindak Balas-Barisan',
         'Manage Responses' => 'mengurus Tindak Balas',
         'Manage Responses <-> Attachments Relations' => 'Urus Tindak Balas <-> lampiran Perhubungan',
+        'Manage periodic tasks.' => 'Mengurus tugas yang berkala.',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam paparan aturan.',
         'Need a valid email address or don\'t use a local email address' =>

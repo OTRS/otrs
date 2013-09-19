@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:46
+    # Last translation file sync: 2013-09-19 16:21:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2310,6 +2310,7 @@ sub Data {
         'Set Pending' => 'ثبت تعلیق',
         'Change Priority of Ticket' => 'تغییر الویت درخواست',
         'Change Responsible of Ticket' => 'تغییر مسئول پاسخگوی درخواست',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'سرویس نامعتبر',
         'New Owner' => 'صاحب جدید',
         'Please set a new owner!' => 'لطفا یک صاحب جدید مشخص نمایید!',
@@ -4026,7 +4027,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'مدیریت گواهینامه‌ها برای رمزنگاری ایمیل‌ها',
         'Manage existing sessions.' => 'مدیریت session های موجود',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'مدیریت وظایف دوره‌ای',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4800,6 +4801,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'مدیریت روابط پاسخ-صف درخواست',
         'Manage Responses' => 'مدیریت پاسخ‌ها',
         'Manage Responses <-> Attachments Relations' => 'مدیریت روابط پاسخ‌ها <-> پیوست‌ها',
+        'Manage periodic tasks.' => 'مدیریت وظایف دوره‌ای',
         'Package verification failed!' => 'وارسی بسته ناموفق بود',
         'Password is required.' => 'رمز عبور الزامی است.',
         'Please enter a search term to look for customer companies.' => 'لطفا عبارت جستجو را وارد کنید تا شرکت‌های مشترک را جستجو نمایید.',

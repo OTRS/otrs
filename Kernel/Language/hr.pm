@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:51
+    # Last translation file sync: 2013-09-19 16:21:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2309,6 +2309,7 @@ sub Data {
         'Set Pending' => 'Stavi na čekanje',
         'Change Priority of Ticket' => 'Promijeni prioritet kartice',
         'Change Responsible of Ticket' => 'Promijeni odgovornog za karticu',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Neispravan servis',
         'New Owner' => 'Novi vlasnik',
         'Please set a new owner!' => 'Molimo odredite novog vlasnika',
@@ -4025,7 +4026,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Upravljanje postojećim sesijama.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Upravljanje povremenim zadacima.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4802,6 +4803,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Upravljanje vezama odgovor <-> rep',
         'Manage Responses' => 'Upravljanje odgovorima',
         'Manage Responses <-> Attachments Relations' => 'Upravljanje vezama odgovori <-> privitci',
+        'Manage periodic tasks.' => 'Upravljanje povremenim zadacima.',
         'Package verification failed!' => 'Neuspjela provjera paketa!',
         'Please enter a search term to look for customer companies.' => 'Molimo unesite upit za pronalaženje korisničkih tvrtki.',
         'Please supply a' => 'Molimo, unesite',

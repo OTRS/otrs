@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:47
+    # Last translation file sync: 2013-09-19 16:21:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2307,6 +2307,7 @@ sub Data {
         'Set Pending' => 'Aseta odottaa',
         'Change Priority of Ticket' => 'Vaihda tiketin prioriteetti',
         'Change Responsible of Ticket' => 'Vaihda tiketin vastuuhenkilö',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => '',
         'New Owner' => 'Uusi omistaja',
         'Please set a new owner!' => 'Valitse uusi omistaja!',
@@ -4023,7 +4024,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Halinnoi istuntoja',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => '',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>

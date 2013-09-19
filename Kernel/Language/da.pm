@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:38
+    # Last translation file sync: 2013-09-19 16:21:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2306,6 +2306,7 @@ sub Data {
         'Set Pending' => 'Indstil afventningsfrist',
         'Change Priority of Ticket' => 'Skift sagens prioritet',
         'Change Responsible of Ticket' => 'Skift sagens ansvarlige',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Ugyldig service.',
         'New Owner' => 'Ny Ejer',
         'Please set a new owner!' => 'Vælg venligst en ny ejer!',
@@ -4022,7 +4023,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Administrer S/MIME-certifikater for mail-kryptering.',
         'Manage existing sessions.' => 'Administrer eksisterende sessioner.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Administrer periodiske opgaver.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4799,6 +4800,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Administrer Svar/Kø-relationer',
         'Manage Responses' => 'Administrer svar',
         'Manage Responses <-> Attachments Relations' => 'Administrer svar/vedhæftede filer',
+        'Manage periodic tasks.' => 'Administrer periodiske opgaver.',
         'Manager' => 'Leder',
         'Online' => 'Logget ind',
         'Out Of Office' => 'Ude af Kontoret',

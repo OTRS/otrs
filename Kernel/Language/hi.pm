@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:50
+    # Last translation file sync: 2013-09-19 16:21:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2307,6 +2307,7 @@ sub Data {
         'Set Pending' => 'विचाराधीन निर्धारित करें',
         'Change Priority of Ticket' => 'टिकट की प्राथमिकता बदलें',
         'Change Responsible of Ticket' => 'टिकट के उत्तरदायी बदलें',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'अवैध सेवा।',
         'New Owner' => 'नया स्वामी',
         'Please set a new owner!' => 'कृपया नया स्वामी सेट करें',
@@ -4023,7 +4024,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'ईमेल कूटलेखन के लिए S/MIME प्रमाणपत्र कुंजी प्रबंधित का प्रबंधन करें।',
         'Manage existing sessions.' => 'मौजूदा सत्र का प्रबंधन करें।',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'आवधिक कार्यों का प्रबंधन करें।',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'ग्राहक जानकारी तालिका(फोन और ईमेल) के स्क्रीन रचना में अधिकतम आकार(अक्षरों में)।',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4823,6 +4824,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'श्रेणी-प्रतिक्रिया संबंधों का प्रबंधन करें',
         'Manage Responses' => 'प्रतिक्रियाओं का प्रबंधन करें',
         'Manage Responses <-> Attachments Relations' => 'प्रतिक्रिया<->संलग्नक संबंधों का प्रबंधन करें',
+        'Manage periodic tasks.' => 'आवधिक कार्यों का प्रबंधन करें।',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Package verification failed!' => 'संकुल पुष्टिकरण असफल रहा।',

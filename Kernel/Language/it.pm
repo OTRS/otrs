@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:53
+    # Last translation file sync: 2013-09-19 16:21:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2312,6 +2312,7 @@ sub Data {
         'Set Pending' => 'Imposta attesa',
         'Change Priority of Ticket' => 'Cambia priorità del ticket',
         'Change Responsible of Ticket' => 'Cambia responsabile ticket',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Servizio non valido.',
         'New Owner' => 'Nuovo Gestore',
         'Please set a new owner!' => 'Si prega di impostare un nuovo proprietario!',
@@ -4028,7 +4029,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => '',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => '',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>

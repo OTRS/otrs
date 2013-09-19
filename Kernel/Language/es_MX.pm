@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:44
+    # Last translation file sync: 2013-09-19 16:21:42
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Establecer como pendiente',
         'Change Priority of Ticket' => 'Cambiar la Prioridad del Ticket',
         'Change Responsible of Ticket' => 'Cambiar el Responsable del Ticket',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Servicio inválido.',
         'New Owner' => 'Propietario nuevo',
         'Please set a new owner!' => 'Por favor, defina un propietario nuevo.',
@@ -4021,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gestionar certificados S/MIME para encriptación de correos electrónicos.',
         'Manage existing sessions.' => 'Gestionar sesiones existentes.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Gestionar tareas periódicas.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Tamaño máximo (en caracteres) para la tabla de información del cliente (teléfono y correo electrónico) en la ventana de redacción.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4821,6 +4822,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Administrar Relaciones Respuesta-Fila',
         'Manage Responses' => 'Gestionar Respuestas',
         'Manage Responses <-> Attachments Relations' => 'Administrar Relaciones Respuestas <-> Archivos Adjuntos',
+        'Manage periodic tasks.' => 'Gestionar tareas periódicas.',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Número máximo (en caracteres) de la tabla de información del cliente en la vista de filas.',
         'Package verification failed!' => '¡La verificación del paquete falló!',

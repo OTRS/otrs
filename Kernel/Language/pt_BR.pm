@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:03
+    # Last translation file sync: 2013-09-19 16:22:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2309,6 +2309,7 @@ sub Data {
         'Set Pending' => 'Configurar como Pendente',
         'Change Priority of Ticket' => 'Alterar a Prioridade do Chamado',
         'Change Responsible of Ticket' => 'Alterar o Responsável pelo Chamado',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Serviço inválido.',
         'New Owner' => 'Novo Proprietário',
         'Please set a new owner!' => 'Por favor, configure um novo proprietário!',
@@ -4025,7 +4026,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gerenciar certificados S/MIME para encriptação de e-mail.',
         'Manage existing sessions.' => 'Gerenciar sessões existentes.',
         'Manage notifications that are sent to agents.' => 'Gerenciar notificações que são enviadas aos atendentes.',
-        'Manage periodic tasks.' => 'Gerenciar tarefas periódicas.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4812,6 +4813,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Gerenciar Relações Resposta-Fila',
         'Manage Responses' => 'Gerenciar Respostas',
         'Manage Responses <-> Attachments Relations' => 'Gerenciar Relações Respostas <-> Anexos',
+        'Manage periodic tasks.' => 'Gerenciar tarefas periódicas.',
         'Package verification failed!' => 'A verificação do pacote falhou!',
         'Password is required.' => 'Senha é necessário.',
         'Please enter a search term to look for customer companies.' => 'Por favor, insira um termo de pesquisa para procurar uma empresa de clientes.',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:43
+    # Last translation file sync: 2013-09-19 16:21:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Establecer como pendiente',
         'Change Priority of Ticket' => 'Cambiar la Prioridad del Ticket',
         'Change Responsible of Ticket' => 'Cambiar el Responsable del Ticket',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Servicio inv√°lido.',
         'New Owner' => 'Propietario nuevo',
         'Please set a new owner!' => 'Por favor, defina un propietario nuevo.',
@@ -4021,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gestionar certificados S/MIME para encriptaci√≥n de correos electr√≥nicos.',
         'Manage existing sessions.' => 'Gestionar sesiones existentes.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Gestionar tareas peri√≥dicas.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Tama√±o m√°ximo (en caracteres) para la tabla de informaci√≥n del cliente (tel√©fono y correo electr√≥nico) en la ventana de redacci√≥n.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -5460,6 +5461,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Administrar Relaciones Respuesta-Fila',
         'Manage Responses' => 'Gestionar Respuestas',
         'Manage Responses <-> Attachments Relations' => 'Administrar Relaciones Respuestas <-> Archivos Adjuntos',
+        'Manage periodic tasks.' => 'Gestionar tareas peri√≥dicas.',
         'Match' => 'Coincidir',
         'Max. displayed tickets' => 'N√∫mero m√°ximo de tickets mostrados.',
         'Max. shown Tickets a page' => 'N√∫mero m√°ximo de tickets mostrados por p√°gina',

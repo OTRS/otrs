@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:59
+    # Last translation file sync: 2013-09-19 16:21:57
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2313,6 +2313,7 @@ sub Data {
         'Set Pending' => 'Sett på vent',
         'Change Priority of Ticket' => 'Endre prioritet',
         'Change Responsible of Ticket' => 'Endre ansvarlig for sak',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Tjenesten er ugyldig.',
         'New Owner' => 'Ny eier',
         'Please set a new owner!' => 'Vennligst sett en ny eier!',
@@ -4029,7 +4030,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Adminstrasjon av S/MIME-sertifikater for e-postkryptering',
         'Manage existing sessions.' => 'Administrasjon av aktive sesjoner',
         'Manage notifications that are sent to agents.' => 'Administrasjon av varslinger som sendes til saksbehandlerene.',
-        'Manage periodic tasks.' => 'Administrasjon av periodiske oppgaver.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maks. størrelse (antall tegn) for kundelisten (telefon og e-post) i opprett-skjermen.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4824,6 +4825,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Administrasjon av Ferdigsvar for Køer',
         'Manage Responses' => 'Administrering av Ferdigsvar',
         'Manage Responses <-> Attachments Relations' => 'Administrasjon av vedlegg til Ferdigsvar',
+        'Manage periodic tasks.' => 'Administrasjon av periodiske oppgaver.',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Package verification failed!' => 'Pakkevalidering feilet!',

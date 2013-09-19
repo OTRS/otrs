@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:01
+    # Last translation file sync: 2013-09-19 16:21:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2307,6 +2307,7 @@ sub Data {
         'Set Pending' => 'Ustaw oczekiwanie',
         'Change Priority of Ticket' => 'Zmień priorytet zgłoszenia',
         'Change Responsible of Ticket' => 'Zmień osobę odpowiedzialną za zgłoszenie',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Nieprawidłowa usługa.',
         'New Owner' => 'Nowy właściciel',
         'Please set a new owner!' => 'Prosimy ustaw nowego właściciela!',
@@ -4023,7 +4024,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Zarządzanie certyfikatami S/MIME służącymi do szyfrowania poczty wychodzącej',
         'Manage existing sessions.' => 'Zarządzanie aktywnymi sesjami agentów i klientów',
         'Manage notifications that are sent to agents.' => 'Zarządzanie powiadomieniami wysyłanymi do agentów.',
-        'Manage periodic tasks.' => 'Ustawienia automatycznych zadań',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4827,6 +4828,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Zarządzaj relacjami odpowiedź-kolejka',
         'Manage Responses' => 'Zarządzaj odpowiedziami',
         'Manage Responses <-> Attachments Relations' => 'Zarządzaj relacjami odpowiedzi <-> załączniki',
+        'Manage periodic tasks.' => 'Ustawienia automatycznych zadań',
         'Master' => 'Główne',
         'Mobile{CustomerUser}' => 'Telefon kom.',
         'Out Of Office' => 'Poza biurem',

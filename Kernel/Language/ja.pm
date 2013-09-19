@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:54
+    # Last translation file sync: 2013-09-19 16:21:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2306,6 +2306,7 @@ sub Data {
         'Set Pending' => '保留に設定',
         'Change Priority of Ticket' => 'チケットの優先度を変更',
         'Change Responsible of Ticket' => 'チケットの応答者を変更',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => '無効なサービスです',
         'New Owner' => '新規所有者',
         'Please set a new owner!' => '新規所有者を設定してください！',
@@ -4024,7 +4025,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
         'Manage existing sessions.' => '既存セッション管理',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => '周期的なタスク管理',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4827,6 +4828,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Manage Response-Queue Relations' => '応答 - キューの関連性の管理',
         'Manage Responses' => '応答管理',
         'Manage Responses <-> Attachments Relations' => '添付ファイル <-> 応答の関連性の管理',
+        'Manage periodic tasks.' => '周期的なタスク管理',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'キュー・ビューにおける、顧客情報テーブル（電話およびEメール）の最大サイズ（文字）です。',
         'Package verification failed!' => 'パッケージの検証に失敗しました',

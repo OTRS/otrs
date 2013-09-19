@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:10
+    # Last translation file sync: 2013-09-19 16:22:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2305,6 +2305,7 @@ sub Data {
         'Set Pending' => 'Beklemeyi Ayarla',
         'Change Priority of Ticket' => 'Bilet önceliğini değiştir',
         'Change Responsible of Ticket' => 'Bilet sorumluluğunu değiştir',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Servis hatalı',
         'New Owner' => 'Yeni Sahip',
         'Please set a new owner!' => 'Yeni sahip ata',
@@ -4021,7 +4022,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Posta şifreleme için S/MIME sertifikalarını yönet.',
         'Manage existing sessions.' => 'Mevcut oturumları yönet.',
         'Manage notifications that are sent to agents.' => 'Aracıya gönderilen bildirimleri yönet.',
-        'Manage periodic tasks.' => 'Periyodik görevleri yönet.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -5012,6 +5013,7 @@ sub Data {
         'Mailbox' => 'Posta kutusu',
         'Manage Response-Queue Relations' => 'Cevap-Kuyruk ilişkisini Yönet',
         'Manage Responses' => 'Cevapları Yönet',
+        'Manage periodic tasks.' => 'Periyodik görevleri yönet.',
         'Match' => 'Eşleşen',
         'Merge this ticket!' => 'Bu bileti birleştir!',
         'Message for new Owner' => 'Yeni Sahibine mesaj',

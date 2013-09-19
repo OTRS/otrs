@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:51:52
+    # Last translation file sync: 2013-09-19 16:21:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2310,6 +2310,7 @@ sub Data {
         'Set Pending' => 'Várakozás beállítás',
         'Change Priority of Ticket' => 'Hibajegy prioritásának változtatása',
         'Change Responsible of Ticket' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Hibás szolgáltatás',
         'New Owner' => 'Új tulajdonos',
         'Please set a new owner!' => '',
@@ -4026,7 +4027,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'S/MIME tanusítványok kezelése levelek titkosításához',
         'Manage existing sessions.' => 'Létező folyamatok kezelése',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => 'Ismétlődő feladatok kezelése',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4775,6 +4776,7 @@ sub Data {
         'Link customers to services.' => 'Ügyfelek hozzákapcsolása szolgáltatásokhoz',
         'Link responses to queues.' => 'Válaszok hozzákapcsolása várólistákhoz',
         'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',
+        'Manage periodic tasks.' => 'Ismétlődő feladatok kezelése',
         'Package verification failed!' => 'Csomag ellenőrzés nem sikerült!',
         'Responses' => 'Válaszok',
         'Responses <-> Queues' => 'Válaszok <-> Várólista',

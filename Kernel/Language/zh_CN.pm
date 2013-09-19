@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:14
+    # Last translation file sync: 2013-09-19 16:22:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2310,6 +2310,7 @@ sub Data {
         'Set Pending' => '设置待处理状态',
         'Change Priority of Ticket' => '修改票单优先级',
         'Change Responsible of Ticket' => '修改票单负责人',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => '服务无效。',
         'New Owner' => '新所有者',
         'Please set a new owner!' => '请指定新的所有者！',
@@ -4026,7 +4027,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '管理邮件的 S/MIME 加密证书.',
         'Manage existing sessions.' => '管理当前登录会话.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => '管理周期性执行的任务.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4797,6 +4798,7 @@ sub Data {
         'Manage Response-Queue Relations' => '管理回复与队列的对应关系',
         'Manage Responses' => '管理回复',
         'Manage Responses <-> Attachments Relations' => '管理回复与附件的对应关系',
+        'Manage periodic tasks.' => '管理周期性执行的任务.',
         'Package verification failed!' => '软件包验证失败',
         'Password is required.' => '请输入密码。',
         'Please enter a search term to look for customer companies.' => '请输入一个搜索条件以查找客户单位。',

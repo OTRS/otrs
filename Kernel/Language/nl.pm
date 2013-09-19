@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-05 16:52:00
+    # Last translation file sync: 2013-09-19 16:21:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2311,6 +2311,7 @@ sub Data {
         'Set Pending' => 'Zet in de wacht',
         'Change Priority of Ticket' => 'Wijzig prioriteit van ticket',
         'Change Responsible of Ticket' => 'Wijzig verantwoordelijke voor ticket',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => 'Service is ongeldig.',
         'New Owner' => 'Nieuwe eigenaar',
         'Please set a new owner!' => 'Kies een nieuwe eigenaar.',
@@ -4027,7 +4028,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
         'Manage notifications that are sent to agents.' => 'Beheer van notificatieteksten.',
-        'Manage periodic tasks.' => 'Beheer terugkerende taken.',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4808,6 +4809,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Beheer Antwoord - Wachtrij koppelingen',
         'Manage Responses' => 'Beheer Antwoorden',
         'Manage Responses <-> Attachments Relations' => 'Beheer Antwoorden <-> Bijlagen',
+        'Manage periodic tasks.' => 'Beheer terugkerende taken.',
         'New email ticket for %s' => 'Nieuw e-mail-ticket voor %s',
         'New phone ticket for %s' => 'Nieuw telefoon-ticket voor %s',
         'Package verification failed!' => 'Pakketverificatie mislukt!',
