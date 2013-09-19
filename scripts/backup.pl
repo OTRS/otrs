@@ -138,7 +138,7 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 }
 
 # remove old backups
-if ( $Opts{r} ) {
+if ( defined $Opts{r} ) {
     my %LeaveBackups;
     my $SystemTime = $CommonObject{TimeObject}->SystemTime();
 
