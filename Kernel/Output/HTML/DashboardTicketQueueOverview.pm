@@ -174,7 +174,7 @@ sub Run {
     for my $Queue ( sort values %Queues ) {
 
         # Hide empty queues
-        if (!grep { $_ > 0 } @{ $Results{ $Queue } } ) {
+        if ( !grep { $_ > 0 } @{ $Results{$Queue} } ) {
             next;
         }
 

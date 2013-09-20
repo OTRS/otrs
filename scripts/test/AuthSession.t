@@ -70,9 +70,9 @@ for my $ModuleFile (@BackendModuleFiles) {
             'LongStringNew' . $Count => $LongString,
             UserTest                 => 'SomeÄÖÜß.',
             UserType                 => 'User',
-            SomeComplexData          => {   # verify that complex data can be stored too
+            SomeComplexData => {    # verify that complex data can be stored too
                 'CaseSensitive' => 1,
-            }
+                }
         );
 
         my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
@@ -82,7 +82,6 @@ for my $ModuleFile (@BackendModuleFiles) {
             $SessionID,
             "#$Module - CreateSessionID()",
         );
-
 
         my %NewSessionDataCheck = $SessionObject->GetSessionIDData( SessionID => $SessionID );
         delete $NewSessionDataCheck{UserChallengeToken};

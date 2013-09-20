@@ -43,7 +43,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %Data = $Self->{TypeObject}->TypeGet( ID => $ID );
-        if (!%Data) {
+        if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need Type!',
             );
@@ -84,7 +84,7 @@ sub Run {
         }
 
         my %Data = $Self->{TypeObject}->TypeGet( ID => $GetParam{ID} );
-        if (!%Data) {
+        if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need Type!',
             );

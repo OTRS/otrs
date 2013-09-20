@@ -295,7 +295,6 @@ sub CreateSessionID {
     $Data{UserRemoteUserAgent} = $RemoteUserAgent;
     $Data{UserChallengeToken}  = $ChallengeToken;
 
-
     # create sql data
     my @SQLs;
     $Self->_SQLCreate(
