@@ -1,3 +1,6 @@
+#3.3.0 beta4 2013-??-??
+- 2013-09-20 Fixed bug#[9742](http://bugs.otrs.org/show_bug.cgi?id=9742) - Double close icon on TreeView for Customer Interface.
+
 #3.3.0 beta3 2013-09-24
  - 2013-09-12 Fixed a bug where session storage in DB fails on MySQL 5.6.
  - 2013-09-12 Fixed bug#[9726](http://bugs.otrs.org/show_bug.cgi?id=9726) - otrs.DeleteCache.pl returns error state if cache was empty.
