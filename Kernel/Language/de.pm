@@ -2906,9 +2906,9 @@ sub Data {
         'Create new phone ticket (inbound)' => 'Neues Telefonticket erstellen (eingehend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
+        'Customer Company Administration' => 'Kundenfirmenverwaltung',
         'Customer Company Information' => 'Informationen zur Kunden-Firma',
-        'Customer User Administration' => '',
+        'Customer User Administration' => 'Kundenbenutzerverwaltung',
         'Customer Users' => 'Kunden-Benutzer',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
