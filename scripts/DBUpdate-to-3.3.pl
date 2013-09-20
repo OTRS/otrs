@@ -639,47 +639,48 @@ sub _MigrateOldSettings {
     # collect icon data for toolbar items
     my %ModuleAttributes = (
         '1-Ticket::AgentTicketQueue' => {
-            'Icon'     => 'icon-folder-close',
+            'Icon' => 'icon-folder-close',
         },
         '2-Ticket::AgentTicketStatus' => {
-            'Icon'     => 'icon-list-ol',
+            'Icon' => 'icon-list-ol',
         },
         '3-Ticket::AgentTicketEscalation' => {
-            'Icon'     => 'icon-exclamation',
+            'Icon' => 'icon-exclamation',
         },
         '4-Ticket::AgentTicketPhone' => {
-            'Icon'     => 'icon-phone',
+            'Icon' => 'icon-phone',
         },
         '5-Ticket::AgentTicketEmail' => {
-            'Icon'     => 'icon-envelope',
+            'Icon' => 'icon-envelope',
         },
         '6-Ticket::TicketResponsible' => {
-            'Icon'            => 'icon-user',
-            'IconNew'         => 'icon-user',
-            'IconReached'     => 'icon-user',
+            'Icon'        => 'icon-user',
+            'IconNew'     => 'icon-user',
+            'IconReached' => 'icon-user',
         },
         '7-Ticket::TicketWatcher' => {
-            'Icon'            => 'icon-eye-open',
-            'IconNew'         => 'icon-eye-open',
-            'IconReached'     => 'icon-eye-open',
+            'Icon'        => 'icon-eye-open',
+            'IconNew'     => 'icon-eye-open',
+            'IconReached' => 'icon-eye-open',
         },
         '8-Ticket::TicketLocked' => {
-            'Icon'            => 'icon-lock',
-            'IconNew'         => 'icon-lock',
-            'IconReached'     => 'icon-lock',
+            'Icon'        => 'icon-lock',
+            'IconNew'     => 'icon-lock',
+            'IconReached' => 'icon-lock',
         },
     );
 
     $Setting = $CommonObject->{ConfigObject}->Get('Frontend::ToolBarModule');
 
     TOOLBARMODULE:
-    for my $ToolbarModule ( sort keys %ModuleAttributes) {
+    for my $ToolbarModule ( sort keys %ModuleAttributes ) {
 
         next TOOLBARMODULE if !IsHashRefWithData( $Setting->{$ToolbarModule} );
 
         # set icon and class infos
-        for my $Attribute ( sort keys %{$ModuleAttributes{$ToolbarModule}}) {
-            $Setting->{$ToolbarModule}->{$Attribute} = $ModuleAttributes{$ToolbarModule}->{$Attribute};
+        for my $Attribute ( sort keys %{ $ModuleAttributes{$ToolbarModule} } ) {
+            $Setting->{$ToolbarModule}->{$Attribute}
+                = $ModuleAttributes{$ToolbarModule}->{$Attribute};
         }
 
         # set new setting,
@@ -800,6 +801,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSGenericStandardTemplates
         OTRSExtendedDynamicDateFieldSearch
         OTRSDashboardTicketOverviewFilters
+        OTRSKeepFAQAttachments
         )
         )
     {
