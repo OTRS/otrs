@@ -649,7 +649,7 @@ $Self->Is(
 
 my %Values;
 my $Seen = 0;
-for my $Counter ( 1 ... 100_000 ) {
+for my $Counter ( 1 .. 100_000 ) {
     my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
     if ( $Values{$Random}++ ) {
         $Seen = 1;
@@ -661,6 +661,26 @@ $Self->Is(
     $Seen,
     0,
     "GenerateRandomString - no duplicates in 100k iterations",
+);
+
+# test with custom alphabet
+my $NoHexChar;
+COUNTER:
+for my $Counter ( 1 .. 1000 ) {
+    my $HexString = $Self->{MainObject}->GenerateRandomString(
+        Length => 32,
+        Dictionary => [ 0 .. 9, 'a' .. 'f' ],
+    );
+    if ( $HexString =~ m{[^0-9a-f]}xms ) {
+        $NoHexChar = $HexString;
+        last COUNTER;
+    }
+}
+
+$Self->Is(
+    $NoHexChar,
+    undef,
+    'Test output for hex chars in 1000 generated random strings with hex dictionary',
 );
 
 1;

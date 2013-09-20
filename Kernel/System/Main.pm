@@ -963,21 +963,64 @@ sub DirectoryRead {
 
 }
 
+=item GenerateRandomString()
+
+generate a random string of defined lenght, and of a defined alphabet.
+defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
+
+    my $String = $MainObject->GenerateRandomString();
+
+    returns
+
+    $String = 'mHLOx7psWjMe5Pj7';
+
+    with specific length:
+
+    my $String = $MainObject->GenerateRandomString(
+        Length => 32,
+    );
+
+    returns
+
+    $String = 'azzHab72wIlAXDrxHexsI5aENsESxAO7';
+
+    with specific length and alphabet:
+
+    my $String = $MainObject->GenerateRandomString(
+        Length     => 32,
+        Dictionary => [ 0..9, 'a'..'f' ], # hexadecimal
+        );
+
+    returns
+
+    $String = '9fec63d37078fe72f5798d2084fea8ad';
+
+
+=cut
+
 sub GenerateRandomString {
     my ( $Self, %Param ) = @_;
 
     my $Length = $Param{Length} || 16;
 
-    my $String;
-
-    # The list of characters in the dictionary. Don't use special chars here.
+    # The standard list of characters in the dictionary. Don't use special chars here.
     my @DictionaryChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
 
-    my $DictionaryLen = scalar @DictionaryChars;
+    # override dictionary with custom list if given
+    if ( $Param{Dictionary} && ref $Param{Dictionary} eq 'ARRAY' ) {
+        @DictionaryChars = @{ $Param{Dictionary} };
+    }
 
-    # Generate the string
+    my $DictionaryLength = scalar @DictionaryChars;
+
+    # generate the string
+    my $String;
+
     for ( 1 .. $Length ) {
-        $String .= $DictionaryChars[ rand($DictionaryLen) ];
+
+        my $Key = int rand $DictionaryLength;
+
+        $String .= $DictionaryChars[$Key];
     }
 
     return $String;
