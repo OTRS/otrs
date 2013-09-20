@@ -803,7 +803,7 @@ sub TicketListShow {
     );
 
     # build shown ticket per page
-    $Param{RequestedURL}    = "Action=$Self->{Action}";
+    $Param{RequestedURL}    = $Param{RequestedURL} || "Action=$Self->{Action}";
     $Param{Group}           = $Group;
     $Param{PreferencesKey}  = $PageShownPreferencesKey;
     $Param{PageShownString} = $Self->BuildSelection(

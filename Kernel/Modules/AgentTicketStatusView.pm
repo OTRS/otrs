@@ -163,6 +163,8 @@ sub Run {
         Filters    => \%NavBarFilter,
         FilterLink => $FilterLink,
 
+        RequestedURL => $Self->{RequestedURL},
+
         OrderBy => $OrderBy,
         SortBy  => $SortBy,
     );
