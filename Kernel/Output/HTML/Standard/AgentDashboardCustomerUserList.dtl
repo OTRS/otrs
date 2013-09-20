@@ -23,8 +23,12 @@
             <th>$Text{"Customer information"}</th>
             <th>$Text{"Open"}</th>
             <th>$Text{"Closed"}</th>
+<!-- dtl:block:OverviewResultNewAgentTicketPhone -->
             <th>$Text{"Phone ticket"}</th>
+<!-- dtl:block:OverviewResultNewAgentTicketPhone -->
+<!-- dtl:block:OverviewResultNewAgentTicketEmail -->
             <th>$Text{"Email ticket"}</th>
+<!-- dtl:block:OverviewResultNewAgentTicketEmail -->
 <!-- dtl:block:OverviewResultSwitchToCustomer -->
             <th>$Text{"Login as"}</th>
 <!-- dtl:block:OverviewResultSwitchToCustomer -->
@@ -60,16 +64,20 @@
                 </a>
             </td>
 <!-- dtl:block:ContentLargeCustomerUserListRowCustomerUserTicketsClosed -->
+<!-- dtl:block:ContentLargeCustomerUserListNewAgentTicketPhone -->
             <td>
                 <a href="$Env{"Baselink"}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New phone ticket from %s", "$QData{"CustomerKey"}"}">
                     <span>$Text{"Create"}</span>
                 </a>
             </td>
+<!-- dtl:block:ContentLargeCustomerUserListNewAgentTicketPhone -->
+<!-- dtl:block:ContentLargeCustomerUserListNewAgentTicketEmail -->
             <td>
                 <a href="$Env{"Baselink"}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$LQData{"CustomerKey"}" title="$Text{"New email ticket to %s", "$QData{"CustomerKey"}"}">
                     <span>$Text{"Create"}</span>
                 </a>
             </td>
+<!-- dtl:block:ContentLargeCustomerUserListNewAgentTicketEmail -->
 <!-- dtl:block:OverviewResultRowSwitchToCustomer -->
             <td>
                 <a class="AsBlock" href="$Env{"Baselink"}Action=AdminCustomerUser;Subaction=Switch;ID=$LQData{"CustomerKey"};$QEnv{"ChallengeTokenParam"}" target="_blank">$Text{"Switch to customer"}</a>

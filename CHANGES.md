@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-??-??
+- 2013-09-20 Fixed bug#[9720](http://bugs.otrs.org/show_bug.cgi?id=9720) - CIC gives error message when clicking on phone ticket while that module is not registered.
 - 2013-09-20 Fixed bug#[9742](http://bugs.otrs.org/show_bug.cgi?id=9742) - Double close icon on TreeView for Customer Interface.
 
 #3.3.0 beta3 2013-09-24
