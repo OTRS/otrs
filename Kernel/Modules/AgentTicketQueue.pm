@@ -254,7 +254,9 @@ sub Run {
             ),
 
             TicketIDs => \@ViewableTickets,
-            Total     => $CountTotal,
+
+            Total        => $CountTotal,
+            RequestedURL => $Self->{RequestedURL},
 
             NavBar => \%NavBar,
             View   => $Self->{View},

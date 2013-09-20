@@ -172,6 +172,8 @@ sub Run {
         TicketIDs => \@ViewableTickets,
         Total     => scalar @ViewableTickets,
 
+        RequestedURL => $Self->{RequestedURL},
+
         View => $Self->{View},
 
         Filter     => $Self->{Filter},
