@@ -1,7 +1,8 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-11-07 17:21:16
+--  driver: oracle, generated: 2013-09-23 13:35:42
 -- ----------------------------------------------------------
 SET DEFINE OFF;
+SET SQLBLANKLINES ON;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE valid ADD CONSTRAINT FK_valid_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE users ADD CONSTRAINT FK_users_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

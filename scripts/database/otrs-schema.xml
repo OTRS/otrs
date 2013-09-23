@@ -1651,7 +1651,7 @@
     <Column Name="backend_key" Required="true" Size="160" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="virtual_fs_filename">
-        <IndexColumn Name="filename" Size="350"/>
+        <IndexColumn Name="filename" Size="255"/>
     </Index>
     <Index Name="virtual_fs_backend">
         <IndexColumn Name="backend" Size="60"/>
@@ -1678,7 +1678,7 @@
     <Column Name="content" Required="true" Type="LONGBLOB"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="virtual_fs_db_filename">
-        <IndexColumn Name="filename" Size="350"/>
+        <IndexColumn Name="filename" Size="255"/>
     </Index>
 </Table>
 
