@@ -398,7 +398,7 @@ sub TableAlter {
             push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
 
             # remove possible default (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
-            if ( $Tag->{Type} !~ /^(TEXT|BLOB|LONGBLOB)$/i ) {
+            if ( $Tag->{Type} !~ /^(TEXT|MEDIUMTEXT|BLOB|LONGBLOB)$/i ) {
                 push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
             }
 
