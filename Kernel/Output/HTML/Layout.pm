@@ -2916,6 +2916,13 @@ sub NavigationBar {
         }
     }
 
+    # show search icon if any search router is configured
+    if ( IsHashRefWithData( $Self->{ConfigObject}->Get('Frontend::Search') ) ) {
+        $Self->Block(
+            Name => 'SearchIcon',
+        );
+    }
+
     # create & return output
     my $Output = $Self->Output( TemplateFile => 'AgentNavigationBar', Data => \%Param );
 
