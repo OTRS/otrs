@@ -1385,10 +1385,10 @@ continue {
 $XML = '
 <TableAlter Name="test_f">
     <ColumnChange NameOld="name_a" NameNew="name_a" Required="false" Default="20" Type="INTEGER" />
-    <ColumnChange NameOld="name_b" NameNew="name_b" Required="false" Type="INTEGER" />
+    <ColumnChange NameOld="name_b" NameNew="name_b" Required="false" Default="0" Type="INTEGER" />
     <ColumnChange NameOld="name_c" NameNew="name_c" Required="false" Default="0" Type="INTEGER" />
     <ColumnChange NameOld="name_d" NameNew="name_d" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
-    <ColumnChange NameOld="name_e" NameNew="name_e" Required="false" Size="20" Type="VARCHAR" />
+    <ColumnChange NameOld="name_e" NameNew="name_e" Required="false" Default="" Size="20" Type="VARCHAR" />
     <ColumnChange NameOld="name_f" NameNew="name_f" Required="false" Default="" Size="20" Type="VARCHAR" />
     <ColumnAdd Name="name2_a" Required="false" Default="1" Type="INTEGER" />
     <ColumnAdd Name="name2_b" Required="false" Default="0" Type="INTEGER" />
@@ -1469,7 +1469,7 @@ my $DefaultTest2Alter1 = [
         },
         Select => {
             name_a  => 20,
-            name_b  => '',
+            name_b  => 0,
             name_c  => 0,
             name_d  => '',
             name_e  => '',
