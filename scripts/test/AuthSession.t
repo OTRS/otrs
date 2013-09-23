@@ -64,18 +64,35 @@ for my $ModuleFile (@BackendModuleFiles) {
             $Size = $Size . ' Bytes';
         }
 
-        my $SessionID = $SessionObject->CreateSessionID(
+        my %NewSessionData = (
             UserLogin                => 'root',
             UserEmail                => 'root@example.com',
             'LongStringNew' . $Count => $LongString,
             UserTest                 => 'SomeÄÖÜß.',
             UserType                 => 'User',
+            SomeComplexData => {    # verify that complex data can be stored too
+                'CaseSensitive' => 1,
+                }
         );
+
+        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
 
         # tests
         $Self->True(
             $SessionID,
             "#$Module - CreateSessionID()",
+        );
+
+        my %NewSessionDataCheck = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+        delete $NewSessionDataCheck{UserChallengeToken};
+        delete $NewSessionDataCheck{UserRemoteAddr};
+        delete $NewSessionDataCheck{UserRemoteUserAgent};
+        delete $NewSessionDataCheck{UserSessionStart};
+
+        $Self->IsDeeply(
+            \%NewSessionDataCheck,
+            \%NewSessionData,
+            "Initial session data",
         );
 
         my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );

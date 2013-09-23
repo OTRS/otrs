@@ -12,8 +12,8 @@ package Kernel::System::AuthSession::DB;
 use strict;
 use warnings;
 
-use Digest::MD5;
-use Storable;
+use Storable qw();
+use MIME::Base64 qw();
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +172,7 @@ sub GetSessionIDData {
 
         # deserialize data if needed
         if ( $Row[3] ) {
-            my $Value = eval { Storable::thaw( $Row[2] ) };
+            my $Value = eval { Storable::thaw( MIME::Base64::decode_base64( $Row[2] ) ) };
 
             # workaround for the oracle problem with empty
             # strings and NULL values in VARCHAR columns
@@ -598,7 +598,7 @@ sub _SQLCreate {
             {
 
                 # dump the data
-                $Value      = Storable::nfreeze($Value);
+                $Value      = MIME::Base64::encode_base64( Storable::nfreeze($Value) );
                 $Serialized = 1;
             }
 
@@ -662,7 +662,7 @@ sub _SQLCreate {
                 }
 
                 # dump the data
-                $Value      = Storable::nfreeze($Value);
+                $Value      = MIME::Base64::encode_base64( Storable::nfreeze($Value) );
                 $Serialized = 1;
             }
 
@@ -728,7 +728,7 @@ sub _SQLCreate {
             {
 
                 # dump the data
-                $Value      = Storable::nfreeze($Value);
+                $Value      = MIME::Base64::encode_base64( Storable::nfreeze($Value) );
                 $Serialized = 1;
             }
 
