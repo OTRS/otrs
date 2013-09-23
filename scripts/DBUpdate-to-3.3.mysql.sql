@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-08-20 09:39:40
+#  driver: mysql, generated: 2013-09-23 09:59:46
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  insert into table ticket_history_type
@@ -149,5 +149,9 @@ ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_att
 #  alter table postmaster_filter
 # ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD f_not SMALLINT NULL;
+DROP INDEX virtual_fs_filename ON virtual_fs;
+CREATE INDEX virtual_fs_filename ON virtual_fs (filename(255));
+DROP INDEX virtual_fs_db_filename ON virtual_fs_db;
+CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename(255));
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

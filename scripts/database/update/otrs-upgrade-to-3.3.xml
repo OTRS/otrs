@@ -129,6 +129,7 @@
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKeyCreate>
 </TableAlter>
+
 <TableAlter Name="queue_standard_template">
 
     <!-- rename column -->
@@ -146,6 +147,7 @@
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKeyCreate>
 </TableAlter>
+
 <TableAlter Name="standard_template_attachment">
 
     <!-- rename column -->
@@ -167,4 +169,19 @@
 <TableAlter Name="postmaster_filter">
     <ColumnAdd Name="f_not" Required="false" Type="SMALLINT"/>
 </TableAlter>
+
+<!-- Change index length for MySQL 5.6 -->
+<TableAlter Name="virtual_fs">
+    <IndexDrop Name="virtual_fs_filename"/>
+    <IndexCreate Name="virtual_fs_filename">
+        <IndexColumn Name="filename" Size="255"/>
+    </IndexCreate>
+</TableAlter>
+<TableAlter Name="virtual_fs_db">
+    <IndexDrop Name="virtual_fs_db_filename"/>
+    <IndexCreate Name="virtual_fs_db_filename">
+        <IndexColumn Name="filename" Size="255"/>
+    </IndexCreate>
+</TableAlter>
+
 </database>
