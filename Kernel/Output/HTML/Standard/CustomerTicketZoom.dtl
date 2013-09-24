@@ -130,11 +130,11 @@
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                            <iframe sandbox="allow-same-origin allow-popups" security="restricted" title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
+                            <iframe sandbox="allow-same-origin allow-popups" $Data{"MSSecurityRestricted"} title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
 <!-- dtl:block:BodyHTMLLoad -->
 <!-- dtl:block:BodyHTMLPlaceholder -->
 #                           <!-- Here we need to append the session info if cookies are disabled, because the layout object cannot automatically do that here, like in the other iframe (only for src attribute). -->
-                            <iframe sandbox="allow-same-origin" security="restricted" src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QData{"SessionInformation"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
+                            <iframe sandbox="allow-same-origin" $Data{"MSSecurityRestricted"} src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QData{"SessionInformation"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
 <!-- dtl:block:BodyHTMLPlaceholder -->
                         </div>
                     </div>

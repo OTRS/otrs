@@ -1351,6 +1351,14 @@ sub _Mask {
             }
         }
 
+        # security="restricted" may break SSO - disable this feature if requested
+        if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+            $Param{MSSecurityRestricted} = '';
+        }
+        else {
+            $Param{MSSecurityRestricted} = 'security="restricted"';
+        }
+
         # in case show plain article body (if no html body as attachment exists of if rich
         # text is not enabled)
         my $RichText = $Self->{LayoutObject}->{BrowserRichText};

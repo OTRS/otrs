@@ -876,7 +876,7 @@ $Data{"Body"}
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                    <iframe sandbox="allow-same-origin allow-popups" security="restricted" width="100%" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="window.setTimeout( function (){ if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') { Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}')); } }, 500);" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
+                    <iframe sandbox="allow-same-origin allow-popups" $Data{"MSSecurityRestricted"} width="100%" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="window.setTimeout( function (){ if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') { Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}')); } }, 500);" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </div>

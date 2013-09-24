@@ -2549,6 +2549,14 @@ sub _ArticleItem {
         }
     }
 
+    # security="restricted" may break SSO - disable this feature if requested
+    if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+        $Article{MSSecurityRestricted} = '';
+    }
+    else {
+        $Article{MSSecurityRestricted} = 'security="restricted"';
+    }
+
     # show body
     # Create a reference to an anonymous copy of %Article and pass it to
     # the LayoutObject, because %Article may be modified afterwards.

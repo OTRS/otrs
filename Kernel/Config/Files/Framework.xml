@@ -304,6 +304,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DisableMSIFrameSecurityRestricted" Required="0" Valid="1">
+        <Description Translatable="1">Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="DefaultViewNewLine" Required="1" Valid="1">
         <Description Translatable="1">Automated line break in text messages after x number of chars.</Description>
         <Group>Framework</Group>
