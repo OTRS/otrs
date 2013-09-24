@@ -127,7 +127,7 @@ $('#Dest').bind('change', function (Event) {
 
                     <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateToCustomer Hidden">
-                            <input name="CustomerSelected" title="$Text{"Select this customer user as the main customer user."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
+                            <input name="CustomerSelected" title="$Text{"Select this customer as the main customer."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input class="CustomerTicketText Radio" title="$Text{"To customer user"}" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
                             <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer User"}">$Text{"Remove Ticket Customer User"}</button>
@@ -137,7 +137,7 @@ $('#Dest').bind('change', function (Event) {
                             <span class="BoxLabel">$Text{"To"}</span>
 <!-- dtl:block:MultipleCustomer -->
                             <div>
-                                <input name="CustomerSelected" title="$Text{"Select this customer user as the main customer user."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
+                                <input name="CustomerSelected" title="$Text{"Select this customer as the main customer."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
                                 <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input class="CustomerTicketText $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
                                 <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer User"}">$Text{"Remove Ticket Customer User"}</button>
