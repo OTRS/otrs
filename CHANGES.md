@@ -1,4 +1,5 @@
 #3.2.11 2013-??-??
+ - 2013-09-25 Fixed bug#[9751](http://bugs.otrs.org/show_bug.cgi?id=9751) - TimeUnits are not accepted with a value of 0.
  - 2013-09-20 Fixed bug#[9739](http://bugs.otrs.org/show_bug.cgi?id=9739) - Customer interface not working with MySQL 5.6.
  - 2013-09-20 Fixed bug#[8489](http://bugs.otrs.org/show_bug.cgi?id=8489) - setting Tickets per page resets AgentTicketQueue.
  - 2013-09-20 Fixed bug#[9732](http://bugs.otrs.org/show_bug.cgi?id=9732) - German translation file de.pm incomplete.
