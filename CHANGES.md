@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-??-??
+ - 2013-09-25 Fixed bug#[9751](http://bugs.otrs.org/show_bug.cgi?id=9751) - TimeUnits are not accepted with a value of 0.
  - 2013-09-24 Fixed bug#[9750](http://bugs.otrs.org/show_bug.cgi?id=9750) - Problem with SSO and security restricted iframes in IE8+WXP by adding SysConfig option *DisableMSIFrameSecurityRestricted*.
     Thanks to Pawel @ ib.pl.
  - 2013-09-24 Added otrs.AddCustomerUser2Group.pl command line script.
