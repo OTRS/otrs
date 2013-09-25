@@ -106,10 +106,14 @@ sub Run {
             qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
             Body ArticleTypeID ArticleType TypeID StateID State MergeToSelection MergeTo LinkTogether
             EmailSubject EmailBody EmailTimeUnits
-            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked TimeUnits)
+            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked)
             )
         {
             $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || '';
+        }
+
+        for my $Key (qw(TimeUnits)) {
+            $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
         }
 
         # get time stamp based on user time zone

@@ -147,7 +147,7 @@ sub Run {
     # get params
     my %GetParam;
     for my $Parameter (
-        qw(Subject Body TimeUnits
+        qw(Subject Body
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
         )
@@ -155,7 +155,7 @@ sub Run {
     {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
     }
-    for my $Parameter (qw(Year Month Day Hour Minute)) {
+    for my $Parameter (qw(Year Month Day Hour Minute TimeUnits)) {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
     }
 
@@ -295,7 +295,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs using a Hash slice
+            # convert possible values key => value to key => key for ACLs usign a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -439,7 +439,7 @@ sub Run {
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData($PossibleValues) ) {
 
-                # convert possible values key => value to key => key for ACLs using a Hash slice
+                # convert possible values key => value to key => key for ACLs usign a Hash slice
                 my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -575,7 +575,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs using a Hash slice
+                    # convert possible values key => value to key => key for ACLs usign a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
