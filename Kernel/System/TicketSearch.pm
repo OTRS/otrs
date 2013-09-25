@@ -1034,6 +1034,25 @@ sub TicketSearch {
                 # check search attribute, we do not need to search for *
                 next if $Text =~ /^\%{1,3}$/;
 
+                # validate data type
+                my $ValidateSuccess = $Self->{DynamicFieldBackendObject}->ValueValidate(
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Text,
+                    UserID             => $Param{UserID},
+                );
+                if ( !$ValidateSuccess ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message =>
+                            "Search not executed due to invalid value '"
+                            . $Text
+                            . "' on field '"
+                            . $DynamicField->{Name}
+                            . "'!",
+                    );
+                    return;
+                }
+
                 if ($Counter) {
                     $SQLExtSub .= ' OR ';
                 }
