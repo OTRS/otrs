@@ -3033,6 +3033,36 @@ sub _StoreActivityDialog {
             # so just take the DynamicField name
             $CheckedFields{$CurrentField} = 1;
         }
+        elsif (
+            $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
+            || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
+            )
+        {
+
+            next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
+
+            my $CustomerID = $Param{GetParam}{CustomerID} || $Self->{UserCustomerID};
+            if ( !$CustomerID ) {
+                $Error{'CustomerID'} = 1;
+            }
+            $TicketParam{CustomerID} = $CustomerID;
+
+            # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
+            my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
+                || $Self->{UserID};
+            if ( !$CustomerUserID ) {
+                $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
+            }
+            if ( !$CustomerUserID ) {
+                $Error{'CustomerUserID'} = 1;
+            }
+            else {
+                $TicketParam{CustomerUser} = $CustomerUserID;
+            }
+            $CheckedFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
+            $CheckedFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
+
+        }
         else {
 
             # skip if we've already checked ID or Name
