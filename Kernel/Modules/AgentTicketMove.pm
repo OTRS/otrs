@@ -146,7 +146,7 @@ sub Run {
     # get params
     my %GetParam;
     for my $Parameter (
-        qw(Subject Body TimeUnits
+        qw(Subject Body
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
         )
@@ -154,7 +154,7 @@ sub Run {
     {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
     }
-    for my $Parameter (qw(Year Month Day Hour Minute)) {
+    for my $Parameter (qw(Year Month Day Hour Minute TimeUnits)) {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
     }
 
