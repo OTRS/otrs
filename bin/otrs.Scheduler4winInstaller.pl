@@ -24,7 +24,8 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
+## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
+
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
