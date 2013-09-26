@@ -19,7 +19,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -80,7 +80,9 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>Queue or QueueID is mandatory</xsd:documentation>
+                            <xsd:documentation>
+                                Queue or QueueID is mandatory
+                            </xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="QueueID"
@@ -147,7 +149,9 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>State or StateID is mandatory</xsd:documentation>
+                            <xsd:documentation>
+                                State or StateID is mandatory
+                            </xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="StateID"
@@ -166,7 +170,9 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>Priority or PriorityID is mandatory</xsd:documentation>
+                            <xsd:documentation>
+                                Priority or PriorityID is mandatory
+                            </xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="PriorityID"
@@ -220,8 +226,13 @@
                         minOccurs="1">
                     </xsd:element>
                     <xsd:element
+                        name="CustomerID"
+                        type="xsd:string" minOccurs="0" maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
                         name="PendingTime"
-                        type="tns:OTRS_PendingTime" minOccurs="0">
+                        type="tns:OTRS_PendingTime"
+                        minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
@@ -457,7 +468,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -662,8 +673,13 @@
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
+                        name="CustomerID"
+                        type="xsd:string" minOccurs="0" maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
                         name="PendingTime"
-                        type="tns:OTRS_PendingTime" minOccurs="0">
+                        type="tns:OTRS_PendingTime"
+                        minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
@@ -697,7 +713,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -791,12 +807,12 @@
                     </xsd:element>
                     <xsd:element
                         name="Changed"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="Closed"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -812,7 +828,7 @@
                     </xsd:element>
                     <xsd:element
                         name="Created"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         ninOccurs="1"
                         maxOccurs="1">
                     </xsd:element>
@@ -833,28 +849,28 @@
                     </xsd:element>
                     <xsd:element
                         name="EscalationResponseTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         maxOccurs="1"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="EscalationSolutionTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="EscalationTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="EscalationUpdateTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="FirstLock"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -909,7 +925,7 @@
                     </xsd:element>
                     <xsd:element
                         name="RealTillTimeNotUsed"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -947,7 +963,7 @@
                     </xsd:element>
                     <xsd:element
                         name="SolutionTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="1">
                     </xsd:element>
                     <xsd:element
@@ -978,7 +994,7 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketFreeTimeX"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -1068,7 +1084,7 @@
                     </xsd:element>
                     <xsd:element
                         name="Changed"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
@@ -1078,7 +1094,7 @@
                     </xsd:element>
                     <xsd:element
                         name="Closed"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -1104,7 +1120,7 @@
                     </xsd:element>
                     <xsd:element
                         name="Created"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         ninOccurs="1"
                         maxOccurs="1">
                     </xsd:element>
@@ -1125,28 +1141,28 @@
                     </xsd:element>
                     <xsd:element
                         name="EscalationResponseTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         maxOccurs="1"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="EscalationSolutionTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="EscalationTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="EscalationUpdateTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="FirstLock"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -1206,7 +1222,7 @@
                     </xsd:element>
                     <xsd:element
                         name="RealTillTimeNotUsed"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -1265,7 +1281,7 @@
                     </xsd:element>
                     <xsd:element
                         name="SolutionTime"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="1">
                     </xsd:element>
                     <xsd:element
@@ -1301,7 +1317,7 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketFreeTimeX"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
@@ -1417,7 +1433,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
@@ -1715,13 +1731,13 @@
                     </xsd:element>
                     <xsd:element
                         name="ArticleCreateTimeNewerDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="ArticleCreateTimeOlderDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
@@ -1739,13 +1755,13 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketCreateTimeNewerDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="TicketCreateTimeOlderDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
@@ -1763,13 +1779,13 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketChangeTimeNewerDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="TicketChangeTimeOlderDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
@@ -1787,13 +1803,13 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketCloseTimeNewerDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="TicketCloseTimeOlderDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
@@ -1811,13 +1827,13 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketPendingTimeNewerDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="TicketPendingTimeOlderDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
@@ -1835,13 +1851,13 @@
                     </xsd:element>
                     <xsd:element
                         name="TicketEscalationTimeNewerDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="TicketEscalationTimeOlderDate"
-                        type="xsd:dateTime"
+                        type="xsd:string"
                         minOccurs="0"
                         maxOccurs="1">
                     </xsd:element>
@@ -1876,7 +1892,7 @@
                 <xsd:sequence>
                     <xsd:choice minOccurs="1" maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>Equals, Like, GraterThan, GraterThanEquals, SmallerThan or SmallerThanEqueals is mandatory</xsd:documentation>
+                            <xsd:documentation>Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan or SmallerThanEquals is mandatory</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="Equals"
