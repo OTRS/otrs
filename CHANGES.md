@@ -1,4 +1,5 @@
 #3.2.11 2013-??-??
+ - 2013-09-26 Fixed bug#[9747](http://bugs.otrs.org/show_bug.cgi?id=9747) - Only first selected process displays the RichText editor.
  - 2013-09-25 Fixed bug#[9688](http://bugs.otrs.org/show_bug.cgi?id=9688) - ORA-01839 error occurs at DynamicField in TicketSearch.
  - 2013-09-25 Fixed bug#[9751](http://bugs.otrs.org/show_bug.cgi?id=9751) - TimeUnits are not accepted with a value of 0.
  - 2013-09-20 Fixed bug#[9739](http://bugs.otrs.org/show_bug.cgi?id=9739) - Customer interface not working with MySQL 5.6.
