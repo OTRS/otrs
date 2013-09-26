@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-??-??
+ - 2013-09-26 Fixed bug#[9748](http://bugs.otrs.org/show_bug.cgi?id=9748) - ProcessManagement: Duplicate articles in a process-ticket (TransitionAction).
  - 2013-09-26 Fixed bug#[9759](http://bugs.otrs.org/show_bug.cgi?id=9759) - Installer Error DB - max key length is 767 bytes.
  - 2013-09-26 Fixed bug#[9747](http://bugs.otrs.org/show_bug.cgi?id=9747) - Only first selected process displays the RichText editor.
  - 2013-09-25 Fixed bug#[9688](http://bugs.otrs.org/show_bug.cgi?id=9688) - ORA-01839 error occurs at DynamicField in TicketSearch.
