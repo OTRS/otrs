@@ -66,6 +66,10 @@
     color: #000;
 }
 
+.Dialog > .Header .Close:hover i {
+    color: #E57633;
+}
+
 .Dialog > .Header h1 {
     padding: 5px 10px;
     font-weight: normal;
