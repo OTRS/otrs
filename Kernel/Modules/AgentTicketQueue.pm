@@ -49,7 +49,7 @@ sub new {
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' )  || 0;
     $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Unlocked';
-    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || 'Small';
+    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || '';
 
     return $Self;
 }
