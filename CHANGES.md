@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-??-??
+ - 2013-09-27 Fixed bug#[9764](http://bugs.otrs.org/show_bug.cgi?id=9764) - ACL, Queue will ignored with customerID.
  - 2013-09-27 Fixed bug#[9762](http://bugs.otrs.org/show_bug.cgi?id=9762) - Queue View - S / M / L views - not saved after logout.
  - 2013-09-26 Fixed bug#[9580](http://bugs.otrs.org/show_bug.cgi?id=9580) - Time fields in TicketGetResponse Ticket element do not comply with xsd:DateTime format.
  - 2013-09-26 Fixed bug#[9748](http://bugs.otrs.org/show_bug.cgi?id=9748) - ProcessManagement: Duplicate articles in a process-ticket (TransitionAction).

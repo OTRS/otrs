@@ -1403,6 +1403,7 @@ sub Run {
         my $Tos = $Self->_GetTos(
             %GetParam,
             %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
             QueueID => $QueueID,
         );
 
