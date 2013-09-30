@@ -120,7 +120,6 @@ my @Tests = (
         },
         YAMLString    => "---\nPossibleValues: -\n",
         SuccessDecode => 1,
-        SkipEngine    => 'YAML::XS',
     },
 
     # This is how the previous example should look like
