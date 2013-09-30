@@ -162,12 +162,14 @@ sub Run {
 
     for my $HeaderItem (@Headers) {
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericHeaderStatus',
+            Name => 'ContentLargeTicketQueueOverviewHeaderStatus',
             Data => {
                 Text => $HeaderItem,
             },
         );
     }
+
+    my $HasContent;
 
     # iterate over all queues, print results;
     my @StatusTotal;
@@ -178,8 +180,10 @@ sub Run {
             next;
         }
 
+        $HasContent++;
+
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericQueueName',
+            Name => 'ContentLargeTicketQueueOverviewQueueName',
             Data => { QueueName => $Queue, }
         );
 
@@ -188,7 +192,7 @@ sub Run {
         my $RowTotal;
         for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericQueueResults',
+                Name => 'ContentLargeTicketQueueOverviewQueueResults',
                 Data => {
                     Number  => $Results{$Queue}[$Counter],
                     QueueID => $QueueToID{$Queue},
@@ -204,7 +208,7 @@ sub Run {
 
         # print row (queue) total
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericQueueTotal',
+            Name => 'ContentLargeTicketQueueOverviewQueueTotal',
             Data => {
                 Number   => $RowTotal,
                 QueueID  => $QueueToID{$Queue},
@@ -215,21 +219,32 @@ sub Run {
 
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'ContentLargeTicketGenericStatusTotalRow',
-    );
-
-    for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+    if ($HasContent) {
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericStatusTotal',
+            Name => 'ContentLargeTicketQueueOverviewStatusTotalRow',
+        );
+
+        for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeTicketQueueOverviewStatusTotal',
+                Data => {
+                    Number   => $StatusTotal[$StateOrderID],
+                    QueueIDs => $QueueIDURL,
+                    StateID  => $States{ ${ $Self->{Config}->{States} }{$StateOrderID} },
+                    Sort     => $Sort,
+                },
+            );
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
-                Number   => $StatusTotal[$StateOrderID],
-                QueueIDs => $QueueIDURL,
-                StateID  => $States{ ${ $Self->{Config}->{States} }{$StateOrderID} },
-                Sort     => $Sort,
-            },
+                ColumnCount => (scalar keys %{ $Self->{Config}->{States} }) + 2,
+            }
         );
     }
+
 
     # check for refresh time
     my $Refresh = '';
@@ -238,7 +253,7 @@ sub Run {
         my $NameHTML = $Self->{Name};
         $NameHTML =~ s{-}{_}xmsg;
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericRefresh',
+            Name => 'ContentLargeTicketQueueOverviewRefresh',
             Data => {
                 %{ $Self->{Config} },
                 Name        => $Self->{Name},
