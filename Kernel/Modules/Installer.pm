@@ -106,7 +106,7 @@ sub Run {
     $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
 
     # build steps
-    my @Steps = qw ( License Database General Registration Finish );
+    my @Steps = qw(License Database General Registration Finish);
     my $StepCounter;
 
     # no license step needed if defined in .json file
@@ -276,7 +276,7 @@ sub Run {
         if ( $CheckMode eq 'DB' ) {
             my %DBCredentials;
             for my $Param (
-                qw ( DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTRSDBUser OTRSDBPassword )
+                qw(DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTRSDBUser OTRSDBPassword)
                 )
             {
                 $DBCredentials{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
@@ -500,7 +500,7 @@ sub Run {
 
         my %DBCredentials;
         for my $Param (
-            qw ( DBUser DBPassword DBHost DBType DBName DBSID DBPort InstallType OTRSDBUser OTRSDBPassword )
+            qw(DBUser DBPassword DBHost DBType DBName DBSID DBPort InstallType OTRSDBUser OTRSDBPassword)
             )
         {
             $DBCredentials{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
@@ -692,7 +692,7 @@ sub Run {
 
         # create database tables and insert initial values
         my @SQLPost;
-        for my $SchemaFile (qw ( otrs-schema otrs-initial_insert )) {
+        for my $SchemaFile ( qw(otrs-schema otrs-initial_insert) ) {
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $Self->{LayoutObject}->FatalError(
                     Message => "File '$DirOfSQLFiles/$SchemaFile.xml' not found!",
@@ -1225,15 +1225,15 @@ sub ConnectToDB {
     my ( $Self, %Param ) = @_;
 
     # check params
-    my @NeededKeys = qw ( DBType DBHost DBUser DBPassword );
+    my @NeededKeys = qw(DBType DBHost DBUser DBPassword);
 
     if ( $Param{InstallType} eq 'CreateDB' ) {
-        push @NeededKeys, qw ( OTRSDBUser OTRSDBPassword );
+        push @NeededKeys, qw(OTRSDBUser OTRSDBPassword);
     }
 
     # for Oracle we require DBSID and DBPort
     if ( $Param{DBType} eq 'oracle' ) {
-        push @NeededKeys, qw ( DBSID DBPort );
+        push @NeededKeys, qw(DBSID DBPort);
     }
 
     # for existing databases we require the database name

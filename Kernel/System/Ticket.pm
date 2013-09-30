@@ -1399,7 +1399,7 @@ sub _TicketGetClosed {
 
     # Get id for history types
     my @HistoryTypeIDs;
-    for my $HistoryType (qw ( StateUpdate NewTicket )) {
+    for my $HistoryType ( qw(StateUpdate NewTicket) ) {
         push @HistoryTypeIDs, $Self->HistoryTypeLookup( Type => $HistoryType );
     }
 
