@@ -16,6 +16,7 @@ use Kernel::System::XML;
 
 my $XMLObject = Kernel::System::XML->new( %{$Self} );
 my $DBObject  = Kernel::System::DB->new( %{$Self} );
+
 # ------------------------------------------------------------ #
 # XML test 2 (XML:TableCreate, XML:TableAlter, XML:Insert (size check),
 # SQL:Insert (size check), SQL:Delete,  XML:TableDrop)

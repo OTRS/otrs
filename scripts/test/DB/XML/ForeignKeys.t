@@ -17,7 +17,6 @@ use Kernel::System::XML;
 my $XMLObject = Kernel::System::XML->new( %{$Self} );
 my $DBObject  = Kernel::System::DB->new( %{$Self} );
 
-
 # ------------------------------------------------------------ #
 # check foreign keys
 # ------------------------------------------------------------ #

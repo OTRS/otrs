@@ -170,8 +170,9 @@ sub Run {
         Action => 'AgentTicketPhone',
         Type   => 'rw',
     );
+
     # check the permission for the phone ticket creation
-    if ( $NewAgentTicketPhonePermission ) {
+    if ($NewAgentTicketPhonePermission) {
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultNewAgentTicketPhone',
         );
@@ -182,8 +183,9 @@ sub Run {
         Action => 'AgentTicketEmail',
         Type   => 'rw',
     );
+
     # check the permission for the email ticket creation
-    if ( $NewAgentTicketEmailPermission ) {
+    if ($NewAgentTicketEmailPermission) {
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultNewAgentTicketEmail',
         );
@@ -266,7 +268,7 @@ sub Run {
         );
 
         # check the permission for the phone ticket creation
-        if ( $NewAgentTicketPhonePermission ) {
+        if ($NewAgentTicketPhonePermission) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeCustomerUserListNewAgentTicketPhone',
                 Data => {
@@ -278,7 +280,7 @@ sub Run {
         }
 
         # check the permission for the email ticket creation
-        if ( $NewAgentTicketEmailPermission ) {
+        if ($NewAgentTicketEmailPermission) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeCustomerUserListNewAgentTicketEmail',
                 Data => {
@@ -289,7 +291,8 @@ sub Run {
             );
         }
 
-        if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} ) {
+        if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRowSwitchToCustomer',
                 Data => {

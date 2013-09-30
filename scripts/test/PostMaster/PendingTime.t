@@ -21,7 +21,7 @@ use Kernel::System::Time;
 # create local config object
 my $ConfigObject = Kernel::Config->new();
 
-my $HelperObject  = Kernel::System::UnitTest::Helper->new(
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject => $Self,
 );

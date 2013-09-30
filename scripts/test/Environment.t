@@ -81,7 +81,7 @@ $Self->False(
 
 my %DBInfo = $EnvironmentObject->DBInfoGet();
 
-for my $Key ( qw(Database Host Type User Version) ) {
+for my $Key (qw(Database Host Type User Version)) {
     $Self->True(
         $DBInfo{$Key} =~ /\w\w/,
         "DBInfoGet - returned value for $Key",
@@ -90,7 +90,7 @@ for my $Key ( qw(Database Host Type User Version) ) {
 
 my %OTRSInfo = $EnvironmentObject->OTRSInfoGet();
 
-for my $Key ( qw(Version Home Host Product SystemID DefaultLanguage) ) {
+for my $Key (qw(Version Home Host Product SystemID DefaultLanguage)) {
     $Self->True(
         $OTRSInfo{$Key},
         "OTRSInfoGet - returned value for $Key",

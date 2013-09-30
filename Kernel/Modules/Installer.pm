@@ -692,7 +692,7 @@ sub Run {
 
         # create database tables and insert initial values
         my @SQLPost;
-        for my $SchemaFile ( qw(otrs-schema otrs-initial_insert) ) {
+        for my $SchemaFile (qw(otrs-schema otrs-initial_insert)) {
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $Self->{LayoutObject}->FatalError(
                     Message => "File '$DirOfSQLFiles/$SchemaFile.xml' not found!",
