@@ -132,7 +132,29 @@ sub Load {
             Priority => 'error',
             Message  => 'YAML data was: "' . $Param{Data} . '"',
         );
-        return;
+
+        # get used YAML implementation
+        my $YAMLImplementation = YAML::Any->implementation();
+
+        # if used implementation is pure perl YAML there is nothing to do, but exit with error
+        return if $YAMLImplementation eq 'YAML';
+
+        # otherwise use pure perl YAML as fallback if YAML::XS or other can't parse the data
+        # structure correctly
+        local @YAML::Any::_TEST_ORDER = ('YAML');    ## no critic
+        if ( !eval { $Result = YAML::Any::Load( $Param{Data} ) } ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'YAML data was not readable even by pure-perl YAML module',
+            );
+            return;
+        }
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Data was only readable pure-perl YAML module, please contact the'
+                . ' System Administrator to update this record, as the stored data is still in a'
+                . ' wrong format!',
+        );
     }
 
     # YAML does not set the UTF8 flag on strings that need it,
