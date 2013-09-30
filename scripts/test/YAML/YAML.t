@@ -121,6 +121,15 @@ my @Tests = (
         SuccessDecode => 1,
         SkipEngine    => 'YAML::XS',
     },
+    # This is how the previous example should look like
+    {
+        Name          => 'Missing quotes (fixed)',
+        Data          => {
+            PossibleValues => '-',
+        },
+        YAMLString    => "---\nPossibleValues: '-'\n",
+        SuccessDecode => 1,
+    },
 );
 
 ENGINE:
