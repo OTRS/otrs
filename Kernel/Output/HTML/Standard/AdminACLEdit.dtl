@@ -41,7 +41,7 @@
                     <strong>$Text{"Change settings"}</strong>: $Text{"Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list."}
                 </p>
                 <p class="FieldExplanation">
-                    $Text{"Check the official"} <a href="http://doc.otrs.org/3.2/en/html/customization.html#acl" target="_blank">$Text{"documentation"}</a>.
+                    $Text{"Check the official"} <a href="http://doc.otrs.org/3.3/en/html/customization.html#acl" target="_blank">$Text{"documentation"}</a>.
                 </p>
             </div>
         </div>
