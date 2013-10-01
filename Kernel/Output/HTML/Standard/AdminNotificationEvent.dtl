@@ -69,7 +69,7 @@
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td class="Center">
-                                <a class="TrashCan"href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this notification"}">$Text{"Delete this notification"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this notification"}">$Text{"Delete this notification"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
