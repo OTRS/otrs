@@ -208,7 +208,7 @@ sub RebuildConfig {
 
     # Rebuild ZZZAAuto.pm with current values
     if ( !$SysConfigObject->WriteDefault() ) {
-        die "ERROR: Can't write default config files!";
+        die "Error: Can't write default config files!";
     }
 
     # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
@@ -239,9 +239,17 @@ sub _CheckFrameworkVersion {
 
     my $Home = $CommonObject->{ConfigObject}->Get('Home');
 
+    # Compare the configured HOME with the script location and abort if it points to another directory
+    $Home =~ s{/+$}{}xmsg; # remove trailing slashes
+    my $HomeCheck = dirname($RealBin);
+    $HomeCheck =~ s{/+$}{}xmsg; # remove trailing slashes
+    if ($Home ne $HomeCheck) {
+        die "Error: \$HOME is set to $Home, but you use $HomeCheck. Please check your configuration!";
+    }
+
     # load RELEASE file
     if ( -e !"$Home/RELEASE" ) {
-        die "ERROR: $Home/RELEASE does not exist!";
+        die "Error: $Home/RELEASE does not exist!";
     }
     my $ProductName;
     my $Version;
@@ -261,15 +269,15 @@ sub _CheckFrameworkVersion {
         close($Product);
     }
     else {
-        die "ERROR: Can't read $CommonObject->{Home}/RELEASE: $!";
+        die "Error: Can't read $CommonObject->{Home}/RELEASE: $!";
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Not framework version required"
+        die "Error: No OTRS system found"
     }
     if ( $Version !~ /^3\.3(.*)$/ ) {
 
-        die "Not framework version required"
+        die "Error: You are trying to run this script on the wrong framework version $Version!"
     }
 
     return 1;
