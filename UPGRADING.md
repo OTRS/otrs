@@ -24,7 +24,7 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
 3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9, 13, 14 and 15.
+9 and 13-16.
 
 
 1. Stop all relevant services
@@ -287,5 +287,24 @@ Please activate this in your local installation too, and make sure that mod_head
 is installed and active.
 
 
-16. Well done!
+16. Update and activate cronjobs
+--------------------------------
+
+There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
+They can be activated by copying them without the ".dist" filename extension.
+Do this to make sure you get the latest versions of the cronjobs and new cronjobs
+as well.
+
+    shell> cd var/cron
+    shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+Please check the copied files and re-apply any customizations that you might have made.
+
+To schedule these cronjobs on your system, you can use the script Cron.sh.
+Make sure to execute it as the OTRS system user!
+
+        shell> /opt/otrs/bin/Cron.sh start
+
+
+17. Well done!
 --------------
