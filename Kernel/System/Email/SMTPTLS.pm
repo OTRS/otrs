@@ -35,6 +35,7 @@ sub _Connect {
         Timeout => 30,
         Debug   => $Param{SMTPDebug},
     );
+    return if !$SMTP;
     $SMTP->starttls(
         SSL_verify_mode => 0,
     );
