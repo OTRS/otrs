@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-09-23 09:59:46
+--  driver: postgresql, generated: 2013-10-01 12:28:47
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -81,10 +81,6 @@ ALTER TABLE queue_standard_template ALTER standard_template_id TYPE INTEGER;
 ALTER TABLE queue_standard_template ALTER standard_template_id DROP DEFAULT;
 UPDATE queue_standard_template SET standard_template_id = 0 WHERE standard_template_id IS NULL;
 ALTER TABLE queue_standard_template ALTER standard_template_id SET NOT NULL;
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 -- ----------------------------------------------------------
 --  alter table standard_template_attachment
 -- ----------------------------------------------------------

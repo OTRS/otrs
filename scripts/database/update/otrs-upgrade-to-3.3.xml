@@ -135,17 +135,7 @@
     <!-- rename column -->
     <ColumnChange NameOld="standard_response_id" NameNew="standard_template_id" Required="true" Type="INTEGER"/>
 
-    <!--  create foreign key (new name) -->
-    <ForeignKeyCreate ForeignTable="standard_template">
-        <Reference Local="standard_template_id" Foreign="id"/>
-    </ForeignKeyCreate>
-    <ForeignKeyCreate ForeignTable="queue">
-        <Reference Local="queue_id" Foreign="id"/>
-    </ForeignKeyCreate>
-    <ForeignKeyCreate ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKeyCreate>
+    <!--  foreign key creation must be done in perl script due to DB might be inconsistent and needs cleanup -->
 </TableAlter>
 
 <TableAlter Name="standard_template_attachment">

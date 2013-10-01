@@ -75,7 +75,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 12;
+    my $Steps = 13;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -121,6 +121,13 @@ Please run it as the 'otrs' user or with the help of su:
 
     print "Step $Step of $Steps: Checking Standard Template table columns... ";
     _AddTemplateTypeColumn($CommonObject) || die;
+    print "done.\n\n";
+    $Step++;
+
+    print "Step $Step of $Steps: Updating Queue Standard Template relations table... ";
+
+    # do not die if foreign keys already exists
+    _AddQueueStandardTemplateForeignKeys($CommonObject);
     print "done.\n\n";
     $Step++;
 
@@ -240,11 +247,12 @@ sub _CheckFrameworkVersion {
     my $Home = $CommonObject->{ConfigObject}->Get('Home');
 
     # Compare the configured HOME with the script location and abort if it points to another directory
-    $Home =~ s{/+$}{}xmsg; # remove trailing slashes
+    $Home =~ s{/+$}{}xmsg;    # remove trailing slashes
     my $HomeCheck = dirname($RealBin);
-    $HomeCheck =~ s{/+$}{}xmsg; # remove trailing slashes
-    if ($Home ne $HomeCheck) {
-        die "Error: \$HOME is set to $Home, but you use $HomeCheck. Please check your configuration!";
+    $HomeCheck =~ s{/+$}{}xmsg;    # remove trailing slashes
+    if ( $Home ne $HomeCheck ) {
+        die
+            "Error: \$HOME is set to $Home, but you use $HomeCheck. Please check your configuration!";
     }
 
     # load RELEASE file
@@ -395,7 +403,7 @@ sub _AddACLTables {
     return 1;
 }
 
-=item _AddTemplateTypeColumn($CommonObject)
+=item _AddTemplateTypeColumn()
 
 This function checks if the template_type column from standard_template tables already exist
 and sets new default value, otherwise creates it.
@@ -408,7 +416,7 @@ sub _AddTemplateTypeColumn {
     my $CommonObject = shift;
 
     my $TemplateTypeColumnExists;
-    print "Check if 'template_type' columns exists.\n";
+    print "\nCheck if 'template_type' columns exists.\n";
     {
         my $STDERR;
 
@@ -453,6 +461,85 @@ sub _AddTemplateTypeColumn {
             </TableAlter>
         </database>';
     }
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = Kernel::System::XML->new( %{$CommonObject} );
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $CommonObject->{DBObject}->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        print $SQL . "\n";
+        my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $CommonObject->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
+
+=item _AddQueueStandardTemplateForeignKeys()
+
+This function cleans queue_standard_template for inconsistent regusters that points to non existing
+templates before creating the foreign key to prevent errors
+
+    _AddQueueStandardTemplateForeignKeys($CommonObject);
+
+=cut
+
+sub _AddQueueStandardTemplateForeignKeys {
+    my $CommonObject = shift;
+
+    print "\nCleaning queue_standard_template table\n";
+    my $Success = $CommonObject->{DBObject}->Do(
+        SQL => '
+        DELETE FROM queue_standard_template
+        WHERE (
+            SELECT COUNT(*)
+            FROM standard_template
+            WHERE queue_standard_template.standard_template_id = standard_template.id
+        ) = 0',
+    );
+
+    print "Creating new Foreign Keys for queue_standard_template table\n";
+    print "\n--- Note: ---\n";
+    print "If you have already run this script before then the Foreign Keys are already set and"
+        . " you might see errors regarding 'duplicate key' or 'constrain already exists', that's"
+        . " fine, no need to worry!\n";
+    print "---\n\n";
+
+    my $XMLString = '<?xml version="1.0" encoding="utf-8" ?>
+    <database Name="otrs">
+        <TableAlter Name="queue_standard_template">
+
+            <!--  create foreign key (new name) -->
+            <ForeignKeyCreate ForeignTable="standard_template">
+                <Reference Local="standard_template_id" Foreign="id"/>
+            </ForeignKeyCreate>
+            <ForeignKeyCreate ForeignTable="queue">
+                <Reference Local="queue_id" Foreign="id"/>
+            </ForeignKeyCreate>
+            <ForeignKeyCreate ForeignTable="users">
+                <Reference Local="create_by" Foreign="id"/>
+                <Reference Local="change_by" Foreign="id"/>
+            </ForeignKeyCreate>
+        </TableAlter>
+    </database>';
 
     my @SQL;
     my @SQLPost;

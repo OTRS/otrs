@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-09-23 09:59:46
+--  driver: oracle, generated: 2013-10-01 12:28:47
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
@@ -79,10 +79,6 @@ ALTER TABLE queue_standard_template RENAME COLUMN standard_response_id TO standa
 ALTER TABLE queue_standard_template MODIFY standard_template_id NUMBER (12, 0) DEFAULT NULL;
 UPDATE queue_standard_template SET standard_template_id = 0 WHERE standard_template_id IS NULL;
 ALTER TABLE queue_standard_template MODIFY standard_template_id NUMBER (12, 0) NOT NULL;
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_s29 FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_q01 FOREIGN KEY (queue_id) REFERENCES queue (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_c93 FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_cdd FOREIGN KEY (change_by) REFERENCES users (id);
 -- ----------------------------------------------------------
 --  alter table standard_template_attachment
 -- ----------------------------------------------------------
