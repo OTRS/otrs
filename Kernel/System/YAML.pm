@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use YAML::Any qw();
+use YAML qw();
 use Encode qw();
 
 use vars qw(@ISA);
@@ -139,10 +140,9 @@ sub Load {
         # if used implementation is pure perl YAML there is nothing to do, but exit with error
         return if $YAMLImplementation eq 'YAML';
 
-        # otherwise use pure perl YAML as fallback if YAML::XS or other can't parse the data
+        # otherwise use pure-perl YAML as fallback if YAML::XS or other can't parse the data
         # structure correctly
-        local @YAML::Any::_TEST_ORDER = ('YAML');    ## no critic
-        if ( !eval { $Result = YAML::Any::Load( $Param{Data} ) } ) {
+        if ( !eval { $Result = YAML::Load( $Param{Data} ) } ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => 'YAML data was not readable even by pure-perl YAML module',
