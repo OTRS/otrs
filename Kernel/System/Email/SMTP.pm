@@ -56,10 +56,10 @@ sub Check {
 
         # connect to mail server
         $SMTP = $Self->_Connect(
-            MailHost => $Self->{MailHost},
-            FQDN     => $Self->{FQDN},
-            Port     => $Self->{SMTPPort},
-            Debug    => $Self->{SMTPDebug},
+            MailHost  => $Self->{MailHost},
+            FQDN      => $Self->{FQDN},
+            SMTPPort  => $Self->{SMTPPort},
+            SMTPDebug => $Self->{SMTPDebug},
         );
 
         last TRY if $SMTP;

@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-??-??
+ - 2013-10-01 Fixed bug#[9771](http://bugs.otrs.org/show_bug.cgi?id=9771) - SMTP backends ignore the port setting.
  - 2013-09-30 Fixed bug#[9765](http://bugs.otrs.org/show_bug.cgi?id=9765) - Dynamic Field values are completely removed if one entry contains a dash.
  - 2013-09-30 Fixed bug#[9768](http://bugs.otrs.org/show_bug.cgi?id=9768) - Ticket Queue Overview Dashboard widget has no proper "no data" message.
  - 2013-09-27 Fixed bug#[9764](http://bugs.otrs.org/show_bug.cgi?id=9764) - ACL, Queue will ignored with customerID.
