@@ -461,6 +461,11 @@ sub Form {
         Value => $Ticket{TicketNumber},
         Type  => 'Small',
     );
+
+    # build references string
+    my $References = defined $Data{References} ? $Data{References} . ' ' : '';
+    $References .= defined $Data{MessageID} ? $Data{MessageID}: '';
+
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID     => $Self->{TicketID},
@@ -482,7 +487,7 @@ sub Form {
         %Data,
         %GetParam,
         InReplyTo        => $Data{MessageID},
-        References       => "$Data{References} $Data{MessageID}",
+        References       => $References,
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer(
