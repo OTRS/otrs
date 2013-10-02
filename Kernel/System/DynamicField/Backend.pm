@@ -240,6 +240,7 @@ creates the field HTML to be used in edit masks.
     my $FieldHTML = $BackendObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject          => $ParamObject,
+        LayoutObject         => $LayoutObject,
         PossibleValuesFilter => {                         # Optional. Some backends may support this.
             'Key1' => 'Value1',                           #     This may be needed to realize ACL support for ticket masks,
             'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
