@@ -3824,7 +3824,7 @@ sub _StoreActivityDialog {
             if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
 
                 my $InvisibleFiledMessage =
-                    "Couldn't use CustomerID as an invisible field, please contact your system administrator!"
+                    "Couldn't use CustomerID as an invisible field, please contact your system administrator!";
                 # does not show header and footer again
                 if ( $Self->{AJAXDialog} ) {
                     return $Self->{LayoutObject}->Error(
