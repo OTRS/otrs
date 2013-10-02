@@ -744,8 +744,8 @@ iframe.TextOption.Customer {
 }
 
 #ArticleFilterDialogForm {
-    width: 450px;
-    height: 300px;
+    width: 480px;
+    max-height: 300px;
 }
 
 #ContextSettingsDialog {
