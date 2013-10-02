@@ -14,7 +14,7 @@
             $Text{"History of"} $Config{"Ticket::Hook"}: $QData{"TicketNumber"} - $QData{"Title"}
         </h1>
         <p>
-            <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
+            <a href="#" class="CancelClosePopup">$Text{"Close window"}</a>
         </p>
     </div>
 
