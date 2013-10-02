@@ -210,13 +210,6 @@ sub Download {
 
     my $Home = $Self->{Home};
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     my $In;
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
         return '';
@@ -316,21 +309,17 @@ sub CreateConfig {
     # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
     # read all config files and only save the changed config options
     if ( !$Param{EmptyFile} ) {
+
         for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
+
             if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
+
                 my %Config = $Self->ConfigItemGet(
                     Name => $ConfigItem->{Name}
                 );
+
                 my %ConfigDefault = $Self->ConfigItemGet(
                     Name    => $ConfigItem->{Name},
                     Default => 1,
@@ -343,6 +332,7 @@ sub CreateConfig {
                 $Name =~ s/###/'}->{'/g;
 
                 if ( $Config{Valid} ) {
+
                     my $C = $Self->_XML2Perl( Data => \%Config );
                     my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
                     my ( $A1, $A2 );
@@ -1548,14 +1538,6 @@ sub _Init {
     my ( $Self, %Param ) = @_;
 
     my $Counter = 0;
-
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
 
     # load xml config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
