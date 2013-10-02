@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:42
+    # Last translation file sync: 2013-10-02 08:52:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -50,6 +50,11 @@ sub Data {
         'Reset' => 'Resetuj',
         'last' => 'w ciągu',
         'before' => 'przed',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Dziś',
         'Tomorrow' => 'Jutro',
         'Next week' => 'Następny tydzień',
@@ -79,6 +84,7 @@ sub Data {
         'seconds' => 'sekund',
         'second' => 'drugi',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'napisał(a)',
         'Message' => 'Wiadomość',
         'Error' => 'Błąd',
@@ -287,6 +293,7 @@ sub Data {
         'Customer updated!' => 'Klient zaktualizowany!',
         'Customer company added!' => 'Firma klienta dodana!',
         'Customer company updated!' => 'Firma klienta zaktualizowana!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Konto pocztowe dodane!',
         'Mail account updated!' => 'Konto pocztowe zaktualizowane!',
         'System e-mail address added!' => 'Adres systemowy dodany!',
@@ -444,8 +451,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Nie można zmienić hasła ponieważ nowe hasło zawiera nidozwolone znaki.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Nie można zmienić hasła, nowe hasło musi zawierać co najmniej $s znaków.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Nie można zmienić hasła. Hasło musi zawierać co najmniej 2 wielkie i 2 małe litery.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Nie można zmienić hasła. Hasło musi zawierać co najmniej 1 cyfrę.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Nie można zmienić hasła. Hasło musi zawierać co najmniej dwa znaki specjalne.',
@@ -1097,6 +1104,7 @@ sub Data {
         'Set new priority' => 'Ustaw nowy priorytet',
         'Set new queue' => 'Ustaw nową kolejkę',
         'Set new state' => 'Ustaw nowy status',
+        'Pending date' => 'Data oczekiwania',
         'Set new agent' => 'Ustaw nowego agenta',
         'new owner' => 'nowy właściciel',
         'new responsible' => 'nowy odpowiedzialny',
@@ -1469,6 +1477,7 @@ sub Data {
         'Module documentation' => 'Dokumentacja modułu',
         'Upgrade' => 'Aktualizacja',
         'Local Repository' => 'Lokalna baza',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Odinstaluj',
         'Reinstall' => 'Przeinstaluj',
         'Feature Add-Ons' => 'Dodatki funkcjonalne',
@@ -2217,7 +2226,6 @@ sub Data {
         'Spell check' => 'Sprawdzanie poprawności',
         'Note type' => 'Typ notatki',
         'Next state' => 'Następny status',
-        'Pending date' => 'Data oczekiwania',
         'Date invalid!' => 'Niepoprawna data',
 
         # Template: AgentTicketActionPopupClose
@@ -4554,6 +4562,8 @@ sub Data {
         'Agent Interface' => 'Interfejs agenta',
         'Agent and Customer Interface' => 'Interfejs agenta i klienta',
         'Approved' => 'Zatwierdzone',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Nie można zmienić hasła. Hasło musi zawierać co najmniej 2 wielkie i 2 małe litery.',
         'City{CustomerUser}' => 'Miejscowość',
         'Comment{CustomerUser}' => 'Komentarz',
         'Country{CustomerUser}' => 'Kraj',

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-17 09:44:44
+    # Last translation file sync: 2013-10-02 08:51:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -53,6 +53,11 @@ sub Data {
         'Reset' => 'Restablecer',
         'last' => 'último',
         'before' => 'antes',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Hoy',
         'Tomorrow' => 'Mañana',
         'Next week' => 'Próxima semana',
@@ -82,6 +87,7 @@ sub Data {
         'seconds' => 'segundos',
         'second' => 'segundo',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'escribió',
         'Message' => 'Mensaje',
         'Error' => 'Error',
@@ -290,6 +296,7 @@ sub Data {
         'Customer updated!' => '¡Cliente actualizado!',
         'Customer company added!' => '¡Empresa del cliente actualizada!',
         'Customer company updated!' => '¡Actualizada la empresa del cliente!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '¡Añadida la cuenta de correo!',
         'Mail account updated!' => '¡Cuenta de correo actualizada!',
         'System e-mail address added!' => '¡Añadida la dirección de correo del sistema!',
@@ -447,8 +454,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'No es posible actualizar la contraseña, contiene caracteres no válidos.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'No es posible actualizar la contraseña, debe tener al menor %s caracteres.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'No es posible actualizar la contraseña, debe contener al menos 2 minúsculas y 2 mayúsculas.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'No es posible actualizar la contraseña, debe contener al menos un dígito.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'No es posible actualizar la contraseña, debe contener al menos 2 caracteres.',
@@ -1100,6 +1107,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Fecha pendiente',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1472,6 +1480,7 @@ sub Data {
         'Module documentation' => 'Módulo de documentación',
         'Upgrade' => 'Actualizar',
         'Local Repository' => 'Repositorio Local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Desinstalar',
         'Reinstall' => 'Reinstalar',
         'Feature Add-Ons' => '',
@@ -2220,7 +2229,6 @@ sub Data {
         'Spell check' => 'Verificar la ortografía',
         'Note type' => 'Tipo de nota',
         'Next state' => 'Siguiente estado',
-        'Pending date' => 'Fecha pendiente',
         'Date invalid!' => 'Fecha no válida',
 
         # Template: AgentTicketActionPopupClose
@@ -4553,6 +4561,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'No es posible actualizar la contraseña, debe contener al menos 2 minúsculas y 2 mayúsculas.',
         'Customer Data' => 'Datos del cliente',
         'For more info see:' => 'Para mas información consulte:',
         'Logout successful. Thank you for using OTRS!' => 'Sesión cerrada con éxito. ¡Gracias por utilizar OTRS!',

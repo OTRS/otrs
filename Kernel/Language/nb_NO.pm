@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:40
+    # Last translation file sync: 2013-10-02 08:52:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,6 +56,11 @@ sub Data {
         'Reset' => 'Nullstill',
         'last' => 'siste',
         'before' => 'før',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Idag',
         'Tomorrow' => 'I morgen',
         'Next week' => 'Neste uke',
@@ -85,6 +90,7 @@ sub Data {
         'seconds' => 'sekunder',
         'second' => 'sekund',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'skrev',
         'Message' => 'Melding',
         'Error' => 'Feil',
@@ -293,6 +299,7 @@ sub Data {
         'Customer updated!' => 'Kunde oppdatert!',
         'Customer company added!' => 'Kundebedrift lagt til!',
         'Customer company updated!' => 'Kundebedrift oppdatert!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'E-postkonto lagt til!',
         'Mail account updated!' => 'E-postkonto oppdatert!',
         'System e-mail address added!' => 'System e-postadresse lagt til!',
@@ -450,8 +457,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Kan ikke oppdatere passordet fordi det inneholder ulovlige tegn!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan ikke oppdatere passordet, det må være minst %s tegn langt!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan ikke oppdatere passordet, det må inneholde minst to små og to store bokstaver!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan ikke oppdatere passordet, det må inneholde minst ett tall!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Kan ikke oppdatere passordet fordi det må inneholde minst to bokstaver!',
@@ -1103,6 +1110,7 @@ sub Data {
         'Set new priority' => 'Sett ny prioritet',
         'Set new queue' => 'Sett ny kø',
         'Set new state' => 'Sett ny status',
+        'Pending date' => 'Sett på vent til',
         'Set new agent' => 'Sett ny saksbehandler',
         'new owner' => 'ny eier',
         'new responsible' => 'ny ansvarlig',
@@ -1475,6 +1483,7 @@ sub Data {
         'Module documentation' => 'Modul-dokumentasjon',
         'Upgrade' => 'Oppgrader',
         'Local Repository' => 'Lokalt pakkelager',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Avinstaller',
         'Reinstall' => 're-installer',
         'Feature Add-Ons' => 'Tilleggstjenester',
@@ -2223,7 +2232,6 @@ sub Data {
         'Spell check' => 'Stavekontroll',
         'Note type' => 'Notistype',
         'Next state' => 'Neste status',
-        'Pending date' => 'Sett på vent til',
         'Date invalid!' => 'Ugyldig dato!',
 
         # Template: AgentTicketActionPopupClose
@@ -4560,6 +4568,8 @@ sub Data {
             'Legger til kunders e-postadresser som mottakere under Opprett Sak for saksbehandlere.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Tillater avanserte søkekriterier i søk etter saker for saksbehandlere. Med denne funksjonaliteten kan du søke med kriterier som "(søk1&&søk2)" eller "(søk1||søk2)".',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Kan ikke oppdatere passordet, det må inneholde minst to små og to store bokstaver!',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Customer Data' => 'Kundeinformasjon',

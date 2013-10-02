@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:26
+    # Last translation file sync: 2013-10-02 08:52:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Resetear',
         'last' => 'último',
         'before' => 'antes',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Hoy',
         'Tomorrow' => 'Mañana',
         'Next week' => '',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'segundos',
         'second' => 'segundo',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'escribió',
         'Message' => 'Mensaje',
         'Error' => 'Error',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => '¡Cliente actualizado!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -442,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '¡No se puede actualizar su contraseña, porque contiene caracteres inválidos!',
         'Can\'t update password, it must be at least %s characters long!' =>
             '¡No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => '¡No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres!',
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Establecer prioridad nueva',
         'Set new queue' => 'Establecer fila nueva',
         'Set new state' => 'Establecer estado nuevo',
+        'Pending date' => 'Fecha pendiente',
         'Set new agent' => 'Establecer agente nuevo',
         'new owner' => 'propietario nuevo',
         'new responsible' => '',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Módulo de Documentación',
         'Upgrade' => 'Actualizar',
         'Local Repository' => 'Repositorio Local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Desinstalar',
         'Reinstall' => 'Reinstalar',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => 'Corrector ortográfico',
         'Note type' => 'Tipo de nota',
         'Next state' => 'Siguiente estado',
-        'Pending date' => 'Fecha pendiente',
         'Date invalid!' => '¡Fecha inválida!',
 
         # Template: AgentTicketActionPopupClose
@@ -4552,6 +4560,8 @@ sub Data {
             'Añade las direcciones de correo electrónico de los clientes a los destinatarios, en la ventana de redacción de un artículo para un ticket de la interfaz del agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Configura el índice de texto completo. Ejecuta "bin/otrs.RebuildFulltextIndex.pl" para generar un índice nuevo.',
         'Customer Data' => 'Información del cliente',

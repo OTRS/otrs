@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:30
+    # Last translation file sync: 2013-10-02 08:52:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,6 +55,11 @@ sub Data {
         'Reset' => 'Remise à zéro',
         'last' => 'dernier',
         'before' => 'avant',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Aujourd\'hui',
         'Tomorrow' => 'Demain',
         'Next week' => 'Semaine prochaine',
@@ -84,6 +89,7 @@ sub Data {
         'seconds' => 'secondes',
         'second' => 'seconde',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'a écrit',
         'Message' => 'Message',
         'Error' => 'Erreur',
@@ -292,6 +298,7 @@ sub Data {
         'Customer updated!' => 'Client mis à jour!',
         'Customer company added!' => 'Entreprise du client ajoutée !',
         'Customer company updated!' => 'Entreprise du client mise à jour !',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Compte de messagerie ajouté !',
         'Mail account updated!' => 'Compte de messagerie mis à jour !',
         'System e-mail address added!' => 'Adresse e-mail système ajoutée !',
@@ -449,8 +456,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Impossible de mettre à jour le mot de passe, il contienti des caractères invalides!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Impossible de mettre à jour le mot de passe,, il doit contenir au moins %s caractères!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 lettres en minuscule et 2 en majuscule!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Impossible de mettre à jour le mot de passe, il doit contenir au moins 1 chiffre!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 caractères!',
@@ -1102,6 +1109,7 @@ sub Data {
         'Set new priority' => 'Définir une nouvelle priorité',
         'Set new queue' => 'Définir une nouvelle file',
         'Set new state' => 'Définir un nouvel état',
+        'Pending date' => 'Délais d\'attente',
         'Set new agent' => 'Définir un nouveà l\'opérateur',
         'new owner' => 'nouveau propriétaire',
         'new responsible' => 'nouveau responsable',
@@ -1474,6 +1482,7 @@ sub Data {
         'Module documentation' => 'Documentation du module',
         'Upgrade' => 'Mise à jour',
         'Local Repository' => 'Dépôt local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Désinstallation',
         'Reinstall' => 'Ré-installation',
         'Feature Add-Ons' => 'Fonctionnalité des Compléments',
@@ -2222,7 +2231,6 @@ sub Data {
         'Spell check' => 'Vérifier orthographe',
         'Note type' => 'Type de note',
         'Next state' => 'État suivant',
-        'Pending date' => 'Délais d\'attente',
         'Date invalid!' => 'Date invalide',
 
         # Template: AgentTicketActionPopupClose
@@ -4557,6 +4565,8 @@ sub Data {
         #
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Ajoute l\'adresse e-mail des clients en destinataire dans l\'écran de création de l\'interface opérateur.',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 lettres en minuscule et 2 en majuscule!',
         'Customer Data' => 'Données client',
         'For more info see:' => 'Pour plus d\'informations, allez à',
         'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Merci d\'avoir utilisé OTRS !',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:47
+    # Last translation file sync: 2013-10-02 08:52:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Поништи',
         'last' => 'последње',
         'before' => 'пре',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'данас',
         'Tomorrow' => 'Сутра',
         'Next week' => '',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'секунде',
         'second' => 'секунда',
         's' => 'с',
+        'Time unit' => '',
         'wrote' => 'написао',
         'Message' => 'Порука',
         'Error' => 'Грешка',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => 'Ажуриран корисник',
         'Customer company added!' => 'Додана фирма корисника!',
         'Customer company updated!' => 'Ажурирана фирма корисника!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Додан мејл налог!',
         'Mail account updated!' => 'Ажуриран мејл налог!',
         'System e-mail address added!' => 'Додана системска мејл адреса!',
@@ -442,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Лозинка не може бити ажурирана, садржи недозвољене знакове.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Лозинка не може бити ажурирана. Минимална дужина лозинке је %s знакова.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Лозинка не може бити ажурирана. Мора да садржи бар 2 велика и 2 мала слова.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Лозинка не може бити ажурирана. Мора да садржи бар једну бројку.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Лозинка не може бити ажурирана. Мора да садржи најмање 2 знака.',
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Подеси нови приоритет',
         'Set new queue' => 'Подеси нови ред',
         'Set new state' => 'Подеси нови статус',
+        'Pending date' => 'Чекање до',
         'Set new agent' => 'Подеси новог оператера',
         'new owner' => 'нови власник',
         'new responsible' => 'нови одговорни',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Документација кодула',
         'Upgrade' => 'Ажурирање',
         'Local Repository' => 'Локално спремиште',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Деинсталирај',
         'Reinstall' => 'Инсталирај поново',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => 'Провера правописа',
         'Note type' => 'Тип напомене',
         'Next state' => 'Следећи статус',
-        'Pending date' => 'Чекање до',
         'Date invalid!' => 'Неисправан датум',
 
         # Template: AgentTicketActionPopupClose
@@ -4550,6 +4558,8 @@ sub Data {
         #
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Додаје корисничке имејл адресе примаоцима у прозору за отварање тикета на интерфејсу оператера.',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Лозинка не може бити ажурирана. Мора да садржи бар 2 велика и 2 мала слова.',
         'Customer Data' => 'Подаци о кориснику',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Нисте пронашли потребну функцију? "OTRS Group" за своје претплаћене кориснике има ексклузивне додатке:',

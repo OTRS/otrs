@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:19
+    # Last translation file sync: 2013-10-02 08:51:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Reiniciar',
         'last' => 'darrer',
         'before' => 'abans',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Avui',
         'Tomorrow' => 'Demà',
         'Next week' => 'Pròxima setmana',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'segons',
         'second' => 'segon',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'va escriure',
         'Message' => 'Missatje',
         'Error' => 'Error',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => 'Client actualitzat!',
         'Customer company added!' => 'Empresa del client afegida!',
         'Customer company updated!' => 'Empresa del client actualitzada!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Compte de correu afegida!',
         'Mail account updated!' => 'Compte de correu actualitzada!',
         'System e-mail address added!' => 'Adreça de correu electrònic de sistema afegida!',
@@ -442,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'No es pot actualitzar la contrasenya, conté caràcters no vàlids!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'No es pot actualitzar la contrasenya, ha de tenir almenys %s caràcters!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'No es pot actualitzar la contrasenya, ha de contenir almenys 2 lletres minúscules i 2 majúscules!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'No es pot actualitzar la contrasenya, ha de contenir almenys un dígit 1!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'No es pot actualitzar la contrasenya, ha de contenir almenys dues lletres!',
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Establir una nova prioritat',
         'Set new queue' => 'Establir una nova cua',
         'Set new state' => 'Establir un nou estat',
+        'Pending date' => 'Data pendent',
         'Set new agent' => 'Establir un nou agent',
         'new owner' => 'now propietari',
         'new responsible' => 'nou responsable',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Documentació de mòdul',
         'Upgrade' => 'Actualitzer',
         'Local Repository' => 'Repositori Local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Desinstal·lar',
         'Reinstall' => 'Reinstal·lar',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => 'Correcció ortogràfica',
         'Note type' => 'Tipus de nota',
         'Next state' => 'Següent estat',
-        'Pending date' => 'Data pendent',
         'Date invalid!' => 'Data no vàlida!',
 
         # Template: AgentTicketActionPopupClose
@@ -4552,6 +4560,8 @@ sub Data {
             'Afegeix les adreces de correu electrònic dels clients als destinataris en la pantalla de creació de tiquet de la interfície de l\'agent.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'No es pot actualitzar la contrasenya, ha de contenir almenys 2 lletres minúscules i 2 majúscules!',
         'Customer Data' => 'Informació del client',
         'For more info see:' => 'Para més informació vegi:',
         'Logout successful. Thank you for using OTRS!' => 'Desconnexió reeixida. Gràcies per utilitzar OTRS!',

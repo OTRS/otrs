@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:51
+    # Last translation file sync: 2013-10-02 08:52:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Перезавантажити',
         'last' => 'останній',
         'before' => 'перш',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Сьогодні',
         'Tomorrow' => 'Завтра',
         'Next week' => '',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'секунд',
         'second' => 'секунда',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'написав(ла)',
         'Message' => 'Повідомлення',
         'Error' => 'Помилка',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -442,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Неможливо обновити пароль, тому що він містить заборонені символи!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Неможливо обновити пароль, тому що його довжина повинна бути не менш %s символів!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Неможливо обновити пароль, тому що він повинен містити не менш 1-й цифри!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Неможливо обновити пароль, тому що він повинен містити не менш 2 букв!',
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Установити новий пріоритет',
         'Set new queue' => '',
         'Set new state' => 'Установити новий стан',
+        'Pending date' => 'Дата очікування',
         'Set new agent' => 'Призначити нового агента',
         'new owner' => 'новий власник',
         'new responsible' => '',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Документація модуля',
         'Upgrade' => 'Обновити',
         'Local Repository' => 'Локальний репозитарій',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Вилучити',
         'Reinstall' => 'Переустановити',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => 'Тип замітки',
         'Next state' => 'Наступний стан',
-        'Pending date' => 'Дата очікування',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose
@@ -4548,6 +4556,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!',
         'Customer Data' => 'Облікові дані клієнта',
         'For more info see:' => 'Додаткова інформація знаходиться за адресою:',
         'Logout successful. Thank you for using OTRS!' => 'Вихід виконано. Дякуемо Вам, за використання OTRS!',

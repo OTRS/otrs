@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:43
+    # Last translation file sync: 2013-10-02 08:52:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,11 @@ sub Data {
         'Reset' => 'Limpar',
         'last' => 'nos últimos',
         'before' => 'há mais de',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Hoje',
         'Tomorrow' => 'Amanhã',
         'Next week' => '',
@@ -78,6 +83,7 @@ sub Data {
         'seconds' => 'segundos',
         'second' => 'segundo',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'escreveu',
         'Message' => 'Mensagem',
         'Error' => 'Erro',
@@ -286,6 +292,7 @@ sub Data {
         'Customer updated!' => 'Cliente atualizado!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -443,8 +450,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Não foi possível atualizar a password, contém carateres inválidos',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Não foi possível atualizar a password, tem de ter no mínimo %s carateres',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Não foi possível atualizar a password, tem de conter no mínimo 2 caracteres minúsculos e 2 caracteres maiusculos.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Não foi possível atualizar a password, tem de ter no mínimo 1 dígito',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Não foi possível atualizar a password, tem de ter no mínimo 2 carateres',
@@ -1096,6 +1103,7 @@ sub Data {
         'Set new priority' => 'Criar nova Prioridade',
         'Set new queue' => 'Criar nova fila',
         'Set new state' => 'Criar novo estado',
+        'Pending date' => 'Data da pendência',
         'Set new agent' => 'Criar novo agente',
         'new owner' => 'Novo proprietário',
         'new responsible' => '',
@@ -1468,6 +1476,7 @@ sub Data {
         'Module documentation' => 'Documentação do módulo',
         'Upgrade' => 'Melhoria de Versão',
         'Local Repository' => 'Repositório Local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Desinstalar',
         'Reinstall' => 'Reinstalar',
         'Feature Add-Ons' => '',
@@ -2216,7 +2225,6 @@ sub Data {
         'Spell check' => 'Corretor ortográfico',
         'Note type' => 'Tipo de nota',
         'Next state' => 'Próximo estado',
-        'Pending date' => 'Data da pendência',
         'Date invalid!' => 'Data inválida',
 
         # Template: AgentTicketActionPopupClose
@@ -4553,6 +4561,8 @@ sub Data {
             'Adiciona emails do cliente aos remetentes na criação de ticket no interface de agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite condições de pesquisa de tickets aumentadas no interface de agente . Com esta funcionalAntiguidade pode pesquisar com por ex. "(key1&&key2)" or "(key1||key2)".',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Não foi possível atualizar a password, tem de conter no mínimo 2 caracteres minúsculos e 2 caracteres maiusculos.',
         'Customer Data' => 'Dados do Cliente',
         'For more info see:' => 'Para mais informação consultar:',
         'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o OTRS!',

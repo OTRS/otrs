@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:36
+    # Last translation file sync: 2013-10-02 08:52:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,11 @@ sub Data {
         'Reset' => 'リセット',
         'last' => '以内',
         'before' => '以前',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => '今日',
         'Tomorrow' => '明日',
         'Next week' => '',
@@ -78,6 +83,7 @@ sub Data {
         'seconds' => '秒',
         'second' => '秒',
         's' => '',
+        'Time unit' => '',
         'wrote' => '',
         'Message' => 'メッセージ',
         'Error' => 'エラー',
@@ -286,6 +292,7 @@ sub Data {
         'Customer updated!' => '顧客を更新しました！',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -443,8 +450,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'パスワードが更新できませんでした。無効な文字が含まれています！',
         'Can\'t update password, it must be at least %s characters long!' =>
             'パスワードが更新できませんでした。%s は長すぎます！',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'パスワードが更新できませんでした。英語の大文字小文字が2文字ずつ以上必要です！',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'パスワードが更新できませんでした。数字が1文字以上必要です！',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'パスワードが更新できませんでした。2文字以上必要です！',
@@ -1096,6 +1103,7 @@ sub Data {
         'Set new priority' => '新規優先度を設定',
         'Set new queue' => '新規キューを設定',
         'Set new state' => '新規に状態を設定',
+        'Pending date' => '保留日時',
         'Set new agent' => '新規担当者を設定',
         'new owner' => '新規所有者',
         'new responsible' => '',
@@ -1468,6 +1476,7 @@ sub Data {
         'Module documentation' => 'モジュールの書類',
         'Upgrade' => 'アップグレード',
         'Local Repository' => 'ローカルリポジトリ',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'アンインストール',
         'Reinstall' => '再インストール',
         'Feature Add-Ons' => '',
@@ -2216,7 +2225,6 @@ sub Data {
         'Spell check' => 'スペルチェック',
         'Note type' => '注釈タイプ',
         'Next state' => '次の状態',
-        'Pending date' => '保留日時',
         'Date invalid!' => '日時が無効です！',
 
         # Template: AgentTicketActionPopupClose
@@ -4556,6 +4564,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースのチケット構成画面で、受領者に顧客Eメール・アドレスを追加します。',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'パスワードが更新できませんでした。英語の大文字小文字が2文字ずつ以上必要です！',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Customer Data' => '顧客情報',

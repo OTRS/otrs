@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:46
+    # Last translation file sync: 2013-10-02 08:52:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -52,6 +52,11 @@ sub Data {
         'Reset' => 'Ponastavi',
         'last' => 'zadnje',
         'before' => 'pred',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'danes',
         'Tomorrow' => 'jutri',
         'Next week' => 'naslednji teden',
@@ -81,6 +86,7 @@ sub Data {
         'seconds' => 'sekunde',
         'second' => 'sekunda',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'napisal',
         'Message' => 'Sporočilo',
         'Error' => 'Napaka',
@@ -289,6 +295,7 @@ sub Data {
         'Customer updated!' => 'Posodobljen uporabnik',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => 'Sistemski poštni naslov dodan!',
@@ -446,8 +453,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Geslo ne more biti posodobljeno, vsebuje neveljavne znake.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Geslo ne more biti posodobljeno. Minimalna dolžilna gesla je %s znakov.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Geslo ne more biti posodobljeno. Vsebovati mora vsaj 2 veliki in dve mali črki.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Geslo ne more biti posodobljeno. Vsebovati mora vsaj eno številko.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Geslo ne more biti posodobljeno. Vsebovati mora vsaj 2 znaka.',
@@ -1099,6 +1106,7 @@ sub Data {
         'Set new priority' => 'Nastavi novo prioriteto',
         'Set new queue' => 'Nastavi novo vrsto',
         'Set new state' => 'Nastavi nov status',
+        'Pending date' => 'Čakati do',
         'Set new agent' => 'Nastavi novega zaposlenega',
         'new owner' => 'novi lastnik',
         'new responsible' => 'nov odgovorni',
@@ -1471,6 +1479,7 @@ sub Data {
         'Module documentation' => 'Dokumentacija modula',
         'Upgrade' => 'Posodobitev',
         'Local Repository' => 'Lokalno skladišče',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Odstrani',
         'Reinstall' => 'Ponovna namestitev',
         'Feature Add-Ons' => '',
@@ -2219,7 +2228,6 @@ sub Data {
         'Spell check' => 'Preverjanje pravopisa',
         'Note type' => 'Tip opombe',
         'Next state' => 'Naslednje stanje',
-        'Pending date' => 'Čakati do',
         'Date invalid!' => 'Nepravilen datum',
 
         # Template: AgentTicketActionPopupClose
@@ -4554,6 +4562,8 @@ sub Data {
         #
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Doda po meri e-mail naslov prejemnika v oknu, da odprete zahtevek na vmesniku zaposlenega.',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Geslo ne more biti posodobljeno. Vsebovati mora vsaj 2 veliki in dve mali črki.',
         'Customer Data' => 'Podatki o stranki',
         'For more info see:' => 'Za več informacij si oglejte:',
         'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',

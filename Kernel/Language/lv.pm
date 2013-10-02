@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:38
+    # Last translation file sync: 2013-10-02 08:52:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -47,6 +47,11 @@ sub Data {
         'Reset' => 'Atiestatīt',
         'last' => 'pēdējais',
         'before' => 'pirms',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Šodien',
         'Tomorrow' => 'Rīt',
         'Next week' => '',
@@ -76,6 +81,7 @@ sub Data {
         'seconds' => 'sekundes',
         'second' => 'sekunde',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'rakstīja',
         'Message' => 'ziņojums',
         'Error' => 'kļūda',
@@ -284,6 +290,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -441,7 +448,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1094,6 +1101,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Gaida līdz (datumam)',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1466,6 +1474,7 @@ sub Data {
         'Module documentation' => 'Moduļa dokumentācija',
         'Upgrade' => 'Jaunināt',
         'Local Repository' => 'Lokālais repozitorijs',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Noņemt',
         'Reinstall' => 'Pārinstalēt',
         'Feature Add-Ons' => '',
@@ -2214,7 +2223,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => 'Piezīmes tips',
         'Next state' => 'Nākamais statuss',
-        'Pending date' => 'Gaida līdz (datumam)',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose

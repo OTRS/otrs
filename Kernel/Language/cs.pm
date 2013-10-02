@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:20
+    # Last translation file sync: 2013-10-02 08:51:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,6 +54,11 @@ sub Data {
         'Reset' => '',
         'last' => 'poslední',
         'before' => 'před',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Dnes',
         'Tomorrow' => 'Zítra',
         'Next week' => 'Příští týden',
@@ -83,6 +88,7 @@ sub Data {
         'seconds' => 'vteřin',
         'second' => 'vteřina',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'napsal',
         'Message' => 'Zpráva',
         'Error' => 'Chyba',
@@ -291,6 +297,7 @@ sub Data {
         'Customer updated!' => 'Zákazník aktualizován!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Poštovní účet přidán!',
         'Mail account updated!' => 'Poštovní účet aktualizován!',
         'System e-mail address added!' => 'Systémová e-mailová adresa přidána!',
@@ -448,8 +455,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Nelze zaktualizovat heslo, protože obsahuje neplatné znaky. Zkuste to prosím znovu!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje minimálně %s znaků. Zkuste to prosím znovu!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 malá a 2 velká písmena!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Nelze zaktualizovat heslo, protože neobsahuje alespoň 1 číslici!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 znaky!',
@@ -1101,6 +1108,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Datum čekání na vyřízení',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1473,6 +1481,7 @@ sub Data {
         'Module documentation' => 'Dokumentace Modulu',
         'Upgrade' => 'Aktualizace',
         'Local Repository' => 'Lokální Schránka',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Odinstalovat',
         'Reinstall' => 'Reinstalovat',
         'Feature Add-Ons' => '',
@@ -2221,7 +2230,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => 'Typ poznámky',
         'Next state' => 'Nasledující stav',
-        'Pending date' => 'Datum čekání na vyřízení',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose
@@ -4555,6 +4563,8 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 malá a 2 velká písmena!',
         'CreateTicket' => 'Vytvořit Tiket',
         'Customer Data' => 'Data Zákazníka',
         'Due Date' => 'Datum splatnosti',

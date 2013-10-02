@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:39
+    # Last translation file sync: 2013-10-02 08:52:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -47,6 +47,11 @@ sub Data {
         'Reset' => 'Set Semula',
         'last' => 'akhir',
         'before' => 'sebelum',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Hari ini',
         'Tomorrow' => 'Esok',
         'Next week' => 'Minggu Hadapan',
@@ -76,6 +81,7 @@ sub Data {
         'seconds' => 'beberapa saat',
         'second' => 'saat',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'menulis',
         'Message' => 'Mesej',
         'Error' => 'Kesilapan',
@@ -284,6 +290,7 @@ sub Data {
         'Customer updated!' => 'Pelanggan dikemaskini!',
         'Customer company added!' => 'Syarikat pelanggan ditambah!',
         'Customer company updated!' => 'Syarikat pelanggan dikemaskini!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Akaun emel ditambah!',
         'Mail account updated!' => 'Akaun emel dikemaskini!',
         'System e-mail address added!' => 'Alamat sistem emel ditambah!',
@@ -441,8 +448,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Tidak boleh kemaskini kata laluan, ia mengandungi karakter tidak sah.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang kurangnya %s karakter panjang.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 2 huruf kecil dan 2 huruf besar karakter.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Tidak boleh mengemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 1 digit.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Tidak boleh mengemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 2 karakter.',
@@ -1094,6 +1101,7 @@ sub Data {
         'Set new priority' => 'Tetapkan keutamaan baru',
         'Set new queue' => 'Tetapkan barisan baru',
         'Set new state' => 'Tetapkan keadaan yang baru',
+        'Pending date' => 'Tarikh Penangguhan',
         'Set new agent' => 'Tetapkan ejen baru',
         'new owner' => 'Pemilik baru',
         'new responsible' => 'tanggungjawab baru',
@@ -1466,6 +1474,7 @@ sub Data {
         'Module documentation' => 'dokumentasi modul',
         'Upgrade' => 'Kemaskini',
         'Local Repository' => 'Direktori tempatan',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Nyah-pasang',
         'Reinstall' => 'Pasang semula',
         'Feature Add-Ons' => 'Menampilkan Tambahan',
@@ -2214,7 +2223,6 @@ sub Data {
         'Spell check' => 'semak ejaan',
         'Note type' => 'Jenis Nota',
         'Next state' => 'Status Seterusnya',
-        'Pending date' => 'Tarikh Penangguhan',
         'Date invalid!' => 'Tarikh tidak sah!',
 
         # Template: AgentTicketActionPopupClose
@@ -4554,6 +4562,8 @@ sub Data {
             'Tambah alamat emel pelanggan kepada penerima dalam skrin mengarang tiket dalam interface ejen.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface ejen. Dengan fungsi ini, anda boleh tetapkan carian menggunakan kondisi seperti "(key1&&key2)" atau "(key1||key2)".',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 2 huruf kecil dan 2 huruf besar karakter.',
         'Companies' => 'Syarikat',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Mengkonfigurasi indeks teks penuh. Melaksanakan "bin / otrs.RebuildFulltextIndex.pl" untuk menjana indeks baru.',

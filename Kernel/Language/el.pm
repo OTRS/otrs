@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:23
+    # Last translation file sync: 2013-10-02 08:51:57
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,11 @@ sub Data {
         'Reset' => 'Αρχικοποίηση',
         'last' => 'τέλος',
         'before' => 'πρίν',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Σήμερα',
         'Tomorrow' => 'Αυριο',
         'Next week' => 'Επομενη Εβδομαδα',
@@ -78,6 +83,7 @@ sub Data {
         'seconds' => 'δευτερολεπτα',
         'second' => 'δευτερολεπτο',
         's' => 'Δ',
+        'Time unit' => '',
         'wrote' => 'έγραψε',
         'Message' => 'μήνυμα',
         'Error' => 'Σφάλμα',
@@ -287,6 +293,7 @@ sub Data {
         'Customer updated!' => 'Ενηερωθηκε Πελάτης!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Προσθηκη λογαριασμού email!',
         'Mail account updated!' => 'Ενημέρωση λογαριασμού email!',
         'System e-mail address added!' => 'Προσθήκη email συστηματος',
@@ -444,7 +451,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1097,6 +1104,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Ημερομηνία Εκρεμμότητας',
         'Set new agent' => '',
         'new owner' => 'νεος ιδιοκτήτης',
         'new responsible' => '',
@@ -1473,6 +1481,7 @@ sub Data {
         'Module documentation' => '',
         'Upgrade' => 'Αναβάθμιση',
         'Local Repository' => 'Τοπικός αποθηκευτικός χώρος',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Απεγκατάσταση',
         'Reinstall' => 'Επανεγκατάσταση',
         'Feature Add-Ons' => '',
@@ -2222,7 +2231,6 @@ sub Data {
         'Spell check' => 'Ορθογραφικός Ελεγχος',
         'Note type' => 'Τύπος Σημείωσης',
         'Next state' => 'Nδchster Status',
-        'Pending date' => 'Ημερομηνία Εκρεμμότητας',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose

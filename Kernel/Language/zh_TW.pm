@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:54
+    # Last translation file sync: 2013-10-02 08:52:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -50,6 +50,11 @@ sub Data {
         'Reset' => '重置',
         'last' => '最后',
         'before' => '早於',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => '今天',
         'Tomorrow' => '明天',
         'Next week' => '',
@@ -79,6 +84,7 @@ sub Data {
         'seconds' => '秒',
         'second' => '秒',
         's' => '',
+        'Time unit' => '',
         'wrote' => '寫道',
         'Message' => '消息',
         'Error' => '錯誤',
@@ -287,6 +293,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -444,7 +451,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1097,6 +1104,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => '待處理日期',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1469,6 +1477,7 @@ sub Data {
         'Module documentation' => '模塊文檔',
         'Upgrade' => '升級',
         'Local Repository' => '本地知識庫',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => '卸載',
         'Reinstall' => '重新安裝',
         'Feature Add-Ons' => '',
@@ -2217,7 +2226,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => '注釋類型',
         'Next state' => 'Ticket 狀態',
-        'Pending date' => '待處理日期',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose

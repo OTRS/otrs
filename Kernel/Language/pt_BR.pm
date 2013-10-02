@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:44
+    # Last translation file sync: 2013-10-02 08:52:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -52,6 +52,11 @@ sub Data {
         'Reset' => 'Reiniciar',
         'last' => 'último',
         'before' => 'antes',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Hoje',
         'Tomorrow' => 'Amanhã',
         'Next week' => 'Próxima Semana',
@@ -81,6 +86,7 @@ sub Data {
         'seconds' => 'segundos',
         'second' => 'segundo',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'escreveu',
         'Message' => 'Mensagem',
         'Error' => 'Erro',
@@ -289,6 +295,7 @@ sub Data {
         'Customer updated!' => 'Cliente atualizado!',
         'Customer company added!' => 'Empresa de cliente adicionada!',
         'Customer company updated!' => 'Empresa de cliente atualizada!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Conta de e-mail adicionada!',
         'Mail account updated!' => 'Conta de e-mail atualizada!',
         'System e-mail address added!' => 'Endereço de e-mail do sistema adicionado!',
@@ -446,8 +453,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Não é possível atualizar a senha. Ela contém caracteres inválidos!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Não é possível atualizar a senha. Ela deve conter pelo menos %s caracteres!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Não é possível atualizar a senha. Ela deve conter pelo menos 2 caracteres minúsculos e 2 maiúsculos!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Não é possível atualizar a senha. Ela deve conter pelo menos 1 número!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Não é possível atualizar a senha. Ela deve conter pelo menos 2 caracteres!',
@@ -1099,6 +1106,7 @@ sub Data {
         'Set new priority' => 'Configurar Nova Prioridade',
         'Set new queue' => 'Configurar Nova Fila',
         'Set new state' => 'Configurar Novo Estado',
+        'Pending date' => 'Data de Pendência',
         'Set new agent' => 'Configurar Novo Atendente',
         'new owner' => 'Novo Proprietário',
         'new responsible' => 'Novo Responsável',
@@ -1471,6 +1479,7 @@ sub Data {
         'Module documentation' => 'Documentação do Módulo',
         'Upgrade' => 'Atualizar Versão',
         'Local Repository' => 'Repositório Local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Desinstalar',
         'Reinstall' => 'Reinstalar',
         'Feature Add-Ons' => 'Add-Ons De Recursos',
@@ -2219,7 +2228,6 @@ sub Data {
         'Spell check' => 'Verificar Ortografia',
         'Note type' => 'Tipo de nota',
         'Next state' => 'Próximo estado',
-        'Pending date' => 'Data de Pendência',
         'Date invalid!' => 'Data inválida!',
 
         # Template: AgentTicketActionPopupClose
@@ -4556,6 +4564,8 @@ sub Data {
             'Adiciona endereços de e-mail de clientes para destinatários na tela de composição de chamados da tela do atendente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Não é possível atualizar a senha. Ela deve conter pelo menos 2 caracteres minúsculos e 2 maiúsculos!',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Configura o índice de texto completo. Execute "bin/otrs.RebuildFulltextIndex.pl" de forma a gerar um novo índice.',
         'Customer Data' => 'Dados do Cliente',

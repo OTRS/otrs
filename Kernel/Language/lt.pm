@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:37
+    # Last translation file sync: 2013-10-02 08:52:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Atstatyti',
         'last' => 'paskutinis',
         'before' => 'prieš',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Šiandien',
         'Tomorrow' => 'Rytoj',
         'Next week' => '',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'sekundės',
         'second' => 'sekundė',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'rašė',
         'Message' => 'Žinutė',
         'Error' => 'Klaida',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => 'Klientas atnaujintas!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -442,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Neįmanoma atnaujinti slaptažodžio, nes jame yra neleistinų simbolių.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių ilgio.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Neįmanoma atnaujinti slaptažodžio. Slaptažodį turi sudaryti mažiausiai 2 didžiosios ir 2 mažosios raidės.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Neįmanoma atnaujinti slaptažodžio. Slaptažodis turi būti mažiausiai 2 simbolių ilgio.',
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Nustatyti naują prioritetą',
         'Set new queue' => 'Nustatyti naują eilę',
         'Set new state' => 'Nustatyti naują būseną',
+        'Pending date' => '',
         'Set new agent' => 'Priskirti naują agentą',
         'new owner' => 'naujas savininkas',
         'new responsible' => '',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Modulio dokumentacija',
         'Upgrade' => 'Atnaujinti versiją',
         'Local Repository' => 'Vietinė saugykla',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Pašalinti',
         'Reinstall' => 'Įdiegti iš naujo',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => 'Rašybos tikrinimas',
         'Note type' => 'Pastabos tipas',
         'Next state' => 'Sekanti būsena',
-        'Pending date' => '',
         'Date invalid!' => 'Negalima data',
 
         # Template: AgentTicketActionPopupClose
@@ -4548,6 +4556,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Neįmanoma atnaujinti slaptažodžio. Slaptažodį turi sudaryti mažiausiai 2 didžiosios ir 2 mažosios raidės.',
         'Customer Data' => 'Kliento duomenys',
         'For more info see:' => 'Daugiau informacijos žiūrėkite:',
         'Logout successful. Thank you for using OTRS!' => 'Sėkmingai atsijungta! Ačiū, kad naudojatės OTRS!',

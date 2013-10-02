@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:31
+    # Last translation file sync: 2013-10-02 08:52:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,6 +55,11 @@ sub Data {
         'Reset' => 'Réinitialiser',
         'last' => 'depuis',
         'before' => 'avant',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Aujourd\'hui',
         'Tomorrow' => 'Demain',
         'Next week' => 'La semaine prochaine',
@@ -84,6 +89,7 @@ sub Data {
         'seconds' => 'secondes',
         'second' => 'seconde',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'a écrit',
         'Message' => 'Message',
         'Error' => 'Erreur',
@@ -292,6 +298,7 @@ sub Data {
         'Customer updated!' => 'Client mis à jour.',
         'Customer company added!' => 'Entreprise cliente ajoutée.',
         'Customer company updated!' => 'Entreprise cliente mise à jour.',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Compte de courrier électronique ajouté.',
         'Mail account updated!' => 'Compte de courrier électronique mis à jour.',
         'System e-mail address added!' => 'adresse électronique du système ajoutée.',
@@ -449,8 +456,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Impossible de mettre à jour le mot de passe, il contient des caractères invalides.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Impossible de mettre à jour le mot de passe; il doit contenir au moins %s caractères.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 lettres en minuscule et 2 en majuscule!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Impossible de mettre à jour le mot de passe; il doit contenir au moins un chiffre.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Impossible de mettre à jour le mot de passe; il doit contenir au moins deux caractères.',
@@ -1102,6 +1109,7 @@ sub Data {
         'Set new priority' => 'Fixer une nouvelle priorité ',
         'Set new queue' => 'Déterminer une nouvelle file ',
         'Set new state' => 'Déterminer un nouvel état ',
+        'Pending date' => 'Délai d\'attente ',
         'Set new agent' => 'Déterminer un nouvel agent',
         'new owner' => 'nouveau propriétaire ',
         'new responsible' => 'nouveau responsable',
@@ -1474,6 +1482,7 @@ sub Data {
         'Module documentation' => 'Documents relatifs au module',
         'Upgrade' => 'Mise à jour',
         'Local Repository' => 'Référentiels locaux',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Désinstallation',
         'Reinstall' => 'Réinstallation',
         'Feature Add-Ons' => 'Les compagnons et leurs fonctionnalités',
@@ -2222,7 +2231,6 @@ sub Data {
         'Spell check' => 'Vérifier L\'orthographe',
         'Note type' => 'Type de note ',
         'Next state' => 'Nouvel état ',
-        'Pending date' => 'Délai d\'attente ',
         'Date invalid!' => 'Date invalide',
 
         # Template: AgentTicketActionPopupClose

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:50
+    # Last translation file sync: 2013-10-02 08:52:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Sıfırla',
         'last' => 'son',
         'before' => 'önce',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Bugün',
         'Tomorrow' => 'Yarın',
         'Next week' => 'Gelecek hafta',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'saniye',
         'second' => 'saniye',
         's' => 'sn',
+        'Time unit' => '',
         'wrote' => 'yazdı',
         'Message' => 'Mesaj',
         'Error' => 'Hata',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => 'Müşteri güncellendi!',
         'Customer company added!' => 'Müşteri şirketi eklendi!',
         'Customer company updated!' => 'Müşteri şirketi güncellendi!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'E-posta hesabı eklendi!',
         'Mail account updated!' => 'E-posta hesabı güncellendi!',
         'System e-mail address added!' => 'Sistem e-posta adresi eklendi!',
@@ -307,6 +314,7 @@ sub Data {
         'PGP Key' => 'PGP Anahtarı',
         'PGP Keys' => 'PGP Anahtarları',
         'S/MIME' => '',
+        'S/MIME Certificate' => '',
         'S/MIME Certificates' => 'S/MIME Sertifikaları',
         'Office' => 'Ofis',
         'Phone' => 'Telefon',
@@ -873,7 +881,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Müşteri Yönetimi',
-        'Back to search result' => 'Sonuca geri dön',
+        'Back to search results' => '',
         'Add customer' => 'Müşteri ekle',
         'Select' => 'Seç',
         'Hint' => 'İpucu',
@@ -910,7 +918,7 @@ sub Data {
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => 'Sonuç Ara:',
+        'Search Results' => '',
         'Customers' => 'Müşteriler',
         'Groups' => 'Gruplar',
         'No matches found.' => 'Sonuç bulunamadı.',
@@ -1094,6 +1102,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Bekleme tarihi',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1466,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Modül belgeleri',
         'Upgrade' => 'Yükselt',
         'Local Repository' => 'Yerel Depo',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Kaldır',
         'Reinstall' => 'Yeniden yükle',
         'Feature Add-Ons' => 'Eklenti Özellikleri',
@@ -2214,7 +2224,6 @@ sub Data {
         'Spell check' => 'Yazım denetimi',
         'Note type' => 'Not tipi',
         'Next state' => 'Sonraki durum',
-        'Pending date' => 'Bekleme tarihi',
         'Date invalid!' => 'Hatalı tarih!',
 
         # Template: AgentTicketActionPopupClose
@@ -4613,6 +4622,7 @@ sub Data {
         'Attach' => 'Ekle',
         'Attribute' => 'Nitelik',
         'Auto Response From' => 'Otomatik Cevaplayan',
+        'Back to search result' => 'Sonuca geri dön',
         'Bounce ticket' => 'Bileti ötele',
         'CSV' => 'CSV',
         'Can\'t update password, invalid characters!' => 'Parola güncellenemiyor, geçersiz karakterler var!',
@@ -4903,6 +4913,7 @@ sub Data {
         'Save Search-Profile as Template?' => 'Arama Profili Şablon olarak kaydedilsin mi?',
         'Schedule' => 'TAKVİM',
         'Search Result' => 'Arama Sonuç',
+        'Search Result:' => 'Sonuç Ara:',
         'Search for' => 'Ara',
         'Select Box' => 'Seçim Kutusu',
         'Select Box Result' => 'Seçin Kutusu Sonucu',

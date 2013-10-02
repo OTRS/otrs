@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:35
+    # Last translation file sync: 2013-10-02 08:52:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,6 +55,11 @@ sub Data {
         'Reset' => 'Ripristina',
         'last' => 'ultimo',
         'before' => 'precedente',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Oggi',
         'Tomorrow' => 'Domani',
         'Next week' => 'Settimana Prossima',
@@ -84,6 +89,7 @@ sub Data {
         'seconds' => 'secondi',
         'second' => 'secondo',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'ha scritto',
         'Message' => 'interazione',
         'Error' => 'Errore',
@@ -292,6 +298,7 @@ sub Data {
         'Customer updated!' => 'Cliente aggiornato!',
         'Customer company added!' => 'Società cliente aggiunta!',
         'Customer company updated!' => 'Società cliente aggiornata!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Account di posta aggiunto!',
         'Mail account updated!' => 'Account di posta aggiornato!',
         'System e-mail address added!' => 'Account di posta di Sistema aggiunto!',
@@ -449,8 +456,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Impossibile aggiornare la password, contiene caratteri non validi!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Impossibile aggiornare la password, deve essere lunga almeno %s caratteri!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Impossibile aggiornare la password, deve avere almeno due lettere minuscole e due maiuscole!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Impossibile aggiornare la password, deve contenere almeno un numero!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Impossibile aggiornare la password, deve contenere almeno due caratteri!',
@@ -1102,6 +1109,7 @@ sub Data {
         'Set new priority' => 'Imposta nuova priorità',
         'Set new queue' => 'Imposta nuova coda',
         'Set new state' => 'Imposta nuovo stato',
+        'Pending date' => 'In attesa fino a',
         'Set new agent' => 'Imposta nuovo agente',
         'new owner' => 'Nuovo proprietario',
         'new responsible' => 'Nuovo responsabile',
@@ -1474,6 +1482,7 @@ sub Data {
         'Module documentation' => 'Documentazione sul modulo',
         'Upgrade' => 'Aggiorna',
         'Local Repository' => 'Archivio Locale',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'rimuovi pacchetto',
         'Reinstall' => 'Re-installa',
         'Feature Add-Ons' => '',
@@ -2222,7 +2231,6 @@ sub Data {
         'Spell check' => 'Controllo ortografico',
         'Note type' => 'Tipologia della nota',
         'Next state' => 'Stato successivo',
-        'Pending date' => 'In attesa fino a',
         'Date invalid!' => 'Data invalida!',
 
         # Template: AgentTicketActionPopupClose
@@ -4559,6 +4567,8 @@ sub Data {
             'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Impossibile aggiornare la password, deve avere almeno due lettere minuscole e due maiuscole!',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Configura l\'indice full-text. Eseguire "bin/otrs.RebuildFulltextIndex.pl" per generare un nuovo indice.',
         'Customer Data' => 'Dati del cliente',

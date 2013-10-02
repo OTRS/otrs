@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:32
+    # Last translation file sync: 2013-10-02 08:52:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -50,6 +50,11 @@ sub Data {
         'Reset' => 'पुनर्स्थापित',
         'last' => 'पिछला',
         'before' => 'से पहले',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'आज',
         'Tomorrow' => 'कल',
         'Next week' => '',
@@ -79,6 +84,7 @@ sub Data {
         'seconds' => 'सेकंड',
         'second' => 'सेकंड',
         's' => 'एस',
+        'Time unit' => '',
         'wrote' => 'लिखा',
         'Message' => 'संदेश',
         'Error' => 'त्रुटि',
@@ -287,6 +293,7 @@ sub Data {
         'Customer updated!' => 'ग्राहक अद्यतन। ',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -444,8 +451,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें अमान्य वर्ण हैं।',
         'Can\'t update password, it must be at least %s characters long!' =>
             'कूटशब्द अद्यतन नहीं किया जा सकता,यह कम से कम %s वर्ण लंबा होना चाहिए।',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 2 लोअरकेस और 2 अपरकेस वर्ण होने चाहिए।',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 1 अंक होना चाहिए।',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 2 वर्ण शामिल होने चाहिए।',
@@ -1097,6 +1104,7 @@ sub Data {
         'Set new priority' => 'नई प्राथमिकता निर्धारित करें',
         'Set new queue' => 'नई श्रेणी निर्धारित करें',
         'Set new state' => 'नई स्थिति निर्धारित करें',
+        'Pending date' => 'विचाराधीन दिनांक',
         'Set new agent' => 'नया प्रतिनिधि निर्धारित करें',
         'new owner' => 'नया स्वामी',
         'new responsible' => '',
@@ -1469,6 +1477,7 @@ sub Data {
         'Module documentation' => 'मॉड्यूल दस्तावेज',
         'Upgrade' => 'उन्नयन',
         'Local Repository' => 'स्थानीय कोष',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'स्थापना रद्द',
         'Reinstall' => 'पुनर्स्थापना',
         'Feature Add-Ons' => '',
@@ -2217,7 +2226,6 @@ sub Data {
         'Spell check' => 'वर्तनी की जाँच',
         'Note type' => 'टिप्पणी प्रकार',
         'Next state' => 'अगली स्थिति',
-        'Pending date' => 'विचाराधीन दिनांक',
         'Date invalid!' => 'अवैध दिनांक',
 
         # Template: AgentTicketActionPopupClose
@@ -4554,6 +4562,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन के में प्राप्तकर्ताओं को ग्राहकों के ईमेल पते जोड़ता है।',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 2 लोअरकेस और 2 अपरकेस वर्ण होने चाहिए।',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'पूर्ण पाठ सूचकांक विन्यस्त करें। नया सूचकांक उत्पन्न करने के लिए "bin/otrs.RebuildFulltextIndex.pl"चलाएँ।',
         'Customer Data' => 'ग्राहक आंकड़ा',

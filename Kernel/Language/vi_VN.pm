@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:52
+    # Last translation file sync: 2013-10-02 08:52:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -47,6 +47,11 @@ sub Data {
         'Reset' => 'Làm lại',
         'last' => 'Sau',
         'before' => 'Trước',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => '',
         'Tomorrow' => '',
         'Next week' => '',
@@ -76,6 +81,7 @@ sub Data {
         'seconds' => 'giây',
         'second' => 'giây',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'viết',
         'Message' => 'Thông báo',
         'Error' => 'Lỗi',
@@ -284,6 +290,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -441,7 +448,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1094,6 +1101,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Ngày treo',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1466,6 +1474,7 @@ sub Data {
         'Module documentation' => '',
         'Upgrade' => 'Nâng cấp',
         'Local Repository' => 'Kho cục bộ',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Gỡ cài đặt',
         'Reinstall' => 'Cài lại',
         'Feature Add-Ons' => '',
@@ -2214,7 +2223,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => 'Loại lưu ý',
         'Next state' => 'Trạng thái tiếp',
-        'Pending date' => 'Ngày treo',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose

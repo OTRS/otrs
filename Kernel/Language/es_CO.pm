@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:25
+    # Last translation file sync: 2013-10-02 08:51:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Resetear',
         'last' => '√∫ltimo',
         'before' => 'antes',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Hoy',
         'Tomorrow' => 'Ma√±ana',
         'Next week' => 'Semana siguiente',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'segundos',
         'second' => 'segundo',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'escribi√≥',
         'Message' => 'Mensaje',
         'Error' => 'Error',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => '¬°Cliente actualizado!',
         'Customer company added!' => '¬°Compa√±√≠a cliente agregada!',
         'Customer company updated!' => '¬°Compa√±√≠a cliente actualizada!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '¬°Cuenta de correo agregada!',
         'Mail account updated!' => '¬°Cuenta de correo actualizada!',
         'System e-mail address added!' => '¬°Direcci√≥n de correo del sistema agregada!',
@@ -442,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '¬°No se puede actualizar su contrase√±a, porque contiene caracteres inv√°lidos!',
         'Can\'t update password, it must be at least %s characters long!' =>
             '¬°No se puede actualizar su contrase√±a, porque debe contener al menos %s caracteres!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '¬°No se puede actualizar su contrase√±a, porque debe contener al menos 2 caracteres en may√∫scula y 2 en min√∫scula!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => '¬°No se puede actualizar su contrase√±a, porque debe contener al menos 1 d√≠gito!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '¬°No se puede actualizar su contrase√±a, porque debe contener al menos 2 caracteres!',
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Establecer prioridad nueva',
         'Set new queue' => 'Establecer fila nueva',
         'Set new state' => 'Establecer estado nuevo',
+        'Pending date' => 'Fecha pendiente',
         'Set new agent' => 'Establecer agente nuevo',
         'new owner' => 'propietario nuevo',
         'new responsible' => 'responsable nuevo',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => 'M√≥dulo de Documentaci√≥n',
         'Upgrade' => 'Actualizar',
         'Local Repository' => 'Repositorio Local',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Desinstalar',
         'Reinstall' => 'Reinstalar',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => 'Corrector ortogr√°fico',
         'Note type' => 'Tipo de nota',
         'Next state' => 'Siguiente estado',
-        'Pending date' => 'Fecha pendiente',
         'Date invalid!' => '¬°Fecha inv√°lida!',
 
         # Template: AgentTicketActionPopupClose
@@ -4701,6 +4709,8 @@ sub Data {
         'Can not create link with %s!' => 'No se puede vincular con %s!',
         'Can not delete link with %s' => 'No se puede eliminar v√≠nculo con %s',
         'Can\'t update password, invalid characters!' => 'No se puede actualizar la contrase√±a, caracteres inv√°lidos',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            '¬°No se puede actualizar su contrase√±a, porque debe contener al menos 2 caracteres en may√∫scula y 2 en min√∫scula!',
         'Can\'t update password, must be at least %s characters!' => 'No se puede actualizar la contrase√±a, se necesitan al menos %s caracteres',
         'Can\'t update password, must contain 2 lower and 2 upper characters!' =>
             'No se puede actualizar la contrase√±a, se necesitan al menos 2 caracteres en min√∫sculas y 2 en may√∫sculas.',

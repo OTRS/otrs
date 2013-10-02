@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:22
+    # Last translation file sync: 2013-10-02 08:54:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Rücksetzen',
         'last' => 'letzten',
         'before' => 'vor',
+        'more than ... ago' => 'vor mehr als ...',
+        'within the last ...' => 'innerhalb der letzten ...',
+        'within the next ...' => 'innerhalb der kommenden ...',
+        'Created within the last' => 'Erstellt innerhalb der letzten',
+        'Created more than ... ago' => 'Erstellt vor mehr als ...',
         'Today' => 'Heute',
         'Tomorrow' => 'Morgen',
         'Next week' => 'Nächste Woche',
@@ -77,12 +82,12 @@ sub Data {
         'seconds' => 'Sekunden',
         'second' => 'Sekunde',
         's' => 's',
+        'Time unit' => 'Zeiteinheit',
         'wrote' => 'schrieb',
         'Message' => 'Nachricht',
         'Error' => 'Fehler',
         'Bug Report' => 'Fehler berichten',
         'Attention' => 'Achtung',
-        'Note: Company is invalid!' => 'Hinweis: Firma ist ungültig!',
         'Warning' => 'Warnung',
         'Module' => 'Modul',
         'Modulefile' => 'Moduldatei',
@@ -286,6 +291,7 @@ sub Data {
         'Customer updated!' => 'Kunde aktualisiert!',
         'Customer company added!' => 'Kundenfirma hinzugefügt!',
         'Customer company updated!' => 'Kundenfirma aktualisiert!',
+        'Note: Company is invalid!' => 'Hinweis: Firma ist ungültig!',
         'Mail account added!' => 'E-Mail-Konto hinzugefügt!',
         'Mail account updated!' => 'E-Mail-Konto aktualisiert!',
         'System e-mail address added!' => 'E-Mail-Adresse hinzugefügt!',
@@ -443,8 +449,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Das Passwort kann nicht aktualisiert werden, da es unerlaubte Zeichen enthält.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens %s Zeichen lang sein.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Gross- und 2 Kleinbuchstaben enthalten.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Das Passwort kann nicht aktualisiert werden. Es muss mindestens eine Ziffer enthalten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Zeichen enthalten.',
@@ -1096,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Neue Priorität setzen',
         'Set new queue' => 'Neue Queue setzen',
         'Set new state' => 'Neuen Status setzen',
+        'Pending date' => 'Warten bis',
         'Set new agent' => 'Neuen Agenten setzen',
         'new owner' => 'Neuer Besitzer',
         'new responsible' => 'Neuer Verantwortlicher',
@@ -1108,7 +1115,6 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        'Time unit' => 'Zeiteinheit',
         '(work units)' => '(Arbeitseinheiten)',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
@@ -1469,6 +1475,7 @@ sub Data {
         'Module documentation' => 'Moduldokumentation',
         'Upgrade' => 'Erneuern',
         'Local Repository' => 'Lokales Verzeichnis',
+        'This package is verified by OTRSverify (tm)' => 'Dieses Paket wurde von OTRSVerify (tm) geprüft',
         'Uninstall' => 'Deinstallieren',
         'Reinstall' => 'Erneut installieren',
         'Feature Add-Ons' => 'Feature Add-Ons',
@@ -2217,7 +2224,6 @@ sub Data {
         'Spell check' => 'Rechtschreibprüfung',
         'Note type' => 'Notiztyp',
         'Next state' => 'Nächster Status',
-        'Pending date' => 'Warten bis',
         'Date invalid!' => 'Ungültiges Datum',
 
         # Template: AgentTicketActionPopupClose
@@ -2578,7 +2584,6 @@ sub Data {
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
-        'Database already contains data - it should be empty!' => 'Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Mailversand konfigurieren',
@@ -4551,9 +4556,12 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Gross- und 2 Kleinbuchstaben enthalten.',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Customer Data' => 'Kunden-/Kontakt-Daten',
+        'Database already contains data - it should be empty!' => 'Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
         'For more info see:' => 'Für mehr Informationen hier:',
@@ -4575,6 +4583,7 @@ sub Data {
         'State Type Historic' => 'Historischer Status-Typ',
         'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
+        'in more than ...' => 'in mehr als ...',
 
     };
     # $$STOP$$

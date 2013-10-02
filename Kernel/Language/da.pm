@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:21
+    # Last translation file sync: 2013-10-02 08:51:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -49,6 +49,11 @@ sub Data {
         'Reset' => 'Nulstil',
         'last' => 'sidste',
         'before' => 'før',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'I dag',
         'Tomorrow' => 'I morgen',
         'Next week' => 'Næste uge',
@@ -78,6 +83,7 @@ sub Data {
         'seconds' => 'sekunder',
         'second' => 'sekund',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'skrev',
         'Message' => 'Meddelelse',
         'Error' => 'Fejl',
@@ -286,6 +292,7 @@ sub Data {
         'Customer updated!' => 'Kunde opdateret.',
         'Customer company added!' => 'Kunde-firma tilføjet.',
         'Customer company updated!' => 'Kunde-firma opdateret.',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Mail-konto tilføjet.',
         'Mail account updated!' => 'Mail-konto opdateret.',
         'System e-mail address added!' => 'System-mail-adresse tilføjet.',
@@ -443,8 +450,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Kan ikke opdatere password, det indeholde ugyldige tegn.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan ikke opdatere password, det skal være mindst %s tegn langt.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan ikke opdatere password, det skal indeholde mindst 2 små og 2 store bogstaver.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan ikke opdatere password, det skal indeholde mindst 1 tal.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Kan ikke opdatere password, det skal indeholde mindst 2 tegn.',
@@ -1096,6 +1103,7 @@ sub Data {
         'Set new priority' => 'Vælg ny prioritet',
         'Set new queue' => 'Vælg ny kø',
         'Set new state' => 'Vælg ny tilstand',
+        'Pending date' => 'Afventer dato',
         'Set new agent' => 'Vælg ny agent',
         'new owner' => 'Ny ejer',
         'new responsible' => 'Ny ansvarlig',
@@ -1468,6 +1476,7 @@ sub Data {
         'Module documentation' => 'Modul-dokumentation',
         'Upgrade' => 'Opgrader',
         'Local Repository' => 'Lokalt lagerdepot',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Afinstaller',
         'Reinstall' => 'Geninstaller',
         'Feature Add-Ons' => 'Funktionstilføjelser',
@@ -2216,7 +2225,6 @@ sub Data {
         'Spell check' => 'Stavekontrol',
         'Note type' => 'Bemærkningstype',
         'Next state' => 'Næste status',
-        'Pending date' => 'Afventer dato',
         'Date invalid!' => 'Ugyldig dato',
 
         # Template: AgentTicketActionPopupClose
@@ -2507,7 +2515,7 @@ sub Data {
         'Search Results for' => 'Søgeresultater for',
 
         # Template: CustomerTicketZoom
-        'Show article' => 'Vis indlæg',
+        'Show  article' => '',
         'Expand article' => 'Fold indlæg ud',
         'Information' => 'Information',
         'Next Steps' => 'Næste skridt',
@@ -4549,24 +4557,23 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Kan ikke opdatere password, det skal indeholde mindst 2 små og 2 store bogstaver.',
         'Customer Data' => 'Kundedata',
+        'Department' => 'Afdeling',
         'For more info see:' => 'For mere information se:',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
+        'Manager' => 'Leder',
+        'Online' => 'Logget ind',
+        'Out Of Office' => 'Ude af Kontoret',
         'Package verification failed!' => 'Pakkeverifikation fejlede!',
         'Please supply a' => 'Indtast venligst',
         'Please supply a first name' => 'Indtast venligst dit fornavn',
         'Please supply a last name' => 'Indtast venligst dit efternavn',
+        'Room' => 'Kontor',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode skal deaktiveres, hvis OTRS skal geninstalleres med web-installeren.',
-
-        #
-        # VARIOUS BITS NOT FOUND ELSEWHERE
-        #
-        'Room' => 'Kontor',
-        'Department' => 'Afdeling',
-        'Manager' => 'Leder',
-        'Out Of Office' => 'Ude af Kontoret',
-        'Online' => 'Logget ind',
+        'Show article' => 'Vis indlæg',
 
     };
     # $$STOP$$

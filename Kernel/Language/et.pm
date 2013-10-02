@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:27
+    # Last translation file sync: 2013-10-02 08:52:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => 'Reset',
         'last' => 'Viimane',
         'before' => 'enne',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Täna',
         'Tomorrow' => 'Homme',
         'Next week' => 'Järgmine nädal',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => 'sekundit',
         'second' => 'sekund',
         's' => 'sek',
+        'Time unit' => '',
         'wrote' => 'kirjutas',
         'Message' => 'Teade',
         'Error' => 'Viga',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -442,7 +449,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => 'Sea uus prioriteet',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Ootel kuni',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => '',
         'Upgrade' => 'Uuenda',
         'Local Repository' => 'Kohalik allikas',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Eemalda',
         'Reinstall' => 'Paigalda uuesti',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => 'Märkuse tüüp',
         'Next state' => 'Järmine olek',
-        'Pending date' => 'Ootel kuni',
         'Date invalid!' => 'Kuupäev ebasobiv!',
 
         # Template: AgentTicketActionPopupClose

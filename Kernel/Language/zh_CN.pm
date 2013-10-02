@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:53
+    # Last translation file sync: 2013-10-02 08:52:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -53,6 +53,11 @@ sub Data {
         'Reset' => '重置',
         'last' => '最后',
         'before' => '早于',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => '今天',
         'Tomorrow' => '明天',
         'Next week' => '',
@@ -82,6 +87,7 @@ sub Data {
         'seconds' => '秒',
         'second' => '秒',
         's' => '秒',
+        'Time unit' => '',
         'wrote' => '写道',
         'Message' => '消息',
         'Error' => '错误',
@@ -290,6 +296,7 @@ sub Data {
         'Customer updated!' => '客户已更新',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -447,8 +454,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '无法更改密码，密码不能包含非法字符！',
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法更改密码，密码至少 %s 个字符长度！',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => '无法更改密码，密码必须包含至少1个数字！',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '无法更改密码，密码必须包含至少2个字符！',
@@ -1100,6 +1107,7 @@ sub Data {
         'Set new priority' => '指定优先级',
         'Set new queue' => '指定队列',
         'Set new state' => '指定状态',
+        'Pending date' => '待处理日期',
         'Set new agent' => '指定服务人员',
         'new owner' => '指定所有者',
         'new responsible' => '',
@@ -1472,6 +1480,7 @@ sub Data {
         'Module documentation' => '模块文档',
         'Upgrade' => '升级',
         'Local Repository' => '本地软件仓库',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => '卸载',
         'Reinstall' => '重新安装',
         'Feature Add-Ons' => '',
@@ -2220,7 +2229,6 @@ sub Data {
         'Spell check' => '拼写检查',
         'Note type' => '注释类型',
         'Next state' => '票单状态',
-        'Pending date' => '待处理日期',
         'Date invalid!' => '日期无效!',
 
         # Template: AgentTicketActionPopupClose
@@ -4553,6 +4561,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Customer Data' => '客户数据',
         'For more info see:' => '更多信息请看',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',

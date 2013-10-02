@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:45
+    # Last translation file sync: 2013-10-02 08:52:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -48,6 +48,11 @@ sub Data {
         'Reset' => '',
         'last' => 'posledný',
         'before' => 'pred',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => '',
         'Tomorrow' => '',
         'Next week' => '',
@@ -77,6 +82,7 @@ sub Data {
         'seconds' => '',
         'second' => '',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'písať',
         'Message' => 'správa',
         'Error' => 'Chyba',
@@ -285,6 +291,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -442,7 +449,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1095,6 +1102,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'termín vybavenia',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1467,6 +1475,7 @@ sub Data {
         'Module documentation' => '',
         'Upgrade' => 'Local Repository',
         'Local Repository' => '',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => '',
         'Reinstall' => '',
         'Feature Add-Ons' => '',
@@ -2215,7 +2224,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => '',
         'Next state' => '',
-        'Pending date' => 'termín vybavenia',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose

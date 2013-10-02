@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:17
+    # Last translation file sync: 2013-10-02 08:51:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -50,6 +50,11 @@ sub Data {
         'Reset' => 'إعادة',
         'last' => 'الأخير',
         'before' => 'قبل',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => '',
         'Tomorrow' => '',
         'Next week' => '',
@@ -79,6 +84,7 @@ sub Data {
         'seconds' => 'ثواني',
         'second' => 'ثانية',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'كتب',
         'Message' => 'رسالة',
         'Error' => 'خطأ',
@@ -287,6 +293,7 @@ sub Data {
         'Customer updated!' => '',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -444,7 +451,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '',
         'Can\'t update password, it must be at least %s characters long!' =>
             '',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '',
         'Can\'t update password, it must contain at least 2 characters!' =>
@@ -1097,6 +1104,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'تاريخ الإنتظار',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1469,6 +1477,7 @@ sub Data {
         'Module documentation' => '',
         'Upgrade' => 'تطوير',
         'Local Repository' => '',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'حذف',
         'Reinstall' => 'إعادة التخزين',
         'Feature Add-Ons' => '',
@@ -2217,7 +2226,6 @@ sub Data {
         'Spell check' => '',
         'Note type' => 'نوع الملاحظة',
         'Next state' => 'الحالة التالية',
-        'Pending date' => 'تاريخ الإنتظار',
         'Date invalid!' => '',
 
         # Template: AgentTicketActionPopupClose

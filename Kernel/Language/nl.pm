@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:41
+    # Last translation file sync: 2013-10-02 08:52:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,6 +54,11 @@ sub Data {
         'Reset' => 'Opnieuw',
         'last' => 'laatste',
         'before' => 'voor',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Vandaag',
         'Tomorrow' => 'Morgen',
         'Next week' => 'Volgende week',
@@ -83,6 +88,7 @@ sub Data {
         'seconds' => 'seconden',
         'second' => 'seconde',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'schreef',
         'Message' => 'Bericht',
         'Error' => 'Fout',
@@ -291,6 +297,7 @@ sub Data {
         'Customer updated!' => 'Klant aangepast.',
         'Customer company added!' => 'Bedrijf toegevoegd.',
         'Customer company updated!' => 'Bedrijf bijgewerkt.',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'E-mailaccount toegevoegd.',
         'Mail account updated!' => 'E-mailaccount bijgewerkt.',
         'System e-mail address added!' => 'E-mailadres toegevoegd.',
@@ -448,8 +455,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Kan het wachtwoord niet bijwerken, het bevat ongeldige tekens.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan het wachtwoord niet bijwerken, het moet minstens twee kleine letters en twee hoofdletters bevatten.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens twee tekens lang zijn.',
@@ -1101,6 +1108,7 @@ sub Data {
         'Set new priority' => 'Nieuwe prioriteit',
         'Set new queue' => 'Nieuwe wachtrij',
         'Set new state' => 'Nieuwe status',
+        'Pending date' => 'In de wacht: datum',
         'Set new agent' => 'Nieuwe behandelaar',
         'new owner' => 'nieuwe eigenaar',
         'new responsible' => 'nieuwe verantwoordelijke',
@@ -1473,6 +1481,7 @@ sub Data {
         'Module documentation' => 'Moduledocumentatie',
         'Upgrade' => 'Upgrade',
         'Local Repository' => 'Lokale Repository',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Verwijder',
         'Reinstall' => 'Herinstalleer',
         'Feature Add-Ons' => 'Feature Add-Ons',
@@ -2221,7 +2230,6 @@ sub Data {
         'Spell check' => 'Spellingscontrole',
         'Note type' => 'Notitiesoort',
         'Next state' => 'Status',
-        'Pending date' => 'In de wacht: datum',
         'Date invalid!' => 'Ongeldige datum.',
 
         # Template: AgentTicketActionPopupClose
@@ -4554,6 +4562,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Kan het wachtwoord niet bijwerken, het moet minstens twee kleine letters en twee hoofdletters bevatten.',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
         'Customer Data' => 'Klantgegevens',

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:29
+    # Last translation file sync: 2013-10-02 08:52:03
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -50,6 +50,11 @@ sub Data {
         'Reset' => 'Tyhjennä',
         'last' => 'viimeinen',
         'before' => 'edellinen',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Tänään',
         'Tomorrow' => 'Huomenna',
         'Next week' => 'Seuraava viikko',
@@ -79,6 +84,7 @@ sub Data {
         'seconds' => 'sekuntia',
         'second' => 'sekunti',
         's' => 's',
+        'Time unit' => '',
         'wrote' => 'kirjoitti',
         'Message' => 'Viesti',
         'Error' => 'Virhe',
@@ -287,6 +293,7 @@ sub Data {
         'Customer updated!' => 'Asiakasta pävitetty!',
         'Customer company added!' => 'Asiakasyritys lisätty!',
         'Customer company updated!' => 'Asiakasyritys päivitetty!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Sähköpostitili lisätty!',
         'Mail account updated!' => 'Päivitetty sähköpostitiliä!',
         'System e-mail address added!' => 'Järjestelmän sähköpostiosoite lisätty!',
@@ -444,8 +451,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Salasanan päivitys ei onnistunut, se sisälsi virheellisiä merkkejä!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään %s merkkiä!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 1 numero!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 kirjainta',
@@ -1097,6 +1104,7 @@ sub Data {
         'Set new priority' => '',
         'Set new queue' => '',
         'Set new state' => '',
+        'Pending date' => 'Odottaa päivään',
         'Set new agent' => '',
         'new owner' => '',
         'new responsible' => '',
@@ -1469,6 +1477,7 @@ sub Data {
         'Module documentation' => 'Moduulin ohjeet',
         'Upgrade' => 'Päivitä',
         'Local Repository' => 'Paikallinen ohjelmistojakelu',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Poista',
         'Reinstall' => 'Asenna uudestaan',
         'Feature Add-Ons' => '',
@@ -2217,7 +2226,6 @@ sub Data {
         'Spell check' => 'Oikeinkirjoituksen tarkistus',
         'Note type' => 'Huomautustyyppi',
         'Next state' => 'Uusi tila',
-        'Pending date' => 'Odottaa päivään',
         'Date invalid!' => 'Virheellinen päiväys',
 
         # Template: AgentTicketActionPopupClose
@@ -4550,6 +4558,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
         'Customer Data' => 'Asiakastieto',
         'For more info see:' => 'Katso lisätietoa:',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',

@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:45
+    # Last translation file sync: 2013-10-02 08:52:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -57,6 +57,11 @@ sub Data {
         'Reset' => 'Отклонить',
         'last' => 'последние',
         'before' => 'кроме последних',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'Сегодня',
         'Tomorrow' => 'Завтра',
         'Next week' => 'Следующая неделя',
@@ -86,6 +91,7 @@ sub Data {
         'seconds' => 'секунд',
         'second' => 'секунда',
         's' => 'с',
+        'Time unit' => '',
         'wrote' => 'написал(а)',
         'Message' => 'Сообщение',
         'Error' => 'Ошибка',
@@ -294,6 +300,7 @@ sub Data {
         'Customer updated!' => 'Клиент обновлен!',
         'Customer company added!' => 'Компания клиента добавлена!',
         'Customer company updated!' => 'Компания клиента обновлена!',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => 'Учетная запись почты добавлена!',
         'Mail account updated!' => 'Учетная запись почты обновлена!',
         'System e-mail address added!' => 'Системный адрес электронной почты добавлен!',
@@ -451,8 +458,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Невозможно обновить пароль, т.к. он содержит запрещенные символы!',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Невозможно обновить пароль, т.к. его длина должна быть не менее %s символов!',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Невозможно обновить пароль, т.к. он должен содержать не менее 2-х строчных и 2-х заглавных символов!',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Невозможно обновить пароль, т.к. он должен содержать не менее 1-й цифры!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Невозможно обновить пароль, т.к. он должен содержать не менее 2 букв!',
@@ -1104,6 +1111,7 @@ sub Data {
         'Set new priority' => 'Установить новый приоритет',
         'Set new queue' => 'Установить новую очередь',
         'Set new state' => 'Установить новое состояние',
+        'Pending date' => 'Дата ожидания',
         'Set new agent' => 'Назначить нового агента',
         'new owner' => 'новый владелец',
         'new responsible' => 'новый ответственный',
@@ -1476,6 +1484,7 @@ sub Data {
         'Module documentation' => 'Документация модуля',
         'Upgrade' => 'Обновить',
         'Local Repository' => 'Локальный репозиторий',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Удалить',
         'Reinstall' => 'Переустановить',
         'Feature Add-Ons' => 'Адд-Оны с дополнительными возможностями/функциями',
@@ -2224,7 +2233,6 @@ sub Data {
         'Spell check' => 'Проверка орфографии',
         'Note type' => 'Тип заметки',
         'Next state' => 'Следующее состояние',
-        'Pending date' => 'Дата ожидания',
         'Date invalid!' => 'Некорректная дата!',
 
         # Template: AgentTicketActionPopupClose
@@ -4647,6 +4655,8 @@ sub Data {
         'Can not create link with %s!' => 'Невозможно создать связь с «%s»!',
         'Can not delete link with %s!' => 'Невозможно удалить связь с «%s»!',
         'Can\'t update password, invalid characters!' => 'Невозможно сменить пароль, неверная кодировка!',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Невозможно обновить пароль, т.к. он должен содержать не менее 2-х строчных и 2-х заглавных символов!',
         'Can\'t update password, must be at least %s characters!' => 'Невозможно сменить пароль, пароль должен быть не менее %s символов!',
         'Can\'t update password, must contain 2 lower and 2 upper characters!' =>
             'Невозможно сменить пароль, необходимо 2 символа в нижнем и 2 — в верхнем регистрах!',

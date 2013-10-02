@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-06-14 08:49:33
+    # Last translation file sync: 2013-10-02 08:52:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -52,6 +52,11 @@ sub Data {
         'Reset' => 'Reset',
         'last' => 'zadnje',
         'before' => 'prije',
+        'more than ... ago' => '',
+        'within the last ...' => '',
+        'within the next ...' => '',
+        'Created within the last' => '',
+        'Created more than ... ago' => '',
         'Today' => 'danas',
         'Tomorrow' => 'Sutra',
         'Next week' => '',
@@ -81,6 +86,7 @@ sub Data {
         'seconds' => 'sekundi',
         'second' => 'sekunda',
         's' => '',
+        'Time unit' => '',
         'wrote' => 'napisao',
         'Message' => 'Poruka',
         'Error' => 'Pogreška',
@@ -289,6 +295,7 @@ sub Data {
         'Customer updated!' => 'Ažuriran korisnik',
         'Customer company added!' => '',
         'Customer company updated!' => '',
+        'Note: Company is invalid!' => '',
         'Mail account added!' => '',
         'Mail account updated!' => '',
         'System e-mail address added!' => '',
@@ -446,8 +453,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Lozinka ne može biti ažurirana, sadrži nedozvoljene znakove.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Lozinka ne može biti ažurirana. Minimalna dužina lozinke je %s znakova.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Lozinka ne može biti ažurirana. Mora sadržavati bar 2 velika i 2 mala slova.',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Lozinka ne može biti ažurirana. Mora sadržavati bar jednu znamenku.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Lozinka ne može biti ažurirana. Mora sadržavati najmanje 2 znaka.',
@@ -1099,6 +1106,7 @@ sub Data {
         'Set new priority' => 'Postavi novi prioritet',
         'Set new queue' => 'Postavi novi rep',
         'Set new state' => 'Postavi novi status',
+        'Pending date' => 'Čekanje do',
         'Set new agent' => 'Postavi novog zaposlenika',
         'new owner' => 'novi vlasnik',
         'new responsible' => '',
@@ -1471,6 +1479,7 @@ sub Data {
         'Module documentation' => 'Dokumentacija kodula',
         'Upgrade' => 'Ažuriranje',
         'Local Repository' => 'Lokalno spremište',
+        'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Deinstaliraj',
         'Reinstall' => 'Instaliraj ponovo',
         'Feature Add-Ons' => '',
@@ -2219,7 +2228,6 @@ sub Data {
         'Spell check' => 'Provjera pravopisa',
         'Note type' => 'Tip napomene',
         'Next state' => 'Sljedeći status',
-        'Pending date' => 'Čekanje do',
         'Date invalid!' => 'Neispravan datum',
 
         # Template: AgentTicketActionPopupClose
@@ -4554,6 +4562,8 @@ sub Data {
         #
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Dodaje korisničke e-mail adrese primaocima u prozoru za otvaranje kartice na sučelju zaposlenog.',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            'Lozinka ne može biti ažurirana. Mora sadržavati bar 2 velika i 2 mala slova.',
         'Customer Data' => 'Podaci o korisniku',
         'For more info see:' => 'Za dodatne informacije pogledaj:',
         'Logout successful. Thank you for using OTRS!' => 'Uspješno ste se odjavili! Hvala što ste koristili OTRS!',
