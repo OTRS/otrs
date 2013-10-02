@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::AuthSession;
+use Kernel::System::CustomerUser;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,6 +31,7 @@ sub new {
     }
 
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # get current filter
     my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
@@ -174,6 +176,11 @@ sub Run {
                 %AgentData = $Self->{UserObject}->GetUserData(
                     UserID        => $Data{UserID},
                     NoOutOfOffice => 1,
+                );
+            }
+            else {
+                $Data{UserFullname} ||= $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $Data{UserLogin},
                 );
             }
 
