@@ -648,7 +648,7 @@ sub LoadDefaults {
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
-    $Self->{SessionName} = 'Session';
+    $Self->{SessionName} = 'OTRSAgentInterface';
 
     # SessionCheckRemoteIP
     # (If the application is used via a proxy-farm then the
@@ -1124,7 +1124,7 @@ Your OTRS Notification Master
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
-    $Self->{CustomerPanelSessionName} = 'CSID';
+    $Self->{CustomerPanelSessionName} = 'OTRSCustomerInterface';
 
     # CustomerPanelUserID
     # (The customer panel db-uid.) [default: 1]
