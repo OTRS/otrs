@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:54
+    # Last translation file sync: 2013-10-02 09:56:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2364,7 +2364,7 @@ sub Data {
         'From queue' => 'iš eilės',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Gauti visus',
         'Text Template' => '',
@@ -2419,7 +2419,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Sukurti naują telefoninę triktį',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Į eilę',
 
         # Template: AgentTicketPhoneCommon
@@ -2819,7 +2818,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Failas nėra paveikslėlis, kurį būtų galima rodyti tiesiogiai (? inline)',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'atspausdino',
@@ -3667,6 +3665,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4803,6 +4803,7 @@ sub Data {
         'Responses <-> Queues' => 'Atsakymai <-> Eilės',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Norint įdiegti iš naujo, naudojant web-diegyklę, saugus režimas turi būti išjungtas.',
+        'URL' => 'URL',
         'before' => 'prieš',
         'default \'hot\'' => 'standartiškai \'hot\'',
         'settings' => 'nustatymai',

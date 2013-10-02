@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:46
+    # Last translation file sync: 2013-10-02 09:56:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2372,7 +2372,7 @@ sub Data {
         'From queue' => 'De la file',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Tout prendre',
         'Text Template' => '',
@@ -2427,7 +2427,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Créer un nouveau Ticket téléphonique',
         'Please include at least one customer for the ticket.' => 'Veuillez inclure au moins un client au ticket',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Vers la file',
 
         # Template: AgentTicketPhoneCommon
@@ -2827,7 +2826,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Le fichier n\'est pas une image qui puisse être affichée directement !',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'Imprimé par :',
@@ -3675,6 +3673,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4813,6 +4813,7 @@ sub Data {
         'Show  article' => 'Afficher l\'article',
         'There are no further steps in this process' => 'Il n\'y a pas d\'autres étapes dans ce processus',
         'To customer' => 'Vers le client',
+        'URL' => 'URL',
         'before' => 'avant',
         'default \'hot\'' => '\'hot\' par défaut',
         'settings' => 'Paramètres',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:22:06
+    # Last translation file sync: 2013-10-02 09:56:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2364,7 +2364,7 @@ sub Data {
         'From queue' => 'из Реда',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Узми све',
         'Text Template' => '',
@@ -2419,7 +2419,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Отвори нови телефонски тикет',
         'Please include at least one customer for the ticket.' => 'Молимо да укључите бар једног корисника за тикет.',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'У ред',
 
         # Template: AgentTicketPhoneCommon
@@ -2819,7 +2818,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Датотека није слика која се може непосредно приказати!',
 
         # Template: PrintFooter
-        'URL' => '"URL"',
 
         # Template: PrintHeader
         'printed by' => 'штампао',
@@ -3667,6 +3665,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4813,6 +4813,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
         'To customer' => 'За корисника',
+        'URL' => '"URL"',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Када су тикети спојени, тикету који није активан ће аутоматски бити додана белешка. У простору за текст можете да дефинишете овај текст (Оператери не могу мењати овај текст).',
         'before' => 'пре',

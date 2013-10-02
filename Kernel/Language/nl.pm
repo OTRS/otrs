@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:58
+    # Last translation file sync: 2013-10-02 09:56:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2370,7 +2370,7 @@ sub Data {
         'From queue' => 'In wachtrij',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Gebruik alle',
         'Text Template' => '',
@@ -2425,7 +2425,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'Please include at least one customer for the ticket.' => 'Voeg ten minste één klant toe voor dit ticket.',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'In wachtrij',
 
         # Template: AgentTicketPhoneCommon
@@ -2825,7 +2824,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Dit bestand kan niet inline worden weergegeven.',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'afgedrukt door',
@@ -3673,6 +3671,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4826,6 +4826,7 @@ sub Data {
         'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
         'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
         'To customer' => 'Aan klant',
+        'URL' => 'URL',
         'before' => 'voor',
         'default \'hot\'' => 'Standaard \'hot\'',
         'settings' => 'instellingen',

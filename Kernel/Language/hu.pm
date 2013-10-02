@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:50
+    # Last translation file sync: 2013-10-02 09:56:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2369,7 +2369,7 @@ sub Data {
         'From queue' => 'Ebből a várólistából',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '',
         'Text Template' => '',
@@ -2424,7 +2424,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Új telefonos hibajegy létrehozása',
         'Please include at least one customer for the ticket.' => 'Legalább egy ügyfelet adj meg a hibajegyhez!',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Ebbe a várólistba',
 
         # Template: AgentTicketPhoneCommon
@@ -2824,7 +2823,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'Nyomtatta',
@@ -3672,6 +3670,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4783,6 +4783,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Biztonságos üzemmódot le kell tíltani ahhoz, hogy a webes telepítővel újra lehessen dolgozni.',
         'To customer' => 'Ennek az ügyfélnek',
+        'URL' => 'URL',
         'before' => 'legalább ennyi ideje',
         'default \'hot\'' => 'alapértelmezett',
         'settings' => 'beállítások',

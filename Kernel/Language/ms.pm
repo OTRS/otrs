@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:56
+    # Last translation file sync: 2013-10-02 09:56:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2363,7 +2363,7 @@ sub Data {
         'From queue' => 'Dari barisan.',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Dapatkan semua.',
         'Text Template' => '',
@@ -2418,7 +2418,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Buat Tiket Telefon Baru.',
         'Please include at least one customer for the ticket.' => 'Sila masukkan sekurang-kurangnya satu pelanggan bagi tiket.',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Kepada barisan',
 
         # Template: AgentTicketPhoneCommon
@@ -2818,7 +2817,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Fail bukan imej yang boleh ditunjukkan sebaris!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'dicetak oleh',
@@ -3667,6 +3665,8 @@ sub Data {
             'Menentukan pilihan yang mana akan sah dari penerima (tiket telefon) dan penghantar (tiket emel) dalam paparan ejen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Menentukan aturan mana akan sah untuk penerima tiket dalam paparan pelanggan.',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
+            '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'Lumpuhkan notifikasi peringatan penghantaran kepada ejen yang bertanggungjawab kepada tiket. (Tiket::Responsible perlu diaktifkan).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
@@ -4896,6 +4896,7 @@ sub Data {
         'To customer' => 'Kepada Pelanggan',
         'To protect your privacy, active or/and remote content has blocked.' =>
             'Untuk melindungi privasi anda, aktif dan / atau kandungan jauh telah disekat.',
+        'URL' => 'URL',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             'Menggunakan richtet untuk melihat dan menyunting: artikel, Ucapan Hormat, Tandatangan, tindak balas standard, tindak balas auto dan notifikasi.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>

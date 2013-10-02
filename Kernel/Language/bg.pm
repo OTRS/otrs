@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:33
+    # Last translation file sync: 2013-10-02 09:55:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2365,7 +2365,7 @@ sub Data {
         'From queue' => '',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '',
         'Text Template' => '',
@@ -2420,7 +2420,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => '',
 
         # Template: AgentTicketPhoneCommon
@@ -2820,7 +2819,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
-        'URL' => 'Адрес',
 
         # Template: PrintHeader
         'printed by' => 'отпечатано от',
@@ -3668,6 +3666,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4763,6 +4763,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
         'Responses' => 'Отговори',
         'Responses <-> Queues' => 'Отговори <-> Опашки',
+        'URL' => 'Адрес',
         'before' => 'преди',
         'default \'hot\'' => 'по подразбиране',
 

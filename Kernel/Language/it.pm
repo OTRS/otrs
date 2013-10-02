@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:51
+    # Last translation file sync: 2013-10-02 09:56:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2371,7 +2371,7 @@ sub Data {
         'From queue' => 'Dalla coda',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Prendi tutto',
         'Text Template' => '',
@@ -2426,7 +2426,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Crea nuovo ticket telefonico',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Alla coda',
 
         # Template: AgentTicketPhoneCommon
@@ -2826,7 +2825,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Il file non è un\'immagine che può essere mostrata in linea!',
 
         # Template: PrintFooter
-        'URL' => '',
 
         # Template: PrintHeader
         'printed by' => 'stampato da',
@@ -3674,6 +3672,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',

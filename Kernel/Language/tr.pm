@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:22:09
+    # Last translation file sync: 2013-10-02 09:56:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2364,7 +2364,7 @@ sub Data {
         'From queue' => 'Kuyruktan',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Hepsini getir',
         'Text Template' => '',
@@ -2419,7 +2419,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Yeni telefon bileti oluştur',
         'Please include at least one customer for the ticket.' => 'En az bir müşteri bileti içermeli',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Kuyruğa',
 
         # Template: AgentTicketPhoneCommon
@@ -2819,7 +2818,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
-        'URL' => 'Adres (URL)',
 
         # Template: PrintHeader
         'printed by' => 'yazdıran',
@@ -3667,6 +3665,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -5223,6 +5223,7 @@ sub Data {
         'Top of Page' => 'Yukarı',
         'Total hits' => 'Toplam isabet',
         'U' => 'U',
+        'URL' => 'Adres (URL)',
         'Unable to parse Online Repository index document!' => 'Çevrimiçi Depo endeks belgesi ayrıştırılamadı!',
         'Uniq' => 'Tekil',
         'Unlock Tickets' => 'Biletlerin kilidini aç',

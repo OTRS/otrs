@@ -1,4 +1,4 @@
-#3.3.0 beta4 2013-??-??
+#3.3.0 beta4 2013-10-08
  - 2013-10-01 Fixed bug#[9542](http://bugs.otrs.org/show_bug.cgi?id=9542) - Uninitialized value in AgentTicketForward.
  - 2013-10-01 Fixed bug#[9771](http://bugs.otrs.org/show_bug.cgi?id=9771) - SMTP backends ignore the port setting.
  - 2013-09-30 Fixed bug#[9765](http://bugs.otrs.org/show_bug.cgi?id=9765) - Dynamic Field values are completely removed if one entry contains a dash.

@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:22:12
+    # Last translation file sync: 2013-10-02 09:56:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2369,7 +2369,7 @@ sub Data {
         'From queue' => '来自队列',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '获取全部',
         'Text Template' => '',
@@ -2424,7 +2424,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => '新建电话票单',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => '到',
 
         # Template: AgentTicketPhoneCommon
@@ -2824,7 +2823,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '此文件是不是一个可以显示的图像!',
 
         # Template: PrintFooter
-        'URL' => '网址',
 
         # Template: PrintHeader
         'printed by' => '打印',
@@ -3672,6 +3670,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4809,6 +4809,7 @@ sub Data {
         'Responses <-> Queues' => '回复 <-> 队列',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
+        'URL' => '网址',
         'before' => '早于',
         'default \'hot\'' => '默认密码 \'hot\'',
         'settings' => '设置',

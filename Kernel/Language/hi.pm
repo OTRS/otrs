@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:48
+    # Last translation file sync: 2013-10-02 09:56:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2366,7 +2366,7 @@ sub Data {
         'From queue' => 'श्रेणी से',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'सभी प्राप्त करें',
         'Text Template' => '',
@@ -2421,7 +2421,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'नया फोन टिकट बनाएँ',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'श्रेणी में',
 
         # Template: AgentTicketPhoneCommon
@@ -2821,7 +2820,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'फ़ाइल एक छवि नहीं है जो इनलाइन दिखाया जा सकता है।',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'के द्वारा मुद्रित',
@@ -3670,6 +3668,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक में प्राप्तकर्ता(फोन टिकट) और प्रेषक(ईमेल टिकट) के लिए जो विकल्प वैध होगें उनको निर्धारित करता है।',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'ग्राहक अंतरफलक में  टिकट प्राप्तकर्ताओं के लिए जो श्रेणी वैध होगी उनको निर्धारित करता है।',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
+            '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'एक टिकट के जिम्मेदार प्रतिनिधि को अनुस्मारक सूचनाएं भेजना निष्क्रिय करता है (टिकट:जिम्मेदार सक्रिय करने की जरूरत है)।',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
@@ -4840,6 +4840,7 @@ sub Data {
             'स्वत:पूर्ण क्वेरी से पहले वर्णों की न्यूनतम संख्या भेजी है यह स्थापित करता है।',
         'Sets the number of search results to be displayed for the autocomplete feature.' =>
             'खोज परिणामों की संख्या स्वत: पूर्ण सुविधा के लिए प्रदर्शित करने के लिए स्थापित करता है।',
+        'URL' => 'URL',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             'देखने और संपादित करने के लिए समृद्ध पाठ का उपयोग करता है: अनुच्छेद,अभिवादन,हस्ताक्षर,मानक प्रतिक्रियाएं,स्वत प्रतिक्रियाओं और अधिसूचनाएं।',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>

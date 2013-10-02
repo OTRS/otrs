@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:39
+    # Last translation file sync: 2013-10-02 09:56:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2369,7 +2369,7 @@ sub Data {
         'From queue' => 'De la cola',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => 'Seleccionar a este cliente como el cliente principal.',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Obtener todo',
         'Text Template' => 'Plantilla de texto',
@@ -2424,7 +2424,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Crear un nuevo ticket telefónico',
         'Please include at least one customer for the ticket.' => 'Incluya al menos un cliente para el ticket',
-        'Select this customer as the main customer.' => 'Seleccionar a este cliente como el cliente principal.',
         'To queue' => 'A la cola',
 
         # Template: AgentTicketPhoneCommon
@@ -2824,7 +2823,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Este fichero no es una imagen que se pueda mostrar.',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'impreso por',
@@ -3672,6 +3670,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4793,6 +4793,7 @@ sub Data {
         'There are currently no steps available for this process.' => 'Actualmente no hay pasos disponibles para este proceso.',
         'There are no further steps in this process' => 'Este proceso no tiene más pasos.',
         'To customer' => 'Al cliente',
+        'URL' => 'URL',
         'before' => 'antes',
         'default \'hot\'' => 'por omisión \'hot\'',
         'settings' => 'configuración',

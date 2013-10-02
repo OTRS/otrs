@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:42
+    # Last translation file sync: 2013-10-02 09:56:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2364,7 +2364,7 @@ sub Data {
         'From queue' => 'De la fila',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Obtener todos',
         'Text Template' => '',
@@ -2419,7 +2419,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Crear un Ticket Telefónico Nuevo',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Para la fila',
 
         # Template: AgentTicketPhoneCommon
@@ -2819,7 +2818,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '¡El archivo no es una imagen que se pueda mostrar en línea!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'impreso por',
@@ -3668,6 +3666,8 @@ sub Data {
             'Determina las opciones válidas para el remitente (ticket telefónico) y destinatario (ticket de correo electrónico), en la interfaz del agente.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determina las filas que serán válidas coom remitentes de los ticket, en la interfaz del cliente.',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
+            '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'Deshabilita el envío de notificaciones de recordatorio al agente responsable de un ticket (Ticket::Responsible tiene que estar activo).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
@@ -4838,6 +4838,7 @@ sub Data {
             'Define el número mínimo de caracteres que debe haber, antes de enviar una consulta de autocompletado.',
         'Sets the number of search results to be displayed for the autocomplete feature.' =>
             'Define el número de resultados de búsqueda mostrados por la funcionalidad de autocompletado.',
+        'URL' => 'URL',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             'Usa texto enriquecido para visualizar y editar: artículos, saludos, firmas, respuestas estándar, auto respuestas y notificaciones.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>

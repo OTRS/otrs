@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:49
+    # Last translation file sync: 2013-10-02 09:56:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2368,7 +2368,7 @@ sub Data {
         'From queue' => 'Iz repa',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Dohvati sve',
         'Text Template' => '',
@@ -2423,7 +2423,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Otvori novi telefonski karticu',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'U rep',
 
         # Template: AgentTicketPhoneCommon
@@ -2823,7 +2822,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Datoteka nije slika koja se može neposredno prikazati!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'otisnuo',
@@ -3671,6 +3669,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4813,6 +4813,7 @@ sub Data {
         'Responses <-> Queues' => 'Odgovori <-> Repovi',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '"Siguran način" mora biti isključen radi reinstalacije putem weba.',
+        'URL' => 'URL',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Kada su kartice spojeni, kartici koji nije aktivan će automatski biti dodana beleška. U prostoru za tekst možete da definišete ovaj tekst (Zaposlenici ne mogu mijenjati ovaj tekst).',
         'before' => 'prije',

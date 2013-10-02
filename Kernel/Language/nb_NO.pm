@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:57
+    # Last translation file sync: 2013-10-02 09:56:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2372,7 +2372,7 @@ sub Data {
         'From queue' => 'Fra kø',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Hent alle',
         'Text Template' => '',
@@ -2427,7 +2427,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Lag ny Telefon-sak',
         'Please include at least one customer for the ticket.' => 'Vennligst oppgi minst en kunde for denne saken',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Til kø',
 
         # Template: AgentTicketPhoneCommon
@@ -2827,7 +2826,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Filen er ikke et bilde som kan vises i nettleseren!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'skrevet ut av',
@@ -3675,6 +3673,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4839,6 +4839,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
         'To customer' => 'Til kunde',
+        'URL' => 'URL',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             'Bruker rikt tekstformat for visning og redigerer: innlegg, hilsninger, signaturer, standardsvar, autosvar og varslinger.',
         'before' => 'før',

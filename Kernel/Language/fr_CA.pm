@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:47
+    # Last translation file sync: 2013-10-02 09:56:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2371,7 +2371,7 @@ sub Data {
         'From queue' => 'De la file ',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Tout prendre',
         'Text Template' => '',
@@ -2426,7 +2426,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Créer une nouvelle demande téléphonique',
         'Please include at least one customer for the ticket.' => 'Veuillez ajouter au moins un client à la demande.',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Vers la file ',
 
         # Template: AgentTicketPhoneCommon
@@ -2826,7 +2825,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Le fichier n\'est pas une image pouvant être affichée en ligne.',
 
         # Template: PrintFooter
-        'URL' => 'URL ',
 
         # Template: PrintHeader
         'printed by' => 'Imprimé par :',
@@ -3675,6 +3673,8 @@ sub Data {
             'Détermine quelles options seront admissibles pour les destinataires (demandes téléphoniques) et pour les expéditeurs (demandes par courriel) dans l\'interface agent.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Détermine quelles files seront admissibles pour les destinaires des demandes dans l\'interface client.',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
+            '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             'Désactive la notification de rappel à l\'agent responsable de la demande (Ticket::Responsible doit être activé).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
@@ -7658,6 +7658,7 @@ sub Data {
         'Type: $GetParam{\'X-OTRS-FollowUp-Type\'}\n' => 'Type : $GetParam{\'X-OTRS-FollowUp-Type\'}\n',
         'TypeUpdate' => 'Mise à jour du type (TypeUpdate)',
         'U' => 'U',
+        'URL' => 'URL ',
         'Uganda' => 'Ouganda',
         'Ukraine' => 'Ukraine',
         'Unable to check Perl modules.' => 'Il n\'est pas possible de vérifier les modules Perl.',

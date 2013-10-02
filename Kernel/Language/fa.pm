@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:44
+    # Last translation file sync: 2013-10-02 09:56:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2369,7 +2369,7 @@ sub Data {
         'From queue' => 'از صف درخواست',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'گرفتن همه',
         'Text Template' => '',
@@ -2424,7 +2424,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'ساخت درخواست تلفنی جدید',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'به صف درخواست',
 
         # Template: AgentTicketPhoneCommon
@@ -2824,7 +2823,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'فایل مورد نظر تصویری نیست که بتواند به صورت inline نمایش داده شود.',
 
         # Template: PrintFooter
-        'URL' => 'مسیر',
 
         # Template: PrintHeader
         'printed by' => 'چاپ شده توسط  :',
@@ -3672,6 +3670,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4812,6 +4812,7 @@ sub Data {
         'Responses <-> Queues' => 'پاسخ <-> لیست درخواست',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'برای باز-نصب از طریق وب باید حالت امن غیر فعال گردد',
+        'URL' => 'مسیر',
         'before' => 'قبل از',
         'default \'hot\'' => 'پیش فرض \'hot\'',
         'settings' => 'تنظیمات',

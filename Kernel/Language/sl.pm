@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:22:05
+    # Last translation file sync: 2013-10-02 09:56:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2368,7 +2368,7 @@ sub Data {
         'From queue' => 'Iz vrste',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Dobi vse',
         'Text Template' => '',
@@ -2423,7 +2423,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Odpri nov telefonski zahtevek',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'V vrsto',
 
         # Template: AgentTicketPhoneCommon
@@ -2823,7 +2822,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Datoteka ni slika, ki se lahko neposredno prikaže!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'Natisnil',
@@ -3671,6 +3669,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4814,6 +4814,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Varni način mora biti onemogočen zaradi ponovne instalacije preko weba.',
         'To customer' => 'Stranka',
+        'URL' => 'URL',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Ko se združijo zahtevki, zahtevku ki ni aktiven se bo avtomatsko dodala opomba. V prostoru za tekst lahko definirate naslednji tekst (Uporabniki ne morejo spreminjati tega besedila).',
         'before' => 'pred',

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:22:01
+    # Last translation file sync: 2013-10-02 09:56:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2368,7 +2368,7 @@ sub Data {
         'From queue' => 'Da Fila',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Obter Todos',
         'Text Template' => '',
@@ -2423,7 +2423,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Criar Novo Chamado Via Fone',
         'Please include at least one customer for the ticket.' => 'Por favor, inclua pelo menos um cliente para o chamado.',
-        'Select this customer as the main customer.' => '',
         'To queue' => 'Para a Fila',
 
         # Template: AgentTicketPhoneCommon
@@ -2823,7 +2822,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'O arquivo não é uma imagem que pode ser mostrada embutida!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'Impresso por',
@@ -3671,6 +3669,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4828,6 +4828,7 @@ sub Data {
         'There are currently no steps available for this process.' => 'Não há ações disponíveis para esse processo atualmente.',
         'There are no further steps in this process' => 'Não há mais passos nesse processo',
         'To customer' => 'Para o Cliente',
+        'URL' => 'URL',
         'before' => 'antes',
         'default \'hot\'' => 'padrão \'quente\'',
         'settings' => 'Configurações',

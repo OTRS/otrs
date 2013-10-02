@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:22:13
+    # Last translation file sync: 2013-10-02 09:56:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2366,7 +2366,7 @@ sub Data {
         'From queue' => '',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer user as the main customer user.' => '',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => '',
         'Text Template' => '',
@@ -2421,7 +2421,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
         'To queue' => '',
 
         # Template: AgentTicketPhoneCommon
@@ -2821,7 +2820,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
-        'URL' => '網址',
 
         # Template: PrintHeader
         'printed by' => '打印於',
@@ -3669,6 +3667,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4768,6 +4768,7 @@ sub Data {
         'Responses' => '回復',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '為了重新用Web 界面安裝，安全模式必須disabled',
+        'URL' => '網址',
         'before' => '早於',
         'default \'hot\'' => '默認密碼 \'hot\'',
         'settings' => '設置',

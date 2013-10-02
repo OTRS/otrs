@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-09-19 16:21:37
+    # Last translation file sync: 2013-10-02 09:55:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2364,7 +2364,7 @@ sub Data {
         'From queue' => 'Aus Queue',
         'To customer user' => 'An Kundenbenutzer',
         'Please include at least one customer user for the ticket.' => 'Bitte tragen Sie wenigstens einen Kundenbenutzer für das Ticket ein',
-        'Select this customer user as the main customer user.' => 'Diesen Kundenbenutzer als Hauptkunden auswählen',
+        'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'Remove Ticket Customer User' => 'Kundenbenutzer des Tickets entfernen',
         'Get all' => 'Alles holen',
         'Text Template' => 'Textvorlage',
@@ -2419,7 +2419,6 @@ sub Data {
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => 'Neues Telefon-Ticket anlegen',
         'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
-        'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
         'To queue' => 'An Queue',
 
         # Template: AgentTicketPhoneCommon
@@ -2819,7 +2818,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'Diese Datei ist kein Bild, das inline angezeigt werden kann!',
 
         # Template: PrintFooter
-        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'gedruckt von',
@@ -3667,6 +3665,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -4808,12 +4808,14 @@ sub Data {
         'Responses <-> Queues' => 'Antworten <-> Queues',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
+        'Select this customer user as the main customer user.' => 'Diesen Kundenbenutzer als Hauptkunden auswählen',
         'Show  article' => 'Artikel anzeigen',
         'State Historic' => 'Historischer Status',
         'State Type Historic' => 'Historischer Status-Typ',
         'Template for' => 'Vorlage für',
         'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
+        'URL' => 'URL',
         'before' => 'vor',
         'default \'hot\'' => 'voreingestellt \'hot\'',
         'settings' => 'Einstellungen',
