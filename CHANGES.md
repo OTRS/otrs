@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-10-08
+ - 2013-10-02 Fixed bug#[9777](http://bugs.otrs.org/show_bug.cgi?id=9777) - Different config option values for SessionName in Defaults.pm and Framework.xml.
  - 2013-10-02 Fixed bug#[9775](http://bugs.otrs.org/show_bug.cgi?id=9775) - Dashboard widget "online" customer list empty.
  - 2013-10-01 Fixed bug#[9542](http://bugs.otrs.org/show_bug.cgi?id=9542) - Uninitialized value in AgentTicketForward.
  - 2013-10-01 Fixed bug#[9771](http://bugs.otrs.org/show_bug.cgi?id=9771) - SMTP backends ignore the port setting.
