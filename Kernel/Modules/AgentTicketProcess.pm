@@ -3774,6 +3774,16 @@ sub _StoreActivityDialog {
 
             next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
 
+            # is not possible to a have an invisible field for this particular value
+            # on agent interface
+            if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
+                $Self->{LayoutObject}->FatalError(
+                    Message =>
+                        "Couldn't use CustomerID as an invisible field, please contact your system administrator!",
+                );
+            }
+
+
             my $CustomerID = $Param{GetParam}{CustomerID};
             if ( !$CustomerID ) {
                 $Error{'CustomerID'} = 1;
