@@ -275,6 +275,7 @@ sub EditFieldRender {
         %{$FieldConfig},
         %SplitedFieldValues,
         %YearsPeriodRange,
+        OverrideTimeZone => 1,
     );
 
     if ( $Param{Mandatory} ) {
@@ -355,17 +356,6 @@ sub EditFieldValueGet {
         && !$DynamicFieldValues{ $Prefix . 'Year' }
         && !$DynamicFieldValues{ $Prefix . 'Month' }
         && !$DynamicFieldValues{ $Prefix . 'Day' };
-
-    # check if need and can transform dates
-    # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
-    if ( $Param{TransformDates} && $Param{LayoutObject} ) {
-
-        # transform time stamp based on user time zone
-        %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-            %DynamicFieldValues,
-            Prefix => $Prefix,
-        );
-    }
 
     # check if return value structure is nedded
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
