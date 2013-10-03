@@ -717,6 +717,7 @@ sub _Overview {
                 if (
                     $Self->{ConfigObject}->Get('SwitchToCustomer')
                     && $Self->{SwitchToCustomerPermission}
+                    && $Param{Nav} ne 'None'
                     )
                 {
                     $Self->{LayoutObject}->Block(
@@ -1035,7 +1036,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data} eq 'HASH'
+                                ref $ParamItem->{Data}   eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

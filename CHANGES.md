@@ -1,4 +1,5 @@
 #3.2.11 2013-10-08
+ - 2013-10-03 Fixed bug#[9785](http://bugs.otrs.org/show_bug.cgi?id=9785) - Switch Customer should not be displayed in New Ticket Customer Option.
  - 2013-10-02 Fixed bug#[9782](http://bugs.otrs.org/show_bug.cgi?id=9782) - Typo in DynamicField Multiselect function.
  - 2013-10-01 Fixed bug#[9542](http://bugs.otrs.org/show_bug.cgi?id=9542) - Uninitialized value in AgentTicketForward.
  - 2013-09-30 Fixed bug#[9765](http://bugs.otrs.org/show_bug.cgi?id=9765) - Dynamic Field values are completely removed if one entry contains a dash.
