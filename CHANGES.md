@@ -1,4 +1,5 @@
 #3.2.11 2013-10-08
+ - 2013-10-03 Fixed bug#[9786](http://bugs.otrs.org/show_bug.cgi?id=9786) - Missing tooltip text in Dropdown and Multiselect Dynamic Fields admin.
  - 2013-10-03 Fixed bug#[9785](http://bugs.otrs.org/show_bug.cgi?id=9785) - Switch Customer should not be displayed in New Ticket Customer Option.
  - 2013-10-02 Fixed bug#[9782](http://bugs.otrs.org/show_bug.cgi?id=9782) - Typo in DynamicField Multiselect function.
  - 2013-10-01 Fixed bug#[9542](http://bugs.otrs.org/show_bug.cgi?id=9542) - Uninitialized value in AgentTicketForward.
