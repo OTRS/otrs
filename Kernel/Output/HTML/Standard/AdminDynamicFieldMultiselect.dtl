@@ -139,8 +139,8 @@
                             <div class="ValueTemplate Hidden">
                                 <label class="Mandatory" for="Key"><span class="Marker">*</span>$Text{"Key"}:</label>
                                 <input name="Key_$QData{"ValueCounter"}" id="Key" class="DefaultValueKeyItem W20pc" type="text" maxlength="100" value="$QData{"Key"}"/>
-                                <div id="KeyError" class="TooltipErrorMessage"><p>$Text{"$Data{"KeyErrorStrg"}"}</p></div>
-                                <div id="KeyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="KeyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                <div id="KeyServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"KeyErrorStrg"}"}</p></div>
 
                                 <label class="Mandatory" for="Value"><span class="Marker">*</span>$Text{"Value"}:</label>
                                 <input name="Value_$QData{"ValueCounter"}" id="Value" class="DefaultValueItem W20pc" type="text" maxlength="100" value="$QData{"Value"}"/>
