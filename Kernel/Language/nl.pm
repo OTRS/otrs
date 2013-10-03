@@ -52,12 +52,12 @@ sub Data {
         'Done' => 'Klaar',
         'Cancel' => 'Annuleren',
         'Reset' => 'Opnieuw',
-        'more than ... ago' => '',
-        'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'more than ... ago' => 'langer dan ... geleden',
+        'in more than ...' => 'over meer dan ...',
+        'within the last ...' => 'in de laatste ...',
+        'within the next ...' => 'in de volgende ...',
+        'Created within the last' => 'Aangemaakt in de laatste',
+        'Created more than ... ago' => 'Aangemaakt langer dan ... geleden',
         'Today' => 'Vandaag',
         'Tomorrow' => 'Morgen',
         'Next week' => 'Volgende week',
@@ -87,7 +87,7 @@ sub Data {
         'seconds' => 'seconden',
         'second' => 'seconde',
         's' => 's',
-        'Time unit' => '',
+        'Time unit' => 'Tijd',
         'wrote' => 'schreef',
         'Message' => 'Bericht',
         'Error' => 'Fout',
@@ -193,7 +193,7 @@ sub Data {
         'Search' => 'Zoeken',
         'and' => 'en',
         'between' => 'tussen',
-        'before/after' => '',
+        'before/after' => 'voor/na',
         'Fulltext Search' => 'Alles doorzoeken',
         'Data' => 'Gegevens',
         'Options' => 'Opties',
@@ -240,7 +240,7 @@ sub Data {
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
         'Agent updated!' => 'Behandelaar aangepast.',
-        'Database Selection' => '',
+        'Database Selection' => 'Database-keuze',
         'Create Database' => 'Database aanmaken',
         'System Settings' => 'Systeemconfiguratie',
         'Mail Configuration' => 'E-mailconfiguratie',
@@ -251,11 +251,11 @@ sub Data {
         'Database' => 'Database',
         'Configure Mail' => 'Configureer mail',
         'Database deleted.' => 'Database verwijderd.',
-        'Enter the password for the administrative database user.' => '',
-        'Enter the password for the database user.' => '',
+        'Enter the password for the administrative database user.' => 'Voer het wachtwoord voor het database-gebruikersaccount in.',
+        'Enter the password for the database user.' => 'Voer het wachtwoord voor het database-gebruikersaccount in.',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             'Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven.',
-        'Database already contains data - it should be empty!' => '',
+        'Database already contains data - it should be empty!' => 'Database bevat al data - deze moet leeg zijn!',
         'Login is needed!' => 'Inloggen is nodig.',
         'Password is needed!' => 'Een wachtwoord is vereist.',
         'Take this Customer' => 'Selecteer deze klant',
@@ -301,7 +301,7 @@ sub Data {
         'Customer updated!' => 'Klant aangepast.',
         'Customer company added!' => 'Bedrijf toegevoegd.',
         'Customer company updated!' => 'Bedrijf bijgewerkt.',
-        'Note: Company is invalid!' => '',
+        'Note: Company is invalid!' => 'Let op: bedrijf is ongeldig!',
         'Mail account added!' => 'E-mailaccount toegevoegd.',
         'Mail account updated!' => 'E-mailaccount bijgewerkt.',
         'System e-mail address added!' => 'E-mailadres toegevoegd.',
@@ -373,11 +373,11 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Proces informatie uit de database is niet gesynchroniseerd met de systeemconfiguratie. Voer een synchronisatie uit.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'Pakket niet geverifieerd door de OTRS Groep! We raden aan dit pakket niet te gebruiken.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Markeer',
+        'Unmark' => 'Verwijder markering',
         'Bold' => 'Vet',
         'Italic' => 'Cursief',
         'Underline' => 'Onderstreep',
@@ -462,7 +462,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn.',
         'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
-            '',
+            'Kan wachtwoord niet bijwerken. Het moet minstends twee kleine en twee hoofdletter bevatten.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens twee tekens lang zijn.',
@@ -665,7 +665,7 @@ sub Data {
         'auto reply' => '',
         'auto reply/new ticket' => '',
         'Create' => 'Aanmaken',
-        'Answer' => '',
+        'Answer' => 'Antwoord',
         'Phone call' => 'Telefoongesprek',
         'Ticket "%s" created!' => 'Ticket "%s" aangemaakt.',
         'Ticket Number' => 'Ticketnummer',
@@ -674,7 +674,7 @@ sub Data {
         'You don\'t have write access to this ticket.' => 'U heeft geen schrijfrechten op dit ticket.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'U moet de eigenaar zijn om deze actie uit te voeren.',
-        'Please change the owner first.' => '',
+        'Please change the owner first.' => 'Verander de eigenaar eerst.',
         'Ticket selected.' => 'Ticket geselecteerd.',
         'Ticket is locked by another agent.' => 'Dit ticket is vergrendeld door een andere behandelaar.',
         'Ticket locked.' => 'Ticket vergrendeld.',
@@ -696,7 +696,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Maak een nieuw ticket aan en verstuur per e-mail',
         'Create new Phone Ticket (Inbound)' => 'Maak nieuw ticket aan van telefoongesprek',
         'Address %s replaced with registered customer address.' => 'Adres %s vervangen met vastgelegde klant-adres.',
-        'Customer user automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
         'Overview of all open Tickets' => 'Laat alle open tickets zien',
         'Locked Tickets' => 'Vergrendelde tickets',
         'My Locked Tickets' => 'Mijn vergrendelde tickets',
@@ -711,7 +711,7 @@ sub Data {
         'Show the ticket history' => 'Toon de ticket-geschiedenis',
         'Print this ticket' => 'Print dit ticket',
         'Print this article' => 'Print deze interactie',
-        'Split' => '',
+        'Split' => 'Splits',
         'Split this article' => 'Splits deze interactie',
         'Forward article via mail' => 'Stuur interactie naar een mailadres',
         'Change the ticket priority' => 'Wijzig de prioriteit van dit ticket',
@@ -728,7 +728,7 @@ sub Data {
         'Mark as Spam!' => 'Markeer als spam',
         'My Queues' => 'Mijn wachtrijen',
         'Shown Tickets' => 'Laat tickets zien',
-        'Shown Columns' => '',
+        'Shown Columns' => 'Toon kolommen',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Uw e-mail met ticketnummer "<OTRS_TICKET>" is samengevoegd met "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: eerste antwoord tijd is voorbij (%s).',
@@ -838,7 +838,7 @@ sub Data {
         'History::SystemRequest' => 'SystemRequest: "%s"',
         'History::ResponsibleUpdate' => 'Nieuwe verantwoordelijke is "%s" (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Archiefstatus veranderd: "%s"',
-        'History::TicketTitleUpdate' => '',
+        'History::TicketTitleUpdate' => 'Ticket-titel veranderd: "%s"',
 
         # Template: AAAWeekDay
         'Sun' => 'zo',
@@ -850,29 +850,29 @@ sub Data {
         'Sat' => 'za',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'ACL beheer',
+        'Filter for ACLs' => 'Filter op ACLs',
         'Filter' => 'Filter',
-        'ACL Name' => '',
+        'ACL Name' => 'ACL naam',
         'Actions' => 'Acties',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Nieuwe ACL aanmaken',
+        'Deploy ACLs' => 'ACLs activeren',
+        'Export ACLs' => 'Exporteer ACLs',
         'Configuration import' => 'Importeer configuratie',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Hier kunt u een configuratiebestand met ACLs importeren in uw systeem. Het bestand moet in .yml formaat zijn, zoals geexporteerd door de ACL module.',
         'This field is required.' => 'Dit veld is verplicht.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Overschrijf bestaande ACLs?',
+        'Upload ACL configuration' => 'ACL-configuratie uploaden?',
+        'Import ACL configuration(s)' => 'Importeer ACL-configuratie',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Om nieuwe ACLs aan te maken kunt u deze importeren vanuit een bestand of een compleet nieuwe aanmaken.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'ACL-naam',
         'Validity' => 'Geldigheid',
         'Copy' => 'Kopiëer',
         'No data found.' => 'Geen gegevens gevonden.',
@@ -1614,8 +1614,8 @@ sub Data {
         'Edit PostMaster Filter' => 'Bewerk e-mail filter',
         'The name is required.' => 'De naam is verplicht.',
         'Filter Condition' => 'Filter conditie',
-        'AND Condition' => '',
-        'Negate' => '',
+        'AND Condition' => 'EN conditie',
+        'Negate' => 'Omdraaien (negate)',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Dit veld kan een woord bevatten of een regular expression.',
         'Set Email Headers' => 'Nieuwe waarden',
@@ -1739,8 +1739,8 @@ sub Data {
         'Extend the width of the Canvas' => 'Vergroot de breedte van de canvas',
         'Extend the height of the Canvas' => 'Vergroot de hoogte van de canvas',
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
-        'Edit this Activity' => '',
-        'Save settings' => '',
+        'Edit this Activity' => 'Bewerk deze activiteit',
+        'Save settings' => 'Instellingen opslaan',
         'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => 'Wilt u dit proces verwijderen?',
         'Do you really want to delete this Activity?' => 'Wilt u deze activiteit verwijderen?',
@@ -2106,7 +2106,7 @@ sub Data {
         'Invalid year' => 'Ongeldig jaar',
         'Invalid month' => 'Ongeldige maand',
         'Invalid day' => 'Ongeldige dag',
-        'Show more' => '',
+        'Show more' => 'Toon meer',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Systeem e-mailadressen beheer',
@@ -2205,7 +2205,7 @@ sub Data {
         'in' => 'over',
 
         # Template: AgentDashboardCommon
-        'Available Columns' => '',
+        'Available Columns' => 'Beschikbare kolommen',
         'Visible Columns (order by drag & drop)' => '',
 
         # Template: AgentDashboardCustomerCompanyInformation
@@ -2435,12 +2435,12 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
         'From queue' => 'In wachtrij',
-        'To customer user' => '',
-        'Please include at least one customer user for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
-        'Remove Ticket Customer User' => '',
+        'To customer user' => 'Aan klant',
+        'Please include at least one customer user for the ticket.' => 'Selecteer tenminste een klant voor dit ticket.',
+        'Select this customer user as the main customer.' => 'Selecteer deze klant als hoofdcontact.',
+        'Remove Ticket Customer User' => 'Verwijder klant van ticket',
         'Get all' => 'Gebruik alle',
-        'Text Template' => '',
+        'Text Template' => 'Tekstsjabloon',
 
         # Template: AgentTicketEscalation
 
@@ -2477,13 +2477,13 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Verander zoekopties',
-        'Remove active filters for this screen.' => '',
+        'Remove active filters for this screen.' => 'Verwijder actieve filters voor dit scherm.',
         'Tickets per page' => 'Tickets per pagina',
 
         # Template: AgentTicketOverviewPreview
 
         # Template: AgentTicketOverviewSmall
-        'Reset overview' => '',
+        'Reset overview' => 'Herstel overzicht',
 
         # Template: AgentTicketOwner
 
@@ -2575,7 +2575,7 @@ sub Data {
         'Show all articles' => 'Toon alle interacties',
         'Unread articles' => 'Ongelezen interacties',
         'No.' => 'Nr.',
-        'Important' => '',
+        'Important' => 'Belangrijk',
         'Unread Article!' => 'Ongelezen interactie.',
         'Incoming message' => 'Binnenkomend bericht',
         'Outgoing message' => 'Uitgaand bericht',
@@ -2599,7 +2599,7 @@ sub Data {
         'Close this dialog' => 'Sluit venster',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Kan geen popup openen. Schakel popup blockers uit voor deze website.',
-        'There are currently no elements available to select from.' => '',
+        'There are currently no elements available to select from.' => 'Er zijn nu geen elementen beschikbaar om te kiezen.',
 
         # Template: CustomerFooterSmall
 
@@ -2652,7 +2652,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Ticket print',
-        'Ticket Dynamic Fields' => '',
+        'Ticket Dynamic Fields' => 'Ticket Dynamische Velden',
 
         # Template: CustomerTicketProcess
 
@@ -2708,9 +2708,9 @@ sub Data {
         'Th' => 'do',
         'Fr' => 'vr',
         'Sa' => 'za',
-        'Event Information' => '',
-        'Ticket fields' => '',
-        'Dynamic fields' => '',
+        'Event Information' => 'Event informatie',
+        'Ticket fields' => 'Ticket-velden',
+        'Dynamic fields' => 'Dynamische velden',
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'Ongeldig (datum kan niet in verleden zijn).',
@@ -2790,29 +2790,29 @@ sub Data {
         'Database setup successful!' => 'Database-installatie afgerond.',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a new database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
+        'Install Type' => 'Installatie-type',
+        'Create a new database for OTRS' => 'Maak een nieuwe database voor OTRS aan',
+        'Use an existing database for OTRS' => 'Gebruik een bestaande database voor OTRS',
 
         # Template: InstallerDBmssql
-        'Database name' => '',
+        'Database name' => 'Database-naam',
         'Check database settings' => 'Test database instellingen',
         'Result of database check' => 'Resultaat van database test',
-        'OK' => '',
+        'OK' => 'OK',
         'Database check successful.' => 'Database controle gelukt.',
-        'Database User' => '',
+        'Database User' => 'Database-gebruiker',
         'New' => 'Nieuw',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             'Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor deze OTRS omgeving.',
         'Repeat Password' => 'Herhaal wachtwoord',
-        'Generated password' => '',
+        'Generated password' => 'Gegenereerd wachtwoord',
 
         # Template: InstallerDBmysql
-        'Passwords do not match' => '',
+        'Passwords do not match' => 'Wachtwoorden komen niet overeen',
 
         # Template: InstallerDBoracle
-        'SID' => '',
-        'Port' => '',
+        'SID' => 'SID',
+        'Port' => 'Poort',
 
         # Template: InstallerDBpostgresql
 
