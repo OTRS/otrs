@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:12
+    # Last translation file sync: 2013-10-03 10:24:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1205,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => 'Archivia i ticket selezionati',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
-        '(work units)' => '',
+        ' (work units)' => ' (unità di lavoro)',
         'Ticket Commands' => 'Comandi Ticket',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'CMD' => 'comando',
@@ -1856,6 +1856,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Registrazione',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Gestione ruoli',
@@ -2558,7 +2625,6 @@ sub Data {
         'Forgot password?' => 'Password dimenticata?',
         'Log In' => 'Accesso',
         'Not yet registered?' => 'Non ancora registrato?',
-        'Sign up now' => 'Registrazione',
         'Request new password' => 'Richiedi una nuova password',
         'Your User Name' => 'Il suo user name',
         'A new password will be sent to your email address.' => 'Una nuova password verrà invata al suo indirizzo email.',
@@ -2689,7 +2755,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript non disponibile',
         'Database Settings' => 'Impostazion Database',
         'General Specifications and Mail Settings' => 'Specifiche generiche ed impostazioni email',
-        'Registration' => 'Registrazione',
         'Welcome to %s' => 'Benvenuto in %s',
         'Web site' => '',
         'Mail check successful.' => 'Controllo email eseguito con successo.',
@@ -2721,8 +2786,6 @@ sub Data {
         'Result of mail configuration check' => 'Risultato del controllo di configurazione della posta',
         'Check mail configuration' => 'Controllo configurazione della posta',
         'Skip this step' => 'Salta questo passaggio',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'Configurazione database terminata con successo',
@@ -2768,12 +2831,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Società',
-        'Position' => 'Ruolo',
-        'Complete registration and continue' => 'Completa la registrazione e prosegui',
-        'Please fill in all fields marked as mandatory.' => 'Completare tutti i campi obbligatori',
-
         # Template: InstallerSystem
         'SystemID' => 'ID del sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2782,6 +2839,7 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Nome FQDN di questo sistema',
         'AdminEmail' => 'Admin Email',
         'Email address of the system administrator.' => 'Indirizzo dell\'amministratore di sistema.',
+        'Organization' => 'Società',
         'Log' => '',
         'LogModule' => 'Modulo di log',
         'Log backend to use.' => 'Backend di log da usare',
@@ -3455,6 +3513,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4188,6 +4248,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Aggiornare Vista Globale dopo',
         'Refresh interval' => 'Intervallo di aggiornamento',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4759,7 +4820,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unità di lavoro)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Una risposta è costituita dal testo standard per facilitare gli agenti nella risposta ai clienti.',
         'Add Customer Company' => 'Aggiungi Società Cliente',
@@ -4779,6 +4839,7 @@ sub Data {
         'Change Response Relations for Queue' => 'Cambia le relazioni delle risposte con la coda',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             'Nome società per interfaccia web. Viene incluso nelle email come X-Header.',
+        'Complete registration and continue' => 'Completa la registrazione e prosegui',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Configura l\'indice full-text. Eseguire "bin/otrs.RebuildFulltextIndex.pl" per generare un nuovo indice.',
         'Create and manage companies.' => 'Crea e gestisce le compagnie',
@@ -4813,9 +4874,12 @@ sub Data {
         'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Password is required.' => 'La password è obbligatoria',
         'Please enter a search term to look for customer companies.' => 'Inserire una chiave di ricerca per le aziende dei clienti.',
+        'Please fill in all fields marked as mandatory.' => 'Completare tutti i campi obbligatori',
         'Please supply a' => 'Si prega di inserire un',
         'Please supply a first name' => 'Si prega di inserire un nome',
         'Please supply a last name' => 'Si prega di inserire un cognome',
+        'Position' => 'Ruolo',
+        'Registration' => 'Registrazione',
         'Responses' => 'Risposte',
         'Responses <-> Queues' => 'Risposte <-> Code',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

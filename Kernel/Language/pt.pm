@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:21
+    # Last translation file sync: 2013-10-03 10:24:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1199,7 +1199,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar tickets selecionados',
         'Add Note' => 'Adicionar nota',
         'Time units' => 'UnAntiguidades de tempo',
-        '(work units)' => '',
+        ' (work units)' => ' (unAntiguidades de trabalho)',
         'Ticket Commands' => 'Comandos para tickets',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações a agente/cliente ',
         'CMD' => '',
@@ -1850,6 +1850,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Registar-se agora',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Gestão de Papeis',
@@ -2552,7 +2619,6 @@ sub Data {
         'Forgot password?' => 'Esqueceu a password?',
         'Log In' => 'Login',
         'Not yet registered?' => 'Ainda não está registado(a)?',
-        'Sign up now' => 'Registar-se agora',
         'Request new password' => 'Solicitar nova palavra-passe',
         'Your User Name' => 'O seu cód. utilizador',
         'A new password will be sent to your email address.' => 'A nova password será enviada para o seu email.',
@@ -2683,7 +2749,6 @@ sub Data {
         'JavaScript not available' => 'Javascript não disponível',
         'Database Settings' => 'Definições de base de dados',
         'General Specifications and Mail Settings' => 'Especificações comuns e definições de email',
-        'Registration' => '',
         'Welcome to %s' => 'Bem vindo a %s',
         'Web site' => 'Site',
         'Mail check successful.' => 'Verificação de email com sucesso',
@@ -2715,8 +2780,6 @@ sub Data {
         'Result of mail configuration check' => 'Resultado da verificação de recepção de email',
         'Check mail configuration' => 'Verifique a configuração de correio',
         'Skip this step' => 'Saltar esta etapa',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
 
         # Template: InstallerDBResult
         'Database setup successful!' => '',
@@ -2762,12 +2825,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Organização',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
-
         # Template: InstallerSystem
         'SystemID' => 'ID do sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2776,6 +2833,7 @@ sub Data {
         'Fully qualified domain name of your system.' => 'FQDN do sistema',
         'AdminEmail' => 'Email do Administrador',
         'Email address of the system administrator.' => 'Email do administrador de sistema',
+        'Organization' => 'Organização',
         'Log' => 'Log',
         'LogModule' => 'Módulo de Log',
         'Log backend to use.' => 'Módulo de log',
@@ -3449,6 +3507,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4182,6 +4242,7 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4753,7 +4814,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unAntiguidades de trabalho)',
         'Add Customer Company' => 'Adicionar utilizador de companhia',
         'Add Response' => 'Adicionar resposta',
         'Add customer company' => 'Adicionar empresa de cliente',

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:20
+    # Last translation file sync: 2013-10-03 10:24:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1200,7 +1200,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Zaraportowany czas obsługi',
-        '(work units)' => '',
+        ' (work units)' => ' (jednostki czasu)',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -1851,6 +1851,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Zarejestruj się',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Zarządzanie rolami',
@@ -2553,7 +2620,6 @@ sub Data {
         'Forgot password?' => 'Zapomniane hasło?',
         'Log In' => 'Zaloguj się',
         'Not yet registered?' => 'Nie jesteś jeszcze zarejetrowanym użytkownikiem?',
-        'Sign up now' => 'Zarejestruj się',
         'Request new password' => 'Prośba o nowe hasło',
         'Your User Name' => 'Nazwa użytkownika',
         'A new password will be sent to your email address.' => 'Nowe hasło będzie wysłane na twój adres e-mail',
@@ -2684,7 +2750,6 @@ sub Data {
         'JavaScript not available' => 'JavaSript nie jest dostępny',
         'Database Settings' => 'Ustawienia bazy danych',
         'General Specifications and Mail Settings' => 'Ustawienia ogólne i poczty e-mail',
-        'Registration' => 'Rejestracja',
         'Welcome to %s' => 'Witamy w %s',
         'Web site' => 'Strona WWW',
         'Mail check successful.' => 'Sprawdzanie poczty e-mail zakończone pomyślnie.',
@@ -2716,8 +2781,6 @@ sub Data {
         'Result of mail configuration check' => 'Wynik sprawdzania konfiguracji poczty',
         'Check mail configuration' => 'Sprawdź konfigurację poczty',
         'Skip this step' => 'Pomiń ten krok',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            'Pominięcie tego kroku automatycznie pominie rejestrację twojego OTRS. Czy jesteś pewny(a) że chcesz kontynuować?',
 
         # Template: InstallerDBResult
         'Database setup successful!' => '',
@@ -2763,12 +2826,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Organizacja',
-        'Position' => 'Pozycja',
-        'Complete registration and continue' => 'Zakończ rejestrację i kontynuuj',
-        'Please fill in all fields marked as mandatory.' => 'Wypełnij wszystkie pola oznaczone jako wymagane.',
-
         # Template: InstallerSystem
         'SystemID' => 'ID Systemu',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2777,6 +2834,7 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Pełna nazwa domenowa (FQDN) twojego systemu.',
         'AdminEmail' => 'E-mail administratora',
         'Email address of the system administrator.' => 'Adres e-mail administratora systemu',
+        'Organization' => 'Organizacja',
         'Log' => 'Log',
         'LogModule' => 'Moduł logowania',
         'Log backend to use.' => 'Używany moduł logowania',
@@ -3450,6 +3508,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4183,6 +4243,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Odśwież przeglądy po',
         'Refresh interval' => 'Interwał odświeżania',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4754,7 +4815,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (jednostki czasu)',
         ' On' => 'W dniu',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Odpowiedź to domyślny tekst, który pomaga twoim agentom szybciej tworzyć odpowiedzi do klientów.',
@@ -4774,6 +4834,7 @@ sub Data {
         'Change Response Relations for Queue' => 'Zmień relacje odpowiedzi do kolejki',
         'City{CustomerUser}' => 'Miejscowość',
         'Comment{CustomerUser}' => 'Komentarz',
+        'Complete registration and continue' => 'Zakończ rejestrację i kontynuuj',
         'Country{CustomerUser}' => 'Kraj',
         'Create and manage companies.' => 'Zarządzanie listą Firm klientów.',
         'Create and manage notifications that are sent to agents.' => 'Ustawienia powiadomień wysyłanych do agentów.',
@@ -4836,13 +4897,16 @@ sub Data {
         'Password is required.' => 'Hasło jest wymagane.',
         'Phone{CustomerUser}' => 'Telefon',
         'Please enter a search term to look for customer companies.' => 'Wprowadź dane wyszukiwania w celu wyszukania firm klienta.',
+        'Please fill in all fields marked as mandatory.' => 'Wypełnij wszystkie pola oznaczone jako wymagane.',
         'Please supply a' => 'Podaj proszę',
         'Please supply a first name' => 'Podaj imię',
         'Please supply a last name' => 'Podaj nazwisko',
+        'Position' => 'Pozycja',
         'Postponed' => 'Odłożone',
         'Pre-approved' => 'Wstępnie zatwierdzone',
         'ProcessManagementActivityID' => 'ID działania w procesie',
         'ProcessManagementProcessID' => 'ID procesu',
+        'Registration' => 'Rejestracja',
         'Rejected' => 'Odrzucone',
         'Responses' => 'Odpowiedzi',
         'Responses <-> Queues' => 'Odpowiedź <-> Kolejka',
@@ -4853,6 +4917,8 @@ sub Data {
         'Show Field' => 'Wyświetlaj pole',
         'Show Field As Mandatory' => 'Wyświetlaj pole jako wymagane',
         'Sign Warning' => 'Ostrzeżenie',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
+            'Pominięcie tego kroku automatycznie pominie rejestrację twojego OTRS. Czy jesteś pewny(a) że chcesz kontynuować?',
         'State Historic' => 'Historyczny status',
         'State Type' => 'Typ statusu',
         'State Type Historic' => 'Historyczny typ statusu',

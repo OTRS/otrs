@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:33
+    # Last translation file sync: 2013-10-03 10:24:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1203,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        '(work units)' => '工作单元',
+        ' (work units)' => '',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -1854,6 +1854,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => '现在注册',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -2556,7 +2623,6 @@ sub Data {
         'Forgot password?' => '密码遗忘?',
         'Log In' => '登录',
         'Not yet registered?' => '还未注册?',
-        'Sign up now' => '现在注册',
         'Request new password' => '请求新密码',
         'Your User Name' => '你的用户名',
         'A new password will be sent to your email address.' => '新密码将会发送到您的邮箱中',
@@ -2687,7 +2753,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript 没有启用',
         'Database Settings' => '数据库设置',
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
-        'Registration' => '',
         'Welcome to %s' => '欢迎使用 %s',
         'Web site' => '网址',
         'Mail check successful.' => '邮件配置检查完成',
@@ -2719,8 +2784,6 @@ sub Data {
         'Result of mail configuration check' => '邮件服务器配置检查结果',
         'Check mail configuration' => '检查邮件配置',
         'Skip this step' => '跳过这一步',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
 
         # Template: InstallerDBResult
         'Database setup successful!' => '',
@@ -2766,12 +2829,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => '组织',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
-
         # Template: InstallerSystem
         'SystemID' => '系统ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2780,6 +2837,7 @@ sub Data {
         'Fully qualified domain name of your system.' => '系统FQDN（全称域名）',
         'AdminEmail' => '管理员地址',
         'Email address of the system administrator.' => '系统管理员邮件地址。',
+        'Organization' => '组织',
         'Log' => '日志',
         'LogModule' => '日志模块',
         'Log backend to use.' => '日志后台使用。',
@@ -3453,6 +3511,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4186,6 +4246,7 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '刷新间隔时间',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4757,6 +4818,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        '(work units)' => '工作单元',
         'Add Customer Company' => '新增客户单位',
         'Add Response' => '新增回复',
         'Add customer company' => '新增客户单位',

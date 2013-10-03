@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:19
+    # Last translation file sync: 2013-10-03 10:24:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1204,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        '(work units)' => '',
+        ' (work units)' => ' (in minuten)',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1855,6 +1855,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Gebruikersnaam registreren',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Beheer rollen',
@@ -2557,7 +2624,6 @@ sub Data {
         'Forgot password?' => 'Wachtwoord vergeten?',
         'Log In' => 'Inloggen',
         'Not yet registered?' => 'Nog niet geregistreerd?',
-        'Sign up now' => 'Gebruikersnaam registreren',
         'Request new password' => 'Vraag een nieuw wachtwoord aan',
         'Your User Name' => 'Uw gebruikersnaam',
         'A new password will be sent to your email address.' => 'Een nieuw wachtwoord wordt naar uw e-mailadres verzonden.',
@@ -2688,7 +2754,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript is niet beschikbaar',
         'Database Settings' => 'Database configuratie',
         'General Specifications and Mail Settings' => 'Algemene instellingen en mailconfiguratie',
-        'Registration' => 'Registratie',
         'Welcome to %s' => 'Welkom bij %s',
         'Web site' => 'Website',
         'Mail check successful.' => 'Mail controle gelukt.',
@@ -2720,8 +2785,6 @@ sub Data {
         'Result of mail configuration check' => 'Resultaat van mailconfiguratie test',
         'Check mail configuration' => 'Test mailconfiguratie',
         'Skip this step' => 'Sla dit over',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            'Als u deze stap overslaat dan slaat u ook de registratie van uw OTRS-systeem over. Weet u zeker dat u wilt doorgaan?',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'Database-installatie afgerond.',
@@ -2767,12 +2830,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Organisatie',
-        'Position' => 'Rol',
-        'Complete registration and continue' => 'Registreer en ga verder met installatie',
-        'Please fill in all fields marked as mandatory.' => 'Vul de verplichte velden in.',
-
         # Template: InstallerSystem
         'SystemID' => 'Systeem identificatie',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2781,6 +2838,7 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Fully Qualified Domain Name van het systeem.',
         'AdminEmail' => 'E-mailadres beheerder',
         'Email address of the system administrator.' => 'E-mailadres van de beheerder.',
+        'Organization' => 'Organisatie',
         'Log' => 'Log',
         'LogModule' => 'Logmodule',
         'Log backend to use.' => 'Te gebruiken logbestand.',
@@ -3454,6 +3512,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4187,6 +4247,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Ververs Overzichten na',
         'Refresh interval' => 'Interval',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4758,7 +4819,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (in minuten)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Een antwoord is een standaard-tekst die uw behandelaars helpt sneller te reageren op tickets van klanten.',
         'Add Customer Company' => 'Bedrijf toevoegen',
@@ -4774,6 +4834,7 @@ sub Data {
         'Change Response Relations for Queue' => 'Bewerk gekoppelde antwoorden voor wachtrij',
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
+        'Complete registration and continue' => 'Registreer en ga verder met installatie',
         'Create and manage companies.' => 'Aanmaken en beheren van bedrijven.',
         'Create and manage response templates.' => 'Aanmaken en beheren van voorgedefiniëerde antwoorden.',
         'Currently only MySQL is supported in the web installer.' => 'Alleen MySQL wordt ondersteund door de web installer.',
@@ -4815,14 +4876,19 @@ sub Data {
         'Package verification failed!' => 'Pakketverificatie mislukt!',
         'Password is required.' => 'Wachtwoord is verplicht.',
         'Please enter a search term to look for customer companies.' => 'Typ om te zoeken naar bedrijven.',
+        'Please fill in all fields marked as mandatory.' => 'Vul de verplichte velden in.',
         'Please supply a' => 'Geef een',
         'Please supply a first name' => 'Voer uw voornaam in',
         'Please supply a last name' => 'Voer uw achternaam in',
+        'Position' => 'Rol',
+        'Registration' => 'Registratie',
         'Responses' => 'Standaard-antwoorden',
         'Responses <-> Queues' => 'Standaard-antwoorden <-> Wachtrijen',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
         'Show  article' => 'Toon interactie',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
+            'Als u deze stap overslaat dan slaat u ook de registratie van uw OTRS-systeem over. Weet u zeker dat u wilt doorgaan?',
         'There are currently no steps available for this process.' => 'Er zijn geen stappen beschikbaar voor dit proces.',
         'There are no further steps in this process' => 'Er zijn geen volgende stappen in dit proces',
         'To customer' => 'Aan klant',

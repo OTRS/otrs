@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:31
+    # Last translation file sync: 2013-10-03 10:24:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1198,7 +1198,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
-        '(work units)' => '',
+        ' (work units)' => ' ( робочі одиниці)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -1849,6 +1849,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Увійти',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Керування ролями',
@@ -2551,7 +2618,6 @@ sub Data {
         'Forgot password?' => 'Забули пароль?',
         'Log In' => 'Увійти',
         'Not yet registered?' => 'Прагнете зареєструватися?',
-        'Sign up now' => 'Увійти',
         'Request new password' => 'Надіслати новий пароль',
         'Your User Name' => 'Логін',
         'A new password will be sent to your email address.' => '',
@@ -2682,7 +2748,6 @@ sub Data {
         'JavaScript not available' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
-        'Registration' => '',
         'Welcome to %s' => ' Ласкаво просимо в %s',
         'Web site' => '',
         'Mail check successful.' => '',
@@ -2714,8 +2779,6 @@ sub Data {
         'Result of mail configuration check' => 'Результати перевірки настроювань пошти',
         'Check mail configuration' => 'Перевірити настроювання пошти',
         'Skip this step' => 'Пропустити цей крок',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
 
         # Template: InstallerDBResult
         'Database setup successful!' => '',
@@ -2761,12 +2824,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Організація',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
-
         # Template: InstallerSystem
         'SystemID' => '',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2775,6 +2832,7 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => '',
         'Email address of the system administrator.' => '',
+        'Organization' => 'Організація',
         'Log' => 'Журнал',
         'LogModule' => '',
         'Log backend to use.' => '',
@@ -3448,6 +3506,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4181,6 +4241,7 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Оновляти кожні',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4752,7 +4813,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' ( робочі одиниці)',
         'Add Customer Company' => 'Додати компанію клієнта',
         'Add Response' => 'Додати відповідь',
         'Add customer company' => 'Додати компанію клієнта',

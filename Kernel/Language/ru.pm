@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:23
+    # Last translation file sync: 2013-10-03 10:24:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1207,7 +1207,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        '(work units)' => '',
+        ' (work units)' => ' (рабочие единицы)',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1858,6 +1858,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Войти',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => 'Атрибут',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Управление ролями',
@@ -2560,7 +2627,6 @@ sub Data {
         'Forgot password?' => 'Забыли пароль?',
         'Log In' => 'Войти',
         'Not yet registered?' => 'Хотите зарегистрироваться?',
-        'Sign up now' => 'Войти',
         'Request new password' => 'Прислать новый пароль',
         'Your User Name' => 'Логин',
         'A new password will be sent to your email address.' => 'Новый пароль будет отправлен на ваш адрес электронной почты',
@@ -2691,7 +2757,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript недоступен',
         'Database Settings' => 'Настройки базы данных',
         'General Specifications and Mail Settings' => 'Общие указания и настройки почты',
-        'Registration' => 'Регистрация',
         'Welcome to %s' => 'Добро пожаловать в %s',
         'Web site' => 'Веб-сайт',
         'Mail check successful.' => 'Почта проверена успешно.',
@@ -2723,8 +2788,6 @@ sub Data {
         'Result of mail configuration check' => 'Результаты проверки настроек почты',
         'Check mail configuration' => 'Проверить настройки почты',
         'Skip this step' => 'Пропустить этот шаг',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'База данных настроена успешно!',
@@ -2770,12 +2833,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Организация',
-        'Position' => 'Сфера деятельности',
-        'Complete registration and continue' => 'Завершить регистрацию и продолжить',
-        'Please fill in all fields marked as mandatory.' => 'Пожалуйста, заполните все поля, отмеченные как обязательные.',
-
         # Template: InstallerSystem
         'SystemID' => 'Системный ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2784,6 +2841,7 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Полное доменное имя вашей системы.',
         'AdminEmail' => 'Адрес администратора',
         'Email address of the system administrator.' => 'Адрес электронной почты администратора',
+        'Organization' => 'Организация',
         'Log' => 'Журнал',
         'LogModule' => 'Модуль журнала ',
         'Log backend to use.' => 'Какой бэкенд использовать для собственно записи журнала.',
@@ -3457,6 +3515,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4190,6 +4250,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Обновлять обзоры каждые',
         'Refresh interval' => 'Интервал обновления',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4761,7 +4822,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4851,7 +4911,6 @@ sub Data {
         'ArticleID' => 'ID заметки',
         'Attach' => 'Приложить файл',
         'Attachments <-> Responses' => 'Прикрепленные файлы <-> Ответы',
-        'Attribute' => 'Атрибут',
         'Auto Response From' => 'Автоматический ответ от',
         'Bounce ticket' => 'Пересылка заявки',
         'Can not create link with %s!' => 'Невозможно создать связь с «%s»!',
@@ -4898,6 +4957,7 @@ sub Data {
         'Collapse View' => 'Кратко',
         'Comment (internal)' => 'Комментарий (внутренний)',
         'CompanyTickets' => 'Заявки компании',
+        'Complete registration and continue' => 'Завершить регистрацию и продолжить',
         'Compose Answer' => 'Создать ответ',
         'Compose Email' => 'Написать письмо',
         'Compose Follow up' => 'Написать ответ',
@@ -5184,10 +5244,12 @@ sub Data {
         'Please contact your admin' => 'Свяжитесь с администратором',
         'Please enter a search term to look for customer companies.' => 'Введите запрос для поиска компаний клиента.',
         'Please enter subject.' => 'Пожалуйста, введите тему.',
+        'Please fill in all fields marked as mandatory.' => 'Пожалуйста, заполните все поля, отмеченные как обязательные.',
         'Please provide a name.' => 'Пожалуйста, введите имя.',
         'Please supply a' => 'Пожалуйста, введите',
         'Please supply a first name' => 'Пожалуйста, введите имя',
         'Please supply a last name' => 'Пожалуйста, введите фамилию',
+        'Position' => 'Сфера деятельности',
         'Print this ticket!' => 'Печать заявки!',
         'Prio' => 'Приоритет',
         'Problem' => 'Проблема',
@@ -5200,6 +5262,7 @@ sub Data {
         'Realname' => 'Имя',
         'Rebuild' => 'Перестроить',
         'Recipients' => 'Получатели',
+        'Registration' => 'Регистрация',
         'Reminder' => 'Отложенное напоминание',
         'Reminder messages' => 'Сообщения с напоминаниями',
         'ReminderReached' => 'Напоминание истекло',
@@ -5263,6 +5326,8 @@ sub Data {
         'Show  article' => 'Показать сообщение',
         'Shows the ticket history!' => 'Показать историю заявки!',
         'Site' => 'Место',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
+            'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
         'Solution' => 'Решение',
         'Sorry, you need to be the owner to do this action!' => 'Вы должны быть владельцем для выполнения этого действия!',
         'Sort by' => 'Сортировка по',

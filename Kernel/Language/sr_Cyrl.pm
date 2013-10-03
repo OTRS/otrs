@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:26
+    # Last translation file sync: 2013-10-03 10:24:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1198,7 +1198,7 @@ sub Data {
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Time units' => 'Временске јединице',
-        '(work units)' => '',
+        ' (work units)' => ' (елементи посла)',
         'Ticket Commands' => 'Команде за тикет',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/кориснику при променама',
         'CMD' => '"CMD"',
@@ -1849,6 +1849,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Регисрујте се сада',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Управљање улогама',
@@ -2551,7 +2618,6 @@ sub Data {
         'Forgot password?' => 'Заборавили сте лозинку?',
         'Log In' => 'Пријављивање',
         'Not yet registered?' => 'Нисте регистровани?',
-        'Sign up now' => 'Регисрујте се сада',
         'Request new password' => 'Захтев за нову лозинку',
         'Your User Name' => 'Ваше корисничко име',
         'A new password will be sent to your email address.' => 'Нова лозинка ће бити послата на вашу имејл адресу.',
@@ -2682,7 +2748,6 @@ sub Data {
         'JavaScript not available' => 'Јава скрипт није доступан.',
         'Database Settings' => 'Подешавање базе података',
         'General Specifications and Mail Settings' => 'Опште спецификације и подешавање поште',
-        'Registration' => 'Регистрација',
         'Welcome to %s' => 'Добродошли на %s',
         'Web site' => '"Web" страница',
         'Mail check successful.' => 'Успешна провера имејл подешавања.',
@@ -2714,8 +2779,6 @@ sub Data {
         'Result of mail configuration check' => 'Резултат провере подешавања поште',
         'Check mail configuration' => 'Провери конфигурацију мејла',
         'Skip this step' => 'Прескочи овај корак',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            'Прескакање овог корака аутоматски прескачете и регистрацију ваше "OTRS" инсталације. јесте ли сигурни да желите да наставите?',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'Успешно инсталирање базе',
@@ -2761,12 +2824,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Организација',
-        'Position' => 'Позиција',
-        'Complete registration and continue' => 'Комплетирај регистрацију и настави',
-        'Please fill in all fields marked as mandatory.' => 'Молимо да попуните сва поља означена као обавезна.',
-
         # Template: InstallerSystem
         'SystemID' => 'Системски ИД',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2775,6 +2832,7 @@ sub Data {
         'Fully qualified domain name of your system.' => '"FQDN" - име сервера укључујући пуно име домена нпр "otrs-server.example.org"',
         'AdminEmail' => 'имејл администратор',
         'Email address of the system administrator.' => 'имејл адреса системског администратора.',
+        'Organization' => 'Организација',
         'Log' => 'Дневник',
         'LogModule' => 'Модул дневника',
         'Log backend to use.' => 'Систем који се користи за дневник.',
@@ -3448,6 +3506,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4181,6 +4241,7 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Интервал освежавања',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4752,7 +4813,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (елементи посла)',
         'Add Customer Company' => 'Додај корисничку фирму',
         'Add Response' => 'Додај одговор',
         'Add customer company' => 'Додај корисничку фирму',
@@ -4766,6 +4826,7 @@ sub Data {
         'Change Queue Relations for Response' => 'Промени везе са редовима за одговор',
         'Change Response Relations for Attachment' => 'Промени везе са одговорима за прилог',
         'Change Response Relations for Queue' => 'Промени везе са одговорима за ред',
+        'Complete registration and continue' => 'Комплетирај регистрацију и настави',
         'Create and manage companies.' => 'Креирање и управљање фирмама.',
         'Create and manage response templates.' => 'Креирање и управљање шаблонима одговора.',
         'Currently only MySQL is supported in the web installer.' => 'Тренутно је само "MySQL" подржан у Web Инсталацији.',
@@ -4805,13 +4866,18 @@ sub Data {
         'Package verification failed!' => 'Неуспела верификација пакета!',
         'Password is required.' => 'Лозинка је обавезна.',
         'Please enter a search term to look for customer companies.' => 'Молимо унесите фразу за проналажење корисничких фирми.',
+        'Please fill in all fields marked as mandatory.' => 'Молимо да попуните сва поља означена као обавезна.',
         'Please supply a' => 'Молимо, унесите',
         'Please supply a first name' => 'Молимо, унесите Име',
         'Please supply a last name' => 'Молимо, унесите Презиме',
+        'Position' => 'Позиција',
+        'Registration' => 'Регистрација',
         'Responses' => 'Одговори',
         'Responses <-> Queues' => 'Одговори <-> Редови',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко "web" процедуре.',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
+            'Прескакање овог корака аутоматски прескачете и регистрацију ваше "OTRS" инсталације. јесте ли сигурни да желите да наставите?',
         'To customer' => 'За корисника',
         'URL' => '"URL"',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>

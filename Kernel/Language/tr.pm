@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:30
+    # Last translation file sync: 2013-10-03 10:24:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1198,7 +1198,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        '(work units)' => '',
+        ' (work units)' => ' (iş birimi)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -1849,6 +1849,73 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'First you need to log in with your OTRS-ID.' => '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Şimdi kaydol',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => 'Nitelik',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Rol Yönetimi',
@@ -2551,7 +2618,6 @@ sub Data {
         'Forgot password?' => 'Parolanızı unuttunuz mu?',
         'Log In' => 'Giriş',
         'Not yet registered?' => 'Henüz kayıt olmadınız mı?',
-        'Sign up now' => 'Şimdi kaydol',
         'Request new password' => 'Yeni parola iste',
         'Your User Name' => 'Kullanıcı Adı',
         'A new password will be sent to your email address.' => '...',
@@ -2682,7 +2748,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript kullanılamıyor',
         'Database Settings' => 'Veritabanı ayarları',
         'General Specifications and Mail Settings' => 'Genel Özellikler ve Posta Ayarları',
-        'Registration' => 'Kayıt',
         'Welcome to %s' => '%s sistemine hoşgeldiniz',
         'Web site' => 'Web sitesi',
         'Mail check successful.' => 'E-posta kontrolü başarılı.',
@@ -2714,8 +2779,6 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'Veritabanı kurulumu başarılı!',
@@ -2761,12 +2824,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Kuruluş',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
-
         # Template: InstallerSystem
         'SystemID' => 'Sistem Kimliği',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2775,6 +2832,7 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => 'Yönetici E-Posta Adresi',
         'Email address of the system administrator.' => '',
+        'Organization' => 'Kuruluş',
         'Log' => 'Günlük',
         'LogModule' => 'Günlük Bileşeni',
         'Log backend to use.' => '',
@@ -3448,6 +3506,8 @@ sub Data {
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of possible next actions on an error screen.' =>
             '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
@@ -4181,6 +4241,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Genel bakıştan sonra yenile',
         'Refresh interval' => 'Yenileme süresi',
+        'Register, view or update system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4752,7 +4813,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',
@@ -4820,7 +4880,6 @@ sub Data {
         'Allocate services to CustomerUser' => 'Servisleri MüşteriKullanıcıya ata',
         'Attach' => 'Ekle',
         'Attachments <-> Responses' => 'Ekler <-> Cevaplar',
-        'Attribute' => 'Nitelik',
         'Auto Response From' => 'Otomatik Cevaplayan',
         'Back to search result' => 'Sonuca geri dön',
         'Bounce ticket' => 'Bileti ötele',
@@ -5119,6 +5178,7 @@ sub Data {
         'Realname' => 'Gerçek ad',
         'Rebuild' => 'Yeniden İnşa Et',
         'Recipients' => 'Alıcılar',
+        'Registration' => 'Kayıt',
         'Reminder' => 'Hatırlatıcı',
         'Reminder messages' => 'Hatırlatıcı mesajlar',
         'Reporter' => 'Bildiren',
