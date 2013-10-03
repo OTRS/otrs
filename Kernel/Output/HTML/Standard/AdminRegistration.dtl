@@ -188,13 +188,13 @@
                             </div>
                             <p class="FieldExplanation">
                                 $Text{"You don't have an OTRS-ID yet?"}
-                                <a href="https://windberg.otrs.com/otrs/customer.pl#Signup" target="_blank">
+                                <a href="https://portal.otrs.com/otrs/customer.pl#Signup" target="_blank">
                                     $Text{"Sign up now"}
                                 </a>
                             </p>
                             <p class="FieldExplanation">
                                 $Text{"Forgot your password?"}
-                                <a href="https://windberg.otrs.com/otrs/customer.pl#Reset" target="_blank">
+                                <a href="https://portal.otrs.com/otrs/customer.pl#Reset" target="_blank">
                                     $Text{"Retrieve a new one"}
                                 </a>
                             </p>
