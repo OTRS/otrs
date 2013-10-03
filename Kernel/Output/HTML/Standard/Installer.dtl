@@ -51,13 +51,6 @@
                 </span>
             </li>
 <!-- dtl:block:StepGeneral -->
-<!-- dtl:block:StepRegistration -->
-            <li class="$QData{"Highlight"} $QData{"Active"}">
-                <span>
-                    <a href="#">$Text{"Step %s", "$QData{"Step"}"}<span>$Text{"Registration"}</span></a>
-                </span>
-            </li>
-<!-- dtl:block:StepRegistration -->
 <!-- dtl:block:StepFinish -->
             <li class="Last $QData{"Highlight"} $QData{"Active"}">
                 <span>
@@ -159,8 +152,6 @@ $Include{"InstallerDBResult"}
 $Include{"InstallerSystem"}
 
 $Include{"InstallerConfigureMail"}
-
-$Include{"InstallerRegistration"}
 
 $Include{"InstallerFinish"}
 

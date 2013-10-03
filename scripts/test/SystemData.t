@@ -42,21 +42,6 @@ $Self->False(
     "SystemDataAdd() - can not add duplicate key '$SystemDataNameRand0'",
 );
 
-# another time, upper case key, should fail
-my $UpperCaseKey = uc $SystemDataNameRand0;
-
-# another time, it should fail
-$Success = $SystemDataObject->SystemDataAdd(
-    Key    => $UpperCaseKey,
-    Value  => $SystemDataNameRand0,
-    UserID => 1,
-);
-
-$Self->False(
-    $Success,
-    "SystemDataAdd() - can not add same key as upper case '$UpperCaseKey'",
-);
-
 my $SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand0 );
 
 $Self->True(
@@ -84,26 +69,7 @@ $Self->Is(
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key    => $UpperCaseKey,
-    Value  => 'uc' . $SystemDataNameRand0,
-    UserID => 1,
-);
-
-$Self->True(
-    $SystemDataUpdate,
-    'SystemDataUpdate() uppercase key',
-);
-
-$SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand0 );
-
-$Self->Is(
-    $SystemData,
-    'uc' . $SystemDataNameRand0,
-    'SystemDataGet() - after update',
-);
-
-$SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key    => 'NonExisting' . $UpperCaseKey,
+    Key    => 'NonExisting' . $Self->{MainObject}->GenerateRandomString(),
     Value  => 'some value',
     UserID => 1,
 );
@@ -200,5 +166,69 @@ $Self->True(
     $SystemDataDelete,
     'SystemDataDelete() - removed key',
 );
+
+my $SystemDataGroupRand = 'systemdata' . int( rand(1000000) );
+
+my %Storage = (
+    Foo  => 'bar',
+    Bar  => 'baz',
+    Beef => 'spam',
+);
+
+for my $Key ( sort keys %Storage ) {
+    my $Result = $SystemDataObject->SystemDataAdd(
+        Key    => $SystemDataGroupRand . '::' . $Key,
+        Value  => $Storage{$Key},
+        UserID => 1,
+    );
+    $Self->True(
+        $Result,
+        "SystemDataAdd: added key " . $SystemDataGroupRand . '::' . $Key,
+    );
+}
+
+my %Group = $SystemDataObject->SystemDataGroupGet(
+    Group  => $SystemDataGroupRand,
+    UserID => 1,
+);
+
+for my $Key ( sort keys %Storage ) {
+    $Self->Is(
+        $Group{$Key},
+        $Storage{$Key},
+        "SystemDataGroupGet: test value for '$Key'.",
+    );
+}
+
+$Storage{Bar} = 'drinks';
+$SystemDataObject->SystemDataUpdate(
+    Key    => $SystemDataGroupRand . '::Bar',
+    Value  => $Storage{Bar},
+    UserID => 1,
+);
+
+%Group = $SystemDataObject->SystemDataGroupGet(
+    Group  => $SystemDataGroupRand,
+    UserID => 1,
+);
+
+for my $Key ( sort keys %Storage ) {
+    $Self->Is(
+        $Group{$Key},
+        $Storage{$Key},
+        "SystemDataGroupGet: test value for '$Key'.",
+    );
+}
+
+for my $Key ( sort keys %Group ) {
+    my $Result = $SystemDataObject->SystemDataDelete(
+        Key    => $SystemDataGroupRand . '::' . $Key,
+        UserID => 1,
+    );
+    $Self->True(
+        $Result,
+        "SystemData: deleted key " . $SystemDataGroupRand . '::' . $Key,
+    );
+}
 
 1;

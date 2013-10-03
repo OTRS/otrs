@@ -96,17 +96,10 @@ sub Run {
         $Self->{Subaction} = 'DBCreate';
     }
 
-    # if the user skipped the mail configuration dialog, we don't walk through the registration
-    # because we don't have enough data
-    if ( $Self->{Subaction} eq 'Registration' && $Self->{ParamObject}->GetParam( Param => 'Skip' ) )
-    {
-        $Self->{Subaction} = 'Finish';
-    }
-
     $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
 
     # build steps
-    my @Steps = qw(License Database General Registration Finish);
+    my @Steps = qw(License Database General Finish);
     my $StepCounter;
 
     # no license step needed if defined in .json file
@@ -128,7 +121,6 @@ sub Run {
             DBCreate      => 'Database',
             ConfigureMail => 'General',
             System        => 'General',
-            Registration  => 'Registration',
             Finish        => 'Finish',
         );
 
@@ -943,43 +935,6 @@ sub Run {
         return $Output;
     }
 
-    # print registration from
-    elsif ( $Self->{Subaction} eq 'Registration' ) {
-        my $Output =
-            $Self->{LayoutObject}->Header(
-            Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('Registration')
-            );
-
-        $Self->{LayoutObject}->Block(
-            Name => 'Registration',
-            Data => {
-                Item => 'Register your OTRS',
-                Step => $StepCounter,
-            },
-        );
-
-        $Self->{ReferenceDataObject} = Kernel::System::ReferenceData->new( %{$Self} );
-        my $CountryList = $Self->{ReferenceDataObject}->CountryList();
-        my $CountryStr  = $Self->{LayoutObject}->BuildSelection(
-            Data => { %$CountryList, },
-            Name => 'Country',
-            ID   => 'Country',
-            Sort => 'AlphanumericValue',
-        );
-
-        $Self->{LayoutObject}->Block(
-            Name => 'CountryStr',
-            Data => { CountryStr => $CountryStr, },
-        );
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'Installer',
-            Data         => {},
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
-
     elsif ( $Self->{Subaction} eq 'Finish' ) {
 
         $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
@@ -1014,70 +969,6 @@ sub Run {
             )
         {
             PerlEx::ReloadAll();
-        }
-
-        # check if the user wants to register
-        my $DoRegistration   = 1;
-        my $RegistrationDone = 0;
-        my %RegistrationInfo;
-        my @FieldsMandatory = qw(Lastname Firstname Organization Email);
-        for my $Key (
-            qw(Lastname Firstname Organization Position Email Country Phone Skip)
-            )
-        {
-            $RegistrationInfo{$Key} =
-                $Self->{ParamObject}->GetParam( Param => $Key );
-        }
-
-        if ( $RegistrationInfo{Skip} ) {
-
-            $DoRegistration = 0;
-        }
-        else {
-
-            MANDATORYFIELD:
-            for my $Field (@FieldsMandatory) {
-
-                if ( $RegistrationInfo{$Field} eq '' ) {
-                    $DoRegistration = 0;
-                    last MANDATORYFIELD;
-                }
-            }
-        }
-
-        if ($DoRegistration) {
-
-            my $Mailtext = <<"MAILTEXT";
-
-A user wants to register at OTRS. He/she provided the following data:
-
-Lastname: $RegistrationInfo{Lastname}
-Firstname: $RegistrationInfo{Firstname}
-Organization: $RegistrationInfo{Organization}
-Position: $RegistrationInfo{Position}
-Email: $RegistrationInfo{Email}
-Country: $RegistrationInfo{Country}
-Phone: $RegistrationInfo{Phone}
-
-OS: $^O
-
-MAILTEXT
-
-            eval {
-
-                $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
-                my $SendObject = Kernel::System::Email->new( %{$Self} );
-                my $From
-                    = "$RegistrationInfo{Firstname} $RegistrationInfo{Lastname} <$RegistrationInfo{Email}>";
-                my $RegistrationDone = $SendObject->Send(
-                    From     => $From,
-                    To       => 'register@otrs.com',
-                    Subject  => 'New user registration from the OTRS installer',
-                    Charset  => 'utf-8',
-                    MimeType => 'text/plain',
-                    Body     => $Mailtext,
-                );
-            };
         }
 
         # set a generated password for the 'root@localhost' account

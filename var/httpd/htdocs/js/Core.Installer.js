@@ -113,7 +113,6 @@ InstallerDBStart
         var Data = Core.AJAX.SerializeForm( $('#FormMail') );
         Data += 'CheckMode=Mail;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback );
-        $('input[name=Subaction]').val('Registration');
     };
 
     /**
