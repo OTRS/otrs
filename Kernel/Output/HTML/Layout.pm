@@ -2308,6 +2308,28 @@ sub NoPermission {
     my $WithHeader = $Param{WithHeader} || 'yes';
     $Param{Message} = 'Insufficient Rights.' if ( !$Param{Message} );
 
+    # get config option for possible next actions
+    my $PossibleNextActions = $Self->{ConfigObject}->Get('PossibleNextActions');
+
+    POSSIBLE:
+    if ( IsHashRefWithData($PossibleNextActions) ) {
+        $Self->Block(
+            Name => 'PossibleNextActionContainer',
+        );
+        for my $Key ( sort keys %{$PossibleNextActions} ) {
+            next POSSIBLE if !$Key;
+            next POSSIBLE if !$PossibleNextActions->{$Key};
+
+            $Self->Block(
+                Name => 'PossibleNextActionRow',
+                Data => {
+                    Link        => $PossibleNextActions->{$Key},
+                    Description => $Key,
+                },
+            );
+        }
+    }
+
     # create output
     my $Output;
     $Output = $Self->Header( Title => 'Insufficient Rights' ) if ( $WithHeader eq 'yes' );

@@ -6208,4 +6208,14 @@ M
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PossibleNextActions" Required="0" Valid="1">
+        <Description Translatable="1">Defines the list of possible next actions on an error screen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Go to dashboard!">$Env{"CGIHandle"}?Action=AgentDashboard</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 </otrs_config>
