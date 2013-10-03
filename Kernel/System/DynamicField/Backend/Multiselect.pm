@@ -150,7 +150,7 @@ sub ValueValidate {
 
     # check value
     my @Values;
-    if ( IsArrayhRefWithData( $Param{Value} ) ) {
+    if ( IsArrayRefWithData( $Param{Value} ) ) {
         @Values = @{ $Param{Value} };
     }
     else {
