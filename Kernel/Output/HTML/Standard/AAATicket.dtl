@@ -285,6 +285,7 @@ $Text{"All escalated tickets"}
 $Text{"All tickets with a reminder set where the reminder date has been reached"}
 $Text{"Archived tickets"}
 $Text{"Unarchived tickets"}
+$Text{"Ticket Information"}
 
 # ticket history text
 $Text{"History::Move"}
