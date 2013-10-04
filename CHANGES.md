@@ -1,4 +1,5 @@
 #3.3.0 beta4 2013-10-08
+ - 2013-10-07 Fixed bug#[9770](http://bugs.otrs.org/show_bug.cgi?id=9770) - JavaScript Execution in ProcessManagement is broken in IE8.
  - 2013-10-03 Replaced Registration feature in Web Installer with Registration functionality in Admin section.
  - 2013-10-03 Fixed bug#[9786](http://bugs.otrs.org/show_bug.cgi?id=9786) - Missing tooltip text in Dropdown and Multiselect Dynamic Fields admin.
  - 2013-10-03 Fixed bug#[9766](http://bugs.otrs.org/show_bug.cgi?id=9766) - Switch to customer simply enters customer user administration.
