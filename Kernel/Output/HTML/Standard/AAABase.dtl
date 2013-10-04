@@ -194,6 +194,7 @@ $Text{"Small"}
 $Text{"Medium"}
 $Text{"Large"}
 $Text{"Date picker"}
+$Text{"Show Tree Selection"}
 
 $Text{"New message"}
 $Text{"New message!"}
@@ -333,6 +334,8 @@ $Text{"Unable to parse repository index document."}
 $Text{"No packages for your framework version found in this repository, it only contains packages for other framework versions."}
 $Text{"No packages, or no new packages, found in selected repository."}
 $Text{"Edit the system configuration settings."}
+
+$Text{"ACL information from database is not in sync with the system configuration, please deploy all ACLs."}
 
 $Text{"printed at"}
 $Text{"Loading..."}
