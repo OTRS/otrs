@@ -1852,13 +1852,13 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'System Registrierung Verwaltung',
-        'Send update now' => '',
-        'Overview of registered systems' => '',
-        'Deregister system' => '',
+        'Send update now' => 'Update jetzt senden',
+        'Overview of registered systems' => 'Übersicht der registrieren Systeme',
+        'Deregister system' => 'System deregistrieren',
         'System Registration' => 'System Registrierung',
-        'This system is registered with OTRS Group.' => '',
-        'Unique ID' => '',
-        'Last communication with registration server' => '',
+        'This system is registered with OTRS Group.' => 'Dieses System ist bei der OTRS Gruppe registriert.',
+        'Unique ID' => 'Unique ID',
+        'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'OTRS-ID Login' => 'OTRS-ID Login',
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             'Die Systemregistrierung ist ein Service der OTRS Group, die Ihnen viele Vorteile sichert!',
@@ -1904,7 +1904,7 @@ sub Data {
         'Forgot your password?' => 'Passwort vergessen?',
         'Retrieve a new one' => 'Neues anfordern',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
-            'Wenn Sie dieses System registrieren, werden folgende Daten in regelmäßigen Abständen an die OTRS Gruppe übertragen',
+            'Wenn Sie dieses System registrieren, werden folgende Daten in regelmäßigen Abständen an die OTRS Gruppe übertragen.',
         'Attribute' => 'Attribut',
         'FQDN' => 'FQDN',
         'OTRS Version' => 'OTRS Version',
