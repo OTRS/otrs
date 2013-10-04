@@ -1896,7 +1896,7 @@ sub Data {
         'portal' => 'Portal',
         'and file a request.' => 'und stellen eine Anfrage.',
         'If you deregister your system, you will loose these benefits:' =>
-            '',
+            'Wenn Sie Ihr System deregistrieren verlieren Sie folgende Vorteile:',
         'OTRS-ID' => 'OTRS-ID',
         'Username and password do not match.' => 'Benutzername und Passwort stimmen nicht überein.',
         'You don\'t have an OTRS-ID yet?' => 'Sie haben noch keine OTRS-ID?',
