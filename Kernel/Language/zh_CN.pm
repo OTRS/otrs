@@ -1856,7 +1856,7 @@ sub Data {
         'Change Template Relations for Queue' => '',
 
         # Template: AdminRegistration
-        'Registration Management' => '',
+        'System Registration Management' => '',
         'Send update now' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
@@ -1884,7 +1884,7 @@ sub Data {
         'Is it possible to deregister?' => '',
         'You can deregister at any time.' => '',
         'Which data is transfered when registering?' => '',
-        'A registered system sends the following data to OTRS:' => '',
+        'A registered system sends the following data to OTRS Group:' => '',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
             '',
         'Why do I have to provide a description for my system?' => '',
@@ -4246,7 +4246,7 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '刷新间隔时间',
-        'Register, view or update system registration.' => '',
+        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>

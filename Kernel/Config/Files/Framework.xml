@@ -4658,7 +4658,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name Translatable="1">System Registration</Name>
-                    <Description Translatable="1">Register, view or update system registration.</Description>
+                    <Description Translatable="1">Manage system registration.</Description>
                     <Block>System</Block>
                     <Prio>350</Prio>
                 </NavBarModule>

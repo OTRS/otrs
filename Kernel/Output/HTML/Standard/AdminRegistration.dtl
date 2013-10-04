@@ -9,7 +9,7 @@
 
 <!-- dtl:block:Overview -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Registration Management"}</h1>
+    <h1>$Text{"System Registration Management"}</h1>
 
     <div class="SidebarColumn">
 
@@ -123,7 +123,7 @@
             '<p>$JSText{"You can deregister at any time."}</p>' +
 
             '<h1 class="Question">$JSText{"Which data is transfered when registering?"}</h1>' +
-            '<p>$JSText{"A registered system sends the following data to OTRS:"} ' +
+            '<p>$JSText{"A registered system sends the following data to OTRS Group:"} ' +
             '$JSText{"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version."}</p>' +
 
             '<h1 class="Question">$JSText{"Why do I have to provide a description for my system?"}</h1>' +
