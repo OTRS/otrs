@@ -54,7 +54,7 @@ sub new {
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' )  || 0;
     $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Unlocked';
-    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || '';
+    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || 'Small';
 
     return $Self;
 }
@@ -432,7 +432,7 @@ sub Run {
             RequestedURL      => $Self->{RequestedURL},
 
             NavBar => \%NavBar,
-            View   => $Self->{View},
+            View   => $Self->{ParamObject}->GetParam( Param => 'View' ) || '',
 
             Bulk       => 1,
             TitleName  => 'QueueView',
