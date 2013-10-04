@@ -1851,11 +1851,11 @@ sub Data {
         'Change Template Relations for Queue' => 'Vorlagen-Zuordnungen für Queue verändern',
 
         # Template: AdminRegistration
-        'System Registration Management' => 'System Registrierung Verwaltung',
+        'System Registration Management' => 'Systemregistrierungs-Verwaltung',
         'Send update now' => 'Update jetzt senden',
         'Overview of registered systems' => 'Übersicht der registrieren Systeme',
         'Deregister system' => 'System deregistrieren',
-        'System Registration' => 'System Registrierung',
+        'System Registration' => 'Systemregistrierung',
         'This system is registered with OTRS Group.' => 'Dieses System ist bei der OTRS Gruppe registriert.',
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
@@ -4242,7 +4242,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Übersichten aktualisieren nach',
         'Refresh interval' => 'Aktualisierungsintervall',
-        'Manage system registration.' => 'System Registrierung verwalten.',
+        'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
