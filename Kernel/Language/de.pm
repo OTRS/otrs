@@ -1886,7 +1886,7 @@ sub Data {
         'The description of the system is optional.' => 'Die Beschreibung des Systems ist optional.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
             'Der Systemtyp und die Beschreibung hilft Ihnen, Ihre Systeme zu identifizieren und die Systemregistrierung zu verwalten.',
-        'How often does my OTRS system send updates?' => '',
+        'How often does my OTRS system send updates?' => 'Wie oft sendet mein OTRS Updates?',
         'Your system will send updates to the registration server at regular intervals.' =>
             '',
         'Typically this would be around once every three days.' => '',

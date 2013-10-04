@@ -1860,7 +1860,7 @@ sub Data {
         'Change Template Relations for Queue' => '',
 
         # Template: AdminRegistration
-        'System System Registration Management' => '',
+        'System Registration Management' => '',
         'Send update now' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
