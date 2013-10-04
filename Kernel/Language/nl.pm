@@ -853,7 +853,7 @@ sub Data {
         'ACL Management' => 'ACL beheer',
         'Filter for ACLs' => 'Filter op ACLs',
         'Filter' => 'Filter',
-        'ACL Name' => 'ACL naam',
+        'ACL Name' => 'ACL-naam',
         'Actions' => 'Acties',
         'Create New ACL' => 'Nieuwe ACL aanmaken',
         'Deploy ACLs' => 'ACLs activeren',
@@ -868,45 +868,45 @@ sub Data {
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             'Om nieuwe ACLs aan te maken kunt u deze importeren vanuit een bestand of een compleet nieuwe aanmaken.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Wijzigingen aan de ACLs worden pas actief als u de ACLs activeert. Door ',
+        'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'Let op: deze tabel toont de volgorde waarin de ALCs worden toegepast. Als u de volgorde waarin deze worden uitgevoerd moet aanpassen, verander dan de namen van de ACLs.',
         'ACL name' => 'ACL-naam',
         'Validity' => 'Geldigheid',
         'Copy' => 'Kopiëer',
         'No data found.' => 'Geen gegevens gevonden.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Bewerk ACL %s',
         'Go to overview' => 'Naar het overzicht',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
-        'Match settings' => '',
+        'Delete ACL' => 'Verwijder ACL',
+        'Delete Invalid ACL' => 'Verwijder ongeldige ACL',
+        'Match settings' => 'Activatie-criteria',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
-        'Change settings' => '',
+            'Stel activatie-criteria in voor deze ACL. Gebruik \'Attributen\' om de huidige waarden te gebruiken of \'DatabaseAttributen\' om de waarden uit de database voor het huidige ticket te gebruiken.',
+        'Change settings' => 'Verander instellingen',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official' => '',
-        'documentation' => '',
+            'Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen.',
+        'Check the official' => 'Bekijk de',
+        'documentation' => 'documentatie',
         'Show or hide the content' => 'Toon of verberg de inhoud',
-        'Edit ACL information' => '',
+        'Edit ACL information' => 'Bewerk ACL-informatie',
         'Stop after match' => 'Stop met filters na match',
-        'Edit ACL structure' => '',
+        'Edit ACL structure' => 'Bewerk ACL-structuur',
         'Save' => 'Opslaan',
         'or' => 'of',
         'Save and finish' => 'Opslaan en voltooien',
-        'Do you really want to delete this ACL?' => '',
+        'Do you really want to delete this ACL?' => 'Wilt u deze ACL verwijderen?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            '',
-        'An item with this name is already present.' => '',
-        'Add all' => '',
-        'There was an error reading the ACL data.' => '',
+            'Dit item bevat sub-items. Weet u zeker dat u dit item inclusief subitems wilt verwijderen?',
+        'An item with this name is already present.' => 'Er bestaat al een item met deze naam.',
+        'Add all' => 'Alles toevoegen',
+        'There was an error reading the ACL data.' => 'Er was een probleem bij het lezen van de ACL-data.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Maak een nieuwe ACL aan. Na het aanmaken kunt u de eigenschappen aanpassen door deze te bewerken.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Beheer bijlagen',
@@ -1136,16 +1136,16 @@ sub Data {
         'List of all configured events' => 'Lijst van beschikbare events',
         'Delete this event' => 'Verwijder dit event',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
-            '',
+            'Naast of in plaats van uitvoeren op een tijdschema kunt u ook ticket events selecteren die deze taak triggeren.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
-            '',
+            'Als een ticket-event plaatsvindt zal dit filter worden toegepast om te toetsen of dit ticket voldoet. Alleen dan wordt deze taak uitgevoerd.',
         'Do you really want to delete this event trigger?' => 'Wilt u deze event trigger verwijderen?',
         'Add Event Trigger' => 'Nieuwe event trigger toevoegen',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de "+".',
-        'Duplicate event.' => '',
+        'Duplicate event.' => 'Dupliceer event.',
         'This event is already attached to the job, Please use a different one.' =>
-            '',
+            'Dit event is al gekoppeld aan deze taak. Kies een andere.',
         'Delete this Event Trigger' => 'Verwijder deze event trigger.',
         'Ticket Filter' => 'Ticket filter',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
@@ -1548,12 +1548,12 @@ sub Data {
             'Wilt u dit pakket echt herinstalleren? Eventuele handmatige aanpassingen gaan verloren.',
         'Continue' => 'Doorgaan',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            '',
+            'Zorg dat uw database pakketten van groter dan %s MB accepteert. Op dit moment is de maximale grootte %s MB. Pas de waarde voor max_allowed_packet in het mysql configuratiebestand aan om problemen te voorkomen.',
         'Install' => 'Installeer',
         'Install Package' => 'Installeer pakket',
         'Update repository information' => 'Vernieuw repository gegevens',
         'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            '',
+            'Heeft u behoefte aan meer functionaliteit? De OTRS Groep levert klanten met een service contract exclusieve Add-Ons:',
         'Online Repository' => 'Online Repository',
         'Vendor' => 'Leverancier',
         'Module documentation' => 'Moduledocumentatie',
@@ -1670,7 +1670,7 @@ sub Data {
         'Please note that changing this activity dialog will affect the following activities' =>
             'Let op: het wijzigen van deze dialoog heeft invoed op de volgende activiteiten',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
-            '',
+            'Let op: klanten kunnen de volgende velden niet zien of gebruiken: Eigenaar, Verantwoordelijke, Vergrendeling, Wacht tot datum en Klantcode.',
         'Activity Dialog' => 'Dialoog',
         'Activity dialog Name' => 'Naam',
         'Available in' => 'Beschikbaar in',
@@ -1691,7 +1691,7 @@ sub Data {
         'ArticleType' => 'Interactie-type',
         'Display' => 'Weergave',
         'Edit Field Details' => 'Bewerk veld-details',
-        'Customer interface does not support internal article types.' => '',
+        'Customer interface does not support internal article types.' => 'De klant-interface ondersteunt geeb interne interactie-typen.',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Pad',
@@ -1741,7 +1741,7 @@ sub Data {
         'Remove the Activity from this Process' => 'Verwijder de activiteit uit dit proces',
         'Edit this Activity' => 'Bewerk deze activiteit',
         'Save settings' => 'Instellingen opslaan',
-        'Save Activities, Activity Dialogs and Transitions' => '',
+        'Save Activities, Activity Dialogs and Transitions' => 'Bewaar activiteiten, dialogen en transities',
         'Do you really want to delete this Process?' => 'Wilt u dit proces verwijderen?',
         'Do you really want to delete this Activity?' => 'Wilt u deze activiteit verwijderen?',
         'Do you really want to delete this Activity Dialog?' => 'Wilt u deze dialoog verwijderen?',
@@ -1762,13 +1762,13 @@ sub Data {
             'Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken.',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken.',
-        'Remove the Transition from this Process' => '',
+        'Remove the Transition from this Process' => 'Verwijder deze transitie uit dit proces',
         'No TransitionActions assigned.' => 'Geen transitie-acties toegewezen.',
         'The Start Event cannot loose the Start Transition!' => 'Het start-event kan niet de start-transitie kwijtraken.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
             'Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe.',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            '',
+            'Een niet-verbonden transitie is al op de canvas geplaatst. Verbindt deze transitie alvorens een nieuwe transitie te plaatsen.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -2121,24 +2121,24 @@ sub Data {
             'De weergegeven naam en het e-mailadres worden gebruikt voor uitgaande mail.',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'Beheer sjablonen',
+        'Add template' => 'Nieuw sjabloon',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
-        'Don\'t forget to add new templates to queues.' => '',
-        'Add Template' => '',
-        'Edit Template' => '',
-        'Template' => '',
-        'Create type templates only supports this smart tags' => '',
-        'Example template' => '',
+            'Een sjabloon is een standaardtext die uw behandelaars helpt sneller tickets aan te maken of te beantwoorden.',
+        'Don\'t forget to add new templates to queues.' => 'Vergeet niet de sjablonen aan wachtrijen te koppelen.',
+        'Add Template' => 'Nieuw sjabloon',
+        'Edit Template' => 'Bewerk sjabloon',
+        'Template' => 'Sjabloon',
+        'Create type templates only supports this smart tags' => 'Sjablonen van het type \'Aanmaken\' ondersteunen alleen deze tags',
+        'Example template' => 'Voorbeeld-sjabloon',
         'The current ticket state is' => 'De huidige ticketstatus is',
         'Your email address is' => 'Uw e-mailadres is',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates <-> Attachments Relations' => '',
+        'Manage Templates <-> Attachments Relations' => 'Beheer Sjabloon <-> Bijlage koppelingen',
         'Filter for Attachments' => 'Filter op bijlagen',
-        'Change Template Relations for Attachment' => '',
-        'Change Attachment Relations for Template' => '',
+        'Change Template Relations for Attachment' => 'Verander gekoppelde sjablonen voor bijlage',
+        'Change Attachment Relations for Template' => 'Verander gekoppelde bijlagen voor sjabloon',
         'Toggle active for all' => 'Actief aan/uit voor alles',
         'Link %s to selected %s' => 'Koppel %s aan %s',
 
@@ -2159,7 +2159,7 @@ sub Data {
         'Edit Agent' => 'Bewerk behandelaar',
         'Firstname' => 'Voornaam',
         'Lastname' => 'Achternaam',
-        'Will be auto-generated if left empty.' => '',
+        'Will be auto-generated if left empty.' => 'Zal automatisch worden gegenereerd indien leeg.',
         'Start' => 'Begin',
         'End' => 'Einde',
 
@@ -2196,7 +2196,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'Het wordt verwijderd van dit veld, probeer opnieuw.',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => '',
+        'Note: Customer is invalid!' => 'Let op: klant is ongeldig!',
 
         # Template: AgentDashboard
         'Dashboard' => 'Dashboard',
@@ -2206,7 +2206,7 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Available Columns' => 'Beschikbare kolommen',
-        'Visible Columns (order by drag & drop)' => '',
+        'Visible Columns (order by drag & drop)' => 'Beschikbare kolommen (sorteer door middel van drag & drop)',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2241,7 +2241,7 @@ sub Data {
         'My responsibilities' => 'Tickets waarvoor ik verantwoordelijk ben',
         'Tickets in My Queues' => 'Tickets in mijn wachtrijen',
         'Service Time' => 'Service tijd',
-        'Remove active filters for this widget.' => '',
+        'Remove active filters for this widget.' => 'Verwijder actieve filters voor dit widget.',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => 'Totaal',
@@ -2378,7 +2378,7 @@ sub Data {
         'Set Pending' => 'Zet in de wacht',
         'Change Priority of Ticket' => 'Wijzig prioriteit van ticket',
         'Change Responsible of Ticket' => 'Wijzig verantwoordelijke voor ticket',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Alle velden met een asterisk (*) zijn verplicht.',
         'Service invalid.' => 'Service is ongeldig.',
         'New Owner' => 'Nieuwe eigenaar',
         'Please set a new owner!' => 'Kies een nieuwe eigenaar.',
@@ -2530,7 +2530,7 @@ sub Data {
         'Fulltext' => 'Volledig',
         'Remove' => 'Verwijderen',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
-            '',
+            'Doorzoek de velden Van, Aan, Cc, Onderwerp en de berichttekst, vervangt deze zoekvelden.',
         'Customer User Login' => 'Klant login',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',
@@ -2566,7 +2566,7 @@ sub Data {
         'Article(s)' => 'Interactie(s)',
         'Change Queue' => 'Wijzig wachtrij',
         'There are no dialogs available at this point in the process.' =>
-            '',
+            'Op dit moment zijn er geen dialogen beschikbaar.',
         'This item has no articles yet.' => 'Dit item heeft nog geen interacties.',
         'Add Filter' => 'Nieuw filter',
         'Set' => 'Nieuwe waarden',
@@ -2907,7 +2907,7 @@ sub Data {
         '(UserLogin) Lastname, Firstname' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
@@ -3009,8 +3009,8 @@ sub Data {
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
-        'ArticleTree' => '',
-        'Attachments <-> Templates' => '',
+        'ArticleTree' => 'Interactie-boom',
+        'Attachments <-> Templates' => 'Bijlagen <-> Sjablonen',
         'Auto Responses <-> Queues' => 'Wachtrijen <-> Automatische antwoorden',
         'Automated line break in text messages after x number of chars.' =>
             '',
@@ -3061,7 +3061,7 @@ sub Data {
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => 'Beheer processen',
-        'Configure and manage ACLs.' => '',
+        'Configure and manage ACLs.' => 'Beheer ACLs.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -3076,7 +3076,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Aanmaken en beheren van Service Level Agreements (SLA\'s).',
         'Create and manage agents.' => 'Aanmaken en beheren van behandelaars.',
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
-        'Create and manage customer users.' => '',
+        'Create and manage customer users.' => 'Aanmaken en beheren van klanten.',
         'Create and manage customers.' => 'Aanmaken en beheren van klanten.',
         'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden.',
         'Create and manage event based notifications.' => 'Aanmaken en beheren van meldingen door gebeurtenissen.',
@@ -3087,20 +3087,20 @@ sub Data {
         'Create and manage salutations.' => 'Aanmaken en beheren van aanheffen.',
         'Create and manage services.' => 'Aanmaken en beheren van services.',
         'Create and manage signatures.' => 'Aanmaken en beheren van handtekeningen.',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'Aanmaken en beheren van sjablonen.',
         'Create and manage ticket priorities.' => 'Aanmaken en beheren van prioriteiten.',
         'Create and manage ticket states.' => 'Aanmaken en beheren van statussen.',
         'Create and manage ticket types.' => 'Aanmaken en beheren van typen.',
         'Create and manage web services.' => 'Aanmaken en beheren van webservices.',
-        'Create new email ticket and send this out (outbound)' => 'Maak een nieuw ticket en verstuur hiervan een mail (uitgaand)',
-        'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon ticket aan (inkomend)',
-        'Create new process ticket' => '',
+        'Create new email ticket and send this out (outbound)' => 'Maak een nieuw ticket en verstuur hiervan een email (uitgaand)',
+        'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon-ticket aan (inkomend)',
+        'Create new process ticket' => 'Maak en nieuw proces-ticket aan',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Beheren van bedrijven',
         'Customer Company Information' => 'Bedrijfsinformatie',
-        'Customer User <-> Groups' => '',
-        'Customer User <-> Services' => '',
+        'Customer User <-> Groups' => 'Klanten <-> Groepen',
+        'Customer User <-> Services' => 'Klanten <-> Services',
         'Customer User Administration' => 'Beheren van klanten',
         'Customer Users' => 'Klanten',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -4047,12 +4047,12 @@ sub Data {
         'Lastname, Firstname (UserLogin)' => '',
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
-        'Link attachments to templates.' => '',
-        'Link customer user to groups.' => '',
-        'Link customer user to services.' => '',
+        'Link attachments to templates.' => 'Koppel bijlagen aan sjablonen.',
+        'Link customer user to groups.' => 'Koppel klanten aan groepen.',
+        'Link customer user to services.' => 'Koppel klanten aan services.',
         'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
-        'Link templates to queues.' => '',
+        'Link templates to queues.' => 'Koppel sjablonen aan wachtrijen.',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "vader - zoon"-type koppeling.',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4088,7 +4088,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
         'Manage notifications that are sent to agents.' => 'Beheer van notificatieteksten.',
-        'Manage tasks triggered by event or time based execution.' => '',
+        'Manage tasks triggered by event or time based execution.' => 'Beheer van taken op basis van events of tijdschema\'s',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4247,7 +4247,7 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Ververs Overzichten na',
         'Refresh interval' => 'Interval',
-        'Manage system registration.' => '',
+        'Manage system registration.' => 'Beheer systeemregistratie.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4293,7 +4293,7 @@ sub Data {
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Klanten zoeken',
-        'Search User' => '',
+        'Search User' => 'Zoek behandelaar',
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Select your frontend Theme.' => 'Kies uw thema',
@@ -4735,8 +4735,8 @@ sub Data {
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
-        'Templates <-> Queues' => '',
-        'Textarea' => '',
+        'Templates <-> Queues' => 'Sjablonen <-> Wachtrijen',
+        'Textarea' => 'Tekstvak',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
