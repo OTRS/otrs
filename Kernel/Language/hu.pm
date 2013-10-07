@@ -1868,7 +1868,7 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'First you need to log in with your OTRS-ID.' => '',
+        'You need to log in with your OTRS-ID to register your system.' => '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',

@@ -96,7 +96,7 @@
                             <a href="#" id="RegistrationMoreInfo">$Text{"Read more"}</a>
                         </p>
                         <p>
-                            $Text{"First you need to log in with your OTRS-ID."}
+                            $Text{"You need to log in with your OTRS-ID to register your system."}
                             $Text{"Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage."}
                         </p>
                     </div>
@@ -161,7 +161,7 @@
                             <li>$Text{"With your system registration we can improve our services for you, because we have all relevant information available."}</li>
                         </ul>
                         <br />
-                        <p>$Text{"First you need to log in with your OTRS-ID."}</p>
+                        <p>$Text{"You need to log in with your OTRS-ID to deregister your system."}</p>
                         <p>$Text{"Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage."}</p>
                     </div>
 <!-- dtl:block:OTRSIDDeregistration -->

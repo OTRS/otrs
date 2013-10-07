@@ -1869,7 +1869,7 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
         'Read more' => 'Lees meer',
-        'First you need to log in with your OTRS-ID.' => 'U moet inloggen met uw OTRS-ID.',
+        'You need to log in with your OTRS-ID to register your system.' => '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Uw OTRS-ID is het emailadres waarmee u zich heeft ingeschreven op de OTRS.com website.',
         'What are the advantages of system registration?' => 'Wat zijn de voordelen van systeemregistratie?',

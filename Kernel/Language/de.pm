@@ -1861,9 +1861,10 @@ sub Data {
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'OTRS-ID Login' => 'OTRS-ID Login',
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
-            'Die Systemregistrierung ist ein Service der OTRS Group, die Ihnen viele Vorteile sichert!',
+            'Die Systemregistrierung ist ein Service der OTRS Gruppe, die Ihnen viele Vorteile sichert!',
         'Read more' => 'Mehr erfahren',
-        'First you need to log in with your OTRS-ID.' => 'Um Ihr System zu registrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein!',
+        'You need to log in with your OTRS-ID to register your system.' => 'Um Ihr System zu registrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
+        'You need to log in with your OTRS-ID to deregister your system.' => 'Um Ihr System zu deregistrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Verwenden Sie dazu die email Adresse, mit der Sie sich auf der OTRS Webseite angemeldet haben.',
         'What are the advantages of system registration?' => 'Welche Vorteile bietet die Systemregistrierung?',
@@ -1915,8 +1916,8 @@ sub Data {
         'Register' => 'Registrieren',
         'Deregister System' => 'System deregistrieren',
         'Continuing with this step will deregister the system from OTRS Group.' =>
-            '',
-        'Deregister' => 'deregistrieren',
+            'Wenn Sie fortfahren, wird dieses System bei der OTRS Gruppe deregistriert.',
+        'Deregister' => 'Deregistrieren',
 
         # Template: AdminRole
         'Role Management' => 'Rollen-Verwaltung',
